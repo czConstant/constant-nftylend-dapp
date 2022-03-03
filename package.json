@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build-staging": "vite build --base=/nft-lend",
     "preview": "vite preview"
   },
   "dependencies": {
