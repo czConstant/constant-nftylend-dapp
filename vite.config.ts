@@ -9,7 +9,6 @@ import commonjs from '@rollup/plugin-commonjs';
 export default ({ mode}) => {
   const env = loadEnv(mode, process.cwd(), 'REACT_');
   return defineConfig({
-    base: env.REACT_BASE_PATH,
     plugins: [
       alias(),
       react(),
@@ -35,6 +34,7 @@ export default ({ mode}) => {
       // ]
     },
     build: {
+      assetsDir: `.${env.REACT_BASE_PATH}/assets/`,
       minify: false,
       rollupOptions: {
         output: {
