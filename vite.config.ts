@@ -8,12 +8,10 @@ import commonjs from '@rollup/plugin-commonjs';
 // https://vitejs.dev/config/
 export default ({ mode}) => defineConfig({
   plugins: [
-    inject({ Buffer: ['buffer', 'Buffer'] }),
     alias(),
     react(),
-    commonjs({
-      exclude: 'borsh',
-    }),
+    // commonjs(),
+    // inject({ Buffer: ['buffer', 'Buffer'] }),
   ],
   resolve: {
     alias: {
@@ -29,11 +27,12 @@ export default ({ mode}) => defineConfig({
     "__CLIENT__": true,
   },
   optimizeDeps: {
-    include: [
-      'buffer',
-    ]
+    // include: [
+    //   'buffer',
+    // ]
   },
   build: {
+    minify: false,
     rollupOptions: {
       output: {
         manualChunks(id) {
