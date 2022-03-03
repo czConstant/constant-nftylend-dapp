@@ -6,15 +6,14 @@ import cx from 'classnames';
 import { selectNftLend } from 'src/store/nftLend';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import EmptyList from 'src/common/components/emptyList';
+import Loading from 'src/common/components/loading';
 
 import Item from './item';
 import { getLoansByOwner } from '../../api';
-// import { STATUS } from '../../listLoan/leftSidebar';
+import { LOAN_STATUS } from '../../constant';
 import styles from './styles.module.scss';
-import Loading from 'src/common/components/loading';
 
-const ListLoan = (props) => {
-  const dispatch = useAppDispatch();
+const ListLoan = () => {
   const wallet = useWallet();
   const { publicKey } = wallet;
   const needReload = useAppSelector(selectNftLend).needReload;
@@ -46,9 +45,7 @@ const ListLoan = (props) => {
         <Dropdown.Toggle><span>{status.toUpperCase() || 'ALL'}</span></Dropdown.Toggle>
         <Dropdown.Menu className={styles.dropdownMenu}>
           <Dropdown.Item eventKey="">All</Dropdown.Item>
-          {/* {
-            STATUS.map(v => <Dropdown.Item eventKey={v.id} key={v.id}>{v.name}</Dropdown.Item>)
-          } */}
+          {LOAN_STATUS.map(v => <Dropdown.Item eventKey={v.id} key={v.id}>{v.name}</Dropdown.Item>)}
         </Dropdown.Menu>
       </Dropdown>
       <div className={styles.table}>

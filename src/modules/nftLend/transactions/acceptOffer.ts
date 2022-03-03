@@ -5,13 +5,15 @@ import { LENDING_PROGRAM_ID } from './constants';
 import { AcceptOfferInstruction } from './utils';
 import SolTransaction from './index';
 
-export default class AcceptOffer extends SolTransaction {
+export default class AcceptOfferTransaction extends SolTransaction {
   async run(
-    usdAccountAddress /* string */,
-    usdTokenMint /* string */,
-    loanInfo /* { id, principal: number, rate: percent/number, duration: days/number, nft_account_id: string } */,
-    offerInfo /* { id, token_account_id, lender_usd_associated } */,
+    usdAccountAddress: string,
+    usdTokenMint: string,
+    loanInfo: any,
+    offerInfo: any,
   ) {
+    if (!this.wallet.publicKey) return;
+
     try {
       const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
       const borrower_usd_account_pubkey = new PublicKey(usdAccountAddress);
@@ -49,7 +51,7 @@ export default class AcceptOffer extends SolTransaction {
         acceptOfferTx,
       );
       tx.recentBlockhash = (
-        await this.connection.getRecentBlockhash()
+        await this.connection.getLatestBlockhash()
       ).blockhash;
 
       const txHash = await this.wallet.sendTransaction(tx, this.connection, {

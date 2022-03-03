@@ -87,7 +87,7 @@ const CreateLoan = (props: CreateLoanProps) => {
         }
       );
       if (res?.txHash) {
-        toastSuccess(<>Create loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)} className="blue">View transaction</a></>);
+        toastSuccess(<>Create loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)}>View transaction</a></>);
         dispatch(requestReload());
         onClose();
       }

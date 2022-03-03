@@ -47,7 +47,7 @@ const Item = (props: ItemProps) => {
         loan.data_asset_address,
       );
       if (res?.txHash) {
-        toastSuccess(<>Cancel loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)} className="blue">View transaction</a></>);
+        toastSuccess(<>Cancel loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)}>View transaction</a></>);
         dispatch(requestReload());
       }
     } catch (err: any) {
@@ -85,7 +85,7 @@ const Item = (props: ItemProps) => {
         loan.currency.admin_fee_address,
       );
       if (res?.txHash) {
-        toastSuccess(<>Pay loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)} className="blue">View transaction</a></>);
+        toastSuccess(<>Pay loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)}>View transaction</a></>);
         dispatch(requestReload());
       }
     } catch (err: any) {

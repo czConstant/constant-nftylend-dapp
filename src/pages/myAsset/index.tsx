@@ -14,6 +14,8 @@ import { APP_ENV } from 'src/common/constants/url';
 import { shortCryptoAddress } from 'src/common/utils/format';
 import ListAsset from 'src/modules/nftLend/components/listAsset';
 import ListLoan from 'src/modules/nftLend/components/listLoan';
+import ListOffer from 'src/modules/nftLend/components/listOffer';
+import ListOfferReceive from 'src/modules/nftLend/components/listOfferReceive';
 
 import styles from './styles.module.scss';
 import bgCover from './images/bg_cover.png';
@@ -116,14 +118,14 @@ const MyAsset = () => {
                   tabClassName={styles.tab}
                   title="Offers made"
                 >
-                  {/* <ListOffer /> */}
+                  <ListOffer />
                 </Tab>
                 <Tab
                   eventKey={TABS.offer_received}
                   tabClassName={styles.tab}
                   title="Offers received"
                 >
-                  {/* <ListOfferReceive /> */}
+                  <ListOfferReceive />
                 </Tab>
               </Tabs>
             </div>

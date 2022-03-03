@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { useDispatch, useSelector } from 'react-redux';
 import cx from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 
-import EmptyList from 'src/components/emptyList';
-import withReducer from 'src/hocs/hocWithReducer';
-
-import nftLendingReducer from '../../reducer';
-import { getOffersByFilter } from '../../action';
 import Item from './item';
-import styles from './styles.scss';
-import { STATUS } from '../../listLoan/leftSidebar';
-import listLoanOffer from '../listLoan/styles.scss';
+import listLoanStyles from '../listLoan/styles.module.scss';
+import { selectNftLend } from 'src/store/nftLend';
+import { getOffersByFilter } from '../../api';
+import EmptyList from 'src/common/components/emptyList';
+import { OFFER_STATUS } from '../../constant';
+import { useAppSelector } from 'src/store/hooks';
 
-const ListOffer = (props) => {
-  const dispatch = useDispatch();
+const ListOfferReceive = () => {
   const wallet = useWallet();
   const { publicKey } = wallet;
-  const needReload = useSelector(state => state.nftLending.needReload);
+  const needReload = useAppSelector(selectNftLend).needReload;
 
   const [loading, setLoading] = useState(false);
   const [offers, setOffers] = useState([]);
@@ -29,8 +25,9 @@ const ListOffer = (props) => {
   }, [publicKey, status, needReload]);
 
   const fetchOffers = async () => {
+    if (!publicKey) return;
     try {
-      const res = await dispatch(getOffersByFilter({ lender: publicKey, status }));
+      const res = await getOffersByFilter({ borrower: publicKey.toString(), status });
       setOffers(res.result);
     } finally {
       setLoading(false);
@@ -40,18 +37,18 @@ const ListOffer = (props) => {
   if (!publicKey) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
 
   return (
-    <div className={listLoanOffer.wrapper}>
-      <Dropdown className={listLoanOffer.dropdown} onSelect={e => setStatus(e)}>
+    <div className={listLoanStyles.wrapper}>
+      <Dropdown className={listLoanStyles.dropdown} onSelect={e => e && setStatus(e)}>
         <Dropdown.Toggle><span>{status.toUpperCase() || 'ALL'}</span></Dropdown.Toggle>
-        <Dropdown.Menu className={listLoanOffer.dropdownMenu}>
+        <Dropdown.Menu className={listLoanStyles.dropdownMenu}>
           <Dropdown.Item eventKey="">All</Dropdown.Item>
           {
-            STATUS.map(v => <Dropdown.Item eventKey={v.id} key={v.id}>{v.name}</Dropdown.Item>)
+            Object.values(OFFER_STATUS).map(v => <Dropdown.Item eventKey={v.id} key={v.id}>{v.name}</Dropdown.Item>)
           }
         </Dropdown.Menu>
       </Dropdown>
-      <div className={listLoanOffer.table}>
-        <div className={cx(listLoanOffer.header, listLoanOffer.row)}>
+      <div className={listLoanStyles.table}>
+        <div className={cx(listLoanStyles.header, listLoanStyles.row)}>
           <div>AssetName</div>
           <div>Amount</div>
           <div>Duration</div>
@@ -61,10 +58,10 @@ const ListOffer = (props) => {
           <div>Action</div>
         </div>
         {!loading && offers?.length === 0 && <EmptyList dark labelText="There is no offer" />}
-        {offers.map(e => <Item key={e.id} offer={e} />)}
+        {offers.map((e: any) => <Item key={e.id} offer={e} />)}
       </div>
     </div>
   );
 };
 
-export default withReducer('nftLending', nftLendingReducer)(ListOffer);
+export default ListOfferReceive;

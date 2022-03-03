@@ -1,4 +1,4 @@
-import { TOKEN_PROGRAM_ID, Token, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, createAssociatedTokenAccountInstruction } from '@solana/spl-token';
 import { PublicKey, Transaction, SYSVAR_CLOCK_PUBKEY } from '@solana/web3.js';
 
 import { LENDING_PROGRAM_ID } from './constants';
@@ -7,13 +7,15 @@ import SolTransaction from './index';
 
 export default class LiquidateLoanTransaction extends SolTransaction {
   async run(
-    nftMint /* string */,
-    borrowerPubkey /* string */,
-    loanId /* string */,
-    offerId /* string */,
-    pdaTokenAccount /* string */,
-    pdaNftAccount /* string */,
+    nftMint: string,
+    borrowerPubkey: string,
+    loanId: string,
+    offerId: string,
+    pdaTokenAccount: string,
+    pdaNftAccount: string,
   ) {
+    if (!this.wallet.publicKey) return;
+
     try {
       const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
       const nft_mint_pubkey = new PublicKey(nftMint);
@@ -34,13 +36,13 @@ export default class LiquidateLoanTransaction extends SolTransaction {
         )
       )[0];
 
-      const createAssTokenAccountIx = Token.createAssociatedTokenAccountInstruction(
-        ASSOCIATED_TOKEN_PROGRAM_ID,
-        TOKEN_PROGRAM_ID,
-        nft_mint_pubkey,
+      const createAssTokenAccountIx = createAssociatedTokenAccountInstruction(
+        this.wallet.publicKey,
         lenderNftAssociated,
         this.wallet.publicKey,
-        this.wallet.publicKey
+        nft_mint_pubkey,
+        TOKEN_PROGRAM_ID,
+        ASSOCIATED_TOKEN_PROGRAM_ID,
       );
 
       const assosiatedAccountInfo = await this.connection.getAccountInfo(
@@ -68,7 +70,7 @@ export default class LiquidateLoanTransaction extends SolTransaction {
 
       tx.add(liquidateTx);
       tx.recentBlockhash = (
-        await this.connection.getRecentBlockhash()
+        await this.connection.getLatestBlockhash()
       ).blockhash;
 
       const txHash = await this.wallet.sendTransaction(tx, this.connection, {

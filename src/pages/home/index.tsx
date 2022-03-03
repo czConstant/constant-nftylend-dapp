@@ -10,7 +10,7 @@ import styles from './styles.module.scss';
 
 export const OnBoardingHeader = () => (
   <div className={styles.headerWrapper}>
-    <h5>Create, explore, & collect digital art NFTs.</h5>
+    <h5>Create, explore, & collect digital art NFTs</h5>
     <h1>The new creative economy.</h1>
   </div>
 );
