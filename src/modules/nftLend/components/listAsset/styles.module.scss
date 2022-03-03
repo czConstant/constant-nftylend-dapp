@@ -1,0 +1,13 @@
+.listAssets {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  > div {
+    > div {
+      padding: 0px;
+    }
+  }
+  &.loading {
+    justify-content: center;
+    padding: 40px 0;
+  }
+}

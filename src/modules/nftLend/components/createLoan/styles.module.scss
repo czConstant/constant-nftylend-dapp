@@ -1,0 +1,29 @@
+.createLoanForm {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  form {
+    width: 100%;
+  }
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #383838;
+    text-align: center;
+  }
+  .submitButton {
+    margin-top: 20px;
+    font-size: 14px;
+    height: 40px;
+    width: 100%;
+  }
+  .actions {
+    display: flex;
+    button {
+      border-radius: 8px;
+      &:not(:first-child) {
+        margin-left: 5px;
+      }
+    }
+  }
+}

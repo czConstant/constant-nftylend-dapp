@@ -1,0 +1,40 @@
+.wrapper {
+  background-color:black;
+  border-top: 1px solid #353945;
+}
+
+.content {
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 0;
+  color: white;
+  .left {
+    display: flex;
+    align-items: center;
+  }
+  .right {
+    
+  }
+  .menus {
+    display: flex;
+    align-items: center;
+    a {
+      font-size: 14px;
+      font-weight: bold;
+      color: #777E90;
+      line-height: 16px;
+      cursor: pointer;
+      padding: 0 15px;
+      &:hover {
+        color: white;
+      }
+      &.active {
+        color: white;
+      }
+    }
+  }
+}

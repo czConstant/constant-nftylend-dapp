@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  width: 100%;
+  min-width: 170px;
+  .haveBalance {
+    min-width: 300px;
+  }
+  .symbol {
+    color: #73819B;
+    margin-left: 5px;
+  }
+  .icon {
+    margin: 0 10px 0 0;
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+  }
+  .balance {
+    padding-right: 5px;
+  }
+}
