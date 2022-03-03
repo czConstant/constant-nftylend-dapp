@@ -5,8 +5,11 @@ import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import { SolletExtensionWalletAdapter, SolletWalletAdapter } from '@solana/wallet-adapter-sollet';
 import { Coin98WalletAdapter } from '@solana/wallet-adapter-coin98';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import { ToastContainer } from 'react-toastify';
 
+import ModalManager from 'src/common/components/modal';
 import { getSolCluster } from 'src/common/utils/solana';
+import MyLoadingOverlay from 'src/common/components/myLoadingOverlay';
 
 import AppRouter from './navigation';
 
@@ -28,6 +31,9 @@ export default function App() {
         <BrowserRouter>
           <AppRouter />
         </BrowserRouter>
+        <ModalManager />
+        <ToastContainer />
+        <MyLoadingOverlay />
       </WalletProvider>
     </ConnectionProvider>
   );

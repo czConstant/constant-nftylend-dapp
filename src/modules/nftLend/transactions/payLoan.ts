@@ -7,25 +7,17 @@ import SolTransaction from './index';
 
 export default class PayLoanTransaction extends SolTransaction {
   async run(
-    payAmount,
-    loanId,
-    offerId,
-    borrowerNftAssociated,
-    borrowerUsdAssociated,
-    lenderPubkey,
-    pdaTokenAccount,
-    pdaNftAccount,
-    adminPubkey,
+    payAmount: number,
+    loanId: string,
+    offerId: string,
+    borrowerNftAssociated: string,
+    borrowerUsdAssociated: string,
+    lenderPubkey: string,
+    pdaTokenAccount: string,
+    pdaNftAccount: string,
+    adminPubkey: string,
   ) {
-    console.log("🚀 ~ file: payLoan.js ~ line 20 ~ PayLoanTransaction ~ adminPubkey", adminPubkey)
-    console.log("🚀 ~ file: payLoan.js ~ line 20 ~ PayLoanTransaction ~ pdaNftAccount", pdaNftAccount)
-    console.log("🚀 ~ file: payLoan.js ~ line 20 ~ PayLoanTransaction ~ pdaTokenAccount", pdaTokenAccount)
-    console.log("🚀 ~ file: payLoan.js ~ line 20 ~ PayLoanTransaction ~ lenderPubkey", lenderPubkey)
-    console.log("🚀 ~ file: payLoan.js ~ line 20 ~ PayLoanTransaction ~ borrowerUsdAssociated", borrowerUsdAssociated)
-    console.log("🚀 ~ file: payLoan.js ~ line 20 ~ PayLoanTransaction ~ borrowerNftAssociated", borrowerNftAssociated)
-    console.log("🚀 ~ file: payLoan.js ~ line 20 ~ PayLoanTransaction ~ offerId", offerId)
-    console.log("🚀 ~ file: payLoan.js ~ line 20 ~ PayLoanTransaction ~ loanId", loanId)
-    console.log("🚀 ~ file: payLoan.js ~ line 20 ~ PayLoanTransaction ~ payAmount", payAmount)
+    if (!this.wallet.publicKey) return;
     try {
       const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
       const borrower_nft_account_pubkey = new PublicKey(borrowerNftAssociated);
@@ -63,7 +55,7 @@ export default class PayLoanTransaction extends SolTransaction {
         payTx,
       );
       tx.recentBlockhash = (
-        await this.connection.getRecentBlockhash()
+        await this.connection.getLatestBlockhash()
       ).blockhash;
 
       const txHash = await this.wallet.sendTransaction(tx, this.connection, {

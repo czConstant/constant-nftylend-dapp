@@ -47,12 +47,12 @@ export default class CreateLoanTransaction extends SolTransaction {
       const tokenAssociatedAcc = await this.connection.getAccountInfo(borrower_usd_account_pubkey);
       if (tokenAssociatedAcc === null || tokenAssociatedAcc.data.length === 0) {
         const createAssTokenAccountIx = createAssociatedTokenAccountInstruction(
-          ASSOCIATED_TOKEN_PROGRAM_ID,
-          TOKEN_PROGRAM_ID,
-          nft_mint_pubkey,
+          this.wallet.publicKey,
           borrower_usd_account_pubkey,
           this.wallet.publicKey,
-          this.wallet.publicKey
+          usd_mint_pubkey,
+          TOKEN_PROGRAM_ID,
+          ASSOCIATED_TOKEN_PROGRAM_ID,
         );
 
         tx.add(createAssTokenAccountIx);
@@ -70,10 +70,10 @@ export default class CreateLoanTransaction extends SolTransaction {
       });
 
       const initTempAccountIx = createInitializeAccountInstruction(
-        TOKEN_PROGRAM_ID,
-        nft_mint_pubkey,
         temp_nft_account.publicKey,
+        nft_mint_pubkey,
         this.wallet.publicKey,
+        TOKEN_PROGRAM_ID,
       );
 
       const transferXTokensToTempAccIx = createTransferInstruction(
@@ -121,7 +121,7 @@ export default class CreateLoanTransaction extends SolTransaction {
       );
 
       tx.recentBlockhash = (
-        await this.connection.getRecentBlockhash()
+        await this.connection.getLatestBlockhash()
       ).blockhash;
 
       const txHash = await this.wallet.sendTransaction(tx, this.connection, {
@@ -130,8 +130,7 @@ export default class CreateLoanTransaction extends SolTransaction {
 
       return this.handleSuccess({ txHash });
     } catch (err) {
-      console.log("🚀 ~ file: createLoan.ts ~ line 133 ~ CreateLoanTransaction ~ err", err)
-      return this.handleError(err as Error);
+      return this.handleError(err);
     }
   }
 }

@@ -4,18 +4,19 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import BigNumber from 'bignumber.js';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import cx from 'classnames';
+import { Tab, Tabs } from 'react-bootstrap';
+import { WalletDisconnectButton, WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 
 import BodyContainer from 'src/common/components/bodyContainer';
 import ButtonSolWallet from 'src/common/components/buttonSolWallet';
 import { getBalanceToken, getLinkSolScanAccount } from 'src/common/utils/solana';
 import { APP_ENV } from 'src/common/constants/url';
+import { shortCryptoAddress } from 'src/common/utils/format';
+import ListAsset from 'src/modules/nftLend/components/listAsset';
+import ListLoan from 'src/modules/nftLend/components/listLoan';
 
 import styles from './styles.module.scss';
 import bgCover from './images/bg_cover.png';
-import { shortCryptoAddress } from 'src/common/utils/format';
-import { WalletDisconnectButton, WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { Tab, Tabs } from 'react-bootstrap';
-import ListAsset from 'src/modules/nftLend/components/listAsset';
 
 const TABS = {
   owned: 'My Assets',
@@ -108,7 +109,7 @@ const MyAsset = () => {
                   tabClassName={styles.tab}
                   title="Loans"
                 >
-                  {/* <ListLoan /> */}
+                  <ListLoan />
                 </Tab>
                 <Tab
                   eventKey={TABS.offer}
