@@ -1,19 +1,20 @@
-import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-import { formatCurrency } from 'src/common/utils/format';
-import { APP_URL } from 'src/common/constants/url';
+import { formatCurrency } from "src/common/utils/format";
+import { APP_URL } from "src/common/constants/url";
 
-import styles from './styles.module.scss';
-import ItemNftMedia from './itemNftMedia';
+import styles from "./styles.module.scss";
+import ItemNftMedia from "./itemNftMedia";
+import { LoanData } from "../../models/loan";
 
 export const mediaTypes = {
-  video: ['mov', 'mp4', 'video'],
-  img: ['jpg', 'png', 'gif', 'jpeg', 'image'],
+  video: ["mov", "mp4", "video"],
+  img: ["jpg", "png", "gif", "jpeg", "image"],
 };
 
 interface ItemNftProps {
-  item: any;
+  item: LoanData;
 }
 
 const ItemNFT = (props: ItemNftProps) => {
@@ -24,7 +25,8 @@ const ItemNFT = (props: ItemNftProps) => {
 
   const onView = () => {
     if (item?.onClickItem) return item?.onClickItem(item);
-    if (item?.asset?.seo_url) navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${item?.asset?.seo_url}`);
+    if (item?.asset?.seo_url)
+      navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${item?.asset?.seo_url}`);
   };
 
   return (
@@ -46,18 +48,28 @@ const ItemNFT = (props: ItemNftProps) => {
           </div>
           {item.principal_amount && (
             <div className={styles.infoPrice}>
-              {formatCurrency(item.principal_amount)}{' '}
-              {item?.currency?.symbol}
+              {formatCurrency(item.principal_amount)} {item?.currency?.symbol}
             </div>
           )}
           <div className={styles.actions}>
             {item?.onViewLoan && (
-              <Button onClick={e => { e.preventDefault(); item?.onViewLoan(); }}>
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  item?.onViewLoan();
+                }}
+              >
                 View Loan
               </Button>
             )}
             {item?.onCancelLoan && (
-              <Button onClick={e => { e.preventDefault(); item?.onCancelLoan(); }} className={styles.btnCancel}>
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  item?.onCancelLoan();
+                }}
+                className={styles.btnCancel}
+              >
                 Cancel
               </Button>
             )}

@@ -1,0 +1,20 @@
+import React from "react";
+import { Button } from "react-bootstrap";
+
+import styles from "./styles.module.scss";
+import imgEmpty from "./assets/img_detail_empty.png";
+import { APP_URL } from "src/common/constants/url";
+import { useNavigate } from "react-router-dom";
+
+const EmptyDetailLoan = () => {
+  const navigate = useNavigate();
+  return (
+    <div className={styles.emptyWrap}>
+      <img alt="NFT Lending Empty" src={imgEmpty} />
+      <h3>Sorry, we couldn’t find this Loans.</h3>
+      <Button onClick={() => navigate(APP_URL.NFT_LENDING)}>Discover</Button>
+    </div>
+  );
+};
+
+export default EmptyDetailLoan;
