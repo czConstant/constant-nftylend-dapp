@@ -8,20 +8,6 @@ export const fetchCollections = async (): Promise<CollectData> => {
   return api.get(API_URL.NFT_LEND.COLLECTIONS);
 };
 
-interface LoanByCollectionParams {
-  collection_id?: string;
-  exclude_ids?: string;
-  min_price?: number;
-  max_price?: number;
-}
-export const fetchLoanByCollection = async (
-  params?: LoanByCollectionParams
-): Promise<ListResponse> => {
-  return api.get(API_URL.NFT_LEND.ALL_LISTING_LOANS, {
-    params,
-  });
-};
-
 interface ImageThumb {
   width: number;
   height: number;
@@ -43,32 +29,55 @@ export const getNftListCurrency = async (): Promise<any> => {
   return api.get(API_URL.NFT_LEND.LIST_CURRENCY);
 };
 
-export const getCollections = (): Promise<any> => {
+export const getCollections = (): Promise<ListResponse> => {
   return api.get(API_URL.NFT_LEND.COLLECTIONS);
 }
 
-export const getCollectionById = (id: number): Promise<any> => {
+export const getCollectionById = (id: number): Promise<ListResponse> => {
   return api.get(`${API_URL.NFT_LEND.COLLECTION_BY_ID}/${id}`);
 }
 
-export const getLoanByCollection = (params): Promise<any> => {
-  return api.get(`${API_URL.NFT_LEND.ALL_LISTING_LOANS}?collection_id=${params?.collection_id}&exclude_ids=${params?.exclude_ids}&min_price=${params?.min_price}&max_price=${params?.max_price}`);
+
+interface LoanByCollectionParams {
+  collection_id?: string;
+  exclude_ids?: string;
+  min_price?: number;
+  max_price?: number;
+}
+export const getLoanByCollection = (params: LoanByCollectionParams): Promise<ListResponse> => {
+  return api.get(API_URL.NFT_LEND.ALL_LISTING_LOANS, {
+    params,
+  });
 }
 
-export const getLoansByAssetId = (params): Promise<any> => {
-  return api.get(`${API_URL.NFT_LEND.GET_LOANS}?asset_id=${params?.asset_id}`);
+interface LoanByAssetParams {
+  asset_id?: string;
 }
+export const getLoansByAssetId = (params:LoanByAssetParams): Promise<ListResponse> => {
+  return api.get(`${API_URL.NFT_LEND.GET_LOANS}`, { params });
+}
+
 
 export const getLoanById = (id: number): Promise<any> => {
   return api.get(`${API_URL.NFT_LEND.LOANS_BY_ID}/${id}`);
 }
 
+
+interface LoanByOwnerParams {
+  owner?: string;
+  status?: 'new' | 'created' | 'cancelled' | 'done' | 'liquidated';
+}
 /* status=new,created,cancelled,done,liquidated */
-export const getLoansByOwner = (address: string, status: string = ''): Promise<any> => {
-  return api.get(`${API_URL.NFT_LEND.GET_LOANS}?owner=${address}&status=${status}`);
+export const getLoansByOwner = (params: LoanByOwnerParams): Promise<ListResponse> => {
+  return api.get(`${API_URL.NFT_LEND.GET_LOANS}`, { params });
 }
 
+interface OffersParams {
+  borrower?: string;
+  lender?: string;
+  status?: 'new' | 'approved' | 'rejected' | 'cancelled' | 'done' | 'liquidated' | 'repaid' | '';
+}
 /* new,approved,rejected,cancelled,repaid,liquidated,done */
-export const getOffersByFilter = ({ lender = '', borrower = '', status = '' }): Promise<any> => {
-  return api.get(`${API_URL.NFT_LEND.GET_OFERS}?lender=${lender}&borrower=${borrower}&status=${status}`);
+export const getOffersByFilter = (params: OffersParams): Promise<ListResponse> => {
+  return api.get(`${API_URL.NFT_LEND.GET_OFERS}`, { params });
 }

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
 import BodyContainer from "src/common/components/bodyContainer";
-import { fetchLoanByCollection } from "src/modules/nftLend/api";
+import { getLoanByCollection } from "src/modules/nftLend/api";
 import { ListResponse } from "src/modules/nftLend/models/api";
 import { LoanData } from "src/modules/nftLend/models/loan";
 import LoansHeader from "./Loans.Header";
-
 import styles from "./styles.module.scss";
+
+
 
 const Loans = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -18,7 +18,7 @@ const Loans = () => {
 
   const getData = async () => {
     try {
-      const response: ListResponse = await fetchLoanByCollection();
+      const response: ListResponse = await getLoanByCollection();
       const result: LoanData[] = response.result;
       resSetLoans(result);
     } catch (error) {

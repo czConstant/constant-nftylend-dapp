@@ -30,7 +30,7 @@ const ListLoan = () => {
     if (!publicKey) return;
     try {
       setLoading(true);
-      const res = await getLoansByOwner(publicKey.toString(), status);
+      const res = await getLoansByOwner({ owner: publicKey.toString(), status });
       setLoans(res.result);
     } finally {
       setLoading(false);
