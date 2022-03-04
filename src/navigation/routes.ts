@@ -2,6 +2,7 @@ import React from "react";
 import { APP_URL } from "src/common/constants/url";
 
 import Home from 'src/pages/home';
+import Loans from "src/pages/loans";
 import MyAsset from 'src/pages/myAsset';
 
 export interface RouteProps {
@@ -19,9 +20,13 @@ const routes: Array<RouteProps> = [
     component: Home,
   },
   {
+    path: APP_URL.NFT_LENDING_LIST_LOAN,
+    component: Loans,
+  },
+  {
     path: APP_URL.NFT_LENDING_MY_NFT,
     component: MyAsset,
-  }
+  },
 ];
 
 export default routes;

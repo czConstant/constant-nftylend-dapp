@@ -10,8 +10,9 @@ export const APP_URL = {
 
 export const API_URL = {
   NFT_LEND: {
-    COLLECTIONS: `${API_BASE}/api/collections/list`,
-    LIST_CURRENCY: `${API_BASE}/api/currencies/list`,
-    UPDATE_BLOCK: `${API_BASE}/api/update-block`,
+    COLLECTIONS: `${API_BASE}/nfty-lend-api/collections/list`,
+    LIST_CURRENCY: `${API_BASE}/nfty-lend-api/currencies/list`,
+    UPDATE_BLOCK: `${API_BASE}/nfty-lend-api/update-block`,
+    ALL_LISTING_LOANS: `${API_BASE}/nfty-lend-api/loans/listing`,
   }
 }
