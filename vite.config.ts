@@ -34,6 +34,7 @@ export default ({ mode}) => {
       // ]
     },
     build: {
+      outDir: `./dist${env.REACT_BASE_PATH}/`,
       assetsDir: `.${env.REACT_BASE_PATH}/assets/`,
       minify: false,
       rollupOptions: {

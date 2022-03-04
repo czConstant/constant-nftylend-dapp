@@ -1,12 +1,13 @@
 export const APP_ENV = DOT_ENV;
 export const API_BASE = APP_ENV.REACT_MCT_ROOT;
+export const BASE_PATH = APP_ENV.REACT_BASE_PATH;
 
 export const APP_URL = {
-  HOME: '/',
-  NFT_LENDING: '/nft-lending',
-  NFT_LENDING_MY_NFT: '/nft-lending/my-nft',
-  NFT_LENDING_LIST_LOAN: '/nft-lending/loans',
-  NFT_BRIDGE: '/nft-bridge',
+  HOME: `${BASE_PATH}/`,
+  NFT_LENDING: `${BASE_PATH}/nft-lending`,
+  NFT_LENDING_MY_NFT: `${BASE_PATH}/nft-lending/my-nft`,
+  NFT_LENDING_LIST_LOAN: `${BASE_PATH}/nft-lending/loans`,
+  NFT_BRIDGE: `${BASE_PATH}/nft-bridge`,
 }
 
 export const API_URL = {
