@@ -6,7 +6,12 @@ import { CancelLoanInstruction } from './utils';
 import SolTransaction from './index';
 
 export default class CancelLoanTransaction extends SolTransaction {
-  async run(receiveNftAssociated /* string */, loanId, nftTempAccountAddress) {
+  async run(
+    receiveNftAssociated: string,
+    loanId: string,
+    nftTempAccountAddress: string
+  ) {
+    if (!this.wallet.publicKey) return;
     try {
       const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
       const borrower_nft_account_pubkey = new PublicKey(receiveNftAssociated);
@@ -31,7 +36,7 @@ export default class CancelLoanTransaction extends SolTransaction {
         cancelLoanTx,
       );
       tx.recentBlockhash = (
-        await this.connection.getRecentBlockhash()
+        await this.connection.getLatestBlockhash()
       ).blockhash;
 
       const txHash = await this.wallet.sendTransaction(tx, this.connection, {

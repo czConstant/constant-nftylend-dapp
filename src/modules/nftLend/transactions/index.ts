@@ -17,7 +17,7 @@ export default class SolTransaction {
     this.wallet = wallet;
   }
 
-  handleError = async (err: Error) => {
+  handleError = async (err: any) => {
     if (err?.name === 'WalletSignTransactionError') return;
     // store.dispatch(showAlert({ message: err.message, type: 'danger' }));
   };

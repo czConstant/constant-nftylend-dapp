@@ -1,39 +1,41 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
-import { useDispatch } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { Button, Collapse } from 'react-bootstrap';
-import cx from 'classnames';
-import moment from 'moment-timezone';
-
-import { URL } from 'src/resources/constants/url';
-import { showAlert } from 'src/screens/app/redux/action';
-import { showErrorPopup } from 'src/components/errorPopup';
-import { shortCryptoAddress } from 'src/utils/common';
-import { formatAmountDecimal } from 'src/components/exchangeMethods/loan/utils';
-import { hideLoadingOverlay, showLoadingOverlay } from 'src/components/loadingOverlay/redux/api';
-
-import AcceptOfferTransaction from '../../transactions/acceptOffer';
-import { getAssociatedAccount, getLinkSolScanTx, getLinkSolScanAccount, calculateTotalPay } from '../../utils';
-import { requestReload } from '../../action';
-import styles from './styles.scss';
-import listLoanOffer from '../listLoan/styles.scss';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 import BigNumber from 'bignumber.js';
-import { STATUS } from '../../listLoan/leftSidebar';
 
-const Item = (props) => {
-  const { history, offer } = props;
+import { useAppDispatch } from 'src/store/hooks';
+import { getAssociatedAccount, getLinkSolScanTx } from 'src/common/utils/solana';
+import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
+import { toastError, toastSuccess } from 'src/common/services/toaster';
+import { requestReload } from 'src/store/nftLend';
+import { APP_URL } from 'src/common/constants/url';
+
+import listLoanStyled from '../listLoan/styles.module.scss';
+import AcceptOfferTransaction from '../../transactions/acceptOffer';
+import { OFFER_STATUS } from '../../constant';
+import { shortCryptoAddress } from 'src/common/utils/format';
+
+interface ItemProps {
+  offer: any;
+}
+
+const Item = (props: ItemProps) => {
+  const { offer } = props;
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { connection } = useConnection();
-  const dispatch = useDispatch();
   const wallet = useWallet();
 
   const [open, setOpen] = useState(false);
 
-  const onAccept = async (e) => {
-    e.stopPropagation();
+  const onAccept = async () => {
+    if (!wallet.publicKey) return;
+
     const currencyMint = offer.loan.currency?.contract_address;
     const currencyAssociated = await getAssociatedAccount(wallet.publicKey.toString(), currencyMint);
     const principal = Number(offer.principal_amount) * 10 ** offer.loan.currency.decimals;
+    if (!currencyAssociated) return;
 
     const transaction = new AcceptOfferTransaction(connection, wallet);
     try {
@@ -54,25 +56,20 @@ const Item = (props) => {
         }
       );
       if (res?.txHash) {
-        dispatch(showAlert({
-          message: <>Accept offer successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)} className="blue">View transaction</a></>,
-          type: 'success'
-        }));
+        toastSuccess(<>Accept offer successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)}>View transaction</a></>)
         dispatch(requestReload());
       }
-    } catch (err) {
-      showErrorPopup({ error: err });
+    } catch (err: any) {
+      toastError(err?.message || err);
     } finally {
       dispatch(hideLoadingOverlay());
     }
   };
 
-  const onViewLoan = async (e) => {
-    e.stopPropagation();
-    history.push(`${URL.NFT_LENDING_LIST_LOAN}/${offer?.loan?.asset?.seo_url}`);
+  const onViewLoan = async () => {
+    navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${offer?.loan?.asset?.seo_url}`);
   };
 
-  const showView = offer.status === 'new' || offer.status === 'created';
   const showAccept = offer.status === 'new';
 
   const principal = offer.offer_principal_amount || offer.principal_amount;
@@ -95,17 +92,17 @@ const Item = (props) => {
 
 
   return (
-    <div key={offer.id} onClick={() => setOpen(!open)} className={listLoanOffer.item}>
-      <div className={listLoanOffer.row}>
+    <div key={offer.id} onClick={() => setOpen(!open)} className={listLoanStyled.item}>
+      <div className={listLoanStyled.row}>
         <div><a onClick={onViewLoan}>{loan.asset.name}</a></div>
         <div>{principal} {loan.currency.symbol}</div>
         <div>{Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days</div>
         <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div>
-        <div><div className={listLoanOffer.statusWrap} style={statusStyle}>{STATUS.find(v => v.id === offer.status)?.name}</div></div>
+        <div><div className={listLoanStyled.statusWrap} style={statusStyle}>{OFFER_STATUS[offer.status]?.name}</div></div>
         <div>
           <a target="_blank" href={getLinkSolScanTx(loan.init_tx_hash)}>{shortCryptoAddress(loan.init_tx_hash, 8)}</a>
         </div>
-        <div className={listLoanOffer.actions}>
+        <div className={listLoanStyled.actions}>
           {showAccept && <Button onClick={onAccept}>Accept</Button>}
         </div>
       </div>
@@ -113,4 +110,4 @@ const Item = (props) => {
   );
 };
 
-export default withRouter(Item);
+export default Item;

@@ -1,38 +1,43 @@
 import React, { useState } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { useDispatch } from 'react-redux';
-import { withRouter } from 'react-router';
-import { Button, Collapse } from 'react-bootstrap';
-import cx from 'classnames';
+import { Button } from 'react-bootstrap';
 import moment from 'moment-timezone';
 import BigNumber from 'bignumber.js';
-
-import { URL } from 'src/resources/constants/url';
-import { showAlert } from 'src/screens/app/redux/action';
-import { showErrorPopup } from 'src/components/errorPopup';
-import { shortCryptoAddress } from 'src/utils/common';
-import { formatAmountDecimal } from 'src/components/exchangeMethods/loan/utils';
-import { hideLoadingOverlay, showLoadingOverlay } from 'src/components/loadingOverlay/redux/api';
+import { useNavigate } from 'react-router-dom';
 
 import CancelLoanTransaction from '../../transactions/cancelLoan';
 import PayLoanTransaction from '../../transactions/payLoan';
-import { getAssociatedAccount, getLinkSolScanTx, getLinkSolScanAccount, calculateTotalPay, getLinkSolScanExplorer } from '../../utils';
-import { requestReload } from '../../action';
-import styles from './styles.scss';
-import { STATUS } from '../../listLoan/leftSidebar';
+import { toastError, toastSuccess } from 'src/common/services/toaster';
+import { requestReload } from 'src/store/nftLend';
+import { APP_URL } from 'src/common/constants/url';
+import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
+import { calculateTotalPay, getAssociatedAccount, getLinkSolScanTx } from 'src/common/utils/solana';
 
-const Item = (props) => {
-  const { history, loan } = props;
+// import { STATUS } from '../../listLoan/leftSidebar';
+import styles from './styles.module.scss';
+import { shortCryptoAddress } from 'src/common/utils/format';
+
+interface ItemProps {
+  loan: any;
+}
+
+const Item = (props: ItemProps) => {
+  const { loan } = props;
+  const navigate = useNavigate();
   const { connection } = useConnection();
   const dispatch = useDispatch();
   const wallet = useWallet();
 
   const [open, setOpen] = useState(false);
 
-  const onCancelLoan = async (e) => {
+  const onCancelLoan = async (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!wallet.publicKey) return;
+
     const nftMint = loan.asset.contract_address;
     const nftAssociated = await getAssociatedAccount(wallet.publicKey.toString(), nftMint);
+    if (!nftAssociated) return;
     const transaction = new CancelLoanTransaction(connection, wallet);
     try {
       dispatch(showLoadingOverlay());
@@ -42,14 +47,11 @@ const Item = (props) => {
         loan.data_asset_address,
       );
       if (res?.txHash) {
-        dispatch(showAlert({
-          message: <>Cancel loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)} className="blue">View transaction</a></>,
-          type: 'success'
-        }));
+        toastSuccess(<>Cancel loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)}>View transaction</a></>);
         dispatch(requestReload());
       }
-    } catch (err) {
-      showErrorPopup({ error: err });
+    } catch (err: any) {
+      toastError(err?.message || err);
     } finally {
       dispatch(hideLoadingOverlay());
     }
@@ -57,6 +59,8 @@ const Item = (props) => {
 
   const onPayLoan = async (e) => {
     e.stopPropagation();
+    if (!wallet.publicKey) return;
+
     const payAmount = loan?.status === 'created' ? calculateTotalPay(
       Number(loan.offer_principal_amount * 10 ** loan.currency.decimals),
       loan.offer_interest_rate * 10 ** 4,
@@ -65,6 +69,7 @@ const Item = (props) => {
     ) : 0;
     const nftAssociated = await getAssociatedAccount(wallet.publicKey.toString(), loan.asset.contract_address);
     const usdAssociated = await getAssociatedAccount(wallet.publicKey.toString(), loan.currency.contract_address);
+    if (!nftAssociated || !usdAssociated) return;
     const transaction = new PayLoanTransaction(connection, wallet);
     try {
       dispatch(showLoadingOverlay());
@@ -80,25 +85,21 @@ const Item = (props) => {
         loan.currency.admin_fee_address,
       );
       if (res?.txHash) {
-        dispatch(showAlert({
-          message: <>Pay loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)} className="blue">View transaction</a></>,
-          type: 'success'
-        }));
+        toastSuccess(<>Pay loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)}>View transaction</a></>);
         dispatch(requestReload());
       }
-    } catch (err) {
-      showErrorPopup({ error: err });
+    } catch (err: any) {
+      toastError(err?.message || err)
     } finally {
       dispatch(hideLoadingOverlay());
     }
   };
 
-  const onViewLoan = async (e) => {
+  const onViewLoan = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    history.push(`${URL.NFT_LENDING_LIST_LOAN}/${loan?.asset?.seo_url}`);
+    navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.asset?.seo_url}`);
   };
 
-  const showView = loan.status === 'new' || loan.status === 'created';
   const showCancel = loan.status === 'new';
   const showPay = loan.status === 'created' && moment().isBefore(moment(loan.offer_expired_at));
 
@@ -118,52 +119,31 @@ const Item = (props) => {
     };
   }
 
+  const days = new BigNumber(duration).dividedBy(86400).toPrecision(2, BigNumber.ROUND_CEIL);
+
   return (
     <div key={loan.id} onClick={() => setOpen(!open)} className={styles.item}>
       <div className={styles.row}>
         <div><a onClick={onViewLoan}>{loan.asset.name}</a></div>
         <div>{principal} {loan.currency.symbol}</div>
-        <div>{Math.ceil(new BigNumber(duration).dividedBy(86400).toPrecision(2))} days</div>
+        <div>{days} days</div>
         <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div>
-        <div><div className={styles.statusWrap} style={statusStyle}>{STATUS.find(v => v.id === loan.status)?.name}</div></div>
+        <div>
+          <div className={styles.statusWrap} style={statusStyle}>
+            {loan.status}
+            {/* {STATUS.find(v => v.id === loan.status)?.name} */}
+            </div>
+          </div>
         <div>
           <a target="_blank" href={getLinkSolScanTx(loan.init_tx_hash)}>{shortCryptoAddress(loan.init_tx_hash, 8)}</a>
         </div>
-        {/* <div>{loan.asset.name}</div> */}
-        {/* <div>{loan.status}</div> */}
-        {/* <div>{moment(loan.updated_at).format('YYYY-MM-DD HH:mm')}</div> */}
         <div className={styles.actions}>
-          {/* {showView && <Button onClick={onViewLoan}>View</Button>} */}
           {showCancel && <Button onClick={onCancelLoan}>Cancel</Button>}
           {showPay && <Button onClick={onPayLoan}>Pay</Button>}
         </div>
       </div>
-      {/* <Collapse in={open}>
-        <div>
-          <div key={loan.id} className={cx(styles.row, styles.expand)}>
-            <div>
-              <label>Principal</label>
-              <div>{principal} {loan.currency.symbol}</div>
-            </div>
-            <div>
-              <label>Interest</label>
-              <div>{interest * 100}%</div>
-            </div>
-            <div>
-              <label>Duration</label>
-              <div>{Math.ceil(duration / 86400)} days</div>
-            </div>
-            {loan.status === 'created' && (
-              <div>
-                <label>Total</label>
-                <div>{formatAmountDecimal(payAmount, 8)} {loan.currency.symbol}</div>
-              </div>
-            )}
-          </div>
-        </div>
-      </Collapse> */}
     </div>
   );
 };
 
-export default withRouter(Item);
+export default Item;

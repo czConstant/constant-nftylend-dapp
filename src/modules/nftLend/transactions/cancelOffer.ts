@@ -7,10 +7,12 @@ import SolTransaction from './index';
 
 export default class CancelOfferTransaction extends SolTransaction {
   async run(
-    receiveTokenAssociated /* string */,
-    offerAddress /* string */,
-    offerTokenAddress /* string */,
+    receiveTokenAssociated: string,
+    offerAddress: string,
+    offerTokenAddress: string,
   ) {
+    if (!this.wallet.publicKey) return;
+
     try {
       const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
 
@@ -38,7 +40,7 @@ export default class CancelOfferTransaction extends SolTransaction {
         cancelOfferTx,
       );
       tx.recentBlockhash = (
-        await this.connection.getRecentBlockhash()
+        await this.connection.getLatestBlockhash()
       ).blockhash;
 
       const txHash = await this.wallet.sendTransaction(tx, this.connection, {

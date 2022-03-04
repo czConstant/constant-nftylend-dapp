@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button } from 'react-bootstrap';
-import { createForm } from 'final-form';
-import { Form, Field } from 'react-final-form';
+import { Form } from 'react-final-form';
 import { Connection } from '@solana/web3.js';
 import { WalletContextState } from '@solana/wallet-adapter-react';
 
-import Loading from 'src/common/components/loading';
 import { fetchAllTokenAccounts, getAssociatedAccount, getLinkSolScanTx } from 'src/common/utils/solana';
 import CryptoDropdownItem from 'src/common/components/cryptoDropdownItem';
+import { toastError, toastSuccess } from 'src/common/services/toaster';
 
 import CreateLoanForm from './form';
 
@@ -72,7 +70,6 @@ const CreateLoan = (props: CreateLoanProps) => {
 
   const onSubmit = async (values: any) => {
     if (submitting) return;
-
     const receiveToken: any = listToken.find((e: any) => e.contract_address === values.receiveTokenMint);
     if (!receiveToken) return;
     const transaction = new CreateLoanTransaction(connection, wallet);
@@ -89,17 +86,13 @@ const CreateLoan = (props: CreateLoanProps) => {
           duration: values.duration * 86400,
         }
       );
-      console.log("🚀 ~ file: index.tsx ~ line 93 ~ onSubmit ~ res", res)
       if (res?.txHash) {
-        // dispatch(showAlert({
-        //   message: <>Create loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)} className="blue">View transaction</a></>,
-        //   type: 'success'
-        // }));
+        toastSuccess(<>Create loan successfully. <a target="_blank" href={getLinkSolScanTx(res.txHash)}>View transaction</a></>);
         dispatch(requestReload());
         onClose();
       }
-    } catch (err) {
-      // showErrorPopup({ error: err });
+    } catch (err: any) {
+      toastError(err.message || err);
     } finally {
       setSubmitting(false);
     }

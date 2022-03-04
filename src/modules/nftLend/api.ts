@@ -42,3 +42,33 @@ export const getImageThumb = (params: ImageThumb) => {
 export const getNftListCurrency = async (): Promise<any> => {
   return api.get(API_URL.NFT_LEND.LIST_CURRENCY);
 };
+
+export const getCollections = (): Promise<any> => {
+  return api.get(API_URL.NFT_LEND.COLLECTIONS);
+}
+
+export const getCollectionById = (id: number): Promise<any> => {
+  return api.get(`${API_URL.NFT_LEND.COLLECTION_BY_ID}/${id}`);
+}
+
+export const getLoanByCollection = (params): Promise<any> => {
+  return api.get(`${API_URL.NFT_LEND.ALL_LISTING_LOANS}?collection_id=${params?.collection_id}&exclude_ids=${params?.exclude_ids}&min_price=${params?.min_price}&max_price=${params?.max_price}`);
+}
+
+export const getLoansByAssetId = (params): Promise<any> => {
+  return api.get(`${API_URL.NFT_LEND.GET_LOANS}?asset_id=${params?.asset_id}`);
+}
+
+export const getLoanById = (id: number): Promise<any> => {
+  return api.get(`${API_URL.NFT_LEND.LOANS_BY_ID}/${id}`);
+}
+
+/* status=new,created,cancelled,done,liquidated */
+export const getLoansByOwner = (address: string, status: string = ''): Promise<any> => {
+  return api.get(`${API_URL.NFT_LEND.GET_LOANS}?owner=${address}&status=${status}`);
+}
+
+/* new,approved,rejected,cancelled,repaid,liquidated,done */
+export const getOffersByFilter = ({ lender = '', borrower = '', status = '' }): Promise<any> => {
+  return api.get(`${API_URL.NFT_LEND.GET_OFERS}?lender=${lender}&borrower=${borrower}&status=${status}`);
+}
