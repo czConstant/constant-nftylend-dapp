@@ -10,7 +10,7 @@ const initialState: NftLendState = {
 };
 
 const slice = createSlice({
-  name: 'modal',
+  name: 'nftLend',
   initialState,
   reducers: {
     requestReload: (state) => {

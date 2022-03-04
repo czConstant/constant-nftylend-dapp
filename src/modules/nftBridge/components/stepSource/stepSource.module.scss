@@ -1,0 +1,36 @@
+.stepSource {
+  color: #E6E8EC;
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 24px;
+    margin: 20px 0;
+  }
+  .verifier {
+    border: 2px solid #777E90;
+    border-radius: 20px;
+    padding: 5px 20px;
+  }
+  .onlySupport {
+    color: orange;
+  }
+  .chainSelect {
+    margin: 20px 0;
+    > button {
+      height: 60px;
+    }
+  }
+  .connectWallet {
+    margin: 20px 0;
+    button {
+      background-color: #3772FF;
+      &:hover {
+        background-color: #3772FF;
+        opacity: 0.8;
+      }
+    }
+  }
+}

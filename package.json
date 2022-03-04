@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@certusone/wormhole-sdk": "^0.2.0",
     "@lottiefiles/react-lottie-player": "^3.4.2",
+    "@metamask/detect-provider": "^1.2.0",
     "@nfteyez/sol-rayz": "^0.10.2",
     "@reduxjs/toolkit": "^1.8.0",
     "@solana/buffer-layout-utils": "^0.2.0",
@@ -29,6 +31,7 @@
     "buffer": "^6.0.3",
     "classnames": "^2.3.1",
     "crypto-js": "^4.1.1",
+    "ethers": "^5.5.4",
     "final-form": "^4.20.6",
     "lodash": "^4.17.21",
     "mobile-detect": "^1.4.5",
@@ -39,7 +42,6 @@
     "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^17.0.2",
     "react-final-form": "^6.5.8",
-    "react-loading-overlay": "^1.0.1",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.2",
     "react-toastify": "^8.2.0",

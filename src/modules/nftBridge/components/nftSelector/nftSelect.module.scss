@@ -1,0 +1,37 @@
+.nftSelect {
+  width: 100%;
+  .toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 2px solid #777E90 !important;
+  }
+  .dropdownMenu {
+    width: 100%;
+    background-color: #141416;
+    border: 2px solid #777E90 !important;
+    max-height: 200px;
+    overflow: scroll;
+  }
+  .item {
+    padding: 10px 20px;
+    transition: 0.2s all;
+    &:hover {
+      background-color: black;
+    }
+  }
+  .chain {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #E6E8EC;
+    > img {
+      width: 30px;
+      height: 30px;
+      margin-right: 20px;
+    }
+  }
+}

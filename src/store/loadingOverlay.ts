@@ -6,6 +6,7 @@ interface LoadingOverlayState {
   show: boolean;
   message?: React.ReactNode;
   timeout?: number;
+  callback?: Function;
 }
 
 const initialState: LoadingOverlayState = {
@@ -15,7 +16,7 @@ const initialState: LoadingOverlayState = {
 }
 
 const slice = createSlice({
-  name: 'modal',
+  name: 'loadingOverlay',
   initialState,
   reducers: {
     showLoadingOverlay: (state) => {
@@ -25,6 +26,7 @@ const slice = createSlice({
       state.show = true;
       state.message = action.payload.message;
       state.timeout = action.payload.timeout;
+      state.callback = action.payload.callback;
     },
     hideLoadingOverlay: (state) => {
       state = initialState;
