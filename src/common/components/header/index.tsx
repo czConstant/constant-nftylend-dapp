@@ -34,6 +34,12 @@ const Header = () => {
             >
               Listing Loans
             </Link>
+            <Link
+              to={APP_URL.NFT_BRIDGE}
+              className={cx(location.pathname === APP_URL.NFT_BRIDGE && styles.active)}
+            >
+              NFT Bridge
+            </Link>
             {publicKey && <Link to={APP_URL.NFT_LENDING_MY_NFT} className={cx(location.pathname === APP_URL.NFT_LENDING_MY_NFT && styles.active)}>My Assets</Link>}
           </div>
         </div>

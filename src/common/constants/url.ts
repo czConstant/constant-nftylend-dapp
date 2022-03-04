@@ -6,6 +6,7 @@ export const APP_URL = {
   NFT_LENDING: '/nft-lending',
   NFT_LENDING_MY_NFT: '/nft-lending/my-nft',
   NFT_LENDING_LIST_LOAN: '/nft-lending/loans',
+  NFT_BRIDGE: '/nft-bridge',
 }
 
 export const API_URL = {

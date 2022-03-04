@@ -4,6 +4,7 @@ import { APP_URL } from "src/common/constants/url";
 import Home from 'src/pages/home';
 import Loans from "src/pages/loans";
 import MyAsset from 'src/pages/myAsset';
+import NftBridge from 'src/pages/nftBridge';
 
 export interface RouteProps {
   path: string;
@@ -26,6 +27,10 @@ const routes: Array<RouteProps> = [
   {
     path: APP_URL.NFT_LENDING_MY_NFT,
     component: MyAsset,
+  },
+  {
+    path: APP_URL.NFT_BRIDGE,
+    component: NftBridge,
   },
 ];
 
