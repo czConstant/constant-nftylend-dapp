@@ -1,0 +1,123 @@
+.card {
+  border-radius: 10px;
+  max-width: '100%';
+  width: 400;
+  margin: 0 auto;
+  padding: 8;
+  position: 'relative';
+  z-index: 1;
+  transition: background-position 1s transform 0.25s;
+  &:hover {
+    background-position: 'right center';
+    transform: scale(1.25);
+  };
+  background-size: 200% auto;
+  background-color: #ffb347;
+  background: linear-gradient(to right, #ffb347 0%, #ffcc33  51%, #ffb347  100%);
+};
+
+.silverBorder {
+  background-color: #D9D8D6;
+  background-size: '200% auto';
+  background: linear-gradient(to bottom right, #757F9A 0%, #D7DDE8  51%, #757F9A  100%);
+  &:hover {
+    background-position: right center;
+  };
+};
+.cardInset {
+
+};
+.textContent {
+  background: 'transparent';
+  padding-top: 4;
+  padding-bottom: 2;
+  display: 'flex';
+};
+.detailsContent {
+  background: 'transparent';
+  padding-top: 4;
+  padding-bottom: 2;
+  &:last-child {
+    //override rule
+    padding-bottom: 2;
+  };
+};
+
+.mediaContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  margin: 0 5px;
+  & > img, & > video {
+    border: 1px solid #ffb347;
+  };
+};
+
+.silverMediaBorder {
+  & > img, & > video {
+    border-color: '#D7DDE8';
+  };
+};
+
+// thanks https://cssgradient.io/ and https://htmlcolorcodes.com/color-picker/
+.eth {
+  // colors from https://en.wikipedia.org/wiki/Ethereum#/media/File:Ethereum-icon-purple.svg
+  background-color: rgb(69, 74, 117);
+  background: linear-gradient(160deg, rgba(69,74,117,1) 0%, rgba(138,146,178,1) 33%, rgba(69,74,117,1) 66%, rgba(98,104,143,1) 100%);
+};
+
+.bsc {
+  // color from binance background rgb(20; 21; 26); 2 and 1 tint lighter
+  background-color: '#F0B90B';
+  background: linear-gradient(160deg, rgb(20, 21, 26) 0%, #4A4D57 33%, rgb(20, 21, 26) 66%, #2C2F3B 100%);
+};
+.polygon {
+  // color from polygon logo #8247E5 down to 30 lightness
+  background-color: '#0F0323';
+  background: linear-gradient(160deg, #0F0323 0%, #250957 33%, #0F0323 66%, #0F0323 100%);
+};
+
+.solana {
+  // colors from https://solana.com/branding/new/exchange/exchange-sq-black.svg
+  background-color: rgb(153, 69, 255);
+  background: linear-gradient(45deg, rgba(153,69,255,1) 0%, rgba(121,98,231,1) 20%, rgba(0,209,140,1) 100%);
+};
+
+.hidden {
+  display: 'none';
+};
+
+.skeleton {
+  height: 500px;
+  width: 400px;
+  max-width: 100%;
+  border-radius: 9;
+  display: grid;
+  place-items: center;
+  position: absolute;
+};
+
+.wormholeIcon {
+  height: 48;
+  width: 48;
+  filter: contrast(0);
+  transition: filter 0.5s;
+  &:hover {
+    filter: contrast(1);
+  };
+  vertical-align: middle;
+  margin-right: theme.spacing(1);
+  z-index: 10;
+};
+
+.wormholePositioner {
+  display: grid;
+  place-items: center;
+  position: relative;
+  height: 500px;
+  width: 400px;
+  max-width: 100%;
+  margin: 0 auto;
+};

@@ -3,14 +3,18 @@ import { combineReducers } from 'redux';
 
 import modal from './modal';
 import nftLend from './nftLend';
-import nftBridge from './nftBridge';
 import loadingOverlay from './loadingOverlay';
+import nftSlice from 'src/modules/nftBridge/store/nftSlice';
+import attestSlice from 'src/modules/nftBridge/store/attestSlice';
+import tokenSlice from 'src/modules/nftBridge/store/tokenSlice';
 
 const reducer = combineReducers({
   modal,
   loadingOverlay,
   nftLend,
-  nftBridge,
+  nftSlice,
+  attestSlice,
+  tokenSlice,
 });
 
 const store = configureStore({

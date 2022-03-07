@@ -9,7 +9,7 @@ import {
   CHAIN_ID_TERRA,
   CHAIN_ID_OASIS,
   isEVMChain,
-} from '@certusone/wormhole-sdk/lib/cjs/utils';
+} from './wormhole_cjs';
 import { clusterApiUrl } from '@solana/web3.js';
 import { getAddress } from 'ethers/lib/utils';
 import { APP_ENV } from 'src/common/constants/url';
@@ -20,8 +20,6 @@ import oasisIcon from './icons/oasis-network-rose-logo.svg';
 import polygonIcon from './icons/polygon.svg';
 import solanaIcon from './icons/solana.svg';
 import terraIcon from './icons/terra.svg';
-
-export { isEVMChain, CHAIN_ID_SOLANA };
 
 export type Cluster = 'devnet' | 'testnet' | 'mainnet';
 export const CLUSTER: Cluster =

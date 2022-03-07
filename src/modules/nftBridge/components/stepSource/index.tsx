@@ -1,72 +1,79 @@
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectNftBridge, updateSourceChain, updateSourceNft } from 'src/store/nftBridge';
-
-import EthereumSignerKey from '../EthereumSignerKey';
-import SolanaWalletKey from '../SolanaWalletKey';
-import { CHAINS_WITH_NFT_SUPPORT, CHAIN_ID_SOLANA, isEVMChain } from '../../constant';
+import { CHAIN_ID_SOLANA, isEVMChain } from '../../utils/wormhole_cjs';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import useIsWalletReady from '../../hooks/useIsWalletReady';
+import { incrementStep, setSourceChain } from '../../store/nftSlice';
+import {
+  selectNFTIsSourceComplete,
+  selectNFTShouldLockFields,
+  selectNFTSourceBalanceString,
+  selectNFTSourceChain,
+  selectNFTSourceError,
+} from '../../store/selectors';
+import { ChainInfo, CHAINS_WITH_NFT_SUPPORT } from '../../utils/constant';
 import ChainSelect from '../chainSelect';
-import NftSelect from '../nftSelector';
+import KeyAndBalance from '../KeyAndBalance';
+import { TokenSelector } from '../TokenSelectors/SourceTokenSelector';
+
 import styles from './stepSource.module.scss';
-import { NftItem } from '../nftSelector/selector';
-import { useEthereumProvider } from '../../contexts/EthereumProviderContext';
-import { useSolanaWallet } from 'src/common/contexts/SolanaWalletContext';
+import { Button } from 'react-bootstrap';
 
-const StepSource = () => {
-  const dispatch = useAppDispatch();
-  const sourceChain = useAppSelector(selectNftBridge).sourceChain;
-
-  const { signerAddress } = useEthereumProvider();
-  const { publicKey } = useSolanaWallet();
-
-  const isConnected = () => {
-    if (!sourceChain) return false;
-    if (isEVMChain(sourceChain.id)) return !!signerAddress;
-    if (sourceChain.id === CHAIN_ID_SOLANA) return !!publicKey;
-  }
-
-  const onSelectChain = (id: string | null) => {
-    const chain = CHAINS_WITH_NFT_SUPPORT.find(e => e.id === Number(id));
-    if (chain) dispatch(updateSourceChain(chain));
-  };
-
-  const onSelectNft = (nft: NftItem) => {
-    dispatch(updateSourceNft(nft));
-  };
-
-  const renderWarning = () => {
-    if (!sourceChain) return;
-    if (isEVMChain(sourceChain.id)) {
-      return 'Only NFTs which implement ERC-721 are supported.';
-    }
-    if (sourceChain.id === CHAIN_ID_SOLANA) {
-      return 'Only NFTs with a supply of 1 are supported.';
-    }
-    return '';
-  }
-
-  const renderWallet = () => {
-    if (!sourceChain) return null;
-    if (isEVMChain(sourceChain.id)) return <EthereumSignerKey />
-    if (sourceChain.id === CHAIN_ID_SOLANA) return <SolanaWalletKey />;
-    return null;
-  };
-
-  return (
-    <div className={styles.stepSource}>
-      <div className={styles.title}>
-        <div>
-          <div>Select an NFT to send through the Wormhole NFT Bridge.</div>
-          <div className={styles.onlySupport}>{renderWarning()}</div>
-        </div>
-        <div className={styles.verifier}>NFT Origin Verifier</div>
-      </div>
-      <ChainSelect chains={CHAINS_WITH_NFT_SUPPORT} className={styles.chainSelect} onSelectChain={onSelectChain} />
-      <div className={styles.connectWallet}>
-        {renderWallet()}
-      </div>
-      {isConnected() && sourceChain && <NftSelect chain={sourceChain} onSelectNft={onSelectNft} />}
-    </div>
+function Source() {
+  const dispatch = useDispatch();
+  const sourceChain = useSelector(selectNFTSourceChain);
+  const uiAmountString = useSelector(selectNFTSourceBalanceString);
+  const error = useSelector(selectNFTSourceError);
+  const isSourceComplete = useSelector(selectNFTIsSourceComplete);
+  const shouldLockFields = useSelector(selectNFTShouldLockFields);
+  const { isReady, statusMessage } = useIsWalletReady(sourceChain);
+  const handleSourceChange = useCallback(
+    (chain: ChainInfo) => {
+      dispatch(setSourceChain(chain.id));
+    },
+    [dispatch]
   );
-};
+  const handleNextClick = useCallback(() => {
+    dispatch(incrementStep());
+  }, [dispatch]);
+  return (
+    <>
+      <div className={styles.title}>
+        <div>Select an NFT to send through the Wormhole NFT Bridge.</div>
+          {/* <Button
+            component={Link}
+            to='/nft-origin-verifier'
+            size='small'
+            variant='outlined'
+            startIcon={<VerifiedUser />}
+          >
+            NFT Origin Verifier
+          </Button> */}
+      </div>
+      <ChainSelect
+        value={sourceChain}
+        onChange={handleSourceChange}
+        disabled={shouldLockFields}
+        chains={CHAINS_WITH_NFT_SUPPORT}
+      />
+      <div className={styles.onlySupport}>
+        {isEVMChain(sourceChain)
+          ? 'Only NFTs which implement ERC-721 are supported.'
+          : 'Only NFTs with a supply of 1 are supported.'
+        }
+      </div>
+      <KeyAndBalance chainId={sourceChain} />
+      {isReady || uiAmountString ? (
+        <div className={styles.transferField}>
+          <TokenSelector disabled={shouldLockFields} nft={true} />
+        </div>
+      ) : null}
+      {error && <div>{error}</div>}
+      <Button disabled={!isSourceComplete} onClick={handleNextClick}>
+        Next
+      </Button>
+    </>
+  );
+}
 
-export default StepSource;
+export default Source;

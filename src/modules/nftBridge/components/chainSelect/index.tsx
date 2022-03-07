@@ -1,20 +1,19 @@
 import { Dropdown } from 'react-bootstrap';
 import cx from 'classnames';
 
-import { useAppSelector } from 'src/store/hooks';
-import { selectNftBridge } from 'src/store/nftBridge';
-import { ChainInfo } from '../../constant';
+import { ChainInfo } from '../../utils/constant';
 import styles from './chainSelect.module.scss';
 
 interface ChainSelectProps {
   chains: ChainInfo[];
+  onChange: (e: ChainInfo) => any;
+  value?: ChainInfo;
   className?: string;
-  onSelectChain: Function;
+  disabled?: boolean;
 }
 
 export default function ChainSelect(props: ChainSelectProps) {
-  const { chains, className, onSelectChain } = props;
-  const sourceChain = useAppSelector(selectNftBridge).sourceChain;
+  const { chains, value, className, disabled, onChange } = props;
 
   const renderChain = (chain: ChainInfo) => {
     return (
@@ -26,9 +25,9 @@ export default function ChainSelect(props: ChainSelectProps) {
   };
 
   return (
-    <Dropdown className={cx(styles.chainSelect, className)} onSelect={onSelectChain}>
-      <Dropdown.Toggle className={styles.toggle}>
-        <span>{sourceChain ? renderChain(sourceChain) : 'Select source chain'}</span>
+    <Dropdown className={cx(styles.chainSelect, className)} onSelect={onChange}>
+      <Dropdown.Toggle className={styles.toggle} disabled={disabled}>
+        <span>{value ? renderChain(value) : 'Select source chain'}</span>
       </Dropdown.Toggle>
       <Dropdown.Menu className={styles.dropdownMenu}>
         {chains.map(chain => {
