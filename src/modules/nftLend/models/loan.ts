@@ -15,6 +15,11 @@ export class LoanDataAttributes {
 
 export class LoanDataNewLoan {
   owner!: string;
+  offers!: LoanDataOffers[];
+}
+
+export class LoanDataOffers {
+  
 }
 
 export class LoanDataDetail {

@@ -12,7 +12,7 @@ import {
 import CancelLoanTransaction from "src/modules/nftLend/transactions/cancelLoan";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { useDispatch } from "react-redux";
-import OrderNowTransaction from "src/modules/nftLend/transactions/orderNow";
+// import OrderNowTransaction from "src/modules/nftLend/transactions/orderNow";
 import { closeModal, openModal } from "src/store/modal";
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
@@ -49,57 +49,57 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
 //     );
 //   };
 
-  const onOrderNow = async () => {
-    const transaction = new OrderNowTransaction(connection, wallet);
-    try {
-      setSubmitting(true);
-      setOrderNow(true);
-      const borrowerPubkey = loan.new_loan.owner;
-      const tokenMint = loan.new_loan.currency.contract_address;
-      const borrowerTokenAssociated = await getAssociatedAccount(
-        borrowerPubkey,
-        tokenMint
-      );
-      const lenderTokenAssociated = await getAssociatedAccount(
-        wallet.publicKey.toString(),
-        tokenMint
-      );
-      const decimals = loan.new_loan.currency.decimals;
-      const res = await transaction.run(
-        tokenMint,
-        borrowerTokenAssociated,
-        borrowerPubkey,
-        loan.new_loan.data_loan_address,
-        lenderTokenAssociated,
-        Number(loan.new_loan.principal_amount) * 10 ** decimals
-      );
-      if (res.txHash) {
-        dispatch(
-          toastSuccess({
-            message: (
-              <>
-                Make offer successfully.{" "}
-                <a
-                  target="_blank"
-                  href={getLinkSolScanTx(res.txHash)}
-                  className="blue"
-                >
-                  View transaction
-                </a>
-              </>
-            ),
-            type: "success",
-          })
-        );
-        // dispatch(requestReload());
-      }
-    } catch (err) {
-      dispatch(toastError({ error: err }));
-    } finally {
-      setSubmitting(false);
-      setOrderNow(false);
-    }
-  };
+//   const onOrderNow = async () => {
+//     const transaction = new OrderNowTransaction(connection, wallet);
+//     try {
+//       setSubmitting(true);
+//       setOrderNow(true);
+//       const borrowerPubkey = loan.new_loan.owner;
+//       const tokenMint = loan.new_loan.currency.contract_address;
+//       const borrowerTokenAssociated = await getAssociatedAccount(
+//         borrowerPubkey,
+//         tokenMint
+//       );
+//       const lenderTokenAssociated = await getAssociatedAccount(
+//         wallet.publicKey.toString(),
+//         tokenMint
+//       );
+//       const decimals = loan.new_loan.currency.decimals;
+//       const res = await transaction.run(
+//         tokenMint,
+//         borrowerTokenAssociated,
+//         borrowerPubkey,
+//         loan.new_loan.data_loan_address,
+//         lenderTokenAssociated,
+//         Number(loan.new_loan.principal_amount) * 10 ** decimals
+//       );
+//       if (res.txHash) {
+//         dispatch(
+//           toastSuccess({
+//             message: (
+//               <>
+//                 Make offer successfully.{" "}
+//                 <a
+//                   target="_blank"
+//                   href={getLinkSolScanTx(res.txHash)}
+//                   className="blue"
+//                 >
+//                   View transaction
+//                 </a>
+//               </>
+//             ),
+//             type: "success",
+//           })
+//         );
+//         // dispatch(requestReload());
+//       }
+//     } catch (err) {
+//       dispatch(toastError({ error: err }));
+//     } finally {
+//       setSubmitting(false);
+//       setOrderNow(false);
+//     }
+//   };
 
   const onCancelLoan = async (e) => {
     const tokenMint = loan.contract_address;
@@ -165,7 +165,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
         <Button
           className={styles.btnConnect}
           disabled={isOwner || orderNow}
-          onClick={onOrderNow}
+        //   onClick={onOrderNow}
         >
           {orderNow ? <Loading dark={false} /> : "Order now"}
         </Button>
