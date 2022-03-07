@@ -7,6 +7,7 @@ export const APP_URL = {
   NFT_LENDING: `${BASE_PATH}/nft-lending`,
   NFT_LENDING_MY_NFT: `${BASE_PATH}/nft-lending/my-nft`,
   NFT_LENDING_LIST_LOAN: `${BASE_PATH}/nft-lending/loans`,
+  NFT_LENDING_DETAIL_LOAN: `${BASE_PATH}/nft-lending/loans/:id`,
 }
 
 export const API_URL = {
