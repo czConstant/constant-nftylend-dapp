@@ -1,4 +1,4 @@
-import { AccountLayout, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { AccountLayout, createInitializeAccountInstruction, createTransferInstruction, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import {
   Keypair,
   PublicKey,
@@ -14,13 +14,15 @@ import SolTransaction from './index';
 
 export default class OrderNowTransaction extends SolTransaction {
   async run(
-    tokenMint /* string */,
-    borrowerTokenAssociated /* string */,
-    borrowerAddress /* string */,
-    loanAddress /* string */,
-    lenderTokenAssociated /* string */,
-    principal /* number */,
+    tokenMint: string,
+    borrowerTokenAssociated: string,
+    borrowerAddress: string,
+    loanAddress: string,
+    lenderTokenAssociated: string,
+    principal: number,
   ) {
+    if (!this.wallet.publicKey) return;
+
     try {
       const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
       const borrower_usd_pubkey = new PublicKey(borrowerTokenAssociated);
@@ -45,20 +47,20 @@ export default class OrderNowTransaction extends SolTransaction {
         newAccountPubkey: temp_usd_account.publicKey,
       });
 
-      const initTempAccountIx = Token.createInitAccountInstruction(
-        TOKEN_PROGRAM_ID,
-        usd_mint_pubkey,
+      const initTempAccountIx = createInitializeAccountInstruction(
         temp_usd_account.publicKey,
-        this.wallet.publicKey
+        usd_mint_pubkey,
+        this.wallet.publicKey,
+        TOKEN_PROGRAM_ID,
       );
 
-      const transferUsdToTempAccIx = Token.createTransferInstruction(
-        TOKEN_PROGRAM_ID,
+      const transferUsdToTempAccIx = createTransferInstruction(
         lender_usd_account_pubkey,
         temp_usd_account.publicKey,
         this.wallet.publicKey,
-        [],
         Number(principal),
+        [],
+        TOKEN_PROGRAM_ID,
       );
 
       const offer_info_account = new Keypair();
@@ -96,7 +98,7 @@ export default class OrderNowTransaction extends SolTransaction {
       );
 
       tx.recentBlockhash = (
-        await this.connection.getRecentBlockhash()
+        await this.connection.getLatestBlockhash()
       ).blockhash;
 
       const txHash = await this.wallet.sendTransaction(tx, this.connection, {
