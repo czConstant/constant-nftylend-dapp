@@ -9,7 +9,7 @@ import {
   CHAIN_ID_OASIS,
   isEVMChain,
   ChainId,
-} from './wormhole_esm';
+} from './wormhole';
 import { clusterApiUrl } from '@solana/web3.js';
 import { getAddress } from 'ethers/lib/utils';
 import { APP_ENV } from 'src/common/constants/url';

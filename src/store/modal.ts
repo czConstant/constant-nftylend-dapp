@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ModalComponentProps } from 'src/common/components/modal/ModalComponent';
+import { ModalComponentProps } from 'src/common/components/modal/ModalComponentInterface';
 import { RootState } from '.';
 
 interface ModalState {

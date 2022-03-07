@@ -7,7 +7,7 @@ import {
   hexToUint8Array,
   isEVMChain,
   nativeToHexString,
-} from "../utils/wormhole_cjs";
+} from "../utils/wormhole";
 import { Connection } from "@solana/web3.js";
 // import { LCDClient } from "@terra-money/terra.js";
 import { ethers } from "ethers";

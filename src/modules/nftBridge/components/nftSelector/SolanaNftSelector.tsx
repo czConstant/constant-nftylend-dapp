@@ -1,6 +1,6 @@
-import { CHAIN_ID_SOLANA } from '../../utils/wormhole_esm';
+import { CHAIN_ID_SOLANA } from '../../utils/wormhole';
 import { TokenInfo } from '@solana/spl-token-registry';
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import useMarketsMap from '../../hooks/useMarketsMap';
 import useMetaplexData from '../../hooks/useMetaplexData';

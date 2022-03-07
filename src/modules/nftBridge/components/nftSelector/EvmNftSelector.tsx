@@ -1,13 +1,13 @@
+import { getAddress as getEthAddress } from '@ethersproject/address';
+import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import {
   ChainId,
   CHAIN_ID_ETH,
   NFTImplementation,
   TokenImplementation,
-} from '../../utils/wormhole_esm';
-import { WormholeAbi__factory } from '@certusone/wormhole-sdk/lib/esm/ethers-contracts/abi';
-import { getAddress as getEthAddress } from '@ethersproject/address';
-import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+} from '../../utils/wormhole';
+import { WormholeAbi__factory } from '../../utils/wormhole';
 import { useEthereumProvider } from '../../contexts/EthereumProviderContext';
 import useIsWalletReady from '../../hooks/useIsWalletReady';
 import { DataWrapper } from '../../store/helpers';

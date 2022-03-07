@@ -3,7 +3,7 @@ import {
   NFTImplementation__factory,
   TokenImplementation,
   TokenImplementation__factory,
-} from "./wormhole_esm";
+} from "./wormhole";
 import { ethers } from "ethers";
 import { arrayify, formatUnits } from "ethers/lib/utils";
 import {

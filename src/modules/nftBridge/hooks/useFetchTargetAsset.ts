@@ -8,11 +8,11 @@ import {
   hexToNativeString,
   hexToUint8Array,
   isEVMChain,
-} from '../utils/wormhole_esm';
+} from '../utils/wormhole';
 import {
-  getForeignAssetEth as getForeignAssetEthNFT,
-  getForeignAssetSol as getForeignAssetSolNFT,
-} from '@certusone/wormhole-sdk/lib/esm/nft_bridge';
+  getForeignAssetEthNFT,
+  getForeignAssetSolNFT,
+} from '../utils/wormhole';
 import { BigNumber } from '@ethersproject/bignumber';
 import { arrayify } from '@ethersproject/bytes';
 import { Connection } from '@solana/web3.js';

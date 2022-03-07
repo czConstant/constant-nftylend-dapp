@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@certusone/wormhole-sdk": "^0.2.0",
+    "@certusone/wormhole-sdk": "^0.2.1",
     "@lottiefiles/react-lottie-player": "^3.4.2",
     "@metamask/detect-provider": "^1.2.0",
     "@nfteyez/sol-rayz": "^0.10.2",
@@ -61,6 +61,7 @@
     "@types/readable-stream": "^2.3.13",
     "@types/sass": "^1.43.1",
     "@vitejs/plugin-react": "^1.0.7",
+    "madge": "^5.0.1",
     "path": "^0.12.7",
     "rollup-plugin-node-builtins": "^2.1.2",
     "sass": "^1.49.9",

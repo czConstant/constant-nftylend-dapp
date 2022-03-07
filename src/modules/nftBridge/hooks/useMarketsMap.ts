@@ -1,4 +1,4 @@
-import { ChainId } from '../utils/wormhole_esm';
+import { ChainId } from '../utils/wormhole';
 import { Dispatch } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -11,34 +11,8 @@ import {
   receiveMarketsMap,
 } from '../store/tokenSlice';
 import { FEATURED_MARKETS_JSON_URL } from '../utils/constant';
+import { MarketsMap } from './useMarketsMapInterface';
 
-export type MarketsMap = {
-  markets?: {
-    [index: string]: {
-      name: string;
-      link: string;
-    };
-  };
-  tokens?: {
-    [key in ChainId]?: {
-      [index: string]: {
-        symbol: string;
-        logo: string;
-      };
-    };
-  };
-  tokenMarkets?: {
-    [key in ChainId]?: {
-      [key in ChainId]?: {
-        [index: string]: {
-          symbol: string;
-          logo: string;
-          markets: string[];
-        };
-      };
-    };
-  };
-};
 
 const useMarketsMap = (shouldFire: boolean): DataWrapper<MarketsMap> => {
   const marketsMap = useSelector(selectMarketsMap);

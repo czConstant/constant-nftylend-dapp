@@ -12,7 +12,7 @@ import {
   CHAIN_ID_POLYGON,
   CHAIN_ID_SOLANA,
   CHAIN_ID_OASIS,
-} from '../../utils/wormhole_esm';
+} from '../../utils/wormhole';
 import avaxIcon from '../../icons/avax.svg';
 import bscIcon from '../../icons/bsc.svg';
 import ethIcon from '../../icons/eth.svg';

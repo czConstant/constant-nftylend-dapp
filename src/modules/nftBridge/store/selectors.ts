@@ -1,4 +1,4 @@
-import { CHAIN_ID_SOLANA, isEVMChain } from '../utils/wormhole_esm';
+import { CHAIN_ID_SOLANA, isEVMChain } from '../utils/wormhole';
 import { ethers } from 'ethers';
 import { parseUnits } from 'ethers/lib/utils';
 import { RootState } from 'src/store';

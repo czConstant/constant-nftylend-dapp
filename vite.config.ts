@@ -12,7 +12,7 @@ export default ({ mode}) => {
     plugins: [
       alias(),
       react(),
-      // commonjs(),
+      commonjs(),
       // inject({ Buffer: ['buffer', 'Buffer'] }),
     ],
     resolve: {
@@ -32,9 +32,9 @@ export default ({ mode}) => {
       "__CLIENT__": true,
     },
     optimizeDeps: {
-      // include: [
-      //   'buffer',
-      // ]
+      exclude: [
+        // 'buffer',
+      ]
     },
     build: {
       outDir: `./dist${env.REACT_BASE_PATH}/`,

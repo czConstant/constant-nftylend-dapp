@@ -1,9 +1,9 @@
 //import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
   CHAIN_ID_SOLANA,
-  CHAIN_ID_TERRA,
+  // CHAIN_ID_TERRA,
   isEVMChain,
-} from '../../utils/wormhole_esm';
+} from '../../utils/wormhole';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useGetSourceParsedTokens from '../../hooks/useGetSourceParsedTokenAccounts';
@@ -78,7 +78,7 @@ export const TokenSelector = (props: TokenSelectorProps) => {
   //This is only for errors so bad that we shouldn't even mount the component
   const fatalError =
     isEVMChain(lookupChain) &&
-    lookupChain !== CHAIN_ID_TERRA &&
+    // lookupChain !== CHAIN_ID_TERRA &&
     maps?.tokenAccounts?.error; //Terra & ETH can proceed because it has advanced mode
 
   const content = fatalError ? (

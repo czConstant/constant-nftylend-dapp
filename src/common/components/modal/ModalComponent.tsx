@@ -4,22 +4,9 @@ import { Modal } from 'react-bootstrap';
 import { useAppDispatch } from 'src/store/hooks';
 import { closeModal } from 'src/store/modal';
 
+import { ModalComponentProps } from './ModalComponentInterface';
 import styles from './styles.module.scss';
 
-interface ModalProps {
-  dialogClassName?: string;
-  padding?: number;
-}
-
-export interface ModalComponentProps {
-  id: string;
-  render: Function;
-  title?: string | object;
-  className?: string;
-  actions?: object;
-  modalProps?: ModalProps;
-  onClose?: Function;
-}
 
 const ModalComponent = (props: ModalComponentProps) => {
   const { id, render, title, className, actions, modalProps, onClose } = props;

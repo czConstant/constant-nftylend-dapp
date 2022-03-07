@@ -10,7 +10,7 @@ import {
   WormholeWrappedInfo,
   getOriginalAssetEth as getOriginalAssetEthNFT,
   getOriginalAssetSol as getOriginalAssetSolNFT,
-} from '../utils/wormhole_esm';
+} from '../utils/wormhole';
 import { Connection } from '@solana/web3.js';
 // import { LCDClient } from '@terra-money/terra.js';
 import { useEffect } from 'react';
@@ -35,13 +35,8 @@ import {
   SOL_TOKEN_BRIDGE_ADDRESS,
   // TERRA_HOST,
 } from '../utils/constant';
+import { StateSafeWormholeWrappedInfo } from './useCheckIfWormholeWrappedInterface';
 
-export interface StateSafeWormholeWrappedInfo {
-  isWrapped: boolean;
-  chainId: ChainId;
-  assetAddress: string;
-  tokenId?: string;
-}
 
 const makeStateSafe = (
   info: WormholeWrappedInfo

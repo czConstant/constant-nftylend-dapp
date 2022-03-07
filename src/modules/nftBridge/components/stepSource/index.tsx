@@ -1,4 +1,4 @@
-import { isEVMChain } from '../../utils/wormhole_esm';
+import { isEVMChain } from '../../utils/wormhole';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useIsWalletReady from '../../hooks/useIsWalletReady';
