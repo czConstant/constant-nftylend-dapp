@@ -3,7 +3,7 @@ import {
   CHAIN_ID_SOLANA,
   CHAIN_ID_TERRA,
   isEVMChain,
-} from '../../utils/wormhole_cjs';
+} from '../../utils/wormhole_esm';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useGetSourceParsedTokens from '../../hooks/useGetSourceParsedTokenAccounts';

@@ -3,7 +3,7 @@ import {
   CHAIN_ID_SOLANA,
   // CHAIN_ID_TERRA,
   isEVMChain,
-} from '../utils/wormhole_cjs';
+} from '../utils/wormhole_esm';
 import EthereumSignerKey from './EthereumSignerKey';
 import SolanaWalletKey from './SolanaWalletKey';
 // import TerraWalletKey from './TerraWalletKey';

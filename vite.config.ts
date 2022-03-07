@@ -22,6 +22,9 @@ export default ({ mode}) => {
         fs: require.resolve('rollup-plugin-node-builtins'),
       }
     },
+    server: {
+      port: 3001,
+    },
     define: {
       "global": {},
       "process.env.NODE_DEBUG": JSON.stringify(""),

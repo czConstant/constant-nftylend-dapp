@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CHAIN_ID_AVAX,
   CHAIN_ID_BSC,
   CHAIN_ID_ETH,
@@ -9,17 +8,18 @@ import {
   CHAIN_ID_TERRA,
   CHAIN_ID_OASIS,
   isEVMChain,
-} from './wormhole_cjs';
+  ChainId,
+} from './wormhole_esm';
 import { clusterApiUrl } from '@solana/web3.js';
 import { getAddress } from 'ethers/lib/utils';
 import { APP_ENV } from 'src/common/constants/url';
-import avaxIcon from './icons/avax.svg';
-import bscIcon from './icons/bsc.svg';
-import ethIcon from './icons/eth.svg';
-import oasisIcon from './icons/oasis-network-rose-logo.svg';
-import polygonIcon from './icons/polygon.svg';
-import solanaIcon from './icons/solana.svg';
-import terraIcon from './icons/terra.svg';
+import avaxIcon from '../icons/avax.svg';
+import bscIcon from '../icons/bsc.svg';
+import ethIcon from '../icons/eth.svg';
+import oasisIcon from '../icons/oasis-network-rose-logo.svg';
+import polygonIcon from '../icons/polygon.svg';
+import solanaIcon from '../icons/solana.svg';
+import terraIcon from '../icons/terra.svg';
 
 export type Cluster = 'devnet' | 'testnet' | 'mainnet';
 export const CLUSTER: Cluster =

@@ -1,7 +1,6 @@
-import { CHAIN_ID_SOLANA, isEVMChain } from '../../utils/wormhole_cjs';
+import { isEVMChain } from '../../utils/wormhole_esm';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import useIsWalletReady from '../../hooks/useIsWalletReady';
 import { incrementStep, setSourceChain } from '../../store/nftSlice';
 import {
@@ -14,7 +13,7 @@ import {
 import { ChainInfo, CHAINS_WITH_NFT_SUPPORT } from '../../utils/constant';
 import ChainSelect from '../chainSelect';
 import KeyAndBalance from '../KeyAndBalance';
-import { TokenSelector } from '../TokenSelectors/SourceTokenSelector';
+import { TokenSelector } from '../nftSelector';
 
 import styles from './stepSource.module.scss';
 import { Button } from 'react-bootstrap';

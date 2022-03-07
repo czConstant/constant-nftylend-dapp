@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { StateSafeWormholeWrappedInfo } from '../hooks/useCheckIfWormholeWrapped';
 import { ForeignAssetInfo } from '../hooks/useFetchForeignAsset';
-import { ChainId, CHAIN_ID_ETH, CHAIN_ID_SOLANA } from '../utils/wormhole_cjs';
+import { ChainId, CHAIN_ID_ETH, CHAIN_ID_SOLANA } from '../utils/wormhole_esm';
 import {
   DataWrapper,
   errorDataWrapper,

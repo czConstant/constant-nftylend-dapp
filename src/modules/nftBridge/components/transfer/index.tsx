@@ -1,10 +1,8 @@
 import { Collapse } from 'react-bootstrap';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
-
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectNftBridge } from 'src/store/nftBridge';
 
 import useCheckIfWormholeWrapped from '../../hooks/useCheckIfWormholeWrapped';
 import useFetchTargetAsset from '../../hooks/useFetchTargetAsset';
@@ -16,18 +14,17 @@ import {
   selectNFTIsSendComplete,
   selectNFTIsSending,
 } from '../../store/selectors';
-import { CHAINS_WITH_NFT_SUPPORT } from '../../utils/consts';
-import Redeem from './Redeem';
-import RedeemPreview from './RedeemPreview';
-import Send from './Send';
-import SendPreview from './SendPreview';
-import Source from './Source';
-import SourcePreview from './SourcePreview';
-import Target from './Target';
-import TargetPreview from './TargetPreview';
+import { CHAINS_WITH_NFT_SUPPORT } from '../../utils/constant';
+// import Redeem from './Redeem';
+// import RedeemPreview from './RedeemPreview';
+// import Send from './Send';
+// import SendPreview from './SendPreview';
+import StepSource from '../stepSource';
+// import SourcePreview from './SourcePreview';
+// import Target from './Target';
+// import TargetPreview from './TargetPreview';
 
 import styles from './transfer.module.scss';
-import StepSource from '../stepSource';
 
 const STEPS = {
   source: 0,
@@ -37,12 +34,6 @@ const STEPS = {
 }
 
 const Transfer = () => {
-
-  const nftBridgeState = useAppSelector(selectNftBridge);
-  const { sourceChain, targetChain } = nftBridgeState;
-
-  const [currentStep,  setCurrentStep] = useState(STEPS.source);
-
   useCheckIfWormholeWrapped(true);
   useFetchTargetAsset(true);
   const dispatch = useAppDispatch();

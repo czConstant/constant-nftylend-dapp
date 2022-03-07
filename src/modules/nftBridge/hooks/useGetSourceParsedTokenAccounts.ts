@@ -11,7 +11,7 @@ import {
   isEVMChain,
   WSOL_ADDRESS,
   WSOL_DECIMALS,
-} from '../utils/wormhole_cjs';
+} from '../utils/wormhole_esm';
 import { ethers } from 'ethers';
 import { Dispatch } from '@reduxjs/toolkit';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';

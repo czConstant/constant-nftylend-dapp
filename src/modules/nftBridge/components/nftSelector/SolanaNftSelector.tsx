@@ -1,4 +1,4 @@
-import { CHAIN_ID_SOLANA } from '../../utils/wormhole_cjs';
+import { CHAIN_ID_SOLANA } from '../../utils/wormhole_esm';
 import { TokenInfo } from '@solana/spl-token-registry';
 import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';

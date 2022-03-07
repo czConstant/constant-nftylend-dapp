@@ -8,8 +8,6 @@ import {
   isEVMChain,
   uint8ArrayToHex,
   WormholeWrappedInfo,
-} from '../utils/wormhole_cjs';
-import {
   getOriginalAssetEth as getOriginalAssetEthNFT,
   getOriginalAssetSol as getOriginalAssetSolNFT,
 } from '../utils/wormhole_esm';
@@ -35,7 +33,7 @@ import {
   SOLANA_HOST,
   SOL_NFT_BRIDGE_ADDRESS,
   SOL_TOKEN_BRIDGE_ADDRESS,
-  TERRA_HOST,
+  // TERRA_HOST,
 } from '../utils/constant';
 
 export interface StateSafeWormholeWrappedInfo {

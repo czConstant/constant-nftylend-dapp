@@ -1,9 +1,9 @@
 import {
   ChainId,
   CHAIN_ID_SOLANA,
-  CHAIN_ID_TERRA,
+  // CHAIN_ID_TERRA,
   isEVMChain,
-} from '../utils/wormhole_cjs';
+} from '../utils/wormhole_esm';
 import { hexlify, hexStripZeros } from '@ethersproject/bytes';
 // import { useConnectedWallet } from '@terra-money/wallet-provider';
 import { useCallback, useMemo } from 'react';

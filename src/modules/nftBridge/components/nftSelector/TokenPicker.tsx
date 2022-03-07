@@ -1,4 +1,4 @@
-import { ChainId } from '@certusone/wormhole-sdk';
+import { ChainId } from '../../utils/wormhole_esm';
 import { BigNumber } from '@ethersproject/bignumber';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from 'react-bootstrap';
