@@ -1,11 +1,32 @@
 import React, { useMemo } from "react";
 import RandomAvatar from "./randomAvatar";
+import cx from "classnames";
+import {} from "react-content-loader";
+
+import homeStyles from "../home/styles.module.scss";
+import styles from "./styles.module.scss";
+import { LoanData } from "src/modules/nftLend/models/loan";
+import { CollectData } from "src/modules/nftLend/models/collection";
+import Loading from "src/common/components/loading";
+import { OnBoardingHeader } from "../home";
+
+// const LoadingHeader = () => {
+//   return
+// }
 
 interface LoansHeaderProps {
-    
+  dataLoan: LoanData[];
+  isLoading: boolean;
+  collection?: CollectData;
+  collections?: CollectData[];
 }
 
-const LoansHeader = ({ collection, isLoading, dataLoan }) => {
+const LoansHeader: React.FC<LoansHeaderProps> = ({
+  collection,
+  collections,
+  isLoading,
+  dataLoan,
+}) => {
   const attributes = useMemo(
     () => [
       {
@@ -26,9 +47,40 @@ const LoansHeader = ({ collection, isLoading, dataLoan }) => {
     []
   );
 
+  const renderHeaderContent = () => {
+    if (isLoading) {
+      return <Loading />;
+    } else if (collection) {
+      return (
+        <>
+          <RandomAvatar loans={dataLoan} />
+          <h4>{collection?.name}</h4>
+          <div className={styles.infoWrap}>
+            {attributes.map((att) => (
+              <div key={att.id}>
+                <div>{att.label}</div>
+                <div>
+                  {att.symbol}
+                  {collection?.[`${att.id}`]}
+                </div>
+              </div>
+            ))}
+          </div>
+          <p>{collection?.description}</p>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <OnBoardingHeader />
+        </>
+      );
+    }
+  };
+
   return (
-    <div>
-      <RandomAvatar images={dataLoan?.result} />
+    <div className={cx(homeStyles.headerWrapper, styles.headerWrapper)}>
+      {renderHeaderContent()}
     </div>
   );
 };
