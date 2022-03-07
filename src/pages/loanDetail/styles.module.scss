@@ -1,0 +1,176 @@
+.wrapper {
+  padding: 2rem 1rem;
+}
+
+.loadingWrap {
+  > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.headerContainer {
+  display: flex;
+  padding: 2rem 0px;
+  > div {
+    margin: 20px;
+    &:last-child {
+      flex: 1;
+      h4 {
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: 30px;
+        color: #fcfcfd;
+        letter-spacing: -0.3px;
+        line-height: 48px;
+      }
+      .infoAuthor {
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 14px;
+        color: #45b36b;
+        letter-spacing: 0;
+        line-height: 16px;
+      }
+      .infoPrice {
+        margin: 14px 0px;
+        background-color: #141416;
+        border-radius: 16px;
+        border: 1px solid #25272e;
+        padding: 15px 20px;
+        .infoPriceTags {
+          label {
+            transform: rotate(360deg);
+            font-size: 16px;
+            color: #777e90;
+            letter-spacing: 0;
+            line-height: 24px;
+            font-weight: 500;
+          }
+          img {
+            margin-left: 5px;
+          }
+        }
+
+        .infoPriceValue {
+          transform: rotate(360deg);
+          font-weight: bold;
+          font-size: 24px;
+          color: #fcfcfd;
+          letter-spacing: 0;
+          line-height: 32px;
+        }
+        .feeInfoWrap {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          .feeInfoTitle {
+            font-weight: 500;
+            font-size: 14px;
+            color: #777e90;
+            letter-spacing: 0;
+            line-height: 24px;
+          }
+          .feeInfoValue {
+            font-weight: 500;
+            font-size: 14px;
+            color: #fcfcfd;
+            letter-spacing: 0;
+            line-height: 24px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.itemMedia {
+  width: 468px;
+  height: 468px;
+}
+
+.tabContentDetailItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  div {
+    &:first-child {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #f8f7f8;
+    }
+    &:last-child {
+      font-size: 14px;
+      font-weight: bold;
+      color: #f8f7f8;
+    }
+  }
+}
+
+.tabContentAttrWrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+  .tabContentAttrItem {
+    background-color: #141416;
+    border-radius: 8px;
+    padding: 1rem;
+    label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #b4abba;
+    }
+    div {
+      font-size: 14px;
+      font-weight: bold;
+      color: #f8f7f8;
+    }
+  }
+}
+
+.groupOfferButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  .noteTerms {
+    font-size: 12px;
+    word-wrap: break-word;
+    color: var(--bs-gray);
+    text-align: left;
+    align-self: flex-start;
+    margin-bottom: 0.5rem;
+    margin-top: -10px;
+    a {
+      color: var(--bs-white);
+    }
+  }
+}
+
+.groupOfferButtons {
+  display: flex;
+  margin: 15px 0px;
+  width: 100%;
+  .btnConnect {
+    background: #3772ff;
+    font-weight: bold;
+    font-size: 16px;
+    color: #fcfcfd;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 16px;
+    border-radius: 90px;
+    height: 50px;
+    width: 100%;
+    &:not(:first-child) {
+      margin-left: 10px;
+    }
+    &:nth-child(2) {
+      background: transparent;
+      border: 1px solid #3772ff;
+      color: #3772ff;
+    }
+  }
+  .btnCancel {
+    background: var(--bs-danger);
+  }
+}

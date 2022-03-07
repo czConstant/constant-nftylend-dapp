@@ -12,3 +12,8 @@ export const shortCryptoAddress = (address: string = '', toLength: number) => {
   }
   return `${address?.substr(0, 8)}...${address?.substr(address?.length - 8)}`;
 };
+
+export function formatCurrencyByLocale(value = 0,  decimalNumber = 2, roundingMode = BigNumber.ROUND_DOWN) {
+  if (isNaN(value)) return 0;
+  return new BigNumber(value).decimalPlaces(decimalNumber, roundingMode).toFormat(decimalNumber);
+}
