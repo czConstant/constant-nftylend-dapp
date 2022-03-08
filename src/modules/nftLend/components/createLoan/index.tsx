@@ -74,7 +74,6 @@ const CreateLoan = (props: CreateLoanProps) => {
     if (!receiveToken) return;
     const transaction = new CreateLoanTransaction(connection, wallet);
     try {
-      dispatch(showLoadingOverlay());
       setSubmitting(true);
       const res = await transaction.run(
         nftMint,
@@ -95,7 +94,6 @@ const CreateLoan = (props: CreateLoanProps) => {
     } catch (err: any) {
       toastError(err.message || err);
     } finally {
-      dispatch(hideLoadingOverlay());
       setSubmitting(false);
     }
   };

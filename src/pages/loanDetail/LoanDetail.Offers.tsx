@@ -1,6 +1,5 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import React from "react";
-import { useDispatch } from "react-redux";
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
@@ -24,6 +23,7 @@ import {
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import AcceptOfferTransaction from "src/modules/nftLend/transactions/acceptOffer";
 import { requestReload } from "src/store/nftLend";
+import { useAppDispatch } from "src/store/hooks";
 
 export const OfferTableHeader = () => (
   <div className={styles.tbHeader}>
@@ -81,7 +81,7 @@ export const OfferTableBody = ({
 const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   const { connection } = useConnection();
   const wallet = useWallet();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const offers = loan?.new_loan?.offers || [];
 

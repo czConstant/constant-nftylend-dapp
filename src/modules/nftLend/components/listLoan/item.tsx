@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
-import { useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import moment from 'moment-timezone';
 import BigNumber from 'bignumber.js';
 import { useNavigate } from 'react-router-dom';
 
-import CancelLoanTransaction from '../../transactions/cancelLoan';
-import PayLoanTransaction from '../../transactions/payLoan';
+import { useAppDispatch } from 'src/store/hooks';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { requestReload } from 'src/store/nftLend';
 import { APP_URL } from 'src/common/constants/url';
 import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
 import { calculateTotalPay, getAssociatedAccount, getLinkSolScanTx } from 'src/common/utils/solana';
+
+import CancelLoanTransaction from '../../transactions/cancelLoan';
+import PayLoanTransaction from '../../transactions/payLoan';
 
 // import { STATUS } from '../../listLoan/leftSidebar';
 import styles from './styles.module.scss';
@@ -26,7 +27,7 @@ const Item = (props: ItemProps) => {
   const { loan } = props;
   const navigate = useNavigate();
   const { connection } = useConnection();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const wallet = useWallet();
 
   const [open, setOpen] = useState(false);

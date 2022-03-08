@@ -3,7 +3,6 @@ import cx from "classnames";
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
-import { useDispatch } from "react-redux";
 import { getLoansByAssetId } from "src/modules/nftLend/api";
 import {
   getLinkSolScanAccount,

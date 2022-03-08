@@ -26,8 +26,8 @@ const slice = createSlice({
       state.message = action.payload.message;
       state.timeout = action.payload.timeout;
     },
-    hideLoadingOverlay: (state) => {
-      state = initialState;
+    hideLoadingOverlay: (state, action) => {
+      state.show = false;
     },
   },
 });
