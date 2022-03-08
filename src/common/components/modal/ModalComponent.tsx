@@ -1,13 +1,14 @@
-import cx from 'classnames';
-import { Modal } from 'react-bootstrap';
+import cx from "classnames";
+import { Modal } from "react-bootstrap";
 
-import { useAppDispatch } from 'src/store/hooks';
-import { closeModal } from 'src/store/modal';
+import { useAppDispatch } from "src/store/hooks";
+import { closeModal } from "src/store/modal";
 
-import styles from './styles.module.scss';
+import styles from "./styles.module.scss";
 
 interface ModalProps {
   dialogClassName?: string;
+  contentClassName?: string;
   padding?: number;
 }
 
@@ -19,11 +20,12 @@ export interface ModalComponentProps {
   actions?: object;
   modalProps?: ModalProps;
   onClose?: Function;
-  theme?: 'light' | 'dark';
+  theme?: "light" | "dark";
 }
 
 const ModalComponent = (props: ModalComponentProps) => {
-  const { id, render, title, className, actions, modalProps, onClose, theme } = props;
+  const { id, render, title, className, actions, modalProps, onClose, theme } =
+    props;
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -46,7 +48,7 @@ const ModalComponent = (props: ModalComponentProps) => {
       onHide={handleClose}
       bsclass={className}
       dialogClassName={modalProps?.dialogClassName}
-      contentClassName={theme === 'dark' && styles.modalDark}
+      contentClassName={cx([modalProps?.contentClassName, cx(theme === "dark" && styles.modalDark)])}
       {...modalProps}
     >
       {renderHeader()}
@@ -55,6 +57,6 @@ const ModalComponent = (props: ModalComponentProps) => {
       </Modal.Body>
     </Modal>
   );
-}
+};
 
 export default ModalComponent;

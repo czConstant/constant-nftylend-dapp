@@ -8,6 +8,7 @@ import AppIcon from 'src/common/components/appIcon';
 import { APP_URL } from 'src/common/constants/url';
 
 import styles from './styles.module.scss';
+import ButtonCreateLoan from '../buttonCreateLoan';
 
 const Header = () => {
   const location = useLocation();
@@ -35,6 +36,7 @@ const Header = () => {
               Listing Loans
             </Link>
             {publicKey && <Link to={APP_URL.NFT_LENDING_MY_NFT} className={cx(location.pathname === APP_URL.NFT_LENDING_MY_NFT && styles.active)}>My Assets</Link>}
+            <ButtonCreateLoan />
           </div>
         </div>
         <div className={styles.right}>

@@ -19,6 +19,7 @@ import ListOfferReceive from 'src/modules/nftLend/components/listOfferReceive';
 
 import styles from './styles.module.scss';
 import bgCover from './images/bg_cover.png';
+import { toastSuccess } from 'src/common/services/toaster';
 
 const TABS = {
   owned: 'My Assets',
@@ -62,7 +63,7 @@ const MyAsset = () => {
                 <div className={styles.addressWrap}>
                   <a target='_blank' href={`${getLinkSolScanAccount(publicKey.toString())}`}>{shortCryptoAddress(publicKey?.toString(), 10)}</a>
                   <CopyToClipboard
-                    onCopy={() => alert('Copied address!')}
+                    onCopy={() => toastSuccess('Copied address!')}
                     text={publicKey?.toString()}
                   >
                     <i className="far fa-copy" />
