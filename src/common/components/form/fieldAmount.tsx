@@ -1,13 +1,15 @@
-import React, { ReactEventHandler, useRef, useState } from 'react';
-import cx from 'classnames';
-import FormGroup from 'react-bootstrap/FormGroup';
-import InputGroup from 'react-bootstrap/InputGroup';
+import React, { ReactEventHandler, useRef, useState } from "react";
+import cx from "classnames";
+import FormGroup from "react-bootstrap/FormGroup";
+import InputGroup from "react-bootstrap/InputGroup";
 
 // import ErrorOverlay from 'src/components/errorOverlay';
 // import { useTextWidth } from '@tag0/use-text-width';
 
-import IconInfinity from './images/infinity.svg';
-import styles from './styles.module.scss';
+import IconInfinity from "./images/infinity.svg";
+import styles from "./styles.module.scss";
+import ErrorOverlay from "../errorOverlay";
+import { Overlay, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 interface FieldAmountProps {
   input?: any;
@@ -21,7 +23,13 @@ interface FieldAmountProps {
 
 const FieldAmount = (props: FieldAmountProps) => {
   const {
-    input, meta, label, prependComp, appendComp, onClickMax, placeholder='0.0',
+    input,
+    meta,
+    label,
+    prependComp,
+    appendComp,
+    onClickMax,
+    placeholder = "0.0",
     // disabledInput, errorPlacement, zIndex, anchorAppend,
     ...restProps
   } = props;
@@ -42,9 +50,11 @@ const FieldAmount = (props: FieldAmountProps) => {
   // }
   // const appendPosition = width + 15;
 
+  const isError = meta.error && meta.touched;
+
   return (
-    <FormGroup className={styles.formGroup}>
-      <InputGroup className={styles.inputGroup}>
+    <FormGroup ref={target} className={styles.formGroup}>
+      <InputGroup className={cx(styles.inputGroup, isError && styles.borderDanger)}>
         {prependComp && (
           <div className={cx(styles.groupPrepend)}>
             <InputGroup.Text>{prependComp}</InputGroup.Text>
@@ -53,7 +63,7 @@ const FieldAmount = (props: FieldAmountProps) => {
         <div className={styles.formControl} ref={target}>
           <input
             placeholder={placeholder}
-            value={Number.parseFloat(value) || ''}
+            value={Number.parseFloat(value) || ""}
             maxLength={12}
             onFocus={() => onFocus()}
             onBlur={(e) => {
@@ -76,13 +86,15 @@ const FieldAmount = (props: FieldAmountProps) => {
           </div>
         )}
       </InputGroup>
-      {/* <ErrorOverlay
-        placement={errorPlacement}
-        target={target}
-        shouldShowError={shouldShowError}
-        error={error}
-        zIndex={zIndex}
-      /> */}
+      {isError && (
+        <Overlay target={target.current} show={true} placement="bottom">
+          {(props) => (
+            <Tooltip className={styles.errorMessageWrap} id={error} {...props}>
+              {error}
+            </Tooltip>
+          )}
+        </Overlay>
+      )}
     </FormGroup>
   );
 };

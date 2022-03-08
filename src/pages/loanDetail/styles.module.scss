@@ -1,3 +1,7 @@
+:root {
+  --loan-detail-media-width: calc(calc(1280px / 2) - 80px);
+}
+
 .wrapper {
   padding: 2rem 1rem;
 }
@@ -11,12 +15,14 @@
 }
 
 .headerContainer {
-  display: flex;
+  display: grid;
   padding: 2rem 0px;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2rem;
   > div {
-    margin: 20px;
+    // margin: 20px;
     &:last-child {
-      flex: 1;
+      // flex: 1;
       h4 {
         margin-bottom: 5px;
         font-weight: bold;
@@ -93,8 +99,8 @@
 }
 
 .itemMedia {
-  width: 468px;
-  height: 468px;
+  // width: var(--loan-detail-media-width);
+  // height: var(--loan-detail-media-width);
 }
 
 .tabContentDetailItem {
@@ -180,5 +186,41 @@
   }
   .btnCancel {
     background: var(--bs-danger);
+  }
+}
+
+.makeOfferFormWrapper {
+  display: flex;
+  flex-direction: column;
+  margin: -1rem;
+  padding: 2rem;
+  form {
+    width: 100%;
+  }
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #383838;
+    text-align: center;
+  }
+  .submitButton {
+    margin-top: 10px;
+    font-size: 16px;
+    height: 40px;
+    width: 100%;
+    background-color: #3772ff;
+    border: 1px solid #3772ff !important;
+    color: #ffffff !important;
+    filter: none;
+    font-weight: 700;
+  }
+  .actions {
+    display: flex;
+    button {
+      border-radius: 8px;
+      &:not(:first-child) {
+        margin-left: 5px;
+      }
+    }
   }
 }

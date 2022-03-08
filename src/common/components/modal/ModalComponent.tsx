@@ -19,10 +19,11 @@ export interface ModalComponentProps {
   actions?: object;
   modalProps?: ModalProps;
   onClose?: Function;
+  theme?: 'light' | 'dark';
 }
 
 const ModalComponent = (props: ModalComponentProps) => {
-  const { id, render, title, className, actions, modalProps, onClose } = props;
+  const { id, render, title, className, actions, modalProps, onClose, theme } = props;
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -45,6 +46,7 @@ const ModalComponent = (props: ModalComponentProps) => {
       onHide={handleClose}
       bsclass={className}
       dialogClassName={modalProps?.dialogClassName}
+      contentClassName={theme === 'dark' && styles.modalDark}
       {...modalProps}
     >
       {renderHeader()}

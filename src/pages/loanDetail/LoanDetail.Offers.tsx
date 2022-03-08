@@ -8,7 +8,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   const wallet = useWallet();
   const dispatch = useDispatch();
   
-  const offers = loan?.new_loan.offers || [];
+  const offers = loan?.new_loan?.offers || [];
 
   return <div>LoanDetailOffers</div>;
 };
