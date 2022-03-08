@@ -54,7 +54,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
             target="_blank"
             href={`${
               APP_URL.NFT_LENDING_LIST_LOAN
-            }?collection_id=${extraData?.collection?.family?.toLowerCase()}`}
+            }?collection_slug=${extraData?.collection?.family?.toLowerCase()}`}
           >
             {extraData?.collection?.name}
           </a>

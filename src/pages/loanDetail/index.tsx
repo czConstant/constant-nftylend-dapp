@@ -51,7 +51,7 @@ const LoanDetail = () => {
       const result: LoanDataDetail = response.result;
 
       defaultBreadCrumbs.current[1].label = result.collection.name;
-      defaultBreadCrumbs.current[1].link = result.collection.seo_url;
+      defaultBreadCrumbs.current[1].link = `${APP_URL.NFT_LENDING_LIST_LOAN}/?collection_slug=${result.collection.seo_url}`;
       defaultBreadCrumbs.current[2].label = result.name;
 
       setBreadCrumbs(defaultBreadCrumbs.current);

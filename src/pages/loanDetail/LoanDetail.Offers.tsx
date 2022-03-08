@@ -188,9 +188,10 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
 
   return (
     <SectionCollapse
-      label="Offers"
+      label={offers.length === 0 ? "Not yet offer" : "Offers"}
       content={renderOfferContent()}
-      selected={true}
+      selected={offers.length > 0}
+      disabled={offers.length === 0}
     />
   );
 };
