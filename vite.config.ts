@@ -36,10 +36,10 @@ export default ({ mode}) => {
     build: {
       outDir: `./dist${env.REACT_BASE_PATH}/`,
       assetsDir: `.${env.REACT_BASE_PATH}/assets/`,
-      minify: false,
       rollupOptions: {
         output: {
           manualChunks(id) {
+            if (id.includes('react-custom-scrollbars-2')) return 'react-custom-scrollbars-2';
             if (id.includes('moment')) return 'moment';
             if (id.includes('lodash')) return 'lodash';
             if (id.includes('bignumber')) return 'bignumber.js';
