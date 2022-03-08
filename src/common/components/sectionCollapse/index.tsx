@@ -19,12 +19,6 @@ const SectionCollapse: React.FC<SectionCollapseProps> = ({
   content,
   disabled,
 }) => {
-  const [open, setOpen] = useState<boolean>(selected || false);
-  const toggleOpen = () => {
-    onToggle && onToggle(!open);
-    setOpen(!open);
-  };
-
   return (
     <Accordion alwaysOpen={selected} className={styles.sectionWrap}>
       <Accordion.Header>{label}</Accordion.Header>

@@ -12,6 +12,7 @@ import icPriceTag from "./assets/ic_price_tag.svg";
 
 import styles from "./styles.module.scss";
 import LoanDetailButtons from "./LoanDetail.Buttons";
+import LoanDetailOffers from "./LoanDetail.Offers";
 
 export interface LoanDetailProps {
   loan?: LoanDataDetail;
@@ -39,19 +40,6 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
           }}
           className={styles.itemMedia}
           showOriginal={true}
-        />
-        <SectionCollapse
-          label="Attributes"
-          content={<LoanDetailAttr loan={loan} />}
-          selected={true}
-        />
-        <SectionCollapse
-          label="Detail"
-          content={<LoanDetailInfo loan={loan} />}
-        />
-        <SectionCollapse
-          label="Description"
-          content={loan?.collection?.description}
         />
       </div>
       <div>
@@ -98,6 +86,20 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
             </div>
           </div>
         )}
+        <SectionCollapse
+          label="Attributes"
+          content={<LoanDetailAttr loan={loan} />}
+          selected={true}
+        />
+        <SectionCollapse
+          label="Detail"
+          content={<LoanDetailInfo loan={loan} />}
+        />
+        <SectionCollapse
+          label="Description"
+          content={loan?.collection?.description}
+        />
+        <LoanDetailOffers loan={loan} />
       </div>
     </div>
   );
