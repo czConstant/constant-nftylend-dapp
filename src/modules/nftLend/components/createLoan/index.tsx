@@ -95,6 +95,9 @@ const CreateLoan = (props: CreateLoanProps) => {
     try {
       setSubmitting(true);
 
+      console.log(values);
+      
+
       const res = await transaction.run(
         nftMint,
         nftAssociated,
@@ -103,7 +106,7 @@ const CreateLoan = (props: CreateLoanProps) => {
         {
           principal: values.amount * 10 ** receiveToken.decimals,
           rate: values.rate * 100,
-          duration: values.duration?.id * 86400,
+          duration: parseFloat(values.duration?.id || values.duration) * 86400,
         }
       );
 

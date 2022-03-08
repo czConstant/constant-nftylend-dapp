@@ -5,7 +5,10 @@ import Loading from "src/common/components/loading";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 import cx from "classnames";
-import { getAssociatedAccount, getLinkSolScanTx } from "src/common/utils/solana";
+import {
+  getAssociatedAccount,
+  getLinkSolScanTx,
+} from "src/common/utils/solana";
 import CancelLoanTransaction from "src/modules/nftLend/transactions/cancelLoan";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import OrderNowTransaction from "src/modules/nftLend/transactions/orderNow";
@@ -14,8 +17,11 @@ import LoanDetailMakeOffer from "./LoanDetail.MakeOffer";
 import ButtonSolWallet from "src/common/components/buttonSolWallet";
 import { useAppDispatch } from "src/store/hooks";
 import { requestReload } from "src/store/nftLend";
+import { useNavigate } from "react-router-dom";
+import { APP_URL } from "src/common/constants/url";
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
+  const navigate = useNavigate();
   const { connection } = useConnection();
   const wallet = useWallet();
   const dispatch = useAppDispatch();
@@ -93,7 +99,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
             </a>
           </>
         );
-        dispatch(requestReload());
+        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=offer_made`);
       }
     } catch (err) {
       toastError(err?.message);
@@ -131,7 +137,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
             </a>
           </>
         );
-        dispatch(requestReload());
+        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=my_assets`);
       }
     } catch (err) {
       toastError(err?.message || err);

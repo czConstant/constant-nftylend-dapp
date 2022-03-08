@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Field, Form } from "react-final-form";
 import FieldAmount from "src/common/components/form/fieldAmount";
+import FieldDropdown from "src/common/components/form/fieldDropdown";
 import InputWrapper from "src/common/components/form/inputWrapper";
 import Loading from "src/common/components/loading";
 import { toastError, toastSuccess } from "src/common/services/toaster";
@@ -11,8 +12,10 @@ import {
   getAssociatedAccount,
   getLinkSolScanTx,
 } from "src/common/utils/solana";
+import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import MakeOfferTransaction from "src/modules/nftLend/transactions/makeOffer";
 import { useAppDispatch } from "src/store/hooks";
+import { requestReload } from "src/store/nftLend";
 import styles from "./styles.module.scss";
 
 const CreateOfferForm = ({ onSubmit, loan, submitting }) => {
@@ -29,11 +32,14 @@ const CreateOfferForm = ({ onSubmit, loan, submitting }) => {
       </InputWrapper>
       <InputWrapper label="Loan duration" theme="dark">
         <Field
-          validate={required}
           name="duration"
-          children={FieldAmount}
           placeholder="0"
           appendComp="days"
+          children={FieldDropdown}
+          list={LOAN_DURATION}
+          valueField="id"
+          alignMenu="right"
+          validate={required}
         />
       </InputWrapper>
       <InputWrapper label="Loan interest" theme="dark">
@@ -67,7 +73,10 @@ const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
   const onSubmit = async (values: any) => {
     try {
       setSubmitting(true);
-      const tokenAssociated = await getAssociatedAccount(wallet?.publicKey?.toString(), sendTokenMint);
+      const tokenAssociated = await getAssociatedAccount(
+        wallet?.publicKey?.toString(),
+        sendTokenMint
+      );
       if (!tokenAssociated) return;
       const transaction = new MakeOfferTransaction(connection, wallet);
       const res = await transaction.run(
@@ -77,8 +86,8 @@ const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
         loan.new_loan.data_loan_address,
         values.amount * 10 ** decimals,
         values.rate * 100,
-        values.duration * 86400,
-        Math.floor(Date.now() / 1000) + 7 * 86400,
+        (values.duration?.id || values.duration) * 86400,
+        Math.floor(Date.now() / 1000) + 7 * 86400
       );
 
       if (res.txHash) {
@@ -111,7 +120,9 @@ const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
         initialValues={{
           amount: loan.new_loan.principal_amount,
           rate: loan.new_loan.interest_rate * 100,
-          duration: Math.ceil(loan.new_loan.duration / 86400),
+          duration: LOAN_DURATION.find(
+            (v) => v.id === Math.ceil(loan.new_loan.duration / 86400)
+          ),
         }}
       >
         {({ handleSubmit }) => (
