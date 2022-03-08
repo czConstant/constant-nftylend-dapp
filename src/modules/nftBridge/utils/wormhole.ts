@@ -23,7 +23,7 @@ import {
   getOriginalAssetEth,
   getOriginalAssetSol,
   WormholeWrappedInfo,
-} from '@certusone/wormhole-sdk/lib/esm/token_bridge';
+} from '@certusone/wormhole-sdk/lib/cjs/token_bridge';
 
 import {
   getOriginalAssetEth as getOriginalAssetEthNFT,
