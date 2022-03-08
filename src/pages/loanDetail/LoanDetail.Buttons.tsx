@@ -53,7 +53,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
           />
         ),
         title: "Make Offer",
-        theme: 'dark'
+        theme: "dark",
       })
     );
   };
@@ -83,27 +83,22 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
         Number(loan.new_loan.principal_amount) * 10 ** decimals
       );
       if (res.txHash) {
-        dispatch(
-          toastSuccess({
-            message: (
-              <>
-                Make offer successfully.{" "}
-                <a
-                  target="_blank"
-                  href={getLinkSolScanTx(res.txHash)}
-                  className="blue"
-                >
-                  View transaction
-                </a>
-              </>
-            ),
-            type: "success",
-          })
+        toastSuccess(
+          <>
+            Make offer successfully.{" "}
+            <a
+              target="_blank"
+              href={getLinkSolScanTx(res.txHash)}
+              className="blue"
+            >
+              View transaction
+            </a>
+          </>
         );
         // dispatch(requestReload());
       }
     } catch (err) {
-      dispatch(toastError({ error: err }));
+      toastError(err);
     } finally {
       setSubmitting(false);
       setOrderNow(false);
@@ -126,28 +121,22 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
         loan?.new_loan?.data_asset_address
       );
       if (res?.txHash) {
-        dispatch(
-          toastSuccess({
-            message: (
-              <>
-                Cancel loan successfully.{" "}
-                <a
-                  target="_blank"
-                  href={getLinkSolScanTx(res.txHash)}
-                  className="blue"
-                >
-                  View transaction
-                </a>
-              </>
-            ),
-            type: "success",
-          })
+        toastSuccess(
+          <>
+            Cancel loan successfully.{" "}
+            <a
+              target="_blank"
+              href={getLinkSolScanTx(res.txHash)}
+              className="blue"
+            >
+              View transaction
+            </a>
+          </>
         );
         // dispatch(requestReload());
       }
     } catch (err) {
-      console.log("err0-----", err);
-      dispatch(toastError({ error: err }));
+      toastError(err);
     } finally {
       setSubmitting(false);
       setCanceling(false);

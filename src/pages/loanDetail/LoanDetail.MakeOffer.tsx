@@ -88,31 +88,25 @@ const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
         values.rate * 100,
         values.duration * 86400
       );
-      console.log(res.txHash);
-      
+
       if (res.txHash) {
-        toastSuccess({
-          message: (
-            <>
-              Cancel loan successfully.{" "}
-              <a
-                target="_blank"
-                href={getLinkSolScanTx(res.txHash)}
-                className="blue"
-              >
-                View transaction
-              </a>
-            </>
-          ),
-          type: "success",
-        });
+        toastSuccess(
+          <>
+            Cancel loan successfully.{" "}
+            <a
+              target="_blank"
+              href={getLinkSolScanTx(res.txHash)}
+              className="blue"
+            >
+              View transaction
+            </a>
+          </>
+        );
         // dispatch(requestReload());
         onClose();
       }
     } catch (error) {
-      console.log("error", error);
-
-      toastError({ error });
+      toastError(error);
     } finally {
       setSubmitting(false);
     }
