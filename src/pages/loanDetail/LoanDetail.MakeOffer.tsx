@@ -2,7 +2,6 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Field, Form } from "react-final-form";
-import { useDispatch } from "react-redux";
 import FieldAmount from "src/common/components/form/fieldAmount";
 import InputWrapper from "src/common/components/form/inputWrapper";
 import Loading from "src/common/components/loading";
@@ -13,6 +12,7 @@ import {
   getLinkSolScanTx,
 } from "src/common/utils/solana";
 import MakeOfferTransaction from "src/modules/nftLend/transactions/makeOffer";
+import { useAppDispatch } from "src/store/hooks";
 import styles from "./styles.module.scss";
 
 const CreateOfferForm = ({ onSubmit, loan, submitting }) => {
@@ -57,31 +57,22 @@ const CreateOfferForm = ({ onSubmit, loan, submitting }) => {
 };
 
 const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
-  const dispatch = useDispatch();
-  const [sendTokenAssociated, setSendTokenAssociated] = useState(null);
+  const dispatch = useAppDispatch();
   const [submitting, setSubmitting] = useState(false);
 
   const sendTokenMint = loan.new_loan.currency.contract_address;
   const sendTokenSymbol = loan.new_loan.currency.symbol;
   const decimals = loan.new_loan.currency.decimals;
 
-  useEffect(() => {
-    getAssociatedAccount(wallet?.publicKey?.toString(), sendTokenMint).then(
-      (res) => {
-        setSendTokenAssociated(res);
-      }
-    );
-  }, [loan]);
-
   const onSubmit = async (values: any) => {
-    console.log("values", values);
-
     try {
       setSubmitting(true);
+      const tokenAssociated = await getAssociatedAccount(wallet?.publicKey?.toString(), sendTokenMint);
+      if (!tokenAssociated) return;
       const transaction = new MakeOfferTransaction(connection, wallet);
       const res = await transaction.run(
         sendTokenMint,
-        sendTokenAssociated,
+        tokenAssociated,
         loan.new_loan.owner,
         loan.new_loan.data_loan_address,
         values.amount * 10 ** decimals,
@@ -92,7 +83,7 @@ const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
       if (res.txHash) {
         toastSuccess(
           <>
-            Cancel loan successfully.{" "}
+            Make offer successfully.{" "}
             <a
               target="_blank"
               href={getLinkSolScanTx(res.txHash)}
@@ -105,8 +96,8 @@ const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
         // dispatch(requestReload());
         onClose();
       }
-    } catch (error) {
-      toastError(error);
+    } catch (error: any) {
+      toastError(error?.message || error);
     } finally {
       setSubmitting(false);
     }

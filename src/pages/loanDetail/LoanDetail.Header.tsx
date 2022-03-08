@@ -87,7 +87,7 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
                 </div>
               </div>
               <div>
-                <div className={styles.feeInfoTitle}>Terms rate</div>
+                <div className={styles.feeInfoTitle}>Terms</div>
                 <div className={styles.feeInfoValue}>
                   {new BigNumber(loan?.new_loan?.duration)
                     .dividedBy(86400)

@@ -60,9 +60,9 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
   };
 
   const renderMedia = (mediaType?: string) => {
-    if (!mediaType) return null;
+    // if (!mediaType) return null;
     let media = null;
-    if (mediaTypes.video.includes(mediaType)) {
+    if (mediaTypes.video.includes(mediaType || '')) {
       media = (
         <video
           muted
