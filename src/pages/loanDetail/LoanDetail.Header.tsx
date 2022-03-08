@@ -99,7 +99,6 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
           label="Description"
           content={loan?.collection?.description}
         />
-        <LoanDetailOffers loan={loan} />
       </div>
     </div>
   );
