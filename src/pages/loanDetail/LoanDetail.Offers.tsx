@@ -86,7 +86,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   const offers = loan?.new_loan?.offers || [];
 
   const onCancel = async (offer) => {
-    const currencyMint = detail?.new_loan?.currency?.contract_address;
+    const currencyMint = offer?.new_loan?.currency?.contract_address;
     const currencyAssociated = await getAssociatedAccount(
       wallet.publicKey.toString(),
       currencyMint
@@ -122,14 +122,14 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   };
 
   const onAccept = async (offer) => {
-    const currencyMint = detail?.new_loan?.currency?.contract_address;
+    const currencyMint = offer?.new_loan?.currency?.contract_address;
     const currencyAssociated = await getAssociatedAccount(
       wallet.publicKey.toString(),
       currencyMint
     );
     const principal =
-      Number(detail.new_loan.principal_amount) *
-      10 ** detail.new_loan.currency.decimals;
+      Number(offer.new_loan.principal_amount) *
+      10 ** offer.new_loan.currency.decimals;
 
     const transaction = new AcceptOfferTransaction(connection, wallet);
     try {
@@ -138,10 +138,10 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         currencyAssociated,
         currencyMint,
         {
-          id: detail.new_loan.data_loan_address,
+          id: offer.new_loan.data_loan_address,
           principal,
-          duration: detail.new_loan.duration,
-          rate: detail.new_loan.interest_rate * 10000,
+          duration: offer.new_loan.duration,
+          rate: offer.new_loan.interest_rate * 10000,
         },
         {
           id: offer.data_offer_address,

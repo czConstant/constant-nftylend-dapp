@@ -16,6 +16,7 @@ import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
 import LoanDetailHeader from "./LoanDetail.Header";
 import LoanDetailActivity from "./LoanDetail.Activity";
 import LoanDetailSuggest from "./LoanDetail.Suggest";
+import LoanDetailOffers from "./LoanDetail.Offers";
 
 const LoanDetail = () => {
   const location = useLocation();
@@ -67,6 +68,7 @@ const LoanDetail = () => {
       <>
         <BreadCrumb items={breadCrumbs} />
         <LoanDetailHeader loan={detail} />
+        <LoanDetailOffers loan={detail} />
         <LoanDetailActivity loan={detail} />
         <LoanDetailSuggest loan={detail} />
       </>
