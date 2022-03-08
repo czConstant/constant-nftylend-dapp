@@ -6,7 +6,7 @@ import { SolletExtensionWalletAdapter, SolletWalletAdapter } from '@solana/walle
 import { Coin98WalletAdapter } from '@solana/wallet-adapter-coin98';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { ToastContainer } from 'react-toastify';
-import { Scrollbars } from 'react-custom-scrollbars-2';
+// import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import ModalManager from 'src/common/components/modal';
 import { getSolCluster } from 'src/common/utils/solana';
@@ -30,9 +30,9 @@ export default function App() {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <BrowserRouter>
-        <Scrollbars  style={{ width: `100vw`, height: `100vh` }}>
+        {/* <Scrollbars  style={{ width: `100vw`, height: `100vh` }}> */}
           <AppRouter />
-        </Scrollbars>
+        {/* </Scrollbars> */}
         </BrowserRouter>
         <ModalManager />
         <ToastContainer />
