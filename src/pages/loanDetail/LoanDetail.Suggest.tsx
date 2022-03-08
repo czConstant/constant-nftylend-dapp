@@ -39,12 +39,13 @@ const LoanDetailSuggest: React.FC<LoanDetailProps> = ({ loan }) => {
     );
   };
 
+  if (items.length === 0) return null;
+
   return (
     <SectionCollapse
       label="More from this collection"
       content={renderSuggestContent()}
       selected={true}
-      disabled={items.length === 0}
     />
   );
 };
