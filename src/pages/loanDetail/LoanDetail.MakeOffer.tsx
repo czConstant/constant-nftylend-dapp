@@ -77,7 +77,8 @@ const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
         loan.new_loan.data_loan_address,
         values.amount * 10 ** decimals,
         values.rate * 100,
-        values.duration * 86400
+        values.duration * 86400,
+        Math.floor(Date.now() / 1000) + 7 * 86400,
       );
 
       if (res.txHash) {
@@ -93,7 +94,7 @@ const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
             </a>
           </>
         );
-        // dispatch(requestReload());
+        dispatch(requestReload());
         onClose();
       }
     } catch (error: any) {

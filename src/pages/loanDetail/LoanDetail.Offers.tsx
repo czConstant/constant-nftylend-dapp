@@ -115,7 +115,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         dispatch(requestReload());
       }
     } catch (err) {
-      toastError(err);
+      toastError(err?.message || err);
     } finally {
       dispatch(hideLoadingOverlay());
     }
@@ -165,7 +165,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         dispatch(requestReload());
       }
     } catch (err) {
-      toastError(err);
+      toastError(err?.message || err);
     } finally {
       dispatch(hideLoadingOverlay());
     }

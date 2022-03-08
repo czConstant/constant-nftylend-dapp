@@ -20,6 +20,7 @@ export default class MakeOfferTransaction extends SolTransaction {
     principal: number,
     interest: number,
     duration: number,
+    expired: number,
   ) {
     if (!this.wallet.publicKey) return;
       
@@ -83,6 +84,7 @@ export default class MakeOfferTransaction extends SolTransaction {
         duration,
         interest,
         usd_mint_pubkey,
+        expired,
       );
 
       const tx = new Transaction({ feePayer: this.wallet.publicKey }).add(

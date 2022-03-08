@@ -31,7 +31,6 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
   }, [defaultTokenMint]);
 
   const onChangeReceiveToken = (value: any) => {
-    console.log("🚀 ~ file: form.tsx ~ line 32 ~ onChangeReceiveToken ~ value", value)
     setReceiveToken(value);
   };
 
