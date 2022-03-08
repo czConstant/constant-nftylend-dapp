@@ -1,6 +1,5 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import React from "react";
-import { useDispatch } from "react-redux";
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
@@ -24,6 +23,7 @@ import {
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import AcceptOfferTransaction from "src/modules/nftLend/transactions/acceptOffer";
 import { requestReload } from "src/store/nftLend";
+import { useAppDispatch } from "src/store/hooks";
 
 export const OfferTableHeader = () => (
   <div className={styles.tbHeader}>
@@ -81,12 +81,12 @@ export const OfferTableBody = ({
 const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   const { connection } = useConnection();
   const wallet = useWallet();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const offers = loan?.new_loan?.offers || [];
 
   const onCancel = async (offer) => {
-    const currencyMint = detail?.new_loan?.currency?.contract_address;
+    const currencyMint = offer?.new_loan?.currency?.contract_address;
     const currencyAssociated = await getAssociatedAccount(
       wallet.publicKey.toString(),
       currencyMint
@@ -122,14 +122,14 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   };
 
   const onAccept = async (offer) => {
-    const currencyMint = detail?.new_loan?.currency?.contract_address;
+    const currencyMint = offer?.new_loan?.currency?.contract_address;
     const currencyAssociated = await getAssociatedAccount(
       wallet.publicKey.toString(),
       currencyMint
     );
     const principal =
-      Number(detail.new_loan.principal_amount) *
-      10 ** detail.new_loan.currency.decimals;
+      Number(offer.new_loan.principal_amount) *
+      10 ** offer.new_loan.currency.decimals;
 
     const transaction = new AcceptOfferTransaction(connection, wallet);
     try {
@@ -138,10 +138,10 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         currencyAssociated,
         currencyMint,
         {
-          id: detail.new_loan.data_loan_address,
+          id: offer.new_loan.data_loan_address,
           principal,
-          duration: detail.new_loan.duration,
-          rate: detail.new_loan.interest_rate * 10000,
+          duration: offer.new_loan.duration,
+          rate: offer.new_loan.interest_rate * 10000,
         },
         {
           id: offer.data_offer_address,
@@ -188,9 +188,10 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
 
   return (
     <SectionCollapse
-      label="Offers"
+      label={offers.length === 0 ? "Not yet offer" : "Offers"}
       content={renderOfferContent()}
-      selected={true}
+      selected={offers.length > 0}
+      disabled={offers.length === 0}
     />
   );
 };

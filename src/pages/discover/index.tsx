@@ -45,7 +45,7 @@ const Home = () => {
               loading={loading}
               onPressItem={() =>
                 navigate(
-                  `${APP_URL.NFT_LENDING_LIST_LOAN}?collection_id=${collection?.seo_url}`,
+                  `${APP_URL.NFT_LENDING_LIST_LOAN}?collection_slug=${collection?.seo_url}`,
                 )
               }
             />

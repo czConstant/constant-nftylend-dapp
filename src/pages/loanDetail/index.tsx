@@ -16,6 +16,7 @@ import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
 import LoanDetailHeader from "./LoanDetail.Header";
 import LoanDetailActivity from "./LoanDetail.Activity";
 import LoanDetailSuggest from "./LoanDetail.Suggest";
+import LoanDetailOffers from "./LoanDetail.Offers";
 
 const LoanDetail = () => {
   const location = useLocation();
@@ -50,7 +51,7 @@ const LoanDetail = () => {
       const result: LoanDataDetail = response.result;
 
       defaultBreadCrumbs.current[1].label = result.collection.name;
-      defaultBreadCrumbs.current[1].link = result.collection.seo_url;
+      defaultBreadCrumbs.current[1].link = `${APP_URL.NFT_LENDING_LIST_LOAN}/?collection_slug=${result.collection.seo_url}`;
       defaultBreadCrumbs.current[2].label = result.name;
 
       setBreadCrumbs(defaultBreadCrumbs.current);
@@ -67,6 +68,7 @@ const LoanDetail = () => {
       <>
         <BreadCrumb items={breadCrumbs} />
         <LoanDetailHeader loan={detail} />
+        <LoanDetailOffers loan={detail} />
         <LoanDetailActivity loan={detail} />
         <LoanDetailSuggest loan={detail} />
       </>

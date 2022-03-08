@@ -6,6 +6,7 @@ import expandIco from "./assets/expand-arrow.svg";
 
 interface SectionCollapseProps {
   label: string;
+  id: string;
   selected?: boolean;
   content?: any;
   disabled?: boolean;
@@ -18,13 +19,22 @@ const SectionCollapse: React.FC<SectionCollapseProps> = ({
   onToggle,
   content,
   disabled,
+  id,
 }) => {
   return (
-    <Accordion alwaysOpen={selected} className={styles.sectionWrap}>
-      <Accordion.Header>{label}</Accordion.Header>
-      <Accordion.Body className={styles.tabContentWrap}>
-        <div className={styles.content}>{content}</div>
-      </Accordion.Body>
+    <Accordion
+      alwaysOpen={selected}
+      defaultActiveKey={selected && [id]}
+      className={styles.sectionWrap}
+    >
+      <Accordion.Item eventKey={id}>
+        <Accordion.Header className={disabled && styles.btnDisabled}>
+          {label}
+        </Accordion.Header>
+        <Accordion.Body className={styles.tabContentWrap}>
+          <div className={styles.content}>{content}</div>
+        </Accordion.Body>
+      </Accordion.Item>
     </Accordion>
   );
 };

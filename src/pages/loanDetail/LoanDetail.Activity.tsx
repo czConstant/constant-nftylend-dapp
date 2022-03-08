@@ -3,7 +3,6 @@ import cx from "classnames";
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
-import { useDispatch } from "react-redux";
 import { getLoansByAssetId } from "src/modules/nftLend/api";
 import {
   getLinkSolScanAccount,
@@ -55,7 +54,8 @@ const TableBody = ({ results = [], detail }) =>
           </a>
         </div>
         <div style={{ color: statusColor }}>
-          {LOAN_STATUS.find((v) => v.id === result?.status)?.activity || "Unknown"}
+          {LOAN_STATUS.find((v) => v.id === result?.status)?.activity ||
+            "Unknown"}
         </div>
         <div>{moment(result?.created_at).fromNow()}</div>
         <div>{`${formatCurrencyByLocale(
@@ -124,11 +124,7 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
   };
 
   return (
-    <SectionCollapse
-      label="Activities"
-      content={renderActivityContent()}
-      selected={true}
-    />
+    <SectionCollapse label="Activities" content={renderActivityContent()} />
   );
 };
 

@@ -46,7 +46,7 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
         <h4>{loan?.name}</h4>
         <div className={styles.infoAuthor}>
           <Link
-            to={`${APP_URL.NFT_LENDING_LIST_LOAN}?collection_id=${loan?.collection?.seo_url}`}
+            to={`${APP_URL.NFT_LENDING_LIST_LOAN}?collection_slug=${loan?.collection?.seo_url}`}
           >
             {loan?.collection?.name}
           </Link>
@@ -87,19 +87,18 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
           </div>
         )}
         <SectionCollapse
-          label="Attributes"
-          content={<LoanDetailAttr loan={loan} />}
+          label="Detail"
+          content={<LoanDetailInfo loan={loan} />}
           selected={true}
         />
         <SectionCollapse
-          label="Detail"
-          content={<LoanDetailInfo loan={loan} />}
+          label="Attributes"
+          content={<LoanDetailAttr loan={loan} />}
         />
         <SectionCollapse
           label="Description"
           content={loan?.collection?.description}
         />
-        <LoanDetailOffers loan={loan} />
       </div>
     </div>
   );

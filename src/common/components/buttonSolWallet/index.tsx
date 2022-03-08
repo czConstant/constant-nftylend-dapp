@@ -13,7 +13,7 @@ const ButtonSolWallet = (props: ButtonSolWalletProps) => {
   const { className } = props;
 
   return (
-    <WalletModalProvider>
+    <WalletModalProvider className={styles.modalContainer}>
       <WalletMultiButton className={cx(className, styles.button)} />
     </WalletModalProvider>
   );
