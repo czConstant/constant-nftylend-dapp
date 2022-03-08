@@ -5,22 +5,20 @@ import Loading from "src/common/components/loading";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 import cx from "classnames";
-import {
-  getAssociatedAccount,
-  getLinkSolScanTx,
-} from "src/common/utils/solana";
+import { getAssociatedAccount, getLinkSolScanTx } from "src/common/utils/solana";
 import CancelLoanTransaction from "src/modules/nftLend/transactions/cancelLoan";
 import { toastError, toastSuccess } from "src/common/services/toaster";
-import { useDispatch } from "react-redux";
 import OrderNowTransaction from "src/modules/nftLend/transactions/orderNow";
 import { closeModal, openModal } from "src/store/modal";
 import LoanDetailMakeOffer from "./LoanDetail.MakeOffer";
 import ButtonSolWallet from "src/common/components/buttonSolWallet";
+import { useAppDispatch } from "src/store/hooks";
+import { requestReload } from "src/store/nftLend";
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
   const { connection } = useConnection();
   const wallet = useWallet();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [canceling, setCanceling] = useState(false);
   const [orderNow, setOrderNow] = useState(false);
@@ -95,7 +93,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
             </a>
           </>
         );
-        // dispatch(requestReload());
+        dispatch(requestReload());
       }
     } catch (err) {
       toastError(err);
@@ -133,10 +131,10 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
             </a>
           </>
         );
-        // dispatch(requestReload());
+        dispatch(requestReload());
       }
     } catch (err) {
-      toastError(err);
+      toastError(err?.message || err);
     } finally {
       setSubmitting(false);
       setCanceling(false);

@@ -15,7 +15,7 @@ const initialState: LoadingOverlayState = {
 }
 
 const slice = createSlice({
-  name: 'modal',
+  name: 'loadingOverlay',
   initialState,
   reducers: {
     showLoadingOverlay: (state) => {

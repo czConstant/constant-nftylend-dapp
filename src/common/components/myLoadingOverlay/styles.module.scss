@@ -1,5 +1,7 @@
 .loadingOverlay {
   display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
   position: fixed; /* Stay in place */
   z-index: 999999; /* Sit on top */
   left: 0;
@@ -10,7 +12,7 @@
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
   
-  ._loading_overlay_content {
+  :global ._loading_overlay_content {
     margin-top: 20%;
     > div {
       margin-left: auto;
