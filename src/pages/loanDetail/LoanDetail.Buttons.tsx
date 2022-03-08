@@ -96,7 +96,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
         dispatch(requestReload());
       }
     } catch (err) {
-      toastError(err);
+      toastError(err?.message);
     } finally {
       setSubmitting(false);
       setOrderNow(false);

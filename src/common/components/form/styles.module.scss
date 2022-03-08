@@ -16,6 +16,22 @@
       padding: 0px 2px;
       background-color: var(--bs-gray-dark);
     }
+    :global .dropdown-menu.show {
+      background-color: var(--bs-gray);
+      a {
+        color: white !important;
+        &:hover {
+          background-color: var(--bs-gray-dark);
+        }
+        span {
+          color: var(--bs-gray-400);
+        }
+      }
+      input {
+        background-color: var(--bs-gray-dark)!important;
+        color: white !important;
+      }
+    }
   }
   .labelWrapper {
     position: absolute;
@@ -180,7 +196,7 @@
       font-size: 12px;
     }
     &::before {
-      border-bottom-color: #c22a32!important;
+      border-bottom-color: #c22a32 !important;
     }
   }
 }
