@@ -4,10 +4,10 @@ export const BASE_PATH = APP_ENV.REACT_BASE_PATH;
 
 export const APP_URL = {
   HOME: `${BASE_PATH}/`,
-  NFT_LENDING: `${BASE_PATH}/nft-lending`,
-  NFT_LENDING_MY_NFT: `${BASE_PATH}/nft-lending/my-nft`,
-  NFT_LENDING_LIST_LOAN: `${BASE_PATH}/nft-lending/loans`,
-  NFT_LENDING_DETAIL_LOAN: `${BASE_PATH}/nft-lending/loans/:id`,
+  NFT_LENDING: `${BASE_PATH}/discover`,
+  NFT_LENDING_MY_NFT: `${BASE_PATH}/my-nft`,
+  NFT_LENDING_LIST_LOAN: `${BASE_PATH}/loans`,
+  NFT_LENDING_DETAIL_LOAN: `${BASE_PATH}/loans/:id`,
 }
 
 export const API_URL = {
