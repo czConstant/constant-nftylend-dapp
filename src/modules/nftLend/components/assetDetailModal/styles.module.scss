@@ -1,0 +1,118 @@
+.assetDetailModal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  h4 {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 30px;
+    letter-spacing: -0.3px;
+    line-height: 48px;
+  }
+  .infoAuthor {
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    color: #45b36b;
+    letter-spacing: 0;
+    line-height: 16px;
+  }
+  .infoCreator {
+    margin-top: 5px;
+    a {
+      font-size: 13px;
+      font-weight: 500;
+      color: #0d6efd;
+    }
+  }
+  .actions {
+    align-items: center;
+  }
+  .attContainer {
+    border-top: 1px solid var(--bs-gray-200);
+    margin-top: 5px;
+    padding-top: 5px;
+    > label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--bs-gray-600);
+      margin-bottom: 5px;
+    }
+    .attWrap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 1rem;
+      > div {
+        background-color: var(--bs-gray-200);
+        display: flex;
+        flex-direction: column;
+        padding: 5px 10px;
+        border-radius: 8px;
+        label {
+          font-size: 11px;
+          text-transform: uppercase;
+          color: var(--bs-gray);
+        }
+        div {
+          font-size: 14px;
+          color: var(--bs-dark);
+        }
+      }
+    }
+  }
+  .description {
+    color: #777e90;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-top: 15px;
+  }
+}
+
+
+.actions {
+  display: flex;
+  margin: 15px 0px;
+  width: 100%;
+  .btnConnect {
+    background: #3772ff;
+    font-weight: bold;
+    font-size: 16px;
+    color: #fcfcfd;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 16px;
+    border-radius: 90px;
+    height: 50px;
+    width: 100%;
+    &:not(:first-child) {
+      margin-left: 10px;
+    }
+    &:nth-child(2) {
+      background: transparent;
+      border: 1px solid #3772ff;
+      color: #3772ff;
+    }
+  }
+  .dropdown {
+    margin-left: 20px;
+    :global button.dropdown-toggle {
+      background-color: transparent;
+      border-color: transparent;
+      box-shadow: none;
+    }
+    button {
+      background-color: transparent;
+      background-image: none;
+      border: none;
+      box-shadow: none;
+      i {
+        color: black;
+        font-size: 30px;
+      }
+      &::after {
+        display: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.breadcrumb {
+  display: flex;
+  height: fit-content;
+  align-items: center;
+  > a,
+  div {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.9px;
+    text-transform: uppercase;
+    min-width: 80px;
+    text-align: center;
+    padding: 2px 20px 2px 5px;
+    font-weight: 500;
+
+    i {
+      margin: 0 10px;
+    }
+
+    &:last-child {
+      color: white;
+    }
+
+    &:first-child {
+      i {
+        display: none;
+      }
+    }
+  }
+}
