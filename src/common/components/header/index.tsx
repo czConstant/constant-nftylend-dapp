@@ -18,7 +18,7 @@ const Header = () => {
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <div className={styles.left}>
-          <Link to={APP_URL.NFT_LENDING}>
+          <Link to={APP_URL.HOME}>
             <AppIcon dark />
           </Link>
           <div className={styles.divider} />
