@@ -3,8 +3,8 @@ import LoadingOverlay from 'react-loading-overlay';
 import cx from 'classnames';
 
 import darkLoading from 'src/common/components/loading/json/dark.json';
-import { useAppDispatch } from 'src/store/hooks';
-import { hideLoadingOverlay } from 'src/store/loadingOverlay';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { hideLoadingOverlay, selectLoadingOverlay } from 'src/store/loadingOverlay';
 
 import LottiePlayer from '../lottiePlayer';
 import styles from './styles.module.scss';
@@ -20,8 +20,9 @@ interface MyLoadingOverlayProps {
 }
 
 const MyLoadingOverlay = (props: MyLoadingOverlayProps) => {
-  const { active = true, children, message, show, spinner, timeout = 0, callback } = props;
+  const { active = true, children, message, spinner, timeout = 0, callback } = props;
   const dispatch = useAppDispatch();
+  const show = useAppSelector(selectLoadingOverlay).show;
   
   useEffect(() => {
     if(show && timeout > 0) {

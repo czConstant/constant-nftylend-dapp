@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Form } from 'react-final-form';
 import { Connection } from '@solana/web3.js';
 import { WalletContextState } from '@solana/wallet-adapter-react';
@@ -7,9 +6,10 @@ import { WalletContextState } from '@solana/wallet-adapter-react';
 import { fetchAllTokenAccounts, getAssociatedAccount, getLinkSolScanTx } from 'src/common/utils/solana';
 import CryptoDropdownItem from 'src/common/components/cryptoDropdownItem';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
+import { useAppDispatch } from 'src/store/hooks';
+import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
 
 import CreateLoanForm from './form';
-
 import { getNftListCurrency } from '../../api';
 import { requestReload } from 'src/store/nftLend';
 import CreateLoanTransaction from '../../transactions/createLoan';
@@ -22,7 +22,7 @@ interface CreateLoanProps {
 }
 
 const CreateLoan = (props: CreateLoanProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { connection, wallet, nftMint, onClose } = props;
 
   const [nftAssociated, setNftAssociated] = useState('');
@@ -74,6 +74,7 @@ const CreateLoan = (props: CreateLoanProps) => {
     if (!receiveToken) return;
     const transaction = new CreateLoanTransaction(connection, wallet);
     try {
+      dispatch(showLoadingOverlay());
       setSubmitting(true);
       const res = await transaction.run(
         nftMint,
@@ -94,6 +95,7 @@ const CreateLoan = (props: CreateLoanProps) => {
     } catch (err: any) {
       toastError(err.message || err);
     } finally {
+      dispatch(hideLoadingOverlay());
       setSubmitting(false);
     }
   };
