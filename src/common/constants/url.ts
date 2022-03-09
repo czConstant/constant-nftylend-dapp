@@ -20,5 +20,6 @@ export const API_URL = {
     LOANS_BY_ID: `${API_BASE}/nfty-lend-api/assets/detail`,
     LIST_CURRENCY: `${API_BASE}/nfty-lend-api/currencies/list`,
     UPDATE_BLOCK: `${API_BASE}/nfty-lend-api/blockchain/update-block`,
+    LOAN_TRANSACTION: `${API_BASE}/nfty-lend-api/loans/transactions`,
   }
 }

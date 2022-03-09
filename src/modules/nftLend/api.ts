@@ -99,3 +99,14 @@ export const getOffersByFilter = (
 ): Promise<ListResponse> => {
   return api.get(`${API_URL.NFT_LEND.GET_OFERS}`, { params });
 };
+
+interface LoanTransactionParams {
+  status?: "listed" | "cancelled" | "offered" | "repaid" | "liquidated";
+  asset_id: string;
+}
+
+export const getLoanTransactions = (
+  params: LoanTransactionParams
+): Promise<ListResponse> => {
+  return api.get(`${API_URL.NFT_LEND.LOAN_TRANSACTION}`, { params });
+};
