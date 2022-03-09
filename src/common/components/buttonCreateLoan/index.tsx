@@ -110,7 +110,7 @@ const ModalCreateLoan = ({ navigate, onClose }) => {
   );
 };
 
-const ButtonCreateLoan = ({ hiddenIcon }) => {
+const ButtonCreateLoan = ({ hiddenIcon, title }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { connection } = useConnection();
@@ -143,7 +143,7 @@ const ButtonCreateLoan = ({ hiddenIcon }) => {
         />
       )}
 
-      <span>Create Loan</span>
+      <span>{title || "Create Loan"}</span>
     </Button>
   );
 };

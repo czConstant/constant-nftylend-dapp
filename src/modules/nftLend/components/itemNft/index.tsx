@@ -79,7 +79,7 @@ const ItemNFT = (props: ItemNftProps) => {
             <div>
               <label>Interest</label>
               <div>
-                {new BigNumber(item.interest_rate * 100).toPrecision(2)} % APY
+                {new BigNumber(item.interest_rate * 100).toPrecision(2)} %APY
               </div>
             </div>
             <div />
