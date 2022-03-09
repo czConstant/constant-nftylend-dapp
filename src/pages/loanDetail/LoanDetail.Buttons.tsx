@@ -19,9 +19,8 @@ import { useAppDispatch } from "src/store/hooks";
 import { requestReload } from "src/store/nftLend";
 import { useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
-import CancelOfferTransaction from "src/modules/nftLend/transactions/cancelOffer";
 
-const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
+const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan }) => {
   const navigate = useNavigate();
   const { connection } = useConnection();
   const wallet = useWallet();
@@ -148,43 +147,6 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
     }
   };
 
-  const onCancelOffer = async (offer) => {
-    const currencyMint = loan?.new_loan?.currency?.contract_address;
-
-    const currencyAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
-      currencyMint
-    );
-    const transaction = new CancelOfferTransaction(connection, wallet);
-    try {
-      setCanceling(true);
-      const res = await transaction.run(
-        currencyAssociated,
-        offer.data_offer_address,
-        offer.data_currency_address
-      );
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Cancel offer successfully.{" "}
-            <a
-              target="_blank"
-              href={getLinkSolScanTx(res.txHash)}
-              className="blue"
-            >
-              View transaction
-            </a>
-          </>
-        );
-        dispatch(requestReload());
-      }
-    } catch (err) {
-      toastError(err?.message || err);
-    } finally {
-      setCanceling(false);
-    }
-  };
-
   if (!wallet.publicKey) {
     return (
       <div className={styles.groupOfferButtons}>
@@ -203,20 +165,6 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
           disabled={submitting}
         >
           {canceling ? <Loading dark={false} /> : "Cancel Loan"}
-        </Button>
-      </div>
-    );
-
-  if (userOffer)
-    return (
-      <div className={styles.groupOfferButtons}>
-        <Button
-          className={cx(styles.btnConnect, styles.btnCancel)}
-          variant="danger"
-          onClick={() => onCancelOffer(userOffer)}
-          disabled={submitting}
-        >
-          {canceling ? <Loading dark={false} /> : "Cancel My Offer"}
         </Button>
       </div>
     );

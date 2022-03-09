@@ -80,13 +80,13 @@
         }
         .feeInfoWrap {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(2, 1fr);
           > div {
             padding: 0px 15px;
             &:first-child {
-              // display: flex;
-              // flex-direction: column;
-              // align-items: flex-end;
+              display: flex;
+              flex-direction: column;
+              align-items: flex-end;
             }
           }
           .feeInfoTitle {
@@ -225,16 +225,14 @@
     filter: none;
     font-weight: 700;
   }
-}
-
-.actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  button {
-    padding: 0px;
-    width: fit-content;
-    padding: 0px 10px;
+  .actions {
+    display: flex;
+    button {
+      border-radius: 8px;
+      &:not(:first-child) {
+        margin-left: 5px;
+      }
+    }
   }
 }
 
@@ -268,7 +266,6 @@
   background-color: hsla(240, 6%, 10%, 0.8);
   font-size: 14px;
   border-radius: 0px 0px 16px 16px;
-  margin-top: 5px;
   div {
     color: var(--bs-white);
     font-weight: 500;
