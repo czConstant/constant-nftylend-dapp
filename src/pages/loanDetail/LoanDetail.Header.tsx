@@ -13,6 +13,7 @@ import icPriceTag from "./assets/ic_price_tag.svg";
 import styles from "./styles.module.scss";
 import LoanDetailButtons from "./LoanDetail.Buttons";
 import LoanDetailOffers from "./LoanDetail.Offers";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export interface LoanDetailProps {
   loan?: LoanDataDetail;
@@ -21,6 +22,16 @@ export interface LoanDetailProps {
 interface LoanDetailHeaderProps extends LoanDetailProps {}
 
 const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
+  const wallet = useWallet();
+
+  console.log(wallet?.publicKey?.toString());
+
+  const userOffer = loan?.new_loan.offers.find(
+    (v) =>
+      v.lender?.toString() === wallet?.publicKey?.toString() &&
+      v.status === "new"
+  );
+
   return (
     <div className={styles.headerContainer}>
       <div>
@@ -63,7 +74,7 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
                 2
               )} ${loan?.new_loan?.currency?.symbol}`}</div>
             </div>
-            <LoanDetailButtons loan={loan} reload={() => null} />
+            <LoanDetailButtons loan={loan} userOffer={userOffer} />
             <div className={styles.feeInfoWrap}>
               <div>
                 <div className={styles.feeInfoTitle}>Interest rate</div>
@@ -83,6 +94,44 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
                   Days
                 </div>
               </div>
+              {userOffer && (
+                <>
+                  <div>
+                    <div
+                      className={styles.feeInfoTitle}
+                      style={{ color: "green", opacity: 0.8 }}
+                    >
+                      My Interest rate
+                    </div>
+                    <div
+                      className={styles.feeInfoValue}
+                      style={{ color: "green", fontWeight: "bold" }}
+                    >
+                      {new BigNumber(userOffer?.interest_rate)
+                        .multipliedBy(100)
+                        .toNumber()}
+                      %
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      className={styles.feeInfoTitle}
+                      style={{ color: "green", opacity: 0.8 }}
+                    >
+                      My Terms
+                    </div>
+                    <div
+                      className={styles.feeInfoValue}
+                      style={{ color: "green", fontWeight: "bold" }}
+                    >
+                      {new BigNumber(userOffer?.duration)
+                        .dividedBy(86400)
+                        .toNumber()}{" "}
+                      Days
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}
