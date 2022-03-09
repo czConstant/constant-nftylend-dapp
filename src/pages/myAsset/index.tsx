@@ -20,6 +20,8 @@ import ListOfferReceive from 'src/modules/nftLend/components/listOfferReceive';
 import styles from './styles.module.scss';
 import bgCover from './images/bg_cover.png';
 import { toastSuccess } from 'src/common/services/toaster';
+import { getNftListCurrency } from 'src/modules/nftLend/api';
+import { Currency } from 'src/modules/nftLend/models/api';
 
 const TABS = {
   owned: 'My Assets',
@@ -33,21 +35,26 @@ const MyAsset = () => {
   const { publicKey, connected } = useWallet();
 
   const [balance, setBalance] = useState(0);
-  const [usdcBalance, setUsdcBalance] = useState(0);
+  const [currencies, setCurrencies] = useState([]);
+  console.log("🚀 ~ file: index.tsx ~ line 38 ~ MyAsset ~ currencies", currencies)
   const [selectedTab, setSelectedTab] = useState(TABS.owned);
 
   useEffect(() => {
-    if (publicKey) {
-      connection.getBalance(publicKey).then((res) => {
-        setBalance(new BigNumber(res).dividedBy(LAMPORTS_PER_SOL).toNumber());
-      });
-      getBalanceToken(connection, publicKey, APP_ENV.REACT_SOL_USDC_MINT).then(
-        (res) => {
-          setUsdcBalance(res);
-        },
-      );
-    }
+    fetchBalance();
   }, [publicKey]);
+
+  const fetchBalance = async () => {
+    if (!publicKey) return;
+    const solRes= await connection.getBalance(publicKey);
+    setBalance(new BigNumber(solRes).dividedBy(LAMPORTS_PER_SOL).toNumber());
+
+    const listCurrencies = (await getNftListCurrency()).result;
+    const res = await Promise.all(listCurrencies.map((e: Currency) => getBalanceToken(connection, publicKey, e.contract_address)));
+    listCurrencies.forEach((e: any, i: number) => {
+      e.balance = res[i];
+    });
+    setCurrencies(listCurrencies);
+  };
 
   return (
     <>
@@ -74,11 +81,11 @@ const MyAsset = () => {
                   <div className={styles.balance}>
                     <span>{balance}</span> SOL
                   </div>
-                  {
-                    usdcBalance && <div className={styles.balance}>
-                      <span>{usdcBalance}</span> USDC
+                  {currencies.map((e: Currency) => (
+                    <div className={styles.balance}>
+                      <span>{e.balance}</span> {e.symbol}
                     </div>
-                  }
+                  ))}
                 </div>
                 <div className={styles.connectButtonWrap}>
                   <WalletModalProvider>
