@@ -17,10 +17,15 @@ import LoanDetailHeader from "./LoanDetail.Header";
 import LoanDetailActivity from "./LoanDetail.Activity";
 import LoanDetailSuggest from "./LoanDetail.Suggest";
 import LoanDetailOffers from "./LoanDetail.Offers";
+import { useSelector } from "react-redux";
+import { useAppSelector } from "src/store/hooks";
+import { selectNftLend } from "src/store/nftLend";
 
 const LoanDetail = () => {
   const location = useLocation();
   const pathLoan: string = last(location.pathname.split("/"))?.toString();
+
+  const needReload = useAppSelector(selectNftLend).needReload;
 
   const defaultBreadCrumbs = useRef<BreadCrumbItem[]>([
     {
@@ -42,7 +47,7 @@ const LoanDetail = () => {
 
   useEffect(() => {
     getLoan();
-  }, [pathLoan]);
+  }, [pathLoan, needReload]);
 
   const getLoan = async () => {
     setLoading(true);
