@@ -77,7 +77,7 @@ const Home = () => {
           your NFTs. Lenders and Borrowers are connected by our smart contract.
         </p>
         <div className={styles.groupButton}>
-          <ButtonCreateLoan hiddenIcon={true}  />
+          <ButtonCreateLoan hiddenIcon={true} title='Borrow'  />
           {/* <Button>Borrow</Button> */}
           <Button onClick={() => navigate(APP_URL.NFT_LENDING_LIST_LOAN)}>Lend</Button>
         </div>
