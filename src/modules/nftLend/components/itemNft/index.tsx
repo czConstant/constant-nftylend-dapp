@@ -75,21 +75,23 @@ const ItemNFT = (props: ItemNftProps) => {
               </Button>
             )}
           </div>
-          <div className={styles.footer}>
-            <div>
-              <label>Interest</label>
+          {item.interest_rate && item.duration && (
+            <div className={styles.footer}>
               <div>
-                {new BigNumber(item.interest_rate * 100).toPrecision(2)} %APY
+                <label>Interest</label>
+                <div>
+                  {new BigNumber(item.interest_rate * 100).toPrecision(2)} %APY
+                </div>
+              </div>
+              <div />
+              <div>
+                <label>Duration</label>
+                <div>
+                  {new BigNumber(item.duration / 86400).toNumber()} days
+                </div>
               </div>
             </div>
-            <div />
-            <div>
-              <label>Duration</label>
-              <div>
-                {new BigNumber(item.duration / 86400).toNumber()} days
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </a>
     </div>
