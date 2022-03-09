@@ -1,6 +1,10 @@
 import React, { useMemo } from "react";
 import { shortCryptoAddress } from "src/common/utils/format";
-import { getLinkSolScanAccount } from "src/common/utils/solana";
+import {
+  getLinkETHScanAddress,
+  getLinkETHScanTokenId,
+  getLinkSolScanAccount,
+} from "src/common/utils/solana";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 
@@ -19,6 +23,32 @@ const LoanDetailInfo: React.FC<LoanDetailProps> = ({ loan }) => {
           loan?.new_loan?.owner
         )}">${shortCryptoAddress(loan?.new_loan?.owner, 8)}</a>`,
       },
+    ];
+    if (!loan?.new_loan) {
+      details = details?.splice(1, 1);
+    }
+    if (loan?.origin_contract_address) {
+      details.push(
+        {
+          label: "Original Contract Address",
+          value: `<a target="_blank" href="${getLinkETHScanAddress(
+            loan?.origin_contract_address
+          )}">${shortCryptoAddress(loan?.origin_contract_address, 8)}</a>`,
+        },
+        {
+          label: "Original Network",
+          value: `${loan?.origin_network}`,
+        },
+        {
+          label: "Original Contract Id",
+          value: `<a target="_blank" href="${getLinkETHScanTokenId(
+            loan?.origin_contract_address,
+            loan?.origin_token_id
+          )}">${loan?.origin_token_id}</a>`,
+        }
+      );
+    }
+    details.push(
       {
         label: "Artist Royalties",
         value: `${parseFloat(loan?.seller_fee_rate || 0) * 100}%`,
@@ -26,11 +56,8 @@ const LoanDetailInfo: React.FC<LoanDetailProps> = ({ loan }) => {
       {
         label: "Listing/Bidding/Cancel",
         value: "Free",
-      },
-    ];
-    if (!loan?.new_loan) {
-      details = details?.splice(1, 1);
-    }
+      }
+    );
     return details;
   }, [loan?.new_loan]);
 

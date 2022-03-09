@@ -43,6 +43,29 @@ export const LOAN_STATUS = [
   },
 ];
 
+export const LOAN_TRANSACTION_ACTIVITY = [
+  {
+    id: "listed",
+    name: "Listed",
+  },
+  {
+    id: "cancelled",
+    name: "Cancelled",
+  },
+  {
+    id: "offered",
+    name: "Offered",
+  },
+  {
+    id: "repaid",
+    name: "Repaid",
+  },
+  {
+    id: "liquidated",
+    name: "Liquidated",
+  },
+];
+
 export const OFFER_STATUS = {
   new: {
     id: "new",

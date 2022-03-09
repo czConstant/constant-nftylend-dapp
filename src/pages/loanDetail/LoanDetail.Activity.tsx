@@ -3,7 +3,10 @@ import cx from "classnames";
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
-import { getLoansByAssetId } from "src/modules/nftLend/api";
+import {
+  getLoansByAssetId,
+  getLoanTransactions,
+} from "src/modules/nftLend/api";
 import {
   getLinkSolScanAccount,
   getLinkSolScanTx,
@@ -14,7 +17,10 @@ import {
 } from "src/common/utils/format";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
-import { LOAN_STATUS } from "src/modules/nftLend/constant";
+import {
+  LOAN_STATUS,
+  LOAN_TRANSACTION_ACTIVITY,
+} from "src/modules/nftLend/constant";
 
 const TableHeader = () => (
   <div className={cx(styles.tbHeader, styles.activityWrapBody)}>
@@ -33,9 +39,11 @@ const TableBody = ({ results = [], detail }) =>
   results.map((result) => {
     let statusColor = "#ffffff";
 
-    if (["approved", "done", "created"].includes(result.status)) {
+    if (["listed"].includes(result.type)) {
+      statusColor = "blue";
+    } else if (["offered", "repaid"].includes(result.type)) {
       statusColor = "green";
-    } else if (["cancelled", "liquidated", "expired"].includes(result.status)) {
+    } else if (["cancelled", "liquidated"].includes(result.type)) {
       statusColor = "red";
     }
 
@@ -48,13 +56,13 @@ const TableBody = ({ results = [], detail }) =>
           <a
             className={styles.scanLink}
             target="_blank"
-            href={getLinkSolScanTx(result?.init_tx_hash)}
+            href={getLinkSolScanTx(result?.tx_hash)}
           >
-            {shortCryptoAddress(result?.init_tx_hash, 8)}
+            {shortCryptoAddress(result?.tx_hash, 8)}
           </a>
         </div>
         <div style={{ color: statusColor }}>
-          {LOAN_STATUS.find((v) => v.id === result?.status)?.activity ||
+          {LOAN_TRANSACTION_ACTIVITY.find((v) => v.id === result?.type)?.name ||
             "Unknown"}
         </div>
         <div>{moment(result?.created_at).fromNow()}</div>
@@ -62,7 +70,7 @@ const TableBody = ({ results = [], detail }) =>
           parseFloat(result?.offer_principal_amount) ||
             parseFloat(result?.principal_amount),
           2
-        )} ${result?.currency?.symbol}`}</div>
+        )} ${result?.loan?.currency?.symbol}`}</div>
         <div>
           {Math.ceil(
             new BigNumber(result.duration).dividedBy(86400).toNumber()
@@ -76,9 +84,9 @@ const TableBody = ({ results = [], detail }) =>
           <a
             className={styles.scanLink}
             target="_blank"
-            href={getLinkSolScanAccount(result?.owner)}
+            href={getLinkSolScanAccount(result?.borrower)}
           >
-            {shortCryptoAddress(result?.owner, 8)}
+            {shortCryptoAddress(result?.borrower, 8)}
           </a>
         </div>
         <div>
@@ -107,7 +115,7 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
 
   const getData = async () => {
     try {
-      const response = await getLoansByAssetId({
+      const response = await getLoanTransactions({
         asset_id: loan?.id?.toString(),
       });
       setResults(response?.result);
