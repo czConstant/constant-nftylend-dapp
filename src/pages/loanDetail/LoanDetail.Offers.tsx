@@ -68,10 +68,22 @@ export const OfferTableBody = ({
         <div>{moment(offer?.created_at).fromNow()}</div>
         <div className={styles.actions}>
           {isMyOffer && offer?.status === "new" && (
-            <Button onClick={() => onCancel(offer)}>Cancel</Button>
+            <Button
+              style={{ color: "#dc3545" }}
+              variant="link"
+              onClick={() => onCancel(offer)}
+            >
+              Cancel
+            </Button>
           )}
           {isMyLoan && offer?.status === "new" && (
-            <Button onClick={() => onAccept(offer)}>Accept</Button>
+            <Button
+              style={{ color: "#0d6efd" }}
+              variant="link"
+              onClick={() => onAccept(offer)}
+            >
+              Accept
+            </Button>
           )}
         </div>
       </div>
@@ -86,7 +98,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   const offers = loan?.new_loan?.offers || [];
 
   const onCancel = async (offer) => {
-    const currencyMint = offer?.new_loan?.currency?.contract_address;
+    const currencyMint = loan?.new_loan?.currency?.contract_address;
     const currencyAssociated = await getAssociatedAccount(
       wallet.publicKey.toString(),
       currencyMint
@@ -122,7 +134,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   };
 
   const onAccept = async (offer) => {
-    const currencyMint = offer?.new_loan?.currency?.contract_address;
+    const currencyMint = loan?.new_loan?.currency?.contract_address;
     const currencyAssociated = await getAssociatedAccount(
       wallet.publicKey.toString(),
       currencyMint
