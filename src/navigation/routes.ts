@@ -2,6 +2,7 @@ import React from "react";
 import { APP_URL } from "src/common/constants/url";
 
 import Home from 'src/pages/home';
+import Discover from 'src/pages/discover';
 import LoanDetail from "src/pages/loanDetail";
 import Loans from "src/pages/loans";
 import MyAsset from 'src/pages/myAsset';
@@ -18,7 +19,7 @@ const routes: Array<RouteProps> = [
   },
   {
     path: APP_URL.NFT_LENDING,
-    component: Home,
+    component: Discover,
   },
   {
     path: APP_URL.NFT_LENDING_LIST_LOAN,
