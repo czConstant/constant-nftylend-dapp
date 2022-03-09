@@ -30,8 +30,8 @@ interface ListParams {
   limit?: number;
 }
 
-export const getNftListCurrency = async (params?: ListParams): Promise<any> => {
-  return api.get(API_URL.NFT_LEND.LIST_CURRENCY, { params });
+export const getNftListCurrency = async (): Promise<ListResponse> => {
+  return api.get(API_URL.NFT_LEND.LIST_CURRENCY);
 };
 
 export const getCollections = (params?: ListParams): Promise<ListResponse> => {
@@ -98,4 +98,12 @@ export const getOffersByFilter = (
   params: OffersParams
 ): Promise<ListResponse> => {
   return api.get(`${API_URL.NFT_LEND.GET_OFERS}`, { params });
+};
+
+export const verifyAsset = (mint: string): Promise<ResponseResult> => {
+  return api.get(`${API_URL.NFT_LEND.VERIFY_ASSET}`, { params: { mint } });
+};
+
+export const getSystemConfigs = (): Promise<ResponseResult> => {
+  return api.get(`${API_URL.NFT_LEND.GET_SYSTEM_CONFIGS}`);
 };

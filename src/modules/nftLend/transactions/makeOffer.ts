@@ -7,7 +7,7 @@ import {
   Transaction,
 } from '@solana/web3.js';
 
-import { LENDING_PROGRAM_ID, OFFER_INFO_LAYOUT } from './constants';
+import { getLendingProgramId, OFFER_INFO_LAYOUT } from './constants';
 import { InitOfferInstruction } from './utils';
 import SolTransaction from './index';
 
@@ -25,7 +25,7 @@ export default class MakeOfferTransaction extends SolTransaction {
     if (!this.wallet.publicKey) return;
       
     try {
-      const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
+      const lendingProgramId = new PublicKey(getLendingProgramId());
       const loan_id = new PublicKey(loanAddress);
       const lender_usd_account_pubkey = new PublicKey(sendTokenAssociated);
       const usd_mint_pubkey = new PublicKey(sendTokenMint);

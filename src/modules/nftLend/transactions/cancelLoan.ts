@@ -1,7 +1,7 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
-import { LENDING_PROGRAM_ID } from './constants';
+import { getLendingProgramId } from './constants';
 import { CancelLoanInstruction } from './utils';
 import SolTransaction from './index';
 
@@ -13,7 +13,7 @@ export default class CancelLoanTransaction extends SolTransaction {
   ) {
     if (!this.wallet.publicKey) return;
     try {
-      const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
+      const lendingProgramId = new PublicKey(getLendingProgramId());
       const borrower_nft_account_pubkey = new PublicKey(receiveNftAssociated);
       const loan_info_account_pubkey = new PublicKey(loanId);
       const temp_nft_account_pubkey = new PublicKey(nftTempAccountAddress);

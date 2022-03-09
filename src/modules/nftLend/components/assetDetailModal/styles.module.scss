@@ -27,6 +27,17 @@
   }
   .actions {
     align-items: center;
+    > div:first-child {
+      flex: 1;
+    }
+  }
+  .notVerified {
+    border-radius: 8px;
+    background-color: rgba(255, 192, 122, 0.2);
+    padding: 10px 20px;
+    color: #DE710B;
+    font-size: 14px;
+    font-weight: 500;
   }
   .attContainer {
     border-top: 1px solid var(--bs-gray-200);

@@ -8,6 +8,8 @@ import styles from './styles.module.scss';
 import { getLinkSolScanAccount, getLinkSolScanExplorer } from 'src/common/utils/solana';
 import ItemNftMedia from '../itemNft/itemNftMedia';
 import { APP_URL } from 'src/common/constants/url';
+import { verifyAsset } from '../../api';
+import Loading from 'src/common/components/loading';
 
 interface AssetDetailModalProps {
   item: any;
@@ -18,10 +20,24 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   const { item, onClose } = props;
 
   const [extraData, setExtraData] = useState({} as any);
+  const [listingDetail, setListingDetail] = useState({} as any);
+  const [loadingDetail, setLoadingDetail] = useState(false);
 
   useEffect(() => {
     getExtraData();
+    verifiedCollection();
   }, []);
+
+  const verifiedCollection = async () => {
+    try {
+      setLoadingDetail(true);
+      const response = await verifyAsset(item?.asset?.mint);
+      setListingDetail(response.result);
+    } catch (error) {
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
 
   const getExtraData = async () => {
     try {
@@ -77,10 +93,18 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
             Authority
           </a>
         </div>
-        <div className={cx(styles.actions, styles.groupOfferButtons)}>
-          <Button onClick={onMakeLoan} className={styles.btnConnect}>
-            Make a Loan
-          </Button>
+        <div className={cx(styles.actions)}>
+          {loadingDetail
+            ? <Loading />
+            : listingDetail
+              ? (
+                <Button onClick={onMakeLoan} className={styles.btnConnect}>
+                  Make a Loan
+                </Button>
+              ) : (
+                <div className={styles.notVerified}>This asset isn't verified by us. Please contact the team to verify the asset.</div>
+              )
+          }
           <Dropdown align={'end'} className={styles.dropdown}>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
               <i className="far fa-ellipsis-v"></i>
