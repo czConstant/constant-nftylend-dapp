@@ -74,6 +74,8 @@ const LoansHeader: React.FC<LoansHeaderProps> = ({
     }
   };
 
+  if (!collection) return null;
+
   return (
     <div className={cx(homeStyles.headerWrapper, styles.headerWrapper)}>
       {renderHeaderContent()}

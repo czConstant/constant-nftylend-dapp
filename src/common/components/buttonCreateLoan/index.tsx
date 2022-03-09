@@ -109,7 +109,7 @@ const ModalCreateLoan = ({ navigate, onClose }) => {
   );
 };
 
-const ButtonCreateLoan = () => {
+const ButtonCreateLoan = ({ hiddenIcon }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { connection } = useConnection();
@@ -133,12 +133,15 @@ const ButtonCreateLoan = () => {
 
   return (
     <Button onClick={onOpenModal} className={styles.container}>
-      <Player
-        autoplay
-        loop
-        src={lfCards}
-        style={{ height: "40px", width: "40px" }}
-      />
+      {!hiddenIcon && (
+        <Player
+          autoplay
+          loop
+          src={lfCards}
+          style={{ height: "30px", width: "30px" }}
+        />
+      )}
+
       <span>Create Loan</span>
     </Button>
   );
