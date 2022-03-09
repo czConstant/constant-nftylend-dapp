@@ -11,6 +11,8 @@ const toPubkey = (key: PublicKey | string) => typeof(key) === 'string' ? new Pub
 export const getLinkSolScanTx = (txHash?: string) => `https://solscan.io/tx/${txHash}?cluster=${APP_ENV.REACT_SOL_CLUSTER}`;
 export const getLinkSolScanAccount = (address?: string) => `https://solscan.io/account/${address}?cluster=${APP_ENV.REACT_SOL_CLUSTER}`;
 export const getLinkSolScanExplorer = (address?: string) => `https://explorer.solana.com/address/${address}?cluster=devnet`;
+export const getLinkETHScanAddress = (address?: string) => `https://etherscan.io/address/${address}`;
+export const getLinkETHScanTokenId = (address?: string, id: string) => `https://etherscan.io/token/${address}?a=${id}`;
 
 export const getSolCluster = () => {
   if (APP_ENV.REACT_SOL_CLUSTER === 'testnet') return WalletAdapterNetwork.Testnet;
