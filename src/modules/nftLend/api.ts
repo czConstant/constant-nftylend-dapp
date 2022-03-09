@@ -107,3 +107,14 @@ export const verifyAsset = (mint: string): Promise<ResponseResult> => {
 export const getSystemConfigs = (): Promise<ResponseResult> => {
   return api.get(`${API_URL.NFT_LEND.GET_SYSTEM_CONFIGS}`);
 };
+
+interface LoanTransactionParams {
+  status?: "listed" | "cancelled" | "offered" | "repaid" | "liquidated";
+  asset_id: string;
+}
+
+export const getLoanTransactions = (
+  params: LoanTransactionParams
+): Promise<ListResponse> => {
+  return api.get(`${API_URL.NFT_LEND.LOAN_TRANSACTION}`, { params });
+};
