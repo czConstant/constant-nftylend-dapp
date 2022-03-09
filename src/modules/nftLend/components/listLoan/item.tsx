@@ -104,7 +104,7 @@ const Item = (props: ItemProps) => {
   const showCancel = loan.status === 'new';
   const showPay = loan.status === 'created' && moment().isBefore(moment(loan.offer_expired_at));
 
-  const principal = loan.offer_principal_amount || loan.principal_amount;
+  const principal = Number(loan.offer_principal_amount) ? loan.offer_principal_amount : loan.principal_amount;
   const interest = loan.offer_interest_rate || loan.interest_rate;
   const duration = loan.offer_duration || loan.duration;
 
