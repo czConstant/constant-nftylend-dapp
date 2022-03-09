@@ -85,9 +85,14 @@ const Loans = () => {
         dataLoan={resLoans}
         collections={resCollections}
       />
-      <div className={styles.contentWrapper}>
+      <div
+        className={cx([
+          styles.contentWrapper,
+          resCollection && styles.listContainerWrapBorder,
+        ])}
+      >
         {/* <LoansSidebar isLoading={loading} /> */}
-        <div className={styles.listContainerWrap}>
+        <div className={cx([styles.listContainerWrap])}>
           <LoansToolbar />
           <div
             className={cx(

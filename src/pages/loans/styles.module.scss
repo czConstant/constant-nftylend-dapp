@@ -1,10 +1,10 @@
 .wrapper {
   min-height: calc(100vh - var(--header-height) - var(--footer-height));
   background-color: black;
-  // > div {
-  //   width: 100%;
-  //   max-width: 100%;
-  // }
+  > div {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 .headerWrapper {
@@ -64,8 +64,11 @@
 .contentWrapper {
   flex: 1;
   display: flex;
-  // border-top: 2px solid #2b2740;
   padding: 3rem;
+}
+
+.listContainerWrapBorder {
+  border-top: 2px solid #2b2740;
 }
 
 .sideBarContainer {
@@ -171,6 +174,8 @@
 .listContainerWrap {
   padding: 0px 20px 20px;
   flex: 1;
+  max-width: 1366px;
+  margin: 0 auto;
 }
 
 .listContainer {
