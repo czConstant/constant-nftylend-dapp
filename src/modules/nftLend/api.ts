@@ -99,3 +99,11 @@ export const getOffersByFilter = (
 ): Promise<ListResponse> => {
   return api.get(`${API_URL.NFT_LEND.GET_OFERS}`, { params });
 };
+
+export const verifyAsset = (mint: string): Promise<ResponseResult> => {
+  return api.get(`${API_URL.NFT_LEND.VERIFY_ASSET}`, { params: { mint } });
+};
+
+export const getSystemConfigs = (): Promise<ResponseResult> => {
+  return api.get(`${API_URL.NFT_LEND.GET_SYSTEM_CONFIGS}`);
+};

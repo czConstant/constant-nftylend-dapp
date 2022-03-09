@@ -95,9 +95,6 @@ const CreateLoan = (props: CreateLoanProps) => {
     try {
       setSubmitting(true);
 
-      console.log(values);
-      
-
       const res = await transaction.run(
         nftMint,
         nftAssociated,

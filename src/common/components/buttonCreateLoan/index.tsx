@@ -41,7 +41,6 @@ const ModalCreateLoan = ({ navigate, onClose }) => {
         publicAddress: publicKey.toString(),
         connection,
       });
-      console.log("nfts", nfts);
 
       setHasLoan(nfts);
     } catch (error) {

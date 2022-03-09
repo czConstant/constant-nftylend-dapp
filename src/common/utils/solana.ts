@@ -105,7 +105,6 @@ export const calculateTotalPay = (principal: number, interest: number, duration:
 export const getAccountInfo = async (connection: Connection, publicKey: PublicKey | string) => {
   try {
     const res = await connection.getAccountInfo(toPubkey(publicKey));
-    console.log('Account Info', res);
     return res;
   } catch (err) {
     console.log("🚀 ~ file: index.js ~ line 70 ~ useEffect ~ err", err);

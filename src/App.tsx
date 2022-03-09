@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { clusterApiUrl } from '@solana/web3.js';
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
@@ -13,18 +14,29 @@ import { getSolCluster } from 'src/common/utils/solana';
 import MyLoadingOverlay from 'src/common/components/myLoadingOverlay';
 
 import AppRouter from './navigation';
+import { getSystemConfigs } from './modules/nftLend/api';
+import { useAppDispatch } from './store/hooks';
+import { updateConfigs } from './store/nftLend';
 
 export default function App() {
-  const network = getSolCluster();
-    const endpoint = clusterApiUrl(network);
+  const dispatch = useAppDispatch();
 
-    const wallets = [
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter({ network }),
-      new SolletWalletAdapter({ network }),
-      new SolletExtensionWalletAdapter({ network }),
-      new Coin98WalletAdapter({ network }),
-    ];
+  useEffect(() => {
+    getSystemConfigs().then(res =>{ 
+      if (res.result) dispatch(updateConfigs(res.result));
+    });
+  }, []);
+
+  const network = getSolCluster();
+  const endpoint = clusterApiUrl(network);
+
+  const wallets = [
+    new PhantomWalletAdapter(),
+    new SolflareWalletAdapter({ network }),
+    new SolletWalletAdapter({ network }),
+    new SolletExtensionWalletAdapter({ network }),
+    new Coin98WalletAdapter({ network }),
+  ];
 
   return (
     <ConnectionProvider endpoint={endpoint}>

@@ -23,7 +23,6 @@ const MyLoadingOverlay = (props: MyLoadingOverlayProps) => {
   const { active = true, children, message, spinner, timeout = 0, callback } = props;
   const dispatch = useAppDispatch();
   const show = useAppSelector(selectLoadingOverlay).show;
-  console.log("🚀 ~ file: index.tsx ~ line 26 ~ MyLoadingOverlay ~ show", show)
   
   useEffect(() => {
     if(show && timeout > 0) {

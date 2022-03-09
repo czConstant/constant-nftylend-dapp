@@ -83,8 +83,6 @@ export function InitOfferInstruction(
   loan_currency: PublicKey,
   expired: number,
   ) {
-  console.log("🚀 ~ file: utils.ts ~ line 86 ~ loan_currency", loan_currency)
-  console.log("🚀 ~ file: utils.ts ~ line 86 ~ expired", expired)
   const keys = [
     { pubkey: lender_account, isSigner: true, isWritable: false },
     { pubkey: borrower_account, isSigner: false, isWritable: false },

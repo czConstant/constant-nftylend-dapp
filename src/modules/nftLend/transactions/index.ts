@@ -22,7 +22,6 @@ export default class SolTransaction {
   };
 
   handleSuccess = async (res: TransactionRes): Promise<TransactionRes> => {
-    console.log("🚀 ~ file: index.ts ~ line 26 ~ SolTransaction ~ handleSuccess= ~ res", res)
     let count = 0;
     let txDetail = null;
     let block = null;
