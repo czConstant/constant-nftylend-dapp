@@ -1,5 +1,6 @@
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import BigNumber from "bignumber.js";
 
 import { formatCurrency } from "src/common/utils/format";
 import { APP_URL } from "src/common/constants/url";
@@ -74,6 +75,23 @@ const ItemNFT = (props: ItemNftProps) => {
               </Button>
             )}
           </div>
+          {item.interest_rate && item.duration && (
+            <div className={styles.footer}>
+              <div>
+                <label>Interest</label>
+                <div>
+                  {new BigNumber(item.interest_rate * 100).toPrecision(2)} %APY
+                </div>
+              </div>
+              <div />
+              <div>
+                <label>Duration</label>
+                <div>
+                  {new BigNumber(item.duration / 86400).toNumber()} days
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </a>
     </div>

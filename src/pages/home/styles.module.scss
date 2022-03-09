@@ -35,6 +35,17 @@
       line-height: 29px;
       height: 55px;
       width: 200px;
+      background-color: transparent;
+      border: none;
+      background-size: 100%;
+      background-position: 0% 0%;
+      span {
+        font-size: 16px;
+        color: #ffffff;
+        letter-spacing: 0;
+        text-align: center;
+        line-height: 29px;
+      }
       &:first-child {
         background-image: linear-gradient(
           242deg,
