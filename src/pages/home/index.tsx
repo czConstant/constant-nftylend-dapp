@@ -31,6 +31,9 @@ import vechain from "./assets/partner/vechain.png";
 import polygon from "./assets/partner/polygon.png";
 import fetchai from "./assets/partner/fetchai.png";
 import nano from "./assets/partner/nano.png";
+import { useNavigate } from "react-router-dom";
+import { APP_URL } from "src/common/constants/url";
+import ButtonCreateLoan from "src/common/components/buttonCreateLoan";
 
 const logoPartners = [
   gemini,
@@ -63,6 +66,7 @@ export const OnBoardingHeader = () => (
 );
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <BodyContainer className={styles.wrapper}>
       <section className={cx(styles.section, styles.sectionBG)}>
@@ -73,8 +77,9 @@ const Home = () => {
           your NFTs. Lenders and Borrowers are connected by our smart contract.
         </p>
         <div className={styles.groupButton}>
-          <Button>Borrow</Button>
-          <Button>Lend</Button>
+          <ButtonCreateLoan hiddenIcon={true}  />
+          {/* <Button>Borrow</Button> */}
+          <Button onClick={() => navigate(APP_URL.NFT_LENDING_LIST_LOAN)}>Lend</Button>
         </div>
       </section>
       <section className={cx(styles.section)}>

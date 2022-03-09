@@ -53,6 +53,7 @@ const Loans = () => {
           limit: 10,
         });
         setResCollections(_resCollections.result);
+        setResCollection(null);
       }
       const response: ListResponse = await getLoanByCollection(params);
       const result = response.result;
@@ -85,7 +86,7 @@ const Loans = () => {
         collections={resCollections}
       />
       <div className={styles.contentWrapper}>
-        <LoansSidebar isLoading={loading} />
+        {/* <LoansSidebar isLoading={loading} /> */}
         <div className={styles.listContainerWrap}>
           <LoansToolbar />
           <div
