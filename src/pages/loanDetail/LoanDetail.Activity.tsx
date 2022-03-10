@@ -25,8 +25,8 @@ import {
 
 const TableHeader = () => (
   <div className={cx(styles.tbHeader, styles.activityWrapBody)}>
-    <div>txHash</div>
     <div>txType</div>
+    <div>txHash</div>
     <div>Time</div>
     <div>Principal</div>
     <div>Interest</div>
@@ -53,6 +53,15 @@ const TableBody = ({ results = [], detail }) =>
         className={cx(styles.tbHeader, styles.tbBody, styles.activityWrapBody)}
         key={result?.id}
       >
+        <div className={styles.typeWrap}>
+          {FilterTypes.find((v) => v.id === result?.type)?.label}
+          {result?.status && (
+            <span style={{ color: statusColor }}>
+              {LOAN_TRANSACTION_ACTIVITY.find((v) => v.id === result?.status)
+                ?.name || "Unknown"}
+            </span>
+          )}
+        </div>
         <div>
           <a
             className={styles.scanLink}
@@ -62,24 +71,24 @@ const TableBody = ({ results = [], detail }) =>
             {shortCryptoAddress(result?.tx_hash, 8)}
           </a>
         </div>
-        <div style={{ color: statusColor }}>
-          {LOAN_TRANSACTION_ACTIVITY.find((v) => v.id === result?.type)?.name ||
-            "Unknown"}
-        </div>
         <div>{moment(result?.created_at).fromNow()}</div>
-        <div>{`${formatCurrencyByLocale(
-          parseFloat(result?.offer_principal_amount) ||
-            parseFloat(result?.principal_amount),
-          2
-        )} ${result?.loan?.currency?.symbol}`}</div>
         <div>
-          {Math.ceil(
-            new BigNumber(result.duration).dividedBy(86400).toNumber()
-          )}{" "}
-          days
+          {result?.amount &&
+            `${formatCurrencyByLocale(parseFloat(result?.amount), 2)} ${
+              result?.currency
+            }`}
         </div>
         <div>
-          {new BigNumber(result.interest_rate).multipliedBy(100).toNumber()}%
+          {result.duration &&
+            `${Math.ceil(
+              new BigNumber(result.duration).dividedBy(86400).toNumber()
+            )} days`}
+        </div>
+        <div>
+          {result.interest_rate &&
+            `${new BigNumber(result.interest_rate)
+              .multipliedBy(100)
+              .toNumber()} %APY`}
         </div>
         <div>
           <a
@@ -144,20 +153,39 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
 
       const _activities: ItemActivityModel[] = response[0]?.result?.map(
         (v) => ({
-          type: FilterTypes[0].id,
+          type: FilterTypes[1].id,
+          id: v.id,
           status: v.type,
-          tx_hash,
-          created_at,
-          amount,
-          
+          tx_hash: v.tx_hash,
+          created_at: v.created_at,
+          amount: v.offer_principal_amount || v.principal_amount,
+          currency: v.loan?.currency?.symbol,
+          duration: v.duration,
+          interest_rate: v.interest_rate,
+          borrower: v.borrower,
+          lender: v.lender,
         })
       );
 
+      const _sales: ItemActivityModel[] = response[1]?.result?.map((v) => ({
+        type: FilterTypes[0].id,
+        id: v.id,
+        // status: v.type,
+        tx_hash: v.transaction_id,
+        created_at: v.created_at,
+        // amount: v.offer_principal_amount || v.principal_amount,
+        // duration: v.duration,
+        // interest_rate: v.interest_rate,
+        borrower: v.seller,
+        lender: v.buyer,
+      }));
+
       setActivities(_activities);
-      setSales(response[1]?.result);
+
+      setSales(_sales);
 
       const _results: ItemActivityModel[] = sortBy(
-        response[0]?.result?.concat(response[1]?.result),
+        _activities?.concat(_sales),
         ["created_at"]
       ).reverse();
 

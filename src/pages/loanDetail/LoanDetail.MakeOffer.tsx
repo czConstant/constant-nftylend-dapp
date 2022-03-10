@@ -6,6 +6,7 @@ import FieldAmount from "src/common/components/form/fieldAmount";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
 import InputWrapper from "src/common/components/form/inputWrapper";
 import Loading from "src/common/components/loading";
+import { APP_URL } from "src/common/constants/url";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { required } from "src/common/utils/formValidate";
 import {
@@ -16,6 +17,7 @@ import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import MakeOfferTransaction from "src/modules/nftLend/transactions/makeOffer";
 import { useAppDispatch } from "src/store/hooks";
 import { requestReload } from "src/store/nftLend";
+import { TABS } from "../myAsset";
 import styles from "./styles.module.scss";
 
 const CreateOfferForm = ({ onSubmit, loan, submitting }) => {
@@ -62,7 +64,13 @@ const CreateOfferForm = ({ onSubmit, loan, submitting }) => {
   );
 };
 
-const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
+const LoanDetailMakeOffer = ({
+  wallet,
+  connection,
+  loan,
+  onClose,
+  navigate,
+}) => {
   const dispatch = useAppDispatch();
   const [submitting, setSubmitting] = useState(false);
 
@@ -105,6 +113,7 @@ const LoanDetailMakeOffer = ({ wallet, connection, loan, onClose }) => {
         );
         dispatch(requestReload());
         onClose();
+        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=${TABS.offer}`);
       }
     } catch (error: any) {
       toastError(error?.message || error);

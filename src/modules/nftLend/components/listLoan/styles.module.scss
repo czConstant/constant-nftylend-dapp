@@ -81,3 +81,15 @@
     margin: 20px 0;
   }
 }
+
+.actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  
+  button {
+    padding: 0px;
+    width: fit-content!important;
+    padding: 0px 10px!important;
+  }
+}
