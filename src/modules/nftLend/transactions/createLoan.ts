@@ -10,7 +10,7 @@ import {
   Transaction,
 } from '@solana/web3.js';
 
-import { LENDING_PROGRAM_ID, LOAN_INFO_LAYOUT } from './constants';
+import { getLendingProgramId, LOAN_INFO_LAYOUT } from './constants';
 import { InitLoanInstruction } from './utils';
 import SolTransaction from './index';
 
@@ -30,7 +30,7 @@ export default class CreateLoanTransaction extends SolTransaction {
   ) {
     if (!this.wallet.publicKey) return;
     try {
-      const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
+      const lendingProgramId = new PublicKey(getLendingProgramId());
       const borrower_nft_account_pubkey = new PublicKey(
         borrowerNftAssociated,
       );

@@ -27,6 +27,17 @@
   }
   .actions {
     align-items: center;
+    > div:first-child {
+      flex: 1;
+    }
+  }
+  .notVerified {
+    border-radius: 8px;
+    background-color: rgba(255, 192, 122, 0.2);
+    padding: 10px 20px;
+    color: #DE710B;
+    font-size: 14px;
+    font-weight: 500;
   }
   .attContainer {
     border-top: 1px solid var(--bs-gray-200);
@@ -36,7 +47,7 @@
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: var(--bs-gray-600);
+      color: var(--bs-gray-200);
       margin-bottom: 5px;
     }
     .attWrap {
@@ -44,7 +55,7 @@
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 1rem;
       > div {
-        background-color: var(--bs-gray-200);
+        background-color: black;
         display: flex;
         flex-direction: column;
         padding: 5px 10px;
@@ -52,17 +63,17 @@
         label {
           font-size: 11px;
           text-transform: uppercase;
-          color: var(--bs-gray);
+          color: var(--bs-gray-200);
         }
         div {
           font-size: 14px;
-          color: var(--bs-dark);
+          color: #ffffff;
         }
       }
     }
   }
   .description {
-    color: #777e90;
+    color: #ffffff;
     letter-spacing: 0;
     line-height: 24px;
     margin-top: 15px;
@@ -85,11 +96,12 @@
     border-radius: 90px;
     height: 50px;
     width: 100%;
+    filter: none;
     &:not(:first-child) {
       margin-left: 10px;
     }
     &:nth-child(2) {
-      background: transparent;
+      background: #3772ff;
       border: 1px solid #3772ff;
       color: #3772ff;
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import cx from 'classnames';
+import cx from "classnames";
 import BodyContainer from "src/common/components/bodyContainer";
 import {
   getCollectionById,
@@ -18,6 +18,7 @@ import LoansSidebar from "./Loans.Sidebar";
 import ItemNFT from "src/modules/nftLend/components/itemNft";
 import LoadingList from "src/modules/nftLend/components/loadingList";
 import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
+import LoansToolbar from "./Loans.Toolbar";
 
 const Loans = () => {
   const location = useLocation();
@@ -25,27 +26,24 @@ const Loans = () => {
     queryString.parse(location.search) || null;
 
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingList, setLoadingList] = useState<boolean>(false);
   const [resLoans, resSetLoans] = useState<LoanData[]>([]);
   const [resCollection, setResCollection] = useState<CollectData>();
   const [resCollections, setResCollections] = useState<CollectData[]>([]);
 
   useEffect(() => {
     getData();
-  }, [
-    paramCollection.collection_id,
-    paramCollection.exclude_ids,
-    paramCollection.max_price,
-    paramCollection.min_price,
-  ]);
+  }, [JSON.stringify(paramCollection)]);
 
   const getData = async () => {
+    setLoadingList(true);
     try {
       const params: LoanByCollectionParams = {
         ...paramCollection,
       };
-      if (paramCollection.collection_id) {
+      if (paramCollection.collection_slug) {
         const _resCollection: ResponseResult = await getCollectionById(
-          paramCollection.collection_id
+          paramCollection.collection_slug
         );
         params.collection_id = _resCollection.result?.id;
         setResCollection(_resCollection?.result);
@@ -55,6 +53,7 @@ const Loans = () => {
           limit: 10,
         });
         setResCollections(_resCollections.result);
+        setResCollection(null);
       }
       const response: ListResponse = await getLoanByCollection(params);
       const result = response.result;
@@ -62,11 +61,12 @@ const Loans = () => {
     } catch (error) {
     } finally {
       setLoading(false);
+      setLoadingList(false);
     }
   };
 
   const renderContentList = () => {
-    if (loading) {
+    if (loading || loadingList) {
       return <LoadingList num_items={4} />;
     } else if (resLoans?.length === 0) {
       return <EmptyDetailLoan />;
@@ -85,15 +85,23 @@ const Loans = () => {
         dataLoan={resLoans}
         collections={resCollections}
       />
-      <div className={styles.contentWrapper}>
-        <LoansSidebar isLoading={loading} />
-        <div
-          className={cx(
-            styles.listContainer,
-            !loading && resLoans?.length === 0 && styles.wrapContentEmpty
-          )}
-        >
-          {renderContentList()}
+      <div
+        className={cx([
+          styles.contentWrapper,
+          resCollection && styles.listContainerWrapBorder,
+        ])}
+      >
+        {/* <LoansSidebar isLoading={loading} /> */}
+        <div className={cx([styles.listContainerWrap])}>
+          <LoansToolbar />
+          <div
+            className={cx(
+              styles.listContainer,
+              !loading && resLoans?.length === 0 && styles.wrapContentEmpty
+            )}
+          >
+            {renderContentList()}
+          </div>
         </div>
       </div>
     </BodyContainer>

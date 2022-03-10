@@ -8,11 +8,7 @@ import styles from "./styles.module.scss";
 import { LoanData } from "src/modules/nftLend/models/loan";
 import { CollectData } from "src/modules/nftLend/models/collection";
 import Loading from "src/common/components/loading";
-import { OnBoardingHeader } from "../home";
-
-// const LoadingHeader = () => {
-//   return
-// }
+import { OnBoardingHeader } from "../discover";
 
 interface LoansHeaderProps {
   dataLoan: LoanData[];
@@ -77,6 +73,8 @@ const LoansHeader: React.FC<LoansHeaderProps> = ({
       );
     }
   };
+
+  if (!collection) return null;
 
   return (
     <div className={cx(homeStyles.headerWrapper, styles.headerWrapper)}>

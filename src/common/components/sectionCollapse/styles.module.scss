@@ -1,0 +1,48 @@
+.sectionWrap {
+  margin-top: 1rem;
+  overflow: hidden;
+  > div {
+    background-color: transparent;
+    border-radius: 0;
+  }
+  // max-width: 468px;
+  .btnDisabled {
+    button {
+      pointer-events: none;
+    }
+  }
+  h2 {
+    color: var(--bs-white) !important;
+    font-weight: 500;
+    button {
+      border-radius: 16px;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      border-radius: 16px !important;
+      border: 1px solid #141416 !important;
+      background-color: #141416 !important;
+      color: var(--bs-white) !important;
+      font-weight: 500;
+      box-shadow: none !important;
+      &::after {
+        filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(10deg)
+          brightness(104%) contrast(102%) !important;
+      }
+    }
+  }
+  .tabContentWrap {
+    background-color: #19191c;
+    border-radius: 21px;
+    padding: 25px 20px;
+    margin-top: 5px;
+    > div {
+      font-size: 16px;
+      color: #777e90;
+      letter-spacing: 0;
+      line-height: 24px;
+    }
+  }
+}

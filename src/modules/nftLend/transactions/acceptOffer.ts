@@ -1,7 +1,7 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { PublicKey, Transaction, SYSVAR_CLOCK_PUBKEY } from '@solana/web3.js';
 
-import { LENDING_PROGRAM_ID } from './constants';
+import { getLendingProgramId } from './constants';
 import { AcceptOfferInstruction } from './utils';
 import SolTransaction from './index';
 
@@ -15,7 +15,7 @@ export default class AcceptOfferTransaction extends SolTransaction {
     if (!this.wallet.publicKey) return;
 
     try {
-      const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
+      const lendingProgramId = new PublicKey(getLendingProgramId());
       const borrower_usd_account_pubkey = new PublicKey(usdAccountAddress);
       const usd_mint_pubkey = new PublicKey(usdTokenMint);
 

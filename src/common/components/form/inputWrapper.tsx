@@ -9,13 +9,14 @@ interface InputWrapperProps {
   desc?: string | React.ReactNode;
   children: React.ReactNode;
   className?: string;
+  theme?: 'light' | 'dark'
 }
 
 const InputWrapper = (props: InputWrapperProps) => {
-  const { className, label, desc, children } = props;
+  const { className, label, desc, children, theme } = props;
 
   return (
-    <div className={cx(styles.inputWrapper, className)}>
+    <div className={cx([styles.inputWrapper, className, theme === 'dark' && styles.inputWrapperDark])}>
       {label && (
         <div className={cx(styles.labelWrapper)}>
           <label>

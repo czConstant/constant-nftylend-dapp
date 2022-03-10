@@ -1,7 +1,7 @@
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, createAssociatedTokenAccountInstruction } from '@solana/spl-token';
 import { PublicKey, Transaction, SYSVAR_CLOCK_PUBKEY } from '@solana/web3.js';
 
-import { LENDING_PROGRAM_ID } from './constants';
+import { getLendingProgramId } from './constants';
 import { LiquidateInstruction } from './utils';
 import SolTransaction from './index';
 
@@ -17,7 +17,7 @@ export default class LiquidateLoanTransaction extends SolTransaction {
     if (!this.wallet.publicKey) return;
 
     try {
-      const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
+      const lendingProgramId = new PublicKey(getLendingProgramId());
       const nft_mint_pubkey = new PublicKey(nftMint);
       const borrower_pubkey = new PublicKey(borrowerPubkey);
 
@@ -49,7 +49,6 @@ export default class LiquidateLoanTransaction extends SolTransaction {
         new PublicKey(lenderNftAssociated)
       );
       if (assosiatedAccountInfo === null || assosiatedAccountInfo.data.length === 0) {
-        console.log("Assosiated account have not initialized");
         tx.add(createAssTokenAccountIx);
       }
 

@@ -12,16 +12,16 @@ import {
   ORDER_NOW_INSTRUCTION_LAYOUT,
 } from './constants';
 
-export const TokenInstruction = {
-  InitLoan: 0,
-  MakeOffer: 1,
-  AcceptOffer: 2,
-  CancelLoan: 3,
-  CancelOffer: 4,
-  PayLoan: 5,
-  Liquidate: 6,
-  CloseOffer: 7,
-  OrderNow: 8,
+export enum LendingInstruction {
+  InitLoan = 0,
+  MakeOffer = 1,
+  AcceptOffer = 2,
+  CancelLoan = 3,
+  CancelOffer = 4,
+  PayLoan = 5,
+  Liquidate = 6,
+  CloseOffer = 7,
+  OrderNow = 8,
 };
 
 export function InitLoanInstruction(
@@ -36,7 +36,7 @@ export function InitLoanInstruction(
   loan_duration: number,
   interest_rate: number,
   nft_collateral_contract: PublicKey,
-  loan_denomination: PublicKey,
+  loan_currency: PublicKey,
 ) {
   const keys = [
     { pubkey: borrower_account, isSigner: true, isWritable: false },
@@ -50,12 +50,12 @@ export function InitLoanInstruction(
   const data = Buffer.alloc(INIT_LOAN_INSTRUCTION_LAYOUT.span);
   INIT_LOAN_INSTRUCTION_LAYOUT.encode(
     {
-      instruction: TokenInstruction.InitLoan,
+      instruction: LendingInstruction.InitLoan,
       loan_principal_amount: BigInt(loan_principal_amount),
       loan_duration: BigInt(loan_duration),
       interest_rate: BigInt(interest_rate),
       nft_collateral_contract,
-      loan_denomination,
+      loan_currency,
     },
     data,
   );
@@ -80,7 +80,9 @@ export function InitOfferInstruction(
   loan_principal_amount: number,
   loan_duration: number,
   interest_rate: number,
-  loan_denomination: PublicKey,) {
+  loan_currency: PublicKey,
+  expired: number,
+  ) {
   const keys = [
     { pubkey: lender_account, isSigner: true, isWritable: false },
     { pubkey: borrower_account, isSigner: false, isWritable: false },
@@ -93,12 +95,13 @@ export function InitOfferInstruction(
   const data = Buffer.alloc(INIT_OFFER_INSTRUCTION_LAYOUT.span);
   INIT_OFFER_INSTRUCTION_LAYOUT.encode(
     {
-      instruction: TokenInstruction.MakeOffer,
+      instruction: LendingInstruction.MakeOffer,
       loan_id,
       loan_principal_amount: BigInt(loan_principal_amount),
       loan_duration: BigInt(loan_duration),
       interest_rate: BigInt(interest_rate),
-      loan_denomination
+      loan_currency,
+      expired: BigInt(expired),
     },
     data
   );
@@ -126,7 +129,7 @@ export function CancelLoanInstruction(
   const data = Buffer.alloc(CANCEL_LOAN_INSTRUCTION_LAYOUT.span);
   CANCEL_LOAN_INSTRUCTION_LAYOUT.encode(
     {
-      instruction: TokenInstruction.CancelLoan,
+      instruction: LendingInstruction.CancelLoan,
       loan_id: loan_info_account,
     },
     data
@@ -156,7 +159,7 @@ export function CancelOfferInstruction(
   const data = Buffer.alloc(CANCEL_OFFER_INSTRUCTION_LAYOUT.span);
   CANCEL_OFFER_INSTRUCTION_LAYOUT.encode(
     {
-      instruction: TokenInstruction.CancelOffer,
+      instruction: LendingInstruction.CancelOffer,
       offer_id: offer_info_account,
     },
     data
@@ -196,7 +199,7 @@ export function AcceptOfferInstruction(
   const data = Buffer.alloc(ACCEPT_OFFER_INSTRUCTION_LAYOUT.span);
   ACCEPT_OFFER_INSTRUCTION_LAYOUT.encode(
     {
-      instruction: TokenInstruction.AcceptOffer,
+      instruction: LendingInstruction.AcceptOffer,
       loan_id: loan_info_account,
       offer_id: offer_info_account,
       loan_principal_amount: BigInt(loan_principal_amount),
@@ -239,7 +242,7 @@ export function LiquidateInstruction(
   const data = Buffer.alloc(LIQUIDATE_INSTRUCTION_LAYOUT.span);
   LIQUIDATE_INSTRUCTION_LAYOUT.encode(
     {
-      instruction: TokenInstruction.Liquidate,
+      instruction: LendingInstruction.Liquidate,
       loan_id: loan_info_account,
       offer_id: offer_info_account,
     },
@@ -283,7 +286,7 @@ export function PayInstruction(
   const data = Buffer.alloc(PAY_INSTRUCTION_LAYOUT.span);
   PAY_INSTRUCTION_LAYOUT.encode(
     {
-      instruction: TokenInstruction.PayLoan,
+      instruction: LendingInstruction.PayLoan,
       loan_id: loan_info_account,
       offer_id: offer_info_account,
       pay_amount: BigInt(pay_amount),
@@ -315,7 +318,7 @@ export function CloseOfferInstruction(
   const data = Buffer.alloc(CLOSE_OFFER_INSTRUCTION_LAYOUT.span);
   CLOSE_OFFER_INSTRUCTION_LAYOUT.encode(
     {
-      instruction: TokenInstruction.CloseOffer,
+      instruction: LendingInstruction.CloseOffer,
       offer_id: offer_info_account,
     },
     data
@@ -354,7 +357,7 @@ export function OrderNowInstruction(
   const data = Buffer.alloc(ORDER_NOW_INSTRUCTION_LAYOUT.span);
   ORDER_NOW_INSTRUCTION_LAYOUT.encode(
     {
-      instruction: TokenInstruction.OrderNow,
+      instruction: LendingInstruction.OrderNow,
       loan_id,
     },
     data

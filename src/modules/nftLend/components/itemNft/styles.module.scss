@@ -111,3 +111,45 @@
     }
   }
 }
+
+.footer {
+  display: flex;
+  background-color: var(--bs-gray-900);
+  margin-left: -20px;
+  margin-right: -20px;
+  margin-bottom: -24px;
+  margin-top: 10px;
+  > div {
+    label {
+      color: #777e90;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+      text-align: center;
+    }
+    > div {
+      color: #ffffff;
+      font-size: 13px;
+      margin-top: 2px;
+      font-weight: bold;
+      text-align: center;
+    }
+    &:first-child,
+    &:last-child {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 5px;
+    }
+    &:nth-child(2) {
+      width: 2px;
+      height: auto;
+      background-color: var(--bs-gray-800);
+      margin: 10px 0px;
+      border-radius: 100px;
+    }
+  }
+}

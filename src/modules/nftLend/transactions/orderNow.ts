@@ -1,86 +1,92 @@
-import { AccountLayout, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { AccountLayout, createInitializeAccountInstruction, createTransferInstruction, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import {
   Keypair,
   PublicKey,
   SystemProgram,
   SYSVAR_RENT_PUBKEY,
+  SYSVAR_CLOCK_PUBKEY,
   Transaction,
 } from '@solana/web3.js';
 
-import { LENDING_PROGRAM_ID, OFFER_INFO_LAYOUT } from './constants';
-import { InitOfferInstruction } from './utils';
+import { getLendingProgramId, OFFER_INFO_LAYOUT } from './constants';
+import { OrderNowInstruction } from './utils';
 import SolTransaction from './index';
 
-export default class MakeOfferTransaction extends SolTransaction {
+export default class OrderNowTransaction extends SolTransaction {
   async run(
-    sendTokenMint /* string */,
-    sendTokenAssociated /* string */,
-    borrowerAddress /* string */,
-    loanAddress /* string */,
-    principal /* number */,
-    interest /* number */,
-    duration /* number */,
+    tokenMint: string,
+    borrowerTokenAssociated: string,
+    borrowerAddress: string,
+    loanAddress: string,
+    lenderTokenAssociated: string,
+    principal: number,
   ) {
+    if (!this.wallet.publicKey) return;
+
     try {
-      const lendingProgramId = new PublicKey(LENDING_PROGRAM_ID);
+      const lendingProgramId = new PublicKey(getLendingProgramId());
+      const borrower_usd_pubkey = new PublicKey(borrowerTokenAssociated);
+      const borrower_pubkey = new PublicKey(borrowerAddress);
       const loan_id = new PublicKey(loanAddress);
-      const lender_usd_account_pubkey = new PublicKey(sendTokenAssociated);
-      const usd_mint_pubkey = new PublicKey(sendTokenMint);
-      const borrow_account = new PublicKey(borrowerAddress);
+      const lender_usd_account_pubkey = new PublicKey(lenderTokenAssociated);
+      const usd_mint_pubkey = new PublicKey(tokenMint);
 
       const temp_usd_account = new Keypair();
 
+      const PDA = await PublicKey.findProgramAddress(
+        [Buffer.from('lending')],
+        lendingProgramId
+      );
       const createTempTokenAccountIx = SystemProgram.createAccount({
         programId: TOKEN_PROGRAM_ID,
         space: AccountLayout.span,
         lamports: await this.connection.getMinimumBalanceForRentExemption(
-          AccountLayout.span,
+          AccountLayout.span
         ),
         fromPubkey: this.wallet.publicKey,
         newAccountPubkey: temp_usd_account.publicKey,
       });
 
-      const initTempAccountIx = Token.createInitAccountInstruction(
-        TOKEN_PROGRAM_ID,
-        usd_mint_pubkey,
+      const initTempAccountIx = createInitializeAccountInstruction(
         temp_usd_account.publicKey,
+        usd_mint_pubkey,
         this.wallet.publicKey,
+        TOKEN_PROGRAM_ID,
       );
 
-      const transferUsdToTempAccIx = Token.createTransferInstruction(
-        TOKEN_PROGRAM_ID,
+      const transferUsdToTempAccIx = createTransferInstruction(
         lender_usd_account_pubkey,
         temp_usd_account.publicKey,
         this.wallet.publicKey,
+        Number(principal),
         [],
-        principal,
+        TOKEN_PROGRAM_ID,
       );
 
       const offer_info_account = new Keypair();
       const createOfferAccountIx = SystemProgram.createAccount({
         space: OFFER_INFO_LAYOUT.span,
         lamports: await this.connection.getMinimumBalanceForRentExemption(
-          OFFER_INFO_LAYOUT.span,
+          OFFER_INFO_LAYOUT.span
         ),
         fromPubkey: this.wallet.publicKey,
         newAccountPubkey: offer_info_account.publicKey,
         programId: lendingProgramId,
       });
 
-      const initOfferIx = InitOfferInstruction(
+      const initOrderIx = OrderNowInstruction(
         lendingProgramId,
-        borrow_account,
         this.wallet.publicKey,
+        borrower_pubkey,
+        loan_id,
+        borrower_usd_pubkey,
         temp_usd_account.publicKey,
         offer_info_account.publicKey,
         SYSVAR_RENT_PUBKEY,
         TOKEN_PROGRAM_ID,
-
+        PDA[0],
+        SYSVAR_CLOCK_PUBKEY,
         loan_id,
-        principal,
-        duration,
-        interest,
-        usd_mint_pubkey,
       );
 
       const tx = new Transaction({ feePayer: this.wallet.publicKey }).add(
@@ -88,11 +94,11 @@ export default class MakeOfferTransaction extends SolTransaction {
         initTempAccountIx,
         transferUsdToTempAccIx,
         createOfferAccountIx,
-        initOfferIx,
+        initOrderIx
       );
 
       tx.recentBlockhash = (
-        await this.connection.getRecentBlockhash()
+        await this.connection.getLatestBlockhash()
       ).blockhash;
 
       const txHash = await this.wallet.sendTransaction(tx, this.connection, {

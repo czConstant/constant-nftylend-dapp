@@ -29,7 +29,7 @@ const slice = createSlice({
       state.callback = action.payload.callback;
     },
     hideLoadingOverlay: (state) => {
-      state = initialState;
+      state.show = false;
     },
   },
 });

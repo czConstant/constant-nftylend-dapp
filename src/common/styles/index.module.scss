@@ -1,4 +1,4 @@
-@import './_font.scss';
+@import "./_font.scss";
 
 * {
   box-sizing: border-box;
@@ -6,15 +6,15 @@
 
 body {
   margin: 0;
-  font-family: SFProDisplay, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: SFProDisplay, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -25,4 +25,8 @@ a {
 :root {
   --header-height: 66px;
   --footer-height: 85px;
+}
+
+.modal-body {
+  padding: 0 !important;
 }

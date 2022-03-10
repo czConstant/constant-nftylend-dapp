@@ -2,7 +2,6 @@ import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import axios from 'axios';
 import { API_URL } from 'src/common/constants/url';
-import store from 'src/store';
 
 interface TransactionRes {
   txHash: string;
@@ -19,10 +18,10 @@ export default class SolTransaction {
 
   handleError = async (err: any) => {
     if (err?.name === 'WalletSignTransactionError') return;
-    // store.dispatch(showAlert({ message: err.message, type: 'danger' }));
+    throw err;
   };
 
-  handleSuccess = async (res: TransactionRes) => {
+  handleSuccess = async (res: TransactionRes): Promise<TransactionRes> => {
     let count = 0;
     let txDetail = null;
     let block = null;

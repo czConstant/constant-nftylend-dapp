@@ -1,5 +1,6 @@
 interface ModalProps {
   dialogClassName?: string;
+  contentClassName?: string;
   padding?: number;
 }
 
@@ -11,4 +12,5 @@ export interface ModalComponentProps {
   actions?: object;
   modalProps?: ModalProps;
   onClose?: Function;
+  theme?: "light" | "dark";
 }

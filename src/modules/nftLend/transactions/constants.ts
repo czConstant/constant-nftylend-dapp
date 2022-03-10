@@ -1,11 +1,33 @@
 import { struct, u8 } from '@solana/buffer-layout';
 import { publicKey, u64 } from '@solana/buffer-layout-utils';
+import { PublicKey } from '@solana/web3.js';
 import { APP_ENV } from 'src/common/constants/url';
+import store from 'src/store';
 
-export const LENDING_PROGRAM_ID = APP_ENV.REACT_SOL_DELEND_PROGRAM;
-console.log("🚀 ~ file: constants.js ~ line 5 ~ LENDING_PROGRAM_ID", LENDING_PROGRAM_ID)
+export const getLendingProgramId = () => {
+  return store.getState().nftLend.configs.program_id || APP_ENV.REACT_SOL_DELEND_PROGRAM;
+};
 
-export const LOAN_INFO_LAYOUT = struct([
+interface LoanInfoLayout {
+  isInitialized: number;
+  borrowerPubkey: PublicKey;
+  borrowerDenominationAccountPubkey: PublicKey;
+  collateralAccountPubkey: PublicKey;
+  loanPrincipalAmount: bigint;
+  loanDuration: bigint;
+  interestRate: bigint;
+  nftCollateralContract: PublicKey;
+  loanDenomination: PublicKey;
+
+  status: number,
+  loanStartAt: bigint,
+  payAmount: bigint,
+  lenderPubkey: PublicKey,
+  offerInfo: PublicKey,
+  extendDuration: bigint,
+}
+
+export const LOAN_INFO_LAYOUT = struct<LoanInfoLayout>([
   u8('isInitialized'),
   publicKey('borrowerPubkey'),
   publicKey('collateralAccountPubkey'),
@@ -20,6 +42,7 @@ export const LOAN_INFO_LAYOUT = struct([
   u64('payAmount'),
   publicKey('lenderPubkey'),
   publicKey('offerInfo'),
+  u64('extendDuration'),
 ]);
 
 export const INIT_LOAN_INSTRUCTION_LAYOUT = struct([
@@ -28,10 +51,25 @@ export const INIT_LOAN_INSTRUCTION_LAYOUT = struct([
   u64('loan_duration'),
   u64('interest_rate'),
   publicKey('nft_collateral_contract'),
-  publicKey('loan_denomination'),
+  publicKey('loan_currency'),
 ]);
 
-export const OFFER_INFO_LAYOUT = struct([
+interface OfferInfoLayout {
+  isInitialized: number;
+  lenderPubkey: PublicKey;
+  loanPubkey: PublicKey;
+  loanPrincipalAmount: bigint;
+  loanDuration: bigint;
+  interestRate: bigint;
+  loanDenomination: PublicKey;
+  tmpDenominationAccountPubkey: PublicKey,
+  status: number;
+  paidAt: bigint;
+  paidAmount: bigint;
+  expired: bigint;
+}
+
+export const OFFER_INFO_LAYOUT = struct<OfferInfoLayout>([
   u8('isInitialized'),
   publicKey('lenderPubkey'),
   publicKey('loanPubkey'),
@@ -43,6 +81,7 @@ export const OFFER_INFO_LAYOUT = struct([
   u8('status'),
   u64('paidAt'),
   u64('paidAmount'),
+  u64("expired"),
 ]);
 
 export const INIT_OFFER_INSTRUCTION_LAYOUT = struct([
@@ -51,7 +90,8 @@ export const INIT_OFFER_INSTRUCTION_LAYOUT = struct([
   u64('loan_principal_amount'),
   u64('loan_duration'),
   u64('interest_rate'),
-  publicKey('loan_denomination'),
+  publicKey('loan_currency'),
+  u64('expired'),
 ]);
 
 export const CANCEL_LOAN_INSTRUCTION_LAYOUT = struct([

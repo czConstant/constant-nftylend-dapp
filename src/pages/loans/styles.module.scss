@@ -64,8 +64,11 @@
 .contentWrapper {
   flex: 1;
   display: flex;
-  border-top: 2px solid #2b2740;
   padding: 3rem;
+}
+
+.listContainerWrapBorder {
+  border-top: 2px solid #2b2740;
 }
 
 .sideBarContainer {
@@ -139,10 +142,16 @@
     color: #ffffff;
     letter-spacing: 0;
     font-weight: bold;
-    max-width: 121.5px;
+    width: 121.5px !important;
     &::placeholder,
     label {
       color: #515768;
+    }
+    button {
+      color: #ffffff !important;
+      &::after {
+        color: #515768 !important;
+      }
     }
   }
 }
@@ -162,14 +171,67 @@
   border: none;
 }
 
+.listContainerWrap {
+  padding: 0px 20px 20px;
+  flex: 1;
+  max-width: 1366px;
+  margin: 0 auto;
+}
+
 .listContainer {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 2.5rem 2rem;
-  padding: 0px 20px 20px;
-  flex: 1;
 }
 
 .wrapContentEmpty {
   grid-template-columns: 1fr;
+}
+
+.toolbarContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  .sortByDropdown {
+    button {
+      background: black;
+      border: 1px solid #2b2740;
+      border-radius: 8px;
+      box-sizing: border-box;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &::after {
+        margin-left: 10px;
+      }
+      &:hover {
+        border-color: #595280;
+      }
+      &:focus {
+        background-color: transparent;
+        outline: 0;
+        box-shadow: none;
+      }
+    }
+    :global .dropdown-menu.show {
+      background-color: #09080d;
+      border: 1px solid #2b273f;
+      border-radius: 8px;
+      box-shadow: 2px 2px 8px rgb(0 0 0 / 20%), 2px 4px 12px rgb(0 0 0 / 15%);
+
+      .dropdown-item {
+        color: #595280;
+        &:hover {
+          color: white;
+          background-color: transparent;
+        }
+      }
+      .active {
+        background-color: transparent;
+        color: white;
+      }
+    }
+  }
 }

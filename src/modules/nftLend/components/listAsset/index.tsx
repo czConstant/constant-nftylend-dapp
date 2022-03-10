@@ -32,6 +32,8 @@ const ListAsset = () => {
       id: 'createLoanModal',
       modalProps: { centered: true, backdrop: 'static', padding: 0 },
       render: () => <CreateLoan connection={connection} wallet={wallet} nftMint={nftToken.mint} onClose={close} />,
+      theme: 'dark',
+      title: 'Create Loan'
     }));
   };
 
@@ -41,6 +43,7 @@ const ListAsset = () => {
       id: 'detailLoanModal',
       modalProps: { centered: true, size: 'lg' },
       render: () => <AssetDetailModal onClose={close} item={item} />,
+      theme: 'dark'
     }));
   };
 

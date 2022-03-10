@@ -8,9 +8,11 @@ import { APP_ENV } from 'src/common/constants/url';
 
 const toPubkey = (key: PublicKey | string) => typeof(key) === 'string' ? new PublicKey(key) : key;
 
-export const getLinkSolScanTx = (txHash: string) => `https://solscan.io/tx/${txHash}?cluster=${APP_ENV.REACT_SOL_CLUSTER}`;
-export const getLinkSolScanAccount = (address: string) => `https://solscan.io/account/${address}?cluster=${APP_ENV.REACT_SOL_CLUSTER}`;
-export const getLinkSolScanExplorer = (address: string) => `https://explorer.solana.com/address/${address}?cluster=devnet`;
+export const getLinkSolScanTx = (txHash?: string) => `https://solscan.io/tx/${txHash}?cluster=${APP_ENV.REACT_SOL_CLUSTER}`;
+export const getLinkSolScanAccount = (address?: string) => `https://solscan.io/account/${address}?cluster=${APP_ENV.REACT_SOL_CLUSTER}`;
+export const getLinkSolScanExplorer = (address?: string) => `https://explorer.solana.com/address/${address}?cluster=devnet`;
+export const getLinkETHScanAddress = (address?: string) => `https://etherscan.io/address/${address}`;
+export const getLinkETHScanTokenId = (address?: string, id: string) => `https://etherscan.io/token/${address}?a=${id}`;
 
 export const getSolCluster = () => {
   if (APP_ENV.REACT_SOL_CLUSTER === 'testnet') return WalletAdapterNetwork.Testnet;
@@ -105,7 +107,6 @@ export const calculateTotalPay = (principal: number, interest: number, duration:
 export const getAccountInfo = async (connection: Connection, publicKey: PublicKey | string) => {
   try {
     const res = await connection.getAccountInfo(toPubkey(publicKey));
-    console.log('Account Info', res);
     return res;
   } catch (err) {
     console.log("🚀 ~ file: index.js ~ line 70 ~ useEffect ~ err", err);
