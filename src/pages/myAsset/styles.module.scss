@@ -181,6 +181,14 @@
         background-color: #e6e8ec;
         border-color: none;
       }
+      :global .fa-arrow-up {
+        margin-right: 5px;
+        color: var(--bs-green);
+      }
+      :global .fa-arrow-down {
+        margin-right: 5px;
+        color: var(--bs-blue);
+      }
     }
   }
 }

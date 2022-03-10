@@ -37,6 +37,7 @@ const TABS = {
   loan: "Loans",
   offer: "Offers",
   offer_received: "OffersReceived",
+  history: "History",
 };
 
 const MyAsset = () => {
@@ -145,23 +146,31 @@ const MyAsset = () => {
                 <Tab
                   eventKey={TABS.offer}
                   tabClassName={styles.tab}
-                  title={<span><i className="fas fa-solid fa-arrow-up-right"></i> Offers made</span>}
+                  title={
+                    <span>
+                      <i className="fas fa-arrow-up"></i> Offers made
+                    </span>
+                  }
                 >
                   <ListOffer />
                 </Tab>
                 <Tab
                   eventKey={TABS.offer_received}
                   tabClassName={styles.tab}
-                  title={<span><i className="fas fa-arrow-up-right"></i> Offers received</span>}
+                  title={
+                    <span>
+                      <i className="fas fa-arrow-down"></i> Offers received
+                    </span>
+                  }
                 >
                   <ListOfferReceive />
                 </Tab>
                 <Tab
-                  eventKey={TABS.offer_received}
+                  eventKey={TABS.history}
                   tabClassName={styles.tab}
                   title="History"
                 >
-                  <ListOfferReceive />
+                  <MyListHistory />
                 </Tab>
               </Tabs>
             </div>

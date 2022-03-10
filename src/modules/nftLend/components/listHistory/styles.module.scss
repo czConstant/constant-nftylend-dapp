@@ -1,0 +1,84 @@
+.wrapper {
+  .dropdown {
+    margin: 20px 0;
+    > button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      border: 2px solid #777e90;
+      border-radius: 4px;
+      min-width: 120px;
+      font-size: 14px;
+    }
+  }
+  .table {
+    margin: 20px 0 60px;
+    border-radius: 16px;
+    overflow: hidden;
+    > div:nth-child(odd) {
+      background-color: #19191c;
+    }
+    > div:nth-child(even) {
+      background-color: #141416;
+    }
+    .header {
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .item {
+      cursor: pointer;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      color: white;
+      font-size: 14px;
+      a,
+      a:hover {
+        text-decoration: underline;
+        color: white;
+        font-weight: bold;
+      }
+      > div:first-child {
+        padding-left: 20px;
+      }
+      > div {
+        padding: 20px 5px;
+        display: flex;
+        align-items: center;
+        .statusWrap {
+          padding: 5px 20px;
+          border-radius: 8px;
+          font-weight: 500;
+          font-size: 14px;
+          letter-spacing: 0;
+          line-height: 24px;
+          min-width: 100px;
+          text-align: center;
+        }
+      }
+      button {
+        font-size: 14px;
+        background: transparent;
+        border: none;
+        text-decoration: underline;
+      }
+    }
+    .expand {
+      background-color: black;
+      border: 1px solid #19191c;
+      label {
+        font-size: 10px;
+        color: #777e90;
+        text-transform: uppercase;
+      }
+    }
+  }
+  .loading {
+    margin: 20px 0;
+  }
+}
