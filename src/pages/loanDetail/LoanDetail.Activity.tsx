@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import cx from "classnames";
+import sortBy from "lodash/sortBy";
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
@@ -39,11 +40,11 @@ const TableBody = ({ results = [], detail }) =>
   results.map((result) => {
     let statusColor = "#ffffff";
 
-    if (["listed"].includes(result.type)) {
+    if (["listed"].includes(result.status)) {
       statusColor = "blue";
-    } else if (["offered", "repaid"].includes(result.type)) {
+    } else if (["offered", "repaid"].includes(result.status)) {
       statusColor = "green";
-    } else if (["cancelled", "liquidated"].includes(result.type)) {
+    } else if (["cancelled", "liquidated"].includes(result.status)) {
       statusColor = "red";
     }
 
@@ -104,9 +105,25 @@ const TableBody = ({ results = [], detail }) =>
     );
   });
 
+class ItemActivityModel {
+  type: string;
+}
+
+const FilterTypes = [
+  {
+    id: "sale",
+    label: "Sale",
+  },
+  {
+    id: "loan",
+    label: "Loan",
+  },
+];
+
 const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
   const [results, setResults] = useState([]);
   const [sales, setSales] = useState([]);
+  const [activities, setActivities] = useState([]);
 
   useEffect(() => {
     if (loan?.id) {
@@ -124,8 +141,27 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
           asset_id: loan?.id?.toString(),
         }),
       ]);
-      setResults(response[0]?.result);
-      setSales(response[0]?.result);
+
+      const _activities: ItemActivityModel[] = response[0]?.result?.map(
+        (v) => ({
+          type: FilterTypes[0].id,
+          status: v.type,
+          tx_hash,
+          created_at,
+          amount,
+          
+        })
+      );
+
+      setActivities(_activities);
+      setSales(response[1]?.result);
+
+      const _results: ItemActivityModel[] = sortBy(
+        response[0]?.result?.concat(response[1]?.result),
+        ["created_at"]
+      ).reverse();
+
+      setResults(_results);
     } catch (error) {}
   };
 
