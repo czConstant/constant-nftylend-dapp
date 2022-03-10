@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import EmptyList from "src/common/components/emptyList";
 import ListTable from "src/common/components/listTable";
 import Loading from "src/common/components/loading";
+import { API_URL } from "src/common/constants/url";
 import { useAppSelector } from "src/store/hooks";
 import { selectNftLend } from "src/store/nftLend";
 
@@ -33,7 +34,43 @@ const MyListHistory = ({}) => {
 
   return (
     <div className={styles.wrapper}>
-      <ListTable columns={[]} />
+      <ListTable
+        url={API_URL.NFT_LEND.ASSET_TRANSACTION}
+        params={{
+          owner: publicKey.toString(),
+        }}
+        emptyLabel="There is no loan"
+        columns={[
+          {
+            id: "name",
+            label: "AssetName",
+          },
+          {
+            id: "principal",
+            label: "Amount",
+          },
+          {
+            id: "duration",
+            label: "Duration",
+          },
+          {
+            id: "interest",
+            label: "Interest",
+          },
+          {
+            id: "status",
+            label: "Status",
+          },
+          {
+            id: "txHash",
+            label: "TxHash",
+          },
+          {
+            id: "Action",
+            label: "Action",
+          },
+        ]}
+      />
       {/* <Dropdown className={styles.dropdown} onSelect={(e) => e && setStatus(e)}>
         <Dropdown.Toggle>
           <span>{status.toUpperCase() || "ALL"}</span>

@@ -62,43 +62,6 @@ const ListLoan = () => {
           ))}
         </Dropdown.Menu>
       </Dropdown>
-      <ListTable
-        url={API_URL.NFT_LEND.GET_LOANS}
-        params={{
-          owner: publicKey.toString(),
-        }}
-        emptyLabel="There is no loan"
-        columns={[
-          {
-            id: "name",
-            label: "AssetName",
-          },
-          {
-            id: "principal",
-            label: "Amount",
-          },
-          {
-            id: "duration",
-            label: "Duration",
-          },
-          {
-            id: "interest",
-            label: "Interest",
-          },
-          {
-            id: "status",
-            label: "Status",
-          },
-          {
-            id: "txHash",
-            label: "TxHash",
-          },
-          {
-            id: "Action",
-            label: "Action",
-          },
-        ]}
-      />
       <div className={styles.table}>
         <div className={cx(styles.header, styles.row)}>
           <div>AssetName</div>

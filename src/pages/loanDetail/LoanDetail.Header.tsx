@@ -24,9 +24,7 @@ interface LoanDetailHeaderProps extends LoanDetailProps {}
 const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
   const wallet = useWallet();
 
-  console.log(wallet?.publicKey?.toString());
-
-  const userOffer = loan?.new_loan.offers.find(
+  const userOffer = loan?.new_loan?.offers?.find(
     (v) =>
       v.lender?.toString() === wallet?.publicKey?.toString() &&
       v.status === "new"

@@ -4,7 +4,7 @@ import SectionCollapse from "src/common/components/sectionCollapse";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 import {
-  getLoansByAssetId,
+  getSaleTransactions,
   getLoanTransactions,
 } from "src/modules/nftLend/api";
 import {
@@ -106,6 +106,7 @@ const TableBody = ({ results = [], detail }) =>
 
 const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
   const [results, setResults] = useState([]);
+  const [sales, setSales] = useState([]);
 
   useEffect(() => {
     if (loan?.id) {
@@ -115,10 +116,16 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
 
   const getData = async () => {
     try {
-      const response = await getLoanTransactions({
-        asset_id: loan?.id?.toString(),
-      });
-      setResults(response?.result);
+      const response = await Promise.all([
+        getLoanTransactions({
+          asset_id: loan?.id?.toString(),
+        }),
+        getSaleTransactions({
+          asset_id: loan?.id?.toString(),
+        }),
+      ]);
+      setResults(response[0]?.result);
+      setSales(response[0]?.result);
     } catch (error) {}
   };
 

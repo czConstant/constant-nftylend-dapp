@@ -165,13 +165,13 @@ const MyAsset = () => {
                 >
                   <ListOfferReceive />
                 </Tab>
-                <Tab
+                {/* <Tab
                   eventKey={TABS.history}
                   tabClassName={styles.tab}
                   title="History"
                 >
                   <MyListHistory />
-                </Tab>
+                </Tab> */}
               </Tabs>
             </div>
           </div>

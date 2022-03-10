@@ -24,5 +24,6 @@ export const API_URL = {
     UPDATE_BLOCK: `${MCT_ROOT}${MCT_API_BASE}/blockchain/update-block`,
     VERIFY_ASSET: `${MCT_ROOT}${MCT_API_BASE}/collections/verified`,
     LOAN_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/loans/transactions`,
+    SALE_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/assets/transactions`,
   }
 }
