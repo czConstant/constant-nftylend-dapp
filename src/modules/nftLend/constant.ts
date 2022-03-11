@@ -1,3 +1,5 @@
+import { APP_ENV } from "src/common/constants/url";
+
 export const LOAN_STATUS = [
   {
     id: "new",
@@ -91,6 +93,10 @@ export const OFFER_STATUS = {
     id: "liquidated",
     name: "Liquidated",
   },
+  overdue: {
+    id: "overdue",
+    name: "Overdue",
+  },
   done: {
     id: "done",
     name: "Done",
@@ -111,3 +117,10 @@ export const LOAN_DURATION = [
     label: "60 days",
   },
 ];
+
+if (APP_ENV.REACT_SOL_CLUSTER === "devnet") {
+  LOAN_DURATION.unshift({
+    id: 0.01,
+    label: "0.1 days",
+  });
+}
