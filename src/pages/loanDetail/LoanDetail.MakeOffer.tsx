@@ -1,7 +1,7 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Field, Form } from "react-final-form";
+import { Field, Form, useForm } from "react-final-form";
 import FieldAmount from "src/common/components/form/fieldAmount";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
 import InputWrapper from "src/common/components/form/inputWrapper";
@@ -20,7 +20,43 @@ import { requestReload } from "src/store/nftLend";
 import { TABS } from "../myAsset";
 import styles from "./styles.module.scss";
 
+const HIGH_RISK_VALUE = 2.5; // 250%
+
+const validateHighRisk = ({ value, maxValue, message }) => {
+  console.log("parseFloat(value)", parseFloat(value));
+  console.log(
+    "parseFloat(maxValue) * HIGH_RISK_VALUE",
+    parseFloat(maxValue) * HIGH_RISK_VALUE
+  );
+
+  if (parseFloat(value) > parseFloat(maxValue) * HIGH_RISK_VALUE) {
+    return (
+      <p className={styles.errorMessage}>
+        {message?.replace("%value", HIGH_RISK_VALUE * 100)}
+      </p>
+    );
+  }
+
+  return undefined;
+};
+
 const CreateOfferForm = ({ onSubmit, loan, submitting }) => {
+  const _form = useForm().getState().values;
+
+  const amountValidate = validateHighRisk({
+    value: _form.amount,
+    maxValue: loan.new_loan.principal_amount,
+    message:
+      "Loan Amount offer higher %value% of the original loan order, want review?",
+  });
+
+  const interestValidate = validateHighRisk({
+    value: _form.rate,
+    maxValue: loan.new_loan.interest_rate * 100,
+    message:
+      "Loan Interest %APY offer higher 250% of the original loan order, want review? ",
+  });
+
   return (
     <form onSubmit={onSubmit}>
       <InputWrapper label="Loan Amount" theme="dark">
@@ -30,6 +66,7 @@ const CreateOfferForm = ({ onSubmit, loan, submitting }) => {
           children={FieldAmount}
           placeholder="0.0"
           appendComp={loan.new_loan.currency.symbol}
+          errorMessage={amountValidate}
         />
       </InputWrapper>
       <InputWrapper label="Loan duration" theme="dark">
@@ -51,14 +88,17 @@ const CreateOfferForm = ({ onSubmit, loan, submitting }) => {
           children={FieldAmount}
           placeholder="0.0"
           appendComp="% APY"
+          errorMessage={interestValidate}
         />
       </InputWrapper>
+      {amountValidate}
+      {interestValidate}
       <Button
         type="submit"
         className={styles.submitButton}
         disabled={submitting}
       >
-        {submitting ? <Loading dark={false} /> : "Make Offer"}
+        {submitting ? <Loading dark={false} /> : "Offer now"}
       </Button>
     </form>
   );
@@ -98,7 +138,7 @@ const LoanDetailMakeOffer = ({
         Math.floor(Date.now() / 1000) + 7 * 86400
       );
 
-      if (res.txHash) {
+      if (res?.txHash) {
         toastSuccess(
           <>
             Make offer successfully.{" "}

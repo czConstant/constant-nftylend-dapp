@@ -42,7 +42,7 @@
     background-color: #1c1c1f;
     padding: 30px 27px 30px;
     border-radius: 16px;
-    
+
     .contentAvatar {
       width: 160px;
       height: 160px;
@@ -53,25 +53,7 @@
         border-radius: 100%;
       }
     }
-    .addressWrap {
-      margin-top: 15px;
-      background-color: transparent;
-      a {
-        font-weight: bold;
-        font-size: 14px;
-        color: #fcfcfd;
-        letter-spacing: 0;
-        line-height: 16px;
-        text-align: center;
-        width: 100%;
-        &:hover {
-          color: var(--bs-blue);
-        }
-      }
-      i {
-        color: var(--bs-blue);
-      }
-    }
+
     .connectButtonWrap {
       margin-top: 15px;
       width: 100%;
@@ -140,6 +122,27 @@
       font-weight: 600;
       color: black;
     }
+  }
+}
+
+.addressWrap {
+  margin-top: 15px;
+  background-color: transparent;
+  a {
+    font-weight: bold;
+    font-size: 14px;
+    color: #fcfcfd;
+    letter-spacing: 0;
+    line-height: 16px;
+    text-align: center;
+    width: 100%;
+    margin-right: 10px;
+    &:hover {
+      color: var(--bs-blue);
+    }
+  }
+  i {
+    color: var(--bs-blue);
   }
 }
 

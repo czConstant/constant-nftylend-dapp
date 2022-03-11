@@ -59,7 +59,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
             navigate={navigate}
           />
         ),
-        title: "Make Offer",
+        title: "Make an Offer",
         theme: "dark",
       })
     );
@@ -89,7 +89,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
         lenderTokenAssociated,
         Number(loan.new_loan.principal_amount) * 10 ** decimals
       );
-      if (res.txHash) {
+      if (res?.txHash) {
         toastSuccess(
           <>
             Make offer successfully.{" "}
