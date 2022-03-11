@@ -183,18 +183,20 @@ const Item = (props: ItemProps) => {
         <div>
           {principal} {loan.currency.symbol}
         </div>
-        <div>{days} days</div>
-        <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div>
+        <div>{days} days /<br/>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div>
+        {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
         <div>
           <div className={styles.statusWrap} style={statusStyle}>
             {status}
-            {/* {STATUS.find(v => v.id === status)?.name} */}
           </div>
         </div>
         <div>
           <a target="_blank" href={getLinkSolScanTx(loan.init_tx_hash)}>
             {shortCryptoAddress(loan.init_tx_hash, 8)}
           </a>
+        </div>
+        <div>
+         {moment(loan?.created_at).format('MM/DD/YYYY HH:mm A')}
         </div>
         <div className={styles.actions}>
           {showCancel && <Button onClick={onCancelLoan}>Cancel</Button>}

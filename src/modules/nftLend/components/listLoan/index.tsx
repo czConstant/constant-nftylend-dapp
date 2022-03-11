@@ -66,10 +66,11 @@ const ListLoan = () => {
         <div className={cx(styles.header, styles.row)}>
           <div>AssetName</div>
           <div>Amount</div>
-          <div>Duration</div>
-          <div>Interest</div>
+          <div>Duration / Interest</div>
+          {/* <div>Interest</div> */}
           <div>Status</div>
           <div>TxHash</div>
+          <div>Created At</div>
           <div>Action</div>
         </div>
         {!loading && loans?.length === 0 && (
