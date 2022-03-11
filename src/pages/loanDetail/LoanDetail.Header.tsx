@@ -99,6 +99,20 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
                       className={styles.feeInfoTitle}
                       style={{ color: "green", opacity: 0.8 }}
                     >
+                      My Principal
+                    </div>
+                    <div
+                      className={styles.feeInfoValue}
+                      style={{ color: "green", fontWeight: "bold" }}
+                    >
+                      {userOffer?.principal_amount} {loan?.new_loan?.currency?.symbol}
+                    </div>
+                  </div>
+                  <div>
+                    <div
+                      className={styles.feeInfoTitle}
+                      style={{ color: "green", opacity: 0.8 }}
+                    >
                       My Interest rate
                     </div>
                     <div
