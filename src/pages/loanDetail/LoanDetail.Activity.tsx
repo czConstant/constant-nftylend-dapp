@@ -142,7 +142,7 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
 
   const getData = async () => {
     try {
-      const response = await Promise.all([
+      const response = await Promise.allSettled([
         getLoanTransactions({
           asset_id: loan?.id?.toString(),
         }),
@@ -151,7 +151,7 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
         }),
       ]);
 
-      const _activities: ItemActivityModel[] = response[0]?.result?.map(
+      const _activities: ItemActivityModel[] = response[0]?.value?.result?.map(
         (v) => ({
           type: FilterTypes[1].id,
           id: v.id,
@@ -167,7 +167,7 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
         })
       );
 
-      const _sales: ItemActivityModel[] = response[1]?.result?.map((v) => ({
+      const _sales: ItemActivityModel[] = response[1]?.value?.result?.map((v) => ({
         type: FilterTypes[0].id,
         id: v.id,
         // status: v.type,
