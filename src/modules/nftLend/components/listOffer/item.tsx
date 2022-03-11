@@ -197,8 +197,8 @@ const Item = (props: ItemProps) => {
         <div>
           {principal} {loan.currency.symbol}
         </div>
-        <div>{days} days</div>
-        <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div>
+        <div>{days} days / <br />{new BigNumber(interest).multipliedBy(100).toNumber()}%</div>
+        {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
         <div>
           <div className={listLoanStyles.statusWrap} style={statusStyle}>
             {OFFER_STATUS[status].name}
@@ -209,6 +209,7 @@ const Item = (props: ItemProps) => {
             {shortCryptoAddress(loan.init_tx_hash, 8)}
           </a>
         </div>
+        <div>{moment(loan.created_at).format('MM/DD/YYYY HH:mm A')}</div>
         <div className={listLoanStyles.actions}>
           {showClaim && <Button onClick={onClaim}>Claim</Button>}
           {showLiquidate && <Button onClick={onLiquidate}>Liquidate</Button>}
