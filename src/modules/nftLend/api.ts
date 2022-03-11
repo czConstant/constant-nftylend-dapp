@@ -118,3 +118,9 @@ export const getLoanTransactions = (
 ): Promise<ListResponse> => {
   return api.get(`${API_URL.NFT_LEND.LOAN_TRANSACTION}`, { params });
 };
+
+export const getSaleTransactions = (
+  params: LoanTransactionParams
+): Promise<ListResponse> => {
+  return api.get(`${API_URL.NFT_LEND.SALE_TRANSACTION}`, { params });
+};

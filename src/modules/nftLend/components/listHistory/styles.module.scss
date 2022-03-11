@@ -6,7 +6,7 @@
       align-items: center;
       justify-content: space-between;
       background: transparent;
-      border: 2px solid #777E90;
+      border: 2px solid #777e90;
       border-radius: 4px;
       min-width: 120px;
       font-size: 14px;
@@ -17,7 +17,7 @@
     border-radius: 16px;
     overflow: hidden;
     > div:nth-child(odd) {
-      background-color: #19191C;
+      background-color: #19191c;
     }
     > div:nth-child(even) {
       background-color: #141416;
@@ -37,7 +37,8 @@
       grid-template-columns: repeat(7, 1fr);
       color: white;
       font-size: 14px;
-      a, a:hover {
+      a,
+      a:hover {
         text-decoration: underline;
         color: white;
         font-weight: bold;
@@ -69,27 +70,15 @@
     }
     .expand {
       background-color: black;
-      border: 1px solid #19191C;
+      border: 1px solid #19191c;
       label {
         font-size: 10px;
-        color: #777E90;
+        color: #777e90;
         text-transform: uppercase;
       }
     }
   }
   .loading {
     margin: 20px 0;
-  }
-}
-
-.actions {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  
-  button {
-    padding: 0px;
-    width: fit-content!important;
-    padding: 0px 10px!important;
   }
 }

@@ -30,6 +30,8 @@ const FieldAmount = (props: FieldAmountProps) => {
     appendComp,
     onClickMax,
     placeholder = "0.0",
+    errorMessage,
+    errorPlacement = "bottom",
     // disabledInput, errorPlacement, zIndex, anchorAppend,
     ...restProps
   } = props;
@@ -54,7 +56,12 @@ const FieldAmount = (props: FieldAmountProps) => {
 
   return (
     <FormGroup ref={target} className={styles.formGroup}>
-      <InputGroup className={cx(styles.inputGroup, isError && styles.borderDanger)}>
+      <InputGroup
+        className={cx(
+          styles.inputGroup,
+          (isError || errorMessage) && styles.borderDanger
+        )}
+      >
         {prependComp && (
           <div className={cx(styles.groupPrepend)}>
             <InputGroup.Text>{prependComp}</InputGroup.Text>
@@ -87,7 +94,7 @@ const FieldAmount = (props: FieldAmountProps) => {
         )}
       </InputGroup>
       {isError && (
-        <Overlay target={target.current} show={true} placement="bottom">
+        <Overlay target={target.current} show={true} placement={errorPlacement}>
           {(props) => (
             <Tooltip className={styles.errorMessageWrap} id={error} {...props}>
               {error}

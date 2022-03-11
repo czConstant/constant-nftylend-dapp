@@ -20,6 +20,7 @@ import { requestReload } from "src/store/nftLend";
 import { useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
 import CancelOfferTransaction from "src/modules/nftLend/transactions/cancelOffer";
+import { TABS } from "../myAsset";
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
@@ -55,9 +56,10 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
             wallet={wallet}
             loan={loan}
             onClose={close}
+            navigate={navigate}
           />
         ),
-        title: "Make Offer",
+        title: "Make an Offer",
         theme: "dark",
       })
     );
@@ -87,7 +89,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
         lenderTokenAssociated,
         Number(loan.new_loan.principal_amount) * 10 ** decimals
       );
-      if (res.txHash) {
+      if (res?.txHash) {
         toastSuccess(
           <>
             Make offer successfully.{" "}
@@ -100,7 +102,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
             </a>
           </>
         );
-        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=offer_made`);
+        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=${TABS.offer}`);
       }
     } catch (err) {
       toastError(err?.message);
@@ -138,7 +140,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
             </a>
           </>
         );
-        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=my_assets`);
+        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}`);
       }
     } catch (err) {
       toastError(err?.message || err);
