@@ -17,7 +17,7 @@ import { shortCryptoAddress } from "src/common/utils/format";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toastSuccess } from "src/common/services/toaster";
 
-const ModalCreateLoan = ({ navigate, onClose }) => {
+const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
   const wallet = useWallet();
   const { connection } = useConnection();
   const publicKey = wallet?.publicKey;
@@ -67,6 +67,7 @@ const ModalCreateLoan = ({ navigate, onClose }) => {
           <Button
             onClick={() => {
               onClose();
+              onCallBack?.();
               navigate(APP_URL.NFT_LENDING_MY_NFT);
             }}
             className={styles.btnConnect}
@@ -109,7 +110,17 @@ const ModalCreateLoan = ({ navigate, onClose }) => {
   );
 };
 
-const ButtonCreateLoan = ({ hiddenIcon, title }) => {
+interface ButtonCreateLoanProps {
+  hiddenIcon?: boolean;
+  title?: string;
+  onCallBack?: () => void;
+}
+
+const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
+  hiddenIcon,
+  title,
+  onCallBack
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { connection } = useConnection();
@@ -125,7 +136,7 @@ const ButtonCreateLoan = ({ hiddenIcon, title }) => {
           padding: 0,
           contentClassName: styles.modalContent,
         },
-        render: () => <ModalCreateLoan onClose={close} navigate={navigate} />,
+        render: () => <ModalCreateLoan onClose={close} navigate={navigate} onCallBack={onCallBack} />,
         theme: "dark",
       })
     );

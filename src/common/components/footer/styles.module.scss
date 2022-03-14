@@ -1,6 +1,17 @@
 .wrapper {
-  background-color:black;
+  background-color: black;
   border-top: 1px solid #353945;
+}
+
+.mobileFooter {
+  .content {
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    .right {
+      margin-top: 20px;
+    }
+  }
 }
 
 .content {
@@ -16,16 +27,13 @@
     display: flex;
     align-items: center;
   }
-  .right {
-    
-  }
   .menus {
     display: flex;
     align-items: center;
     a {
       font-size: 14px;
       font-weight: bold;
-      color: #777E90;
+      color: #777e90;
       line-height: 16px;
       cursor: pointer;
       padding: 0 15px;

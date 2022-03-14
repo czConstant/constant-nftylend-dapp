@@ -12,24 +12,6 @@ import ButtonCreateLoan from "../buttonCreateLoan";
 import { isMobile } from "react-device-detect";
 import HeaderMobile from "./index.mobile";
 
-// export const Menus: {
-//   label: string | ReactElement;
-//   link: string;
-// }[] = [
-//   {
-//     label: <AppIcon dark />,
-//     link: APP_URL.HOME,
-//   },
-//   {
-//     label: "Discover",
-//     link: APP_URL.NFT_LENDING,
-//   },
-//   {
-//     label: "Listing Loans",
-//     link: APP_URL.NFT_LENDING_LIST_LOAN,
-//   },
-// ];
-
 const Header = () => {
   const location = useLocation();
   const { publicKey } = useWallet();

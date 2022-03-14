@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cx from "classnames";
 
 import styles from "./styles.module.scss";
@@ -8,11 +8,11 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
 import ButtonSolWallet from "../buttonSolWallet";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { Button } from "react-bootstrap";
 
 const HeaderMobile = ({}) => {
   const location = useLocation();
   const { publicKey } = useWallet();
+  const isFirst = useRef(true);
 
   const [toggle, setToggle] = useState(false);
 
@@ -27,10 +27,15 @@ const HeaderMobile = ({}) => {
     });
   };
 
+  const onCloseToggle = () => {
+    window.document.body.style.overflow = "auto";
+    setToggle(false);
+  };
+
   return (
     <div className={cx(styles.mobileContainer, toggle && styles.toggle)}>
       <div className={styles.headerWrap}>
-        <Link to={APP_URL.HOME}>
+        <Link onTouchEnd={onCloseToggle} to={APP_URL.HOME}>
           <AppIcon dark />
         </Link>
         <div onClick={onToggle} className={styles.burgerContainer}>
@@ -41,20 +46,30 @@ const HeaderMobile = ({}) => {
         </div>
       </div>
       <ul className={cx(styles.menu)}>
-        <ButtonCreateLoan />
         <li>
-          <Link to={APP_URL.NFT_LENDING}>Discover</Link>
+          <Link onTouchEnd={onToggle} to={APP_URL.NFT_LENDING}>
+            Discover
+          </Link>
         </li>
         <li>
-          <Link to={APP_URL.NFT_LENDING_LIST_LOAN}>Listing Loans</Link>
+          <Link onTouchEnd={onToggle} to={APP_URL.NFT_LENDING_LIST_LOAN}>
+            Listing Loans
+          </Link>
         </li>
+        {publicKey && (
+          <li>
+            <Link onTouchEnd={onToggle} to={APP_URL.NFT_LENDING_MY_NFT}>
+              My Assets
+            </Link>
+          </li>
+        )}
 
         <div className={styles.bottom}>
-          {publicKey ? (
-            <Button>My Assets</Button>
-          ) : (
-            <ButtonSolWallet className={styles.connectButton} />
-          )}
+          <ButtonCreateLoan />
+          <ButtonSolWallet
+            classNameDisconnect={styles.disconnectButton}
+            showBtnDisConnect={true}
+          />
         </div>
       </ul>
     </div>
