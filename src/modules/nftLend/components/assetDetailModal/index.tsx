@@ -103,7 +103,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
         <div className={cx(styles.actions)}>
           {loadingDetail
             ? <Loading />
-            : false
+            : listingDetail
               ? (
                 <Button onClick={onMakeLoan} className={styles.btnConnect}>
                   Make a Loan
