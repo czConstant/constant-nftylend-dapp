@@ -215,7 +215,7 @@
     text-align: center;
   }
   .submitButton {
-    margin-top: 10px;
+    margin-top: 20px;
     font-size: 16px;
     height: 40px;
     width: 100%;
@@ -314,4 +314,25 @@
       }
     }
   }
+}
+
+.typeWrap {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-end !important;
+  justify-content: flex-start !important;
+  font-weight: bold !important;
+  > span {
+    text-transform: capitalize;
+    font-size: 11px;
+    letter-spacing: 0;
+    font-weight: 500;
+    margin-left: 5px;
+    line-height: 15px !important;
+  }
+}
+.errorMessage {
+  font-size: 12px;
+  color: var(--bs-danger);
+  margin-bottom: 0px;
 }

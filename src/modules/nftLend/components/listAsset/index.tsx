@@ -51,6 +51,8 @@ const ListAsset = () => {
     if (!publicKey) return;
     try {
       const nfts = await getParsedNftAccountsByOwner({ publicAddress: publicKey.toString(), connection });
+      console.log('nfts', nfts);
+      
       const _nfts = nfts.map((nft) => ({
         id: nft.mint,
         onClickItem: onClickShowDetail,

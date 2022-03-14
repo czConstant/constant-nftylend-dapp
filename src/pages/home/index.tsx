@@ -14,39 +14,49 @@ import icTwitter from "./assets/btn_twitter.png";
 import icFacebook from "./assets/btn_facebook.png";
 import icYoutube from "./assets/btn_youtube.png";
 
-import gemini from "./assets/partner/gemini.png";
-import beam from "./assets/partner/beam.png";
-import harmony from "./assets/partner/harmony.png";
-import kucoin from "./assets/partner/kucoin.png";
-import trueusd from "./assets/partner/trueusd.png";
-import neutral from "./assets/partner/neutral.png";
-import band_protocol from "./assets/partner/band_protocol.png";
-import ont from "./assets/partner/ont.png";
-
 import fantom from "./assets/partner/fantom.png";
 import cardano from "./assets/partner/cardano.png";
 import tomo from "./assets/partner/tomo.png";
 import chainlink from "./assets/partner/chainlink.png";
 import vechain from "./assets/partner/vechain.png";
 import polygon from "./assets/partner/polygon.png";
+import band_protocol from "./assets/partner/band_protocol.png";
 import fetchai from "./assets/partner/fetchai.png";
 import nano from "./assets/partner/nano.png";
+
+import press1 from "./assets/partner/press/1.png";
+import press2 from "./assets/partner/press/2.png";
+import press3 from "./assets/partner/press/3.png";
+import press4 from "./assets/partner/press/4.png";
+import press5 from "./assets/partner/press/5.png";
+import press6 from "./assets/partner/press/6.png";
+import press7 from "./assets/partner/press/7.png";
+import press8 from "./assets/partner/press/8.png";
+import press9 from "./assets/partner/press/9.png";
+import press10 from "./assets/partner/press/10.png";
+import press11 from "./assets/partner/press/11.png";
+import press12 from "./assets/partner/press/12.png";
+
 import { useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
 import ButtonCreateLoan from "src/common/components/buttonCreateLoan";
 
-const logoPartners = [
-  gemini,
-  beam,
-  harmony,
-  kucoin,
-  trueusd,
-  neutral,
-  band_protocol,
-  ont,
+const logoPress = [
+  press1,
+  press2,
+  press3,
+  press4,
+  press5,
+  press6,
+  press7,
+  press8,
+  press9,
+  press10,
+  press11,
+  press12,
 ];
 
-const logoOursPartners = [
+const logoPartners = [
   fantom,
   cardano,
   tomo,
@@ -77,9 +87,11 @@ const Home = () => {
           your NFTs. Lenders and Borrowers are connected by our smart contract.
         </p>
         <div className={styles.groupButton}>
-          <ButtonCreateLoan hiddenIcon={true} title='Borrow'  />
+          <ButtonCreateLoan hiddenIcon={true} title="Borrow" />
           {/* <Button>Borrow</Button> */}
-          <Button onClick={() => navigate(APP_URL.NFT_LENDING_LIST_LOAN)}>Lend</Button>
+          <Button onClick={() => navigate(APP_URL.NFT_LENDING_LIST_LOAN)}>
+            Lend
+          </Button>
         </div>
       </section>
       <section className={cx(styles.section)}>
@@ -105,12 +117,12 @@ const Home = () => {
         </div>
       </section>
       <section className={cx(styles.section)}>
-        <img alt="NFTy Lend" src={imgTitle2} />
-        <h1>Partner</h1>
-        <p>Our smart contracts handle the rest.</p>
+        <img alt="NFTy Lend" src={imgTitle2} className={styles.imgTitle} />
+        <h1>Press</h1>
+        {/* <p>Our smart contracts handle the rest.</p> */}
         <div className={styles.wrapPartner}>
-          {logoPartners.map((v) => (
-            <div key={v}>
+          {logoPress.map((v, i) => (
+            <div key={i}>
               <img src={v} />
             </div>
           ))}
@@ -118,10 +130,11 @@ const Home = () => {
       </section>
       <section className={cx(styles.section)}>
         <div className={styles.sectionBgOurPartner}>
-          <img alt="NFTy Lend" src={imgTitle3} />
-          <h1>What do our Partner think about working with us</h1>
+          {/* <img alt="NFTy Lend" src={imgTitle3} /> */}
+          <img alt="NFTy Lend" src={imgTitle2} className={styles.imgTitle} />
+          <h1>Partners</h1>
           <div className={styles.wrapPartner}>
-            {logoOursPartners.map((v) => (
+            {logoPartners.map((v) => (
               <div key={v}>
                 <img src={v} />
               </div>

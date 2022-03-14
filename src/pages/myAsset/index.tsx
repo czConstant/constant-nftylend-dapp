@@ -9,6 +9,7 @@ import {
   WalletDisconnectButton,
   WalletModalProvider,
 } from "@solana/wallet-adapter-react-ui";
+import queryString from "query-string";
 
 import BodyContainer from "src/common/components/bodyContainer";
 import ButtonSolWallet from "src/common/components/buttonSolWallet";
@@ -26,27 +27,38 @@ import ListLoan from "src/modules/nftLend/components/listLoan";
 import ListOffer from "src/modules/nftLend/components/listOffer";
 import ListOfferReceive from "src/modules/nftLend/components/listOfferReceive";
 
-import styles from './styles.module.scss';
-import bgCover from './images/bg_cover.png';
-import { toastSuccess } from 'src/common/services/toaster';
-import { getNftListCurrency } from 'src/modules/nftLend/api';
-import { Currency } from 'src/modules/nftLend/models/api';
+import styles from "./styles.module.scss";
+import bgCover from "./images/bg_cover.png";
+import { toastSuccess } from "src/common/services/toaster";
+import { getNftListCurrency } from "src/modules/nftLend/api";
+import { Currency } from "src/modules/nftLend/models/api";
+import { useLocation } from "react-router-dom";
 
-const TABS = {
-  owned: "My Assets",
-  loan: "Loans",
-  offer: "Offers",
-  offer_received: "OffersReceived",
+export const TABS = {
+  owned: "my-assets",
+  loan: "loans",
+  offer: "offers-made",
+  offer_received: "offers-received",
+  history: "History",
 };
 
 const MyAsset = () => {
   const { connection } = useConnection();
   const { publicKey, connected } = useWallet();
 
+  const location = useLocation();
+
+  const tabActive = queryString.parse(location.search)?.tab || TABS.owned;
+
+  console.log(tabActive);
+
   const [balance, setBalance] = useState(0);
   const [currencies, setCurrencies] = useState([]);
-  console.log("🚀 ~ file: index.tsx ~ line 38 ~ MyAsset ~ currencies", currencies)
-  const [selectedTab, setSelectedTab] = useState(TABS.owned);
+  console.log(
+    "🚀 ~ file: index.tsx ~ line 38 ~ MyAsset ~ currencies",
+    currencies
+  );
+  const [selectedTab, setSelectedTab] = useState(tabActive);
 
   useEffect(() => {
     fetchBalance();
@@ -54,11 +66,15 @@ const MyAsset = () => {
 
   const fetchBalance = async () => {
     if (!publicKey) return;
-    const solRes= await connection.getBalance(publicKey);
+    const solRes = await connection.getBalance(publicKey);
     setBalance(new BigNumber(solRes).dividedBy(LAMPORTS_PER_SOL).toNumber());
 
     const listCurrencies = (await getNftListCurrency()).result;
-    const res = await Promise.all(listCurrencies.map((e: Currency) => getBalanceToken(connection, publicKey, e.contract_address)));
+    const res = await Promise.all(
+      listCurrencies.map((e: Currency) =>
+        getBalanceToken(connection, publicKey, e.contract_address)
+      )
+    );
     listCurrencies.forEach((e: any, i: number) => {
       e.balance = res[i];
     });
@@ -145,24 +161,32 @@ const MyAsset = () => {
                 <Tab
                   eventKey={TABS.offer}
                   tabClassName={styles.tab}
-                  title={<span><i className="fas fa-solid fa-arrow-up-right"></i> Offers made</span>}
+                  title={
+                    <span>
+                      <i className="fas fa-arrow-up"></i> Offers made
+                    </span>
+                  }
                 >
                   <ListOffer />
                 </Tab>
                 <Tab
                   eventKey={TABS.offer_received}
                   tabClassName={styles.tab}
-                  title={<span><i className="fas fa-arrow-up-right"></i> Offers received</span>}
+                  title={
+                    <span>
+                      <i className="fas fa-arrow-down"></i> Offers received
+                    </span>
+                  }
                 >
                   <ListOfferReceive />
                 </Tab>
-                <Tab
-                  eventKey={TABS.offer_received}
+                {/* <Tab
+                  eventKey={TABS.history}
                   tabClassName={styles.tab}
                   title="History"
                 >
-                  <ListOfferReceive />
-                </Tab>
+                  <MyListHistory />
+                </Tab> */}
               </Tabs>
             </div>
           </div>
