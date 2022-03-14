@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
+import { useNavigate } from 'react-router-dom';
 
 import EmptyList from 'src/common/components/emptyList';
 import { closeModal, openModal } from 'src/store/modal';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { APP_URL } from 'src/common/constants/url';
 
 import ListNft from '../listNft';
 import styles from './styles.module.scss';
@@ -18,6 +20,7 @@ const ListAsset = () => {
   const wallet = useWallet();
   const { publicKey } = wallet;
   const needReload = useAppSelector(selectNftLend).needReload;
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [assets, setAssets] = useState([]);
@@ -42,7 +45,13 @@ const ListAsset = () => {
     return dispatch(openModal({
       id: 'detailLoanModal',
       modalProps: { centered: true, size: 'lg' },
-      render: () => <AssetDetailModal onClose={close} item={item} />,
+      render: () => (
+        <AssetDetailModal
+          onClose={close}
+          item={item}
+          navigate={navigate}
+        />
+      ),
       theme: 'dark'
     }));
   };

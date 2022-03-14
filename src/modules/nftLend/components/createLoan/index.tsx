@@ -11,10 +11,6 @@ import {
 import CryptoDropdownItem from "src/common/components/cryptoDropdownItem";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { useAppDispatch } from "src/store/hooks";
-import {
-  hideLoadingOverlay,
-  showLoadingOverlay,
-} from "src/store/loadingOverlay";
 
 import CreateLoanForm from "./form";
 import { getNftListCurrency } from "../../api";

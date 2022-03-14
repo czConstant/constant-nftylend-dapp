@@ -3,7 +3,7 @@ import cx from 'classnames';
 import styles from './styles.module.scss';
 
 interface CryptoDropdownItemProps {
-  icon: string,
+  icon?: string,
   name: string,
   symbol: string,
   network?: string,

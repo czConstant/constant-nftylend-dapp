@@ -9,6 +9,7 @@ export const APP_URL = {
   NFT_LENDING_MY_NFT: `${BASE_PATH}/my-nft`,
   NFT_LENDING_LIST_LOAN: `${BASE_PATH}/loans`,
   NFT_LENDING_DETAIL_LOAN: `${BASE_PATH}/loans/:id`,
+  NFT_LENDING_SUBMIT_WHITELIST: `${BASE_PATH}/submit`,
 }
 
 export const API_URL = { 
@@ -25,5 +26,6 @@ export const API_URL = {
     VERIFY_ASSET: `${MCT_ROOT}${MCT_API_BASE}/collections/verified`,
     LOAN_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/loans/transactions`,
     SALE_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/assets/transactions`,
+    SUBMIT_COLLECTION: `${MCT_ROOT}${MCT_API_BASE}/collections/submitted`,
   }
 }
