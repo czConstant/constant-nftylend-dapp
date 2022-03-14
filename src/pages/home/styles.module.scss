@@ -241,6 +241,9 @@
   padding: 10px 4rem;
   .sectionBgJoinTop {
     flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
   }
   p,
   h1 {
