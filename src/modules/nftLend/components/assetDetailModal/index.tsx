@@ -94,17 +94,17 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
           </a>
         </div>
         <div className={cx(styles.actions)}>
-          {loadingDetail
+          {/* {loadingDetail
             ? <Loading />
             : listingDetail
-              ? (
+              ? ( */}
                 <Button onClick={onMakeLoan} className={styles.btnConnect}>
                   Make a Loan
                 </Button>
-              ) : (
+              {/* ) : (
                 <div className={styles.notVerified}>This asset isn't verified by us. Please contact the team to verify the asset.</div>
               )
-          }
+          } */}
           <Dropdown align={'end'} className={styles.dropdown}>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
               <i className="far fa-ellipsis-v"></i>

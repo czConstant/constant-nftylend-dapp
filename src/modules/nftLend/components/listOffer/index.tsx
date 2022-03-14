@@ -52,10 +52,10 @@ const ListOffer = () => {
         <div className={cx(listLoanStyles.header, listLoanStyles.row)}>
           <div>AssetName</div>
           <div>Amount</div>
-          <div>Duration</div>
-          <div>Interest</div>
+          <div>Duration / Interest</div>
           <div>Status</div>
           <div>TxHash</div>
+          <div>Created At</div>
           <div>Action</div>
         </div>
         {!loading && offers?.length === 0 && <EmptyList dark labelText="There is no offer" />}
