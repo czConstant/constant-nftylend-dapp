@@ -106,6 +106,11 @@ const Item = (props: ItemProps) => {
       backgroundColor: "#e0720b33",
       color: "#DE710B",
     };
+  } else if (["done"].includes(offer.status)) {
+    statusStyle = {
+      backgroundColor: "#0d6dfd33",
+      color: "#0d6efd",
+    };
   }
 
   return (
@@ -137,7 +142,7 @@ const Item = (props: ItemProps) => {
             {shortCryptoAddress(loan.init_tx_hash, 8)}
           </a>
         </div>
-        <div>{moment(loan.created_at).format('MM/DD/YYYY HH:mm A')}</div>
+        <div>{moment(loan.created_at).format("MM/DD/YYYY HH:mm A")}</div>
         <div className={listLoanStyled.actions}>
           {showAccept && <Button onClick={onAccept}>Accept</Button>}
         </div>
