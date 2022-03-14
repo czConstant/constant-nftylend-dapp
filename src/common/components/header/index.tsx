@@ -1,18 +1,40 @@
-import { memo } from 'react';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { Link, useLocation } from 'react-router-dom';
-import cx from 'classnames';
+import { memo, ReactElement } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { Link, useLocation } from "react-router-dom";
+import cx from "classnames";
 
-import ButtonSolWallet from 'src/common/components/buttonSolWallet';
-import AppIcon from 'src/common/components/appIcon';
-import { APP_URL } from 'src/common/constants/url';
+import ButtonSolWallet from "src/common/components/buttonSolWallet";
+import AppIcon from "src/common/components/appIcon";
+import { APP_URL } from "src/common/constants/url";
 
-import styles from './styles.module.scss';
-import ButtonCreateLoan from '../buttonCreateLoan';
+import styles from "./styles.module.scss";
+import ButtonCreateLoan from "../buttonCreateLoan";
+import { isMobile } from "react-device-detect";
+import HeaderMobile from "./index.mobile";
+
+// export const Menus: {
+//   label: string | ReactElement;
+//   link: string;
+// }[] = [
+//   {
+//     label: <AppIcon dark />,
+//     link: APP_URL.HOME,
+//   },
+//   {
+//     label: "Discover",
+//     link: APP_URL.NFT_LENDING,
+//   },
+//   {
+//     label: "Listing Loans",
+//     link: APP_URL.NFT_LENDING_LIST_LOAN,
+//   },
+// ];
 
 const Header = () => {
   const location = useLocation();
   const { publicKey } = useWallet();
+
+  if (isMobile) return <HeaderMobile />;
 
   return (
     <div className={styles.wrapper}>
@@ -23,19 +45,34 @@ const Header = () => {
           </Link>
           <div className={styles.divider} />
           <div className={styles.menus}>
-            <Link 
+            <Link
               to={APP_URL.NFT_LENDING}
-              className={cx(location.pathname === APP_URL.NFT_LENDING && styles.active)}
+              className={cx(
+                location.pathname === APP_URL.NFT_LENDING && styles.active
+              )}
             >
               Discover
             </Link>
             <Link
               to={APP_URL.NFT_LENDING_LIST_LOAN}
-              className={cx(location.pathname === APP_URL.NFT_LENDING_LIST_LOAN && styles.active)}
+              className={cx(
+                location.pathname === APP_URL.NFT_LENDING_LIST_LOAN &&
+                  styles.active
+              )}
             >
               Listing Loans
             </Link>
-            {publicKey && <Link to={APP_URL.NFT_LENDING_MY_NFT} className={cx(location.pathname === APP_URL.NFT_LENDING_MY_NFT && styles.active)}>My Assets</Link>}
+            {publicKey && (
+              <Link
+                to={APP_URL.NFT_LENDING_MY_NFT}
+                className={cx(
+                  location.pathname === APP_URL.NFT_LENDING_MY_NFT &&
+                    styles.active
+                )}
+              >
+                My Assets
+              </Link>
+            )}
             <ButtonCreateLoan />
           </div>
         </div>
