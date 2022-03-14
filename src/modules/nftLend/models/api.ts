@@ -20,3 +20,12 @@ export interface Currency {
   symbol: string;
   updated_at: string;
 }
+
+export interface SubmitCollection {
+  network: string;
+  name: string;
+  description: string;
+  creator: string;
+  contract_address: string;
+  contact_info: string;
+}

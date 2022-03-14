@@ -1,6 +1,6 @@
 import { API_URL } from "src/common/constants/url";
 import api from "src/common/services/apiClient";
-import { ListResponse, ResponseResult } from "./models/api";
+import { ListResponse, ResponseResult, SubmitCollection } from "./models/api";
 import { CollectData } from "./models/collection";
 import { LoanData } from "./models/loan";
 
@@ -123,4 +123,8 @@ export const getSaleTransactions = (
   params: LoanTransactionParams
 ): Promise<ListResponse> => {
   return api.get(`${API_URL.NFT_LEND.SALE_TRANSACTION}`, { params });
+};
+
+export const submitWhitelistCollection = (body: SubmitCollection): Promise<ResponseResult> => {
+  return api.post(`${API_URL.NFT_LEND.SUBMIT_COLLECTION}`, body);
 };

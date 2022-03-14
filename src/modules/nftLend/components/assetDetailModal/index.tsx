@@ -14,11 +14,11 @@ import Loading from 'src/common/components/loading';
 interface AssetDetailModalProps {
   item: any;
   onClose: Function;
+  navigate: Function;
 };
 
 const AssetDetailModal = (props: AssetDetailModalProps) => {
-  const { item, onClose } = props;
-
+  const { item, navigate, onClose } = props;
   const [extraData, setExtraData] = useState({} as any);
   const [listingDetail, setListingDetail] = useState({} as any);
   const [loadingDetail, setLoadingDetail] = useState(false);
@@ -53,6 +53,13 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
     onClose();
     item?.onMakeLoan();
   }
+
+  const onClickVerify = () => {
+    onClose();
+    const name = extraData?.collection?.name;
+    const author = extraData?.properties?.creators[0]?.address;
+    navigate(`${APP_URL.NFT_LENDING_SUBMIT_WHITELIST}?collection=${name}&creator=${author}`);
+  };
 
   return (
     <div className={styles.assetDetailModal}>
@@ -96,13 +103,14 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
         <div className={cx(styles.actions)}>
           {loadingDetail
             ? <Loading />
-            : listingDetail
+            : false
               ? (
                 <Button onClick={onMakeLoan} className={styles.btnConnect}>
                   Make a Loan
                 </Button>
               ) : (
-                <div className={styles.notVerified}>This asset isn't verified by us. Please contact the team to verify the asset.</div>
+                <div className={styles.notVerified}>
+                  Assets on NFTy Lend are required verification by us to use as collateral. Please <a onClick={onClickVerify}>submit verification form</a> for this collection.</div>
               )
           }
           <Dropdown align={'end'} className={styles.dropdown}>

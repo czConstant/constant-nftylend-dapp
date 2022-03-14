@@ -38,6 +38,11 @@
     color: #DE710B;
     font-size: 14px;
     font-weight: 500;
+    a, a:hover {
+      cursor: pointer;
+      text-decoration: underline;
+      font-weight: bold;
+    }
   }
   .attContainer {
     border-top: 1px solid var(--bs-gray-200);
