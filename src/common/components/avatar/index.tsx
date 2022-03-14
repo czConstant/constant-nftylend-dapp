@@ -23,7 +23,13 @@ const Avatar: React.FC<AvatarProps> = ({
 }) => {
   const renderContent = () => {
     if (Boolean(img)) {
-      return <img alt={name || "avatar"} src={img} />;
+      return (
+        <img
+          alt={name || "avatar"}
+          src={img}
+          style={{ width: size, height: size }}
+        />
+      );
     } else if (name) {
       return <span>{getAvatarName(name)}</span>;
     } else {
