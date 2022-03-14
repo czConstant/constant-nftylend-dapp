@@ -1,5 +1,7 @@
 import React from "react";
+import { isMobile } from "react-device-detect";
 import { Link } from "react-router-dom";
+import cx from "classnames";
 
 import styles from "./styles.module.scss";
 
@@ -14,7 +16,7 @@ interface BreadCrumbProps {
 
 const BreadCrumb: React.FC<BreadCrumbProps> = ({ items }) => {
   return (
-    <div className={styles.breadcrumb}>
+    <div className={cx(isMobile && styles.mbBreadCrumb, styles.breadcrumb)}>
       {items.map((item, index) => {
         if (index < items.length - 1) {
           return (

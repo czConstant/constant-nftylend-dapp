@@ -20,6 +20,7 @@ import LoanDetailOffers from "./LoanDetail.Offers";
 import { useSelector } from "react-redux";
 import { useAppSelector } from "src/store/hooks";
 import { selectNftLend } from "src/store/nftLend";
+import { isMobile } from "react-device-detect";
 
 const LoanDetail = () => {
   const location = useLocation();
@@ -82,7 +83,11 @@ const LoanDetail = () => {
 
   return (
     <BodyContainer
-      className={cx(styles.wrapper, loading && styles.loadingWrap)}
+      className={cx(
+        loading && styles.loadingWrap,
+        isMobile && styles.mbWrapper,
+        styles.wrapper
+      )}
     >
       {renderView()}
     </BodyContainer>
