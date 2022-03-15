@@ -101,18 +101,18 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
           </a>
         </div>
         <div className={cx(styles.actions)}>
-          {loadingDetail
+          {/* {loadingDetail
             ? <Loading />
             : listingDetail
-              ? (
+              ? ( */}
                 <Button onClick={onMakeLoan} className={styles.btnConnect}>
                   Make a Loan
                 </Button>
-              ) : (
+              {/* ) : (
                 <div className={styles.notVerified}>
                   Assets on NFTy Lend are required verification by us to use as collateral. Please <a onClick={onClickVerify}>submit verification form</a> for this collection.</div>
               )
-          }
+          } */}
           <Dropdown align={'end'} className={styles.dropdown}>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
               <i className="far fa-ellipsis-v"></i>
