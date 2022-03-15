@@ -46,6 +46,13 @@
   justify-content: space-evenly;
   align-items: center;
   color: #ffffff;
+  div {
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+    line-height: 19px;
+    color: var(--bs-gray-400);
+  }
 }
 
 .modalContent {
@@ -81,7 +88,7 @@
   &:nth-child(2) {
     background: transparent;
     border: 1px solid #3772ff;
-    color: #3772ff;
+    color: #ffffff;
   }
   &:hover {
     background-color: #3772ff !important;

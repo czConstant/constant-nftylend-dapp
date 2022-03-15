@@ -117,7 +117,7 @@ const MyAsset = () => {
                   </div>
                   {currencies.map((e: Currency) => (
                     <div className={styles.balance}>
-                      <span>{e.balance}</span> {e.symbol}
+                      <span>{formatCurrencyByLocale(e.balance, 2)}</span> {e.symbol}
                     </div>
                   ))}
                 </div>

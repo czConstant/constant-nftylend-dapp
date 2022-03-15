@@ -96,20 +96,34 @@ const Item = (props: ItemProps) => {
 
   const loan = offer.loan;
 
+  let status = offer.status;
+
   let statusStyle = {
     backgroundColor: "#00875a33",
     color: "#00875A",
   };
 
-  if (["cancelled", "liquidated", "expired"].includes(offer.status)) {
+  if (
+    status === "approved" &&
+    moment().isAfter(moment(offer.loan.offer_expired_at))
+  ) {
+    status = "overdue";
+  }
+
+  if (["overdue"].includes(status)) {
     statusStyle = {
       backgroundColor: "#e0720b33",
       color: "#DE710B",
     };
-  } else if (["done"].includes(offer.status)) {
+  } else if (["approved"].includes(status)) {
     statusStyle = {
       backgroundColor: "#0d6dfd33",
       color: "#0d6efd",
+    };
+  } else if (["cancelled", "expired"].includes(status)) {
+    statusStyle = {
+      backgroundColor: "#ff000033",
+      color: "#ff0000",
     };
   }
 
@@ -134,7 +148,7 @@ const Item = (props: ItemProps) => {
 
         <div>
           <div className={listLoanStyled.statusWrap} style={statusStyle}>
-            {OFFER_STATUS[offer.status]?.name}
+            {OFFER_STATUS[status]?.borrower}
           </div>
         </div>
         <div>

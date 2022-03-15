@@ -25,6 +25,7 @@ import PayLoanTransaction from "../../transactions/payLoan";
 // import { STATUS } from '../../listLoan/leftSidebar';
 import styles from "./styles.module.scss";
 import { shortCryptoAddress } from "src/common/utils/format";
+import { OFFER_STATUS } from "../../constant";
 
 interface ItemProps {
   loan: any;
@@ -158,7 +159,7 @@ const Item = (props: ItemProps) => {
     status = "liquidated";
   }
 
-  if (["cancelled", "liquidated", "expired"].includes(status)) {
+  if (["liquidated"].includes(status)) {
     statusStyle = {
       backgroundColor: "#e0720b33",
       color: "#DE710B",
@@ -168,7 +169,14 @@ const Item = (props: ItemProps) => {
       backgroundColor: "#0d6dfd33",
       color: "#0d6efd",
     };
+  } else if (["cancelled", "expired"].includes(status)) {
+    statusStyle = {
+      backgroundColor: "#ff000033",
+      color: "#ff0000",
+    };
   }
+
+  console.log("status", status);
 
   const days = new BigNumber(duration)
     .dividedBy(86400)
@@ -183,11 +191,14 @@ const Item = (props: ItemProps) => {
         <div>
           {principal} {loan.currency.symbol}
         </div>
-        <div>{days} days /<br/>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div>
+        <div>
+          {days} days /<br />
+          {new BigNumber(interest).multipliedBy(100).toNumber()}%
+        </div>
         {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
         <div>
           <div className={styles.statusWrap} style={statusStyle}>
-            {status}
+            {OFFER_STATUS?.[status]?.loan}
           </div>
         </div>
         <div>
@@ -195,9 +206,7 @@ const Item = (props: ItemProps) => {
             {shortCryptoAddress(loan.init_tx_hash, 8)}
           </a>
         </div>
-        <div>
-         {moment(loan?.created_at).format('MM/DD/YYYY HH:mm A')}
-        </div>
+        <div>{moment(loan?.created_at).format("MM/DD/YYYY HH:mm A")}</div>
         <div className={styles.actions}>
           {showCancel && <Button onClick={onCancelLoan}>Cancel</Button>}
           {showPay && <Button onClick={onPayLoan}>Pay</Button>}

@@ -9,7 +9,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import bgModal from "./assets/bg_modal.png";
 import ButtonSolWallet from "../buttonSolWallet";
 import { getParsedNftAccountsByOwner } from "@nfteyez/sol-rayz";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
 import Loading from "../loading";
 import { getLinkSolScanAccount } from "src/common/utils/solana";
@@ -28,10 +28,6 @@ const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
   useEffect(() => {
     fetchNFTs();
   }, [publicKey?.toString()]);
-
-  //   useEffect(() => {
-  //     fetchNFTs();
-  //   }, []);
 
   const fetchNFTs = async () => {
     if (!publicKey) return;
@@ -56,14 +52,22 @@ const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
     } else if (!publicKey) {
       return (
         <>
-          <div>Please connect your wallet</div>
+          <h4>Connect Your Wallet</h4>
+          <div>
+            Similar to other Dapp, the first thing is connecting your wallet to
+            our Dapp to start and there are few options that you can manage to
+            connect: Solflare, Sollet, Phantom, Sollet, Coin98 Wallet.
+          </div>
           <ButtonSolWallet className={styles.btnConnect} />
         </>
       );
     } else if (hasLoan.length > 0) {
       return (
         <>
-          <div>Your have {hasLoan.length} assets. You can create loan now!</div>
+          <div>
+            Your wallet has {hasLoan.length} NFT assets, please select one of
+            them to start creating a loan order!
+          </div>
           <Button
             onClick={() => {
               onClose();
@@ -80,7 +84,9 @@ const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
       return (
         <>
           <div>
-            Your have {hasLoan.length} assets. You can deposit to you address!
+            Your wallet has no NFT to create a loan. Please consider our
+            <a>Whitelisted Collections</a> to buy or deposit NFTs into your
+            wallet.
           </div>
           <div className={styles.addressWrap}>
             <a
@@ -101,13 +107,7 @@ const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
     }
   };
 
-  return (
-    <div className={styles.modalContainer}>
-      {/* <img src={bgModal} className={styles.modalBG} /> */}
-      <h4>Welcome to NFTy Lend</h4>
-      {renderContent()}
-    </div>
-  );
+  return <div className={styles.modalContainer}>{renderContent()}</div>;
 };
 
 interface ButtonCreateLoanProps {
@@ -121,11 +121,19 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
   title,
   onCallBack
 }) => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { connection } = useConnection();
+  const wallet = useWallet();
+  const publicKey = wallet?.publicKey;
+  const [hasLoan, setHasLoan] = useState([]);
 
   const onOpenModal = () => {
+    if (hasLoan.length > 0) {
+      return navigate(APP_URL.NFT_LENDING_MY_NFT);
+    }
+
     const close = () => dispatch(closeModal({ id: "createLoanModal" }));
     dispatch(
       openModal({
@@ -141,6 +149,30 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
       })
     );
   };
+
+  useEffect(() => {
+    fetchNFTs();
+  }, [publicKey?.toString()]);
+
+  const fetchNFTs = async () => {
+    if (!publicKey) return;
+    try {
+      // setLoading(true);
+      const nfts = await getParsedNftAccountsByOwner({
+        publicAddress: publicKey.toString(),
+        connection,
+      });
+
+      setHasLoan(nfts);
+    } catch (error) {
+      setHasLoan([]);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  console.log("location", location);
+  if (location.pathname.includes(APP_URL.NFT_LENDING_MY_NFT)) return null;
 
   return (
     <Button onClick={onOpenModal} className={styles.container}>

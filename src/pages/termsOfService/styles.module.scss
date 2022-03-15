@@ -1,0 +1,23 @@
+.wrapper {
+  padding: 2rem;
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    > div {
+      max-width: 70%;
+      color: var(--bs-white);
+      h3 {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 2rem;
+      }
+      ol {
+        > li {
+          margin-bottom: 1rem;
+        }
+      }
+    }
+  }
+}
