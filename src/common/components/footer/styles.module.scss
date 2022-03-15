@@ -10,6 +10,12 @@
     flex-direction: column;
     .right {
       margin-top: 20px;
+      .menus {
+        flex-direction: column;
+        a {
+          margin-bottom: 5px;
+        }
+      }
     }
   }
 }

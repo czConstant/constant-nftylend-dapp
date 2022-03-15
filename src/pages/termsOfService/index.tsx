@@ -4,10 +4,17 @@ import cx from "classnames";
 import BodyContainer from "src/common/components/bodyContainer";
 
 import styles from "./styles.module.scss";
+import { isMobile } from "react-device-detect";
 
 const TermsOfService = () => {
   return (
-    <BodyContainer className={cx(styles.wrapper, styles.wrapper)}>
+    <BodyContainer
+      className={cx(
+        isMobile && styles.mbWrapper,
+        styles.wrapper,
+        styles.wrapper
+      )}
+    >
       <div>
         <h3>NFTy-Lend Platform Agreement</h3>
         <p>(Last updated FEBRUARY 22, 2022)</p>

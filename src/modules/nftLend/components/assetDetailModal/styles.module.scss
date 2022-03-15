@@ -2,6 +2,20 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
+  &.moAssetDetailModal {
+    grid-template-columns: 1fr;
+    padding-top: 40px;
+    position: relative;
+    .btnClose {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: white;
+      i {
+        font-size: 25px;
+      }
+    }
+  }
   h4 {
     margin-bottom: 5px;
     font-weight: bold;
@@ -35,7 +49,7 @@
     border-radius: 8px;
     background-color: rgba(255, 192, 122, 0.2);
     padding: 10px 20px;
-    color: #DE710B;
+    color: #de710b;
     font-size: 14px;
     font-weight: 500;
   }
@@ -79,7 +93,6 @@
     margin-top: 15px;
   }
 }
-
 
 .actions {
   display: flex;

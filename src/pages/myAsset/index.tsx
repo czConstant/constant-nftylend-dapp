@@ -51,8 +51,6 @@ const MyAsset = () => {
 
   const tabActive = queryString.parse(location.search)?.tab || TABS.owned;
 
-  console.log(tabActive);
-
   const [balance, setBalance] = useState(0);
   const [currencies, setCurrencies] = useState([]);
   console.log(
@@ -85,7 +83,9 @@ const MyAsset = () => {
   return (
     <>
       <img className={styles.cover} alt="cover" src={bgCover} />
-      <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
+      <BodyContainer
+        className={cx(isMobile && styles.mbWrapper, styles.wrapper)}
+      >
         <div className={styles.content}>
           <div className={styles.left}>
             <div className={styles.contentAvatar}>
@@ -117,7 +117,8 @@ const MyAsset = () => {
                   </div>
                   {currencies.map((e: Currency) => (
                     <div className={styles.balance}>
-                      <span>{formatCurrencyByLocale(e.balance, 2)}</span> {e.symbol}
+                      <span>{formatCurrencyByLocale(e.balance, 2)}</span>{" "}
+                      {e.symbol}
                     </div>
                   ))}
                 </div>

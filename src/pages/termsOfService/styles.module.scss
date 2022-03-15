@@ -1,5 +1,16 @@
 .wrapper {
   padding: 2rem;
+  &.mbWrapper {
+    padding-top: var(--header-height);
+    > div {
+      > div {
+        max-width: 100%;
+        ol, ul {
+          padding-left: 15px;
+        }
+      }
+    }
+  }
   > div {
     display: flex;
     flex-direction: column;
