@@ -1,6 +1,92 @@
 .wrapper {
   background-color: black;
   flex: 1;
+  &.mbWrapper {
+    .content {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .left {
+        margin-right: 0px;
+        min-width: calc(100vw - 40px);
+      }
+      .right {
+        .tabWrapper {
+          margin: 0 20px;
+          padding: 10px;
+          justify-content: center;
+          align-items: center;
+
+          :global .tab-content {
+            overflow-x: scroll;
+            max-width: 100vw;
+            padding: 0px;
+            > .active {
+              &:nth-child(1) {
+                margin: 0px 20px;
+              }
+            }
+          }
+          :global .tab-content.active {
+            margin: 0px 20px;
+          }
+          ul {
+            display: flex;
+            border: 1px solid #25272e;
+            border-radius: 30px;
+            overflow: hidden;
+            padding-inline-start: 0;
+            list-style-type: none;
+            margin: 0px;
+            li {
+              flex: 1;
+              padding: 5px;
+              &::marker {
+                display: none;
+              }
+              button {
+                border: none !important;
+                span {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  text-align: left;
+                }
+              }
+              .tab {
+                width: 100%;
+                border-radius: 30px !important;
+                font-size: 14px;
+                color: #777e90;
+                letter-spacing: 0;
+                text-align: center;
+                line-height: 16px;
+                font-weight: bold;
+                height: 40px;
+                &:hover {
+                  background-color: #e6e8ec;
+                  border: none;
+                  color: #222630;
+                }
+              }
+              .tab.active {
+                background-color: #e6e8ec;
+                border-color: none;
+              }
+              :global .fa-arrow-up {
+                margin-right: 5px;
+                color: var(--bs-green);
+              }
+              :global .fa-arrow-down {
+                margin-right: 5px;
+                color: var(--bs-blue);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .user {

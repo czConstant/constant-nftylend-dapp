@@ -33,6 +33,7 @@ import { toastSuccess } from "src/common/services/toaster";
 import { getNftListCurrency } from "src/modules/nftLend/api";
 import { Currency } from "src/modules/nftLend/models/api";
 import { useLocation } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 
 export const TABS = {
   owned: "my-assets",
@@ -84,7 +85,7 @@ const MyAsset = () => {
   return (
     <>
       <img className={styles.cover} alt="cover" src={bgCover} />
-      <BodyContainer className={styles.wrapper}>
+      <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
         <div className={styles.content}>
           <div className={styles.left}>
             <div className={styles.contentAvatar}>
