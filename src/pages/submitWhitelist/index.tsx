@@ -69,6 +69,7 @@ const SubmitWhitelist = () => {
                   defaultValue={selectedNetwork?.symbol}
                   list={listNetwork}
                   valueField="symbol"
+                  placeholder="Select network"
                   searchable
                   alignMenu="right"
                   searchFields={["name", "symbol"]}

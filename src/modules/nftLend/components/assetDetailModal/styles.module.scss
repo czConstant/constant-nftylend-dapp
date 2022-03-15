@@ -1,7 +1,8 @@
 .assetDetailModal {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 1rem;
+  grid-gap: 70px;
+  padding: 20px;
   h4 {
     margin-bottom: 5px;
     font-weight: bold;
@@ -25,6 +26,15 @@
       color: #0d6efd;
     }
   }
+  .largeImage {
+    height: 100%;
+    img {
+      border-radius: 16px;
+      object-fit: contain;
+      object-position: top;
+      height: fit-content;
+    }
+  }
   .actions {
     align-items: center;
     > div:first-child {
@@ -32,11 +42,12 @@
     }
   }
   .notVerified {
-    border-radius: 8px;
-    background-color: rgba(255, 192, 122, 0.2);
-    padding: 10px 20px;
-    color: #DE710B;
-    font-size: 14px;
+    border-radius: 16px;
+    background-color: #141416;
+    border: 2px solid #25272E;
+    padding: 20px 15px;
+    color: #FF7500;
+    font-size: 15px;
     font-weight: 500;
     a, a:hover {
       cursor: pointer;
@@ -45,8 +56,7 @@
     }
   }
   .attContainer {
-    border-top: 1px solid var(--bs-gray-200);
-    margin-top: 5px;
+    margin-top: 40px;
     padding-top: 5px;
     > label {
       font-size: 12px;
@@ -60,25 +70,28 @@
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 1rem;
       > div {
-        background-color: black;
+        background-color: #141416;
         display: flex;
         flex-direction: column;
-        padding: 5px 10px;
+        padding: 10px;
         border-radius: 8px;
         label {
-          font-size: 11px;
           text-transform: uppercase;
-          color: var(--bs-gray-200);
+          color: #777E90;
+          font-size: 10px;
+          letter-spacing: 1px;
+          line-height: 24px;
         }
         div {
-          font-size: 14px;
+          font-size: 12px;
+          font-weight: bold;
           color: #ffffff;
         }
       }
     }
   }
   .description {
-    color: #ffffff;
+    color: #808389;
     letter-spacing: 0;
     line-height: 24px;
     margin-top: 15px;
