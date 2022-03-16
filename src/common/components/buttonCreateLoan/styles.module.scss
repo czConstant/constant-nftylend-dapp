@@ -56,13 +56,13 @@
 }
 
 .modalContent {
+  background-color: var(--bs-dark);
   background-image: url("./assets/bg_modal.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
   border-radius: 8px;
   overflow: hidden;
-  background-color: transparent;
   padding: 30px;
   display: flex;
   flex-direction: column;
