@@ -4,6 +4,97 @@
   > div {
     max-width: 100%;
   }
+  &.mobileWrapper {
+    padding-top: var(--height-header);
+  }
+}
+
+.mobileWrapper {
+  .sectionBG {
+    max-height: 500px;
+    h2 {
+      font-size: 25px;
+      color: #ffffff;
+      letter-spacing: 0;
+      text-align: center;
+      line-height: 29px;
+      font-weight: bold;
+      margin-top: 30px;
+    }
+    .imgLogo {
+      max-width: 80%;
+    }
+  }
+  .section {
+    .wrapPartner {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 0.5rem;
+      div {
+        img {
+          width: 45vw;
+          height: auto;
+        }
+      }
+    }
+    p {
+      max-width: 80%;
+    }
+    .groupButton {
+      max-width: 100%;
+    }
+  }
+  .sectionBgOurPartner {
+    background-image: url("./assets/bgOurPartnerVertical.png");
+  }
+  .sectionBgJoin {
+    background-image: url("./assets/mobile_bg_commutica.png");
+    width: calc(100vw - 40px);
+    height: calc(calc(100vw - 40px) * calc(526 / 337));
+    padding: 0px;
+    position: relative;
+    .sectionBgJoinTop {
+      padding: 60px 10px 20px;
+      h2 {
+        font-size: 25px;
+        line-height: 35px;
+        text-align: center;
+      }
+      p {
+        color: #fff;
+        font-family: "Poppins";
+        font-size: 16px;
+        line-height: 24px;
+        margin: 10px 0 40px;
+        text-align: center;
+        max-width: 100%;
+      }
+      .groupButton {
+        a {
+          height: 45px;
+        }
+      }
+    }
+    .joinCommunicateBG {
+      width: 100%;
+      object-fit: cover;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      border-top-right-radius: 0;
+      flex: 1;
+      -webkit-mask-image: linear-gradient(
+        0deg,
+        #00436a 40%,
+        rgba(36, 38, 47, 0)
+      );
+    }
+    .joinCommunicateLogo {
+      bottom: -70px;
+      display: block;
+      position: absolute;
+      right: 0;
+      width: 250px;
+    }
+  }
 }
 
 .sectionBG {
@@ -83,7 +174,7 @@
     color: #ffffff;
     letter-spacing: 0;
     text-align: center;
-    line-height: 22px;
+    line-height: 19px;
   }
   .bgHowItWork {
     margin-top: 20px;
@@ -148,6 +239,12 @@
   flex-direction: column;
   justify-content: center;
   padding: 10px 4rem;
+  .sectionBgJoinTop {
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+  }
   p,
   h1 {
     text-align: left;

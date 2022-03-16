@@ -17,7 +17,7 @@ import LoanDetailMakeOffer from "./LoanDetail.MakeOffer";
 import ButtonSolWallet from "src/common/components/buttonSolWallet";
 import { useAppDispatch } from "src/store/hooks";
 import { requestReload } from "src/store/nftLend";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
 import CancelOfferTransaction from "src/modules/nftLend/transactions/cancelOffer";
 import { TABS } from "../myAsset";
@@ -243,7 +243,9 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
       </div>
       <div className={styles.noteTerms}>
         By clicking "Make an offer", you agree to{" "}
-        <a href="#">Terms of Service</a>
+        <Link target={"_blank"} to={APP_URL.NFT_LENDING_TERM_OF_SERVICE}>
+          Terms of Service
+        </Link>
       </div>
     </div>
   );

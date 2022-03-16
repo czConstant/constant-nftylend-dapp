@@ -1,6 +1,23 @@
 .wrapper {
-  background-color:black;
+  background-color: black;
   border-top: 1px solid #353945;
+}
+
+.mobileFooter {
+  .content {
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    .right {
+      margin-top: 20px;
+      .menus {
+        flex-direction: column;
+        a {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
 }
 
 .content {
@@ -10,14 +27,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px 0;
+  padding: 30px;
   color: white;
   .left {
     display: flex;
     align-items: center;
-  }
-  .right {
-    
   }
   .menus {
     display: flex;
@@ -25,7 +39,7 @@
     a {
       font-size: 14px;
       font-weight: bold;
-      color: #777E90;
+      color: #777e90;
       line-height: 16px;
       cursor: pointer;
       padding: 0 15px;

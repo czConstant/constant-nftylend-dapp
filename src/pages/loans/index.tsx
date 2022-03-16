@@ -19,6 +19,7 @@ import ItemNFT from "src/modules/nftLend/components/itemNft";
 import LoadingList from "src/modules/nftLend/components/loadingList";
 import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
 import LoansToolbar from "./Loans.Toolbar";
+import { isMobile } from "react-device-detect";
 
 const Loans = () => {
   const location = useLocation();
@@ -78,7 +79,7 @@ const Loans = () => {
   };
 
   return (
-    <BodyContainer className={styles.wrapper}>
+    <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
       <LoansHeader
         collection={resCollection}
         isLoading={loading}
@@ -96,8 +97,8 @@ const Loans = () => {
           <LoansToolbar />
           <div
             className={cx(
-              styles.listContainer,
-              !loading && resLoans?.length === 0 && styles.wrapContentEmpty
+              !loading && resLoans?.length === 0 && styles.wrapContentEmpty,
+              styles.listContainer
             )}
           >
             {renderContentList()}

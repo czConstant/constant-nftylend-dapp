@@ -10,6 +10,7 @@ import ItemNftMedia from '../itemNft/itemNftMedia';
 import { APP_URL } from 'src/common/constants/url';
 import { verifyAsset } from '../../api';
 import Loading from 'src/common/components/loading';
+import { isMobile } from 'react-device-detect';
 
 interface AssetDetailModalProps {
   item: any;
@@ -62,7 +63,13 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   };
 
   return (
-    <div className={styles.assetDetailModal}>
+    <div className={cx(isMobile && styles.moAssetDetailModal, styles.assetDetailModal)}>
+      {
+        isMobile &&
+          <a onClick={onClose} className={styles.btnClose} >
+            <i className="fas fa-times"></i>
+          </a>
+      }
       <ItemNftMedia
         tokenUrl={item?.asset?.token_url}
         name={item?.asset?.name}
@@ -101,10 +108,10 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
           </a>
         </div>
         <div className={cx(styles.actions)}>
-          {loadingDetail
+          {/* {loadingDetail
             ? <Loading />
             : listingDetail
-              ? (
+              ? ( */}
                 <Button onClick={onMakeLoan} className={styles.btnConnect}>
                   Make a Loan
                 </Button>
@@ -113,7 +120,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
                   Assets on NFTy Lend are required verification by us to use as collateral. Please <a onClick={onClickVerify}>submit verification form</a> for this collection.
                 </div>
               )
-          }
+          } */}
           <Dropdown align={'end'} className={styles.dropdown}>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
               <i className="far fa-ellipsis-v"></i>

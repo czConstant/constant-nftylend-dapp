@@ -7,9 +7,10 @@ import { LoanData } from "src/modules/nftLend/models/loan";
 
 interface RandomAvatarProps {
   loans: LoanData[];
+  size?: number;
 }
 
-const RandomAvatar: React.FC<RandomAvatarProps> = ({ loans }) => {
+const RandomAvatar: React.FC<RandomAvatarProps> = ({ loans, size }) => {
   const randomIndex = random(0, loans.length - 1, false);
 
   const loanByIndex = loans[randomIndex];
@@ -21,7 +22,11 @@ const RandomAvatar: React.FC<RandomAvatarProps> = ({ loans }) => {
     ?.map((img) => getImageThumb({ height: 120, width: 120, url: img }));
 
   return (
-    <Avatar img={media[randomIndex]} name={loanByIndex?.asset?.collection?.name} />
+    <Avatar
+      img={media[randomIndex]}
+      name={loanByIndex?.asset?.collection?.name}
+      size={size}
+    />
   );
 };
 

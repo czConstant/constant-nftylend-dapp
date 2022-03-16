@@ -6,13 +6,14 @@ import { Button } from "react-bootstrap";
 
 import imgTitle from "./assets/title.png";
 import imgTitle2 from "./assets/title2.png";
-import imgTitle3 from "./assets/title3.png";
 import imgWhatNFTy from "./assets/what_nfty.png";
 import imgHowItWork from "./assets/how_it_work.png";
 import icDiscord from "./assets/ic_discord.svg";
 import icTwitter from "./assets/btn_twitter.png";
 import icFacebook from "./assets/btn_facebook.png";
 import icYoutube from "./assets/btn_youtube.png";
+import imgMBCommunity1 from "./assets/mobile_img_1_communicate.png";
+import imgMBCommunity2 from "./assets/mobile_img_2_communicate.png";
 
 import fantom from "./assets/partner/fantom.png";
 import cardano from "./assets/partner/cardano.png";
@@ -40,6 +41,7 @@ import press12 from "./assets/partner/press/12.png";
 import { useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
 import ButtonCreateLoan from "src/common/components/buttonCreateLoan";
+import { isMobile } from "react-device-detect";
 
 const logoPress = [
   press1,
@@ -78,9 +80,11 @@ export const OnBoardingHeader = () => (
 const Home = () => {
   const navigate = useNavigate();
   return (
-    <BodyContainer className={styles.wrapper}>
+    <BodyContainer
+      className={cx(isMobile && styles.mobileWrapper, styles.wrapper)}
+    >
       <section className={cx(styles.section, styles.sectionBG)}>
-        <img alt="NFTy Lend" src={imgTitle} />
+        <img alt="NFTy Lend" src={imgTitle} className={styles.imgLogo} />
         <h2>The leading of NFTs Lending platform</h2>
         <p>
           The first marketplace for NFTs P2P Lending. The fastest way to liquid
@@ -144,25 +148,36 @@ const Home = () => {
       </section>
       <section className={cx(styles.section)}>
         <div className={styles.sectionBgJoin}>
-          <h1>Join our communities</h1>
-          <p>MyConstant redefines banking using decentralized thinking.</p>
-          <div className={styles.groupButton}>
-            <a target="_blank" href="https://discord.gg/ncjPApdgBz">
-              <img src={icDiscord} /> Discord
-            </a>
-            <a target="_blank" href="https://twitter.com/myconstantp2p">
-              <img src={icTwitter} />
-            </a>
-            <a target="_blank" href="https://www.facebook.com/myconstantp2p">
-              <img src={icFacebook} />
-            </a>
-            <a
-              target="_blank"
-              href="https://www.youtube.com/channel/UCedaWJPf9sgsy5JajmqBAtg"
-            >
-              <img src={icYoutube} />
-            </a>
+          <div className={styles.sectionBgJoinTop}>
+            <h1>Join our communities</h1>
+            <p>MyConstant redefines banking using decentralized thinking.</p>
+            <div className={styles.groupButton}>
+              <a target="_blank" href="https://discord.gg/ncjPApdgBz">
+                <img src={icDiscord} /> Discord
+              </a>
+              <a target="_blank" href="https://twitter.com/myconstantp2p">
+                <img src={icTwitter} />
+              </a>
+              <a target="_blank" href="https://www.facebook.com/myconstantp2p">
+                <img src={icFacebook} />
+              </a>
+              <a
+                target="_blank"
+                href="https://www.youtube.com/channel/UCedaWJPf9sgsy5JajmqBAtg"
+              >
+                <img src={icYoutube} />
+              </a>
+            </div>
           </div>
+          {isMobile && (
+            <>
+              <img src={imgMBCommunity2} className={styles.joinCommunicateBG}/>
+              <img
+                src={imgMBCommunity1}
+                className={styles.joinCommunicateLogo}
+              />
+            </>
+          )}
         </div>
       </section>
     </BodyContainer>

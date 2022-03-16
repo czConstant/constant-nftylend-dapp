@@ -6,6 +6,7 @@ import LoanDetail from 'src/pages/loanDetail';
 import Loans from 'src/pages/loans';
 import MyAsset from 'src/pages/myAsset';
 import SubmitWhitelist from 'src/pages/submitWhitelist';
+import TermsOfService from "src/pages/termsOfService";
 
 export interface RouteProps {
   path: string;
@@ -36,6 +37,10 @@ const routes: Array<RouteProps> = [
   {
     path: APP_URL.NFT_LENDING_SUBMIT_WHITELIST,
     component: SubmitWhitelist,
+  },
+  {
+    path: APP_URL.NFT_LENDING_TERM_OF_SERVICE,
+    component: TermsOfService,
   },
 ];
 

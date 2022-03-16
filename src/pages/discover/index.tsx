@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import cx from 'classnames';
 
 import { fetchCollections } from 'src/modules/nftLend/api';
 import { APP_URL } from 'src/common/constants/url';
@@ -7,9 +8,10 @@ import BodyContainer from 'src/common/components/bodyContainer';
 
 import Item from './item';
 import styles from './styles.module.scss';
+import { isMobile } from 'react-device-detect';
 
 export const OnBoardingHeader = () => (
-  <div className={styles.headerWrapper}>
+  <div className={cx(isMobile && styles.mbHeader, styles.headerWrapper)}>
     <h5>Create, explore, & collect digital art NFTs</h5>
     <h1>The new creative economy.</h1>
   </div>
@@ -36,7 +38,7 @@ const Home = () => {
   return (
     <BodyContainer className={styles.wrapper}>
       <OnBoardingHeader />
-      <div className={styles.contentWrapper}>
+      <div className={cx(isMobile && styles.mbContentWrapper, styles.contentWrapper)}>
         <div className={styles.contentContainer}>
           {collections.map((collection, index) => (
             <Item

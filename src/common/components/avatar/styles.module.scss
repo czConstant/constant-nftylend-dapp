@@ -4,9 +4,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 5px solid var(--bs-gray-800);
   img {
-    max-width: 90%;
-    max-height: 90%;
     border-radius: 100%;
+    max-width: 95%;
+    max-height: 95%;
   }
 }

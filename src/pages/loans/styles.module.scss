@@ -5,6 +5,39 @@
     width: 100%;
     max-width: 100%;
   }
+  &.mbWrapper {
+    padding-top: var(--header-height);
+    .headerWrapper {
+      padding-left: 20px;
+      padding-right: 20px;
+      h4 {
+        margin-top: 20px;
+        line-height: 39px;
+      }
+      .infoWrap {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 0.5rem;
+        > div {
+          margin: 0px;
+          width: calc(calc(100vw - 40px) / 2);
+          > div {
+            &:first-child {
+              line-height: 15px;
+            }
+          }
+        }
+      }
+      p {
+        max-width: 100%;
+        line-height: 19px;
+      }
+    }
+    .contentWrapper {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
 
 .headerWrapper {

@@ -96,15 +96,34 @@ const Item = (props: ItemProps) => {
 
   const loan = offer.loan;
 
+  let status = offer.status;
+
   let statusStyle = {
     backgroundColor: "#00875a33",
     color: "#00875A",
   };
 
-  if (["cancelled", "liquidated", "expired"].includes(offer.status)) {
+  if (
+    status === "approved" &&
+    moment().isAfter(moment(offer.loan.offer_expired_at))
+  ) {
+    status = "overdue";
+  }
+
+  if (["overdue"].includes(status)) {
     statusStyle = {
       backgroundColor: "#e0720b33",
       color: "#DE710B",
+    };
+  } else if (["approved", "repaid"].includes(status)) {
+    statusStyle = {
+      backgroundColor: "#0d6dfd33",
+      color: "#0d6efd",
+    };
+  } else if (["cancelled", "expired"].includes(status)) {
+    statusStyle = {
+      backgroundColor: "#ff000033",
+      color: "#ff0000",
     };
   }
 
@@ -129,7 +148,7 @@ const Item = (props: ItemProps) => {
 
         <div>
           <div className={listLoanStyled.statusWrap} style={statusStyle}>
-            {OFFER_STATUS[offer.status]?.name}
+            {OFFER_STATUS[status]?.borrower}
           </div>
         </div>
         <div>
@@ -137,7 +156,7 @@ const Item = (props: ItemProps) => {
             {shortCryptoAddress(loan.init_tx_hash, 8)}
           </a>
         </div>
-        <div>{moment(loan.created_at).format('MM/DD/YYYY HH:mm A')}</div>
+        <div>{moment(loan.created_at).format("MM/DD/YYYY HH:mm A")}</div>
         <div className={listLoanStyled.actions}>
           {showAccept && <Button onClick={onAccept}>Accept</Button>}
         </div>

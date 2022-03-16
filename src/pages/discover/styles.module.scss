@@ -1,6 +1,24 @@
 .wrapper {
   min-height: calc(100vh - 66px);
   background-color: black;
+  .mbHeader {
+    margin-top: var(--header-height);
+    padding-left: 2rem;
+    padding-right: 2rem;
+    h5 {
+      line-height: 17px;
+    }
+    h1 {
+      font-size: 30px;
+      color: #fcfcfd;
+      letter-spacing: 0px;
+      text-align: center;
+      line-height: 34px;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: 5px;
+    }
+  }
 }
 
 .headerWrapper {
@@ -33,6 +51,13 @@
   justify-content: center;
   align-items: center;
   display: flex;
+  &.mbContentWrapper {
+    .contentContainer {
+      .itemContainer {
+        max-width: 100%;
+      }
+    }
+  }
   .contentContainer {
     display: flex;
     flex-wrap: wrap;

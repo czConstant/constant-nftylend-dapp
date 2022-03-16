@@ -4,6 +4,51 @@
 
 .wrapper {
   padding: 2rem 1rem;
+  &.mbWrapper {
+    padding-top: var(--header-height);
+    .headerContainer {
+      grid-template-columns: 1fr;
+      > div {
+        &:last-child {
+          margin-top: 20px;
+          .infoPrice {
+            .feeInfoWrap {
+              grid-template-columns: repeat(2, 1fr);
+              grid-gap: 1rem;
+              > div {
+                padding: 0px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .tabContentAttrWrap {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .tbHeader,
+    .tbBody {
+      grid-column-gap: 1rem;
+      > div {
+        min-width: 100px;
+      }
+    }
+    .suggestWrap {
+      .suggestContainer {
+        > div {
+          width: calc(100vw - 40px);
+          margin-left: 0px;
+          > a {
+            width: calc(100vw - 40px);
+            > div {
+              &:first-child {
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .loadingWrap {
@@ -239,12 +284,9 @@
 }
 
 .tbHeader {
-  // padding: 10px 2rem;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   background-color: #19191c;
-  // border-radius: 16px 16px 0px 0px;
-  // min-height: 60px;
   div {
     flex: 1;
     font-size: 12px;
