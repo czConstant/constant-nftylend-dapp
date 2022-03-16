@@ -1,29 +1,68 @@
 .wrapper {
   flex: 1;
+  display: flex;
   background-color: black;
+  padding-top: 150px;
+  font-family: Poppins;
+  > div {
+    flex: 1;
+  }
   h1 {
-    text-align: center;
-    font-family: Poppins;
+    color: white;
+    font-size: 30px;
     margin-bottom: 0;
   }
   .subtitle {
-    text-align: center;
-    margin-bottom: 40px;
-    font-weight: 600;
+    color: white;
+    margin-top: 20px;
     font-size: 14px;
   }
-  .form {
-    max-width: 600px;
-    background-color: white;
+  .left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 200px;
+    padding-top: 20px;
+    background-image: url('./img_left.png');
+    background-repeat: no-repeat;
+    background-position-x: 45%;
+     > div {
+       width: 400px;
+     }
+  }
+  .right {
     padding: 40px 20px;
     border-radius: 8px;
-    margin: 40px auto;
     font-size: 14px;
+    form {
+      max-width: 400px;
+      input {
+        background-color: transparent;
+        color: white;
+      }
+      :global .labelWrapper {
+        background-color: black;
+        color: #767F92;
+      }
+      :global .inputGroup {
+        border: 2px solid #25272E;
+      }
+      :global .dropdown-toggle {
+        &, &:hover, &:focus, &::after {
+          color: white;
+        }
+      }
+      .dropdown {
+        border: 2px solid #25272E;
+      }
+    }
   }
   .switchGroup {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    color: #6F7A8E;
+    font-weight: 500;
     > span {
       font-weight: 600;
       margin-right: 10px;
@@ -31,6 +70,5 @@
   }
   .submitButton {
     width: 100%;
-    font-weight: bold;
   }
 }

@@ -66,7 +66,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
       <ItemNftMedia
         tokenUrl={item?.asset?.token_url}
         name={item?.asset?.name}
-        className={styles.image}
+        className={cx(extraData?.attributes?.length > 6 && styles.largeImage)}
         isFetchUrl={item?.asset?.is_fetch_url}
       />
       <div>
@@ -110,7 +110,8 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
                 </Button>
               ) : (
                 <div className={styles.notVerified}>
-                  Assets on NFTy Lend are required verification by us to use as collateral. Please <a onClick={onClickVerify}>submit verification form</a> for this collection.</div>
+                  Assets on NFTy Lend are required verification by us to use as collateral. Please <a onClick={onClickVerify}>submit verification form</a> for this collection.
+                </div>
               )
           }
           <Dropdown align={'end'} className={styles.dropdown}>
@@ -133,7 +134,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
         <div className={styles.description}>{extraData?.description}</div>
         {extraData?.attributes?.length > 0 && (
           <div className={styles.attContainer}>
-            <label>Attributes</label>
+            {/* <label>Attributes</label> */}
             <div className={styles.attWrap}>
               {extraData?.attributes?.map((att: any) => (
                 <div key={att?.trait_type}>
