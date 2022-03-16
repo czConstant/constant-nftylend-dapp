@@ -125,10 +125,6 @@ export const OFFER_STATUS = {
     borrower: "Defaulted",
     loan: "Defaulted",
   },
-  overdue: {
-    id: "overdue",
-    name: "Overdue",
-  },
   done: {
     id: "done",
     name: "Done",
