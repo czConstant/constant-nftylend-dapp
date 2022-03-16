@@ -14,6 +14,7 @@ import { required } from 'src/common/utils/formValidate';
 import styles from './submitWhitelist.module.scss';
 import FieldDropdown from 'src/common/components/form/fieldDropdown';
 import CryptoDropdownItem from 'src/common/components/cryptoDropdownItem';
+import tokenIcons from 'src/common/utils/tokenIcons';
 
 const SubmitWhitelist = () => {
   const [submitting, setSubmitting] = useState(false);
@@ -45,8 +46,8 @@ const SubmitWhitelist = () => {
   };
 
   const listNetwork = [
-    { symbol: 'ETH', label: <CryptoDropdownItem symbol="ETH" name="Ethereum" /> },
-    { symbol: 'SOL', label: <CryptoDropdownItem symbol="SOL" name="Solana" /> },
+    { symbol: 'ETH', label: <CryptoDropdownItem symbol="ETH" name="Ethereum" icon={tokenIcons.eth} /> },
+    { symbol: 'SOL', label: <CryptoDropdownItem symbol="SOL" name="Solana" icon={tokenIcons.sol} /> },
   ];
 
   const initialValues = {
@@ -56,12 +57,16 @@ const SubmitWhitelist = () => {
   
   return (
     <div className={styles.wrapper}>
-      <div className={styles.form}>
+      <div className={styles.left}>
+        <div>
+          <h1>Submit<br />your collection</h1>
+          <div className={styles.subtitle}>*We required white-listed collection to create a loan</div>
+        </div>
+      </div>
+      <div className={styles.right}>
         <Form onSubmit={onSubmit} initialValues={initialValues}>
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
-              <h1>Submit your collection</h1>
-              <div className={styles.subtitle}>*We required white-listed collection to create a loan</div>
               <InputWrapper label="Network">
                 <Field
                   name="network"
@@ -74,6 +79,7 @@ const SubmitWhitelist = () => {
                   alignMenu="right"
                   searchFields={["name", "symbol"]}
                   handleItemOnChange={onChangeNetwork}
+                  className={styles.dropdown}
                 />
               </InputWrapper>
               <InputWrapper label="Collection name">

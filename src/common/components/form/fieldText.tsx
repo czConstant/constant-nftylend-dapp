@@ -6,10 +6,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 // import ErrorOverlay from 'src/components/errorOverlay';
 // import { useTextWidth } from '@tag0/use-text-width';
 
-import IconInfinity from './images/infinity.svg';
 import styles from './styles.module.scss';
-import ErrorOverlay from '../errorOverlay';
-import { Overlay, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Overlay, Tooltip } from 'react-bootstrap';
 
 interface FieldTextProps {
   input?: any;
@@ -39,10 +37,11 @@ const FieldText = (props: FieldTextProps) => {
   const isError = meta.error && meta.touched;
 
   return (
-    <FormGroup ref={target} className={styles.formGroup}>
+    <FormGroup ref={target} className={cx(styles.formGroup, 'formGroup')}>
       <InputGroup
         className={cx(
           styles.inputGroup,
+          'inputGroup',
           (isError || errorMessage) && styles.borderDanger
         )}
       >

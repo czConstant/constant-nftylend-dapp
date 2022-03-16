@@ -18,7 +18,7 @@ const InputWrapper = (props: InputWrapperProps) => {
   return (
     <div className={cx([styles.inputWrapper, className, theme === 'dark' && styles.inputWrapperDark])}>
       {label && (
-        <div className={cx(styles.labelWrapper)}>
+        <div className={cx(styles.labelWrapper, 'labelWrapper')}>
           <label>
             {label}
             {desc && <MyPopover desc={desc} />}
