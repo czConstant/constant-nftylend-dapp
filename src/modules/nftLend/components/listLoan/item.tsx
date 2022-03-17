@@ -164,7 +164,7 @@ const Item = (props: ItemProps) => {
       backgroundColor: "#e0720b33",
       color: "#DE710B",
     };
-  } else if (["done"].includes(status)) {
+  } else if (["new", "repaid", "created"].includes(status)) {
     statusStyle = {
       backgroundColor: "#0d6dfd33",
       color: "#0d6efd",

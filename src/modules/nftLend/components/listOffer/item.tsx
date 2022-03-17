@@ -168,7 +168,9 @@ const Item = (props: ItemProps) => {
 
   if (showLiquidate) {
     status = "overdue";
-  }
+  } else if (status === "done" && offer?.close_tx_hash) {
+    status = "expired";
+  } 
 
   if (["overdue"].includes(status)) {
     statusStyle = {

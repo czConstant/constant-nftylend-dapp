@@ -34,7 +34,9 @@ const ButtonSolWallet: React.FC<ButtonSolWalletProps> = (
 
   return (
     <WalletModalProvider className={styles.modalContainer}>
-      <WalletMultiButton className={cx(className, styles.button)} />
+      <WalletMultiButton className={cx(className, styles.button)}>
+        {!publicKey?.toString() && <span>Connect Wallet</span>}
+      </WalletMultiButton>
     </WalletModalProvider>
   );
 };

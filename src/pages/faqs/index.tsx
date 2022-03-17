@@ -49,9 +49,9 @@ const FAQs = () => {
               top NFT collections in the market. Detail:
               <a
                 target={"_blank"}
-                href="https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/overview/assetment-list-nft-collections-supported"
+                href="https://docs.myconstant.com/overview/assetment-list-nft-collections-supported"
               >
-                https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/overview/assetment-list-nft-collections-supported
+                https://docs.myconstant.com/overview/assetment-list-nft-collections-supported
               </a>
             </span>
           }
@@ -98,9 +98,9 @@ const FAQs = () => {
                   ​​
                   <a
                     target={"_blank"}
-                    href="https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/overview/how-nfty-lend-work"
+                    href="https://docs.myconstant.com/overview/how-nfty-lend-work"
                   >
-                    https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/overview/how-nfty-lend-work
+                    https://docs.myconstant.com/overview/how-nfty-lend-work
                   </a>
                 </li>
               </ul>
@@ -117,9 +117,9 @@ const FAQs = () => {
                 which is included in the NFT collection supported by our Dapp:
                 <a
                   target={"_blank"}
-                  href="https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/overview/assetment-list-nft-collections-supported"
+                  href="https://docs.myconstant.com/overview/assetment-list-nft-collections-supported"
                 >
-                  https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/overview/assetment-list-nft-collections-supported
+                  https://docs.myconstant.com/overview/assetment-list-nft-collections-supported
                 </a>
               </p>
               <p>
@@ -127,9 +127,9 @@ const FAQs = () => {
                 More instructions for the borrower would be updated here:
                 <a
                   target={"_blank"}
-                  href="https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/feature-instructions/borrowing"
+                  href="https://docs.myconstant.com/feature-instructions/borrowing"
                 >
-                  https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/feature-instructions/borrowing
+                  https://docs.myconstant.com/feature-instructions/borrowing
                 </a>
               </p>
             </div>
@@ -148,9 +148,9 @@ const FAQs = () => {
               You can follow the instructions for the borrower here:
               <a
                 target={"_blank"}
-                href="https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/feature-instructions/borrowing"
+                href="https://docs.myconstant.com/feature-instructions/borrowing"
               >
-                https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/feature-instructions/borrowing
+                https://docs.myconstant.com/feature-instructions/borrowing
               </a>
             </span>
           }
@@ -193,9 +193,9 @@ const FAQs = () => {
                   ​​
                   <a
                     target={"_blank"}
-                    href="https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/overview/how-nfty-lend-work"
+                    href="https://docs.myconstant.com/overview/how-nfty-lend-work"
                   >
-                    https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/overview/how-nfty-lend-work
+                    https://docs.myconstant.com/overview/how-nfty-lend-work
                   </a>
                 </li>
               </ul>
@@ -265,10 +265,10 @@ const FAQs = () => {
                 in partnership with the Bug Bounty community. Please find out
                 more info here: (
                 <a
-                  href="https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/resource/audit-tbc"
+                  href="https://docs.myconstant.com/resource/audit"
                   target={"_blank"}
                 >
-                  https://app.gitbook.com/o/5lTuCU6CfKA6CaVJ2WXH/s/da3NWCE1xZsVKtKsk6bY/resource/audit-tbc
+                  https://docs.myconstant.com/resource/audit
                 </a>
                 ).
               </p>

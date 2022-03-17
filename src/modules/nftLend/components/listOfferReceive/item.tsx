@@ -108,6 +108,8 @@ const Item = (props: ItemProps) => {
     moment().isAfter(moment(offer.loan.offer_expired_at))
   ) {
     status = "overdue";
+  } else if (status === "done" && offer?.close_tx_hash) {
+    status = "expired";
   }
 
   if (["overdue"].includes(status)) {
@@ -115,7 +117,7 @@ const Item = (props: ItemProps) => {
       backgroundColor: "#e0720b33",
       color: "#DE710B",
     };
-  } else if (["approved", "repaid"].includes(status)) {
+  } else if (["approved", "repaid", "new"].includes(status)) {
     statusStyle = {
       backgroundColor: "#0d6dfd33",
       color: "#0d6efd",

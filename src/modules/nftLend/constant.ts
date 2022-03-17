@@ -132,6 +132,13 @@ export const OFFER_STATUS = {
     borrower: "Done",
     loan: "Done",
   },
+  expired: {
+    id: "expired",
+    name: "Expired",
+    lender: "Expired",
+    borrower: "Expired",
+    loan: "Expired",
+  },
 };
 
 export const LOAN_DURATION = [
