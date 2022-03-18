@@ -157,6 +157,8 @@ const Item = (props: ItemProps) => {
 
   if (showLiquidate) {
     status = "liquidated";
+  } else if(showPay) {
+    status = 'approved'
   }
 
   if (["liquidated"].includes(status)) {
