@@ -1,11 +1,11 @@
 import { struct, u8 } from '@solana/buffer-layout';
 import { publicKey, u64 } from '@solana/buffer-layout-utils';
 import { PublicKey } from '@solana/web3.js';
-import { APP_ENV } from 'src/common/constants/url';
+import { SOL_DELEND_PROGRAM } from 'src/common/constants/config';
 import store from 'src/store';
 
 export const getLendingProgramId = () => {
-  return store.getState().nftLend.configs.program_id || APP_ENV.REACT_SOL_DELEND_PROGRAM;
+  return store.getState().nftLend.configs.program_id || SOL_DELEND_PROGRAM;
 };
 
 interface LoanInfoLayout {

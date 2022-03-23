@@ -4,7 +4,7 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import BigNumber from 'bignumber.js';
 import moment from 'moment-timezone';
 
-import { APP_ENV } from 'src/common/constants/url';
+import { SOL_CLUSTER } from '../constants/config';
 
 const toPubkey = (key: PublicKey | string) => typeof(key) === 'string' ? new PublicKey(key) : key;
 
@@ -13,12 +13,6 @@ export const getLinkSolScanAccount = (address?: string) => `https://solscan.io/a
 export const getLinkSolScanExplorer = (address?: string) => `https://explorer.solana.com/address/${address}?cluster=devnet`;
 export const getLinkETHScanAddress = (address?: string) => `https://etherscan.io/address/${address}`;
 export const getLinkETHScanTokenId = (address?: string, id: string) => `https://etherscan.io/token/${address}?a=${id}`;
-
-export const getSolCluster = () => {
-  if (APP_ENV.REACT_SOL_CLUSTER === 'testnet') return WalletAdapterNetwork.Testnet;
-  if (APP_ENV.REACT_SOL_CLUSTER === 'mainnet-beta') return WalletAdapterNetwork.Mainnet;
-  return WalletAdapterNetwork.Devnet;
-};
 
 export const fetchAllTokenAccounts = async (connection: Connection, publicKey: PublicKey | string) => {
   try {

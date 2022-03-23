@@ -1,0 +1,38 @@
+.button {
+  width: 100%;
+  justify-content: center;
+}
+.modalContainer {
+  z-index: 999999;
+}
+
+.wrapper {
+  > button, > button:hover, > button:active {
+    height: 40px;
+    background-color: transparent !important;
+    border: 2px solid #777e90 !important;
+    color: #fcfcfd;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 20px;
+    box-shadow: none !important;
+    &::after {
+      display: none;
+    }
+  }
+  .dropdownMenu {
+    background-color: #252836;
+    > a:hover {
+      background-color: #1f202f;
+    }
+    > a > button {
+      padding: 0;
+      height: unset;
+      line-height: unset;
+    }
+    .item {
+      color: white;
+      padding: 5px 0;
+    }
+  }
+}

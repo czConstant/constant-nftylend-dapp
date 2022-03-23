@@ -10,8 +10,8 @@ import { ToastContainer } from 'react-toastify';
 // import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import ModalManager from 'src/common/components/modal';
-import { getSolCluster } from 'src/common/utils/solana';
 import MyLoadingOverlay from 'src/common/components/myLoadingOverlay';
+import { ChainSolanaNetwork } from 'src/common/constants/network';
 
 import AppRouter from './navigation';
 import { getSystemConfigs } from './modules/nftLend/api';
@@ -27,7 +27,7 @@ export default function App() {
     });
   }, []);
 
-  const network = getSolCluster();
+  const network = ChainSolanaNetwork;
   const endpoint = clusterApiUrl(network);
 
   const wallets = [

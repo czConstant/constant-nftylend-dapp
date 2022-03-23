@@ -11,6 +11,7 @@ import styles from "./styles.module.scss";
 import ButtonCreateLoan from "../buttonCreateLoan";
 import { isMobile } from "react-device-detect";
 import HeaderMobile from "./index.mobile";
+import ButtonConnectWallet from '../buttonConnectWallet';
 
 const Header = () => {
   const location = useLocation();
@@ -59,7 +60,8 @@ const Header = () => {
           </div>
         </div>
         <div className={styles.right}>
-          <ButtonSolWallet className={styles.connectButton} />
+          <ButtonConnectWallet />
+          {/* <ButtonSolWallet className={styles.connectButton} /> */}
         </div>
         {/* {walletAccount && networkVersion !== ethNetwork && (
           <div className={styles.warningNetwork}>

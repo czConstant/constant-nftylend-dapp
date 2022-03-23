@@ -1,7 +1,4 @@
-export const APP_ENV = DOT_ENV;
-export const MCT_ROOT = APP_ENV.REACT_MCT_ROOT;
-export const BASE_PATH = APP_ENV.REACT_BASE_PATH;
-export const MCT_API_BASE = APP_ENV.REACT_MCT_API_BASE;
+import { BASE_PATH, MCT_API_BASE, MCT_ROOT } from './config'
 
 export const APP_URL = {
   HOME: `${BASE_PATH}/`,
