@@ -89,7 +89,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
             target="_blank"
             href={`${
               APP_URL.NFT_LENDING_LIST_LOAN
-            }?collection_slug=${extraData?.collection?.family?.toLowerCase()}`}
+            }?collection=${extraData?.collection?.family?.toLowerCase()}`}
           >
             {extraData?.collection?.name}
           </a>
@@ -98,16 +98,14 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
           <a
             className={styles.infoCreator}
             target="_blank"
-            href={getLinkSolScanAccount(
-              last(extraData?.properties?.creators)?.address,
-            )}
+            href={asset.getLinkExplorer(asset.creator)}
           >
             Creators
           </a>{' '}
           ·{' '}
           <a
             target="_blank"
-            href={getLinkSolScanAccount(asset.author)}
+            href={asset.getLinkExplorer(asset.owner)}
           >
             Authority
           </a>

@@ -1,40 +1,64 @@
-import { CollectData } from "./collection";
-import { Currency } from './api';
+import { Chain } from 'src/common/constants/network';
+import { PolygonNft } from 'src/modules/polygon/models/polygonNft';
+import { SolanaNft } from 'src/modules/solana/models/solanaNft';
+import { Currency, LoanData, LoanDataAsset, LoanDataOffer } from './api';
+import { AssetNft } from './nft';
 
-export class LoanData {
+export class LoanNft {
   id!: number;
-  asset!: {
-    collection: CollectData;
-    token_url: string;
-    seo_url: string;
-  };
-  curreny?: Currency;
-  principal_amount?: number;
-  interest_rate?: number;
-  duration?: number;
-}
+  asset?: AssetNft;
+  chain: Chain;
+  currency?: Currency;
+  principal_amount: number = 0;
+  interest_rate: number = 0;
+  duration: number = 0;
+  seo_url?: string;
+  offers: Array<LoanDataOffer> = [];
+  owner: string = '';
+  origin_contract_address: string = '';
 
-export class LoanDataAttributes {
-  trait_type!: string;
-  value!: string;
-}
+  constructor(chain: Chain) {
+    this.id = 0;
+    this.chain = chain;
+  }
 
-export class LoanDataNewLoan {
-  owner!: string;
-  offers!: LoanDataOffers[];
-}
+  static parseFromApi(data: LoanData): LoanNft {
+    const network = data.network;
+    const chain = network === 'SOL' ? Chain.Solana : Chain.Polygon; 
+    let loan = new LoanNft(chain);
+    loan.id = data.asset.id;
+    loan.currency = data.currency;
+    loan.principal_amount = data.principal_amount;
+    loan.interest_rate = data.interest_rate;
+    loan.duration = data.duration;
+    loan.seo_url = data.asset.seo_url;
+    loan.offers = data.offers;
+    loan.owner = data.owner;
+    if (loan.chain === Chain.Solana) {
+      loan.asset = SolanaNft.parseFromLoanAsset(data.asset);
+    } else if (loan.chain === Chain.Polygon) {
+      loan.asset = PolygonNft.parseFromLoanAsset(data.asset);
+    }
+    return loan;
+  }
 
-export class LoanDataOffers {
-  
-}
-
-export class LoanDataDetail {
-  id!: number;
-  name!: string;
-  contract_address!: string;
-  collection!: CollectData;
-  token_url!: string;
-  attributes!: LoanDataAttributes;
-  new_loan!: LoanDataNewLoan;
-  seller_fee_rate!: number;
+  static parseFromApiDetail(data: LoanDataAsset): LoanNft {
+    const network = data.new_loan.network;
+    const chain = network === 'SOL' ? Chain.Solana : Chain.Polygon;
+    let loan = new LoanNft(chain);
+    loan.id = data.id;
+    loan.currency = data.new_loan.currency;
+    loan.principal_amount = data.new_loan.principal_amount;
+    loan.interest_rate = data.new_loan. interest_rate;
+    loan.duration = data.new_loan.duration;
+    loan.seo_url = data.seo_url;
+    loan.offers = data.new_loan.offers;
+    loan.owner = data.new_loan.owner;
+    if (loan.chain === Chain.Solana) {
+      loan.asset = SolanaNft.parseFromLoan(data);
+    } else if (loan.chain === Chain.Polygon) {
+      loan.asset = PolygonNft.parseFromLoan(data);
+    }
+    return loan;
+  }
 }

@@ -35,7 +35,6 @@ const ButtonConnectWallet: React.FC<ButtonConnectWalletProps> = (
   }, [wallet]);
 
   const onSelectChain = async (chain: Chain) => {
-    console.log("🚀 ~ file: index.tsx ~ line 40 ~ onSelect ~ chain", chain)
     if (chain === Chain.Polygon) {
       if (!window.ethereum) {
         toastError('Metamask not installed');

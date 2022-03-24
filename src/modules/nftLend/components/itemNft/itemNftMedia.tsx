@@ -21,7 +21,7 @@ interface ItemNftMediaProps {
   height?: number;
   showOriginal?: boolean;
   detail?: any;
-  loading: boolean;
+  loading?: boolean;
 }
 
 const ItemNftMedia = (props: ItemNftMediaProps) => {

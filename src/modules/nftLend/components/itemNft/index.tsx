@@ -1,16 +1,15 @@
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import BigNumber from "bignumber.js";
+import { useEffect, useState } from 'react';
 
 import { formatCurrency } from "src/common/utils/format";
 import { APP_URL } from "src/common/constants/url";
 
 import styles from "./styles.module.scss";
 import ItemNftMedia from "./itemNftMedia";
-import { LoanData } from "../../models/loan";
 import { AssetNft } from '../../models/nft';
-import { useEffect, useState } from 'react';
-import api from 'src/common/services/apiClient';
+import { LoanNft } from '../../models/loan';
 
 export const mediaTypes = {
   video: ["mov", "mp4", "video"],
@@ -18,7 +17,7 @@ export const mediaTypes = {
 };
 
 export interface ItemNftProps {
-  loan?: LoanData;
+  loan?: LoanNft;
   asset: AssetNft;
   onClickItem?: Function;
   onViewLoan?: Function;
@@ -49,26 +48,23 @@ const ItemNFT = (props: ItemNftProps) => {
 
   const onView = () => {
     if (onClickItem) return onClickItem(asset);
-    if (loan?.asset?.seo_url)
-      navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.asset?.seo_url}`);
+    if (loan?.seo_url)
+      navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
   };
 
   return (
     <div className={styles.itemContainer}>
       <a onClick={onView}>
-        {asset.detail_uri && (
-          <ItemNftMedia
-            name={asset.name}
-            className={styles.image}
-            loading={loadingDetail}
-            detail={detail}
-          />
-        )}
-
+        <ItemNftMedia
+          name={asset.name}
+          className={styles.image}
+          loading={loadingDetail}
+          detail={detail}
+        />
         <div className={styles.itemContent}>
           <h5>{asset.name}</h5>
           <div className={styles.infoWrap}>
-            <div>{asset.collection}</div>
+            <div>{asset.collection?.name}</div>
           </div>
           {loan?.principal_amount && (
             <div className={styles.infoPrice}>

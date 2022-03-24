@@ -9,4 +9,4 @@ import { APP_CLUSTER } from 'src/common/constants/config';
 const toPubkey = (key: PublicKey | string) => typeof(key) === 'string' ? new PublicKey(key) : key;
 
 export const getLinkPolygonExplorer = (address?: string) =>
-  `https://${APP_CLUSTER === 'testnet' ? 'mumbai.' : ''}.polygonscan.com/address/${address}`;
+  `https://${APP_CLUSTER === 'testnet' ? 'mumbai.' : ''}polygonscan.com/address/${address}`;

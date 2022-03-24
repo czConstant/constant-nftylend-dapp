@@ -1,35 +1,45 @@
-import api from 'src/common/services/apiClient';
+import { Chain } from 'src/common/constants/network';
+import { LoanData } from './api';
+import { CollectionNft } from './collection';
 
 export type NftID = string | number;
 
 export abstract class AssetNft {
   id: NftID;
-  contract_address: string;
-  name: string;
-  collection: string;
-  author: string;
-  address: string;
+  contract_address: string = '';
+  name: string = '';
+  collection?: CollectionNft;
+  owner: string = '';
+  creator: string = '';
   original_data?: any;
-  detail?: any;
-  detail_uri: string;
+  detail?: AssetNftDetail;
+  detail_uri: string = '';
+  origin_contract_network: string = '';
+  origin_contract_address: string = '';
 
   constructor() {
     this.id = '';
-    this.detail_uri = '';
-    this.contract_address = '';
-    this.name = '';
-    this.address = '';
-    this.collection = '';
-    this.author = '';
   }
 
   abstract needFetchDetail(): boolean;
+  abstract getLinkExplorer(address?: string): string;
 
   fetchDetail() { };
 
-  isEmpty(): boolean {
-    return this.id === '';
-  }
+  isEmpty(): boolean { return this.id === ''; }
+}
 
-  abstract getLinkExplorer(): string;
+
+export interface AssetNftDetail {
+  name: string;
+  description: string;
+  image: string;
+  attributes: AssetNftAttribute;
+  new_loan: LoanData;
+  seller_fee_rate: number;
+}
+
+export interface AssetNftAttribute {
+  trait_type: string;
+  value: string;
 }

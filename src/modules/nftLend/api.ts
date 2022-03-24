@@ -47,6 +47,7 @@ export interface LoanByCollectionParams {
   exclude_ids?: string;
   min_price?: number;
   max_price?: number;
+  collection: string;
 }
 export const getLoanByCollection = (
   params?: LoanByCollectionParams

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import { useConnection } from '@solana/wallet-adapter-react';
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,11 +14,11 @@ import AssetDetailModal from 'src/modules/nftLend/components/assetDetailModal';
 import CreateLoan from '../createLoan';
 import { selectNftyLend } from 'src/store/nftyLend';
 import { Chain } from 'src/common/constants/network';
-import { SolanaNft } from 'src/modules/solana/models/nft';
+import { SolanaNft } from 'src/modules/solana/models/solanaNft';
 import { ItemNftProps } from '../itemNft';
 import { AssetNft } from '../../models/nft';
 import { getNftsByOwner } from 'src/modules/polygon/api';
-import { PolygonNft } from 'src/modules/polygon/models/nft';
+import { PolygonNft } from 'src/modules/polygon/models/polygonNft';
 
 const ListAsset = () => {
   const dispatch = useAppDispatch();
@@ -90,6 +90,7 @@ const ListAsset = () => {
         const res = await getNftsByOwner(walletAddress);
         assets = res.ownedNfts.map(e => {
           const nft = PolygonNft.parse(e);
+          nft.owner = walletAddress;
           return nft;
         });
       }

@@ -20,13 +20,13 @@ const BreadCrumb: React.FC<BreadCrumbProps> = ({ items }) => {
       {items.map((item, index) => {
         if (index < items.length - 1) {
           return (
-            <Link to={item.link}>
+            <Link key={item.label} to={item.link || ''}>
               <i className="fas fa-angle-right" /> {item.label}
             </Link>
           );
         }
         return (
-          <div>
+          <div key={item.label}>
             <i className="fas fa-angle-right" /> {item.label}
           </div>
         );
