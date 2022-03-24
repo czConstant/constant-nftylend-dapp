@@ -43,6 +43,7 @@ export class SolanaNft extends AssetNft {
       name: response.name,
       description: response.description,
       attributes: response.attributes,
+      image: response.image,
     } as AssetNftDetail;
     this.creator = last(response?.properties?.creators)?.address
     return response;

@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import EmptyList from 'src/common/components/emptyList';
 import { closeModal, openModal } from 'src/store/modal';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { APP_URL } from 'src/common/constants/url';
 
 import ListNft from '../listNft';
 import styles from './styles.module.scss';
@@ -38,13 +37,13 @@ const ListAsset = () => {
 
   const onMakeLoan = async (nftToken: AssetNft) => {
     const close = () => dispatch(closeModal({ id: 'createLoanModal' }));
-    // dispatch(openModal({
-    //   id: 'createLoanModal',
-    //   modalProps: { centered: true, backdrop: 'static', padding: 0 },
-    //   render: () => <CreateLoan connection={connection} wallet={wallet} nftMint={nftToken.mint} onClose={close} />,
-    //   theme: 'dark',
-    //   title: 'Create Loan'
-    // }));
+    dispatch(openModal({
+      id: 'createLoanModal',
+      modalProps: { centered: true, backdrop: 'static', padding: 0 },
+      render: () => <CreateLoan asset={nftToken} onClose={close} />,
+      theme: 'dark',
+      title: 'Create Loan'
+    }));
   };
 
   const onClickShowDetail = (asset: AssetNft) => {

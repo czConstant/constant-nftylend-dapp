@@ -4,25 +4,22 @@ import cx from 'classnames';
 import { Button, Dropdown } from 'react-bootstrap';
 
 import styles from './styles.module.scss';
-import { getLinkSolScanAccount } from 'src/modules/solana/utils';
 import ItemNftMedia from '../itemNft/itemNftMedia';
 import { APP_URL } from 'src/common/constants/url';
 import { verifyAsset } from '../../api';
 import Loading from 'src/common/components/loading';
 import { isMobile } from 'react-device-detect';
 import { AssetNft } from '../../models/nft';
-import { LoanData } from '../../models/loan';
 
 interface AssetDetailModalProps {
   asset: AssetNft;
-  loan?: LoanData;
   onClose: Function;
   navigate: Function;
   onMakeLoan?: Function;
 };
 
 const AssetDetailModal = (props: AssetDetailModalProps) => {
-  const { asset, loan, navigate, onClose, onMakeLoan } = props;
+  const { asset, navigate, onClose, onMakeLoan } = props;
   const [extraData, setExtraData] = useState(asset.detail || {});
   const [listingDetail, setListingDetail] = useState({} as any);
   const [loading, setLoading] = useState(false);

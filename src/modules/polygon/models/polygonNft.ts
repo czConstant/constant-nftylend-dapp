@@ -38,6 +38,7 @@ export class PolygonNft extends AssetNft {
       name: response.name,
       description: response.description,
       attributes: response.attributes,
+      image: response.image,
     } as AssetNftDetail;
     return response;
   }
