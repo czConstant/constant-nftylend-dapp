@@ -4,13 +4,13 @@ import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import BigNumber from 'bignumber.js';
 import moment from 'moment-timezone';
 
-import { SOL_CLUSTER } from '../constants/config';
+import { SOL_CLUSTER } from '../../common/constants/config';
 
 const toPubkey = (key: PublicKey | string) => typeof(key) === 'string' ? new PublicKey(key) : key;
 
-export const getLinkSolScanTx = (txHash?: string) => `https://solscan.io/tx/${txHash}?cluster=${APP_ENV.REACT_SOL_CLUSTER}`;
-export const getLinkSolScanAccount = (address?: string) => `https://solscan.io/account/${address}?cluster=${APP_ENV.REACT_SOL_CLUSTER}`;
-export const getLinkSolScanExplorer = (address?: string) => `https://explorer.solana.com/address/${address}?cluster=devnet`;
+export const getLinkSolScanTx = (txHash?: string) => `https://solscan.io/tx/${txHash}?cluster=${SOL_CLUSTER}`;
+export const getLinkSolScanAccount = (address?: string) => `https://solscan.io/account/${address}?cluster=${SOL_CLUSTER}`;
+export const getLinkSolScanExplorer = (address?: string) => `https://explorer.solana.com/address/${address}?cluster=${SOL_CLUSTER}`;
 export const getLinkETHScanAddress = (address?: string) => `https://etherscan.io/address/${address}`;
 export const getLinkETHScanTokenId = (address?: string, id: string) => `https://etherscan.io/token/${address}?a=${id}`;
 
@@ -55,8 +55,8 @@ export const getBalanceToken = async (connection: Connection, publicKey: PublicK
 };
 
 export const getCluster = () => {
-  if (APP_ENV.REACT_SOL_CLUSTER === 'testnet') return WalletAdapterNetwork.Testnet;
-  if (APP_ENV.REACT_SOL_CLUSTER === 'mainnet-beta') return WalletAdapterNetwork.Mainnet;
+  if (SOL_CLUSTER === 'testnet') return WalletAdapterNetwork.Testnet;
+  if (SOL_CLUSTER === 'mainnet-beta') return WalletAdapterNetwork.Mainnet;
   return WalletAdapterNetwork.Devnet;
 };
 

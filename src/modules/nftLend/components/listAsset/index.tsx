@@ -12,35 +12,42 @@ import ListNft from '../listNft';
 import styles from './styles.module.scss';
 import AssetDetailModal from 'src/modules/nftLend/components/assetDetailModal';
 import CreateLoan from '../createLoan';
-import { selectNftLend } from 'src/store/nftLend';
+import { selectNftyLend } from 'src/store/nftyLend';
+import { Chain } from 'src/common/constants/network';
+import { SolanaNft } from 'src/modules/solana/models/nft';
+import { ItemNftProps } from '../itemNft';
+import { AssetNft } from '../../models/nft';
+import { getNftsByOwner } from 'src/modules/polygon/api';
+import { PolygonNft } from 'src/modules/polygon/models/nft';
 
 const ListAsset = () => {
   const dispatch = useAppDispatch();
+  const needReload = useAppSelector(selectNftyLend).needReload;
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const walletChain = useAppSelector(selectNftyLend).walletChain;
+  
   const { connection } = useConnection();
-  const wallet = useWallet();
-  const { publicKey } = wallet;
-  const needReload = useAppSelector(selectNftLend).needReload;
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  const [assets, setAssets] = useState([]);
+  const [assets, setAssets] = useState([] as Array<ItemNftProps>);
 
   useEffect(() => {
-    if (publicKey) fetchNFTs();
-  }, [publicKey, needReload]);
+    if (walletAddress) fetchNFTs();
+  }, [walletAddress, needReload]);
 
-  const onMakeLoan = async (nftToken: any) => {
+  const onMakeLoan = async (nftToken: AssetNft) => {
     const close = () => dispatch(closeModal({ id: 'createLoanModal' }));
-    dispatch(openModal({
-      id: 'createLoanModal',
-      modalProps: { centered: true, backdrop: 'static', padding: 0 },
-      render: () => <CreateLoan connection={connection} wallet={wallet} nftMint={nftToken.mint} onClose={close} />,
-      theme: 'dark',
-      title: 'Create Loan'
-    }));
+    // dispatch(openModal({
+    //   id: 'createLoanModal',
+    //   modalProps: { centered: true, backdrop: 'static', padding: 0 },
+    //   render: () => <CreateLoan connection={connection} wallet={wallet} nftMint={nftToken.mint} onClose={close} />,
+    //   theme: 'dark',
+    //   title: 'Create Loan'
+    // }));
   };
 
-  const onClickShowDetail = (item: any) => {
+  const onClickShowDetail = (asset: AssetNft) => {
     const close = () => dispatch(closeModal({ id: 'detailLoanModal' }));
     return dispatch(openModal({
       id: 'detailLoanModal',
@@ -48,8 +55,9 @@ const ListAsset = () => {
       render: () => (
         <AssetDetailModal
           onClose={close}
-          item={item}
+          asset={asset}
           navigate={navigate}
+          onMakeLoan={() => onMakeLoan(asset)}
         />
       ),
       theme: 'dark'
@@ -57,24 +65,40 @@ const ListAsset = () => {
   };
 
   const fetchNFTs = async () => {
-    if (!publicKey) return;
+    if (!walletAddress) return;
     try {
-      const nfts = await getParsedNftAccountsByOwner({ publicAddress: publicKey.toString(), connection });
-      console.log('nfts', nfts);
-      
-      const _nfts = nfts.map((nft) => ({
-        id: nft.mint,
+      let assets: Array<AssetNft> = [];
+      if (walletChain === Chain.Solana) {
+        const res = await getParsedNftAccountsByOwner({ publicAddress: walletAddress.toString(), connection });
+        assets = res.map(e => {
+          const nft = SolanaNft.parse(e);
+          return nft;
+        });
+        // const _nfts = nfts.map((nft) => ({
+        //   id: nft.mint,
+        //   onClickItem: onClickShowDetail,
+        //   onMakeLoan: () => onMakeLoan(nft),
+        //   asset: {
+        //     token_url: nft.data.uri,
+        //     name: nft.data.name,
+        //     is_fetch_url: true,
+        //     authority: nft.updateAuthority,
+        //     mint: nft.mint
+        //   }
+        // }));
+      } else if (walletChain === Chain.Polygon) {
+        const res = await getNftsByOwner(walletAddress);
+        assets = res.ownedNfts.map(e => {
+          const nft = PolygonNft.parse(e);
+          return nft;
+        });
+      }
+      setAssets(assets.map(e => ({
+        asset: e,
         onClickItem: onClickShowDetail,
-        onMakeLoan: () => onMakeLoan(nft),
-        asset: {
-          token_url: nft.data.uri,
-          name: nft.data.name,
-          is_fetch_url: true,
-          authority: nft.updateAuthority,
-          mint: nft.mint
-        }
-      }));
-      setAssets(_nfts);
+        onMakeLoan: () => onMakeLoan(e),
+      })));
+
     } catch (e) {
       console.log('🚀 ~ file: index.js ~ line 32 ~ fetchNFTs ~ e', e);
     } finally {
@@ -82,7 +106,7 @@ const ListAsset = () => {
     }
   };
 
-  if (!publicKey) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
+  if (!walletAddress) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
 
   return (
     <div className={styles.listAssets}>

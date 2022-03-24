@@ -7,15 +7,15 @@ import {
   fetchAllTokenAccounts,
   getAssociatedAccount,
   getLinkSolScanTx,
-} from "src/common/utils/solana";
+} from "src/modules/solana/utils";
 import CryptoDropdownItem from "src/common/components/cryptoDropdownItem";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { useAppDispatch } from "src/store/hooks";
+import CreateLoanTransaction from "src/modules/solana/transactions/createLoan";
 
 import CreateLoanForm from "./form";
 import { getNftListCurrency } from "../../api";
-import { requestReload } from "src/store/nftLend";
-import CreateLoanTransaction from "../../transactions/createLoan";
+import { requestReload } from "src/store/nftyLend";
 
 interface CreateLoanProps {
   connection: Connection;

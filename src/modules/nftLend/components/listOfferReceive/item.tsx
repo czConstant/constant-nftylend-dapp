@@ -8,17 +8,17 @@ import { useAppDispatch } from "src/store/hooks";
 import {
   getAssociatedAccount,
   getLinkSolScanTx,
-} from "src/common/utils/solana";
+} from "src/modules/solana/utils";
 import {
   hideLoadingOverlay,
   showLoadingOverlay,
 } from "src/store/loadingOverlay";
 import { toastError, toastSuccess } from "src/common/services/toaster";
-import { requestReload } from "src/store/nftLend";
+import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
+import AcceptOfferTransaction from "src/modules/solana/transactions/acceptOffer";
 
 import listLoanStyled from "../listLoan/styles.module.scss";
-import AcceptOfferTransaction from "../../transactions/acceptOffer";
 import { OFFER_STATUS } from "../../constant";
 import { shortCryptoAddress } from "src/common/utils/format";
 import moment from "moment-timezone";

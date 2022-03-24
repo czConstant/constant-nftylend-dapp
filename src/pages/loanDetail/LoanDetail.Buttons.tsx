@@ -8,18 +8,18 @@ import cx from "classnames";
 import {
   getAssociatedAccount,
   getLinkSolScanTx,
-} from "src/common/utils/solana";
-import CancelLoanTransaction from "src/modules/nftLend/transactions/cancelLoan";
+} from "src/modules/solana/utils";
+import CancelLoanTransaction from "src/modules/solana/transactions/cancelLoan";
 import { toastError, toastSuccess } from "src/common/services/toaster";
-import OrderNowTransaction from "src/modules/nftLend/transactions/orderNow";
+import OrderNowTransaction from "src/modules/solana/transactions/orderNow";
 import { closeModal, openModal } from "src/store/modal";
 import LoanDetailMakeOffer from "./LoanDetail.MakeOffer";
 import ButtonSolWallet from "src/common/components/buttonSolWallet";
 import { useAppDispatch } from "src/store/hooks";
-import { requestReload } from "src/store/nftLend";
+import { requestReload } from "src/store/nftyLend";
 import { Link, useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
-import CancelOfferTransaction from "src/modules/nftLend/transactions/cancelOffer";
+import CancelOfferTransaction from "src/modules/solana/transactions/cancelOffer";
 import { TABS } from "../myAsset";
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {

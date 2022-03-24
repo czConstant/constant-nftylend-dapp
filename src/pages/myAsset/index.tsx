@@ -16,8 +16,7 @@ import ButtonSolWallet from "src/common/components/buttonSolWallet";
 import {
   getBalanceToken,
   getLinkSolScanAccount,
-} from "src/common/utils/solana";
-import { APP_ENV } from "src/common/constants/url";
+} from "src/modules/solana/utils";
 import {
   formatCurrencyByLocale,
   shortCryptoAddress,
@@ -53,10 +52,6 @@ const MyAsset = () => {
 
   const [balance, setBalance] = useState(0);
   const [currencies, setCurrencies] = useState([]);
-  console.log(
-    "🚀 ~ file: index.tsx ~ line 38 ~ MyAsset ~ currencies",
-    currencies
-  );
   const [selectedTab, setSelectedTab] = useState(tabActive);
 
   useEffect(() => {

@@ -12,7 +12,7 @@ import { getParsedNftAccountsByOwner } from "@nfteyez/sol-rayz";
 import { useLocation, useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
 import Loading from "../loading";
-import { getLinkSolScanAccount } from "src/common/utils/solana";
+import { getLinkSolScanAccount } from "src/modules/solana/utils";
 import { shortCryptoAddress } from "src/common/utils/format";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toastSuccess } from "src/common/services/toaster";

@@ -11,21 +11,20 @@ import {
   hideLoadingOverlay,
   showLoadingOverlay,
 } from "src/store/loadingOverlay";
-import { requestReload } from "src/store/nftLend";
+import { requestReload } from "src/store/nftyLend";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { APP_URL } from "src/common/constants/url";
-import CloseOfferTransaction from "../../transactions/closeOffer";
-import LiquidateLoanTransaction from "../../transactions/liquidateLoan";
-import CancelOfferTransaction from "../../transactions/cancelOffer";
+import CloseOfferTransaction from "src/modules/solana/transactions/closeOffer";
+import LiquidateLoanTransaction from "src/modules/solana/transactions/liquidateLoan";
+import CancelOfferTransaction from "src/modules/solana/transactions/cancelOffer";
 
 import listLoanStyles from "../listLoan/styles.module.scss";
 import {
   getAssociatedAccount,
   getLinkSolScanTx,
-} from "src/common/utils/solana";
+} from "src/modules/solana/utils";
 import { shortCryptoAddress } from "src/common/utils/format";
 import { OFFER_STATUS } from "../../constant";
-import MyPopover from "src/common/components/myPopover";
 
 interface ItemProps {
   offer: any;

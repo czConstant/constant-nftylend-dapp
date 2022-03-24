@@ -5,7 +5,7 @@ import { Dropdown } from 'react-bootstrap';
 
 import Item from './item';
 import listLoanStyles from '../listLoan/styles.module.scss';
-import { selectNftLend } from 'src/store/nftLend';
+import { selectNftyLend } from 'src/store/nftyLend';
 import { getOffersByFilter } from '../../api';
 import EmptyList from 'src/common/components/emptyList';
 import { OFFER_STATUS } from '../../constant';
@@ -14,7 +14,7 @@ import { useAppSelector } from 'src/store/hooks';
 const ListOfferReceive = () => {
   const wallet = useWallet();
   const { publicKey } = wallet;
-  const needReload = useAppSelector(selectNftLend).needReload;
+  const needReload = useAppSelector(selectNftyLend).needReload;
 
   const [loading, setLoading] = useState(false);
   const [offers, setOffers] = useState([]);

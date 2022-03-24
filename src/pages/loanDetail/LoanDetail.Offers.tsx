@@ -8,21 +8,21 @@ import {
   getAssociatedAccount,
   getLinkSolScanAccount,
   getLinkSolScanTx,
-} from "src/common/utils/solana";
+} from "src/modules/solana/utils";
 import {
   formatCurrencyByLocale,
   shortCryptoAddress,
 } from "src/common/utils/format";
 import moment from "moment-timezone";
 import { Button } from "react-bootstrap";
-import CancelOfferTransaction from "src/modules/nftLend/transactions/cancelOffer";
+import CancelOfferTransaction from "src/modules/solana/transactions/cancelOffer";
 import {
   hideLoadingOverlay,
   showLoadingOverlay,
 } from "src/store/loadingOverlay";
 import { toastError, toastSuccess } from "src/common/services/toaster";
-import AcceptOfferTransaction from "src/modules/nftLend/transactions/acceptOffer";
-import { requestReload } from "src/store/nftLend";
+import AcceptOfferTransaction from "src/modules/solana/transactions/acceptOffer";
+import { requestReload } from "src/store/nftyLend";
 import { useAppDispatch } from "src/store/hooks";
 
 export const OfferTableHeader = () => (

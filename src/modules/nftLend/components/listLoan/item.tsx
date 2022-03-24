@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch } from "src/store/hooks";
 import { toastError, toastSuccess } from "src/common/services/toaster";
-import { requestReload } from "src/store/nftLend";
+import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
 import {
   hideLoadingOverlay,
@@ -17,10 +17,10 @@ import {
   calculateTotalPay,
   getAssociatedAccount,
   getLinkSolScanTx,
-} from "src/common/utils/solana";
+} from "src/modules/solana/utils";
 
-import CancelLoanTransaction from "../../transactions/cancelLoan";
-import PayLoanTransaction from "../../transactions/payLoan";
+import CancelLoanTransaction from "src/modules/solana/transactions/cancelLoan";
+import PayLoanTransaction from "src/modules/solana/transactions/payLoan";
 
 // import { STATUS } from '../../listLoan/leftSidebar';
 import styles from "./styles.module.scss";

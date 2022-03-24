@@ -16,7 +16,7 @@ import { ChainSolanaNetwork } from 'src/common/constants/network';
 import AppRouter from './navigation';
 import { getSystemConfigs } from './modules/nftLend/api';
 import { useAppDispatch } from './store/hooks';
-import { updateConfigs } from './store/nftLend';
+import { updateConfigs } from './store/nftyLend';
 
 export default function App() {
   const dispatch = useAppDispatch();

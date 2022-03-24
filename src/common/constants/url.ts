@@ -1,4 +1,4 @@
-import { BASE_PATH, MCT_API_BASE, MCT_ROOT } from './config'
+import { ALCHEMY_API_KEY, APP_CLUSTER, BASE_PATH, MCT_API_BASE, MCT_ROOT } from './config'
 
 export const APP_URL = {
   HOME: `${BASE_PATH}/`,
@@ -27,4 +27,8 @@ export const API_URL = {
     SALE_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/assets/transactions`,
     SUBMIT_COLLECTION: `${MCT_ROOT}${MCT_API_BASE}/collections/submitted`,
   }
+}
+
+export const ALCHEMY_URL = {
+  GET_NFTS: APP_CLUSTER === 'mainnet' ? '' : `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}/getNFTs/`,
 }

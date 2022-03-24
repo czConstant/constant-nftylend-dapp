@@ -12,11 +12,11 @@ import { required } from "src/common/utils/formValidate";
 import {
   getAssociatedAccount,
   getLinkSolScanTx,
-} from "src/common/utils/solana";
+} from "src/modules/solana/utils";
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
-import MakeOfferTransaction from "src/modules/nftLend/transactions/makeOffer";
+import MakeOfferTransaction from "src/modules/solana/transactions/makeOffer";
 import { useAppDispatch } from "src/store/hooks";
-import { requestReload } from "src/store/nftLend";
+import { requestReload } from "src/store/nftyLend";
 import { TABS } from "../myAsset";
 import styles from "./styles.module.scss";
 

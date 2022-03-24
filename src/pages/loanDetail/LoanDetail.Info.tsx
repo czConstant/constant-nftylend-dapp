@@ -4,7 +4,7 @@ import {
   getLinkETHScanAddress,
   getLinkETHScanTokenId,
   getLinkSolScanAccount,
-} from "src/common/utils/solana";
+} from "src/modules/solana/utils";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 

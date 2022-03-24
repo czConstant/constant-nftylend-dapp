@@ -1,26 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Chain } from 'src/common/constants/network';
 import { RootState } from '.';
 
-interface NftLendState {
+interface NftyLendState {
   needReload: number;
   walletAddress: string;
-  walletNetwork: number | string;
+  walletChain: Chain;
   configs: {
     program_id: string,
   };
 }
 
-const initialState: NftLendState = {
+const initialState: NftyLendState = {
   needReload: 0,
   walletAddress: '',
-  walletNetwork: '',
+  walletChain: Chain.None,
   configs: {
     program_id: '',
   },
 };
 
 const slice = createSlice({
-  name: 'nftLend',
+  name: 'nftyLend',
   initialState,
   reducers: {
     requestReload: (state) => {
@@ -31,17 +32,17 @@ const slice = createSlice({
     },
     updateWallet: (state, action) => {
       state.walletAddress = action.payload.address;
-      state.walletNetwork = action.payload.network;
+      state.walletChain = action.payload.network;
     },
     clearWallet: (state) => {
       state.walletAddress = '';
-      state.walletNetwork = '';
+      state.walletChain = Chain.None;
     }
   },
 });
 
 export const { requestReload, updateConfigs, updateWallet, clearWallet } = slice.actions;
 
-export const selectNftLend = (state: RootState) => state.nftLend;
+export const selectNftyLend = (state: RootState) => state.nftyLend;
 
 export default slice.reducer;

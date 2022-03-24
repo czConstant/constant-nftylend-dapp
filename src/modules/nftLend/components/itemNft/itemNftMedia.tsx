@@ -10,55 +10,47 @@ import { getImageThumb } from '../../api';
 
 export const mediaTypes = {
   video: ['mov', 'mp4', 'video'],
-  img: ['jpg', 'png', 'gif', 'jpeg', 'image'],
+  image: ['jpg', 'png', 'gif', 'jpeg', 'image'],
 };
 
 interface ItemNftMediaProps {
-  tokenUrl?: string;
   config?: any;
   className?: string;
   name?: string;
-  isFetchUrl?: boolean;
   width?: number;
   height?: number;
   showOriginal?: boolean;
+  detail?: any;
+  loading: boolean;
 }
 
 const ItemNftMedia = (props: ItemNftMediaProps) => {
   const {
-    tokenUrl = '',
     config,
     className,
     name,
-    isFetchUrl,
     width = 300,
     height = 300,
-    showOriginal = false
+    showOriginal = false,
+    detail,
+    loading,
   } = props;
 
   const refVideo = useRef();
-  
-  const [detail, setDetail] = useState(null);
-  const [mediaUrl, setMediaUrl] = useState(tokenUrl);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (isFetchUrl) fetchDetail();
-  }, [isFetchUrl]);
-
-  const fetchDetail = async () => {
-    try {
-      setIsLoading(true);
-      const res = await axios.get(tokenUrl);
-      if (res.status === 200) {
-        setMediaUrl(res.data?.image);
-        setDetail(res.data);
-      }
-    } finally {
-      setIsLoading(false);
+  const getMediaType = () => {
+    let mediaType = '';
+    if (detail?.image) {
+      mediaType = last(last(detail?.image as string)?.split('.')) || '';
+      if (mediaTypes.image.includes(mediaType)) return mediaType;
     }
+  
+    mediaType = detail?.properties?.files?.length > 0
+      ? detail?.properties?.files[0]?.type
+      : '';
+    return last(mediaType.split('/'));
   };
-
+  
   const renderMedia = (mediaType?: string) => {
     // if (!mediaType) return null;
     let media = null;
@@ -74,11 +66,11 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
           onMouseLeave={() => refVideo.current?.pause()}
           {...config?.video}
         >
-          <source src={mediaUrl} type={`video/${mediaType}`} />
+          <source src={detail?.image} type={`video/${mediaType}`} />
         </video>
       );
     } else {
-      media = <img src={getImageThumb({ width, height, url: mediaUrl, showOriginal })} alt={name} />
+      media = <img src={getImageThumb({ width, height, url: detail?.image, showOriginal })} alt={name} />
     }
 
     return (
@@ -86,23 +78,14 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
     );
   };
 
-  if (!isFetchUrl) {
-    const mediaType = last(last(mediaUrl)?.split('.'));
-    return renderMedia(mediaType);
-  }
-  if (isLoading) {
+  if (loading) {
     return (
       <div className={cx(styles.itemMedia, className)}>
         <Loading />
       </div>
     );
   }
-
-  const mediaType = detail?.properties?.files?.length > 0
-    ? detail?.properties?.files[0]?.type
-    : '';
-
-  return renderMedia(last(mediaType.split('/')));
+  return renderMedia(getMediaType());
 };
 
 export default ItemNftMedia;

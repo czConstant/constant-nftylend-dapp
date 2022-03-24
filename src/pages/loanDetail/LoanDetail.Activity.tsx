@@ -11,7 +11,7 @@ import {
 import {
   getLinkSolScanAccount,
   getLinkSolScanTx,
-} from "src/common/utils/solana";
+} from "src/modules/solana/utils";
 import {
   formatCurrencyByLocale,
   shortCryptoAddress,

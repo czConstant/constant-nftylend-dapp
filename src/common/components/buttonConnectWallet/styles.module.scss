@@ -1,3 +1,18 @@
+.connectButton {
+  height: 40px;
+  background-color: transparent !important;
+  border: 2px solid #777e90 !important;
+  color: #fcfcfd;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-radius: 20px;
+  box-shadow: none !important;
+  &::after {
+    display: none;
+  }
+}
+
 .button {
   width: 100%;
   justify-content: center;
@@ -7,19 +22,6 @@
 }
 
 .wrapper {
-  > button, > button:hover, > button:active {
-    height: 40px;
-    background-color: transparent !important;
-    border: 2px solid #777e90 !important;
-    color: #fcfcfd;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 20px;
-    box-shadow: none !important;
-    &::after {
-      display: none;
-    }
-  }
   .dropdownMenu {
     background-color: #252836;
     > a:hover {
@@ -31,6 +33,7 @@
       line-height: unset;
     }
     .item {
+      font-size: 14px;
       color: white;
       padding: 5px 0;
     }

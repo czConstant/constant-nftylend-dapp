@@ -3,7 +3,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import cx from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 
-import { selectNftLend } from 'src/store/nftLend';
+import { selectNftyLend } from 'src/store/nftyLend';
 import { useAppSelector } from 'src/store/hooks';
 
 import Item from './item';
@@ -15,7 +15,7 @@ import { OFFER_STATUS } from '../../constant';
 const ListOffer = () => {
   const wallet = useWallet();
   const { publicKey } = wallet;
-  const needReload = useAppSelector(selectNftLend).needReload;
+  const needReload = useAppSelector(selectNftyLend).needReload;
 
   const [loading, setLoading] = useState(false);
   const [offers, setOffers] = useState([]);

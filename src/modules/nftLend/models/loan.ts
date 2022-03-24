@@ -1,11 +1,17 @@
 import { CollectData } from "./collection";
+import { Currency } from './api';
 
 export class LoanData {
   id!: number;
   asset!: {
     collection: CollectData;
     token_url: string;
+    seo_url: string;
   };
+  curreny?: Currency;
+  principal_amount?: number;
+  interest_rate?: number;
+  duration?: number;
 }
 
 export class LoanDataAttributes {

@@ -19,14 +19,14 @@ import LoanDetailSuggest from "./LoanDetail.Suggest";
 import LoanDetailOffers from "./LoanDetail.Offers";
 import { useSelector } from "react-redux";
 import { useAppSelector } from "src/store/hooks";
-import { selectNftLend } from "src/store/nftLend";
+import { selectNftyLend } from "src/store/nftyLend";
 import { isMobile } from "react-device-detect";
 
 const LoanDetail = () => {
   const location = useLocation();
   const pathLoan: string = last(location.pathname.split("/"))?.toString();
 
-  const needReload = useAppSelector(selectNftLend).needReload;
+  const needReload = useAppSelector(selectNftyLend).needReload;
 
   const defaultBreadCrumbs = useRef<BreadCrumbItem[]>([
     {
