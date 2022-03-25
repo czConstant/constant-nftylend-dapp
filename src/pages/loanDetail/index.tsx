@@ -44,7 +44,7 @@ const LoanDetail = () => {
 
   const [breadCrumbs, setBreadCrumbs] = useState<BreadCrumbItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [detail, setDetail] = useState<LoanNft>();
+  const [loan, setLoan] = useState<LoanNft>();
 
   useEffect(() => {
     getLoan();
@@ -61,22 +61,23 @@ const LoanDetail = () => {
       defaultBreadCrumbs.current[2].label = result.name;
 
       setBreadCrumbs(defaultBreadCrumbs.current);
-      setDetail(LoanNft.parseFromApiDetail(result));
+      setLoan(LoanNft.parseFromApiDetail(result));
     } finally {
       setLoading(false);
     }
   };
 
+  console.log("🚀 ~ file: index.tsx ~ line 73 ~ renderView ~ detail", loan)
   const renderView = () => {
     if (loading) return <Loading />;
-    if (!detail || !detail.asset) return <EmptyDetailLoan />;
+    if (!loan || !loan.asset) return <EmptyDetailLoan />;
     return (
       <>
         <BreadCrumb items={breadCrumbs} />
-        <LoanDetailHeader asset={detail?.asset} loan={detail} />
-        <LoanDetailOffers asset={detail?.asset} loan={detail} />
-        <LoanDetailActivity asset={detail?.asset} loan={detail} />
-        {/* <LoanDetailSuggest asset={detail?.asset} loan={detail} /> */}
+        <LoanDetailHeader asset={loan?.asset} loan={loan} />
+        <LoanDetailOffers asset={loan?.asset} loan={loan} />
+        <LoanDetailActivity asset={loan?.asset} loan={loan} />
+        <LoanDetailSuggest asset={loan?.asset} loan={loan} />
       </>
     );
   };

@@ -1,3 +1,4 @@
+import { Chain } from 'src/common/constants/network';
 import { API_URL } from "src/common/constants/url";
 import api from "src/common/services/apiClient";
 import { ListResponse, ResponseResult, SubmitCollection } from "./models/api";
@@ -30,8 +31,8 @@ interface ListParams {
   limit?: number;
 }
 
-export const getNftListCurrency = async (): Promise<ListResponse> => {
-  return api.get(API_URL.NFT_LEND.LIST_CURRENCY);
+export const getNftListCurrency = async (chain?: Chain): Promise<ListResponse> => {
+  return api.get(`${API_URL.NFT_LEND.LIST_CURRENCY}?network=${chain?.toString()}`);
 };
 
 export const getCollections = (params?: ListParams): Promise<ListResponse> => {

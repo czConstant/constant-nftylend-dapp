@@ -40,14 +40,14 @@ const ButtonConnectWallet: React.FC<ButtonConnectWalletProps> = (
         toastError('Metamask not installed');
       }
       try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
         await window.ethereum.enable();
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         });
+        console.log("🚀 ~ file: index.tsx ~ line 47 ~ onSelectChain ~ accounts", accounts)
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: ChainPolygonID }],
+          params: [{ chainId: `0x${ChainPolygonID.toString(16)}` }],
         })
         dispatch(updateWallet({ address: accounts[0], network: Chain.Polygon }));
       } catch (err) {

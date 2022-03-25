@@ -5,7 +5,7 @@ import { SOL_DELEND_PROGRAM } from 'src/common/constants/config';
 import store from 'src/store';
 
 export const getLendingProgramId = () => {
-  return store.getState().nftLend.configs.program_id || SOL_DELEND_PROGRAM;
+  return store.getState().nftyLend.configs.program_id || SOL_DELEND_PROGRAM;
 };
 
 interface LoanInfoLayout {

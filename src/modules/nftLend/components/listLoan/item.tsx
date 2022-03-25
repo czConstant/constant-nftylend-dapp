@@ -19,16 +19,17 @@ import {
   getLinkSolScanTx,
 } from "src/modules/solana/utils";
 
-import CancelLoanTransaction from "src/modules/solana/transactions/cancelLoan";
 import PayLoanTransaction from "src/modules/solana/transactions/payLoan";
 
 // import { STATUS } from '../../listLoan/leftSidebar';
 import styles from "./styles.module.scss";
 import { shortCryptoAddress } from "src/common/utils/format";
 import { OFFER_STATUS } from "../../constant";
+import { useTransaction } from '../../hooks/useTransaction';
+import { LoanNft } from '../../models/loan';
 
 interface ItemProps {
-  loan: any;
+  loan: LoanNft;
 }
 
 const Item = (props: ItemProps) => {
@@ -36,28 +37,20 @@ const Item = (props: ItemProps) => {
   const navigate = useNavigate();
   const { connection } = useConnection();
   const dispatch = useAppDispatch();
-  const wallet = useWallet();
+  const { cancelLoan } = useTransaction();
 
   const [open, setOpen] = useState(false);
 
   const onCancelLoan = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!wallet.publicKey) return;
-
-    const nftMint = loan.asset.contract_address;
-    const nftAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
-      nftMint
-    );
-    if (!nftAssociated) return;
-    const transaction = new CancelLoanTransaction(connection, wallet);
     try {
       dispatch(showLoadingOverlay());
-      const res = await transaction.run(
-        nftAssociated,
-        loan.data_loan_address,
-        loan.data_asset_address
-      );
+      console.log("🚀 ~ file: item.tsx ~ line 52 ~ onCancelLoan ~ loan", loan)
+      const res = await cancelLoan({
+        nonce: loan.nonce,
+        asset_contract_address: loan.asset?.contract_address || '',
+        loan_data_address: '' 
+      });
       if (res?.txHash) {
         toastSuccess(
           <>
@@ -77,62 +70,60 @@ const Item = (props: ItemProps) => {
   };
 
   const onPayLoan = async (e) => {
-    e.stopPropagation();
-    if (!wallet.publicKey) return;
-
-    const payAmount =
-      loan?.status === "created"
-        ? calculateTotalPay(
-            Number(loan.offer_principal_amount * 10 ** loan.currency.decimals),
-            loan.offer_interest_rate * 10 ** 4,
-            loan.offer_duration,
-            moment(loan.offer_started_at).unix()
-          )
-        : 0;
-    const nftAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
-      loan.asset.contract_address
-    );
-    const usdAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
-      loan.currency.contract_address
-    );
-    if (!nftAssociated || !usdAssociated) return;
-    const transaction = new PayLoanTransaction(connection, wallet);
-    try {
-      dispatch(showLoadingOverlay());
-      const res = await transaction.run(
-        payAmount,
-        loan.data_loan_address,
-        loan.approved_offer.data_offer_address,
-        nftAssociated,
-        usdAssociated,
-        loan.lender,
-        loan.approved_offer.data_currency_address,
-        loan.data_asset_address,
-        loan.currency.admin_fee_address
-      );
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Pay loan successfully.{" "}
-            <a target="_blank" href={getLinkSolScanTx(res.txHash)}>
-              View transaction
-            </a>
-          </>
-        );
-        dispatch(requestReload());
-      }
-    } catch (err: any) {
-      toastError(err?.message || err);
-    } finally {
-      dispatch(hideLoadingOverlay());
-    }
+    // e.stopPropagation();
+    // const payAmount =
+    //   loan?.status === "created"
+    //     ? calculateTotalPay(
+    //         Number(loan.offer_principal_amount * 10 ** loan.currency.decimals),
+    //         loan.offer_interest_rate * 10 ** 4,
+    //         loan.offer_duration,
+    //         moment(loan.offer_started_at).unix()
+    //       )
+    //     : 0;
+    // const nftAssociated = await getAssociatedAccount(
+    //   wallet.publicKey.toString(),
+    //   loan.asset.contract_address
+    // );
+    // const usdAssociated = await getAssociatedAccount(
+    //   wallet.publicKey.toString(),
+    //   loan.currency.contract_address
+    // );
+    // if (!nftAssociated || !usdAssociated) return;
+    // const transaction = new PayLoanTransaction(connection, wallet);
+    // try {
+    //   dispatch(showLoadingOverlay());
+    //   const res = await transaction.run(
+    //     payAmount,
+    //     loan.data_loan_address,
+    //     loan.approved_offer.data_offer_address,
+    //     nftAssociated,
+    //     usdAssociated,
+    //     loan.lender,
+    //     loan.approved_offer.data_currency_address,
+    //     loan.data_asset_address,
+    //     loan.currency.admin_fee_address
+    //   );
+    //   if (res?.txHash) {
+    //     toastSuccess(
+    //       <>
+    //         Pay loan successfully.{" "}
+    //         <a target="_blank" href={getLinkSolScanTx(res.txHash)}>
+    //           View transaction
+    //         </a>
+    //       </>
+    //     );
+    //     dispatch(requestReload());
+    //   }
+    // } catch (err: any) {
+    //   toastError(err?.message || err);
+    // } finally {
+    //   dispatch(hideLoadingOverlay());
+    // }
   };
 
   const onViewLoan = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.asset?.seo_url}`);
+    navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
   };
 
   const showCancel = loan.status === "new";
@@ -188,10 +179,10 @@ const Item = (props: ItemProps) => {
     <div key={loan.id} onClick={() => setOpen(!open)} className={styles.item}>
       <div className={styles.row}>
         <div>
-          <a onClick={onViewLoan}>{loan.asset.name}</a>
+          <a onClick={onViewLoan}>{loan.asset?.name}</a>
         </div>
         <div>
-          {principal} {loan.currency.symbol}
+          {principal} {loan.currency?.symbol}
         </div>
         <div>
           {days} days /<br />

@@ -28,7 +28,7 @@ const ItemNFT = (props: ItemNftProps) => {
   const { loan, asset, onClickItem, onViewLoan, onCancelLoan } = props;
   const navigate = useNavigate();
   const [loadingDetail, setLoadingDetail] = useState(false);
-  const [detail, setDetail] = useState(asset.detail);
+  const [detail, setDetail] = useState(asset?.detail);
 
   if (!asset) return <div className={styles.itemContainer} />;
 

@@ -2,7 +2,7 @@
   padding: 0;
 }
 .modalDark {
-  background-color: #0d0d0d;
+  background-color: var(--bs-gray-dark);
   color: #fcfcfd;
   button {
     filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(10deg)

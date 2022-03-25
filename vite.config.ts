@@ -20,6 +20,7 @@ export default ({ mode}) => {
         'src': path.resolve(__dirname, 'src'),
         crypto: 'crypto-js',
         fs: require.resolve('rollup-plugin-node-builtins'),
+        web3: path.resolve(__dirname, './node_modules/web3/dist/web3.min.js'),
       }
     },
     define: {

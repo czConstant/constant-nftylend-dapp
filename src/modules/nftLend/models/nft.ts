@@ -2,7 +2,7 @@ import { Chain } from 'src/common/constants/network';
 import { LoanData } from './api';
 import { CollectionNft } from './collection';
 
-export type NftID = string | number;
+export type NftID = string;
 
 export abstract class AssetNft {
   id: NftID;

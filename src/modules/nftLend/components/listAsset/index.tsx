@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useConnection } from '@solana/wallet-adapter-react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,6 +25,7 @@ const ListAsset = () => {
   const walletAddress = useAppSelector(selectNftyLend).walletAddress;
   const walletChain = useAppSelector(selectNftyLend).walletChain;
   
+  const wallet = useWallet();
   const { connection } = useConnection();
   const navigate = useNavigate();
 
@@ -40,7 +41,7 @@ const ListAsset = () => {
     dispatch(openModal({
       id: 'createLoanModal',
       modalProps: { centered: true, backdrop: 'static', padding: 0 },
-      render: () => <CreateLoan asset={nftToken} onClose={close} />,
+      render: () => <CreateLoan solanaOptions={{ connection, wallet }} asset={nftToken} onClose={close} />,
       theme: 'dark',
       title: 'Create Loan'
     }));

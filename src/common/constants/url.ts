@@ -26,6 +26,7 @@ export const API_URL = {
     LOAN_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/loans/transactions`,
     SALE_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/assets/transactions`,
     SUBMIT_COLLECTION: `${MCT_ROOT}${MCT_API_BASE}/collections/submitted`,
+    CREATE_LOAN: `${MCT_ROOT}${MCT_API_BASE}/loans/create`,
   }
 }
 

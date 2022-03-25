@@ -3,12 +3,13 @@ import api from 'src/common/services/apiClient';
 import { LoanDataAsset } from 'src/modules/nftLend/models/api';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import { AssetNft, AssetNftDetail } from 'src/modules/nftLend/models/nft';
+import BigNumber from 'bignumber.js';
 import { getLinkPolygonExplorer } from '../utils';
 
 export class PolygonNft extends AssetNft {
   static parse(item: any): PolygonNft {
     let nft = new PolygonNft();
-    nft.id = item.id.tokenId;
+    nft.id = new BigNumber(item.id.tokenId).toString();
     nft.name = item.title;
     nft.detail_uri = item.tokenUri.raw;
     nft.contract_address = item.contract.address;

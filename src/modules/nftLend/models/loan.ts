@@ -16,6 +16,10 @@ export class LoanNft {
   offers: Array<LoanDataOffer> = [];
   owner: string = '';
   origin_contract_address: string = '';
+  nonce: string = '';
+  status: string = '';
+  created_at: string = '';
+  init_tx_hash: string = '';
 
   constructor(chain: Chain) {
     this.id = 0;
@@ -34,6 +38,10 @@ export class LoanNft {
     loan.seo_url = data.asset.seo_url;
     loan.offers = data.offers;
     loan.owner = data.owner;
+    loan.nonce = data.nonce_hex;
+    loan.status = data.status;
+    loan.created_at = data.created_at;
+    loan.init_tx_hash = data.init_tx_hash;
     if (loan.chain === Chain.Solana) {
       loan.asset = SolanaNft.parseFromLoanAsset(data.asset);
     } else if (loan.chain === Chain.Polygon) {
@@ -54,10 +62,14 @@ export class LoanNft {
     loan.seo_url = data.seo_url;
     loan.offers = data.new_loan.offers;
     loan.owner = data.new_loan.owner;
+    loan.nonce = data.new_loan.nonce_hex;
+    loan.status = data.new_loan.status;
+    loan.created_at = data.new_loan.created_at;
+    loan.init_tx_hash = data.new_loan.init_tx_hash;
     if (loan.chain === Chain.Solana) {
-      loan.asset = SolanaNft.parseFromLoan(data);
+      loan.asset = SolanaNft.parseFromLoanAsset(data);
     } else if (loan.chain === Chain.Polygon) {
-      loan.asset = PolygonNft.parseFromLoan(data);
+      loan.asset = PolygonNft.parseFromLoanAsset(data);
     }
     return loan;
   }

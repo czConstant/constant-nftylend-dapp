@@ -56,6 +56,10 @@ export interface LoanData {
   network: string;
   offers: Array<LoanDataOffer>;
   owner: string;
+  nonce_hex: string;
+  status: string;
+  created_at: string;
+  init_tx_hash: string;
 }
 
 export interface LoanDataAsset {

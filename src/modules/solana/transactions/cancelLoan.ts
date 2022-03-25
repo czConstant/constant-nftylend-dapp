@@ -4,14 +4,15 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 import { getLendingProgramId } from './constants';
 import { CancelLoanInstruction } from './utils';
 import SolTransaction from './index';
+import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 
 export default class CancelLoanTransaction extends SolTransaction {
   async run(
     receiveNftAssociated: string,
     loanId: string,
     nftTempAccountAddress: string
-  ) {
-    if (!this.wallet.publicKey) return;
+  ): Promise<TransactionResult> {
+    if (!this.wallet.publicKey) throw new Error('No public key');
     try {
       const lendingProgramId = new PublicKey(getLendingProgramId());
       const borrower_nft_account_pubkey = new PublicKey(receiveNftAssociated);
