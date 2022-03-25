@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { Button } from "react-bootstrap";
 import cx from "classnames";
@@ -25,6 +25,7 @@ import {
 } from "src/common/utils/solana";
 import { shortCryptoAddress } from "src/common/utils/format";
 import { OFFER_STATUS } from "../../constant";
+import MyPopover from "src/common/components/myPopover";
 
 interface ItemProps {
   offer: any;
@@ -36,6 +37,7 @@ const Item = (props: ItemProps) => {
   const navigate = useNavigate();
   const { connection } = useConnection();
   const wallet = useWallet();
+  const refRow = useRef();
 
   const [open, setOpen] = useState(false);
 
@@ -166,14 +168,21 @@ const Item = (props: ItemProps) => {
 
   if (showLiquidate) {
     status = "overdue";
-  }
+  } else if (status === "done" && offer?.close_tx_hash) {
+    status = "expired";
+  } 
 
-  if (["cancelled", "liquidated", "expired", "overdue"].includes(status)) {
+  if (["overdue"].includes(status)) {
     statusStyle = {
       backgroundColor: "#e0720b33",
       color: "#DE710B",
     };
-  } else if (["repaid"].includes(status)) {
+  } else if (["cancelled", "expired"].includes(status)) {
+    statusStyle = {
+      backgroundColor: "#ff000033",
+      color: "#ff0000",
+    };
+  } else if (["repaid", "approved"].includes(status)) {
     statusStyle = {
       backgroundColor: "#0d6dfd33",
       color: "#0d6efd",
@@ -197,11 +206,14 @@ const Item = (props: ItemProps) => {
         <div>
           {principal} {loan.currency.symbol}
         </div>
-        <div>{days} days / <br />{new BigNumber(interest).multipliedBy(100).toNumber()}%</div>
+        <div>
+          {days} days / <br />
+          {new BigNumber(interest).multipliedBy(100).toNumber()}%
+        </div>
         {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
         <div>
           <div className={listLoanStyles.statusWrap} style={statusStyle}>
-            {OFFER_STATUS[status].name}
+            {OFFER_STATUS?.[status]?.lender}
           </div>
         </div>
         <div>
@@ -209,10 +221,14 @@ const Item = (props: ItemProps) => {
             {shortCryptoAddress(loan.init_tx_hash, 8)}
           </a>
         </div>
-        <div>{moment(loan.created_at).format('MM/DD/YYYY HH:mm A')}</div>
+        <div>{moment(loan.created_at).format("MM/DD/YYYY HH:mm A")}</div>
         <div className={listLoanStyles.actions}>
-          {showClaim && <Button onClick={onClaim}>Claim</Button>}
-          {showLiquidate && <Button onClick={onLiquidate}>Liquidate</Button>}
+          {showClaim && (
+            <Button title="Claim for Credit" onClick={onClaim}>
+              Claim (?)
+            </Button>
+          )}
+          {showLiquidate && <Button title="Claim for NFT" onClick={onLiquidate}>Claim (?)</Button>}
           {showCancel && <Button onClick={onCancel}>Cancel</Button>}
         </div>
       </div>

@@ -10,6 +10,7 @@ import ItemNftMedia from '../itemNft/itemNftMedia';
 import { APP_URL } from 'src/common/constants/url';
 import { verifyAsset } from '../../api';
 import Loading from 'src/common/components/loading';
+import { isMobile } from 'react-device-detect';
 
 interface AssetDetailModalProps {
   item: any;
@@ -62,7 +63,13 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   };
 
   return (
-    <div className={styles.assetDetailModal}>
+    <div className={cx(isMobile && styles.moAssetDetailModal, styles.assetDetailModal)}>
+      {
+        isMobile &&
+          <a onClick={onClose} className={styles.btnClose} >
+            <i className="fas fa-times"></i>
+          </a>
+      }
       <ItemNftMedia
         tokenUrl={item?.asset?.token_url}
         name={item?.asset?.name}

@@ -9,6 +9,7 @@ import { LoanData } from "src/modules/nftLend/models/loan";
 import { CollectData } from "src/modules/nftLend/models/collection";
 import Loading from "src/common/components/loading";
 import { OnBoardingHeader } from "../discover";
+import { isMobile } from "react-device-detect";
 
 interface LoansHeaderProps {
   dataLoan: LoanData[];
@@ -49,7 +50,7 @@ const LoansHeader: React.FC<LoansHeaderProps> = ({
     } else if (collection) {
       return (
         <>
-          <RandomAvatar loans={dataLoan} />
+          <RandomAvatar loans={dataLoan} size={isMobile && 150} />
           <h4>{collection?.name}</h4>
           <div className={styles.infoWrap}>
             {attributes.map((att) => (

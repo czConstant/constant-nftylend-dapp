@@ -10,6 +10,8 @@ export const APP_URL = {
   NFT_LENDING_LIST_LOAN: `${BASE_PATH}/loans`,
   NFT_LENDING_DETAIL_LOAN: `${BASE_PATH}/loans/:id`,
   NFT_LENDING_SUBMIT_WHITELIST: `${BASE_PATH}/submit`,
+  NFT_LENDING_TERM_OF_SERVICE: `${BASE_PATH}/terms-of-service`,
+  NFT_LENDING_FAQS: `${BASE_PATH}/help`,
 }
 
 export const API_URL = { 

@@ -1,8 +1,22 @@
 .assetDetailModal {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 70px;
   padding: 20px;
+  grid-gap: 1rem;
+  &.moAssetDetailModal {
+    grid-template-columns: 1fr;
+    padding-top: 40px;
+    position: relative;
+    .btnClose {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: white;
+      i {
+        font-size: 25px;
+      }
+    }
+  }
   h4 {
     margin-bottom: 5px;
     font-weight: bold;
@@ -97,7 +111,6 @@
     margin-top: 15px;
   }
 }
-
 
 .actions {
   display: flex;

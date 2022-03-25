@@ -46,16 +46,23 @@
   justify-content: space-evenly;
   align-items: center;
   color: #ffffff;
+  div {
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+    line-height: 19px;
+    color: var(--bs-gray-400);
+  }
 }
 
 .modalContent {
+  background-color: var(--bs-dark);
   background-image: url("./assets/bg_modal.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
   border-radius: 8px;
   overflow: hidden;
-  background-color: transparent;
   padding: 30px;
   display: flex;
   flex-direction: column;
@@ -81,7 +88,7 @@
   &:nth-child(2) {
     background: transparent;
     border: 1px solid #3772ff;
-    color: #3772ff;
+    color: #ffffff;
   }
   &:hover {
     background-color: #3772ff !important;
