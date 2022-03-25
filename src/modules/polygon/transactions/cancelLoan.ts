@@ -15,7 +15,7 @@ export default class CancelLoanEvmTransaction extends EvmTransaction {
       const signer = provider.getSigner(0);
       const contract = new ethers.Contract(POLYGON_DELEND_PROGRAM, NftyPawn, signer)
       let txHash = '';
-      const tx = await contract.cancelLoanCommitmentBeforeLoanHasBegun(nonce);
+      const tx = await contract.cancelLoanCommitmentBeforeLoanHasBegun('0x' + nonce);
       const receipt = await tx.wait();
       txHash = receipt.transactionHash;
 

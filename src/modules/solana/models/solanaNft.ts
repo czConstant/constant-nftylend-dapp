@@ -37,7 +37,8 @@ export class SolanaNft extends AssetNft {
     return !this.detail;
   }
   
-  async fetchDetail() {
+  async fetchDetail(): Promise<any> {
+    if (!this.detail_uri) throw new Error('No token uri');
     const response: any = await api.get(this.detail_uri);
     this.detail = {
       name: response.name,

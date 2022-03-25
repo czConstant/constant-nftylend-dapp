@@ -74,18 +74,6 @@ const ListAsset = () => {
           const nft = SolanaNft.parse(e);
           return nft;
         });
-        // const _nfts = nfts.map((nft) => ({
-        //   id: nft.mint,
-        //   onClickItem: onClickShowDetail,
-        //   onMakeLoan: () => onMakeLoan(nft),
-        //   asset: {
-        //     token_url: nft.data.uri,
-        //     name: nft.data.name,
-        //     is_fetch_url: true,
-        //     authority: nft.updateAuthority,
-        //     mint: nft.mint
-        //   }
-        // }));
       } else if (walletChain === Chain.Polygon) {
         const res = await getNftsByOwner(walletAddress);
         assets = res.ownedNfts.map(e => {

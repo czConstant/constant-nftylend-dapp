@@ -13,3 +13,8 @@ export const getAvatarName = (name: string) => {
   }
   return words;
 };
+
+export const isUrl = (str: string) => {
+  const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+  return regex .test(str);
+};

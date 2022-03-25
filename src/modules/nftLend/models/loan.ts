@@ -1,6 +1,8 @@
 import { Chain } from 'src/common/constants/network';
 import { PolygonNft } from 'src/modules/polygon/models/polygonNft';
+import { getLinkPolygonExplorer } from 'src/modules/polygon/utils';
 import { SolanaNft } from 'src/modules/solana/models/solanaNft';
+import { getLinkSolScanExplorer } from 'src/modules/solana/utils';
 import { Currency, LoanData, LoanDataAsset, LoanDataOffer } from './api';
 import { AssetNft } from './nft';
 
@@ -72,5 +74,10 @@ export class LoanNft {
       loan.asset = PolygonNft.parseFromLoanAsset(data);
     }
     return loan;
+  }
+
+  getLinkExplorer(): string {
+    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(this.init_tx_hash);
+    else return getLinkPolygonExplorer(this.init_tx_hash);
   }
 }

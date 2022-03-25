@@ -29,7 +29,7 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
         const receipt = await tx.wait();
         txHash = receipt.transactionHash;
       }
-      const nonce = customAlphabet('0123456789abcdef', 64)();
+      const nonce = '0x' + customAlphabet('0123456789abcdef', 64)();
       const borrowerMg = web3.utils.soliditySha3(
         nftTokenId,
         nonce,

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { Button } from "react-bootstrap";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
@@ -16,7 +15,6 @@ import {
 import {
   calculateTotalPay,
   getAssociatedAccount,
-  getLinkSolScanTx,
 } from "src/modules/solana/utils";
 
 import PayLoanTransaction from "src/modules/solana/transactions/payLoan";
@@ -35,7 +33,6 @@ interface ItemProps {
 const Item = (props: ItemProps) => {
   const { loan } = props;
   const navigate = useNavigate();
-  const { connection } = useConnection();
   const dispatch = useAppDispatch();
   const { cancelLoan } = useTransaction();
 
@@ -45,23 +42,22 @@ const Item = (props: ItemProps) => {
     e.stopPropagation();
     try {
       dispatch(showLoadingOverlay());
-      console.log("🚀 ~ file: item.tsx ~ line 52 ~ onCancelLoan ~ loan", loan)
       const res = await cancelLoan({
         nonce: loan.nonce,
         asset_contract_address: loan.asset?.contract_address || '',
         loan_data_address: '' 
       });
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Cancel loan successfully.{" "}
-            <a target="_blank" href={getLinkSolScanTx(res.txHash)}>
+      toastSuccess(
+        <>
+          Cancel loan successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
               View transaction
             </a>
-          </>
-        );
-        dispatch(requestReload());
-      }
+          )}
+        </>
+      );
+      dispatch(requestReload());
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {
@@ -123,6 +119,7 @@ const Item = (props: ItemProps) => {
 
   const onViewLoan = async (e: React.MouseEvent) => {
     e.stopPropagation();
+    console.log("🚀 ~ file: item.tsx ~ line 123 ~ onViewLoan ~ loan", loan)
     navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
   };
 
@@ -195,7 +192,7 @@ const Item = (props: ItemProps) => {
           </div>
         </div>
         <div>
-          <a target="_blank" href={getLinkSolScanTx(loan.init_tx_hash)}>
+          <a target="_blank" href={loan.getLinkExplorer()}>
             {shortCryptoAddress(loan.init_tx_hash, 8)}
           </a>
         </div>

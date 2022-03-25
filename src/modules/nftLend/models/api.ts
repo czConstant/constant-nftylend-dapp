@@ -54,7 +54,7 @@ export interface LoanData {
   data_asset_address: string;
   data_loan_address: string;
   network: string;
-  offers: Array<LoanDataOffer>;
+  offers: Array<OfferData>;
   owner: string;
   nonce_hex: string;
   status: string;
@@ -76,10 +76,17 @@ export interface LoanDataAsset {
   origin_contract_address: string;
 }
 
-export interface LoanDataOffer {
+export interface OfferData {
+  id: number;
   lender: string;
   status: string;
   principal_amount: number;
   interest_rate: number;
   duration: number;
+  loan: LoanData;
+  loan_id: number;
+  data_offer_address: string;
+  data_currency_address: string;
+  created_at: string;
+  accept_tx_hash: string;
 }

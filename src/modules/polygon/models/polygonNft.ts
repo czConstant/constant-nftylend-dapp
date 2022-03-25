@@ -5,13 +5,14 @@ import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import { AssetNft, AssetNftDetail } from 'src/modules/nftLend/models/nft';
 import BigNumber from 'bignumber.js';
 import { getLinkPolygonExplorer } from '../utils';
+import { isUrl } from 'src/common/utils/helper';
 
 export class PolygonNft extends AssetNft {
   static parse(item: any): PolygonNft {
     let nft = new PolygonNft();
     nft.id = new BigNumber(item.id.tokenId).toString();
     nft.name = item.title;
-    nft.detail_uri = item.tokenUri.raw;
+    if (!item.error || isUrl(item.tokenUri.raw)) nft.detail_uri = item.tokenUri.raw;
     nft.contract_address = item.contract.address;
     nft.original_data = item;
     return nft;
@@ -34,6 +35,7 @@ export class PolygonNft extends AssetNft {
   }
   
   async fetchDetail() {
+    if (!this.detail_uri) throw new Error('No token uri');
     const response: any = await api.get(this.detail_uri);
     this.detail = {
       name: response.name,
