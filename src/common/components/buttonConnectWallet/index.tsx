@@ -2,7 +2,6 @@ import { memo, useEffect } from 'react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { Dropdown } from 'react-bootstrap';
 import cx from 'classnames';
-import { ethers } from 'ethers';
 import '@solana/wallet-adapter-react-ui/styles.css';
 import { useWallet } from '@solana/wallet-adapter-react';
 
@@ -44,7 +43,6 @@ const ButtonConnectWallet: React.FC<ButtonConnectWalletProps> = (
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         });
-        console.log("🚀 ~ file: index.tsx ~ line 47 ~ onSelectChain ~ accounts", accounts)
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: `0x${ChainPolygonID.toString(16)}` }],

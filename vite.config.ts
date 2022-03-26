@@ -43,7 +43,6 @@ export default ({ mode}) => {
             if (id.includes('react-custom-scrollbars-2')) return 'react-custom-scrollbars-2';
             if (id.includes('moment')) return 'moment';
             if (id.includes('lodash')) return 'lodash';
-            if (id.includes('bignumber')) return 'bignumber.js';
             if (id.includes('axios')) return 'axios';
             if (id.includes('node_modules')) return 'vendor';
           }
