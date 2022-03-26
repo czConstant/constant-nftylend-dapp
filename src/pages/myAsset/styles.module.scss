@@ -1,6 +1,10 @@
 .wrapper {
   background-color: black;
   flex: 1;
+  min-height: calc(100vh - var(--header-height) - var(--footer-height) - 240px);
+  > div {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height) - 240px);
+  }
   &.mbWrapper {
     .content {
       flex-direction: column;

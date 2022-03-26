@@ -12,7 +12,7 @@ export default class CancelLoanTransaction extends SolTransaction {
     loanId: string,
     nftTempAccountAddress: string
   ): Promise<TransactionResult> {
-    if (!this.wallet.publicKey) throw new Error('No public key');
+    this.prepareRun();
     try {
       const lendingProgramId = new PublicKey(getLendingProgramId());
       const borrower_nft_account_pubkey = new PublicKey(receiveNftAssociated);

@@ -18,14 +18,13 @@ export class OfferToLoan {
   created_at: string = '';
   accept_tx_hash: string = '';
   chain: Chain;
+  nonce: string = '';
 
   constructor(chain: Chain) {
     this.chain = chain;
   }
 
-  static parseFromApi(data: OfferData): OfferToLoan {
-    const network = data.loan?.network;
-    const chain = network === 'SOL' ? Chain.Solana : Chain.Polygon; 
+  static parseFromApi(data: OfferData, chain: Chain): OfferToLoan {
     let offer = new OfferToLoan(chain);
     offer.id = data.id;
     offer.lender = data.lender;
@@ -38,7 +37,8 @@ export class OfferToLoan {
     offer.status = data.status;
     offer.created_at = data.created_at;
     offer.loan_id = data.loan_id;
-    offer.loan = LoanNft.parseFromApi(data.loan);
+    if (data.loan) offer.loan = LoanNft.parseFromApi(data.loan);
+    offer.nonce = data.nonce;
 
     return offer;
   }

@@ -22,8 +22,11 @@ import {
 } from "src/store/loadingOverlay";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import AcceptOfferTransaction from "src/modules/solana/transactions/acceptOffer";
-import { requestReload } from "src/store/nftyLend";
-import { useAppDispatch } from "src/store/hooks";
+import { requestReload, selectNftyLend } from "src/store/nftyLend";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { OfferToLoan } from 'src/modules/nftLend/models/offer';
+import { LoanNft } from 'src/modules/nftLend/models/loan';
+import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 
 export const OfferTableHeader = () => (
   <div className={styles.tbHeader}>
@@ -36,97 +39,89 @@ export const OfferTableHeader = () => (
   </div>
 );
 
-export const OfferTableBody = ({
-  offers = [],
-  detail,
-  wallet,
-  onCancel,
-  onAccept,
-}) =>
-  offers.map((offer) => {
-    const isMyOffer = offer.lender === wallet?.publicKey?.toString();
-    const isMyLoan = detail?.new_loan?.owner === wallet?.publicKey?.toString();
-    return (
-      <div className={cx(styles.tbHeader, styles.tbBody)} key={offer?.id}>
-        <div>
-          <a
-            className={styles.scanLink}
-            target="_blank"
-            href={getLinkSolScanAccount(offer?.lender)}
-          >
-            {shortCryptoAddress(offer?.lender, 8)}
-          </a>
-        </div>
-        <div>
-          {`${formatCurrencyByLocale(offer.principal_amount, 2)} ${
-            detail?.new_loan?.currency?.symbol
-          }`}
-        </div>
-        <div>{Math.ceil(offer.duration / 86400)} days</div>
-        <div>{offer.interest_rate * 100}%</div>
-        {/* <div>{offer.principal_amount} {detail?.new_loan?.currency?.symbol}</div> */}
-        <div>{moment(offer?.created_at).fromNow()}</div>
-        <div className={styles.actions}>
-          {isMyOffer && offer?.status === "new" && (
-            <Button
-              style={{ color: "#dc3545" }}
-              variant="link"
-              onClick={() => onCancel(offer)}
-            >
-              Cancel
-            </Button>
-          )}
-          {isMyLoan && offer?.status === "new" && (
-            <Button
-              style={{ color: "#0d6efd" }}
-              variant="link"
-              onClick={() => onAccept(offer)}
-            >
-              Accept
-            </Button>
-          )}
-        </div>
+interface OfferRowProps {
+  loan: LoanNft,
+  offer: OfferToLoan,
+  walletAddress: string;
+  onCancel: Function,
+  onAccept: Function,
+}
+
+const OfferRow = (props: OfferRowProps) => {
+  const { loan, offer, walletAddress, onCancel, onAccept } = props;
+  const isMyOffer = offer.lender === walletAddress;
+  const isMyLoan = loan.owner === walletAddress;
+  return (
+    <div className={cx(styles.tbHeader, styles.tbBody)} key={offer?.id}>
+      <div>
+        <a
+          className={styles.scanLink}
+          target="_blank"
+          href={getLinkSolScanAccount(offer?.lender)}
+        >
+          {shortCryptoAddress(offer?.lender, 8)}
+        </a>
       </div>
-    );
-  });
-
+      <div>
+        {`${formatCurrencyByLocale(offer.principal_amount, 2)} ${loan.currency?.symbol}`}
+      </div>
+      <div>{Math.ceil(offer.duration / 86400)} days</div>
+      <div>{offer.interest_rate * 100}%</div>
+      {/* <div>{offer.principal_amount} {detail?.new_loan?.currency?.symbol}</div> */}
+      <div>{moment(offer?.created_at).fromNow()}</div>
+      <div className={styles.actions}>
+        {isMyOffer && offer?.status === "new" && (
+          <Button
+            style={{ color: "#dc3545" }}
+            variant="link"
+            onClick={() => onCancel(offer)}
+          >
+            Cancel
+          </Button>
+        )}
+        {isMyLoan && offer?.status === "new" && (
+          <Button
+            style={{ color: "#0d6efd" }}
+            variant="link"
+            onClick={() => onAccept(offer)}
+          >
+            Accept
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+  
 const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
-  const { connection } = useConnection();
-  const wallet = useWallet();
   const dispatch = useAppDispatch();
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const { cancelOffer } = useTransaction();
 
-  const offers = loan?.new_loan?.offers || [];
+  const offers = loan.offers || [];
 
-  const onCancel = async (offer) => {
-    const currencyMint = loan?.new_loan?.currency?.contract_address;
-    const currencyAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
-      currencyMint
-    );
-    const transaction = new CancelOfferTransaction(connection, wallet);
+  const onCancel = async (offer: OfferToLoan) => {
+    dispatch(showLoadingOverlay());
     try {
-      dispatch(showLoadingOverlay());
-      const res = await transaction.run(
-        currencyAssociated,
-        offer.data_offer_address,
-        offer.data_currency_address
-      );
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Cancel offer successfully.{" "}
-            <a
-              target="_blank"
-              href={getLinkSolScanTx(res.txHash)}
-              className="blue"
-            >
+      if (!loan.currency) throw new Error('Loan has no currency');
+      const res = await cancelOffer({
+        currency_contract_address: loan.currency?.contract_address,
+        currency_data_address: offer.data_currency_address,
+        offer_data_address: offer.data_offer_address,
+        nonce: offer.nonce,
+      });
+      toastSuccess(
+        <>
+          Cancel offer successfully.{" "}
+            {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
               View transaction
             </a>
-          </>
-        );
-        dispatch(requestReload());
-      }
-    } catch (err) {
+          )}
+        </>
+      );
+      dispatch(requestReload());
+    } catch (err: any) {
       toastError(err?.message || err);
     } finally {
       dispatch(hideLoadingOverlay());
@@ -134,18 +129,14 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   };
 
   const onAccept = async (offer) => {
-    const currencyMint = loan?.new_loan?.currency?.contract_address;
-    const currencyAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
-      currencyMint
-    );
     const principal =
       Number(offer.new_loan.principal_amount) *
       10 ** offer.new_loan.currency.decimals;
 
     const transaction = new AcceptOfferTransaction(connection, wallet);
+    dispatch(showLoadingOverlay());
     try {
-      dispatch(showLoadingOverlay());
+      if (!loan.currency) throw new Error('Loan has no currency');
       const res = await transaction.run(
         currencyAssociated,
         currencyMint,
@@ -176,7 +167,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         );
         dispatch(requestReload());
       }
-    } catch (err) {
+    } catch (err: any) {
       toastError(err?.message || err);
     } finally {
       dispatch(hideLoadingOverlay());
@@ -187,19 +178,22 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
     return (
       <>
         <OfferTableHeader />
-        <OfferTableBody
-          offers={offers}
-          detail={loan}
-          wallet={wallet}
-          onCancel={onCancel}
-          onAccept={onAccept}
-        />
+        {offers.map(offer => (
+          <OfferRow
+            loan={loan}
+            offer={offer}
+            walletAddress={walletAddress}
+            onCancel={onCancel}
+            onAccept={onAccept}
+          />
+        ))}
       </>
     );
   };
 
   return (
     <SectionCollapse
+      id="Offers"
       label={offers.length === 0 ? "Not yet offer" : "Offers"}
       content={renderOfferContent()}
       selected={offers.length > 0}

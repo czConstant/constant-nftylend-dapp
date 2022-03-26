@@ -9,7 +9,7 @@ import { CreateLoanParams, TransactionResult } from '../models/transaction';
 interface CreateLoanTxParams extends CreateLoanParams {
   chain: Chain;
   walletAddress: string;
-  solanaOption?: {
+  solana?: {
     connection: Connection;
     wallet: WalletContextState;
   }
@@ -23,7 +23,7 @@ export interface CreateLoanInfo {
 }
 
 const solTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => {
-  if (!params.solanaOption?.connection || !params.solanaOption?.wallet) throw new Error('No connection to Solana provider');
+  if (!params.solana?.connection || !params.solana?.wallet) throw new Error('No connection to Solana provider');
     
   const nftAssociated = await getAssociatedAccount(params.walletAddress, params.asset_contract_address);
   if (!nftAssociated) throw new Error('No associated account for asset');
@@ -31,7 +31,7 @@ const solTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => 
   const currencyAssociated = await getAssociatedAccount(params.walletAddress, params.currency_contract_address);
   if (!currencyAssociated) throw new Error('No associated account for currency');
 
-  const transaction = new CreateLoanSolTransaction(params.solanaOption.connection, params.solanaOption?.wallet);
+  const transaction = new CreateLoanSolTransaction(params.solana.connection, params.solana?.wallet);
   const res = await transaction.run(
     params.asset_contract_address,
     nftAssociated,

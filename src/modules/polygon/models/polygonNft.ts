@@ -12,9 +12,9 @@ export class PolygonNft extends AssetNft {
     let nft = new PolygonNft();
     nft.id = new BigNumber(item.id.tokenId).toString();
     nft.name = item.title;
-    if (!item.error || isUrl(item.tokenUri.raw)) nft.detail_uri = item.tokenUri.raw;
     nft.contract_address = item.contract.address;
     nft.original_data = item;
+    if (!item.error || isUrl(item.tokenUri.raw)) nft.detail_uri = item.tokenUri.raw;
     return nft;
   }
 

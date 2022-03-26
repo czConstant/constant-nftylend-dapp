@@ -25,7 +25,6 @@ const ListAsset = () => {
   const walletAddress = useAppSelector(selectNftyLend).walletAddress;
   const walletChain = useAppSelector(selectNftyLend).walletChain;
   
-  const wallet = useWallet();
   const { connection } = useConnection();
   const navigate = useNavigate();
 
@@ -41,7 +40,7 @@ const ListAsset = () => {
     dispatch(openModal({
       id: 'createLoanModal',
       modalProps: { centered: true, backdrop: 'static', padding: 0 },
-      render: () => <CreateLoan solanaOptions={{ connection, wallet }} asset={nftToken} onClose={close} />,
+      render: () => <CreateLoan asset={nftToken} onClose={close} />,
       theme: 'dark',
       title: 'Create Loan'
     }));

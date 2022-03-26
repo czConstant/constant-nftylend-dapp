@@ -13,7 +13,6 @@ import CancelLoanTransaction from "src/modules/solana/transactions/cancelLoan";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import OrderNowTransaction from "src/modules/solana/transactions/orderNow";
 import { closeModal, openModal } from "src/store/modal";
-import LoanDetailMakeOffer from "./LoanDetail.MakeOffer";
 import ButtonSolWallet from "src/common/components/buttonSolWallet";
 import { useAppDispatch } from "src/store/hooks";
 import { requestReload } from "src/store/nftyLend";
@@ -21,6 +20,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
 import CancelOfferTransaction from "src/modules/solana/transactions/cancelOffer";
 import { TABS } from "../myAsset";
+import LoanDetailMakeOffer from './makeOffer';
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();

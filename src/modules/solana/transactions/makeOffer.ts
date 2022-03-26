@@ -10,6 +10,7 @@ import {
 import { getLendingProgramId, OFFER_INFO_LAYOUT } from './constants';
 import { InitOfferInstruction } from './utils';
 import SolTransaction from './index';
+import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 
 export default class MakeOfferTransaction extends SolTransaction {
   async run(
@@ -21,8 +22,8 @@ export default class MakeOfferTransaction extends SolTransaction {
     interest: number,
     duration: number,
     expired: number,
-  ) {
-    if (!this.wallet.publicKey) return;
+  ): Promise<TransactionResult> {
+    this.prepareRun();
       
     try {
       const lendingProgramId = new PublicKey(getLendingProgramId());

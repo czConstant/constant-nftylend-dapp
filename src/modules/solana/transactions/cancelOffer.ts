@@ -4,15 +4,16 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 import { getLendingProgramId } from './constants';
 import { CancelOfferInstruction } from './utils';
 import SolTransaction from './index';
+import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 
 export default class CancelOfferTransaction extends SolTransaction {
   async run(
     receiveTokenAssociated: string,
     offerAddress: string,
     offerTokenAddress: string,
-  ) {
-    if (!this.wallet.publicKey) return;
-
+  ): Promise<TransactionResult> {
+    this.prepareRun();
+    
     try {
       const lendingProgramId = new PublicKey(getLendingProgramId());
 

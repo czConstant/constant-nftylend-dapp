@@ -14,6 +14,10 @@ export default class SolTransaction {
     this.wallet = wallet;
   }
 
+  prepareRun = async() => {
+    if (!this.wallet.publicKey) throw new Error('No public key');
+  };
+
   handleError = async (err: any): Promise<TransactionResult> => {
     if (err?.name === 'WalletSignTransactionError') return {} as TransactionResult;
     throw err;

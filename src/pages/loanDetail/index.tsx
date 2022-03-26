@@ -3,9 +3,9 @@ import { useLocation } from "react-router-dom";
 import BodyContainer from "src/common/components/bodyContainer";
 import BreadCrumb, { BreadCrumbItem } from "src/common/components/breadCrumb";
 import { APP_URL } from "src/common/constants/url";
-import LoansHeader from "../loans/Loans.Header";
 import last from "lodash/last";
 import cx from "classnames";
+import { isMobile } from "react-device-detect";
 
 import styles from "./styles.module.scss";
 import Loading from "src/common/components/loading";
@@ -16,10 +16,8 @@ import LoanDetailHeader from "./LoanDetail.Header";
 import LoanDetailActivity from "./LoanDetail.Activity";
 import LoanDetailSuggest from "./LoanDetail.Suggest";
 import LoanDetailOffers from "./LoanDetail.Offers";
-import { useSelector } from "react-redux";
 import { useAppSelector } from "src/store/hooks";
 import { selectNftyLend } from "src/store/nftyLend";
-import { isMobile } from "react-device-detect";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 
 const LoanDetail = () => {
@@ -61,6 +59,7 @@ const LoanDetail = () => {
       defaultBreadCrumbs.current[2].label = result.name;
 
       setBreadCrumbs(defaultBreadCrumbs.current);
+      console.log("🚀 ~ file: index.tsx ~ line 63 ~ getLoan ~ result", result)
       setLoan(LoanNft.parseFromApiDetail(result));
     } finally {
       setLoading(false);

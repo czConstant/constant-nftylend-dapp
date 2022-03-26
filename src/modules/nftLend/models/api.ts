@@ -89,4 +89,5 @@ export interface OfferData {
   data_currency_address: string;
   created_at: string;
   accept_tx_hash: string;
+  nonce: string;
 }

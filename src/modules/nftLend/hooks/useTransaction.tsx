@@ -1,9 +1,11 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useAppSelector } from 'src/store/hooks';
 import { selectNftyLend } from 'src/store/nftyLend';
-import { CancelLoanParams, CreateLoanParams, TransactionResult } from '../models/transaction';
+import { CancelLoanParams, CancelOfferParams, CreateLoanParams, MakeOfferParams, TransactionResult } from '../models/transaction';
 import cancelLoanTx from '../transactions/cancelLoan';
+import cancelOfferTx from '../transactions/cancelOffer';
 import createLoanTx from '../transactions/createLoan';
+import makeOfferTx from '../transactions/makeOffer';
 
 function useTransaction() {
   const wallet = useWallet();
@@ -17,7 +19,7 @@ function useTransaction() {
       ...params,
       chain: walletChain,
       walletAddress,
-      solanaOption: {
+      solana: {
         connection,
         wallet,
       }
@@ -29,14 +31,38 @@ function useTransaction() {
       ...params,
       chain: walletChain,
       walletAddress,
-      solanaOption: {
+      solana: {
         connection,
         wallet,
       }
     });
   };
 
-  return { createLoan, cancelLoan };
+  const makeOffer = async (params: MakeOfferParams): Promise<TransactionResult> => {
+    return makeOfferTx({
+      ...params,
+      chain: walletChain,
+      walletAddress,
+      solana: {
+        connection,
+        wallet,
+      }
+    });
+  };
+
+  const cancelOffer = async (params: CancelOfferParams): Promise<TransactionResult> => {
+    return cancelOfferTx({
+      ...params,
+      chain: walletChain,
+      walletAddress,
+      solana: {
+        connection,
+        wallet,
+      }
+    });
+  };
+
+  return { createLoan, cancelLoan, makeOffer, cancelOffer };
 };
 
 export { useTransaction };

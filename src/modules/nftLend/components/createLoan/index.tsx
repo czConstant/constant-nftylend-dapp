@@ -17,15 +17,11 @@ import { Currency } from '../../models/api';
 interface CreateLoanProps {
   asset: AssetNft;
   onClose: Function;
-  solanaOptions: {
-    connection: Connection,
-    wallet: WalletContextState,
-  }
 }
 
 const CreateLoan = (props: CreateLoanProps) => {
   const dispatch = useAppDispatch();
-  const { asset, solanaOptions, onClose } = props;
+  const { asset, onClose } = props;
   const walletAddress = useAppSelector(selectNftyLend).walletAddress;
   const walletChain = useAppSelector(selectNftyLend).walletChain;
   const { createLoan } = useTransaction();

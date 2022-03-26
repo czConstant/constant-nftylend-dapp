@@ -21,3 +21,20 @@ export interface CancelLoanParams {
   loan_data_address: string;
   nonce: string;
 }
+
+export interface MakeOfferParams {
+  currency_contract_address: NftID;
+  currency_decimal: number,
+  loan_owner: string;
+  data_loan_address: string;
+  principal: number;
+  rate: number;
+  duration: number;
+}
+
+export interface CancelOfferParams {
+  currency_contract_address: string;
+  currency_data_address: string;
+  offer_data_address: string;
+  nonce: string;
+}

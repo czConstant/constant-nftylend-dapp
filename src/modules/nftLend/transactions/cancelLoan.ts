@@ -9,19 +9,19 @@ import { CancelLoanParams, TransactionResult } from '../models/transaction';
 interface CancelLoanTxParams extends CancelLoanParams {
   chain: Chain;
   walletAddress: string;
-  solanaOption?: {
+  solana?: {
     connection: Connection;
     wallet: WalletContextState;
   }
 }
 
 const solTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
-  if (!params.solanaOption?.connection || !params.solanaOption?.wallet) throw new Error('No connection to Solana provider');
+  if (!params.solana?.connection || !params.solana?.wallet) throw new Error('No connection to Solana provider');
     
   const nftAssociated = await getAssociatedAccount(params.walletAddress, params.asset_contract_address);
   if (!nftAssociated) throw new Error('No associated account for asset');
   
-  const transaction = new CancelLoanTransaction(params.solanaOption?.connection, params.solanaOption?.wallet);
+  const transaction = new CancelLoanTransaction(params.solana?.connection, params.solana?.wallet);
   const res = await transaction.run(
     nftAssociated,
     params.loan_data_address,

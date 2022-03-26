@@ -32,4 +32,5 @@ export const API_URL = {
 
 export const ALCHEMY_URL = {
   GET_NFTS: APP_CLUSTER === 'mainnet' ? '' : `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}/getNFTs/`,
+  GET_NFT_METADATA: APP_CLUSTER === 'mainnet' ? '' : `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}/getNFTMetadata/`,
 }

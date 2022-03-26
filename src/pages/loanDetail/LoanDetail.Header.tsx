@@ -13,7 +13,7 @@ import styles from "./styles.module.scss";
 import LoanDetailButtons from "./LoanDetail.Buttons";
 import LoanDetailOffers from "./LoanDetail.Offers";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { LoanDataAsset, LoanDataOffer } from 'src/modules/nftLend/models/api';
+import { LoanDataAsset, OfferData } from 'src/modules/nftLend/models/api';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 
@@ -25,10 +25,9 @@ export interface LoanDetailProps {
 interface LoanDetailHeaderProps extends LoanDetailProps {}
 
 const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
-console.log("🚀 ~ file: LoanDetail.Header.tsx ~ line 28 ~ asset", asset)
   const wallet = useWallet();
 
-  const userOffer: LoanDataOffer = loan.offers?.find(
+  const userOffer: OfferData = loan.offers?.find(
     (v) =>
       v.lender?.toString() === wallet?.publicKey?.toString() &&
       v.status === "new"
