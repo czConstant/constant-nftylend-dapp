@@ -1,78 +1,57 @@
 import { useState } from "react";
-import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import BigNumber from "bignumber.js";
+import moment from "moment-timezone";
 
 import { useAppDispatch } from "src/store/hooks";
-import {
-  getAssociatedAccount,
-  getLinkSolScanTx,
-} from "src/modules/solana/utils";
-import {
-  hideLoadingOverlay,
-  showLoadingOverlay,
-} from "src/store/loadingOverlay";
+import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
-import AcceptOfferTransaction from "src/modules/solana/transactions/acceptOffer";
 
 import listLoanStyled from "../listLoan/styles.module.scss";
 import { OFFER_STATUS } from "../../constant";
 import { shortCryptoAddress } from "src/common/utils/format";
-import moment from "moment-timezone";
+import { useTransaction } from '../../hooks/useTransaction';
+import { OfferToLoan } from '../../models/offer';
 
 interface ItemProps {
-  offer: any;
+  offer: OfferToLoan;
 }
 
 const Item = (props: ItemProps) => {
   const { offer } = props;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { connection } = useConnection();
-  const wallet = useWallet();
+  const { acceptOffer } = useTransaction();
 
   const [open, setOpen] = useState(false);
 
   const onAccept = async () => {
-    if (!wallet.publicKey) return;
-
-    const currencyMint = offer.loan.currency?.contract_address;
-    const currencyAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
-      currencyMint
-    );
-    const principal =
-      Number(offer.principal_amount) * 10 ** offer.loan.currency.decimals;
-    if (!currencyAssociated) return;
-
-    const transaction = new AcceptOfferTransaction(connection, wallet);
+    dispatch(showLoadingOverlay());
     try {
-      dispatch(showLoadingOverlay());
-      const res = await transaction.run(
-        currencyAssociated,
-        currencyMint,
-        {
-          id: offer.loan.data_loan_address,
-          principal,
-          duration: offer.duration,
-          rate: offer.interest_rate * 10000,
-        },
-        {
-          id: offer.data_offer_address,
-          token_account_id: offer.data_currency_address,
-          lender_usd_associated: offer.lender,
-        }
-      );
+      if (!offer.loan || !offer.loan.currency) throw new Error('Offer has no loan currency');
+      const res = await acceptOffer({
+        currency_contract_address: offer.loan.currency.contract_address,
+        loan_data_address: offer.loan.data_loan_address,
+        offer_data_address: offer.data_offer_address,
+        currency_data_address: offer.data_currency_address,
+        currency_decimals: offer.loan.currency.decimals,
+        offer_owner: offer.lender,
+        principal: offer.principal_amount,
+        rate: offer.interest_rate * 10000,
+        duration: offer.duration,
+      });
       if (res?.txHash) {
         toastSuccess(
           <>
             Accept offer successfully.{" "}
-            <a target="_blank" href={getLinkSolScanTx(res.txHash)}>
-              View transaction
-            </a>
+            {res.txExplorerUrl && (
+              <a target="_blank" href={res.txExplorerUrl}>
+                View transaction
+              </a>
+            )}
           </>
         );
         dispatch(requestReload());
@@ -85,14 +64,14 @@ const Item = (props: ItemProps) => {
   };
 
   const onViewLoan = async () => {
-    navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${offer?.loan?.asset?.seo_url}`);
+    navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${offer.loan?.seo_url}`);
   };
 
   const showAccept = offer.status === "new";
 
-  const principal = offer.offer_principal_amount || offer.principal_amount;
-  const interest = offer.offer_interest_rate || offer.interest_rate;
-  const duration = offer.offer_duration || offer.duration;
+  const principal = offer.principal_amount;
+  const interest = offer.interest_rate;
+  const duration = offer.duration;
 
   const loan = offer.loan;
 
@@ -137,10 +116,10 @@ const Item = (props: ItemProps) => {
     >
       <div className={listLoanStyled.row}>
         <div>
-          <a onClick={onViewLoan}>{loan.asset.name}</a>
+          <a onClick={onViewLoan}>{loan?.asset?.name}</a>
         </div>
         <div>
-          {principal} {loan.currency.symbol}
+          {principal} {loan?.currency?.symbol}
         </div>
         <div>
           {Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days
@@ -154,11 +133,11 @@ const Item = (props: ItemProps) => {
           </div>
         </div>
         <div>
-          <a target="_blank" href={getLinkSolScanTx(loan.init_tx_hash)}>
-            {shortCryptoAddress(loan.init_tx_hash, 8)}
+          <a target="_blank" href={loan?.getLinkExplorer()}>
+            {shortCryptoAddress(loan?.init_tx_hash, 8)}
           </a>
         </div>
-        <div>{moment(loan.created_at).format("MM/DD/YYYY HH:mm A")}</div>
+        <div>{moment(loan?.created_at).format("MM/DD/YYYY HH:mm A")}</div>
         <div className={listLoanStyled.actions}>
           {showAccept && <Button onClick={onAccept}>Accept</Button>}
         </div>

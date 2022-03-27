@@ -43,8 +43,9 @@ export class OfferToLoan {
     return offer;
   }
 
-  getLinkExplorer(): string {
-    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(this.accept_tx_hash);
-    else return getLinkPolygonExplorer(this.accept_tx_hash);
+  getLinkExplorer(address?: string): string {
+    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.accept_tx_hash);
+    else return getLinkPolygonExplorer(address || this.accept_tx_hash);
   }
+
 }

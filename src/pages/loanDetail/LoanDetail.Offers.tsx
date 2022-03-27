@@ -4,22 +4,14 @@ import SectionCollapse from "src/common/components/sectionCollapse";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 import cx from "classnames";
-import {
-  getAssociatedAccount,
-  getLinkSolScanAccount,
-  getLinkSolScanTx,
-} from "src/modules/solana/utils";
+import { getLinkSolScanAccount } from "src/modules/solana/utils";
 import {
   formatCurrencyByLocale,
   shortCryptoAddress,
 } from "src/common/utils/format";
 import moment from "moment-timezone";
 import { Button } from "react-bootstrap";
-import CancelOfferTransaction from "src/modules/solana/transactions/cancelOffer";
-import {
-  hideLoadingOverlay,
-  showLoadingOverlay,
-} from "src/store/loadingOverlay";
+import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import AcceptOfferTransaction from "src/modules/solana/transactions/acceptOffer";
 import { requestReload, selectNftyLend } from "src/store/nftyLend";
@@ -57,7 +49,7 @@ const OfferRow = (props: OfferRowProps) => {
         <a
           className={styles.scanLink}
           target="_blank"
-          href={getLinkSolScanAccount(offer?.lender)}
+          href={offer.getLinkExplorer(offer.lender)}
         >
           {shortCryptoAddress(offer?.lender, 8)}
         </a>
@@ -96,7 +88,7 @@ const OfferRow = (props: OfferRowProps) => {
 const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   const dispatch = useAppDispatch();
   const walletAddress = useAppSelector(selectNftyLend).walletAddress;
-  const { cancelOffer } = useTransaction();
+  const { cancelOffer, acceptOffer } = useTransaction();
 
   const offers = loan.offers || [];
 
@@ -105,7 +97,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
     try {
       if (!loan.currency) throw new Error('Loan has no currency');
       const res = await cancelOffer({
-        currency_contract_address: loan.currency?.contract_address,
+        currency_contract_address: loan.currency.contract_address,
         currency_data_address: offer.data_currency_address,
         offer_data_address: offer.data_offer_address,
         nonce: offer.nonce,
@@ -114,10 +106,10 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         <>
           Cancel offer successfully.{" "}
             {res.txExplorerUrl && (
-            <a target="_blank" href={res.txExplorerUrl}>
-              View transaction
-            </a>
-          )}
+              <a target="_blank" href={res.txExplorerUrl}>
+                View transaction
+              </a>
+            )}
         </>
       );
       dispatch(requestReload());
@@ -128,45 +120,32 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
     }
   };
 
-  const onAccept = async (offer) => {
-    const principal =
-      Number(offer.new_loan.principal_amount) *
-      10 ** offer.new_loan.currency.decimals;
-
-    const transaction = new AcceptOfferTransaction(connection, wallet);
+  const onAccept = async (offer: OfferToLoan) => {
     dispatch(showLoadingOverlay());
     try {
       if (!loan.currency) throw new Error('Loan has no currency');
-      const res = await transaction.run(
-        currencyAssociated,
-        currencyMint,
-        {
-          id: offer.new_loan.data_loan_address,
-          principal,
-          duration: offer.new_loan.duration,
-          rate: offer.new_loan.interest_rate * 10000,
-        },
-        {
-          id: offer.data_offer_address,
-          token_account_id: offer.data_currency_address,
-          lender_usd_associated: offer.lender,
-        }
-      );
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Accept offer successfully.{" "}
-            <a
-              target="_blank"
-              href={getLinkSolScanTx(res.txHash)}
-              className="blue"
-            >
+      const res = await acceptOffer({
+        currency_contract_address: loan.currency.contract_address,
+        loan_data_address: loan.data_loan_address,
+        offer_data_address: offer.data_offer_address,
+        currency_data_address: offer.data_currency_address,
+        currency_decimals: loan.currency.decimals,
+        offer_owner: offer.lender,
+        principal: offer.principal_amount,
+        rate: offer.interest_rate * 10000,
+        duration: offer.duration,
+      });
+      toastSuccess(
+        <>
+          Accept offer successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
               View transaction
             </a>
-          </>
-        );
-        dispatch(requestReload());
-      }
+          )}
+        </>
+      );
+      dispatch(requestReload());
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {

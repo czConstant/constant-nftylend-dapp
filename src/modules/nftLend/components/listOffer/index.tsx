@@ -11,6 +11,7 @@ import { getOffersByFilter } from '../../api';
 import listLoanStyles from '../listLoan/styles.module.scss';
 import EmptyList from 'src/common/components/emptyList';
 import { OFFER_STATUS } from '../../constant';
+import { OfferToLoan } from '../../models/offer';
 
 const ListOffer = () => {
   const wallet = useWallet();
@@ -18,7 +19,7 @@ const ListOffer = () => {
   const needReload = useAppSelector(selectNftyLend).needReload;
 
   const [loading, setLoading] = useState(false);
-  const [offers, setOffers] = useState([]);
+  const [offers, setOffers] = useState<Array<OfferToLoan>>([]);
   const [status, setStatus] = useState('');
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const ListOffer = () => {
     if (!publicKey) return;
     try {
       const res = await getOffersByFilter({ lender: publicKey.toString(), status });
-      setOffers(res.result);
+      setOffers(res.result.map(OfferToLoan.parseFromApi));
     } finally {
       setLoading(false);
     }

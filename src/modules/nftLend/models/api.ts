@@ -70,7 +70,7 @@ export interface LoanDataAsset {
   token_url: string;
   seo_url: string;
   attributes: AssetNftAttribute;
-  new_loan: LoanData;
+  new_loan?: LoanData;
   seller_fee_rate: number;
   origin_contract_network: string;
   origin_contract_address: string;

@@ -1,30 +1,34 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { PublicKey, Transaction, SYSVAR_CLOCK_PUBKEY } from '@solana/web3.js';
 
+import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { getLendingProgramId } from './constants';
 import { AcceptOfferInstruction } from './utils';
 import SolTransaction from './index';
 
 export default class AcceptOfferTransaction extends SolTransaction {
   async run(
-    usdAccountAddress: string,
-    usdTokenMint: string,
-    loanInfo: any,
-    offerInfo: any,
-  ) {
-    if (!this.wallet.publicKey) return;
-
+    currencyMint: string,
+    curerncyAssociated: string,
+    loanDataAddress: string,
+    offerDataAddress: string,
+    currencyDataAddress: string,
+    lender: string,
+    principal: number,
+    rate: number,
+    duration : number,
+  ): Promise<TransactionResult> {
+    this.prepareRun();
+    
     try {
       const lendingProgramId = new PublicKey(getLendingProgramId());
-      const borrower_usd_account_pubkey = new PublicKey(usdAccountAddress);
-      const usd_mint_pubkey = new PublicKey(usdTokenMint);
+      const borrower_usd_account_pubkey = new PublicKey(curerncyAssociated);
+      const usd_mint_pubkey = new PublicKey(currencyMint);
 
-      const loan_id = new PublicKey(loanInfo.id);
-      const offer_id = new PublicKey(offerInfo.id);
-      const pda_token_account = new PublicKey(offerInfo.token_account_id);
-      const lender_pubkey = new PublicKey(
-        offerInfo.lender_usd_associated,
-      );
+      const loan_id = new PublicKey(loanDataAddress);
+      const offer_id = new PublicKey(offerDataAddress);
+      const pda_token_account = new PublicKey(currencyDataAddress);
+      const lender_pubkey = new PublicKey(lender);
 
       const PDA = await PublicKey.findProgramAddress(
         [Buffer.from('lending')],
@@ -41,9 +45,9 @@ export default class AcceptOfferTransaction extends SolTransaction {
         TOKEN_PROGRAM_ID,
         PDA[0],
         SYSVAR_CLOCK_PUBKEY,
-        loanInfo.principal,
-        loanInfo.duration,
-        loanInfo.rate,
+        principal,
+        duration,
+        rate,
         usd_mint_pubkey,
       );
 

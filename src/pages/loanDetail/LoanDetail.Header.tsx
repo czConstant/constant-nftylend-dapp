@@ -16,6 +16,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { LoanDataAsset, OfferData } from 'src/modules/nftLend/models/api';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
+import { useAppSelector } from 'src/store/hooks';
+import { selectNftyLend } from 'src/store/nftyLend';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -25,11 +27,13 @@ export interface LoanDetailProps {
 interface LoanDetailHeaderProps extends LoanDetailProps {}
 
 const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
-  const wallet = useWallet();
+console.log("🚀 ~ file: LoanDetail.Header.tsx ~ line 30 ~ loan", loan)
+  const walletAddress=  useAppSelector(selectNftyLend).walletAddress;
 
+  const isMyLoan = loan.owner === walletAddress;
   const userOffer: OfferData = loan.offers?.find(
     (v) =>
-      v.lender?.toString() === wallet?.publicKey?.toString() &&
+      v.lender?.toString() === walletAddress &&
       v.status === "new"
   );
 
@@ -63,7 +67,7 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
             {asset.collection?.name}
           </Link>
         </div>
-        {loan && (
+        {loan.currency && (
           <div className={styles.infoPrice}>
             <div className={styles.infoPriceTags}>
               <label>Item Price</label>

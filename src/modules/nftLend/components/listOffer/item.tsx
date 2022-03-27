@@ -1,22 +1,19 @@
-import { useRef, useState } from "react";
-import { useWallet, useConnection } from "@solana/wallet-adapter-react";
+import { useState } from "react";
 import { Button } from "react-bootstrap";
-import cx from "classnames";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
 
-import { useAppDispatch } from "src/store/hooks";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import {
   hideLoadingOverlay,
   showLoadingOverlay,
 } from "src/store/loadingOverlay";
-import { requestReload } from "src/store/nftyLend";
+import { requestReload, selectNftyLend } from "src/store/nftyLend";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { APP_URL } from "src/common/constants/url";
 import CloseOfferTransaction from "src/modules/solana/transactions/closeOffer";
 import LiquidateLoanTransaction from "src/modules/solana/transactions/liquidateLoan";
-import CancelOfferTransaction from "src/modules/solana/transactions/cancelOffer";
 
 import listLoanStyles from "../listLoan/styles.module.scss";
 import {
@@ -25,27 +22,26 @@ import {
 } from "src/modules/solana/utils";
 import { shortCryptoAddress } from "src/common/utils/format";
 import { OFFER_STATUS } from "../../constant";
+import { useTransaction } from '../../hooks/useTransaction';
+import { OfferToLoan } from '../../models/offer';
 
 interface ItemProps {
-  offer: any;
+  offer: OfferToLoan;
 }
 
 const Item = (props: ItemProps) => {
   const { offer } = props;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { connection } = useConnection();
-  const wallet = useWallet();
-  const refRow = useRef();
+  const { cancelOffer } = useTransaction();
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
 
   const [open, setOpen] = useState(false);
 
   const onClaim = async () => {
-    if (!wallet.publicKey) return;
-
     const usdtMint = offer.loan.currency.contract_address;
     const usdAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
+      walletAddress,
       usdtMint
     );
     if (!usdAssociated) return;
@@ -77,8 +73,6 @@ const Item = (props: ItemProps) => {
   };
 
   const onLiquidate = async () => {
-    if (!wallet.publicKey) return;
-
     const transaction = new LiquidateLoanTransaction(connection, wallet);
     try {
       dispatch(showLoadingOverlay());
@@ -109,29 +103,24 @@ const Item = (props: ItemProps) => {
   };
 
   const onCancel = async () => {
-    if (!wallet.publicKey) return;
-
-    const currencyMint = offer?.loan?.currency?.contract_address;
-    const currencyAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
-      currencyMint
-    );
-    if (!currencyAssociated) return;
-    const transaction = new CancelOfferTransaction(connection, wallet);
+    dispatch(showLoadingOverlay());
+    if (!offer.loan || !offer.loan.currency) throw ('Offer has no loan currency');
     try {
-      dispatch(showLoadingOverlay());
-      const res = await transaction.run(
-        currencyAssociated,
-        offer.data_offer_address,
-        offer.data_currency_address
-      );
+      const res = await cancelOffer({
+        currency_contract_address: offer.loan?.currency?.contract_address,
+        currency_data_address: offer.data_currency_address,
+        offer_data_address: offer.data_offer_address,
+        nonce: offer.nonce,
+      });
       if (res?.txHash) {
         toastSuccess(
           <>
-            Cancel asset successfully.{" "}
-            <a target="_blank" href={getLinkSolScanTx(res.txHash)}>
-              View transaction
-            </a>
+            Cancel offer successfully.{" "}
+            {res.txExplorerUrl && (
+              <a target="_blank" href={res.txExplorerUrl}>
+                View transaction
+              </a>
+            )}
           </>
         );
         dispatch(requestReload());

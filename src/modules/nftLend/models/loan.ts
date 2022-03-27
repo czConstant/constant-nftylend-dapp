@@ -35,7 +35,7 @@ export class LoanNft {
     const network = data.network;
     const chain = network === 'SOL' ? Chain.Solana : Chain.Polygon; 
     let loan = new LoanNft(chain);
-    loan.id = data.asset.id;
+    loan.id = data.id;
     loan.currency = data.currency;
     loan.principal_amount = data.principal_amount;
     loan.interest_rate = data.interest_rate;
@@ -58,24 +58,28 @@ export class LoanNft {
   }
 
   static parseFromApiDetail(data: LoanDataAsset): LoanNft {
-    const network = data.new_loan.network;
+    if (!data) throw new Error('No loan detail data to parse');
+    if (!data) throw new Error('No loan detail data to parse');
+
+    const network = data.new_loan?.network;
     const chain = network === 'SOL' ? Chain.Solana : Chain.Polygon;
     let loan = new LoanNft(chain);
     loan.id = data.id;
-    loan.currency = data.new_loan.currency;
-    loan.principal_amount = data.new_loan.principal_amount;
-    loan.interest_rate = data.new_loan. interest_rate;
-    loan.duration = data.new_loan.duration;
     loan.seo_url = data.seo_url;
-    loan.owner = data.new_loan.owner;
-    loan.nonce = data.new_loan.nonce_hex;
-    loan.status = data.new_loan.status;
-    loan.created_at = data.new_loan.created_at;
-    loan.init_tx_hash = data.new_loan.init_tx_hash;
-    loan.data_loan_address = data.new_loan.data_loan_address;
-    console.log('1')
-    loan.offers = data.new_loan.offers.map(e => OfferToLoan.parseFromApi(e, chain));
-    console.log('2')
+
+    if (data.new_loan)  {
+      loan.currency = data.new_loan.currency;
+      loan.principal_amount = data.new_loan.principal_amount;
+      loan.interest_rate = data.new_loan. interest_rate;
+      loan.duration = data.new_loan.duration;
+      loan.owner = data.new_loan.owner;
+      loan.nonce = data.new_loan.nonce_hex;
+      loan.status = data.new_loan.status;
+      loan.created_at = data.new_loan.created_at;
+      loan.init_tx_hash = data.new_loan.init_tx_hash;
+      loan.data_loan_address = data.new_loan.data_loan_address;
+      loan.offers = data.new_loan.offers.map(e => OfferToLoan.parseFromApi(e, chain));
+    }
     if (loan.chain === Chain.Solana) {
       loan.asset = SolanaNft.parseFromLoanAsset(data);
     } else if (loan.chain === Chain.Polygon) {

@@ -59,14 +59,12 @@ const LoanDetail = () => {
       defaultBreadCrumbs.current[2].label = result.name;
 
       setBreadCrumbs(defaultBreadCrumbs.current);
-      console.log("🚀 ~ file: index.tsx ~ line 63 ~ getLoan ~ result", result)
       setLoan(LoanNft.parseFromApiDetail(result));
     } finally {
       setLoading(false);
     }
   };
 
-  console.log("🚀 ~ file: index.tsx ~ line 73 ~ renderView ~ detail", loan)
   const renderView = () => {
     if (loading) return <Loading />;
     if (!loan || !loan.asset) return <EmptyDetailLoan />;

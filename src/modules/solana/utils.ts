@@ -10,7 +10,7 @@ const toPubkey = (key: PublicKey | string) => typeof(key) === 'string' ? new Pub
 
 export const getLinkSolScanTx = (txHash?: string) => `https://solscan.io/tx/${txHash}?cluster=${SOL_CLUSTER}`;
 export const getLinkSolScanAccount = (address?: string) => `https://solscan.io/account/${address}?cluster=${SOL_CLUSTER}`;
-export const getLinkSolScanExplorer = (address?: string) => `https://explorer.solana.com/address/${address}?cluster=${SOL_CLUSTER}`;
+export const getLinkSolScanExplorer = (address?: string) => `https://solscan.io/address/${address}?cluster=${SOL_CLUSTER}`;
 export const getLinkETHScanAddress = (address?: string) => `https://etherscan.io/address/${address}`;
 export const getLinkETHScanTokenId = (address?: string, id: string) => `https://etherscan.io/token/${address}?a=${id}`;
 

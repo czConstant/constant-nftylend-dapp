@@ -38,3 +38,15 @@ export interface CancelOfferParams {
   offer_data_address: string;
   nonce: string;
 }
+
+export interface AcceptOfferParams {
+  currency_contract_address: string;
+  loan_data_address: string;
+  offer_data_address: string;
+  currency_data_address: string;
+  currency_decimals: number;
+  offer_owner: string;
+  principal: number;
+  rate: number;
+  duration: number;
+}

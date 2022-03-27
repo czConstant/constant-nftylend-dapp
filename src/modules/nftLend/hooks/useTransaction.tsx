@@ -1,7 +1,8 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useAppSelector } from 'src/store/hooks';
 import { selectNftyLend } from 'src/store/nftyLend';
-import { CancelLoanParams, CancelOfferParams, CreateLoanParams, MakeOfferParams, TransactionResult } from '../models/transaction';
+import { AcceptOfferParams, CancelLoanParams, CancelOfferParams, CreateLoanParams, MakeOfferParams, TransactionResult } from '../models/transaction';
+import acceptOfferTx from '../transactions/aceeptOffer';
 import cancelLoanTx from '../transactions/cancelLoan';
 import cancelOfferTx from '../transactions/cancelOffer';
 import createLoanTx from '../transactions/createLoan';
@@ -62,7 +63,19 @@ function useTransaction() {
     });
   };
 
-  return { createLoan, cancelLoan, makeOffer, cancelOffer };
+  const acceptOffer = async (params: AcceptOfferParams): Promise<TransactionResult> => {
+    return acceptOfferTx({
+      ...params,
+      chain: walletChain,
+      walletAddress,
+      solana: {
+        connection,
+        wallet,
+      }
+    });
+  };
+
+  return { createLoan, cancelLoan, makeOffer, cancelOffer, acceptOffer };
 };
 
 export { useTransaction };

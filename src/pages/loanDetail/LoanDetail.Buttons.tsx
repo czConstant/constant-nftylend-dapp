@@ -1,4 +1,3 @@
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import Loading from "src/common/components/loading";
@@ -9,31 +8,31 @@ import {
   getAssociatedAccount,
   getLinkSolScanTx,
 } from "src/modules/solana/utils";
-import CancelLoanTransaction from "src/modules/solana/transactions/cancelLoan";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import OrderNowTransaction from "src/modules/solana/transactions/orderNow";
 import { closeModal, openModal } from "src/store/modal";
 import ButtonSolWallet from "src/common/components/buttonSolWallet";
-import { useAppDispatch } from "src/store/hooks";
-import { requestReload } from "src/store/nftyLend";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { requestReload, selectNftyLend } from "src/store/nftyLend";
 import { Link, useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
-import CancelOfferTransaction from "src/modules/solana/transactions/cancelOffer";
 import { TABS } from "../myAsset";
 import LoanDetailMakeOffer from './makeOffer';
+import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
+import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
-  const { connection } = useConnection();
-  const wallet = useWallet();
   const dispatch = useAppDispatch();
+  const { cancelLoan, cancelOffer } = useTransaction();
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
 
   const [canceling, setCanceling] = useState(false);
   const [orderNow, setOrderNow] = useState(false);
   const [orderPicking, setOrderPicking] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const isOwner = wallet?.publicKey?.toString() === loan?.new_loan?.owner;
+  const isOwner = walletAddress === loan.owner;
 
   const onMakeOffer = async () => {
     const close = () =>
@@ -52,8 +51,6 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
         },
         render: () => (
           <LoanDetailMakeOffer
-            connection={connection}
-            wallet={wallet}
             loan={loan}
             onClose={close}
             navigate={navigate}
@@ -104,7 +101,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
         );
         return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=${TABS.offer}`);
       }
-    } catch (err) {
+    } catch (err: any) {
       toastError(err?.message);
     } finally {
       setSubmitting(false);
@@ -113,36 +110,26 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   };
 
   const onCancelLoan = async (e) => {
-    const tokenMint = loan.contract_address;
-    const nftAssociated = await getAssociatedAccount(
-      wallet?.publicKey?.toString(),
-      tokenMint
-    );
-    const transaction = new CancelLoanTransaction(connection, wallet);
     try {
       setSubmitting(true);
       setCanceling(true);
-      const res = await transaction.run(
-        nftAssociated,
-        loan?.new_loan?.data_loan_address,
-        loan?.new_loan?.data_asset_address
-      );
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Cancel loan successfully.{" "}
-            <a
-              target="_blank"
-              href={getLinkSolScanTx(res.txHash)}
-              className="blue"
-            >
+      const res = await cancelLoan({
+        nonce: loan.nonce,
+        asset_contract_address: loan.asset?.contract_address || '',
+        loan_data_address: '' 
+      });
+      toastSuccess(
+        <>
+          Cancel loan successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
               View transaction
             </a>
-          </>
-        );
-        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}`);
-      }
-    } catch (err) {
+          )}
+        </>
+      );
+      return navigate(`${APP_URL.NFT_LENDING_MY_NFT}`);
+    } catch (err: any) {
       toastError(err?.message || err);
     } finally {
       setSubmitting(false);
@@ -150,44 +137,35 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
     }
   };
 
-  const onCancelOffer = async (offer) => {
-    const currencyMint = loan?.new_loan?.currency?.contract_address;
-
-    const currencyAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
-      currencyMint
-    );
-    const transaction = new CancelOfferTransaction(connection, wallet);
+  const onCancelOffer = async (offer: OfferToLoan) => {
     try {
       setCanceling(true);
-      const res = await transaction.run(
-        currencyAssociated,
-        offer.data_offer_address,
-        offer.data_currency_address
-      );
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Cancel offer successfully.{" "}
-            <a
-              target="_blank"
-              href={getLinkSolScanTx(res.txHash)}
-              className="blue"
-            >
+      if (!loan.currency) throw new Error('Loan has no currency');
+      const res = await cancelOffer({
+        currency_contract_address: loan.currency.contract_address,
+        currency_data_address: offer.data_currency_address,
+        offer_data_address: offer.data_offer_address,
+        nonce: offer.nonce,
+      });
+      toastSuccess(
+        <>
+          Cancel offer successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
               View transaction
             </a>
-          </>
-        );
-        dispatch(requestReload());
-      }
-    } catch (err) {
+          )}
+        </>
+      );
+      dispatch(requestReload());
+    } catch (err: any) {
       toastError(err?.message || err);
     } finally {
       setCanceling(false);
     }
   };
 
-  if (!wallet.publicKey) {
+  if (!walletAddress) {
     return (
       <div className={styles.groupOfferButtons}>
         <ButtonSolWallet className={styles.btnConnect} />

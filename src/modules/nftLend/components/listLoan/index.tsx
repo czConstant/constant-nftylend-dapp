@@ -15,7 +15,6 @@ import styles from "./styles.module.scss";
 import { LoanNft } from '../../models/loan';
 
 const ListLoan = () => {
-  const wallet = useWallet();
   const needReload = useAppSelector(selectNftyLend).needReload;
   const walletAddress = useAppSelector(selectNftyLend).walletAddress;
   const walletChain = useAppSelector(selectNftyLend).walletChain;
@@ -76,7 +75,7 @@ const ListLoan = () => {
         {!loading && loans?.length === 0 && (
           <EmptyList dark labelText="There is no loan" />
         )}
-        {!loading && loans.map((e: any) => <Item key={e.id} loan={e} />)}
+        {!loading && loans.map((e: LoanNft) => <Item key={e.id} loan={e} />)}
       </div>
       {loading && <Loading className={styles.loading} />}
     </div>
