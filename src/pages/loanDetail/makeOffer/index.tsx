@@ -37,7 +37,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
         currency_contract_address: loan.currency.contract_address,
         currency_decimal: loan.currency.decimals,
         loan_owner: loan.owner,
-        data_loan_address: loan.data_loan_address,
+        loan_data_address: loan.data_loan_address,
         principal: values.amount,
         rate: values.rate,
         duration: values.duration?.id || values.duration,

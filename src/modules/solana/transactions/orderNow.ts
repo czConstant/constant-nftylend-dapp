@@ -11,18 +11,19 @@ import {
 import { getLendingProgramId, OFFER_INFO_LAYOUT } from './constants';
 import { OrderNowInstruction } from './utils';
 import SolTransaction from './index';
+import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 
 export default class OrderNowTransaction extends SolTransaction {
   async run(
     tokenMint: string,
+    loanAddress: string,
+    principal: number,
     borrowerTokenAssociated: string,
     borrowerAddress: string,
-    loanAddress: string,
     lenderTokenAssociated: string,
-    principal: number,
-  ) {
-    if (!this.wallet.publicKey) return;
-
+  ): Promise<TransactionResult> {
+    this.prepareRun();
+    
     try {
       const lendingProgramId = new PublicKey(getLendingProgramId());
       const borrower_usd_pubkey = new PublicKey(borrowerTokenAssociated);

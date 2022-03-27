@@ -1,5 +1,7 @@
 import { Chain } from 'src/common/constants/network';
-import { LoanData } from './api';
+import { PolygonNft } from 'src/modules/polygon/models/polygonNft';
+import { SolanaNft } from 'src/modules/solana/models/solanaNft';
+import { LoanData, LoanDataAsset } from './api';
 import { CollectionNft } from './collection';
 
 export type NftID = string;
@@ -28,7 +30,6 @@ export abstract class AssetNft {
 
   isEmpty(): boolean { return this.id === ''; }
 }
-
 
 export interface AssetNftDetail {
   name: string;

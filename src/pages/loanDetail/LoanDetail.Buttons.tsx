@@ -24,7 +24,7 @@ import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { cancelLoan, cancelOffer } = useTransaction();
+  const { cancelLoan, cancelOffer, orderOffer } = useTransaction();
   const walletAddress = useAppSelector(selectNftyLend).walletAddress;
 
   const [canceling, setCanceling] = useState(false);
@@ -63,46 +63,31 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   };
 
   const onOrderNow = async () => {
-    const transaction = new OrderNowTransaction(connection, wallet);
     try {
       setSubmitting(true);
       setOrderNow(true);
-      const borrowerPubkey = loan.new_loan.owner;
-      const tokenMint = loan.new_loan.currency.contract_address;
-      const borrowerTokenAssociated = await getAssociatedAccount(
-        borrowerPubkey,
-        tokenMint
-      );
-      const lenderTokenAssociated = await getAssociatedAccount(
-        wallet.publicKey.toString(),
-        tokenMint
-      );
-      const decimals = loan.new_loan.currency.decimals;
-      const res = await transaction.run(
-        tokenMint,
-        borrowerTokenAssociated,
-        borrowerPubkey,
-        loan.new_loan.data_loan_address,
-        lenderTokenAssociated,
-        Number(loan.new_loan.principal_amount) * 10 ** decimals
-      );
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Make offer successfully.{" "}
-            <a
-              target="_blank"
-              href={getLinkSolScanTx(res.txHash)}
-              className="blue"
-            >
+      if (!loan.currency) throw new Error('Loan has no currency');
+      const res = await orderOffer({
+        currency_contract_address: loan.currency?.contract_address,
+        currency_decimal: loan.currency.decimals,
+        loan_owner: loan.owner,
+        loan_data_address: loan.data_loan_address,
+        lender: walletAddress,
+        principal: loan.principal_amount,
+      });
+      toastSuccess(
+        <>
+          Make offer successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
               View transaction
             </a>
-          </>
-        );
-        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=${TABS.offer}`);
-      }
+          )}
+        </>
+      );
+      return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=${TABS.offer}`);
     } catch (err: any) {
-      toastError(err?.message);
+      toastError(err?.message || err);
     } finally {
       setSubmitting(false);
       setOrderNow(false);

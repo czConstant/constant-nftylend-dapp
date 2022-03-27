@@ -18,10 +18,7 @@ import {
 } from "src/common/utils/format";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
-import {
-  LOAN_STATUS,
-  LOAN_TRANSACTION_ACTIVITY,
-} from "src/modules/nftLend/constant";
+import { LOAN_TRANSACTION_ACTIVITY } from "src/modules/nftLend/constant";
 
 const TableHeader = () => (
   <div className={cx(styles.tbHeader, styles.activityWrapBody)}>

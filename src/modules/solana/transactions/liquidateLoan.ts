@@ -1,6 +1,8 @@
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, createAssociatedTokenAccountInstruction } from '@solana/spl-token';
 import { PublicKey, Transaction, SYSVAR_CLOCK_PUBKEY } from '@solana/web3.js';
 
+import { TransactionResult } from 'src/modules/nftLend/models/transaction';
+
 import { getLendingProgramId } from './constants';
 import { LiquidateInstruction } from './utils';
 import SolTransaction from './index';
@@ -9,20 +11,20 @@ export default class LiquidateLoanTransaction extends SolTransaction {
   async run(
     nftMint: string,
     borrowerPubkey: string,
-    loanId: string,
-    offerId: string,
+    loanDataAddress: string,
+    offerDataAddress: string,
     pdaTokenAccount: string,
     pdaNftAccount: string,
-  ) {
-    if (!this.wallet.publicKey) return;
+  ): Promise<TransactionResult> {
+    this.prepareRun();
 
     try {
       const lendingProgramId = new PublicKey(getLendingProgramId());
       const nft_mint_pubkey = new PublicKey(nftMint);
       const borrower_pubkey = new PublicKey(borrowerPubkey);
 
-      const loan_id = new PublicKey(loanId);
-      const offer_id = new PublicKey(offerId);
+      const loan_id = new PublicKey(loanDataAddress);
+      const offer_id = new PublicKey(offerDataAddress);
       const pda_token_account = new PublicKey(pdaTokenAccount);
       const pda_nft_account = new PublicKey(pdaNftAccount);
 

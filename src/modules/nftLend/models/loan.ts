@@ -1,9 +1,9 @@
+import moment from 'moment-timezone';
 import { Chain } from 'src/common/constants/network';
-import { PolygonNft } from 'src/modules/polygon/models/polygonNft';
 import { getLinkPolygonExplorer } from 'src/modules/polygon/utils';
-import { SolanaNft } from 'src/modules/solana/models/solanaNft';
 import { getLinkSolScanExplorer } from 'src/modules/solana/utils';
-import { Currency, LoanData, LoanDataAsset, OfferData } from './api';
+import { parseNftFromLoanAsset } from '../utils';
+import { Currency, LoanData, LoanDataAsset } from './api';
 import { AssetNft } from './nft';
 import { OfferToLoan } from './offer';
 
@@ -16,14 +16,17 @@ export class LoanNft {
   interest_rate: number = 0;
   duration: number = 0;
   seo_url?: string;
-  offers: Array<OfferToLoan> = [];
   owner: string = '';
   data_loan_address: string = '';
+  data_asset_address: string = '';
   origin_contract_address: string = '';
   nonce: string = '';
   status: string = '';
   created_at: string = '';
+  updated_at: string = '';
   init_tx_hash: string = '';
+  offers: Array<OfferToLoan> = [];
+  approved_offer?: OfferToLoan;
 
   constructor(chain: Chain) {
     this.id = 0;
@@ -45,15 +48,17 @@ export class LoanNft {
     loan.nonce = data.nonce_hex;
     loan.status = data.status;
     loan.created_at = data.created_at;
+    loan.updated_at = data.updated_at;
     loan.init_tx_hash = data.init_tx_hash;
     loan.data_loan_address = data.data_loan_address;
+    loan.data_asset_address = data.data_asset_address;
     loan.offers = data.offers.map(e => OfferToLoan.parseFromApi(e, chain));
-    if (loan.chain === Chain.Solana) {
-      loan.asset = SolanaNft.parseFromLoanAsset(data.asset);
-    } else if (loan.chain === Chain.Polygon) {
-      loan.asset = PolygonNft.parseFromLoanAsset(data.asset);
+    loan.asset = parseNftFromLoanAsset(data.asset, chain)
+    if (data.approved_offer) {
+      loan.approved_offer = OfferToLoan.parseFromApi(data.approved_offer, chain);
+      loan.approved_offer.started_at = data.offer_started_at;
+      loan.approved_offer.expired_at = data.offer_expired_at;
     }
-
     return loan;
   }
 
@@ -66,6 +71,7 @@ export class LoanNft {
     let loan = new LoanNft(chain);
     loan.id = data.id;
     loan.seo_url = data.seo_url;
+    loan.asset = parseNftFromLoanAsset(data, chain);
 
     if (data.new_loan)  {
       loan.currency = data.new_loan.currency;
@@ -76,20 +82,25 @@ export class LoanNft {
       loan.nonce = data.new_loan.nonce_hex;
       loan.status = data.new_loan.status;
       loan.created_at = data.new_loan.created_at;
+      loan.updated_at = data.new_loan.updated_at;
       loan.init_tx_hash = data.new_loan.init_tx_hash;
       loan.data_loan_address = data.new_loan.data_loan_address;
+      loan.data_asset_address = data.new_loan.data_asset_address;
       loan.offers = data.new_loan.offers.map(e => OfferToLoan.parseFromApi(e, chain));
-    }
-    if (loan.chain === Chain.Solana) {
-      loan.asset = SolanaNft.parseFromLoanAsset(data);
-    } else if (loan.chain === Chain.Polygon) {
-      loan.asset = PolygonNft.parseFromLoanAsset(data);
     }
     return loan;
   }
 
-  getLinkExplorer(): string {
-    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(this.init_tx_hash);
-    else return getLinkPolygonExplorer(this.init_tx_hash);
+  getLinkExplorer(address?: string): string {
+    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.init_tx_hash);
+    else return getLinkPolygonExplorer(address || this.init_tx_hash);
+  }
+
+  isCreated(): boolean {
+    return this.status === 'created';
+  }
+
+  isLiquidated(): boolean {
+    return this.status === 'created' && moment().isAfter(moment(this.approved_offer?.expired_at));
   }
 }

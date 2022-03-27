@@ -54,12 +54,16 @@ export interface LoanData {
   data_asset_address: string;
   data_loan_address: string;
   network: string;
-  offers: Array<OfferData>;
   owner: string;
   nonce_hex: string;
   status: string;
   created_at: string;
+  updated_at: string;
   init_tx_hash: string;
+  offers: Array<OfferData>;
+  approved_offer: OfferData;
+  offer_started_at: string;
+  offer_expired_at: string;
 }
 
 export interface LoanDataAsset {
@@ -88,6 +92,8 @@ export interface OfferData {
   data_offer_address: string;
   data_currency_address: string;
   created_at: string;
+  updated_at: string;
   accept_tx_hash: string;
+  close_tx_hash: string;
   nonce: string;
 }
