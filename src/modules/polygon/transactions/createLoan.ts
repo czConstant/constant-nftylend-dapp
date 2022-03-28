@@ -1,5 +1,4 @@
 import { ethers } from 'ethers';
-import { customAlphabet } from 'nanoid';
 import web3 from 'web3';
 
 import { POLYGON_DELEND_PROGRAM } from 'src/common/constants/config';
@@ -11,6 +10,7 @@ import { Chain, ChainPolygonID } from 'src/common/constants/network';
 import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
+import { generateNonce } from '../utils';
 
 export default class CreateLoanEvmTransaction extends EvmTransaction {
   async run(
@@ -29,16 +29,16 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
         const receipt = await tx.wait();
         txHash = receipt.transactionHash;
       }
-      const nonce = '0x' + customAlphabet('0123456789abcdef', 64)();
-      const borrowerMg = web3.utils.soliditySha3(
+      const nonce = generateNonce();
+      const borrowerMsg = web3.utils.soliditySha3(
         nftTokenId,
         nonce,
          nftContractAddress,
         ownerAddress,
         ChainPolygonID
       );
-      if (!borrowerMg) throw new Error('Emppty borrow message');
-      const borrowerSig = await signer.signMessage(borrowerMg)
+      if (!borrowerMsg) throw new Error('Empty borrow message');
+      const borrowerSig = await signer.signMessage(borrowerMsg)
 
       await api.post(API_URL.NFT_LEND.CREATE_LOAN, {
         chain: Chain.Polygon.toString(),

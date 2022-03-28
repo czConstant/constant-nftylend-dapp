@@ -131,28 +131,21 @@ const FilterTypes = [
 
 const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan, asset }) => {
   const [results, setResults] = useState([]);
-  const [sales, setSales] = useState([]);
-  const [activities, setActivities] = useState([]);
+  const [sales, setSales] = useState<Array<ItemActivityModel>>([]);
+  const [activities, setActivities] = useState<Array<ItemActivityModel>>([]);
 
   useEffect(() => {
     if (loan?.id) {
-      getData();
+      fetchLoanTransactions();
+      fetchSaleTransactions();
     }
   }, [loan?.id]);
 
-  const getData = async () => {
+  const fetchLoanTransactions = async () => {
     try {
-      const response = await Promise.allSettled([
-        getLoanTransactions({
-          asset_id: asset.id.toString(),
-        }),
-        getSaleTransactions({
-          asset_id: asset.id.toString(),
-        }),
-      ]);
-
-      const _activities: ItemActivityModel[] = response[0]?.value?.result?.map(
-        (v) => ({
+      const res = await getLoanTransactions({ asset_id: asset.id });
+      const _activities: ItemActivityModel[] = res.result?.map(
+        (v: any) => ({
           type: FilterTypes[1].id,
           id: v.id,
           status: v.type,
@@ -166,8 +159,16 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan, asset }) => {
           lender: v.lender,
         })
       );
+      setActivities(_activities);
+    } catch (err) {
 
-      const _sales: ItemActivityModel[] = response[1]?.value?.result?.map((v) => ({
+    }
+  };
+
+  const fetchSaleTransactions = async () => {
+    try {
+      const res = await getSaleTransactions({ asset_id: asset.id });
+      const _sales: ItemActivityModel[] = res.result?.map((v: any) => ({
         type: FilterTypes[0].id,
         id: v.id,
         // status: v.type,
@@ -179,18 +180,10 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan, asset }) => {
         borrower: v.seller,
         lender: v.buyer,
       }));
-
-      setActivities(_activities);
-
       setSales(_sales);
+    } catch (err) {
 
-      const _results: ItemActivityModel[] = sortBy(
-        _activities?.concat(_sales),
-        ["created_at"]
-      ).reverse();
-
-      setResults(_results);
-    } catch (error) {}
+    }
   };
 
   const renderActivityContent = () => {

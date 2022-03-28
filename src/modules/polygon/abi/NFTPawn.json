@@ -1,4 +1,6 @@
-[
+{
+  "contractName": "NFTPawn",
+  "abi": [
     {
       "inputs": [],
       "stateMutability": "nonpayable",
@@ -126,7 +128,7 @@
         {
           "indexed": false,
           "internalType": "address",
-          "name": "loanERC20Denomination",
+          "name": "loanCurrencry",
           "type": "address"
         }
       ],
@@ -163,12 +165,6 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "maximumRepaymentAmount",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
           "name": "nftCollateralId",
           "type": "uint256"
         },
@@ -187,7 +183,7 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "loanInterestRateForDurationInBasisPoints",
+          "name": "loanInterestRate",
           "type": "uint256"
         },
         {
@@ -199,7 +195,7 @@
         {
           "indexed": false,
           "internalType": "address",
-          "name": "loanERC20Denomination",
+          "name": "loanCurrency",
           "type": "address"
         }
       ],
@@ -406,11 +402,6 @@
         },
         {
           "internalType": "uint256",
-          "name": "_maximumRepaymentAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
           "name": "_nftCollateralId",
           "type": "uint256"
         },
@@ -421,12 +412,12 @@
         },
         {
           "internalType": "uint256",
-          "name": "_loanInterestRateForDurationInBasisPoints",
+          "name": "_loanInterestRate",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "_adminFeeInBasisPoints",
+          "name": "_adminFee",
           "type": "uint256"
         },
         {
@@ -441,7 +432,7 @@
         },
         {
           "internalType": "address",
-          "name": "_loanERC20Denomination",
+          "name": "_loanCurrency",
           "type": "address"
         },
         {
@@ -487,9 +478,14 @@
           "type": "uint256"
         },
         {
-          "internalType": "uint256",
-          "name": "maximumRepaymentAmount",
-          "type": "uint256"
+          "internalType": "uint32",
+          "name": "loanDuration",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "loanInterestRate",
+          "type": "uint32"
         },
         {
           "internalType": "uint256",
@@ -503,17 +499,7 @@
         },
         {
           "internalType": "uint32",
-          "name": "loanDuration",
-          "type": "uint32"
-        },
-        {
-          "internalType": "uint32",
-          "name": "loanInterestRateForDurationInBasisPoints",
-          "type": "uint32"
-        },
-        {
-          "internalType": "uint32",
-          "name": "loanAdminFeeInBasisPoints",
+          "name": "loanAdminFee",
           "type": "uint32"
         },
         {
@@ -523,7 +509,7 @@
         },
         {
           "internalType": "address",
-          "name": "loanERC20Denomination",
+          "name": "loanCurrency",
           "type": "address"
         },
         {
@@ -535,6 +521,11 @@
           "internalType": "address",
           "name": "lender",
           "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "nonce",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -786,11 +777,6 @@
         },
         {
           "internalType": "uint256",
-          "name": "_maximumRepaymentAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
           "name": "_nftCollateralId",
           "type": "uint256"
         },
@@ -801,12 +787,12 @@
         },
         {
           "internalType": "uint256",
-          "name": "_loanInterestRateForDurationInBasisPoints",
+          "name": "_loanInterestRate",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "_adminFeeInBasisPoints",
+          "name": "_adminFee",
           "type": "uint256"
         },
         {
@@ -821,70 +807,7 @@
         },
         {
           "internalType": "address",
-          "name": "_loanERC20Denomination",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_lender",
-          "type": "address"
-        },
-        {
-          "internalType": "bytes[2]",
-          "name": "_borrowerAndLenderSignature",
-          "type": "bytes[2]"
-        }
-      ],
-      "name": "beginLoan1",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_loanPrincipalAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_maximumRepaymentAmount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_nftCollateralId",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_loanDuration",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_loanInterestRateForDurationInBasisPoints",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_adminFeeInBasisPoints",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256[2]",
-          "name": "_borrowerAndLenderNonces",
-          "type": "uint256[2]"
-        },
-        {
-          "internalType": "address",
-          "name": "_nftCollateralContract",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_loanERC20Denomination",
+          "name": "_loanCurrency",
           "type": "address"
         },
         {
@@ -945,25 +868,6 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "_loanId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getPayoffAmount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "address",
           "name": "_user",
           "type": "address"
@@ -986,3 +890,4 @@
       "type": "function"
     }
   ]
+}

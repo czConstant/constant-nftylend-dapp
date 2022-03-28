@@ -69,7 +69,7 @@ const CreateLoan = (props: CreateLoanProps) => {
     try {
       setSubmitting(true);
       const res = await createLoan({
-        asset_token_id: asset.id,
+        asset_token_id: asset.token_id,
         asset_contract_address: asset.contract_address,
         currency_contract_address: values.receiveTokenMint,
         principal: values.amount,

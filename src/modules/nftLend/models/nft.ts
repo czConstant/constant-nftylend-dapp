@@ -4,10 +4,9 @@ import { SolanaNft } from 'src/modules/solana/models/solanaNft';
 import { LoanData, LoanDataAsset } from './api';
 import { CollectionNft } from './collection';
 
-export type NftID = string;
-
 export abstract class AssetNft {
-  id: NftID;
+  id: string;
+  token_id: string = '';
   contract_address: string = '';
   name: string = '';
   collection?: CollectionNft;

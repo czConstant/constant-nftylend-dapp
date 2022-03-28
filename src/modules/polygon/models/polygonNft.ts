@@ -8,7 +8,8 @@ import { getLinkPolygonExplorer } from '../utils';
 export class PolygonNft extends AssetNft {
   static parse(item: any): PolygonNft {
     let nft = new PolygonNft();
-    nft.id = item.token_id;
+    nft.id = item.id || item.token_id;
+    nft.token_id = item.token_id;
     nft.contract_address = item.token_address;
     nft.detail_uri = item.token_uri;
     nft.original_data = item;
@@ -29,7 +30,8 @@ export class PolygonNft extends AssetNft {
 
   static parseFromLoanAsset(item: LoanDataAsset): PolygonNft {
     const nft = new PolygonNft();
-    nft.id = item.contract_address;
+    nft.id = String(item.id);
+    nft.contract_address = item.contract_address;
     nft.name = item.name;
     nft.detail = { image: item.token_url } as AssetNftDetail;
     if (item.collection) {

@@ -25,7 +25,10 @@ export interface CancelLoanParams {
 export interface MakeOfferParams {
   currency_contract_address: NftID;
   currency_decimal: number,
+  asset_contract_address: string;
+  asset_token_id: string,
   loan_owner: string;
+  lender: string;
   loan_data_address: string;
   principal: number;
   rate: number;

@@ -9,7 +9,7 @@ import { getLinkSolScanExplorer } from '../utils';
 export class SolanaNft extends AssetNft {
   static parse(item: any): SolanaNft {
     let nft = new SolanaNft();
-    nft.id = item.mint;
+    nft.id = item.id || item.mint;
     nft.contract_address = item.mint;
     nft.name = item.data.name;
     nft.original_data = item;
@@ -20,7 +20,7 @@ export class SolanaNft extends AssetNft {
 
   static parseFromLoanAsset(item: LoanDataAsset): SolanaNft {
     const nft = new SolanaNft();
-    nft.id = item.contract_address;
+    nft.id = String(item.id);
     nft.contract_address = item.contract_address;
     nft.name = item.name;
     nft.origin_contract_address = item.origin_contract_address;

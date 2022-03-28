@@ -12,7 +12,7 @@ export default class EvmTransaction {
   };
 
   handleSuccess = async (res: TransactionResult): Promise<TransactionResult> => {
-    const txExplorerUrl = res.txHash ? getLinkPolygonExplorer(res.txHash) : '';
+    const txExplorerUrl = res.txHash ? getLinkPolygonExplorer(res.txHash, 'tx') : '';
     return { ...res, txExplorerUrl };
   };
 }

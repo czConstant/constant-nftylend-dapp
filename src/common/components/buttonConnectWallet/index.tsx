@@ -4,6 +4,8 @@ import { Dropdown } from 'react-bootstrap';
 import cx from 'classnames';
 import '@solana/wallet-adapter-react-ui/styles.css';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { ethers } from 'ethers';
+import Web3Modal from 'web3modal';
 
 import { clearWallet, selectNftyLend, updateWallet } from 'src/store/nftyLend';
 import { toastError } from 'src/common/services/toaster';
@@ -14,7 +16,6 @@ import CryptoDropdownItem from '../cryptoDropdownItem';
 import styles from './styles.module.scss';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { shortCryptoAddress } from 'src/common/utils/format';
-
 interface ButtonConnectWalletProps {
   className?: string;
 }
@@ -36,22 +37,31 @@ const ButtonConnectWallet: React.FC<ButtonConnectWalletProps> = (
   const onSelectChain = async (chain: Chain) => {
     if (chain === Chain.Polygon) {
       if (!window.ethereum) {
-        toastError('Metamask not installed');
+        return toastError('Metamask not installed');
       }
-      try {
-        await window.ethereum.enable();
-        const accounts = await window.ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-        console.log("🚀 ~ file: index.tsx ~ line 46 ~ onSelectChain ~ accounts", accounts)
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: `0x${ChainPolygonID.toString(16)}` }],
-        })
-        dispatch(updateWallet({ address: accounts[0], network: Chain.Polygon }));
-      } catch (err) {
-        console.log(err)
-      }
+      const providerOptions = { };
+      const web3Modal = new Web3Modal({
+        providerOptions,
+      });
+      const instance = await web3Modal.connect();
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: `0x${ChainPolygonID.toString(16)}` }],
+      })
+
+      const provider = new ethers.providers.Web3Provider(instance);
+      const accounts = await provider.listAccounts();
+      dispatch(updateWallet({ address: accounts[0], network: Chain.Polygon }));
+      
+      // try {
+      //   await window.ethereum.enable();
+      //   const accounts = await window.ethereum.request({
+      //     method: 'eth_requestAccounts',
+      //   });
+        
+      // } catch (err) {
+      //   console.log(err)
+      // }
     }
   };
 
