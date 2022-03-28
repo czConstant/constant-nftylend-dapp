@@ -27,10 +27,8 @@ export interface LoanDetailProps {
 interface LoanDetailHeaderProps extends LoanDetailProps {}
 
 const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
-console.log("🚀 ~ file: LoanDetail.Header.tsx ~ line 30 ~ loan", loan)
   const walletAddress=  useAppSelector(selectNftyLend).walletAddress;
 
-  const isMyLoan = loan.owner === walletAddress;
   const userOffer: OfferData = loan.offers?.find(
     (v) =>
       v.lender?.toString() === walletAddress &&

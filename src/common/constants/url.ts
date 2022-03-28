@@ -1,4 +1,4 @@
-import { ALCHEMY_API_KEY, APP_CLUSTER, BASE_PATH, MCT_API_BASE, MCT_ROOT } from './config'
+import { BASE_PATH, MCT_API_BASE, MCT_ROOT } from './config'
 
 export const APP_URL = {
   HOME: `${BASE_PATH}/`,
@@ -30,7 +30,11 @@ export const API_URL = {
   }
 }
 
-export const ALCHEMY_URL = {
-  GET_NFTS: APP_CLUSTER === 'mainnet' ? '' : `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}/getNFTs/`,
-  GET_NFT_METADATA: APP_CLUSTER === 'mainnet' ? '' : `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}/getNFTMetadata/`,
+// export const ALCHEMY_URL = {
+//   GET_NFTS: APP_CLUSTER === 'mainnet' ? '' : `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}/getNFTs/`,
+//   GET_NFT_METADATA: APP_CLUSTER === 'mainnet' ? '' : `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}/getNFTMetadata/`,
+// }
+
+export const MORALIS_URL = {
+  GET_NFTS: `https://deep-index.moralis.io/api/v2/{owner}/nft`,
 }

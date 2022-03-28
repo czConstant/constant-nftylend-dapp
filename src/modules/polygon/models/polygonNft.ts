@@ -3,18 +3,27 @@ import api from 'src/common/services/apiClient';
 import { LoanDataAsset } from 'src/modules/nftLend/models/api';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import { AssetNft, AssetNftDetail } from 'src/modules/nftLend/models/nft';
-import BigNumber from 'bignumber.js';
 import { getLinkPolygonExplorer } from '../utils';
-import { isUrl } from 'src/common/utils/helper';
 
 export class PolygonNft extends AssetNft {
   static parse(item: any): PolygonNft {
     let nft = new PolygonNft();
-    nft.id = new BigNumber(item.id.tokenId).toString();
-    nft.name = item.title;
-    nft.contract_address = item.contract.address;
+    nft.id = item.token_id;
+    nft.contract_address = item.token_address;
+    nft.detail_uri = item.token_uri;
     nft.original_data = item;
-    if (!item.error || isUrl(item.tokenUri.raw)) nft.detail_uri = item.tokenUri.raw;
+    try {
+      const parsed = JSON.parse(item.metadata);
+      nft.name = parsed.name;
+      nft.detail = {
+        name: parsed.name,
+        description: parsed.description,
+        image: parsed.image,
+        attributes: parsed.attributes,
+      } as AssetNftDetail;
+    } catch (err) {
+
+    }
     return nft;
   }
 

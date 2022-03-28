@@ -43,6 +43,7 @@ const ButtonConnectWallet: React.FC<ButtonConnectWalletProps> = (
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         });
+        console.log("🚀 ~ file: index.tsx ~ line 46 ~ onSelectChain ~ accounts", accounts)
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: `0x${ChainPolygonID.toString(16)}` }],

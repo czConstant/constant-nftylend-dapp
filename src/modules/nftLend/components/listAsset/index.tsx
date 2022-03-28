@@ -12,12 +12,9 @@ import styles from './styles.module.scss';
 import AssetDetailModal from 'src/modules/nftLend/components/assetDetailModal';
 import CreateLoan from '../createLoan';
 import { selectNftyLend } from 'src/store/nftyLend';
-import { Chain } from 'src/common/constants/network';
-import { SolanaNft } from 'src/modules/solana/models/solanaNft';
 import { ItemNftProps } from '../itemNft';
 import { AssetNft } from '../../models/nft';
-import { getNftsByOwner } from 'src/modules/polygon/api';
-import { PolygonNft } from 'src/modules/polygon/models/polygonNft';
+import { fetchNftsByOwner } from '../../utils';
 
 const ListAsset = () => {
   const dispatch = useAppDispatch();
@@ -66,21 +63,7 @@ const ListAsset = () => {
   const fetchNFTs = async () => {
     if (!walletAddress) return;
     try {
-      let assets: Array<AssetNft> = [];
-      if (walletChain === Chain.Solana) {
-        const res = await getParsedNftAccountsByOwner({ publicAddress: walletAddress.toString(), connection });
-        assets = res.map(e => {
-          const nft = SolanaNft.parse(e);
-          return nft;
-        });
-      } else if (walletChain === Chain.Polygon) {
-        const res = await getNftsByOwner(walletAddress);
-        assets = res.ownedNfts.map(e => {
-          const nft = PolygonNft.parse(e);
-          nft.owner = walletAddress;
-          return nft;
-        });
-      }
+      const assets = await fetchNftsByOwner(walletAddress, walletChain, connection);
       setAssets(assets.map(e => ({
         asset: e,
         onClickItem: onClickShowDetail,

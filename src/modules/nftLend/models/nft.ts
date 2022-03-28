@@ -36,7 +36,6 @@ export interface AssetNftDetail {
   description: string;
   image: string;
   attributes: AssetNftAttribute;
-  new_loan: LoanData;
   seller_fee_rate: number;
 }
 

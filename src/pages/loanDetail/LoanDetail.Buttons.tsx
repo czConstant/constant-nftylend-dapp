@@ -4,12 +4,7 @@ import Loading from "src/common/components/loading";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 import cx from "classnames";
-import {
-  getAssociatedAccount,
-  getLinkSolScanTx,
-} from "src/modules/solana/utils";
 import { toastError, toastSuccess } from "src/common/services/toaster";
-import OrderNowTransaction from "src/modules/solana/transactions/orderNow";
 import { closeModal, openModal } from "src/store/modal";
 import ButtonSolWallet from "src/common/components/buttonSolWallet";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
@@ -20,12 +15,14 @@ import { TABS } from "../myAsset";
 import LoanDetailMakeOffer from './makeOffer';
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
+import { Chain } from 'src/common/constants/network';
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { cancelLoan, cancelOffer, orderOffer } = useTransaction();
   const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const walletChain = useAppSelector(selectNftyLend).walletChain;
 
   const [canceling, setCanceling] = useState(false);
   const [orderNow, setOrderNow] = useState(false);
@@ -189,13 +186,15 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   return (
     <div className={styles.groupOfferButtonWrapper}>
       <div className={styles.groupOfferButtons}>
-        <Button
-          className={styles.btnConnect}
-          disabled={isOwner || orderNow}
-          onClick={onOrderNow}
-        >
-          {orderNow ? <Loading dark={false} /> : "Order now"}
-        </Button>
+        {walletChain === Chain.Solana && (
+          <Button
+            className={styles.btnConnect}
+            disabled={isOwner || orderNow}
+            onClick={onOrderNow}
+          >
+            {orderNow ? <Loading dark={false} /> : "Order now"}
+          </Button>
+        )}
         <Button
           className={styles.btnConnect}
           disabled={isOwner || orderPicking}
