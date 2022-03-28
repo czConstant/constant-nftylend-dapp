@@ -1,6 +1,6 @@
 ## About
 
-NFTy Lend is a decentralized lending platform powered by MyConstant.
+NFT Pawn is a decentralized lending platform powered by MyConstant.
 
 ## Prerequisites
 

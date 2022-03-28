@@ -18,10 +18,10 @@ const FAQs = () => {
       <div>
         <h3>FAQ</h3>
         <SectionCollapse
-          label="What is NFTy Lend?"
+          label="What is NFT Pawn?"
           content={
             <span>
-              <b>NFTy Lend</b> is an autonomous P2P lending marketplace powered
+              <b>NFT Pawn</b> is an autonomous P2P lending marketplace powered
               by smart contracts. Whether you want to invest or borrow, you
               choose to fulfill an existing order on the marketplace or
               negotiate your rate and term. Our smart contracts handle the rest,
@@ -35,7 +35,7 @@ const FAQs = () => {
           label="Do I need an account to use the application?"
           content={
             <span>
-              No, you don’t need an account to use the application. NFTy Lend is
+              No, you don’t need an account to use the application. NFT Pawn is
               a decentralized application (Dapp) and what you need is a Solana
               wallet to start to use.
             </span>
@@ -45,7 +45,7 @@ const FAQs = () => {
           label="What are the supported projects/ blockchain?"
           content={
             <span>
-              NFTy Lend was built on the Solana blockchain and we support the
+              NFT Pawn was built on the Solana blockchain and we support the
               top NFT collections in the market. Detail:
               <a
                 target={"_blank"}
@@ -67,7 +67,7 @@ const FAQs = () => {
           }
         />
         <SectionCollapse
-          label="What are the fees for using NFTy Lend?"
+          label="What are the fees for using NFT Pawn?"
           content={
             <div>
               There are three fees you’ll need to look out for:
@@ -136,7 +136,7 @@ const FAQs = () => {
           }
         />
         <SectionCollapse
-          label="Can I use NFTy Lend to sell my NFTs?"
+          label="Can I use NFT Pawn to sell my NFTs?"
           content={
             "Yes. MyConstant team has plans to create the Sale Contract which have allow users to sell their NFTs easily."
           }
@@ -256,7 +256,7 @@ const FAQs = () => {
           }
         />
         <SectionCollapse
-          label="Is it safe to lend my crypto on the NFTy Lend platform?"
+          label="Is it safe to lend my crypto on the NFT Pawn platform?"
           content={
             <div>
               <p>

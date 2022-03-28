@@ -63,7 +63,7 @@ const Header = () => {
         </div>
         {/* {walletAccount && networkVersion !== ethNetwork && (
           <div className={styles.warningNetwork}>
-            Your wallet is connected to the {ETH_CHAIN_NAME[networkVersion]} network. To use NFTy Lending, please switch to {ETH_CHAIN_NAME[ethNetwork]}
+            Your wallet is connected to the {ETH_CHAIN_NAME[networkVersion]} network. To use NFT Pawning, please switch to {ETH_CHAIN_NAME[ethNetwork]}
           </div>
         )} */}
       </div>
