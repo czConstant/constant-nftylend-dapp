@@ -99,7 +99,8 @@ const Home = () => {
         </div>
       </section>
       <section className={cx(styles.section)}>
-        <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
+        <h4 className={styles.sectionTitle}>PAWN PROTOCOL</h4>
+        {/* <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} /> */}
         <h1>What is NFT Pawn?</h1>
         <p>
           NFT Pawn is an autonomous P2P lending marketplace powered by smart
@@ -121,7 +122,7 @@ const Home = () => {
         </div>
       </section>
       <section className={cx(styles.section)}>
-        <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
+        <h4 className={styles.sectionTitle}>PAWN PROTOCOL</h4>
         <h1>Press</h1>
         {/* <p>Our smart contracts handle the rest.</p> */}
         <div className={styles.wrapPartner}>
@@ -134,8 +135,7 @@ const Home = () => {
       </section>
       <section className={cx(styles.section)}>
         <div className={styles.sectionBgOurPartner}>
-          {/* <img alt="NFT Pawn" src={imgTitle3} /> */}
-          <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
+        <h4 className={styles.sectionTitle}>PAWN PROTOCOL</h4>
           <h1>Partners</h1>
           <div className={styles.wrapPartner}>
             {logoPartners.map((v) => (

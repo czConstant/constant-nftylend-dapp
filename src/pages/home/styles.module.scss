@@ -204,9 +204,9 @@
     grid-gap: 1rem;
     margin-top: 2rem;
   }
-  .imgLogo {
-    max-height: 26px;
-  }
+  // .imgLogo {
+  //   max-height: 26px;
+  // }
 }
 
 .sectionHIW {
@@ -294,4 +294,12 @@
       }
     }
   }
+}
+
+.sectionTitle {
+  color: var(--bs-gray-200);
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 0.25rem;
 }

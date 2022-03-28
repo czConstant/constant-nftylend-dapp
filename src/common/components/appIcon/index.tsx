@@ -17,7 +17,7 @@ const AppIcon = (props: AppIconProps) => {
 
   return (
     <div className={cx(className, styles.wrapper)} style={{ height }}>
-      <img alt="MyConstant" src={dark ? LogoDark : Logo} />
+      <img alt="NFTPawn" src={dark ? LogoDark : Logo} />
     </div>
   );
 };
