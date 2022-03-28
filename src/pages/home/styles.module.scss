@@ -23,6 +23,7 @@
     }
     .imgLogo {
       max-width: 80%;
+      max-height: none;
     }
   }
   .section {
@@ -112,7 +113,10 @@
     text-align: center;
     line-height: 22px;
     font-weight: bold;
-    margin-top: 50px;
+    margin-top: 25px;
+  }
+  .imgLogo {
+    max-height: 100px;
   }
   .groupButton {
     display: flex;
@@ -199,6 +203,9 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 1rem;
     margin-top: 2rem;
+  }
+  .imgLogo {
+    max-height: 26px;
   }
 }
 
