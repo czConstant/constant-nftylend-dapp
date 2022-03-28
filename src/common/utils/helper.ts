@@ -18,3 +18,8 @@ export const isUrl = (str: string) => {
   const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
   return regex .test(str);
 };
+
+export const isSameAddress = (a: string, b: string): boolean => {
+  if (!a) return false;
+  return a.toLowerCase() === b.toLowerCase();
+}

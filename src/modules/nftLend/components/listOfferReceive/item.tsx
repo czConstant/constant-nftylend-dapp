@@ -32,16 +32,22 @@ const Item = (props: ItemProps) => {
     dispatch(showLoadingOverlay());
     try {
       if (!offer.loan || !offer.loan.currency) throw new Error('Offer has no loan currency');
+      if (!offer.loan || !offer.loan.asset) throw new Error('Offer has no loan asset');
       const res = await acceptOffer({
+        asset_token_id: offer.loan.asset.token_id,
+        asset_contract_address: offer.loan.asset.contract_address,
         currency_contract_address: offer.loan.currency.contract_address,
         loan_data_address: offer.loan.data_loan_address,
         offer_data_address: offer.data_offer_address,
         currency_data_address: offer.data_currency_address,
         currency_decimals: offer.loan.currency.decimals,
+        borrower: offer.loan.owner,
         offer_owner: offer.lender,
         principal: offer.principal_amount,
         rate: offer.interest_rate * 10000,
         duration: offer.duration,
+        borrower_nonce: offer.loan.nonce,
+        lender_nonce: offer.nonce,
       });
       if (res?.txHash) {
         toastSuccess(
@@ -84,7 +90,7 @@ const Item = (props: ItemProps) => {
 
   if (
     status === "approved" &&
-    moment().isAfter(moment(offer.loan.offer_expired_at))
+    moment().isAfter(moment(offer.loan?.approved_offer?.expired_at))
   ) {
     status = "overdue";
   } else if (status === "done" && offer?.close_tx_hash) {

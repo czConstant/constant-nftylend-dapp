@@ -8,7 +8,7 @@ import {
   Transaction,
 } from '@solana/web3.js';
 
-import { getLendingProgramId, OFFER_INFO_LAYOUT } from './constants';
+import { OFFER_INFO_LAYOUT } from './constants';
 import { OrderNowInstruction } from './utils';
 import SolTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
@@ -25,7 +25,7 @@ export default class OrderNowTransaction extends SolTransaction {
     this.prepareRun();
     
     try {
-      const lendingProgramId = new PublicKey(getLendingProgramId());
+      const lendingProgramId = new PublicKey(this.lendingProgram);
       const borrower_usd_pubkey = new PublicKey(borrowerTokenAssociated);
       const borrower_pubkey = new PublicKey(borrowerAddress);
       const loan_id = new PublicKey(loanAddress);

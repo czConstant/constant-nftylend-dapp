@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
+import { isSameAddress } from 'src/common/utils/helper';
 
 export const OfferTableHeader = () => (
   <div className={styles.tbHeader}>
@@ -41,8 +42,10 @@ interface OfferRowProps {
 
 const OfferRow = (props: OfferRowProps) => {
   const { loan, offer, walletAddress, onCancel, onAccept } = props;
-  const isMyOffer = offer.lender === walletAddress;
-  const isMyLoan = loan.owner === walletAddress;
+
+  const isMyOffer = isSameAddress(offer.lender,walletAddress);
+  const isMyLoan = isSameAddress(loan.owner, walletAddress);
+  
   return (
     <div className={cx(styles.tbHeader, styles.tbBody)} key={offer?.id}>
       <div>
@@ -124,16 +127,23 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
     dispatch(showLoadingOverlay());
     try {
       if (!loan.currency) throw new Error('Loan has no currency');
+      if (!loan.asset) throw new Error('Loan has no asset');
+
       const res = await acceptOffer({
+        asset_token_id: loan.asset.token_id,
+        asset_contract_address: loan.asset.contract_address,
         currency_contract_address: loan.currency.contract_address,
         loan_data_address: loan.data_loan_address,
         offer_data_address: offer.data_offer_address,
         currency_data_address: offer.data_currency_address,
         currency_decimals: loan.currency.decimals,
+        borrower: loan.owner,
         offer_owner: offer.lender,
         principal: offer.principal_amount,
-        rate: offer.interest_rate * 10000,
+        rate: offer.interest_rate,
         duration: offer.duration,
+        borrower_nonce: loan.nonce,
+        lender_nonce: offer.nonce,
       });
       toastSuccess(
         <>

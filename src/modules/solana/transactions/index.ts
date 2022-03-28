@@ -3,15 +3,17 @@ import { Connection } from '@solana/web3.js';
 import axios from 'axios';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { getLinkSolScanTx } from '../utils';
+import { getLinkSolScanTx, getSolanaLendingProgramId } from '../utils';
 
 export default class SolTransaction {
   wallet: WalletContextState;
   connection: Connection;
+  lendingProgram: string;
 
   constructor(connection: Connection, wallet: WalletContextState) {
     this.connection = connection;
     this.wallet = wallet;
+    this.lendingProgram = getSolanaLendingProgramId();
   }
 
   prepareRun = async() => {

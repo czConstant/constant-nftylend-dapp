@@ -18,6 +18,7 @@ import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { useAppSelector } from 'src/store/hooks';
 import { selectNftyLend } from 'src/store/nftyLend';
+import { isSameAddress } from 'src/common/utils/helper';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -31,7 +32,7 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
 
   const userOffer: OfferData = loan.offers?.find(
     (v) =>
-      v.lender?.toString() === walletAddress &&
+      isSameAddress(v.lender?.toString(), walletAddress) &&
       v.status === "new"
   );
 

@@ -1,6 +1,7 @@
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
+import PayLoanEvmTransaction from 'src/modules/polygon/transactions/payLoan';
 import PayLoanTransaction from 'src/modules/solana/transactions/payLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { PayLoanParams, TransactionResult } from '../models/transaction';
@@ -39,9 +40,9 @@ const solTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
 }
 
 const polygonTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
-  // const transaction = new CancelLoanEvmTransaction();
-  // const res = await transaction.run(params.nonce);
-  // return res;
+  const transaction = new PayLoanEvmTransaction();
+  const res = await transaction.run(params.loan_data_address);
+  return res;
 }
 
 const payLoanTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {

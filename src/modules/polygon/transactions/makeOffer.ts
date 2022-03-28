@@ -1,12 +1,12 @@
 import { ethers } from 'ethers';
-import { customAlphabet } from 'nanoid';
 import web3 from 'web3';
 
-import { POLYGON_DELEND_PROGRAM } from 'src/common/constants/config';
-import NftyPawn from '../abi/NFTPawn.json';
+import IERC20 from '../abi/IERC20.json';
 
 import EvmTransaction from './index';
 import { ChainPolygonID } from 'src/common/constants/network';
+import api from 'src/common/services/apiClient';
+import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { generateNonce } from '../utils';
 
@@ -18,56 +18,44 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
     rate: number,
     assetContractAddress: string,
     currencyContractAddress: string,
-    borrower: string,
+    currencyDecimals: number,
     lender: string,
+    loanId: number,
     adminFee : number,
   ): Promise<TransactionResult> {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner(0);
-      const contract = new ethers.Contract(POLYGON_DELEND_PROGRAM, NftyPawn.abi, signer)
+      const contract = new ethers.Contract(currencyContractAddress, IERC20.abi, signer)
+      const tx = await contract.approve(this.lendingProgram, web3.utils.toWei('1000000', 'ether'));
+      const receipt = await tx.wait();
       
-      const res = await signer.resolveName(POLYGON_DELEND_PROGRAM);
-      const borrowerNonce = generateNonce();
-      const lenderNonce = generateNonce();
-
-      const borrowerMsg = web3.utils.soliditySha3(
-        assetTokenId,
-        borrowerNonce,
-        assetContractAddress,
-        borrower,
-        ChainPolygonID,
-      );
-      if (!borrowerMsg) throw new Error('Empty borrow message');
-      const borrowerSig = await signer.signMessage(borrowerMsg)
-
-      const lenderMsg = web3.utils.soliditySha3(
-        principal,
+      const nonce = generateNonce();
+      let lenderMsg = web3.utils.soliditySha3(
+        principal * 10 ** currencyDecimals,
         assetTokenId,
         duration,
-        rate,
+        rate * 10000,
         adminFee,
-        lenderNonce,
+        nonce,
         assetContractAddress,
         currencyContractAddress,
         lender,
         ChainPolygonID,
       );
-      if (!lenderMsg) throw new Error('Empty lender message');
-      const lenderSig = await signer.signMessage(lenderMsg);
-      const tx = await contract.beginLoan(
-        principal,
-        assetTokenId,
-        duration,
-        rate,
-        adminFee,
-        [borrowerNonce, lenderNonce],
-        assetContractAddress,
-        currencyContractAddress,
+      if (!lenderMsg) throw new Error('Empty borrow message');
+      const lenderSig = await signer.signMessage(lenderMsg)
+
+      await api.post(`${API_URL.NFT_LEND.CREATE_OFFER}/${loanId}`, {
         lender,
-        [borrowerSig, lenderSig],
-      );
-      return this.handleSuccess({ txHash: tx.hash });
+        principal_amount: principal,
+        interest_rate: rate,
+        duration,
+        signature: lenderSig,
+        nonce_hex: nonce,
+      });
+
+      return this.handleSuccess({ txHash: receipt.transactionHash });
     } catch (err) {
       return this.handleError(err);
     }

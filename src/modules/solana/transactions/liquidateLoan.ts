@@ -3,7 +3,6 @@ import { PublicKey, Transaction, SYSVAR_CLOCK_PUBKEY } from '@solana/web3.js';
 
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 
-import { getLendingProgramId } from './constants';
 import { LiquidateInstruction } from './utils';
 import SolTransaction from './index';
 
@@ -19,7 +18,7 @@ export default class LiquidateLoanTransaction extends SolTransaction {
     this.prepareRun();
 
     try {
-      const lendingProgramId = new PublicKey(getLendingProgramId());
+      const lendingProgramId = new PublicKey(this.lendingProgram);
       const nft_mint_pubkey = new PublicKey(nftMint);
       const borrower_pubkey = new PublicKey(borrowerPubkey);
 

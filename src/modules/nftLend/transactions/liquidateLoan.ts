@@ -1,6 +1,7 @@
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
+import LiquidateLoanEvmTransaction from 'src/modules/polygon/transactions/liquidateLoan';
 import LiquidateLoanTransaction from 'src/modules/solana/transactions/liquidateLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { LiquidateLoanParams, TransactionResult } from '../models/transaction';
@@ -33,9 +34,9 @@ const solTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> 
 }
 
 const polygonTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {
-  // const transaction = new CancelLoanEvmTransaction();
-  // const res = await transaction.run(params.nonce);
-  // return res;
+  const transaction = new LiquidateLoanEvmTransaction();
+  const res = await transaction.run(params.loan_data_address);
+  return res;
 }
 
 const liquidateLoanTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {

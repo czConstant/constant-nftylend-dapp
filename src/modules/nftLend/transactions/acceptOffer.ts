@@ -1,6 +1,7 @@
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
+import AcceptOfferEvmTransaction from 'src/modules/polygon/transactions/acceptOffer';
 import AcceptOfferTransaction from 'src/modules/solana/transactions/acceptOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { AcceptOfferParams, TransactionResult } from '../models/transaction';
@@ -36,19 +37,22 @@ const solTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> =>
 }
 
 const polygonTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {
-  // const transaction = new CreateLoanEvmTransaction();
-  // const res = await transaction.run(
-  //   String(params.asset_token_id),
-  //   params.asset_contract_address,
-  //   params.walletAddress,
-  //   {
-  //     principal: params.principal,
-  //     rate: params.rate / 100,
-  //     duration: params.duration * 86400,
-  //     currency_id: params.currency_id,
-  //   }
-  // );
-  // return res;
+  const transaction = new AcceptOfferEvmTransaction();
+  const res = await transaction.run(
+    params.principal,
+    params.asset_token_id,
+    params.duration * 86400,
+    params.rate,
+    params.asset_contract_address,
+    params.currency_contract_address,
+    params.currency_decimals,
+    params.borrower,
+    params.offer_owner,
+    params.borrower_nonce,
+    params.lender_nonce,
+    1,
+  );
+  return res;
 }
 
 const acceptOfferTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {

@@ -69,11 +69,11 @@ export class LoanNft {
     const network = data.new_loan?.network;
     const chain = network === 'SOL' ? Chain.Solana : Chain.Polygon;
     let loan = new LoanNft(chain);
-    loan.id = data.id;
     loan.seo_url = data.seo_url;
     loan.asset = parseNftFromLoanAsset(data, chain);
 
     if (data.new_loan)  {
+      loan.id = data.new_loan.id;
       loan.currency = data.new_loan.currency;
       loan.principal_amount = data.new_loan.principal_amount;
       loan.interest_rate = data.new_loan. interest_rate;

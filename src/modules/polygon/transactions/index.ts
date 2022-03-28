@@ -1,9 +1,11 @@
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { getLinkPolygonExplorer } from '../utils';
+import { getLinkPolygonExplorer, getPolygonLendingProgramId } from '../utils';
 
 export default class EvmTransaction {
+  lendingProgram;
+
   constructor() {
-  
+    this.lendingProgram = getPolygonLendingProgramId();
   }
 
   handleError = async (err: any): Promise<TransactionResult> => {

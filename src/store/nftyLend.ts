@@ -8,6 +8,8 @@ interface NftyLendState {
   walletChain: Chain;
   configs: {
     program_id: string,
+    matic_nftypawn_address: string,
+
   };
 }
 
@@ -17,6 +19,7 @@ const initialState: NftyLendState = {
   walletChain: Chain.None,
   configs: {
     program_id: '',
+    matic_nftypawn_address: '',
   },
 };
 

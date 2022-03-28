@@ -37,12 +37,13 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
         currency_contract_address: loan.currency.contract_address,
         currency_decimal: loan.currency.decimals,
         asset_contract_address: loan.asset.contract_address,
-        asset_token_id: loan.asset.id,
+        asset_token_id: loan.asset.token_id,
         loan_owner: loan.owner,
         lender: walletAddress,
         loan_data_address: loan.data_loan_address,
+        loan_id: loan.id,
         principal: values.amount,
-        rate: values.rate,
+        rate: values.rate / 100,
         duration: values.duration?.id || values.duration,
       });
       toastSuccess(

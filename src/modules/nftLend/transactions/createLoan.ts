@@ -39,7 +39,7 @@ const solTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => 
     currencyAssociated,
     {
       principal: params.principal * 10 ** params.currency_decimal,
-      rate: params.rate * 100,
+      rate: params.rate * 10000,
       duration: params.duration * 86400,
     }
   );
@@ -49,15 +49,13 @@ const solTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => 
 const polygonTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => {
   const transaction = new CreateLoanEvmTransaction();
   const res = await transaction.run(
-    String(params.asset_token_id),
+    params.asset_token_id,
     params.asset_contract_address,
     params.walletAddress,
-    {
-      principal: params.principal,
-      rate: params.rate / 100,
-      duration: params.duration * 86400,
-      currency_id: params.currency_id,
-    }
+    params.principal,
+    params.rate,
+    params.duration * 86400,
+    params.currency_id,
   );
   return res;
 }

@@ -1,11 +1,7 @@
-import { Chain } from 'src/common/constants/network';
-import { PolygonNft } from 'src/modules/polygon/models/polygonNft';
-import { SolanaNft } from 'src/modules/solana/models/solanaNft';
-import { LoanData, LoanDataAsset } from './api';
 import { CollectionNft } from './collection';
 
 export abstract class AssetNft {
-  id: string;
+  id: number = -1;
   token_id: string = '';
   contract_address: string = '';
   name: string = '';
@@ -18,16 +14,12 @@ export abstract class AssetNft {
   origin_contract_network: string = '';
   origin_contract_address: string = '';
 
-  constructor() {
-    this.id = '';
-  }
-
   abstract needFetchDetail(): boolean;
   abstract getLinkExplorer(address?: string): string;
 
   fetchDetail() { };
 
-  isEmpty(): boolean { return this.id === ''; }
+  isEmpty(): boolean { return this.id === -1; }
 }
 
 export interface AssetNftDetail {

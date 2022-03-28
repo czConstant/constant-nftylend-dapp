@@ -1,7 +1,6 @@
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { PublicKey, Transaction } from '@solana/web3.js';
 
-import { getLendingProgramId } from './constants';
 import { CloseOfferInstruction } from './utils';
 import SolTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
@@ -15,7 +14,7 @@ export default class CloseOfferTransaction extends SolTransaction {
     this.prepareRun();
     
     try {
-      const lendingProgramId = new PublicKey(getLendingProgramId());
+      const lendingProgramId = new PublicKey(this.lendingProgram);
       const offer_id = new PublicKey(offerDataAddress);
       const pda_token_account = new PublicKey(pdaTokenAccount);
       const lender_token_account_pubkey = new PublicKey(lenderUsdAssociated);

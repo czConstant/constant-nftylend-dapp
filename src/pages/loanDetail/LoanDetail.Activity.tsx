@@ -19,6 +19,8 @@ import {
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { LOAN_TRANSACTION_ACTIVITY } from "src/modules/nftLend/constant";
+import { useAppSelector } from 'src/store/hooks';
+import { selectNftyLend } from 'src/store/nftyLend';
 
 const TableHeader = () => (
   <div className={cx(styles.tbHeader, styles.activityWrapBody)}>
@@ -187,10 +189,15 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan, asset }) => {
   };
 
   const renderActivityContent = () => {
+    const _results: ItemActivityModel[] = sortBy(
+      activities?.concat(sales),
+      ["created_at"]
+    ).reverse();
+
     return (
       <>
         <TableHeader />
-        <TableBody results={results} />
+        <TableBody results={_results} />
       </>
     );
   };

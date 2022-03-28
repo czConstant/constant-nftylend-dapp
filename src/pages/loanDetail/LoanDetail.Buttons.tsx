@@ -16,6 +16,7 @@ import LoanDetailMakeOffer from './makeOffer';
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { Chain } from 'src/common/constants/network';
+import { isSameAddress } from 'src/common/utils/helper';
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const [orderPicking, setOrderPicking] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const isOwner = walletAddress === loan.owner;
+  const isOwner = isSameAddress(walletAddress, loan.owner);
 
   const onMakeOffer = async () => {
     const close = () =>

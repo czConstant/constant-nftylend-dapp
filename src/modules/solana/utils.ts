@@ -5,8 +5,13 @@ import BigNumber from 'bignumber.js';
 import moment from 'moment-timezone';
 
 import { SOL_CLUSTER } from '../../common/constants/config';
+import store from 'src/store';
 
 const toPubkey = (key: PublicKey | string) => typeof(key) === 'string' ? new PublicKey(key) : key;
+
+export const getSolanaLendingProgramId = () => {
+  return store.getState().nftyLend.configs.program_id;
+};
 
 export const getLinkSolScanTx = (txHash?: string) => `https://solscan.io/tx/${txHash}?cluster=${SOL_CLUSTER}`;
 export const getLinkSolScanAccount = (address?: string) => `https://solscan.io/account/${address}?cluster=${SOL_CLUSTER}`;

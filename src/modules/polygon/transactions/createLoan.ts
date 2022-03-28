@@ -1,8 +1,6 @@
 import { ethers } from 'ethers';
 import web3 from 'web3';
 
-import { POLYGON_DELEND_PROGRAM } from 'src/common/constants/config';
-import { CreateLoanInfo } from 'src/modules/nftLend/transactions/createLoan';
 import IERC721 from '../abi/IERC721.json';
 
 import EvmTransaction from './index';
@@ -17,7 +15,10 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
     nftTokenId: string,
     nftContractAddress: string,
     ownerAddress: string,
-    loanInfo: CreateLoanInfo,
+    principal: number,
+    rate: number,
+    duration: number,
+    currencyId: number,
   ): Promise<TransactionResult> {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -25,7 +26,7 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
       const contract = new ethers.Contract(nftContractAddress, IERC721.abi, signer)
       let txHash = '';
       if (!contract.isApprovedForAll()) {
-        const tx = await contract.setApprovalForAll(POLYGON_DELEND_PROGRAM, true);
+        const tx = await contract.setApprovalForAll(this.lendingProgram, true);
         const receipt = await tx.wait();
         txHash = receipt.transactionHash;
       }
@@ -33,7 +34,7 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
       const borrowerMsg = web3.utils.soliditySha3(
         nftTokenId,
         nonce,
-         nftContractAddress,
+        nftContractAddress,
         ownerAddress,
         ChainPolygonID
       );
@@ -43,10 +44,10 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
       await api.post(API_URL.NFT_LEND.CREATE_LOAN, {
         chain: Chain.Polygon.toString(),
         borrower: ownerAddress,
-        currency_id: loanInfo.currency_id,
-        principal_amount: loanInfo.principal,
-        interest_rate: loanInfo.rate,
-        duration: loanInfo.duration,
+        currency_id: currencyId,
+        principal_amount: principal,
+        interest_rate: rate,
+        duration: duration,
         contract_address: nftContractAddress,
         token_id: nftTokenId,
         signature: borrowerSig,

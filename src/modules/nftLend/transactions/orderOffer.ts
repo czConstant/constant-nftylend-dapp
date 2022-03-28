@@ -35,27 +35,9 @@ const solTx = async (params: OrderOfferTxParams): Promise<TransactionResult> => 
   return res;
 }
 
-const polygonTx = async (params: OrderOfferTxParams): Promise<TransactionResult> => {
-  // const transaction = new CreateLoanEvmTransaction();
-  // const res = await transaction.run(
-  //   String(params.asset_token_id),
-  //   params.asset_contract_address,
-  //   params.walletAddress,
-  //   {
-  //     principal: params.principal,
-  //     rate: params.rate / 100,
-  //     duration: params.duration * 86400,
-  //     currency_id: params.currency_id,
-  //   }
-  // );
-  // return res;
-}
-
 const orderOfferTx = async (params: OrderOfferTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
-  } else if (params.chain === Chain.Polygon) {
-    return polygonTx(params);
   }
   throw new Error('Chain not supported');
 };

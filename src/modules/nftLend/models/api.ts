@@ -69,6 +69,7 @@ export interface LoanData {
 export interface LoanDataAsset {
   id: number;
   name: string;
+  token_id: string;
   contract_address: string;
   collection?: CollectionData;
   token_url: string;
@@ -95,5 +96,5 @@ export interface OfferData {
   updated_at: string;
   accept_tx_hash: string;
   close_tx_hash: string;
-  nonce: string;
+  nonce_hex: string;
 }

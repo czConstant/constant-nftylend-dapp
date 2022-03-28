@@ -30,6 +30,7 @@ export interface MakeOfferParams {
   loan_owner: string;
   lender: string;
   loan_data_address: string;
+  loan_id: number;
   principal: number;
   rate: number;
   duration: number;
@@ -52,15 +53,20 @@ export interface CancelOfferParams {
 }
 
 export interface AcceptOfferParams {
+  asset_token_id: string;
+  asset_contract_address: string;
   currency_contract_address: string;
   loan_data_address: string;
   offer_data_address: string;
   currency_data_address: string;
   currency_decimals: number;
+  borrower: string;
   offer_owner: string;
   principal: number;
   rate: number;
   duration: number;
+  borrower_nonce: string;
+  lender_nonce: string;
 }
 
 export interface LiquidateLoanParams {

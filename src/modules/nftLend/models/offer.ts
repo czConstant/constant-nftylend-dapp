@@ -50,7 +50,7 @@ export class OfferToLoan {
         offer.started_at = data.loan.offer_started_at;
       }
     }
-    offer.nonce = data.nonce;
+    offer.nonce = data.nonce_hex;
 
     return offer;
   }
