@@ -15,7 +15,7 @@ interface LoadingProps {
 }
 
 const Loading = (props: LoadingProps) => {
-  const { height = 25, dark, className } = props;
+  const { height = 30, dark = true, className } = props;
   let src = dark ? darkDesktopLoading : lightDesktopLoading;
 
   return (
