@@ -1,6 +1,12 @@
 .noPadding {
   padding: 0;
 }
+.modalContent {
+  border: none;
+}
+.modalBody {
+  padding: 0;
+}
 .modalDark {
   background-color: var(--bs-gray-dark);
   color: #fcfcfd;

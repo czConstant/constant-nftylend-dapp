@@ -33,6 +33,11 @@ import { getNftListCurrency } from "src/modules/nftLend/api";
 import { Currency } from "src/modules/nftLend/models/api";
 import { useLocation } from "react-router-dom";
 import { isMobile } from "react-device-detect";
+import ButtonDisconnectWallet from 'src/common/components/buttonDisconnectWallet';
+import { useAppSelector } from 'src/store/hooks';
+import { selectNftyLend } from 'src/store/nftyLend';
+import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
+import { getLinkExplorerWallet } from 'src/modules/nftLend/utils';
 
 export const TABS = {
   owned: "my-assets",
@@ -45,6 +50,8 @@ export const TABS = {
 const MyAsset = () => {
   const { connection } = useConnection();
   const { publicKey, connected } = useWallet();
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const walletChain = useAppSelector(selectNftyLend).walletChain;
 
   const location = useLocation();
 
@@ -89,18 +96,18 @@ const MyAsset = () => {
                 alt="Avatar"
               />
             </div>
-            {connected && publicKey ? (
+            {walletAddress ? (
               <>
                 <div className={styles.addressWrap}>
                   <a
                     target="_blank"
-                    href={`${getLinkSolScanAccount(publicKey.toString())}`}
+                    href={getLinkExplorerWallet(walletAddress, walletChain)}
                   >
-                    {shortCryptoAddress(publicKey?.toString(), 10)}
+                    {shortCryptoAddress(walletAddress, 10)}
                   </a>
                   <CopyToClipboard
                     onCopy={() => toastSuccess("Copied address!")}
-                    text={publicKey?.toString()}
+                    text={walletAddress}
                   >
                     <i className="far fa-copy" />
                   </CopyToClipboard>
@@ -117,20 +124,10 @@ const MyAsset = () => {
                     </div>
                   ))}
                 </div>
-                <div className={styles.connectButtonWrap}>
-                  <WalletModalProvider>
-                    <WalletDisconnectButton
-                      className={cx(
-                        styles.connectButton,
-                        styles.disconnectButton
-                      )}
-                    />
-                  </WalletModalProvider>
-                </div>
               </>
             ) : (
               <div className={styles.connectButtonWrap}>
-                <ButtonSolWallet className={styles.connectButton} />
+                <ButtonConnectWallet className={styles.connectButton} />
               </div>
             )}
           </div>

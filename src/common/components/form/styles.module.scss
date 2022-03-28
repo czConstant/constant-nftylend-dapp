@@ -1,7 +1,9 @@
 .inputWrapper {
   position: relative;
   margin-bottom: 20px;
+  color: #2d2d2d;
   &.inputWrapperDark {
+    color: white;
     input {
       background-color: var(--bs-gray-dark);
       color: white !important;
@@ -16,20 +18,25 @@
       padding: 0px 2px;
       background-color: var(--bs-gray-dark);
     }
-    :global .dropdown-menu.show {
-      background-color: var(--bs-gray);
-      a {
-        color: white !important;
-        &:hover {
-          background-color: var(--bs-gray-dark);
-        }
-        span {
-          color: var(--bs-gray-400);
-        }
+    :global {
+      .dropdown-toggle {
+        color: white;
       }
-      input {
-        background-color: var(--bs-gray-dark) !important;
-        color: white !important;
+      .dropdown-menu.show {
+        background-color: var(--bs-gray);
+        a {
+          color: white !important;
+          &:hover {
+            background-color: var(--bs-gray-dark);
+          }
+          span {
+            color: var(--bs-gray-400);
+          }
+        }
+        input {
+          background-color: var(--bs-gray-dark) !important;
+          color: white !important;
+        }
       }
     }
   }
@@ -91,7 +98,6 @@
       background: transparent;
       font-size: 15px;
       font-weight: 600;
-      color: #2d2d2d;
       text-align: left;
       padding: 0px 20px;
       outline: none;
@@ -113,7 +119,6 @@
       }
       &::after {
         font-family: "Font Awesome 5 Pro";
-        color: #000;
         font-weight: 600;
         content: "\f0d7";
         // content: url('../caret_down.svg');
@@ -128,11 +133,6 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-      }
-      &:active,
-      &:hover,
-      &:focus {
-        color: #495057;
       }
     }
     :global .dropdown-menu.show {

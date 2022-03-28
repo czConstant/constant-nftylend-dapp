@@ -3,7 +3,9 @@ import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
 import { getNftsByOwner } from '../polygon/api';
 import { PolygonNft } from '../polygon/models/polygonNft';
+import { getLinkPolygonExplorer } from '../polygon/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
+import { getLinkSolScanAccount } from '../solana/utils';
 import { LoanDataAsset } from './models/api';
 import { AssetNft } from './models/nft';
 
@@ -33,4 +35,13 @@ export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
   if (chain === Chain.Polygon)
     return PolygonNft.parseFromLoanAsset(asset);
   throw new Error(`Chain ${chain} is not supported`);
+}
+
+export function getLinkExplorerWallet(address: string, chain: Chain) {
+  switch (chain) {
+    case Chain.Solana:
+      return getLinkSolScanAccount(address);
+    case Chain.Polygon:
+      return getLinkPolygonExplorer(address);
+  }
 }

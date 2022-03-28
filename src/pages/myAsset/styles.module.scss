@@ -155,6 +155,8 @@
         border-radius: 30px;
       }
       .disconnectButton {
+        color: white;
+        font-weight: 500;
         background-color: var(--bs-red);
       }
       .shareButton {
@@ -232,6 +234,7 @@
     }
   }
   i {
+    cursor: pointer;
     color: var(--bs-blue);
   }
 }

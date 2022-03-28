@@ -7,11 +7,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import store from 'src/store';
 import 'src/common/styles/index.module.scss';
 import App from './App';
+import { SolanaWalletProvider } from './modules/solana/hooks/withWalletProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <SolanaWalletProvider>
+        <App />
+      </SolanaWalletProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

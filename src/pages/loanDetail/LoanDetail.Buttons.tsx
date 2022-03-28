@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import Loading from "src/common/components/loading";
-import { LoanDetailProps } from "./LoanDetail.Header";
-import styles from "./styles.module.scss";
 import cx from "classnames";
+import { Link, useNavigate } from "react-router-dom";
+
+import Loading from "src/common/components/loading";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { closeModal, openModal } from "src/store/modal";
-import ButtonSolWallet from "src/common/components/buttonSolWallet";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import { requestReload, selectNftyLend } from "src/store/nftyLend";
-import { Link, useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
-import { TABS } from "../myAsset";
-import LoanDetailMakeOffer from './makeOffer';
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { Chain } from 'src/common/constants/network';
 import { isSameAddress } from 'src/common/utils/helper';
+import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
+
+import { LoanDetailProps } from "./LoanDetail.Header";
+import styles from "./styles.module.scss";
+import { TABS } from "../myAsset";
+import LoanDetailMakeOffer from './makeOffer';
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
@@ -44,7 +46,6 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
         id: "createLoanModal",
         modalProps: {
           centered: true,
-          dialogClassName: "modal-no-padding",
           backdrop: "static",
         },
         render: () => (
@@ -151,7 +152,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   if (!walletAddress) {
     return (
       <div className={styles.groupOfferButtons}>
-        <ButtonSolWallet className={styles.btnConnect} />
+        <ButtonConnectWallet className={styles.btnConnect} />
       </div>
     );
   }

@@ -140,8 +140,6 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
         id: "createLoanModal",
         modalProps: {
           centered: true,
-          dialogClassName: "modal-no-padding",
-          padding: 0,
           contentClassName: styles.modalContent,
         },
         render: () => <ModalCreateLoan onClose={close} navigate={navigate} onCallBack={onCallBack} />,

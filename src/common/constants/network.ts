@@ -5,6 +5,7 @@ export enum Chain {
   None = '',
   Solana = 'SOL',
   Polygon = 'MATIC',
+  Avalanche = 'AVAX',
 };
 
 export const ChainPolygonID = APP_CLUSTER === 'mainnet' ? '' : 80001;

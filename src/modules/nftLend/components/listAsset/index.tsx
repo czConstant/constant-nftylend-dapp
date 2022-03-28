@@ -36,7 +36,7 @@ const ListAsset = () => {
     const close = () => dispatch(closeModal({ id: 'createLoanModal' }));
     dispatch(openModal({
       id: 'createLoanModal',
-      modalProps: { centered: true, backdrop: 'static', padding: 0 },
+      modalProps: { centered: true, backdrop: 'static' },
       render: () => <CreateLoan asset={nftToken} onClose={close} />,
       theme: 'dark',
       title: 'Create Loan'

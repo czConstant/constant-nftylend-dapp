@@ -1,3 +1,44 @@
 .connectWallet {
-  
+  padding: 20px 40px;
+  background-color: #1C1C1F;
+  color: #FCFCFD;
+  h2 {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .content {
+    .listNetwork {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      .network {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px 20px;
+        img {
+          width: 80px;
+          height: 80px;
+          border-radius: 40px;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+  :global .wallet-adapter-dropdown{
+    display: none;;
+  }
+}
+
+.solButton {
+  &, &:hover {
+    // display: none;
+    background: none !important;
+    border: none;
+    width: unset;
+    height: unset;
+    line-height: unset;
+    filter: none !important;
+  }
 }

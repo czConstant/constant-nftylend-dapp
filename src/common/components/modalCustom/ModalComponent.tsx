@@ -1,16 +1,9 @@
 import cx from "classnames";
-import { Modal } from "react-bootstrap";
 
 import { useAppDispatch } from "src/store/hooks";
 import { closeModal } from "src/store/modal";
 
 import styles from "./styles.module.scss";
-
-interface ModalProps {
-  dialogClassName?: string;
-  contentClassName?: string;
-  padding?: number;
-}
 
 export interface ModalComponentProps {
   id: string;
@@ -18,13 +11,12 @@ export interface ModalComponentProps {
   title?: string | object;
   className?: string;
   actions?: object;
-  modalProps?: ModalProps;
   onClose?: Function;
   theme?: "light" | "dark";
 }
 
 const ModalComponent = (props: ModalComponentProps) => {
-  const { id, render, title, className, actions, modalProps, onClose, theme = 'dark' } =
+  const { id, render, className, title, actions, onClose, theme = 'dark' } =
     props;
   const dispatch = useAppDispatch();
 
@@ -33,16 +25,14 @@ const ModalComponent = (props: ModalComponentProps) => {
     if (onClose) onClose(props);
   };
 
-  const renderHeader = () => {
-    return title ? (
-      <Modal.Header closeButton>
-        <Modal.Title>{title}</Modal.Title>
-      </Modal.Header>
-    ) : null;
-  };
-
   return (
-    <div className={cx(styles.dialog, styles[theme], className)}>
+    <div className={cx(styles.modalDialog, styles[theme], className)}>
+      {title && (
+        <div className={styles.header}>
+          <div>{title}</div>
+          <i className="fal fa-times" onClick={handleClose} />
+        </div>
+      )}
       {render(actions)}
     </div>
   );
