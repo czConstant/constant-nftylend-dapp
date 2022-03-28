@@ -84,7 +84,7 @@ const Home = () => {
       className={cx(isMobile && styles.mobileWrapper, styles.wrapper)}
     >
       <section className={cx(styles.section, styles.sectionBG)}>
-        <img alt="NFTy Lend" src={imgTitle} className={styles.imgLogo} />
+        <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
         <h2>The leading of NFTs Lending platform</h2>
         <p>
           The first marketplace for NFTs P2P Lending. The fastest way to liquid
@@ -99,14 +99,14 @@ const Home = () => {
         </div>
       </section>
       <section className={cx(styles.section)}>
-        <img alt="NFTy Lend" src={imgTitle} className={styles.imgLogo} />
-        <h1>What is NFTy Lend?</h1>
+        <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
+        <h1>What is NFT Pawn?</h1>
         <p>
           NFT Pawn is an autonomous P2P lending marketplace powered by smart
           contracts.
         </p>
         <div className={styles.bgWhatNFTy}>
-          <img alt="NFTy Lend" src={imgWhatNFTy} />
+          <img alt="NFT Pawn" src={imgWhatNFTy} />
         </div>
       </section>
       <section className={cx(styles.section, styles.sectionHIW)}>
@@ -117,11 +117,11 @@ const Home = () => {
           smart contracts handle the rest.
         </p>
         <div className={styles.bgHowItWork}>
-          <img alt="NFTy Lend" src={imgHowItWork} />
+          <img alt="NFT Pawn" src={imgHowItWork} />
         </div>
       </section>
       <section className={cx(styles.section)}>
-        <img alt="NFTy Lend" src={imgTitle} className={styles.imgLogo} />
+        <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
         <h1>Press</h1>
         {/* <p>Our smart contracts handle the rest.</p> */}
         <div className={styles.wrapPartner}>
@@ -134,8 +134,8 @@ const Home = () => {
       </section>
       <section className={cx(styles.section)}>
         <div className={styles.sectionBgOurPartner}>
-          {/* <img alt="NFTy Lend" src={imgTitle3} /> */}
-          <img alt="NFTy Lend" src={imgTitle} className={styles.imgLogo} />
+          {/* <img alt="NFT Pawn" src={imgTitle3} /> */}
+          <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
           <h1>Partners</h1>
           <div className={styles.wrapPartner}>
             {logoPartners.map((v) => (
