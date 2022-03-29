@@ -45,7 +45,7 @@ export const getAssociatedAccount = async (publicKey: PublicKey | string, tokenM
   }
 };
 
-export const getBalanceToken = async (connection: Connection, publicKey: PublicKey | string, tokenMint: PublicKey | string) => {
+export const getBalanceSolToken = async (connection: Connection, publicKey: PublicKey | string, tokenMint: PublicKey | string) => {
   try {
     let addresses = await PublicKey.findProgramAddress(
       [toPubkey(publicKey).toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), toPubkey(tokenMint).toBuffer()],

@@ -25,7 +25,7 @@ export class CollectionNft {
     collection.total_listed = item.total_listed;
     collection.total_volume = item.total_volume;
     if (item.listing_asset) {
-      collection.listing_asset = parseNftFromLoanAsset(item.listing_asset, chain || Chain.Solana);
+      collection.listing_asset = parseNftFromLoanAsset(item.listing_asset, chain || Chain.None);
     }
     return collection;
   }

@@ -5,7 +5,7 @@ import { getNftsByOwner } from '../evm/api';
 import { PolygonNft } from '../evm/models/evmNft';
 import { getLinkPolygonExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
-import { getLinkSolScanAccount } from '../solana/utils';
+import { getBalanceSolToken, getLinkSolScanAccount } from '../solana/utils';
 import { LoanDataAsset } from './models/api';
 import { AssetNft } from './models/nft';
 

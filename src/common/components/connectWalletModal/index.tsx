@@ -84,7 +84,7 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
     <div className={styles.connectWallet}>
       <h2>Connect wallet</h2>
       <div className={styles.content}>
-        <div>Choose network</div>
+        <div className={styles.step}>Choose network</div>
         <div className={styles.listNetwork}>
           {NETWORKS.map(e => (
             <div key={e.chain} className={styles.network} onClick={() => onSelect(e)}>

@@ -1,12 +1,10 @@
-import { NftID } from './nft';
-
 export interface TransactionResult {
   txHash: string;
   txExplorerUrl: string;
 }
 
 export interface CreateLoanParams {
-  asset_token_id: NftID;
+  asset_token_id: string;
   asset_contract_address: string;
   currency_contract_address: string;
   currency_decimal: number,
@@ -23,7 +21,7 @@ export interface CancelLoanParams {
 }
 
 export interface MakeOfferParams {
-  currency_contract_address: NftID;
+  currency_contract_address: string;
   currency_decimal: number,
   asset_contract_address: string;
   asset_token_id: string,
@@ -37,7 +35,7 @@ export interface MakeOfferParams {
 }
 
 export interface OrderOfferParams {
-  currency_contract_address: NftID;
+  currency_contract_address: string;
   currency_decimal: number;
   loan_owner: string;
   loan_data_address: string;

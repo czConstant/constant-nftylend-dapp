@@ -4,7 +4,6 @@ import { Chain } from 'src/common/constants/network';
 import CloseOfferTransaction from 'src/modules/solana/transactions/closeOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { CloseOfferParams, TransactionResult } from '../models/transaction';
-import { isEvmChain } from '../utils';
 
 interface CloseOfferTxParams extends CloseOfferParams {
   chain: Chain;
@@ -30,27 +29,9 @@ const solTx = async (params: CloseOfferTxParams): Promise<TransactionResult> => 
   return res;
 }
 
-const evmTx = async (params: CloseOfferTxParams): Promise<TransactionResult> => {
-  // const transaction = new CreateLoanEvmTransaction();
-  // const res = await transaction.run(
-  //   String(params.asset_token_id),
-  //   params.asset_contract_address,
-  //   params.walletAddress,
-  //   {
-  //     principal: params.principal,
-  //     rate: params.rate / 100,
-  //     duration: params.duration * 86400,
-  //     currency_id: params.currency_id,
-  //   }
-  // );
-  // return res;
-}
-
 const closeOfferTx = async (params: CloseOfferTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
-  } else if (isEvmChain(params.chain)) {
-    return evmTx(params);
   }
   throw new Error('Chain not supported');
 };

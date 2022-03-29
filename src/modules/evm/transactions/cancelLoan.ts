@@ -13,6 +13,7 @@ export default class CancelLoanEvmTransaction extends EvmTransaction {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner(0);
       const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer)
+      console.log("🚀 ~ file: cancelLoan.ts ~ line 16 ~ CancelLoanEvmTransaction ~ this.lendingProgram", this.lendingProgram)
       const tx = await contract.cancelLoanCommitmentBeforeLoanHasBegun(nonce);
       const receipt = await tx.wait();
 

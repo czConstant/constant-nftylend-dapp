@@ -21,7 +21,6 @@ export default function App() {
   const wallet = useWallet();
   
   useEffect(() => {
-    console.log("🚀 ~ file: App.tsx ~ line 25 ~ useEffect ~ wallet?.publicKey", wallet?.publicKey)
     if (wallet?.publicKey) dispatch(updateWallet({ address: wallet.publicKey.toString(), network: Chain.Solana }));
     else if (walletChain === Chain.Solana) dispatch(clearWallet());
   }, [wallet.publicKey]);
