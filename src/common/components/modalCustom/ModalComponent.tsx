@@ -16,8 +16,7 @@ export interface ModalComponentProps {
 }
 
 const ModalComponent = (props: ModalComponentProps) => {
-  const { id, render, className, title, actions, onClose, theme = 'dark' } =
-    props;
+  const { id, render, className, title, actions, onClose, theme = 'dark' } = props;
   const dispatch = useAppDispatch();
 
   const handleClose = () => {

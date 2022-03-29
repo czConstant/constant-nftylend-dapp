@@ -1,35 +1,13 @@
-import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
-import { Connection } from '@solana/web3.js';
 import moment from 'moment-timezone';
 import BigNumber from 'bignumber.js';
 
 import { Chain } from 'src/common/constants/network';
-import { getNftsByOwner } from '../evm/api';
 import { PolygonNft } from '../evm/models/evmNft';
 import { getLinkPolygonExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
 import { getLinkSolScanAccount } from '../solana/utils';
 import { LoanDataAsset } from './models/api';
 import { AssetNft } from './models/nft';
-
-export async function fetchNftsByOwner(address: string, chain: Chain, solConnection?: Connection): Promise<Array<AssetNft>> {
-  let assets = [];
-  if (chain === Chain.Solana) {
-    const res = await getParsedNftAccountsByOwner({ publicAddress: address, connection: solConnection });
-    assets = res.map(e => {
-      const nft = SolanaNft.parse(e);
-      return nft;
-    });
-  } else {
-    const res = await getNftsByOwner(address, chain);
-    assets = res.result.map((e: any) => {
-      const nft = PolygonNft.parse(e);
-      nft.owner = address;
-      return nft;
-    });
-  }
-  return assets;
-}
 
 export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
   if (!asset) throw new Error('Loan has no asset');

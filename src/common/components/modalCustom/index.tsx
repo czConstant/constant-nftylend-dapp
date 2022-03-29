@@ -26,7 +26,6 @@ const ModalManager = () => {
             title={modal.title}
             render={modal.render}
             className={modal.className}
-            modalProps={modal.modalProps}
             onClose={modal.onClose}
             theme={modal.theme}
           />
