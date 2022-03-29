@@ -57,6 +57,7 @@ export interface LoanData {
   network: string;
   owner: string;
   nonce_hex: string;
+  signature: string;
   status: string;
   created_at: string;
   updated_at: string;
@@ -98,4 +99,5 @@ export interface OfferData {
   accept_tx_hash: string;
   close_tx_hash: string;
   nonce_hex: string;
+  signature: string;
 }

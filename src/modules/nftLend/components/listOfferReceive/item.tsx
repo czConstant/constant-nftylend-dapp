@@ -41,13 +41,15 @@ const Item = (props: ItemProps) => {
         offer_data_address: offer.data_offer_address,
         currency_data_address: offer.data_currency_address,
         currency_decimals: offer.loan.currency.decimals,
-        borrower: offer.loan.owner,
-        offer_owner: offer.lender,
         principal: offer.principal_amount,
-        rate: offer.interest_rate * 10000,
+        rate: offer.interest_rate,
         duration: offer.duration,
+        borrower: offer.loan.owner,
         borrower_nonce: offer.loan.nonce,
+        borrower_signature: offer.loan.signature,
+        lender: offer.lender,
         lender_nonce: offer.nonce,
+        lender_signature: offer.signature,
       });
       if (res?.txHash) {
         toastSuccess(

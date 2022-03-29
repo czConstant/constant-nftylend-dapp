@@ -21,6 +21,7 @@ export class OfferToLoan {
   close_tx_hash: string = '';
   chain: Chain;
   nonce: string = '';
+  signature: string = '';
   expired_at: string = '';
   started_at: string = '';
 
@@ -51,6 +52,7 @@ export class OfferToLoan {
       }
     }
     offer.nonce = data.nonce_hex;
+    offer.signature = data.signature;
 
     return offer;
   }

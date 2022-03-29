@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 
 import { customAlphabet } from 'nanoid';
 import { APP_CLUSTER } from 'src/common/constants/config';
+import { Chain, ChainAvalancheID, ChainPolygonID } from 'src/common/constants/network';
 import store from 'src/store';
 import IERC721 from './abi/IERC20.json';
 
@@ -21,4 +22,15 @@ export const getEvmBalance = async (owner: string, contractAddress: string): Pro
   const signer = provider.getSigner(0);
   const contract = new ethers.Contract(contractAddress, IERC721.abi, signer);
   return contract.balanceOf(owner);
+}
+
+export const getChainIdByChain = (chain: Chain) => {
+  switch (chain) {
+    case Chain.Polygon:
+      return ChainPolygonID;
+    case Chain.Avalanche:
+      return ChainAvalancheID;
+    default:
+      throw new Error(`Chain ${chain} is not supported`);
+  }
 }

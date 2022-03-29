@@ -4,11 +4,10 @@ import web3 from 'web3';
 import IERC20 from '../abi/IERC20.json';
 
 import EvmTransaction from './index';
-import { ChainPolygonID } from 'src/common/constants/network';
 import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { generateNonce } from '../utils';
+import { generateNonce, getChainIdByChain } from '../utils';
 
 export default class MakeOfferEvmTransaction extends EvmTransaction {
   async run(
@@ -41,7 +40,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         assetContractAddress,
         currencyContractAddress,
         lender,
-        ChainPolygonID,
+        getChainIdByChain(this.chain),
       );
       if (!lenderMsg) throw new Error('Empty borrow message');
       const lenderSig = await signer.signMessage(lenderMsg)

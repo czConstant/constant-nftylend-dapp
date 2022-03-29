@@ -37,7 +37,7 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
   }, [walletAddress]);
 
   useEffect(() => {
-    if (wallet?.publicKey) dispatch(updateWallet({ address: wallet.publicKey.toString(), network: Chain.Solana }));
+    if (wallet?.publicKey) dispatch(updateWallet({ address: wallet.publicKey.toString(), chain: Chain.Solana }));
     else if (walletChain === Chain.Solana) dispatch(clearWallet());
   }, [wallet.publicKey]);
 
@@ -65,7 +65,7 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
 
       const provider = new ethers.providers.Web3Provider(instance);
       const accounts = await provider.listAccounts();
-      dispatch(updateWallet({ address: accounts[0], network: e.chain }));
+      dispatch(updateWallet({ address: accounts[0], chain: e.chain }));
       onClose();
     }
   };

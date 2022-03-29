@@ -17,40 +17,20 @@ export default class AcceptOfferEvmTransaction extends EvmTransaction {
     currencyContractAddress: string,
     currencyDecimals: number,
     borrower: string,
-    lender: string,
     borrowerNonce: string,
+    borrowerSignature: string,
+    lender: string,
     lenderNonce: string,
-    adminFee : number,
+    lenderSignature: string,
   ): Promise<TransactionResult> {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner(0);
       const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer)
       
-      const borrowerMsg = web3.utils.soliditySha3(
-        assetTokenId,
-        borrowerNonce,
-        assetContractAddress,
-        borrower,
-        ChainPolygonID,
-      );
-      if (!borrowerMsg) throw new Error('Empty borrow message');
-      const borrowerSig = await signer.signMessage(borrowerMsg)
-      const lenderMsg = web3.utils.soliditySha3(
-        principal * 10 ** currencyDecimals,
-        assetTokenId,
-        duration,
-        rate * 10000,
-        adminFee,
-        lenderNonce,
-        assetContractAddress,
-        currencyContractAddress,
-        lender,
-        ChainPolygonID,
-      );
-      if (!lenderMsg) throw new Error('Empty lender message');
-      const lenderSig = await signer.signMessage(lenderMsg);
-      console.log("🚀 ~ file: acceptOffer.ts ~ line 55 ~ AcceptOfferEvmTransaction ~ lenderSig", lenderSig)
+      const fee = await contract.adminFeeInBasisPoints();
+      const adminFee = web3.utils.toDecimal(fee);
+
       const tx = await contract.beginLoan(
         principal * 10 ** currencyDecimals,
         assetTokenId,
@@ -61,7 +41,8 @@ export default class AcceptOfferEvmTransaction extends EvmTransaction {
         assetContractAddress,
         currencyContractAddress,
         lender,
-        [borrowerSig, lenderSig],
+        [borrowerSignature, lenderSignature],
+        { from: borrower },
       );
       const receipt = await tx.wait();
 
