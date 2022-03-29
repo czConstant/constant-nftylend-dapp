@@ -1,10 +1,11 @@
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
-import PayLoanEvmTransaction from 'src/modules/polygon/transactions/payLoan';
+import PayLoanEvmTransaction from 'src/modules/evm/transactions/payLoan';
 import PayLoanTransaction from 'src/modules/solana/transactions/payLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { PayLoanParams, TransactionResult } from '../models/transaction';
+import { isEvmChain } from '../utils';
 
 interface PayLoanTxParams extends PayLoanParams {
   chain: Chain;
@@ -39,8 +40,8 @@ const solTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
   return res;
 }
 
-const polygonTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
-  const transaction = new PayLoanEvmTransaction();
+const evmTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
+  const transaction = new PayLoanEvmTransaction(params.chain);
   const res = await transaction.run(params.loan_data_address);
   return res;
 }
@@ -48,8 +49,8 @@ const polygonTx = async (params: PayLoanTxParams): Promise<TransactionResult> =>
 const payLoanTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
-  } else if (params.chain === Chain.Polygon) {
-    return polygonTx(params);
+  } else if (isEvmChain(params.chain)) {
+    return evmTx(params);
   }
   throw new Error('Chain not supported');
 };

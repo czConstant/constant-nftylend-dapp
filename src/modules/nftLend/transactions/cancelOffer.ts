@@ -4,6 +4,7 @@ import { Chain } from 'src/common/constants/network';
 import CancelOfferTransaction from 'src/modules/solana/transactions/cancelOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { CancelOfferParams, TransactionResult } from '../models/transaction';
+import { isEvmChain } from '../utils';
 
 interface CancelOfferTxParams extends CancelOfferParams {
   chain: Chain;
@@ -29,7 +30,7 @@ const solTx = async (params: CancelOfferTxParams): Promise<TransactionResult> =>
   return res;
 }
 
-const polygonTx = async (params: CancelOfferTxParams): Promise<TransactionResult> => {
+const evmTx = async (params: CancelOfferTxParams): Promise<TransactionResult> => {
   // const transaction = new CreateLoanEvmTransaction();
   // const res = await transaction.run(
   //   String(params.asset_token_id),
@@ -48,8 +49,8 @@ const polygonTx = async (params: CancelOfferTxParams): Promise<TransactionResult
 const cancelOfferTx = async (params: CancelOfferTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
-  } else if (params.chain === Chain.Polygon) {
-    return polygonTx(params);
+  } else if (isEvmChain(params.chain)) {
+    return evmTx(params);
   }
   throw new Error('Chain not supported');
 };

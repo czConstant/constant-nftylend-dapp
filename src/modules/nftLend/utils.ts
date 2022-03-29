@@ -1,9 +1,9 @@
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
 import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
-import { getNftsByOwner } from '../polygon/api';
-import { PolygonNft } from '../polygon/models/polygonNft';
-import { getLinkPolygonExplorer } from '../polygon/utils';
+import { getNftsByOwner } from '../evm/api';
+import { PolygonNft } from '../evm/models/evmNft';
+import { getLinkPolygonExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
 import { getLinkSolScanAccount } from '../solana/utils';
 import { LoanDataAsset } from './models/api';
@@ -17,8 +17,8 @@ export async function fetchNftsByOwner(address: string, chain: Chain, solConnect
       const nft = SolanaNft.parse(e);
       return nft;
     });
-  } else if (chain === Chain.Polygon) {
-    const res = await getNftsByOwner(address);
+  } else {
+    const res = await getNftsByOwner(address, chain);
     assets = res.result.map((e: any) => {
       const nft = PolygonNft.parse(e);
       nft.owner = address;
@@ -34,6 +34,8 @@ export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
     return SolanaNft.parseFromLoanAsset(asset);
   if (chain === Chain.Polygon)
     return PolygonNft.parseFromLoanAsset(asset);
+  if (chain === Chain.Avalanche)
+    return PolygonNft.parseFromLoanAsset(asset);
   throw new Error(`Chain ${chain} is not supported`);
 }
 
@@ -44,4 +46,8 @@ export function getLinkExplorerWallet(address: string, chain: Chain) {
     case Chain.Polygon:
       return getLinkPolygonExplorer(address);
   }
+}
+
+export function isEvmChain(chain: Chain) {
+  return [Chain.Polygon, Chain.Avalanche].includes(chain);
 }

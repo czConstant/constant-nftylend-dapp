@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import { Chain } from 'src/common/constants/network';
-import { getLinkPolygonExplorer } from 'src/modules/polygon/utils';
+import { getLinkPolygonExplorer } from 'src/modules/evm/utils';
 import { getLinkSolScanExplorer } from 'src/modules/solana/utils';
 import { parseNftFromLoanAsset } from '../utils';
 import { Currency, LoanData, LoanDataAsset } from './api';

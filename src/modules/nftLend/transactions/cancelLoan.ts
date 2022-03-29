@@ -1,10 +1,11 @@
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
-import CancelLoanEvmTransaction from 'src/modules/polygon/transactions/cancelLoan';
+import CancelLoanEvmTransaction from 'src/modules/evm/transactions/cancelLoan';
 import CancelLoanTransaction from 'src/modules/solana/transactions/cancelLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { CancelLoanParams, TransactionResult } from '../models/transaction';
+import { isEvmChain } from '../utils';
 
 interface CancelLoanTxParams extends CancelLoanParams {
   chain: Chain;
@@ -30,8 +31,8 @@ const solTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => 
   return res;
 }
 
-const polygonTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
-  const transaction = new CancelLoanEvmTransaction();
+const evmTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
+  const transaction = new CancelLoanEvmTransaction(params.chain);
   const res = await transaction.run(params.nonce);
   return res;
 }
@@ -39,8 +40,8 @@ const polygonTx = async (params: CancelLoanTxParams): Promise<TransactionResult>
 const cancelLoanTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
-  } else if (params.chain === Chain.Polygon) {
-    return polygonTx(params);
+  } else if (isEvmChain(params.chain)) {
+    return evmTx(params);
   }
   throw new Error('Chain not supported');
 };

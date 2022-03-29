@@ -38,6 +38,29 @@
       padding-right: 0;
     }
   }
+  .chainSelector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #141416;
+    width: fit-content;
+    margin: 20px auto;
+    border-radius: 30px;
+    .item {
+      cursor: pointer;
+      color: #fcfcfd;
+      min-width: 120px;
+      padding: 10px 40px;
+      border-radius: 30px;
+      transition: 0.2s all;
+      font-weight: 500;
+      &.active {
+        background-color: #fcfcfd;
+        color: black;
+        border: none;
+      }
+    }
+  }
 }
 
 .headerWrapper {

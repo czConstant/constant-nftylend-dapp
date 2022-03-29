@@ -1,5 +1,5 @@
 import { Chain } from 'src/common/constants/network';
-import { getLinkPolygonExplorer } from 'src/modules/polygon/utils';
+import { getLinkPolygonExplorer } from 'src/modules/evm/utils';
 import { getLinkSolScanExplorer } from 'src/modules/solana/utils';
 import { OfferData } from './api';
 import { LoanNft } from './loan';

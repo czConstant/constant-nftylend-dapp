@@ -1,10 +1,11 @@
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
-import AcceptOfferEvmTransaction from 'src/modules/polygon/transactions/acceptOffer';
+import AcceptOfferEvmTransaction from 'src/modules/evm/transactions/acceptOffer';
 import AcceptOfferTransaction from 'src/modules/solana/transactions/acceptOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { AcceptOfferParams, TransactionResult } from '../models/transaction';
+import { isEvmChain } from '../utils';
 
 interface AcceptOfferTxParams extends AcceptOfferParams {
   chain: Chain;
@@ -36,8 +37,8 @@ const solTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> =>
   return res;
 }
 
-const polygonTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {
-  const transaction = new AcceptOfferEvmTransaction();
+const evmTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {
+  const transaction = new AcceptOfferEvmTransaction(params.chain);
   const res = await transaction.run(
     params.principal,
     params.asset_token_id,
@@ -58,8 +59,8 @@ const polygonTx = async (params: AcceptOfferTxParams): Promise<TransactionResult
 const acceptOfferTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
-  } else if (params.chain === Chain.Polygon) {
-    return polygonTx(params);
+  } else if (isEvmChain(params.chain)) {
+    return evmTx(params);
   }
   throw new Error('Chain not supported');
 };
