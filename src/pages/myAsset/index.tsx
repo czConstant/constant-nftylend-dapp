@@ -107,7 +107,7 @@ const MyAsset = () => {
                     {walletChain.toString()}
                   </div>
                   {currencies.map((e: Currency) => (
-                    <div className={styles.balance}>
+                    <div key={e.symbol} className={styles.balance}>
                       <span>{formatCurrencyByLocale(e.balance, 2)}</span>{" "}
                       {e.symbol}
                     </div>

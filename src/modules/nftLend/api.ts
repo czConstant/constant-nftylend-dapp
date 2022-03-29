@@ -39,7 +39,7 @@ export const getCollections = (params?: ListParams): Promise<ListResponse> => {
   return api.get(API_URL.NFT_LEND.COLLECTIONS, { params });
 };
 
-export const getCollectionById = (id: number): Promise<ResponseResult> => {
+export const getCollectionById = (id: number | string): Promise<ResponseResult> => {
   return api.get(`${API_URL.NFT_LEND.COLLECTION_BY_ID}/${id}`);
 };
 

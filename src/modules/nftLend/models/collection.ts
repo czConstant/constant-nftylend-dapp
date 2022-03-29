@@ -14,6 +14,7 @@ export class CollectionNft {
   avg24h_amount: string = '';
   total_volume: string = '';
   listing_asset?: AssetNft;
+  chain: Chain = Chain.None;
 
   static parseFromApi(item: CollectionData, chain?: Chain): CollectionNft {
     let collection = new CollectionNft();
@@ -24,8 +25,10 @@ export class CollectionNft {
     collection.listing_total = item.listing_total;
     collection.total_listed = item.total_listed;
     collection.total_volume = item.total_volume;
+    const chainValue = Object.keys(Chain).find(e => Chain[e] === item.network);
+    collection.chain = Chain[chainValue];
     if (item.listing_asset) {
-      collection.listing_asset = parseNftFromLoanAsset(item.listing_asset, chain || Chain.None);
+      collection.listing_asset = parseNftFromLoanAsset(item.listing_asset, collection.chain);
     }
     return collection;
   }

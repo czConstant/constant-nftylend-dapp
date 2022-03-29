@@ -70,7 +70,7 @@ const Loans = () => {
       };
       if (paramCollection.collection) {
         const _resCollection: ResponseResult = await getCollectionById(
-          Number(paramCollection.collection)
+          paramCollection.collection
         );
         params.collection_id = _resCollection.result?.id;
         setResCollection(_resCollection?.result);

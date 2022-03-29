@@ -1,21 +1,20 @@
 import React, { useMemo } from "react";
 import RandomAvatar from "./randomAvatar";
 import cx from "classnames";
-import {} from "react-content-loader";
 
 import homeStyles from "../home/styles.module.scss";
 import styles from "./styles.module.scss";
-import { LoanData } from "src/modules/nftLend/models/loan";
-import { CollectData } from "src/modules/nftLend/models/collection";
+import { LoanNft } from "src/modules/nftLend/models/loan";
+import { CollectionNft } from "src/modules/nftLend/models/collection";
 import Loading from "src/common/components/loading";
 import { OnBoardingHeader } from "../discover";
 import { isMobile } from "react-device-detect";
 
 interface LoansHeaderProps {
-  dataLoan: LoanData[];
+  dataLoan: Array<LoanNft>;
   isLoading: boolean;
-  collection?: CollectData;
-  collections?: CollectData[];
+  collection?: CollectionNft;
+  collections?: Array<CollectionNft>;
 }
 
 const LoansHeader: React.FC<LoansHeaderProps> = ({
@@ -67,11 +66,7 @@ const LoansHeader: React.FC<LoansHeaderProps> = ({
         </>
       );
     } else {
-      return (
-        <>
-          <OnBoardingHeader />
-        </>
-      );
+      return <OnBoardingHeader />
     }
   };
 

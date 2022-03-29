@@ -101,19 +101,17 @@ const Item = (props: ItemProps) => {
         offer_data_address: offer.data_offer_address,
         nonce: offer.nonce,
       });
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Cancel offer successfully.{" "}
-            {res.txExplorerUrl && (
-              <a target="_blank" href={res.txExplorerUrl}>
-                View transaction
-              </a>
-            )}
-          </>
-        );
-        dispatch(requestReload());
-      }
+      toastSuccess(
+        <>
+          Cancel offer successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
+              View transaction
+            </a>
+          )}
+        </>
+      );
+      dispatch(requestReload());
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {

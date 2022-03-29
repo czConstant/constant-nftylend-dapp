@@ -5,7 +5,7 @@ import NftyPawn from '../abi/NFTPawn.json';
 import EvmTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 
-export default class CancelLoanEvmTransaction extends EvmTransaction {
+export default class CancelOfferEvmTransaction extends EvmTransaction {
   async run(
     nonce: string,
   ): Promise<TransactionResult> {

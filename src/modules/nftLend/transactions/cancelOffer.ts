@@ -1,6 +1,7 @@
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
+import CancelOfferEvmTransaction from 'src/modules/evm/transactions/cancelOffer';
 import CancelOfferTransaction from 'src/modules/solana/transactions/cancelOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { CancelOfferParams, TransactionResult } from '../models/transaction';
@@ -31,19 +32,9 @@ const solTx = async (params: CancelOfferTxParams): Promise<TransactionResult> =>
 }
 
 const evmTx = async (params: CancelOfferTxParams): Promise<TransactionResult> => {
-  // const transaction = new CreateLoanEvmTransaction();
-  // const res = await transaction.run(
-  //   String(params.asset_token_id),
-  //   params.asset_contract_address,
-  //   params.walletAddress,
-  //   {
-  //     principal: params.principal,
-  //     rate: params.rate / 100,
-  //     duration: params.duration * 86400,
-  //     currency_id: params.currency_id,
-  //   }
-  // );
-  // return res;
+  const transaction = new CancelOfferEvmTransaction(params.chain);
+  const res = await transaction.run(params.nonce);
+  return res;
 }
 
 const cancelOfferTx = async (params: CancelOfferTxParams): Promise<TransactionResult> => {
