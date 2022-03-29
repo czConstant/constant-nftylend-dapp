@@ -12,7 +12,7 @@ import { isEvmChain } from '../utils';
 import { AssetNft } from '../models/nft';
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
 import { SolanaNft } from 'src/modules/solana/models/solanaNft';
-import { PolygonNft } from 'src/modules/evm/models/evmNft';
+import { EvmNft } from 'src/modules/evm/models/evmNft';
 import { getEvmNftsByOwner } from 'src/modules/evm/api';
 
 function useToken() {
@@ -32,7 +32,7 @@ function useToken() {
     } else {
       const res = await getEvmNftsByOwner(address, chain);
       assets = res.result.map((e: any) => {
-        const nft = PolygonNft.parse(e);
+        const nft = EvmNft.parse(e);
         nft.owner = address;
         return nft;
       });

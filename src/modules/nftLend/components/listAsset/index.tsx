@@ -64,7 +64,7 @@ const ListAsset = () => {
   const fetchNFTs = async () => {
     if (!walletAddress) return;
     try {
-      const assets = await getNftsByOwner(walletAddress, walletChain);
+      const assets = await getNftsByOwner('0x088D8A4a03266870EDcbbbADdA3F475f404dB9B2', walletChain);
       setAssets(assets.map(e => ({
         asset: e,
         onClickItem: onClickShowDetail,

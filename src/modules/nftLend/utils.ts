@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import BigNumber from 'bignumber.js';
 
 import { Chain } from 'src/common/constants/network';
-import { PolygonNft } from '../evm/models/evmNft';
+import { EvmNft } from '../evm/models/evmNft';
 import { getLinkPolygonExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
 import { getLinkSolScanAccount } from '../solana/utils';
@@ -14,9 +14,9 @@ export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
   if (chain === Chain.Solana)
     return SolanaNft.parseFromLoanAsset(asset);
   if (chain === Chain.Polygon)
-    return PolygonNft.parseFromLoanAsset(asset);
+    return EvmNft.parseFromLoanAsset(asset);
   if (chain === Chain.Avalanche)
-    return PolygonNft.parseFromLoanAsset(asset);
+    return EvmNft.parseFromLoanAsset(asset);
   throw new Error(`Chain ${chain} is not supported`);
 }
 
