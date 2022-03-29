@@ -137,13 +137,15 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         offer_data_address: offer.data_offer_address,
         currency_data_address: offer.data_currency_address,
         currency_decimals: loan.currency.decimals,
-        borrower: loan.owner,
-        offer_owner: offer.lender,
         principal: offer.principal_amount,
         rate: offer.interest_rate,
         duration: offer.duration,
+        borrower: loan.owner,
         borrower_nonce: loan.nonce,
+        borrower_signature: loan.signature,
+        lender: offer.lender,
         lender_nonce: offer.nonce,
+        lender_signature: offer.signature
       });
       toastSuccess(
         <>

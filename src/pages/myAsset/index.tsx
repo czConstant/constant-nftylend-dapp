@@ -49,7 +49,7 @@ const MyAsset = () => {
   const [selectedTab, setSelectedTab] = useState(tabActive);
 
   useEffect(() => {
-    fetchBalance();
+    if (walletAddress) fetchBalance();
   }, [walletAddress]);
 
   const fetchBalance = async () => {

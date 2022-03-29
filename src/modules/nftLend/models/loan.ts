@@ -21,6 +21,7 @@ export class LoanNft {
   data_asset_address: string = '';
   origin_contract_address: string = '';
   nonce: string = '';
+  signature: string = '';
   status: string = '';
   created_at: string = '';
   updated_at: string = '';
@@ -46,6 +47,7 @@ export class LoanNft {
     loan.seo_url = data.asset.seo_url;
     loan.owner = data.owner;
     loan.nonce = data.nonce_hex;
+    loan.signature = data.signature;
     loan.status = data.status;
     loan.created_at = data.created_at;
     loan.updated_at = data.updated_at;
@@ -80,6 +82,7 @@ export class LoanNft {
       loan.duration = data.new_loan.duration;
       loan.owner = data.new_loan.owner;
       loan.nonce = data.new_loan.nonce_hex;
+      loan.signature = data.new_loan.signature;
       loan.status = data.new_loan.status;
       loan.created_at = data.new_loan.created_at;
       loan.updated_at = data.new_loan.updated_at;

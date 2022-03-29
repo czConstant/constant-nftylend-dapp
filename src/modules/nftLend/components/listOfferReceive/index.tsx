@@ -13,29 +13,28 @@ import { useAppSelector } from 'src/store/hooks';
 import { OfferToLoan } from '../../models/offer';
 
 const ListOfferReceive = () => {
-  const wallet = useWallet();
-  const { publicKey } = wallet;
   const needReload = useAppSelector(selectNftyLend).needReload;
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
 
   const [loading, setLoading] = useState(false);
   const [offers, setOffers] = useState<Array<OfferToLoan>>([]);
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (publicKey) fetchOffers();
-  }, [publicKey, status, needReload]);
+    if (walletAddress) fetchOffers();
+  }, [walletAddress, status, needReload]);
 
   const fetchOffers = async () => {
-    if (!publicKey) return;
+    if (!walletAddress) return;
     try {
-      const res = await getOffersByFilter({ borrower: publicKey.toString(), status });
+      const res = await getOffersByFilter({ borrower: walletAddress, status });
       setOffers(res.result.map(OfferToLoan.parseFromApi));
     } finally {
       setLoading(false);
     }
   };
 
-  if (!publicKey) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
+  if (!walletAddress) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
 
   return (
     <div className={listLoanStyles.wrapper}>

@@ -18,7 +18,7 @@ const ListNft = (props: ListNftProps) => {
   const renderItems = () => {
     return loans.map(e => (
       <ItemNft
-        key={e.asset.id}
+        key={e.asset.id + e.asset.token_id + e.asset.contract_address}
         asset={e.asset}
         loan={e.loan}
         onClickItem={e.onClickItem}

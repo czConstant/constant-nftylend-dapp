@@ -59,13 +59,15 @@ export interface AcceptOfferParams {
   offer_data_address: string;
   currency_data_address: string;
   currency_decimals: number;
-  borrower: string;
-  offer_owner: string;
   principal: number;
   rate: number;
   duration: number;
+  borrower: string;
   borrower_nonce: string;
+  borrower_signature: string;
+  lender: string;
   lender_nonce: string;
+  lender_signature: string;
 }
 
 export interface LiquidateLoanParams {

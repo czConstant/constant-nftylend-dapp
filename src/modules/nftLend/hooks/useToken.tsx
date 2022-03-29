@@ -6,20 +6,36 @@ import web3 from 'web3';
 import { Chain } from 'src/common/constants/network';
 import { getEvmBalance } from 'src/modules/evm/utils';
 import { getBalanceSolToken } from 'src/modules/solana/utils';
-import { useAppSelector } from 'src/store/hooks';
-import { selectNftyLend } from 'src/store/nftyLend';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectNftyLend, updateWallet } from 'src/store/nftyLend';
 import { isEvmChain } from '../utils';
 import { AssetNft } from '../models/nft';
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
 import { SolanaNft } from 'src/modules/solana/models/solanaNft';
 import { EvmNft } from 'src/modules/evm/models/evmNft';
 import { getEvmNftsByOwner } from 'src/modules/evm/api';
+import localStore from 'src/common/services/localStore';
 
 function useToken() {
+  const wallet = useWallet();
   const { connection } = useConnection();
+  const dispatch = useAppDispatch();
 
   const walletAddress = useAppSelector(selectNftyLend).walletAddress;
   const walletChain = useAppSelector(selectNftyLend).walletChain;
+
+  const checkConnectedWallet = async() => {
+    if (wallet?.publicKey) {
+      dispatch(updateWallet({ address: wallet.publicKey.toString(), chain: Chain.Solana }));
+      return;
+    }
+    if (!localStore.get('walletAddress') || !localStore.get('walletChain')) return;
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const accounts = await provider.listAccounts();
+    if (accounts.length > 0) {
+      dispatch(updateWallet({ address: accounts[0], chain: localStore.get('walletChain') }));
+    }
+  }
 
   const getNftsByOwner = async(address: string, chain: Chain): Promise<Array<AssetNft>> => {
     let assets = [];
@@ -62,7 +78,7 @@ function useToken() {
     throw new Error(`Chain ${walletChain} is not supported`)
   };
 
-  return { getBalance, getNativeBalance, getNftsByOwner };
+  return { getBalance, getNativeBalance, getNftsByOwner, checkConnectedWallet };
 };
 
 export { useToken };

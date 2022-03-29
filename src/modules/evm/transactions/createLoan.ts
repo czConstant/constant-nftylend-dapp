@@ -8,7 +8,7 @@ import { Chain, ChainPolygonID } from 'src/common/constants/network';
 import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { generateNonce } from '../utils';
+import { generateNonce, getChainIdByChain } from '../utils';
 
 export default class CreateLoanEvmTransaction extends EvmTransaction {
   async run(
@@ -36,13 +36,13 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
         nonce,
         nftContractAddress,
         ownerAddress,
-        ChainPolygonID
+        getChainIdByChain(this.chain),
       );
       if (!borrowerMsg) throw new Error('Empty borrow message');
       const borrowerSig = await signer.signMessage(borrowerMsg)
 
       await api.post(API_URL.NFT_LEND.CREATE_LOAN, {
-        chain: Chain.Polygon.toString(),
+        chain: this.chain.toString(),
         borrower: ownerAddress,
         currency_id: currencyId,
         principal_amount: principal,

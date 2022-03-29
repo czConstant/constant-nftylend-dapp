@@ -10,20 +10,17 @@ import MyLoadingOverlay from 'src/common/components/myLoadingOverlay';
 
 import AppRouter from './navigation';
 import { getSystemConfigs } from './modules/nftLend/api';
-import { useAppDispatch, useAppSelector } from './store/hooks';
-import { clearWallet, selectNftyLend, updateConfigs, updateWallet } from './store/nftyLend';
-import { Chain } from './common/constants/network';
+import { useAppDispatch } from './store/hooks';
+import { updateConfigs } from './store/nftyLend';
+import { useToken } from './modules/nftLend/hooks/useToken';
 
 export default function App() {
   const dispatch = useAppDispatch();
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
-  const walletChain = useAppSelector(selectNftyLend).walletChain;
-  const wallet = useWallet();
+  const { checkConnectedWallet } = useToken();
   
   useEffect(() => {
-    if (wallet?.publicKey) dispatch(updateWallet({ address: wallet.publicKey.toString(), network: Chain.Solana }));
-    else if (walletChain === Chain.Solana) dispatch(clearWallet());
-  }, [wallet.publicKey]);
+    checkConnectedWallet();
+  }, []);
 
   useEffect(() => {
     getSystemConfigs().then(res =>{ 

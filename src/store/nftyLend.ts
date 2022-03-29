@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Chain } from 'src/common/constants/network';
+import localStore from 'src/common/services/localStore';
 import { RootState } from '.';
 
 interface NftyLendState {
@@ -35,11 +36,15 @@ const slice = createSlice({
     },
     updateWallet: (state, action) => {
       state.walletAddress = action.payload.address;
-      state.walletChain = action.payload.network;
+      state.walletChain = action.payload.chain;
+      localStore.save('walletAddress', action.payload.address);
+      localStore.save('walletChain', action.payload.chain);
     },
     clearWallet: (state) => {
       state.walletAddress = '';
       state.walletChain = Chain.None;
+      localStore.remove('walletAddress');
+      localStore.remove('walletChain');
     }
   },
 });
