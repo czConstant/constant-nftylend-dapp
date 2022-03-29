@@ -14,14 +14,15 @@ import CreateLoan from '../createLoan';
 import { selectNftyLend } from 'src/store/nftyLend';
 import { ItemNftProps } from '../itemNft';
 import { AssetNft } from '../../models/nft';
-import { fetchNftsByOwner } from '../../utils';
+import { useToken } from '../../hooks/useToken';
 
 const ListAsset = () => {
   const dispatch = useAppDispatch();
   const needReload = useAppSelector(selectNftyLend).needReload;
   const walletAddress = useAppSelector(selectNftyLend).walletAddress;
   const walletChain = useAppSelector(selectNftyLend).walletChain;
-  
+    const { getNftsByOwner } = useToken();
+
   const { connection } = useConnection();
   const navigate = useNavigate();
 
@@ -63,7 +64,7 @@ const ListAsset = () => {
   const fetchNFTs = async () => {
     if (!walletAddress) return;
     try {
-      const assets = await fetchNftsByOwner(walletAddress, walletChain, connection);
+      const assets = await getNftsByOwner('0x088D8A4a03266870EDcbbbADdA3F475f404dB9B2', walletChain);
       setAssets(assets.map(e => ({
         asset: e,
         onClickItem: onClickShowDetail,

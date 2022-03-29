@@ -1,23 +1,23 @@
 import { memo } from 'react';
-import { Button, Dropdown } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import cx from 'classnames';
 
-import { clearWallet, selectNftyLend } from 'src/store/nftyLend';
-
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { useAppDispatch } from 'src/store/hooks';
 import styles from './styles.module.scss';
 import { closeModal, openModal } from 'src/store/modal';
 import ConnectWalletModal from '../connectWalletModal';
 
 interface ButtonConnectWalletProps {
   className?: string;
+  onClick?: Function;
 }
 
 const ButtonConnectWallet = (props: ButtonConnectWalletProps) => {
-  const { className } = props;
+  const { className, onClick } = props;
   const dispatch = useAppDispatch();
 
-  const onClick = () => {
+  const handleClick = () => {
+    if (onClick) onClick();
     const id = 'connectWalletModal';
     const close = () => dispatch(closeModal({ id }))
     dispatch(openModal({
@@ -32,7 +32,7 @@ const ButtonConnectWallet = (props: ButtonConnectWalletProps) => {
   };
 
   return (
-    <Button className={cx(styles.connectButton, className)} onClick={onClick}>
+    <Button className={cx(styles.connectButton, className)} onClick={handleClick}>
       Connect wallet
     </Button>
   );

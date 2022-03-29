@@ -5,9 +5,9 @@ import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import { AssetNft, AssetNftDetail } from 'src/modules/nftLend/models/nft';
 import { getLinkPolygonExplorer } from '../utils';
 
-export class PolygonNft extends AssetNft {
-  static parse(item: any): PolygonNft {
-    let nft = new PolygonNft();
+export class EvmNft extends AssetNft {
+  static parse(item: any): EvmNft {
+    let nft = new EvmNft();
     nft.id = item.id;
     nft.token_id = item.token_id;
     nft.contract_address = item.token_address;
@@ -28,8 +28,8 @@ export class PolygonNft extends AssetNft {
     return nft;
   }
 
-  static parseFromLoanAsset(item: LoanDataAsset): PolygonNft {
-    const nft = new PolygonNft();
+  static parseFromLoanAsset(item: LoanDataAsset): EvmNft {
+    const nft = new EvmNft();
     nft.id = item.id;
     nft.contract_address = item.contract_address;
     nft.name = item.name;
