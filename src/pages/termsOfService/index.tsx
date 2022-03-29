@@ -16,15 +16,15 @@ const TermsOfService = () => {
       )}
     >
       <div>
-        <h3>NFTy-Lend Platform Agreement</h3>
+        <h3>NFT Pawn Platform Agreement</h3>
         <p>(Last updated FEBRUARY 22, 2022)</p>
         <p>
-          Please read this NFTy-Lend Platform Agreement (the "Agreement")
+          Please read this NFT Pawn Platform Agreement (the "Agreement")
           carefully. This Agreement is a legally binding agreement between you
           (" you", "your" or "User") and Non-fungible Technologies, Inc.
           ("MyConstant" or "we" or "us"). By clicking or tapping any button or
           box marked "I Accept," "I Agree," or "OK" (or a similar term) in
-          connection with this Agreement, or by using or accessing the NFTy-Lend
+          connection with this Agreement, or by using or accessing the NFT Pawn
           Platform (as defined below), you acknowledge and agree to this
           Agreement and you confirm that you are of legal age where you live and
           have the legal capacity to enter into this Agreement.
@@ -34,20 +34,20 @@ const TermsOfService = () => {
           certain MyConstant services in connection with its decentralized,
           peer-to-peer lending platform that allows the creation of loans
           collateralized by non-fungible tokens ("NFTs"), fungible tokens and/or
-          other crypto-assets (the " NFTy-Lend Platform"). YOU ACKNOWLEDGE AND
+          other crypto-assets (the " NFT Pawn Platform"). YOU ACKNOWLEDGE AND
           AGREE THAT NEITHER MyConstant NOR THE PLATFORM IS A LENDER OR BORROWER
           OF LOANS, AND THAT YOUR USE OF THE PLATFORM DOES NOT MAKE MyConstant
           OR THE PLATFORM A LENDER OR BORROWER OF LOANS.
         </p>
         <p>
-          If you are an individual accessing or using the NFTy-Lend Platform on
+          If you are an individual accessing or using the NFT Pawn Platform on
           behalf of, or for the benefit of, any corporation, partnership or
           other entity with which you are associated (an "Organization"), then
           you are agreeing to this Agreement on behalf of yourself and such
           Organization, and you represent and warrant that you have the legal
           authority to bind such Organization to this Agreement. References to
           "you" and "User" in this Agreement will refer to both the individual
-          using the NFTy-Lend Platform and to any such Organization.
+          using the NFT Pawn Platform and to any such Organization.
         </p>
         <p>
           THIS AGREEMENT CONTAINS A MANDATORY ARBITRATION PROVISION THAT, AS
@@ -62,25 +62,25 @@ const TermsOfService = () => {
               <li>
                 We may change, modify or supplement this Agreement from time to
                 time by notifying you of such changes by any reasonable means,
-                including by posting a modified Agreement through the NFTy-Lend
+                including by posting a modified Agreement through the NFT Pawn
                 Platform. No such changes will apply to any dispute between you
                 and us arising before the date on which we posted the revised
                 Agreement incorporating such changes, or otherwise notified you
                 of such changes. The "Last Updated" legend above indicates when
-                this Agreement was last changed. Your use of the NFTy-Lend
+                this Agreement was last changed. Your use of the NFT Pawn
                 Platform after any changes to this Agreement will constitute
                 your acceptance of such changes. We may, at any time and without
                 liability: (a) modify or discontinue all or part of the NFT-Lend
                 Platform; (b) charge, modify or waive any fees required to use
-                the NFTy-Lend Platform; or (c) offer opportunities to some or
+                the NFT Pawn Platform; or (c) offer opportunities to some or
                 all users.
               </li>
               <li>
-                You may not use the NFTy-Lend Platform outside the scope set
+                You may not use the NFT Pawn Platform outside the scope set
                 forth in this Agreement without the prior written consent of
                 MyConstant, which may be withheld in MyConstant's sole
                 discretion. MyConstant reserves the right to refuse, modify, or
-                terminate access to or use of all or part of the NFTy-Lend
+                terminate access to or use of all or part of the NFT Pawn
                 Platform to anyone for any reason at our discretion.
               </li>
             </ul>
@@ -89,20 +89,20 @@ const TermsOfService = () => {
             <b>Registration; Accounts.</b>
             <ul>
               <li>
-                You may need to register to use all or part of the NFTy-Lend
+                You may need to register to use all or part of the NFT Pawn
                 Platform. You must accurately and completely supply all
                 requested information in order to complete the registration
                 process. You represent and warrant that any information you
-                provide in connection with the NFTy-Lend Platform is and will
+                provide in connection with the NFT Pawn Platform is and will
                 remain accurate and complete at all times during your use of and
-                access to the NFTy-Lend Platform, and that you will maintain and
+                access to the NFT Pawn Platform, and that you will maintain and
                 update such information as needed. We may also establish
                 additional or different requirements from time to time, by
                 posting such requirements on our website or otherwise
                 communicating them to you.
               </li>
               <li>
-                When your account becomes active on the NFTy-Lend Platform, you
+                When your account becomes active on the NFT Pawn Platform, you
                 may have rights and responsibilities as a potential requestor of
                 a loan (a " Borrower") or a potential provider of such loans (a
                 "Lender"), or both. We may reject, or require that you change,
@@ -114,20 +114,20 @@ const TermsOfService = () => {
                 breach or unauthorized use of or access to your username or
                 password, or your account. You will be solely liable for all
                 activity arising from your access to, use of, or any other act
-                or omission with respect to the NFTy-Lend Platform, whether or
+                or omission with respect to the NFT Pawn Platform, whether or
                 not authorized by you (including any acts or omissions by any
                 users for whom you have submitted a user authorization form).
               </li>
               <li>
                 You are responsible for obtaining and maintaining all hardware,
                 software (and related licenses) and communications equipment
-                necessary to access and use the NFTy-Lend Platform and for
+                necessary to access and use the NFT Pawn Platform and for
                 paying all third-party access charges (e.g., ISP,
-                telecommunications, etc.) incurred while using the NFTy-Lend
+                telecommunications, etc.) incurred while using the NFT Pawn
                 Platform. You acknowledge that you have been advised of and can
                 comply with all minimum networking, hardware, software (and
                 related licenses), firewalls and/or environmental conditions,
-                and communications requirements applicable to the NFTy-Lend
+                and communications requirements applicable to the NFT Pawn
                 Platform.
               </li>
             </ul>
@@ -136,7 +136,7 @@ const TermsOfService = () => {
             <b>Rules of Conduct.</b>
             <ul>
               <li>
-                In connection with the NFTy-Lend Platform, you must not:
+                In connection with the NFT Pawn Platform, you must not:
                 <ul>
                   <li>
                     Borrow or lend in a manner for which you are not authorized
@@ -150,12 +150,12 @@ const TermsOfService = () => {
                     agency (collectively, "Applicable Law");
                   </li>
                   <li>
-                    Use the NFTy-Lend Platform for any purpose or in connection
+                    Use the NFT Pawn Platform for any purpose or in connection
                     with any activity that is fraudulent, illegal or otherwise
                     tortious or unlawful;
                   </li>
                   <li>
-                    In connection with your access and use of the NFTy-Lend
+                    In connection with your access and use of the NFT Pawn
                     Platform, discriminate against any Borrower member or group
                     on the basis of race, color, religion, national origin, sex,
                     marital status, age, sexual orientation, military status,
@@ -166,7 +166,7 @@ const TermsOfService = () => {
                   </li>
                   <li>
                     Post, transmit or otherwise make available through or in
-                    connection with the NFTy-Lend Platform any materials that
+                    connection with the NFT Pawn Platform any materials that
                     are or may be: (a) threatening, harassing, degrading,
                     hateful or intimidating, or otherwise fail to respect the
                     rights and dignity of others; (b) defamatory, libelous,
@@ -184,7 +184,7 @@ const TermsOfService = () => {
                   </li>
                   <li>
                     Send unlawful unsolicited commercial messages through the
-                    NFTy-Lend Platform;
+                    NFT Pawn Platform;
                   </li>
                   <li>
                     Post, transmit or otherwise make available any virus, worm,
@@ -195,54 +195,54 @@ const TermsOfService = () => {
                     software or equipment (each, a "Virus");
                   </li>
                   <li>
-                    Interfere with or disrupt the operation of the NFTy-Lend
+                    Interfere with or disrupt the operation of the NFT Pawn
                     Platform or the servers or networks used to make the
-                    NFTy-Lend Platform available, including by hacking or
-                    defacing any portion of the NFTy-Lend Platform; or violate
+                    NFT Pawn Platform available, including by hacking or
+                    defacing any portion of the NFT Pawn Platform; or violate
                     any requirement, procedure or policy of such servers or
                     networks;
                   </li>
                   <li>
-                    Perform testing of the NFTy-Lend Platform, or the systems or
-                    networks used to provide the NFTy-Lend Platform, to attempt
+                    Perform testing of the NFT Pawn Platform, or the systems or
+                    networks used to provide the NFT Pawn Platform, to attempt
                     to find vulnerabilities;
                   </li>
                   <li>
                     Run a computer program, a set of computer programs, or other
                     operations to attempt to assess the relative performance of
-                    the NFTy-Lend Platform, or the systems or networks used to
-                    provide the NFTy-Lend Platform;
+                    the NFT Pawn Platform, or the systems or networks used to
+                    provide the NFT Pawn Platform;
                   </li>
                   <li>
                     Restrict or inhibit any other person from using the
-                    NFTy-Lend Platform;
+                    NFT Pawn Platform;
                   </li>
                   <li>
-                    Harvest or collect information about users of the NFTy-Lend
+                    Harvest or collect information about users of the NFT Pawn
                     Platform;
                   </li>
                   <li>
                     Remove any copyright, trademark or other proprietary rights
-                    notice from the NFTy-Lend Platform or any MyConstant
+                    notice from the NFT Pawn Platform or any MyConstant
                     Material (defined in Section 8 below);
                   </li>
                   <li>
                     Reproduce, modify, adapt, translate, create derivative works
                     of, sell, resell, rent, lease, loan, timeshare, distribute
                     or otherwise exploit any portion of (or any use of) the
-                    NFTy-Lend Platform, or any MyConstant Material, except as
+                    NFT Pawn Platform, or any MyConstant Material, except as
                     expressly authorized herein;
                   </li>
                   <li>
                     Reverse engineer, decompile or disassemble, or attempt to
                     discover the source code of underlying ideas or algorithms
-                    of, any portion of the NFTy-Lend Platform, or any MyConstant
+                    of, any portion of the NFT Pawn Platform, or any MyConstant
                     Material, except where such restriction is expressly
                     prohibited by Applicable Law;
                   </li>
                   <li>
-                    Frame or mirror any portion of the NFTy-Lend Platform, or
-                    otherwise incorporate any portion of the NFTy-Lend Platform
+                    Frame or mirror any portion of the NFT Pawn Platform, or
+                    otherwise incorporate any portion of the NFT Pawn Platform
                     or MyConstant Material into any product or service;
                   </li>
                   <li>
@@ -253,21 +253,21 @@ const TermsOfService = () => {
                     other manual or automatic device to retrieve, index,
                     "scrape," "data mine" or otherwise gather MyConstant
                     Material, or reproduce or circumvent the navigational
-                    structure or presentation of the NFTy-Lend Platform;
+                    structure or presentation of the NFT Pawn Platform;
                   </li>
                   <li>
-                    Access or use the NFTy-Lend Platform in a way intended to
+                    Access or use the NFT Pawn Platform in a way intended to
                     avoid incurring fees or exceeding usage limits or quotas;
                   </li>
                   <li>
                     Conduct or attempt to conduct a transaction or loan outside
-                    of the NFTy-Lend Platform that was initiated through the
-                    NFTy-Lend Platform (or conduct or attempt to conduct a loan
+                    of the NFT Pawn Platform that was initiated through the
+                    NFT Pawn Platform (or conduct or attempt to conduct a loan
                     transaction, where the Lender and/or Borrower were
-                    introduced through the NFTy-Lend Platform); Conduct or
+                    introduced through the NFT Pawn Platform); Conduct or
                     attempt to conduct business relating to loans outside of the
-                    NFTy-Lend Platform, with a Lender or Borrower that you met
-                    through the NFTy-Lend Platform; or
+                    NFT Pawn Platform, with a Lender or Borrower that you met
+                    through the NFT Pawn Platform; or
                   </li>
                   <li>
                     Cause, assist or otherwise encourage any third party to do
@@ -287,14 +287,14 @@ const TermsOfService = () => {
             <b>Listings; Transactions.</b>
             <ul>
               <li>
-                The NFTy-Lend Platform may make available the opportunity for
+                The NFT Pawn Platform may make available the opportunity for
                 Borrowers to submit requests, proposals, terms, descriptions and
                 other information in connection with potential loans
                 ("Listing"). It is your responsibility to ascertain and obey all
                 Applicable Laws regarding Listings.
               </li>
               <li>
-                The NFTy-Lend Platform may also make available the opportunity
+                The NFT Pawn Platform may also make available the opportunity
                 for Lenders to accept a Borrower's loan request contained in the
                 Listing and transfer funds to the Borrower ("Transaction"). If
                 you wish to participate in a Transaction, you may be asked to
@@ -354,8 +354,8 @@ const TermsOfService = () => {
                   </li>
                   <li>
                     You are prohibited from attempting to complete or completing
-                    outside of the NFTy-Lend Platform any Listing or Transaction
-                    listed in connection with the NFTy-Lend Platform;
+                    outside of the NFT Pawn Platform any Listing or Transaction
+                    listed in connection with the NFT Pawn Platform;
                   </li>
                   <li>
                     MyConstant may revise data associated with Listings to
@@ -458,37 +458,37 @@ const TermsOfService = () => {
             <b>Fees; Penalties; Taxes; Audits.</b>
             <ul>
               <li>
-                The fees for the NFTy-Lend Platform (collectively, the "Fees")
+                The fees for the NFT Pawn Platform (collectively, the "Fees")
                 are as communicated to you by us from time to time, except that
                 if we have a separate written agreement setting forth such fees,
                 such agreement will control, and MyConstant reserves the right
                 to modify, change, supplement or add to such Fees from time to
                 time. We will provide you with notice of any such modifications,
-                changes, supplements or additions through the NFTy-Lend
+                changes, supplements or additions through the NFT Pawn
                 Platform, via email, or through other reasonable means, and your
-                continued use of the NFTy-Lend Platform indicates your
+                continued use of the NFT Pawn Platform indicates your
                 acceptance of such modifications, changes, supplements or
                 additions to the Fees. MyConstant reserves the right to require
                 payment in advance.
               </li>
               <li>
                 You will be responsible for paying any Fees that arise out of a
-                Listing or Transaction in connection with the NFTy-Lend
+                Listing or Transaction in connection with the NFT Pawn
                 Platform, even if terms were finalized or payment was made
-                outside of the NFTy-Lend Platform or without coordination or
+                outside of the NFT Pawn Platform or without coordination or
                 facilitation by us. In particular, if you and the Borrower or
                 Lender (as the case may be) enter into a Transaction outside of
-                the NFTy-Lend Platform that was related to a Listing originally
-                posted on the NFTy-Lend Platform, then you shall pay the Fee
+                the NFT Pawn Platform that was related to a Listing originally
+                posted on the NFT Pawn Platform, then you shall pay the Fee
                 applicable to that Transaction. This provision shall not apply
-                to transactions conducted outside of the NFTy-Lend Platform
+                to transactions conducted outside of the NFT Pawn Platform
                 pursuant to a binding written agreement between Lender and
                 Borrower in effect prior to Lender's and/or Borrower's first
-                access to the NFTy-Lend Platform (as certified by an officer of
+                access to the NFT Pawn Platform (as certified by an officer of
                 Borrower and Lender upon MyConstant's request). If MyConstant
                 believes that you acted to circumvent such policy, you may be
                 subject to a range of actions, including limits on your access
-                to the NFTy-Lend Platform, buying and selling privileges and
+                to the NFT Pawn Platform, buying and selling privileges and
                 Listing and account features, termination or suspension of your
                 account, financial penalties, the recovery of lost current and
                 future revenue and expenses for policy monitoring and
@@ -501,21 +501,21 @@ const TermsOfService = () => {
                 You and any other users that are parties to a Transaction are
                 responsible for any taxes, if any, with respect to such
                 Transaction. You must agree to our payment method when buying or
-                bidding through the NFTy-Lend Platform, and pay all fees and
+                bidding through the NFT Pawn Platform, and pay all fees and
                 applicable taxes no later than when the Transaction consummates.
               </li>
               <li>
                 MyConstant reserves the right, upon reasonable prior notice to
                 you and during normal business hours, to itself (or through its
-                designees) audit your usage of the NFTy-Lend Platform (including
-                your buying and selling and other Transactions on the NFTy-Lend
+                designees) audit your usage of the NFT Pawn Platform (including
+                your buying and selling and other Transactions on the NFT Pawn
                 Platform) for the purpose of verifying your compliance with this
                 Agreement. If such audit reveals that you have improperly used
-                the NFTy-Lend Platform, or failed to make payments as required
+                the NFT Pawn Platform, or failed to make payments as required
                 under this Agreement, such conduct shall be considered a
                 material breach of this Agreement and MyConstant may choose, in
                 its sole discretion to terminate or suspend your access to the
-                NFTy-Lend Platform and/or this Agreement, and/or invoice you for
+                NFT Pawn Platform and/or this Agreement, and/or invoice you for
                 such unauthorized use based upon MyConstant's standard fees in
                 effect at the time of the audit, which you shall promptly pay to
                 MyConstant. If the underpaid fees exceed five percent (5%) of
@@ -528,7 +528,7 @@ const TermsOfService = () => {
             <b>Intellectual Property Rights.</b>
             <ul>
               <li>
-                Except for your User Material (as defined below), the NFTy-Lend
+                Except for your User Material (as defined below), the NFT Pawn
                 Platform and all materials therein or made available in
                 connection therewith, including software, data, usage data, data
                 sets, images, text, graphics, charts, data, illustrations,
@@ -545,15 +545,15 @@ const TermsOfService = () => {
               <li>
                 Subject to the terms and conditions of this Agreement, you are
                 hereby granted a limited, non-exclusive, non-sublicensable,
-                non-transferable, revocable license to use the NFTy-Lend
+                non-transferable, revocable license to use the NFT Pawn
                 Platform during the term of this Agreement, for your internal
                 use only, and only to the extent permitted by the features and
-                functionalities of the NFTy-Lend Platform.
+                functionalities of the NFT Pawn Platform.
               </li>
               <li>
                 You may choose to, or we may invite you to, submit comments or
-                ideas relating to MyConstant or the NFTy-Lend Platform,
-                including about how to improve the NFTy-Lend Platform or our
+                ideas relating to MyConstant or the NFT Pawn Platform,
+                including about how to improve the NFT Pawn Platform or our
                 other products and services (" Feedback"). By making available
                 any Feedback, you hereby agree that your disclosure is
                 gratuitous, unsolicited and without restriction and will not
@@ -573,7 +573,7 @@ const TermsOfService = () => {
             <b>User Material.</b>
             <ul>
               <li>
-                The NFTy-Lend Platform may allow users to submit, post, display,
+                The NFT Pawn Platform may allow users to submit, post, display,
                 provide, or otherwise make available content such as profile
                 information, information about NFTs, fungible tokens or other
                 crypto-assets loan information, financial material, diligence
@@ -586,9 +586,9 @@ const TermsOfService = () => {
                 THE USER MATERIAL YOU CREATE REMAINS YOURS, SUBJECT TO THE
                 RIGHTS GRANTED IN THIS AGREEMENT. However, you understand that
                 by providing or sharing User Material in connection with the
-                NFTy-Lend Platform, you agree to allow others to view, edit,
+                NFT Pawn Platform, you agree to allow others to view, edit,
                 share, and/or interact with your User Material, in accordance
-                with your settings on the NFTy-Lend Platform and this Agreement.
+                with your settings on the NFT Pawn Platform and this Agreement.
                 MyConstant has no control over and is not responsible for any
                 use or misuse (including any distribution) by any third party of
                 User Material.
@@ -613,7 +613,7 @@ const TermsOfService = () => {
                     You have the written consent of each and every identifiable
                     natural person in the User Material, if any, to use such
                     person's name or likeness in the manner contemplated by the
-                    NFTy-Lend Platform and this Agreement, and each such person
+                    NFT Pawn Platform and this Agreement, and each such person
                     has released you and MyConstant from any liability that may
                     arise in relation to such use.
                   </li>
@@ -624,7 +624,7 @@ const TermsOfService = () => {
                   </li>
                   <li>
                     Your User Material and our use thereof as contemplated by
-                    the NFTy-Lend Platform and this Agreement will not violate
+                    the NFT Pawn Platform and this Agreement will not violate
                     any Applicable Law or infringe any rights, including
                     intellectual property rights, of any third party.
                   </li>
@@ -646,8 +646,8 @@ const TermsOfService = () => {
                 that MyConstant shall not be responsible or liable for any
                 damages you allege to incur in connection with User Material. We
                 may (but have no obligation to) monitor, evaluate, alter, or
-                remove User Material before or after it appears on the NFTy-Lend
-                Platform, or analyze your access to or use of the NFTy-Lend
+                remove User Material before or after it appears on the NFT Pawn
+                Platform, or analyze your access to or use of the NFT Pawn
                 Platform, for any or no reason.
               </li>
               <li>
@@ -655,13 +655,13 @@ const TermsOfService = () => {
                 or warranty by MyConstant with respect to any Third Party
                 Materials. We have no obligation to monitor Third Party
                 Materials, and we may block or disable access to any Third Party
-                Materials (in whole or part) through the NFTy-Lend Platform at
+                Materials (in whole or part) through the NFT Pawn Platform at
                 any time. In addition, the availability of any Third Party
-                Materials through the NFTy-Lend Platform does not imply our
+                Materials through the NFT Pawn Platform does not imply our
                 endorsement of, or our affiliation with, any provider of such
                 Third Party Materials, nor does such availability create any
                 legal relationship between you and any such provider. If you
-                access a third-party website or service from the NFTy-Lend
+                access a third-party website or service from the NFT Pawn
                 Platform, or share your User Material on or through any
                 third-party website or service, you do so at your own risk, and
                 you understand that this Agreement does not apply to your use of
@@ -682,13 +682,13 @@ const TermsOfService = () => {
             <b>Compliance with Laws.</b>
             <ul>
               <li>
-                The NFTy-Lend Platform is controlled or operated (or both) from
+                The NFT Pawn Platform is controlled or operated (or both) from
                 the United States, and is not intended to subject MyConstant to
-                any non-U.S. jurisdiction or law. The NFTy-Lend Platform may not
+                any non-U.S. jurisdiction or law. The NFT Pawn Platform may not
                 be appropriate or available for use in some non-U.S.
-                jurisdictions. Any use of the NFTy-Lend Platform is at your own
+                jurisdictions. Any use of the NFT Pawn Platform is at your own
                 risk, and you must comply with all Applicable Laws in doing so.
-                We may limit the NFTy-Lend Platform's availability at any time,
+                We may limit the NFT Pawn Platform's availability at any time,
                 in whole or in part, to any person, geographic area or
                 jurisdiction that we choose.
               </li>
@@ -698,11 +698,11 @@ const TermsOfService = () => {
                 or would result in MyConstant being an escrow agent, debt
                 collector or consumer reporting agency under the Fair Credit
                 Reporting Act. If a change in Applicable Laws makes the
-                continued operation of any part of the NFTy-Lend Platform, in
+                continued operation of any part of the NFT Pawn Platform, in
                 our sole discretion, unduly burdensome or unlawful or if a
                 regulatory authority directs MyConstant to suspend or cease
-                operating the NFTy-Lend Platform, MyConstant may cease offering
-                the NFTy-Lend Platform and terminate this Agreement upon notice
+                operating the NFT Pawn Platform, MyConstant may cease offering
+                the NFT Pawn Platform and terminate this Agreement upon notice
                 to you, and without further obligation to you, after which
                 MyConstant will return to you any applicable prepaid fees.
               </li>
@@ -808,7 +808,7 @@ const TermsOfService = () => {
                 assigns, from and against any and all damages, obligations,
                 losses, liabilities, costs, debt, and expenses (including
                 attorneys' fees) in connection with any claim, action, suit or
-                proceeding related to (a) your use of or access to the NFTy-Lend
+                proceeding related to (a) your use of or access to the NFT Pawn
                 Platform, including any data, content, User Material or funds
                 that you transmit or receive; (b) your violation of this
                 Agreement, including any of its representations and warranties;
@@ -820,8 +820,8 @@ const TermsOfService = () => {
                 incomplete or inaccurate information; (f) your alleged fraud,
                 negligence or willful misconduct; (g) any of your Listings or
                 Transactions, or any interaction or dispute between you and any
-                other user of the NFTy-Lend Platform; and/or (h) any other
-                party's access to or use of the NFTy-Lend Platform with your
+                other user of the NFT Pawn Platform; and/or (h) any other
+                party's access to or use of the NFT Pawn Platform with your
                 username, password or other appropriate security code
               </li>
             </ul>
@@ -848,13 +848,13 @@ const TermsOfService = () => {
               </li>
               <li>
                 While we try to maintain the timeliness, integrity and security
-                of the NFTy-Lend Platform, we do not guarantee that the
-                NFTy-Lend Platform is or will remain updated, complete, correct
-                or secure, or that access to the NFTy-Lend Platform will be
-                uninterrupted. The NFTy-Lend Platform may include inaccuracies,
+                of the NFT Pawn Platform, we do not guarantee that the
+                NFT Pawn Platform is or will remain updated, complete, correct
+                or secure, or that access to the NFT Pawn Platform will be
+                uninterrupted. The NFT Pawn Platform may include inaccuracies,
                 errors and materials that violate or conflict with this
                 Agreement. Additionally, third parties may make unauthorized
-                alterations to the NFTy-Lend Platform. If you become aware of
+                alterations to the NFT Pawn Platform. If you become aware of
                 any such alteration, contact us at hello@myconstant.com with a
                 description of such alteration and its location.
               </li>
@@ -923,7 +923,7 @@ const TermsOfService = () => {
                 Upon any such termination:
                 <ul>
                   <li>
-                    Your right to access and use the NFTy-Lend Platform will
+                    Your right to access and use the NFT Pawn Platform will
                     cease immediately;
                   </li>
                   <li>
@@ -949,7 +949,7 @@ const TermsOfService = () => {
                   </li>
                   <li>
                     MyConstant may terminate or suspend your right to access or
-                    use all or any portion of the NFTy-Lend Platform at any
+                    use all or any portion of the NFT Pawn Platform at any
                     time, and for any or no reason, including if:
                     <ul>
                       <li>
@@ -957,7 +957,7 @@ const TermsOfService = () => {
                         to, or may materially harm,
                       </li>
                       <li>
-                        MyConstant, the NFTy-Lend Platform, or any user or other
+                        MyConstant, the NFT Pawn Platform, or any user or other
                         third party; (b) may adversely impact the services,
                         systems or content of any other user; or (c) may subject
                         MyConstant, or any user or other third party to
@@ -967,7 +967,7 @@ const TermsOfService = () => {
                       <li>
                         MyConstant has been notified by a third party that you
                         have violated such third party's terms and conditions in
-                        connection with the NFTy-Lend Platform.
+                        connection with the NFT Pawn Platform.
                       </li>
                     </ul>
                   </li>
@@ -988,7 +988,7 @@ const TermsOfService = () => {
                 Information"). Confidential Information may only be used by the
                 receiving party consistent with the rights and obligations of
                 this Agreement. Our Confidential Information includes a
-                software, NFTy-Lend Platform, and any related documentation made
+                software, NFT Pawn Platform, and any related documentation made
                 available by MyConstant to you. The receiving party agrees to
                 protect the Confidential Information of the disclosing party in
                 the same manner that it protects its own similar confidential
@@ -1026,13 +1026,13 @@ const TermsOfService = () => {
                 connection with advertising, press release, promotional and
                 marketing materials or activities, or any other public
                 communication or disclosure with respect to this Agreement or
-                the NFTy-Lend Platform, without such party's prior written
+                the NFT Pawn Platform, without such party's prior written
                 consent, which may be withheld or granted in its sole
                 discretion. Notwithstanding the foregoing, you grant to
                 MyConstant the limited, non-exclusive right to use your name,
                 logos, and trademarks (collectively, "User Marks"): (a) on
                 internal and public materials (including MyConstant's website)
-                to identify you as a user of the NFTy-Lend Platform; and (b) as
+                to identify you as a user of the NFT Pawn Platform; and (b) as
                 part of authorized press releases (as described below). You
                 agree that MyConstant may issue a press release after the
                 effective date of this Agreement that announces the business
@@ -1052,7 +1052,7 @@ const TermsOfService = () => {
               <li>
                 (a) This Agreement and all rights and obligations hereunder,
                 including matters of construction, validity and performance, and
-                your use of the NFTy-Lend Platform, shall be governed by and
+                your use of the NFT Pawn Platform, shall be governed by and
                 construed in accordance with the laws of the State of New York
                 without regard to its conflict of laws provisions.
               </li>
@@ -1061,7 +1061,7 @@ const TermsOfService = () => {
                 controversy arising out of or relating to statutory or common
                 law claims, the breach, termination, enforcement, interpretation
                 or validity of any provision of this Agreement or your use of
-                the NFTy-Lend Platform, and the determination of the scope or
+                the NFT Pawn Platform, and the determination of the scope or
                 applicability of your agreement to arbitrate any such dispute,
                 claim or controversy (an "Arbitrable Dispute") shall be resolved
                 by arbitration in the New York County, State of New York in
@@ -1141,7 +1141,7 @@ const TermsOfService = () => {
                 provides recourse for copyright owners who believe that material
                 appearing on the Internet infringes their rights under U.S.
                 copyright law. If you believe in good faith that material
-                available on the NFTy-Lend Platform infringes your copyright,
+                available on the NFT Pawn Platform infringes your copyright,
                 you (or your agent) may send to MyConstant a written notice by
                 mail or e-mail, requesting that we remove such material or block
                 access to it. If you believe in good faith that someone has
@@ -1177,12 +1177,12 @@ const TermsOfService = () => {
                 considered received 24 hours after we deliver them to you. You
                 may withdraw your consent to receive electronic Communications
                 at any time by sending us a written request to
-                hello@myconstant.com. Due to the nature of the NFTy-Lend
+                hello@myconstant.com. Due to the nature of the NFT Pawn
                 Platform, you will not be able to continue to use and/or access
-                the NFTy-Lend Platform without agreeing to electronic delivery
+                the NFT Pawn Platform without agreeing to electronic delivery
                 of Communications, and if you elect to withdraw your consent to
                 receive Communications electronically you will no longer have
-                access to or be able to use the NFTy-Lend Platform.
+                access to or be able to use the NFT Pawn Platform.
               </li>
               <li>
                 All notices, demands and other communications you provide to us
@@ -1227,7 +1227,7 @@ const TermsOfService = () => {
                 cannot control the flow of data through the Internet.
               </li>
               <li>
-                If the software in connection with the NFTy-Lend Platform is
+                If the software in connection with the NFT Pawn Platform is
                 construed as "commercial computer software", as that term is
                 defined in 48 CFR 2.101, all U.S. government end users acquiring
                 access to such software may only do so with the rights set forth
@@ -1253,7 +1253,7 @@ const TermsOfService = () => {
                 for employment, nor offer employment to, nor enter into any
                 contract for services with any employee of ours, whose duties
                 and responsibilities are directly or indirectly connected with
-                the NFTy-Lend Platform. General solicitation through newspaper
+                the NFT Pawn Platform. General solicitation through newspaper
                 advertising, job fairs and similar means, or employment or
                 offers resulting from such solicitation, shall not be deemed to
                 be a violation of this provision.
@@ -1291,7 +1291,7 @@ const TermsOfService = () => {
                 third-party beneficiaries of this Agreement.
               </li>
               <li>
-                NFTy-Lend Platform © 2022 MyConstant unless otherwise noted. All
+                NFT Pawn Platform © 2022 MyConstant unless otherwise noted. All
                 rights reserved.
               </li>
             </ul>

@@ -117,7 +117,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
                 </Button>
               ) : (
                 <div className={styles.notVerified}>
-                  Assets on NFTy Lend are required verification by us to use as collateral. Please <a onClick={onClickVerify}>submit verification form</a> for this collection.
+                  Assets on NFT Pawn are required verification by us to use as collateral. Please <a onClick={onClickVerify}>submit verification form</a> for this collection.
                 </div>
               )
           }

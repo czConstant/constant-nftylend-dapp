@@ -84,7 +84,7 @@ const Home = () => {
       className={cx(isMobile && styles.mobileWrapper, styles.wrapper)}
     >
       <section className={cx(styles.section, styles.sectionBG)}>
-        <img alt="NFTy Lend" src={imgTitle} className={styles.imgLogo} />
+        <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
         <h2>The leading of NFTs Lending platform</h2>
         <p>
           The first marketplace for NFTs P2P Lending. The fastest way to liquid
@@ -99,14 +99,15 @@ const Home = () => {
         </div>
       </section>
       <section className={cx(styles.section)}>
-        <img alt="NFTy Lend" src={imgTitle2} />
-        <h1>What is NFTy Lend?</h1>
+        <h4 className={styles.sectionTitle}>PAWN PROTOCOL</h4>
+        {/* <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} /> */}
+        <h1>What is NFT Pawn?</h1>
         <p>
-          NFTy Lend is an autonomous P2P lending marketplace powered by smart
+          NFT Pawn is an autonomous P2P lending marketplace powered by smart
           contracts.
         </p>
         <div className={styles.bgWhatNFTy}>
-          <img alt="NFTy Lend" src={imgWhatNFTy} />
+          <img alt="NFT Pawn" src={imgWhatNFTy} />
         </div>
       </section>
       <section className={cx(styles.section, styles.sectionHIW)}>
@@ -117,11 +118,11 @@ const Home = () => {
           smart contracts handle the rest.
         </p>
         <div className={styles.bgHowItWork}>
-          <img alt="NFTy Lend" src={imgHowItWork} />
+          <img alt="NFT Pawn" src={imgHowItWork} />
         </div>
       </section>
       <section className={cx(styles.section)}>
-        <img alt="NFTy Lend" src={imgTitle2} className={styles.imgTitle} />
+        <h4 className={styles.sectionTitle}>PAWN PROTOCOL</h4>
         <h1>Press</h1>
         {/* <p>Our smart contracts handle the rest.</p> */}
         <div className={styles.wrapPartner}>
@@ -134,8 +135,7 @@ const Home = () => {
       </section>
       <section className={cx(styles.section)}>
         <div className={styles.sectionBgOurPartner}>
-          {/* <img alt="NFTy Lend" src={imgTitle3} /> */}
-          <img alt="NFTy Lend" src={imgTitle2} className={styles.imgTitle} />
+        <h4 className={styles.sectionTitle}>PAWN PROTOCOL</h4>
           <h1>Partners</h1>
           <div className={styles.wrapPartner}>
             {logoPartners.map((v) => (
@@ -146,7 +146,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className={cx(styles.section)}>
+      {/* <section className={cx(styles.section)}>
         <div className={styles.sectionBgJoin}>
           <div className={styles.sectionBgJoinTop}>
             <h1>Join our communities</h1>
@@ -171,7 +171,7 @@ const Home = () => {
           </div>
           {isMobile && (
             <>
-              <img src={imgMBCommunity2} className={styles.joinCommunicateBG}/>
+              <img src={imgMBCommunity2} className={styles.joinCommunicateBG} />
               <img
                 src={imgMBCommunity1}
                 className={styles.joinCommunicateLogo}
@@ -179,7 +179,7 @@ const Home = () => {
             </>
           )}
         </div>
-      </section>
+      </section> */}
     </BodyContainer>
   );
 };
