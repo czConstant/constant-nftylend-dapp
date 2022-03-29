@@ -7,7 +7,7 @@ import EvmTransaction from './index';
 import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { generateNonce, getChainIdByChain } from '../utils';
+import { generateNonce } from '../utils';
 
 export default class MakeOfferEvmTransaction extends EvmTransaction {
   async run(
@@ -29,6 +29,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
       const tx = await contract.approve(this.lendingProgram, web3.utils.toWei('1000000', 'ether'));
       const receipt = await tx.wait();
       
+      const chainId = (await provider.getNetwork()).chainId;
       const nonce = generateNonce();
       let lenderMsg = web3.utils.soliditySha3(
         principal * 10 ** currencyDecimals,
@@ -40,7 +41,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         assetContractAddress,
         currencyContractAddress,
         lender,
-        getChainIdByChain(this.chain),
+        chainId,
       );
       if (!lenderMsg) throw new Error('Empty borrow message');
       const lenderSig = await signer.signMessage(lenderMsg)
