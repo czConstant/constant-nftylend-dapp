@@ -1,58 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import last from 'lodash/last';
 import cx from 'classnames';
 import { Button, Dropdown } from 'react-bootstrap';
 
 import styles from './styles.module.scss';
-import { getLinkSolScanAccount, getLinkSolScanExplorer } from 'src/common/utils/solana';
 import ItemNftMedia from '../itemNft/itemNftMedia';
 import { APP_URL } from 'src/common/constants/url';
 import { verifyAsset } from '../../api';
 import Loading from 'src/common/components/loading';
 import { isMobile } from 'react-device-detect';
+import { AssetNft } from '../../models/nft';
 
 interface AssetDetailModalProps {
-  item: any;
+  asset: AssetNft;
   onClose: Function;
   navigate: Function;
+  onMakeLoan?: Function;
 };
 
 const AssetDetailModal = (props: AssetDetailModalProps) => {
-  const { item, navigate, onClose } = props;
-  const [extraData, setExtraData] = useState({} as any);
+  const { asset, navigate, onClose, onMakeLoan } = props;
+  const [extraData, setExtraData] = useState(asset.detail || {});
   const [listingDetail, setListingDetail] = useState({} as any);
-  const [loadingDetail, setLoadingDetail] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [verifying, setVerifying] = useState(false);
 
   useEffect(() => {
-    getExtraData();
+    if (asset.needFetchDetail()) getExtraData();
     verifiedCollection();
-  }, []);
+  }, [asset]);
 
   const verifiedCollection = async () => {
     try {
-      setLoadingDetail(true);
-      const response = await verifyAsset(item?.asset?.mint);
+      setVerifying(true);
+      const response = await verifyAsset(asset.id as string);
       setListingDetail(response.result);
     } catch (error) {
     } finally {
-      setLoadingDetail(false);
+      setVerifying(false);
     }
   };
 
   const getExtraData = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get(item?.asset?.token_url);
-      setExtraData(response.data);
-    } catch (error) {
+      const res = await asset.fetchDetail();
+      setExtraData(res);
     } finally {
+      setLoading(false);
     }
   };
 
-  const onMakeLoan = (e: React.MouseEvent) => {
+  const onClickMakeLoan = (e: React.MouseEvent) => {
     e.preventDefault();
     onClose();
-    item?.onMakeLoan();
+    if (onMakeLoan) onMakeLoan();
   }
 
   const onClickVerify = () => {
@@ -71,20 +73,20 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
           </a>
       }
       <ItemNftMedia
-        tokenUrl={item?.asset?.token_url}
-        name={item?.asset?.name}
+        name={asset.name}
         className={cx(extraData?.attributes?.length > 6 && styles.largeImage)}
-        isFetchUrl={item?.asset?.is_fetch_url}
+        detail={extraData}
+        loading={loading}
       />
       <div>
-        <h4>{item?.asset?.name}</h4>
+        <h4>{asset.name}</h4>
         <div>
           <a
             className={styles.infoAuthor}
             target="_blank"
             href={`${
               APP_URL.NFT_LENDING_LIST_LOAN
-            }?collection_slug=${extraData?.collection?.family?.toLowerCase()}`}
+            }?collection=${extraData?.collection?.family?.toLowerCase()}`}
           >
             {extraData?.collection?.name}
           </a>
@@ -93,26 +95,24 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
           <a
             className={styles.infoCreator}
             target="_blank"
-            href={getLinkSolScanAccount(
-              last(extraData?.properties?.creators)?.address,
-            )}
+            href={asset.getLinkExplorer(asset.creator)}
           >
             Creators
           </a>{' '}
           ·{' '}
           <a
             target="_blank"
-            href={getLinkSolScanAccount(item?.asset?.authority)}
+            href={asset.getLinkExplorer(asset.owner)}
           >
             Authority
           </a>
         </div>
         <div className={cx(styles.actions)}>
-          {loadingDetail
+          {verifying
             ? <Loading />
             : listingDetail
               ? (
-                <Button onClick={onMakeLoan} className={styles.btnConnect}>
+                <Button onClick={onClickMakeLoan} className={styles.btnConnect}>
                   Make a Loan
                 </Button>
               ) : (
@@ -128,11 +128,11 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
             <Dropdown.Menu>
               <Dropdown.Item
                 target="_blank"
-                href={getLinkSolScanExplorer(item?.asset?.mint)}
+                href={asset.getLinkExplorer()}
               >
                 View in explorer
               </Dropdown.Item>
-              <Dropdown.Item target="_blank" href={item?.asset?.token_url}>
+              <Dropdown.Item target="_blank" href={asset.detail_uri}>
                 View raw JSON
               </Dropdown.Item>
             </Dropdown.Menu>

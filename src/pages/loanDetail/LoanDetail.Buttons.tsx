@@ -1,39 +1,38 @@
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
+import cx from "classnames";
+import { Link, useNavigate } from "react-router-dom";
+
 import Loading from "src/common/components/loading";
+import { toastError, toastSuccess } from "src/common/services/toaster";
+import { closeModal, openModal } from "src/store/modal";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { requestReload, selectNftyLend } from "src/store/nftyLend";
+import { APP_URL } from "src/common/constants/url";
+import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
+import { OfferToLoan } from 'src/modules/nftLend/models/offer';
+import { Chain } from 'src/common/constants/network';
+import { isSameAddress } from 'src/common/utils/helper';
+import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
+
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
-import cx from "classnames";
-import {
-  getAssociatedAccount,
-  getLinkSolScanTx,
-} from "src/common/utils/solana";
-import CancelLoanTransaction from "src/modules/nftLend/transactions/cancelLoan";
-import { toastError, toastSuccess } from "src/common/services/toaster";
-import OrderNowTransaction from "src/modules/nftLend/transactions/orderNow";
-import { closeModal, openModal } from "src/store/modal";
-import LoanDetailMakeOffer from "./LoanDetail.MakeOffer";
-import ButtonSolWallet from "src/common/components/buttonSolWallet";
-import { useAppDispatch } from "src/store/hooks";
-import { requestReload } from "src/store/nftLend";
-import { Link, useNavigate } from "react-router-dom";
-import { APP_URL } from "src/common/constants/url";
-import CancelOfferTransaction from "src/modules/nftLend/transactions/cancelOffer";
 import { TABS } from "../myAsset";
+import LoanDetailMakeOffer from './makeOffer';
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
-  const { connection } = useConnection();
-  const wallet = useWallet();
   const dispatch = useAppDispatch();
+  const { cancelLoan, cancelOffer, orderOffer } = useTransaction();
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const walletChain = useAppSelector(selectNftyLend).walletChain;
 
   const [canceling, setCanceling] = useState(false);
   const [orderNow, setOrderNow] = useState(false);
   const [orderPicking, setOrderPicking] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const isOwner = wallet?.publicKey?.toString() === loan?.new_loan?.owner;
+  const isOwner = isSameAddress(walletAddress, loan.owner);
 
   const onMakeOffer = async () => {
     const close = () =>
@@ -47,13 +46,10 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
         id: "createLoanModal",
         modalProps: {
           centered: true,
-          dialogClassName: "modal-no-padding",
           backdrop: "static",
         },
         render: () => (
           <LoanDetailMakeOffer
-            connection={connection}
-            wallet={wallet}
             loan={loan}
             onClose={close}
             navigate={navigate}
@@ -66,46 +62,31 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   };
 
   const onOrderNow = async () => {
-    const transaction = new OrderNowTransaction(connection, wallet);
     try {
       setSubmitting(true);
       setOrderNow(true);
-      const borrowerPubkey = loan.new_loan.owner;
-      const tokenMint = loan.new_loan.currency.contract_address;
-      const borrowerTokenAssociated = await getAssociatedAccount(
-        borrowerPubkey,
-        tokenMint
-      );
-      const lenderTokenAssociated = await getAssociatedAccount(
-        wallet.publicKey.toString(),
-        tokenMint
-      );
-      const decimals = loan.new_loan.currency.decimals;
-      const res = await transaction.run(
-        tokenMint,
-        borrowerTokenAssociated,
-        borrowerPubkey,
-        loan.new_loan.data_loan_address,
-        lenderTokenAssociated,
-        Number(loan.new_loan.principal_amount) * 10 ** decimals
-      );
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Make offer successfully.{" "}
-            <a
-              target="_blank"
-              href={getLinkSolScanTx(res.txHash)}
-              className="blue"
-            >
+      if (!loan.currency) throw new Error('Loan has no currency');
+      const res = await orderOffer({
+        currency_contract_address: loan.currency?.contract_address,
+        currency_decimal: loan.currency.decimals,
+        loan_owner: loan.owner,
+        loan_data_address: loan.data_loan_address,
+        lender: walletAddress,
+        principal: loan.principal_amount,
+      });
+      toastSuccess(
+        <>
+          Make offer successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
               View transaction
             </a>
-          </>
-        );
-        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=${TABS.offer}`);
-      }
-    } catch (err) {
-      toastError(err?.message);
+          )}
+        </>
+      );
+      return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=${TABS.offer}`);
+    } catch (err: any) {
+      toastError(err?.message || err);
     } finally {
       setSubmitting(false);
       setOrderNow(false);
@@ -113,36 +94,26 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   };
 
   const onCancelLoan = async (e) => {
-    const tokenMint = loan.contract_address;
-    const nftAssociated = await getAssociatedAccount(
-      wallet?.publicKey?.toString(),
-      tokenMint
-    );
-    const transaction = new CancelLoanTransaction(connection, wallet);
     try {
       setSubmitting(true);
       setCanceling(true);
-      const res = await transaction.run(
-        nftAssociated,
-        loan?.new_loan?.data_loan_address,
-        loan?.new_loan?.data_asset_address
-      );
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Cancel loan successfully.{" "}
-            <a
-              target="_blank"
-              href={getLinkSolScanTx(res.txHash)}
-              className="blue"
-            >
+      const res = await cancelLoan({
+        nonce: loan.nonce,
+        asset_contract_address: loan.asset?.contract_address || '',
+        loan_data_address: '' 
+      });
+      toastSuccess(
+        <>
+          Cancel loan successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
               View transaction
             </a>
-          </>
-        );
-        return navigate(`${APP_URL.NFT_LENDING_MY_NFT}`);
-      }
-    } catch (err) {
+          )}
+        </>
+      );
+      return navigate(`${APP_URL.NFT_LENDING_MY_NFT}`);
+    } catch (err: any) {
       toastError(err?.message || err);
     } finally {
       setSubmitting(false);
@@ -150,47 +121,38 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
     }
   };
 
-  const onCancelOffer = async (offer) => {
-    const currencyMint = loan?.new_loan?.currency?.contract_address;
-
-    const currencyAssociated = await getAssociatedAccount(
-      wallet.publicKey.toString(),
-      currencyMint
-    );
-    const transaction = new CancelOfferTransaction(connection, wallet);
+  const onCancelOffer = async (offer: OfferToLoan) => {
     try {
       setCanceling(true);
-      const res = await transaction.run(
-        currencyAssociated,
-        offer.data_offer_address,
-        offer.data_currency_address
-      );
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Cancel offer successfully.{" "}
-            <a
-              target="_blank"
-              href={getLinkSolScanTx(res.txHash)}
-              className="blue"
-            >
+      if (!loan.currency) throw new Error('Loan has no currency');
+      const res = await cancelOffer({
+        currency_contract_address: loan.currency.contract_address,
+        currency_data_address: offer.data_currency_address,
+        offer_data_address: offer.data_offer_address,
+        nonce: offer.nonce,
+      });
+      toastSuccess(
+        <>
+          Cancel offer successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
               View transaction
             </a>
-          </>
-        );
-        dispatch(requestReload());
-      }
-    } catch (err) {
+          )}
+        </>
+      );
+      dispatch(requestReload());
+    } catch (err: any) {
       toastError(err?.message || err);
     } finally {
       setCanceling(false);
     }
   };
 
-  if (!wallet.publicKey) {
+  if (!walletAddress) {
     return (
       <div className={styles.groupOfferButtons}>
-        <ButtonSolWallet className={styles.btnConnect} />
+        <ButtonConnectWallet className={styles.btnConnect} />
       </div>
     );
   }
@@ -226,13 +188,15 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   return (
     <div className={styles.groupOfferButtonWrapper}>
       <div className={styles.groupOfferButtons}>
-        <Button
-          className={styles.btnConnect}
-          disabled={isOwner || orderNow}
-          onClick={onOrderNow}
-        >
-          {orderNow ? <Loading dark={false} /> : "Order now"}
-        </Button>
+        {walletChain === Chain.Solana && (
+          <Button
+            className={styles.btnConnect}
+            disabled={isOwner || orderNow}
+            onClick={onOrderNow}
+          >
+            {orderNow ? <Loading dark={false} /> : "Order now"}
+          </Button>
+        )}
         <Button
           className={styles.btnConnect}
           disabled={isOwner || orderPicking}

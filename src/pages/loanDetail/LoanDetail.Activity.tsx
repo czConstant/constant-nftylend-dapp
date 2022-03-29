@@ -11,17 +11,16 @@ import {
 import {
   getLinkSolScanAccount,
   getLinkSolScanTx,
-} from "src/common/utils/solana";
+} from "src/modules/solana/utils";
 import {
   formatCurrencyByLocale,
   shortCryptoAddress,
 } from "src/common/utils/format";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
-import {
-  LOAN_STATUS,
-  LOAN_TRANSACTION_ACTIVITY,
-} from "src/modules/nftLend/constant";
+import { LOAN_TRANSACTION_ACTIVITY } from "src/modules/nftLend/constant";
+import { useAppSelector } from 'src/store/hooks';
+import { selectNftyLend } from 'src/store/nftyLend';
 
 const TableHeader = () => (
   <div className={cx(styles.tbHeader, styles.activityWrapBody)}>
@@ -36,83 +35,86 @@ const TableHeader = () => (
   </div>
 );
 
-const TableBody = ({ results = [], detail }) =>
-  results.map((result) => {
-    let statusColor = "#ffffff";
+const TableBody = ({ results = [] }) => {
+  return (<>
+    {results.map((result) => {
+      let statusColor = "#ffffff";
 
-    if (["listed"].includes(result.status)) {
-      statusColor = "blue";
-    } else if (["offered", "repaid"].includes(result.status)) {
-      statusColor = "green";
-    } else if (["cancelled", "liquidated"].includes(result.status)) {
-      statusColor = "red";
-    }
+      if (["listed"].includes(result.status)) {
+        statusColor = "blue";
+      } else if (["offered", "repaid"].includes(result.status)) {
+        statusColor = "green";
+      } else if (["cancelled", "liquidated"].includes(result.status)) {
+        statusColor = "red";
+      }
 
-    return (
-      <div
-        className={cx(styles.tbHeader, styles.tbBody, styles.activityWrapBody)}
-        key={result?.id}
-      >
-        <div className={styles.typeWrap}>
-          {FilterTypes.find((v) => v.id === result?.type)?.label}
-          {result?.status && (
-            <span style={{ color: statusColor }}>
-              {LOAN_TRANSACTION_ACTIVITY.find((v) => v.id === result?.status)
-                ?.name || "Unknown"}
-            </span>
-          )}
-        </div>
-        <div>
-          <a
-            className={styles.scanLink}
-            target="_blank"
-            href={getLinkSolScanTx(result?.tx_hash)}
-          >
-            {shortCryptoAddress(result?.tx_hash, 8)}
-          </a>
-        </div>
-        <div>{moment(result?.created_at).fromNow()}</div>
-        <div>
-          {result?.amount &&
-            `${formatCurrencyByLocale(parseFloat(result?.amount), 2)} ${
-              result?.currency
-            }`}
-        </div>
-        <div>
-          {result.duration &&
-            `${Math.ceil(
-              new BigNumber(result.duration).dividedBy(86400).toNumber()
-            )} days`}
-        </div>
-        <div>
-          {result.interest_rate &&
-            `${new BigNumber(result.interest_rate)
-              .multipliedBy(100)
-              .toNumber()} %APY`}
-        </div>
-        <div>
-          <a
-            className={styles.scanLink}
-            target="_blank"
-            href={getLinkSolScanAccount(result?.borrower)}
-          >
-            {shortCryptoAddress(result?.borrower, 8)}
-          </a>
-        </div>
-        <div>
-          {result?.lender && (
+      return (
+        <div
+          className={cx(styles.tbHeader, styles.tbBody, styles.activityWrapBody)}
+          key={result?.id}
+        >
+          <div className={styles.typeWrap}>
+            {FilterTypes.find((v) => v.id === result?.type)?.label}
+            {result?.status && (
+              <span style={{ color: statusColor }}>
+                {LOAN_TRANSACTION_ACTIVITY.find((v) => v.id === result?.status)
+                  ?.name || "Unknown"}
+              </span>
+            )}
+          </div>
+          <div>
             <a
               className={styles.scanLink}
               target="_blank"
-              href={getLinkSolScanAccount(result?.lender)}
+              href={getLinkSolScanTx(result?.tx_hash)}
             >
-              {shortCryptoAddress(result?.lender, 8)}
+              {shortCryptoAddress(result?.tx_hash, 8)}
             </a>
-          )}
+          </div>
+          <div>{moment(result?.created_at).fromNow()}</div>
+          <div>
+            {result?.amount &&
+              `${formatCurrencyByLocale(parseFloat(result?.amount), 2)} ${
+                result?.currency
+              }`}
+          </div>
+          <div>
+            {result.duration &&
+              `${Math.ceil(
+                new BigNumber(result.duration).dividedBy(86400).toNumber()
+              )} days`}
+          </div>
+          <div>
+            {result.interest_rate &&
+              `${new BigNumber(result.interest_rate)
+                .multipliedBy(100)
+                .toNumber()} %APY`}
+          </div>
+          <div>
+            <a
+              className={styles.scanLink}
+              target="_blank"
+              href={getLinkSolScanAccount(result?.borrower)}
+            >
+              {shortCryptoAddress(result?.borrower, 8)}
+            </a>
+          </div>
+          <div>
+            {result?.lender && (
+              <a
+                className={styles.scanLink}
+                target="_blank"
+                href={getLinkSolScanAccount(result?.lender)}
+              >
+                {shortCryptoAddress(result?.lender, 8)}
+              </a>
+            )}
+          </div>
         </div>
-      </div>
-    );
-  });
+      );
+    })}
+  </>)
+}
 
 class ItemActivityModel {
   type: string;
@@ -129,30 +131,23 @@ const FilterTypes = [
   },
 ];
 
-const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
+const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan, asset }) => {
   const [results, setResults] = useState([]);
-  const [sales, setSales] = useState([]);
-  const [activities, setActivities] = useState([]);
+  const [sales, setSales] = useState<Array<ItemActivityModel>>([]);
+  const [activities, setActivities] = useState<Array<ItemActivityModel>>([]);
 
   useEffect(() => {
     if (loan?.id) {
-      getData();
+      fetchLoanTransactions();
+      fetchSaleTransactions();
     }
   }, [loan?.id]);
 
-  const getData = async () => {
+  const fetchLoanTransactions = async () => {
     try {
-      const response = await Promise.allSettled([
-        getLoanTransactions({
-          asset_id: loan?.id?.toString(),
-        }),
-        getSaleTransactions({
-          asset_id: loan?.id?.toString(),
-        }),
-      ]);
-
-      const _activities: ItemActivityModel[] = response[0]?.value?.result?.map(
-        (v) => ({
+      const res = await getLoanTransactions({ asset_id: asset.id });
+      const _activities: ItemActivityModel[] = res.result?.map(
+        (v: any) => ({
           type: FilterTypes[1].id,
           id: v.id,
           status: v.type,
@@ -166,8 +161,16 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
           lender: v.lender,
         })
       );
+      setActivities(_activities);
+    } catch (err) {
 
-      const _sales: ItemActivityModel[] = response[1]?.value?.result?.map((v) => ({
+    }
+  };
+
+  const fetchSaleTransactions = async () => {
+    try {
+      const res = await getSaleTransactions({ asset_id: asset.id });
+      const _sales: ItemActivityModel[] = res.result?.map((v: any) => ({
         type: FilterTypes[0].id,
         id: v.id,
         // status: v.type,
@@ -179,31 +182,28 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan }) => {
         borrower: v.seller,
         lender: v.buyer,
       }));
-
-      setActivities(_activities);
-
       setSales(_sales);
+    } catch (err) {
 
-      const _results: ItemActivityModel[] = sortBy(
-        _activities?.concat(_sales),
-        ["created_at"]
-      ).reverse();
-
-      setResults(_results);
-    } catch (error) {}
+    }
   };
 
   const renderActivityContent = () => {
+    const _results: ItemActivityModel[] = sortBy(
+      activities?.concat(sales),
+      ["created_at"]
+    ).reverse();
+
     return (
       <>
         <TableHeader />
-        <TableBody results={results} detail={loan} />
+        <TableBody results={_results} />
       </>
     );
   };
 
   return (
-    <SectionCollapse label="Activities" content={renderActivityContent()} />
+    <SectionCollapse id="activites" label="Activities" content={renderActivityContent()} />
   );
 };
 

@@ -1,3 +1,4 @@
+import { Chain } from 'src/common/constants/network';
 import { API_URL } from "src/common/constants/url";
 import api from "src/common/services/apiClient";
 import { ListResponse, ResponseResult, SubmitCollection } from "./models/api";
@@ -30,15 +31,15 @@ interface ListParams {
   limit?: number;
 }
 
-export const getNftListCurrency = async (): Promise<ListResponse> => {
-  return api.get(API_URL.NFT_LEND.LIST_CURRENCY);
+export const getNftListCurrency = async (network: string = ''): Promise<ListResponse> => {
+  return api.get(`${API_URL.NFT_LEND.LIST_CURRENCY}?network=${network}`);
 };
 
 export const getCollections = (params?: ListParams): Promise<ListResponse> => {
   return api.get(API_URL.NFT_LEND.COLLECTIONS, { params });
 };
 
-export const getCollectionById = (id: number): Promise<ResponseResult> => {
+export const getCollectionById = (id: number | string): Promise<ResponseResult> => {
   return api.get(`${API_URL.NFT_LEND.COLLECTION_BY_ID}/${id}`);
 };
 
@@ -47,6 +48,8 @@ export interface LoanByCollectionParams {
   exclude_ids?: string;
   min_price?: number;
   max_price?: number;
+  collection?: string;
+  network?: string;
 }
 export const getLoanByCollection = (
   params?: LoanByCollectionParams

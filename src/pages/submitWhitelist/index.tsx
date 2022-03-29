@@ -47,6 +47,8 @@ const SubmitWhitelist = () => {
 
   const listNetwork = [
     { symbol: 'ETH', label: <CryptoDropdownItem symbol="ETH" name="Ethereum" icon={tokenIcons.eth} /> },
+    { symbol: 'MATIC', label: <CryptoDropdownItem symbol="MATIC" name="Polygon" icon={tokenIcons.matic} /> },
+    { symbol: 'AVAX', label: <CryptoDropdownItem symbol="AVAX" name="Avalanche" icon={tokenIcons.avax} /> },
     { symbol: 'SOL', label: <CryptoDropdownItem symbol="SOL" name="Solana" icon={tokenIcons.sol} /> },
   ];
 

@@ -1,39 +1,31 @@
 import { useState, useEffect } from "react";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import BigNumber from "bignumber.js";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import cx from "classnames";
 import { Tab, Tabs } from "react-bootstrap";
-import {
-  WalletDisconnectButton,
-  WalletModalProvider,
-} from "@solana/wallet-adapter-react-ui";
 import queryString from "query-string";
+import { Navigate } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 
 import BodyContainer from "src/common/components/bodyContainer";
-import ButtonSolWallet from "src/common/components/buttonSolWallet";
-import {
-  getBalanceToken,
-  getLinkSolScanAccount,
-} from "src/common/utils/solana";
-import { APP_ENV } from "src/common/constants/url";
-import {
-  formatCurrencyByLocale,
-  shortCryptoAddress,
-} from "src/common/utils/format";
+import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
 import ListAsset from "src/modules/nftLend/components/listAsset";
 import ListLoan from "src/modules/nftLend/components/listLoan";
 import ListOffer from "src/modules/nftLend/components/listOffer";
 import ListOfferReceive from "src/modules/nftLend/components/listOfferReceive";
-
-import styles from "./styles.module.scss";
-import bgCover from "./images/bg_cover.png";
 import { toastSuccess } from "src/common/services/toaster";
 import { getNftListCurrency } from "src/modules/nftLend/api";
 import { Currency } from "src/modules/nftLend/models/api";
-import { useLocation } from "react-router-dom";
-import { isMobile } from "react-device-detect";
+import { useAppSelector } from 'src/store/hooks';
+import { selectNftyLend } from 'src/store/nftyLend';
+import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
+import { getLinkExplorerWallet } from 'src/modules/nftLend/utils';
+import { APP_URL } from 'src/common/constants/url';
+import { useToken } from 'src/modules/nftLend/hooks/useToken';
+
+import bgCover from "./images/bg_cover.png";
+import styles from "./styles.module.scss";
 
 export const TABS = {
   owned: "my-assets",
@@ -44,8 +36,9 @@ export const TABS = {
 };
 
 const MyAsset = () => {
-  const { connection } = useConnection();
-  const { publicKey, connected } = useWallet();
+  const { getNativeBalance, getBalance } = useToken();
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const walletChain = useAppSelector(selectNftyLend).walletChain;
 
   const location = useLocation();
 
@@ -53,32 +46,29 @@ const MyAsset = () => {
 
   const [balance, setBalance] = useState(0);
   const [currencies, setCurrencies] = useState([]);
-  console.log(
-    "🚀 ~ file: index.tsx ~ line 38 ~ MyAsset ~ currencies",
-    currencies
-  );
   const [selectedTab, setSelectedTab] = useState(tabActive);
 
   useEffect(() => {
     fetchBalance();
-  }, [publicKey]);
+  }, [walletAddress]);
 
   const fetchBalance = async () => {
-    if (!publicKey) return;
-    const solRes = await connection.getBalance(publicKey);
-    setBalance(new BigNumber(solRes).dividedBy(LAMPORTS_PER_SOL).toNumber());
+    const nativeBalance = await getNativeBalance();
+    setBalance(nativeBalance);
 
-    const listCurrencies = (await getNftListCurrency()).result;
+    const listCurrencies = (await getNftListCurrency(walletChain)).result;
     const res = await Promise.all(
       listCurrencies.map((e: Currency) =>
-        getBalanceToken(connection, publicKey, e.contract_address)
+        getBalance(e.contract_address)
       )
     );
     listCurrencies.forEach((e: any, i: number) => {
-      e.balance = res[i];
+      e.balance = new BigNumber(res[i]).dividedBy(10 ** listCurrencies[i].decimals);
     });
     setCurrencies(listCurrencies);
   };
+
+  if (!walletAddress) return <Navigate to={APP_URL.NFT_LENDING} />
 
   return (
     <>
@@ -94,18 +84,18 @@ const MyAsset = () => {
                 alt="Avatar"
               />
             </div>
-            {connected && publicKey ? (
+            {walletAddress ? (
               <>
                 <div className={styles.addressWrap}>
                   <a
                     target="_blank"
-                    href={`${getLinkSolScanAccount(publicKey.toString())}`}
+                    href={getLinkExplorerWallet(walletAddress, walletChain)}
                   >
-                    {shortCryptoAddress(publicKey?.toString(), 10)}
+                    {shortCryptoAddress(walletAddress, 10)}
                   </a>
                   <CopyToClipboard
                     onCopy={() => toastSuccess("Copied address!")}
-                    text={publicKey?.toString()}
+                    text={walletAddress}
                   >
                     <i className="far fa-copy" />
                   </CopyToClipboard>
@@ -113,29 +103,20 @@ const MyAsset = () => {
                 <div className={styles.priceWrap}>
                   <label>Balance</label>
                   <div className={styles.balance}>
-                    <span>{formatCurrencyByLocale(balance, 8)}</span> SOL
+                    <span>{formatCurrencyByLocale(balance, 8)}</span>
+                    {walletChain.toString()}
                   </div>
                   {currencies.map((e: Currency) => (
-                    <div className={styles.balance}>
+                    <div key={e.symbol} className={styles.balance}>
                       <span>{formatCurrencyByLocale(e.balance, 2)}</span>{" "}
                       {e.symbol}
                     </div>
                   ))}
                 </div>
-                <div className={styles.connectButtonWrap}>
-                  <WalletModalProvider>
-                    <WalletDisconnectButton
-                      className={cx(
-                        styles.connectButton,
-                        styles.disconnectButton
-                      )}
-                    />
-                  </WalletModalProvider>
-                </div>
               </>
             ) : (
               <div className={styles.connectButtonWrap}>
-                <ButtonSolWallet className={styles.connectButton} />
+                <ButtonConnectWallet className={styles.connectButton} />
               </div>
             )}
           </div>

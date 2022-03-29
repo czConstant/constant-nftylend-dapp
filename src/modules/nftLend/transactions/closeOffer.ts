@@ -1,49 +1,39 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { WalletContextState } from '@solana/wallet-adapter-react';
+import { Connection } from '@solana/web3.js';
+import { Chain } from 'src/common/constants/network';
+import CloseOfferTransaction from 'src/modules/solana/transactions/closeOffer';
+import { getAssociatedAccount } from 'src/modules/solana/utils';
+import { CloseOfferParams, TransactionResult } from '../models/transaction';
 
-import { getLendingProgramId } from './constants';
-import { CloseOfferInstruction } from './utils';
-import SolTransaction from './index';
-
-export default class CloseOfferTransaction extends SolTransaction {
-  async run(
-    offerId: string,
-    pdaTokenAccount: string,
-    lenderUsdAssociated: string,
-  ) {
-    if (!this.wallet.publicKey) return;
-
-    try {
-      const lendingProgramId = new PublicKey(getLendingProgramId());
-      const offer_id = new PublicKey(offerId);
-      const pda_token_account = new PublicKey(pdaTokenAccount);
-      const lender_token_account_pubkey = new PublicKey(lenderUsdAssociated);
-
-      const PDA = await PublicKey.findProgramAddress([Buffer.from('lending')], lendingProgramId);
-      const closeOfferInstructionTx = CloseOfferInstruction(
-        lendingProgramId,
-        this.wallet.publicKey,
-        offer_id,
-        lender_token_account_pubkey,
-        pda_token_account,
-        TOKEN_PROGRAM_ID,
-        PDA[0]
-      );
-
-      const tx = new Transaction({ feePayer: this.wallet.publicKey }).add(
-        closeOfferInstructionTx,
-      );
-      tx.recentBlockhash = (
-        await this.connection.getLatestBlockhash()
-      ).blockhash;
-
-      const txHash = await this.wallet.sendTransaction(tx, this.connection, {
-        signers: [],
-      });
-
-      return this.handleSuccess({ txHash });
-    } catch (err) {
-      return this.handleError(err);
-    }
+interface CloseOfferTxParams extends CloseOfferParams {
+  chain: Chain;
+  walletAddress: string;
+  solana?: {
+    connection: Connection;
+    wallet: WalletContextState;
   }
 }
+
+const solTx = async (params: CloseOfferTxParams): Promise<TransactionResult> => {
+  if (!params.solana?.connection || !params.solana?.wallet) throw new Error('No connection to Solana provider');
+    
+  const currencyAssociated = await getAssociatedAccount(params.walletAddress, params.currency_contract_address);
+  if (!currencyAssociated) throw new Error('No associated account for currency');
+
+  const transaction = new CloseOfferTransaction(params.solana.connection, params.solana.wallet);
+  const res = await transaction.run(
+    currencyAssociated,
+    params.offer_data_address,
+    params.currency_data_address
+  );
+  return res;
+}
+
+const closeOfferTx = async (params: CloseOfferTxParams): Promise<TransactionResult> => {
+  if (params.chain === Chain.Solana) {
+    return solTx(params)
+  }
+  throw new Error('Chain not supported');
+};
+
+export default closeOfferTx;

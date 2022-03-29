@@ -1,4 +1,4 @@
-import { APP_ENV } from "src/common/constants/url";
+import { SOL_CLUSTER } from 'src/common/constants/config';
 
 export const LOAN_STATUS = [
   {
@@ -156,7 +156,7 @@ export const LOAN_DURATION = [
   },
 ];
 
-if (APP_ENV.REACT_SOL_CLUSTER === "devnet") {
+if (SOL_CLUSTER === "devnet") {
   LOAN_DURATION.unshift({
     id: 0.01,
     label: "0.1 days",

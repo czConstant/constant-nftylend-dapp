@@ -1,136 +1,73 @@
-import {
-  AccountLayout, TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID,
-  createAssociatedTokenAccountInstruction, createInitializeAccountInstruction, createTransferInstruction
-} from '@solana/spl-token';
-import {
-  Keypair,
-  PublicKey,
-  SystemProgram,
-  SYSVAR_RENT_PUBKEY,
-  Transaction,
-} from '@solana/web3.js';
+import { WalletContextState } from '@solana/wallet-adapter-react';
+import { Connection } from '@solana/web3.js';
+import { Chain } from 'src/common/constants/network';
+import CreateLoanEvmTransaction from 'src/modules/evm/transactions/createLoan';
+import CreateLoanSolTransaction from 'src/modules/solana/transactions/createLoan';
+import { getAssociatedAccount } from 'src/modules/solana/utils';
+import { CreateLoanParams, TransactionResult } from '../models/transaction';
+import { isEvmChain } from '../utils';
 
-import { getLendingProgramId, LOAN_INFO_LAYOUT } from './constants';
-import { InitLoanInstruction } from './utils';
-import SolTransaction from './index';
+interface CreateLoanTxParams extends CreateLoanParams {
+  chain: Chain;
+  walletAddress: string;
+  solana?: {
+    connection: Connection;
+    wallet: WalletContextState;
+  }
+}
 
-interface LoanInfo {
+export interface CreateLoanInfo {
+  currency_id: number;
   principal: number;
   rate: number;
   duration: number; // days
 }
 
-export default class CreateLoanTransaction extends SolTransaction {
-  async run(
-    nftMint: string,
-    borrowerNftAssociated: string,
-    tokenMint: string,
-    borrowerTokenAssociated: string,
-    loanInfo: LoanInfo,
-  ) {
-    if (!this.wallet.publicKey) return;
-    try {
-      const lendingProgramId = new PublicKey(getLendingProgramId());
-      const borrower_nft_account_pubkey = new PublicKey(
-        borrowerNftAssociated,
-      );
-      const borrower_usd_account_pubkey = new PublicKey(
-        borrowerTokenAssociated,
-      );
-      const nft_mint_pubkey = new PublicKey(nftMint);
-      const usd_mint_pubkey = new PublicKey(tokenMint);
-      const temp_nft_account = Keypair.generate();
+const solTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => {
+  if (!params.solana?.connection || !params.solana?.wallet) throw new Error('No connection to Solana provider');
+    
+  const nftAssociated = await getAssociatedAccount(params.walletAddress, params.asset_contract_address);
+  if (!nftAssociated) throw new Error('No associated account for asset');
+  
+  const currencyAssociated = await getAssociatedAccount(params.walletAddress, params.currency_contract_address);
+  if (!currencyAssociated) throw new Error('No associated account for currency');
 
-      const tx = new Transaction({ feePayer: this.wallet.publicKey });
-
-      /* Check if token associated account of borrower is init or not */
-      const tokenAssociatedAcc = await this.connection.getAccountInfo(borrower_usd_account_pubkey);
-      if (tokenAssociatedAcc === null || tokenAssociatedAcc.data.length === 0) {
-        const createAssTokenAccountIx = createAssociatedTokenAccountInstruction(
-          this.wallet.publicKey,
-          borrower_usd_account_pubkey,
-          this.wallet.publicKey,
-          usd_mint_pubkey,
-          TOKEN_PROGRAM_ID,
-          ASSOCIATED_TOKEN_PROGRAM_ID,
-        );
-
-        tx.add(createAssTokenAccountIx);
-      }
-      /* End */
-
-      const createTempTokenAccountIx = SystemProgram.createAccount({
-        programId: TOKEN_PROGRAM_ID,
-        space: AccountLayout.span,
-        lamports: await this.connection.getMinimumBalanceForRentExemption(
-          AccountLayout.span,
-        ),
-        fromPubkey: this.wallet.publicKey,
-        newAccountPubkey: temp_nft_account.publicKey,
-      });
-
-      const initTempAccountIx = createInitializeAccountInstruction(
-        temp_nft_account.publicKey,
-        nft_mint_pubkey,
-        this.wallet.publicKey,
-        TOKEN_PROGRAM_ID,
-      );
-
-      const transferXTokensToTempAccIx = createTransferInstruction(
-        borrower_nft_account_pubkey,
-        temp_nft_account.publicKey,
-        this.wallet.publicKey,
-        1,
-        [],
-        TOKEN_PROGRAM_ID,
-      );
-
-      const loan_info_account = new Keypair();
-      const createLoanAccountIx = SystemProgram.createAccount({
-        space: LOAN_INFO_LAYOUT.span,
-        lamports: await this.connection.getMinimumBalanceForRentExemption(
-          LOAN_INFO_LAYOUT.span,
-        ),
-        fromPubkey: this.wallet.publicKey,
-        newAccountPubkey: loan_info_account.publicKey,
-        programId: lendingProgramId,
-      });
-
-      const initLoanIx = InitLoanInstruction(
-        lendingProgramId,
-        this.wallet.publicKey,
-        temp_nft_account.publicKey,
-        borrower_usd_account_pubkey,
-        loan_info_account.publicKey,
-        SYSVAR_RENT_PUBKEY,
-        TOKEN_PROGRAM_ID,
-
-        loanInfo.principal,
-        loanInfo.duration,
-        loanInfo.rate,
-        nft_mint_pubkey,
-        usd_mint_pubkey,
-      );
-
-      tx.add(
-        createTempTokenAccountIx,
-        initTempAccountIx,
-        transferXTokensToTempAccIx,
-        createLoanAccountIx,
-        initLoanIx,
-      );
-
-      tx.recentBlockhash = (
-        await this.connection.getLatestBlockhash()
-      ).blockhash;
-
-      const txHash = await this.wallet.sendTransaction(tx, this.connection, {
-        signers: [temp_nft_account, loan_info_account],
-      });
-
-      return this.handleSuccess({ txHash });
-    } catch (err) {
-      return this.handleError(err);
+  const transaction = new CreateLoanSolTransaction(params.solana.connection, params.solana?.wallet);
+  const res = await transaction.run(
+    params.asset_contract_address,
+    nftAssociated,
+    params.currency_contract_address,
+    currencyAssociated,
+    {
+      principal: params.principal * 10 ** params.currency_decimal,
+      rate: params.rate * 10000,
+      duration: params.duration * 86400,
     }
-  }
+  );
+  return res;
 }
+
+const evmTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => {
+  const transaction = new CreateLoanEvmTransaction(params.chain);
+  const res = await transaction.run(
+    params.asset_token_id,
+    params.asset_contract_address,
+    params.walletAddress,
+    params.principal,
+    params.rate,
+    params.duration * 86400,
+    params.currency_id,
+  );
+  return res;
+}
+
+const createLoanTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => {
+  if (params.chain === Chain.Solana) {
+    return solTx(params)
+  } else if (isEvmChain(params.chain)) {
+    return evmTx(params);
+  }
+  throw new Error('Chain not supported');
+};
+
+export default createLoanTx;

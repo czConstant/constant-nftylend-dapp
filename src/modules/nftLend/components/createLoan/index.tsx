@@ -3,48 +3,44 @@ import { Form } from "react-final-form";
 import { Connection } from "@solana/web3.js";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 
-import {
-  fetchAllTokenAccounts,
-  getAssociatedAccount,
-  getLinkSolScanTx,
-} from "src/common/utils/solana";
 import CryptoDropdownItem from "src/common/components/cryptoDropdownItem";
 import { toastError, toastSuccess } from "src/common/services/toaster";
-import { useAppDispatch } from "src/store/hooks";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
 
 import CreateLoanForm from "./form";
 import { getNftListCurrency } from "../../api";
-import { requestReload } from "src/store/nftLend";
-import CreateLoanTransaction from "../../transactions/createLoan";
+import { requestReload, selectNftyLend } from "src/store/nftyLend";
+import { AssetNft } from '../../models/nft';
+import { useTransaction} from '../../hooks/useTransaction';
+import { Currency } from '../../models/api';
 
 interface CreateLoanProps {
-  connection: Connection;
-  wallet: WalletContextState;
-  nftMint: string;
+  asset: AssetNft;
   onClose: Function;
 }
 
 const CreateLoan = (props: CreateLoanProps) => {
   const dispatch = useAppDispatch();
-  const { connection, wallet, nftMint, onClose } = props;
+  const { asset, onClose } = props;
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const walletChain = useAppSelector(selectNftyLend).walletChain;
+  const { createLoan } = useTransaction();
 
-  const [nftAssociated, setNftAssociated] = useState("");
-  const [receiveToken, setReceiveToken] = useState();
-  const [receiveTokenAssociated, setReceiveTokenAssociated] = useState("");
+  const [receiveToken, setReceiveToken] = useState<Currency>();
   const [listToken, setListToken] = useState([]);
   const [tokenBalance, setTokenBalance] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!wallet.publicKey) return;
+    if (!walletAddress) return;
     Promise.all([
-      getNftListCurrency(),
-      fetchAllTokenAccounts(connection, wallet.publicKey),
+      getNftListCurrency(walletChain),
+      // fetchAllTokenAccounts(connection, wallet.publicKey),
     ]).then((res) => {
-      if (!res[0] || !res[1]) return;
+      // if (!res[0] || !res[1]) return;
       setTokenBalance(res);
       const list = res[0].result.map((e: any) => {
-        const balance = res[1][e.contract_address]?.uiAmount;
+        // const balance = res[1][e.contract_address]?.uiAmount;
         return {
           ...e,
           label: (
@@ -52,7 +48,7 @@ const CreateLoan = (props: CreateLoanProps) => {
               icon={e.icon_url}
               name={e.name}
               symbol={e.symbol}
-              balance={balance}
+              // balance={balance}
             />
           ),
         };
@@ -64,57 +60,37 @@ const CreateLoan = (props: CreateLoanProps) => {
     });
   }, []);
 
-  useEffect(() => {
-    if (!nftMint || !wallet.publicKey) return;
-    getAssociatedAccount(wallet.publicKey.toString(), nftMint).then((res) => {
-      setNftAssociated(res || "");
-    });
-  }, [nftMint]);
-
-  useEffect(() => {
-    if (!receiveToken?.contract_address || !wallet.publicKey) return;
-    getAssociatedAccount(
-      wallet.publicKey.toString(),
-      receiveToken?.contract_address
-    ).then((res) => {
-      setReceiveTokenAssociated(res || "");
-    });
-  }, [receiveToken]);
-
   const onSubmit = async (values: any) => {
     if (submitting) return;
     const receiveToken: any = listToken.find(
       (e: any) => e.contract_address === values.receiveTokenMint
     );
     if (!receiveToken) return;
-    const transaction = new CreateLoanTransaction(connection, wallet);
     try {
       setSubmitting(true);
+      const res = await createLoan({
+        asset_token_id: asset.token_id,
+        asset_contract_address: asset.contract_address,
+        currency_contract_address: values.receiveTokenMint,
+        principal: values.amount,
+        rate: values.rate / 100,
+        duration: Number(values.duration.id || values.duration),
+        currency_decimal: receiveToken.decimals,
+        currency_id: receiveToken.id,
+      });
 
-      const res = await transaction.run(
-        nftMint,
-        nftAssociated,
-        values.receiveTokenMint,
-        receiveTokenAssociated,
-        {
-          principal: values.amount * 10 ** receiveToken.decimals,
-          rate: values.rate * 100,
-          duration: parseFloat(values.duration?.id || values.duration) * 86400,
-        }
-      );
-
-      if (res?.txHash) {
-        toastSuccess(
-          <>
-            Create loan successfully.{" "}
-            <a target="_blank" href={getLinkSolScanTx(res.txHash)}>
+      toastSuccess(
+        <>
+          Create loan successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
               View transaction
             </a>
-          </>
-        );
-        dispatch(requestReload());
-        onClose();
-      }
+          )}
+        </>
+      );
+      dispatch(requestReload());
+      onClose();
     } catch (err: any) {
       toastError(err.message || err);
     } finally {
@@ -124,13 +100,14 @@ const CreateLoan = (props: CreateLoanProps) => {
 
   return (
     <Form onSubmit={onSubmit}>
-      {({ handleSubmit }) => (
+      {({ values, handleSubmit }) => (
         <CreateLoanForm
           listToken={listToken}
           onSubmit={handleSubmit}
           onClose={() => onClose()}
           defaultTokenMint={receiveToken?.contract_address}
           submitting={submitting}
+          values={values}
         />
       )}
     </Form>

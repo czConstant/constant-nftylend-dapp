@@ -1,16 +1,10 @@
 import cx from "classnames";
-import { Modal } from "react-bootstrap";
+import { Modal, ModalProps } from "react-bootstrap";
 
 import { useAppDispatch } from "src/store/hooks";
 import { closeModal } from "src/store/modal";
 
 import styles from "./styles.module.scss";
-
-interface ModalProps {
-  dialogClassName?: string;
-  contentClassName?: string;
-  padding?: number;
-}
 
 export interface ModalComponentProps {
   id: string;
@@ -24,8 +18,7 @@ export interface ModalComponentProps {
 }
 
 const ModalComponent = (props: ModalComponentProps) => {
-  const { id, render, title, className, actions, modalProps, onClose, theme } =
-    props;
+  const { id, render, title, className, actions, modalProps, onClose, theme } = props;
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -41,18 +34,20 @@ const ModalComponent = (props: ModalComponentProps) => {
     ) : null;
   };
 
+  const { dialogClassName, contentClassName, ...rest } = modalProps || {};
+
   return (
     <Modal
       show
       keyboard={false}
       onHide={handleClose}
       bsclass={className}
-      dialogClassName={modalProps?.dialogClassName}
-      contentClassName={cx([modalProps?.contentClassName, cx(theme === "dark" && styles.modalDark)])}
-      {...modalProps}
+      dialogClassName={dialogClassName}
+      contentClassName={cx(contentClassName, styles.modalContent, theme === 'dark' && styles.modalDark)}
+      {...rest}
     >
       {renderHeader()}
-      <Modal.Body className={cx(modalProps?.padding === 0 && styles.noPadding)}>
+      <Modal.Body className={cx(styles.modalBody)}>
         {render(actions)}
       </Modal.Body>
     </Modal>

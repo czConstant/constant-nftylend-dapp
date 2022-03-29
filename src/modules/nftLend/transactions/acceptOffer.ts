@@ -1,66 +1,68 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Transaction, SYSVAR_CLOCK_PUBKEY } from '@solana/web3.js';
+import { WalletContextState } from '@solana/wallet-adapter-react';
+import { Connection } from '@solana/web3.js';
+import { Chain } from 'src/common/constants/network';
+import AcceptOfferEvmTransaction from 'src/modules/evm/transactions/acceptOffer';
+import AcceptOfferTransaction from 'src/modules/solana/transactions/acceptOffer';
+import { getAssociatedAccount } from 'src/modules/solana/utils';
+import { AcceptOfferParams, TransactionResult } from '../models/transaction';
+import { isEvmChain } from '../utils';
 
-import { getLendingProgramId } from './constants';
-import { AcceptOfferInstruction } from './utils';
-import SolTransaction from './index';
-
-export default class AcceptOfferTransaction extends SolTransaction {
-  async run(
-    usdAccountAddress: string,
-    usdTokenMint: string,
-    loanInfo: any,
-    offerInfo: any,
-  ) {
-    if (!this.wallet.publicKey) return;
-
-    try {
-      const lendingProgramId = new PublicKey(getLendingProgramId());
-      const borrower_usd_account_pubkey = new PublicKey(usdAccountAddress);
-      const usd_mint_pubkey = new PublicKey(usdTokenMint);
-
-      const loan_id = new PublicKey(loanInfo.id);
-      const offer_id = new PublicKey(offerInfo.id);
-      const pda_token_account = new PublicKey(offerInfo.token_account_id);
-      const lender_pubkey = new PublicKey(
-        offerInfo.lender_usd_associated,
-      );
-
-      const PDA = await PublicKey.findProgramAddress(
-        [Buffer.from('lending')],
-        lendingProgramId,
-      );
-      const acceptOfferTx = AcceptOfferInstruction(
-        lendingProgramId,
-        this.wallet.publicKey,
-        lender_pubkey,
-        loan_id,
-        borrower_usd_account_pubkey,
-        offer_id,
-        pda_token_account,
-        TOKEN_PROGRAM_ID,
-        PDA[0],
-        SYSVAR_CLOCK_PUBKEY,
-        loanInfo.principal,
-        loanInfo.duration,
-        loanInfo.rate,
-        usd_mint_pubkey,
-      );
-
-      const tx = new Transaction({ feePayer: this.wallet.publicKey }).add(
-        acceptOfferTx,
-      );
-      tx.recentBlockhash = (
-        await this.connection.getLatestBlockhash()
-      ).blockhash;
-
-      const txHash = await this.wallet.sendTransaction(tx, this.connection, {
-        signers: [],
-      });
-
-      return this.handleSuccess({ txHash });
-    } catch (err) {
-      return this.handleError(err);
-    }
+interface AcceptOfferTxParams extends AcceptOfferParams {
+  chain: Chain;
+  walletAddress: string;
+  solana?: {
+    connection: Connection;
+    wallet: WalletContextState;
   }
 }
+
+const solTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {
+  if (!params.solana?.connection || !params.solana?.wallet) throw new Error('No connection to Solana provider');
+    
+  const currencyAssociated = await getAssociatedAccount(params.walletAddress, params.currency_contract_address);
+  if (!currencyAssociated) throw new Error('No associated account for currency');
+
+  const transaction = new AcceptOfferTransaction(params.solana.connection, params.solana.wallet);
+  const res = await transaction.run(
+    params.currency_contract_address,
+    currencyAssociated,
+    params.loan_data_address,
+    params.offer_data_address,
+    params.currency_data_address,
+    params.offer_owner,
+    params.principal * 10 ** params.currency_decimals,
+    params.duration,
+    params.rate * 10000,
+  );
+  return res;
+}
+
+const evmTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {
+  const transaction = new AcceptOfferEvmTransaction(params.chain);
+  const res = await transaction.run(
+    params.principal,
+    params.asset_token_id,
+    params.duration * 86400,
+    params.rate,
+    params.asset_contract_address,
+    params.currency_contract_address,
+    params.currency_decimals,
+    params.borrower,
+    params.offer_owner,
+    params.borrower_nonce,
+    params.lender_nonce,
+    1,
+  );
+  return res;
+}
+
+const acceptOfferTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {
+  if (params.chain === Chain.Solana) {
+    return solTx(params)
+  } else if (isEvmChain(params.chain)) {
+    return evmTx(params);
+  }
+  throw new Error('Chain not supported');
+};
+
+export default acceptOfferTx;

@@ -3,8 +3,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { Dropdown } from "react-bootstrap";
 import cx from "classnames";
 
-import { selectNftLend } from "src/store/nftLend";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { selectNftyLend } from "src/store/nftyLend";
+import { useAppSelector } from "src/store/hooks";
 import EmptyList from "src/common/components/emptyList";
 import Loading from "src/common/components/loading";
 
@@ -12,37 +12,36 @@ import Item from "./item";
 import { getLoansByOwner } from "../../api";
 import { LOAN_STATUS } from "../../constant";
 import styles from "./styles.module.scss";
-import ListTable from "src/common/components/listTable";
-import { API_URL } from "src/common/constants/url";
+import { LoanNft } from '../../models/loan';
 
 const ListLoan = () => {
-  const wallet = useWallet();
-  const { publicKey } = wallet;
-  const needReload = useAppSelector(selectNftLend).needReload;
+  const needReload = useAppSelector(selectNftyLend).needReload;
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const walletChain = useAppSelector(selectNftyLend).walletChain;
 
   const [loading, setLoading] = useState(false);
-  const [loans, setLoans] = useState([]);
+  const [loans, setLoans] = useState<Array<LoanNft>>([]);
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    if (publicKey) fetchNFTs();
-  }, [publicKey, status, needReload]);
+    if (walletAddress) fetchNFTs();
+  }, [walletAddress, status, needReload]);
 
   const fetchNFTs = async () => {
-    if (!publicKey) return;
     try {
       setLoading(true);
       const res = await getLoansByOwner({
-        owner: publicKey.toString(),
+        owner: walletAddress.toString(),
+        network: walletChain.toString(),
         status,
       });
-      setLoans(res.result);
+      setLoans(res.result.map(LoanNft.parseFromApi));
     } finally {
       setLoading(false);
     }
   };
 
-  if (!publicKey)
+  if (!walletAddress)
     return (
       <EmptyList dark labelText="Connect crypto wallet to view your assets" />
     );
@@ -76,7 +75,7 @@ const ListLoan = () => {
         {!loading && loans?.length === 0 && (
           <EmptyList dark labelText="There is no loan" />
         )}
-        {!loading && loans.map((e: any) => <Item key={e.id} loan={e} />)}
+        {!loading && loans.map((e: LoanNft) => <Item key={e.id} loan={e} />)}
       </div>
       {loading && <Loading className={styles.loading} />}
     </div>

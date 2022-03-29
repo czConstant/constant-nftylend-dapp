@@ -1,30 +1,29 @@
 import React, { useMemo } from "react";
 import { shortCryptoAddress } from "src/common/utils/format";
+import { AssetNft } from 'src/modules/nftLend/models/nft';
 import {
   getLinkETHScanAddress,
   getLinkETHScanTokenId,
   getLinkSolScanAccount,
-} from "src/common/utils/solana";
-import { LoanDetailProps } from "./LoanDetail.Header";
+} from "src/modules/solana/utils";
+import { LoanDetailProps } from './LoanDetail.Header';
 import styles from "./styles.module.scss";
 
-const LoanDetailInfo: React.FC<LoanDetailProps> = ({ loan }) => {
+const LoanDetailInfo: React.FC<LoanDetailProps> = ({ loan, asset }) => {
   const details = useMemo(() => {
     let details = [
       {
         label: "Mint address",
-        value: `<a target="_blank" href="${getLinkSolScanAccount(
-          loan?.contract_address
-        )}">${shortCryptoAddress(loan?.contract_address, 8)}</a>`,
+        value: `<a target="_blank" href="${asset.getLinkExplorer()}">${shortCryptoAddress(asset.contract_address, 8)}</a>`,
       },
       {
         label: "Owner",
         value: `<a target="_blank" href="${getLinkSolScanAccount(
-          loan?.new_loan?.owner
-        )}">${shortCryptoAddress(loan?.new_loan?.owner, 8)}</a>`,
+          loan.owner
+        )}">${shortCryptoAddress(loan.owner, 8)}</a>`,
       },
     ];
-    if (!loan?.new_loan) {
+    if (!loan) {
       details = details?.splice(1, 1);
     }
     if (loan?.origin_contract_address) {

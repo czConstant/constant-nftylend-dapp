@@ -3,10 +3,10 @@ import React from "react";
 import Avatar from "src/common/components/avatar";
 import { getImageThumb } from "src/modules/nftLend/api";
 import { mediaTypes } from "src/modules/nftLend/components/itemNft";
-import { LoanData } from "src/modules/nftLend/models/loan";
+import { LoanNft } from "src/modules/nftLend/models/loan";
 
 interface RandomAvatarProps {
-  loans: LoanData[];
+  loans: Array<LoanNft>;
   size?: number;
 }
 
@@ -16,7 +16,7 @@ const RandomAvatar: React.FC<RandomAvatarProps> = ({ loans, size }) => {
   const loanByIndex = loans[randomIndex];
 
   const media = loans
-    ?.map((loan) => loan.asset.token_url)
+    ?.map((loan) => loan.asset?.detail?.image)
     ?.filter((img: string) => !mediaTypes.video?.includes(img))
     ?.slice(0, 10)
     ?.map((img) => getImageThumb({ height: 120, width: 120, url: img }));

@@ -1,84 +1,52 @@
-import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, createAssociatedTokenAccountInstruction } from '@solana/spl-token';
-import { PublicKey, Transaction, SYSVAR_CLOCK_PUBKEY } from '@solana/web3.js';
+import { WalletContextState } from '@solana/wallet-adapter-react';
+import { Connection } from '@solana/web3.js';
+import { Chain } from 'src/common/constants/network';
+import LiquidateLoanEvmTransaction from 'src/modules/evm/transactions/liquidateLoan';
+import LiquidateLoanTransaction from 'src/modules/solana/transactions/liquidateLoan';
+import { getAssociatedAccount } from 'src/modules/solana/utils';
+import { LiquidateLoanParams, TransactionResult } from '../models/transaction';
+import { isEvmChain } from '../utils';
 
-import { getLendingProgramId } from './constants';
-import { LiquidateInstruction } from './utils';
-import SolTransaction from './index';
-
-export default class LiquidateLoanTransaction extends SolTransaction {
-  async run(
-    nftMint: string,
-    borrowerPubkey: string,
-    loanId: string,
-    offerId: string,
-    pdaTokenAccount: string,
-    pdaNftAccount: string,
-  ) {
-    if (!this.wallet.publicKey) return;
-
-    try {
-      const lendingProgramId = new PublicKey(getLendingProgramId());
-      const nft_mint_pubkey = new PublicKey(nftMint);
-      const borrower_pubkey = new PublicKey(borrowerPubkey);
-
-      const loan_id = new PublicKey(loanId);
-      const offer_id = new PublicKey(offerId);
-      const pda_token_account = new PublicKey(pdaTokenAccount);
-      const pda_nft_account = new PublicKey(pdaNftAccount);
-
-      const tx = new Transaction({ feePayer: this.wallet.publicKey });
-
-      // create assosiate account if haven't yet
-      const lenderNftAssociated = (
-        await PublicKey.findProgramAddress(
-          [this.wallet.publicKey.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), nft_mint_pubkey.toBuffer()],
-          ASSOCIATED_TOKEN_PROGRAM_ID,
-        )
-      )[0];
-
-      const createAssTokenAccountIx = createAssociatedTokenAccountInstruction(
-        this.wallet.publicKey,
-        lenderNftAssociated,
-        this.wallet.publicKey,
-        nft_mint_pubkey,
-        TOKEN_PROGRAM_ID,
-        ASSOCIATED_TOKEN_PROGRAM_ID,
-      );
-
-      const assosiatedAccountInfo = await this.connection.getAccountInfo(
-        new PublicKey(lenderNftAssociated)
-      );
-      if (assosiatedAccountInfo === null || assosiatedAccountInfo.data.length === 0) {
-        tx.add(createAssTokenAccountIx);
-      }
-
-      const PDA = await PublicKey.findProgramAddress([Buffer.from('lending')], lendingProgramId);
-      const liquidateTx = LiquidateInstruction(
-        lendingProgramId,
-        this.wallet.publicKey,
-        borrower_pubkey,
-        loan_id,
-        offer_id,
-        lenderNftAssociated,
-        pda_nft_account,
-        pda_token_account,
-        TOKEN_PROGRAM_ID,
-        PDA[0],
-        SYSVAR_CLOCK_PUBKEY,
-      );
-
-      tx.add(liquidateTx);
-      tx.recentBlockhash = (
-        await this.connection.getLatestBlockhash()
-      ).blockhash;
-
-      const txHash = await this.wallet.sendTransaction(tx, this.connection, {
-        signers: [],
-      });
-
-      return this.handleSuccess({ txHash });
-    } catch (err) {
-      return this.handleError(err);
-    }
+interface LiquidateLoanTxParams extends LiquidateLoanParams {
+  chain: Chain;
+  walletAddress: string;
+  solana?: {
+    connection: Connection;
+    wallet: WalletContextState;
   }
 }
+
+const solTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {
+  if (!params.solana?.connection || !params.solana?.wallet) throw new Error('No connection to Solana provider');
+    
+  const nftAssociated = await getAssociatedAccount(params.walletAddress, params.asset_contract_address);
+  if (!nftAssociated) throw new Error('No associated account for asset');
+  
+  const transaction = new LiquidateLoanTransaction(params.solana?.connection, params.solana?.wallet);
+  const res = await transaction.run(
+    params.asset_contract_address,
+    params.loan_owner,
+    params.loan_data_address,
+    params.offer_data_address,
+    params.currency_data_address,
+    params.asset_data_address,
+  );
+  return res;
+}
+
+const evmTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {
+  const transaction = new LiquidateLoanEvmTransaction(params.chain);
+  const res = await transaction.run(params.loan_data_address);
+  return res;
+}
+
+const liquidateLoanTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {
+  if (params.chain === Chain.Solana) {
+    return solTx(params)
+  } else if (isEvmChain(params.chain)) {
+    return evmTx(params);
+  }
+  throw new Error('Chain not supported');
+};
+
+export default liquidateLoanTx;

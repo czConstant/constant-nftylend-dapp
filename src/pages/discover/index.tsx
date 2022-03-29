@@ -9,6 +9,8 @@ import BodyContainer from 'src/common/components/bodyContainer';
 import Item from './item';
 import styles from './styles.module.scss';
 import { isMobile } from 'react-device-detect';
+import { CollectionData } from 'src/modules/nftLend/models/api';
+import { CollectionNft } from 'src/modules/nftLend/models/collection';
 
 export const OnBoardingHeader = () => (
   <div className={cx(isMobile && styles.mbHeader, styles.headerWrapper)}>
@@ -19,7 +21,7 @@ export const OnBoardingHeader = () => (
 
 const Home = () => {
   const navigate = useNavigate();
-  const [collections, setCollections] = useState(Array(3).fill(0));
+  const [collections, setCollections] = useState<Array<CollectionNft>>(Array(3).fill(0));
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,7 +31,10 @@ const Home = () => {
   const getData = async () => {
     try {
       const response = await fetchCollections();
-      setCollections(response.result?.filter((v: any) => v?.listing_total > 0));
+      const list = response.result.filter((v: any) => v?.listing_total > 0);
+      setCollections(list.map(CollectionNft.parseFromApi));
+    } catch (err) {
+      console.log("🚀 ~ file: index.tsx ~ line 39 ~ getData ~ err", err)
     } finally {
       setLoading(false);
     }
@@ -47,7 +52,7 @@ const Home = () => {
               loading={loading}
               onPressItem={() =>
                 navigate(
-                  `${APP_URL.NFT_LENDING_LIST_LOAN}?collection_slug=${collection?.seo_url}`,
+                  `${APP_URL.NFT_LENDING_LIST_LOAN}?collection=${collection?.seo_url}`,
                 )
               }
             />

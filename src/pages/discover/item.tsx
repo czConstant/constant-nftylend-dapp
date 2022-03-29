@@ -2,17 +2,18 @@ import { memo } from 'react';
 import ContentLoader from 'react-content-loader';
 
 import ItemNftMedia from 'src/modules/nftLend/components/itemNft/itemNftMedia';
+import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import styles from './styles.module.scss';
 
 interface ItemBoardingProps {
   loading?: boolean;
-  item?: any;
+  item: CollectionNft;
   onPressItem: Function;
 }
 
 const ItemBoarding = (props: ItemBoardingProps) => {
   const { loading, item, onPressItem } = props;
-  const itemAsset = item?.listing_asset;
+  const itemAsset = item.listing_asset;
 
   const pressItem = () => {
     if (!Boolean(onPressItem)) return null;
@@ -31,7 +32,7 @@ const ItemBoarding = (props: ItemBoardingProps) => {
           >
             <rect x="0" y="0" rx="0" ry="0" height="200" width="100%" />
           </ContentLoader>
-        ) : <ItemNftMedia tokenUrl={itemAsset?.token_url} name={item?.name} />
+        ) : <ItemNftMedia detail={itemAsset?.detail} name={item?.name} />
         }
       </div>
       <div className={styles.body}>

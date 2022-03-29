@@ -1,6 +1,10 @@
 .wrapper {
   background-color: black;
   flex: 1;
+  min-height: calc(100vh - var(--header-height) - var(--footer-height) - 240px);
+  > div {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height) - 240px);
+  }
   &.mbWrapper {
     .content {
       flex-direction: column;
@@ -149,8 +153,11 @@
         justify-content: center;
         width: 100%;
         border-radius: 30px;
+        border: none;
       }
       .disconnectButton {
+        color: white;
+        font-weight: 500;
         background-color: var(--bs-red);
       }
       .shareButton {
@@ -228,6 +235,7 @@
     }
   }
   i {
+    cursor: pointer;
     color: var(--bs-blue);
   }
 }

@@ -12,7 +12,7 @@ import { getParsedNftAccountsByOwner } from "@nfteyez/sol-rayz";
 import { useLocation, useNavigate } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
 import Loading from "../loading";
-import { getLinkSolScanAccount } from "src/common/utils/solana";
+import { getLinkSolScanAccount } from "src/modules/solana/utils";
 import { shortCryptoAddress } from "src/common/utils/format";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toastSuccess } from "src/common/services/toaster";
@@ -140,8 +140,6 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
         id: "createLoanModal",
         modalProps: {
           centered: true,
-          dialogClassName: "modal-no-padding",
-          padding: 0,
           contentClassName: styles.modalContent,
         },
         render: () => <ModalCreateLoan onClose={close} navigate={navigate} onCallBack={onCallBack} />,
@@ -171,7 +169,6 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
     }
   };
 
-  console.log("location", location);
   if (location.pathname.includes(APP_URL.NFT_LENDING_MY_NFT)) return null;
 
   return (

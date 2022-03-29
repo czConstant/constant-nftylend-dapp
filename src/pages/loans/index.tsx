@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import cx from "classnames";
+import { isMobile } from "react-device-detect";
+import queryString from "query-string";
+import { useLocation } from "react-router-dom";
+
 import BodyContainer from "src/common/components/bodyContainer";
 import {
   getCollectionById,
@@ -7,19 +11,37 @@ import {
   getLoanByCollection,
   LoanByCollectionParams,
 } from "src/modules/nftLend/api";
-import { ListResponse, ResponseResult } from "src/modules/nftLend/models/api";
-import { LoanData } from "src/modules/nftLend/models/loan";
-import LoansHeader from "./Loans.Header";
-import styles from "./styles.module.scss";
-import queryString from "query-string";
-import { useLocation } from "react-router-dom";
-import { CollectData } from "src/modules/nftLend/models/collection";
-import LoansSidebar from "./Loans.Sidebar";
+import { ListResponse, LoanData, ResponseResult } from "src/modules/nftLend/models/api";
+import { LoanNft } from "src/modules/nftLend/models/loan";
+import { CollectionData } from "src/modules/nftLend/models/api";
 import ItemNFT from "src/modules/nftLend/components/itemNft";
 import LoadingList from "src/modules/nftLend/components/loadingList";
 import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
+import LoansHeader from "./Loans.Header";
+import { Chain } from 'src/common/constants/network';
+
+import styles from "./styles.module.scss";
+import LoansSidebar from "./Loans.Sidebar";
 import LoansToolbar from "./Loans.Toolbar";
-import { isMobile } from "react-device-detect";
+
+const chains = {
+  all: {
+    title: 'All',
+    key: Chain.None,
+  },
+  sol: {
+    title: 'Solana',
+    key: Chain.Solana
+  },
+  matic: {
+    title: 'Matic',
+    key: Chain.Polygon,
+  },
+  avax: {
+    title: 'Avalanche',
+    key: Chain.Avalanche,
+  }
+}
 
 const Loans = () => {
   const location = useLocation();
@@ -28,23 +50,27 @@ const Loans = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingList, setLoadingList] = useState<boolean>(false);
-  const [resLoans, resSetLoans] = useState<LoanData[]>([]);
-  const [resCollection, setResCollection] = useState<CollectData>();
-  const [resCollections, setResCollections] = useState<CollectData[]>([]);
+  const [loans, setLoans] = useState<LoanNft[]>([]);
+  const [resCollection, setResCollection] = useState<CollectionData>();
+  const [resCollections, setResCollections] = useState<CollectionData[]>([]);
+
+  const defaultChain = Chain[paramCollection.network || ''] || Chain.None;
+  const [selectedChain, setSelectedChain] = useState<Chain>(defaultChain);
 
   useEffect(() => {
     getData();
-  }, [JSON.stringify(paramCollection)]);
+  }, [JSON.stringify(paramCollection), selectedChain]);
 
   const getData = async () => {
     setLoadingList(true);
     try {
       const params: LoanByCollectionParams = {
         ...paramCollection,
+        network: selectedChain,
       };
-      if (paramCollection.collection_slug) {
+      if (paramCollection.collection) {
         const _resCollection: ResponseResult = await getCollectionById(
-          paramCollection.collection_slug
+          paramCollection.collection
         );
         params.collection_id = _resCollection.result?.id;
         setResCollection(_resCollection?.result);
@@ -58,7 +84,7 @@ const Loans = () => {
       }
       const response: ListResponse = await getLoanByCollection(params);
       const result = response.result;
-      resSetLoans(result);
+      setLoans(result.map((e: LoanData) => LoanNft.parseFromApi(e)));
     } catch (error) {
     } finally {
       setLoading(false);
@@ -66,15 +92,31 @@ const Loans = () => {
     }
   };
 
+  const renderChainSelect = () => {
+    return (
+      <div className={styles.chainSelector}>
+        {Object.values(chains).map(e => (
+          <div
+            key={e.key}
+            onClick={() => setSelectedChain(e.key)}
+            className={cx(styles.item, e.key === selectedChain && styles.active)}
+          >
+              {e.title}
+          </div>
+        ))}
+      </div>
+    )
+  };
+
   const renderContentList = () => {
     if (loading || loadingList) {
       return <LoadingList num_items={4} />;
-    } else if (resLoans?.length === 0) {
-      return <EmptyDetailLoan />;
+    } else if (loans?.length === 0) {
+      return <EmptyDetailLoan message="There is no loans yet" />;
     }
 
-    return resLoans.map((loan, index) => (
-      <ItemNFT key={loan?.id} item={loan} />
+    return loans.map((loan, index) => loan.asset && (
+      <ItemNFT key={loan?.id} loan={loan} asset={loan.asset} />
     ));
   };
 
@@ -82,9 +124,9 @@ const Loans = () => {
     <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
       <LoansHeader
         collection={resCollection}
-        isLoading={loading}
-        dataLoan={resLoans}
         collections={resCollections}
+        isLoading={loading}
+        dataLoan={loans}
       />
       <div
         className={cx([
@@ -94,10 +136,11 @@ const Loans = () => {
       >
         {/* <LoansSidebar isLoading={loading} /> */}
         <div className={cx([styles.listContainerWrap])}>
+          {!resCollection && renderChainSelect()}
           <LoansToolbar />
           <div
             className={cx(
-              !loading && resLoans?.length === 0 && styles.wrapContentEmpty,
+              !loading && loans?.length === 0 && styles.wrapContentEmpty,
               styles.listContainer
             )}
           >

@@ -118,7 +118,8 @@ const tokenIcons = {
   usds: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3719.png',
   ftt: 'https://s2.coinmarketcap.com/static/img/coins/64x64/4195.png',
   aave: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7278.png',
-  firo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1414.png'
+  firo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1414.png',
+  avax: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png',
 };
 
 export default tokenIcons;

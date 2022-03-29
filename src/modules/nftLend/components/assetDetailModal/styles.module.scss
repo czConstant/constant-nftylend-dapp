@@ -3,6 +3,7 @@
   grid-template-columns: 1fr 1fr;
   padding: 20px;
   grid-gap: 1rem;
+  width: 800px;
   &.moAssetDetailModal {
     grid-template-columns: 1fr;
     padding-top: 40px;
@@ -150,7 +151,7 @@
       border: none;
       box-shadow: none;
       i {
-        color: black;
+        color: white;
         font-size: 30px;
       }
       &::after {

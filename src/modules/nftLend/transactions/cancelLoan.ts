@@ -1,51 +1,49 @@
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { WalletContextState } from '@solana/wallet-adapter-react';
+import { Connection } from '@solana/web3.js';
+import { Chain } from 'src/common/constants/network';
+import CancelLoanEvmTransaction from 'src/modules/evm/transactions/cancelLoan';
+import CancelLoanTransaction from 'src/modules/solana/transactions/cancelLoan';
+import { getAssociatedAccount } from 'src/modules/solana/utils';
+import { CancelLoanParams, TransactionResult } from '../models/transaction';
+import { isEvmChain } from '../utils';
 
-import { getLendingProgramId } from './constants';
-import { CancelLoanInstruction } from './utils';
-import SolTransaction from './index';
-
-export default class CancelLoanTransaction extends SolTransaction {
-  async run(
-    receiveNftAssociated: string,
-    loanId: string,
-    nftTempAccountAddress: string
-  ) {
-    if (!this.wallet.publicKey) return;
-    try {
-      const lendingProgramId = new PublicKey(getLendingProgramId());
-      const borrower_nft_account_pubkey = new PublicKey(receiveNftAssociated);
-      const loan_info_account_pubkey = new PublicKey(loanId);
-      const temp_nft_account_pubkey = new PublicKey(nftTempAccountAddress);
-
-      const PDA = await PublicKey.findProgramAddress(
-        [Buffer.from('lending')],
-        lendingProgramId,
-      );
-      const cancelLoanTx = CancelLoanInstruction(
-        lendingProgramId,
-        this.wallet.publicKey,
-        loan_info_account_pubkey,
-        temp_nft_account_pubkey,
-        borrower_nft_account_pubkey,
-        TOKEN_PROGRAM_ID,
-        PDA[0],
-      );
-
-      const tx = new Transaction({ feePayer: this.wallet.publicKey }).add(
-        cancelLoanTx,
-      );
-      tx.recentBlockhash = (
-        await this.connection.getLatestBlockhash()
-      ).blockhash;
-
-      const txHash = await this.wallet.sendTransaction(tx, this.connection, {
-        signers: [],
-      });
-
-      return this.handleSuccess({ txHash });
-    } catch (err) {
-      return this.handleError(err);
-    }
+interface CancelLoanTxParams extends CancelLoanParams {
+  chain: Chain;
+  walletAddress: string;
+  solana?: {
+    connection: Connection;
+    wallet: WalletContextState;
   }
 }
+
+const solTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
+  if (!params.solana?.connection || !params.solana?.wallet) throw new Error('No connection to Solana provider');
+    
+  const nftAssociated = await getAssociatedAccount(params.walletAddress, params.asset_contract_address);
+  if (!nftAssociated) throw new Error('No associated account for asset');
+  
+  const transaction = new CancelLoanTransaction(params.solana?.connection, params.solana?.wallet);
+  const res = await transaction.run(
+    nftAssociated,
+    params.loan_data_address,
+    params.asset_contract_address
+  );
+  return res;
+}
+
+const evmTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
+  const transaction = new CancelLoanEvmTransaction(params.chain);
+  const res = await transaction.run(params.nonce);
+  return res;
+}
+
+const cancelLoanTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
+  if (params.chain === Chain.Solana) {
+    return solTx(params)
+  } else if (isEvmChain(params.chain)) {
+    return evmTx(params);
+  }
+  throw new Error('Chain not supported');
+};
+
+export default cancelLoanTx;

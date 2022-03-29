@@ -2,12 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 
 import modal from './modal';
-import nftLend from './nftLend';
+import nftyLend from './nftyLend';
 import loadingOverlay from './loadingOverlay';
 
 const reducer = combineReducers({
   modal,
-  nftLend,
+  nftyLend,
   loadingOverlay,
 });
 

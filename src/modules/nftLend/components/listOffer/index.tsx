@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useWallet } from '@solana/wallet-adapter-react';
 import cx from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 
-import { selectNftLend } from 'src/store/nftLend';
+import { selectNftyLend } from 'src/store/nftyLend';
 import { useAppSelector } from 'src/store/hooks';
 
 import Item from './item';
@@ -11,31 +10,30 @@ import { getOffersByFilter } from '../../api';
 import listLoanStyles from '../listLoan/styles.module.scss';
 import EmptyList from 'src/common/components/emptyList';
 import { OFFER_STATUS } from '../../constant';
+import { OfferToLoan } from '../../models/offer';
 
 const ListOffer = () => {
-  const wallet = useWallet();
-  const { publicKey } = wallet;
-  const needReload = useAppSelector(selectNftLend).needReload;
+  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const needReload = useAppSelector(selectNftyLend).needReload;
 
   const [loading, setLoading] = useState(false);
-  const [offers, setOffers] = useState([]);
+  const [offers, setOffers] = useState<Array<OfferToLoan>>([]);
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (publicKey) fetchOffers();
-  }, [publicKey, status, needReload]);
+    if (walletAddress) fetchOffers();
+  }, [walletAddress, status, needReload]);
 
   const fetchOffers = async () => {
-    if (!publicKey) return;
     try {
-      const res = await getOffersByFilter({ lender: publicKey.toString(), status });
-      setOffers(res.result);
+      const res = await getOffersByFilter({ lender: walletAddress, status });
+      setOffers(res.result.map(OfferToLoan.parseFromApi));
     } finally {
       setLoading(false);
     }
   };
 
-  if (!publicKey) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
+  if (!walletAddress) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
 
   return (
     <div className={listLoanStyles.wrapper}>

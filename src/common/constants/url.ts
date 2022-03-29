@@ -1,7 +1,4 @@
-export const APP_ENV = DOT_ENV;
-export const MCT_ROOT = APP_ENV.REACT_MCT_ROOT;
-export const BASE_PATH = APP_ENV.REACT_BASE_PATH;
-export const MCT_API_BASE = APP_ENV.REACT_MCT_API_BASE;
+import { BASE_PATH, MCT_API_BASE, MCT_ROOT } from './config'
 
 export const APP_URL = {
   HOME: `${BASE_PATH}/`,
@@ -29,5 +26,16 @@ export const API_URL = {
     LOAN_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/loans/transactions`,
     SALE_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/assets/transactions`,
     SUBMIT_COLLECTION: `${MCT_ROOT}${MCT_API_BASE}/collections/submitted`,
+    CREATE_LOAN: `${MCT_ROOT}${MCT_API_BASE}/loans/create`,
+    CREATE_OFFER: `${MCT_ROOT}${MCT_API_BASE}/loans/offers/create`,
   }
+}
+
+// export const ALCHEMY_URL = {
+//   GET_NFTS: APP_CLUSTER === 'mainnet' ? '' : `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}/getNFTs/`,
+//   GET_NFT_METADATA: APP_CLUSTER === 'mainnet' ? '' : `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}/getNFTMetadata/`,
+// }
+
+export const MORALIS_URL = {
+  GET_NFTS: `https://deep-index.moralis.io/api/v2/{owner}/nft`,
 }

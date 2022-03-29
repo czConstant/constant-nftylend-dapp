@@ -1,73 +1,92 @@
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import BigNumber from "bignumber.js";
+import { useEffect, useState } from 'react';
 
 import { formatCurrency } from "src/common/utils/format";
 import { APP_URL } from "src/common/constants/url";
 
 import styles from "./styles.module.scss";
 import ItemNftMedia from "./itemNftMedia";
-import { LoanData } from "../../models/loan";
+import { AssetNft } from '../../models/nft';
+import { LoanNft } from '../../models/loan';
 
 export const mediaTypes = {
   video: ["mov", "mp4", "video"],
   img: ["jpg", "png", "gif", "jpeg", "image"],
 };
 
-interface ItemNftProps {
-  item: LoanData;
+export interface ItemNftProps {
+  loan?: LoanNft;
+  asset: AssetNft;
+  onClickItem?: Function;
+  onViewLoan?: Function;
+  onCancelLoan?: Function;
 }
 
 const ItemNFT = (props: ItemNftProps) => {
-  const { item } = props;
+  const { loan, asset, onClickItem, onViewLoan, onCancelLoan } = props;
   const navigate = useNavigate();
+  const [loadingDetail, setLoadingDetail] = useState(false);
+  const [detail, setDetail] = useState(asset?.detail);
 
-  if (!item) return <div className={styles.itemContainer} />;
+  if (!asset) return <div className={styles.itemContainer} />;
+
+  useEffect(() => {
+    if (asset.needFetchDetail()) getExtraData();
+  }, [asset]);
+
+  const getExtraData = async () => {
+    setLoadingDetail(true);
+    try {
+      const res = await asset.fetchDetail();
+      setDetail(res);
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
 
   const onView = () => {
-    if (item?.onClickItem) return item?.onClickItem(item);
-    if (item?.asset?.seo_url)
-      navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${item?.asset?.seo_url}`);
+    if (onClickItem) return onClickItem(asset);
+    if (loan?.seo_url)
+      navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
   };
 
   return (
     <div className={styles.itemContainer}>
       <a onClick={onView}>
-        {item?.asset?.token_url && (
-          <ItemNftMedia
-            tokenUrl={item?.asset?.token_url}
-            name={item?.asset?.name}
-            className={styles.image}
-            isFetchUrl={item?.asset?.is_fetch_url}
-          />
-        )}
-
+        <ItemNftMedia
+          name={asset.name}
+          className={styles.image}
+          loading={loadingDetail}
+          detail={detail}
+        />
         <div className={styles.itemContent}>
-          <h5>{item.asset.name}</h5>
+          <h5>{asset.name}</h5>
           <div className={styles.infoWrap}>
-            <div>{item.asset?.collection?.name}</div>
+            <div>{asset.collection?.name}</div>
           </div>
-          {item.principal_amount && (
+          {loan?.principal_amount && (
             <div className={styles.infoPrice}>
-              {formatCurrency(item.principal_amount)} {item?.currency?.symbol}
+              {formatCurrency(loan.principal_amount)} {loan?.curreny?.symbol}
             </div>
           )}
           <div className={styles.actions}>
-            {item?.onViewLoan && (
+            {onViewLoan && (
               <Button
                 onClick={(e) => {
                   e.preventDefault();
-                  item?.onViewLoan();
+                  onViewLoan();
                 }}
               >
                 View Loan
               </Button>
             )}
-            {item?.onCancelLoan && (
+            {onCancelLoan && (
               <Button
                 onClick={(e) => {
                   e.preventDefault();
-                  item?.onCancelLoan();
+                  onCancelLoan();
                 }}
                 className={styles.btnCancel}
               >
@@ -75,19 +94,19 @@ const ItemNFT = (props: ItemNftProps) => {
               </Button>
             )}
           </div>
-          {item.interest_rate && item.duration && (
+          {loan?.interest_rate && loan?.duration && (
             <div className={styles.footer}>
               <div>
                 <label>Interest</label>
                 <div>
-                  {new BigNumber(item.interest_rate * 100).toPrecision(2)} %APY
+                  {new BigNumber(loan.interest_rate * 100).toPrecision(2)} %APY
                 </div>
               </div>
               <div />
               <div>
                 <label>Duration</label>
                 <div>
-                  {new BigNumber(item.duration / 86400).toNumber()} days
+                  {new BigNumber(loan.duration / 86400).toNumber()} days
                 </div>
               </div>
             </div>

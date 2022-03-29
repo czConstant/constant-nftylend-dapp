@@ -4,7 +4,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
 import { Field, useForm } from "react-final-form";
 
@@ -15,6 +14,9 @@ import FieldAmount from "src/common/components/form/fieldAmount";
 import styles from "./styles.module.scss";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
 import { LOAN_DURATION } from "../../constant";
+import { calculateMaxInterest, calculateMaxTotalPay } from '../../utils';
+import { formatCurrency } from 'src/common/utils/format';
+import { Currency } from '../../models/api';
 
 interface CreateLoanFormProps {
   onSubmit: FormEventHandler;
@@ -22,13 +24,14 @@ interface CreateLoanFormProps {
   listToken: Array<any>;
   defaultTokenMint?: string;
   submitting: boolean;
+  values: any;
 }
 
 const CreateLoanForm = (props: CreateLoanFormProps) => {
-  const { listToken, defaultTokenMint, onSubmit, onClose, submitting } = props;
+  const { listToken, defaultTokenMint, onSubmit, values, submitting } = props;
   const form = useForm();
 
-  const [receiveToken, setReceiveToken] = useState();
+  const [receiveToken, setReceiveToken] = useState<Currency>();
 
   useEffect(() => {
     form.change("receiveTokenMint", defaultTokenMint);
@@ -40,6 +43,35 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
 
   const onChangeReceiveToken = (value: any) => {
     setReceiveToken(value);
+  };
+
+  const renderEstimatedInfo = () => {
+    if (!values.amount || !values.rate || !values.duration) return null;
+    const maxInterest = calculateMaxInterest(
+      values.amount,
+      values.rate / 100,
+      values.duration.id * 86400,
+    );
+    const matchingFee = values.amount / 100;
+    const totalRepay = calculateMaxTotalPay(
+      values.amount,
+      values.rate / 100,
+      values.duration.id * 86400,
+    );
+    return (
+      <div className={styles.info}>
+        <label>Estimated</label>
+        <div>
+          Max interest: <strong>{formatCurrency(maxInterest)} {receiveToken?.symbol}</strong>
+        </div>
+        <div>
+          Matching fee: <strong>{formatCurrency(matchingFee)} {receiveToken?.symbol}</strong>
+        </div>
+        <div>
+          Max repayment: <strong>{formatCurrency(totalRepay)} {receiveToken?.symbol}</strong>
+        </div>
+      </div>
+    )
   };
 
   return (
@@ -86,6 +118,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             appendComp="% APY"
           />
         </InputWrapper>
+        {renderEstimatedInfo()}
         <div className={styles.actions}>
           <Button
             type="submit"

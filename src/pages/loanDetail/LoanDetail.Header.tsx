@@ -5,7 +5,6 @@ import SectionCollapse from "src/common/components/sectionCollapse";
 import { APP_URL } from "src/common/constants/url";
 import { formatCurrencyByLocale } from "src/common/utils/format";
 import ItemNftMedia from "src/modules/nftLend/components/itemNft/itemNftMedia";
-import { LoanDataDetail } from "src/modules/nftLend/models/loan";
 import LoanDetailAttr from "./LoanDetail.Attr";
 import LoanDetailInfo from "./LoanDetail.Info";
 import icPriceTag from "./assets/ic_price_tag.svg";
@@ -14,19 +13,26 @@ import styles from "./styles.module.scss";
 import LoanDetailButtons from "./LoanDetail.Buttons";
 import LoanDetailOffers from "./LoanDetail.Offers";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { LoanDataAsset, OfferData } from 'src/modules/nftLend/models/api';
+import { LoanNft } from 'src/modules/nftLend/models/loan';
+import { AssetNft } from 'src/modules/nftLend/models/nft';
+import { useAppSelector } from 'src/store/hooks';
+import { selectNftyLend } from 'src/store/nftyLend';
+import { isSameAddress } from 'src/common/utils/helper';
 
 export interface LoanDetailProps {
-  loan?: LoanDataDetail;
+  loan: LoanNft;
+  asset: AssetNft;
 }
 
 interface LoanDetailHeaderProps extends LoanDetailProps {}
 
-const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
-  const wallet = useWallet();
+const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
+  const walletAddress=  useAppSelector(selectNftyLend).walletAddress;
 
-  const userOffer = loan?.new_loan?.offers?.find(
+  const userOffer: OfferData = loan.offers?.find(
     (v) =>
-      v.lender?.toString() === wallet?.publicKey?.toString() &&
+      isSameAddress(v.lender?.toString(), walletAddress) &&
       v.status === "new"
   );
 
@@ -34,8 +40,8 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
     <div className={styles.headerContainer}>
       <div>
         <ItemNftMedia
-          tokenUrl={loan?.token_url}
-          name={loan?.name}
+          detail={asset.detail}
+          name={asset.name}
           width={300}
           height={600}
           config={{
@@ -52,15 +58,15 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
         />
       </div>
       <div>
-        <h4>{loan?.name}</h4>
+        <h4>{asset.name}</h4>
         <div className={styles.infoAuthor}>
           <Link
-            to={`${APP_URL.NFT_LENDING_LIST_LOAN}?collection_slug=${loan?.collection?.seo_url}`}
+            to={`${APP_URL.NFT_LENDING_LIST_LOAN}?collection=${asset.collection?.seo_url}`}
           >
-            {loan?.collection?.name}
+            {asset.collection?.name}
           </Link>
         </div>
-        {loan?.new_loan && (
+        {loan.currency && (
           <div className={styles.infoPrice}>
             <div className={styles.infoPriceTags}>
               <label>Item Price</label>
@@ -68,16 +74,16 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
             </div>
             <div className={styles.infoPriceValue}>
               <div>{`${formatCurrencyByLocale(
-                loan?.new_loan?.principal_amount,
+                loan.principal_amount,
                 2
-              )} ${loan?.new_loan?.currency?.symbol}`}</div>
+              )} ${loan.currency?.symbol}`}</div>
             </div>
             <LoanDetailButtons loan={loan} userOffer={userOffer} />
             <div className={styles.feeInfoWrap}>
               <div>
                 <div className={styles.feeInfoTitle}>Interest rate</div>
                 <div className={styles.feeInfoValue}>
-                  {new BigNumber(loan?.new_loan?.interest_rate)
+                  {new BigNumber(loan.interest_rate)
                     .multipliedBy(100)
                     .toNumber()}
                   %
@@ -86,7 +92,7 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
               <div>
                 <div className={styles.feeInfoTitle}>Terms</div>
                 <div className={styles.feeInfoValue}>
-                  {new BigNumber(loan?.new_loan?.duration)
+                  {new BigNumber(loan.duration)
                     .dividedBy(86400)
                     .toNumber()}{" "}
                   Days
@@ -105,7 +111,7 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
                       className={styles.feeInfoValue}
                       style={{ color: "green", fontWeight: "bold" }}
                     >
-                      {userOffer?.principal_amount} {loan?.new_loan?.currency?.symbol}
+                      {userOffer?.principal_amount} {loan.currency?.symbol}
                     </div>
                   </div>
                   <div>
@@ -148,17 +154,20 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan }) => {
           </div>
         )}
         <SectionCollapse
+          id="detail"
           label="Detail"
-          content={<LoanDetailInfo loan={loan} />}
+          content={<LoanDetailInfo loan={loan} asset={asset} />}
           selected={true}
         />
         <SectionCollapse
+          id="attributes"
           label="Attributes"
-          content={<LoanDetailAttr loan={loan} />}
+          content={<LoanDetailAttr asset={asset} />}
         />
         <SectionCollapse
+          id="description"
           label="Description"
-          content={loan?.collection?.description}
+          content={asset.collection?.description}
         />
       </div>
     </div>

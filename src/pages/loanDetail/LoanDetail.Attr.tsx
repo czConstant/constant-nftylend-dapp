@@ -2,10 +2,15 @@ import React from "react";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 import cx from "classnames";
-import { LoanDataAttributes } from "src/modules/nftLend/models/loan";
+import { AssetNft, AssetNftAttribute } from 'src/modules/nftLend/models/nft';
 
-const LoanDetailAttr: React.FC<LoanDetailProps> = ({ loan }) => {
-  const attrs: LoanDataAttributes[] = loan?.attributes || [];
+interface LoanDetailAttrProps {
+  asset: AssetNft;
+};
+
+const LoanDetailAttr: React.FC<LoanDetailAttrProps> = ({ asset }) => {
+  const attrs: AssetNftAttribute[] = asset.detail?.attributes || [];
+  
   return (
     <div className={cx(styles.tabContentWrap, styles.tabContentAttrWrap)}>
       {attrs?.length === 0 ? (
