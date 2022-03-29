@@ -53,22 +53,23 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
 
   const renderEstimatedInfo = () => {
     if (!values.amount || !values.rate || !values.duration) return null;
+    const durationDay = isNaN(values.duration) ? values.duration.id : values.duration;
     const maxInterest = calculateMaxInterest(
       values.amount,
       values.rate / 100,
-      values.duration.id * 86400,
+      durationDay * 86400,
     );
     const matchingFee = values.amount / 100;
     const totalRepay = calculateMaxTotalPay(
       values.amount,
       values.rate / 100,
-      values.duration.id * 86400,
+      durationDay * 86400,
     );
     return (
       <div className={styles.info}>
         <label>Estimated</label>
         <div>
-          Max interest: <strong>{formatCurrency(maxInterest)} {loan.currency?.symbol}</strong>
+          Max interest: <strong>{formatCurrency(maxInterest, 4)} {loan.currency?.symbol}</strong>
         </div>
         <div>
           Matching fee: <strong>{formatCurrency(matchingFee)} {loan.currency?.symbol}</strong>

@@ -21,13 +21,14 @@ export const API_URL = {
     GET_OFERS: `${MCT_ROOT}${MCT_API_BASE}/loans/offers`,
     LOANS_BY_ID: `${MCT_ROOT}${MCT_API_BASE}/assets/detail`,
     LIST_CURRENCY: `${MCT_ROOT}${MCT_API_BASE}/currencies/list`,
-    UPDATE_BLOCK: `${MCT_ROOT}${MCT_API_BASE}/blockchain/update-block`,
+    UPDATE_BLOCK_SOL: `${MCT_ROOT}${MCT_API_BASE}/blockchain/update-block`,
     VERIFY_ASSET: `${MCT_ROOT}${MCT_API_BASE}/collections/verified`,
     LOAN_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/loans/transactions`,
     SALE_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/assets/transactions`,
     SUBMIT_COLLECTION: `${MCT_ROOT}${MCT_API_BASE}/collections/submitted`,
     CREATE_LOAN: `${MCT_ROOT}${MCT_API_BASE}/loans/create`,
     CREATE_OFFER: `${MCT_ROOT}${MCT_API_BASE}/loans/offers/create`,
+    UPDATE_BLOCK_EVM: `${MCT_ROOT}${MCT_API_BASE}/blockchain/{network}/scan-block`,
   }
 }
 

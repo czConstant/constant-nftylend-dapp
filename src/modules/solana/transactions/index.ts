@@ -1,7 +1,7 @@
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
-import axios from 'axios';
 import { API_URL } from 'src/common/constants/url';
+import api from 'src/common/services/apiClient';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { getLinkSolScanTx, getSolanaLendingProgramId } from '../utils';
 
@@ -41,7 +41,7 @@ export default class SolTransaction {
     count = 0;
     while (count < 6) {
       try {
-        await axios.post(`${API_URL.NFT_LEND.UPDATE_BLOCK}/${txDetail?.slot}`);
+        await api.post(`${API_URL.NFT_LEND.UPDATE_BLOCK_SOL}/${txDetail?.slot}`);
         break;
       } catch (err) { }
       await new Promise(r => setTimeout(r, 5000));

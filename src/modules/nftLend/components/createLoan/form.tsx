@@ -17,6 +17,7 @@ import { LOAN_DURATION } from "../../constant";
 import { calculateMaxInterest, calculateMaxTotalPay } from '../../utils';
 import { formatCurrency } from 'src/common/utils/format';
 import { Currency } from '../../models/api';
+import { duration } from 'moment-timezone';
 
 interface CreateLoanFormProps {
   onSubmit: FormEventHandler;
@@ -47,22 +48,23 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
 
   const renderEstimatedInfo = () => {
     if (!values.amount || !values.rate || !values.duration) return null;
+    const durationDay = isNaN(values.duration) ? values.duration.id : values.duration;
     const maxInterest = calculateMaxInterest(
       values.amount,
       values.rate / 100,
-      values.duration.id * 86400,
+      durationDay * 86400,
     );
     const matchingFee = values.amount / 100;
     const totalRepay = calculateMaxTotalPay(
       values.amount,
       values.rate / 100,
-      values.duration.id * 86400,
+      durationDay * 86400,
     );
     return (
       <div className={styles.info}>
         <label>Estimated</label>
         <div>
-          Max interest: <strong>{formatCurrency(maxInterest)} {receiveToken?.symbol}</strong>
+          Max interest: <strong>{formatCurrency(maxInterest, 4)} {receiveToken?.symbol}</strong>
         </div>
         <div>
           Matching fee: <strong>{formatCurrency(matchingFee)} {receiveToken?.symbol}</strong>

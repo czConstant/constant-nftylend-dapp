@@ -16,7 +16,10 @@ export default class LiquidateLoanEvmTransaction extends EvmTransaction {
       const tx = await contract.liquidateOverdueLoan(loanId);
       const receipt = await tx.wait();
 
-      return this.handleSuccess({ txHash: receipt.transactionHash });
+      return this.handleSuccess({
+        txHash: receipt.transactionHash,
+        blockNumber: receipt.blockNumber
+      } as TransactionResult);
     } catch (err) {
       return this.handleError(err);
     }

@@ -55,7 +55,10 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         nonce_hex: nonce,
       });
 
-      return this.handleSuccess({ txHash: receipt.transactionHash });
+      return this.handleSuccess({
+        txHash: receipt.transactionHash,
+        blockNumber: receipt.blockNumber
+      } as TransactionResult);
     } catch (err) {
       return this.handleError(err);
     }

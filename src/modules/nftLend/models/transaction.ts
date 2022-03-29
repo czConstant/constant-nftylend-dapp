@@ -1,6 +1,7 @@
 export interface TransactionResult {
   txHash: string;
   txExplorerUrl: string;
+  blockNumber: number;
 }
 
 export interface CreateLoanParams {
