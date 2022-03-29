@@ -20,14 +20,16 @@
     height: 100%;
   }
   .dialog {
+    position: absolute;
     max-width: 100%;
     min-width: 500px;
     width: fit-content;
-    margin: 20% auto 0;
+    top: 50%;
+    left: 50%;
     background-color: white;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
-    transform: translateY(-50%);
+    transform: translate(-50%, -100%);
     transition: 0.5s all;
     border-radius: 10px;
   }
@@ -54,7 +56,7 @@
     opacity: 1;
     pointer-events: all;
     .dialog {
-      transform: translateY(0);
+      transform: translate(-50%, -50%);
     }
   }
 }
