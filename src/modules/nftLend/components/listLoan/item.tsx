@@ -178,8 +178,6 @@ const Item = (props: ItemProps) => {
     };
   }
 
-  console.log("status", status);
-
   const days = new BigNumber(duration)
     .dividedBy(86400)
     .toPrecision(2, BigNumber.ROUND_CEIL);

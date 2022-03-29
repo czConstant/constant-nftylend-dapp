@@ -146,7 +146,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className={cx(styles.section)}>
+      {/* <section className={cx(styles.section)}>
         <div className={styles.sectionBgJoin}>
           <div className={styles.sectionBgJoinTop}>
             <h1>Join our communities</h1>
@@ -179,7 +179,7 @@ const Home = () => {
             </>
           )}
         </div>
-      </section>
+      </section> */}
     </BodyContainer>
   );
 };
