@@ -8,14 +8,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
-import {
-  hideLoadingOverlay,
-  showLoadingOverlay,
-} from "src/store/loadingOverlay";
-import {
-  calculateTotalPay,
-  getAssociatedAccount,
-} from "src/modules/solana/utils";
+import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 
 import PayLoanTransaction from "src/modules/solana/transactions/payLoan";
 
@@ -25,6 +18,7 @@ import { shortCryptoAddress } from "src/common/utils/format";
 import { LOAN_STATUS } from "../../constant";
 import { useTransaction } from '../../hooks/useTransaction';
 import { LoanNft } from '../../models/loan';
+import { calculateTotalPay } from '../../utils';
 
 interface ItemProps {
   loan: LoanNft;
@@ -75,7 +69,7 @@ const Item = (props: ItemProps) => {
       const payAmount = loan?.status === "created"
         ? calculateTotalPay(
             Number(loan.approved_offer?.principal_amount),
-            loan.approved_offer?.interest_rate * 10 ** 4,
+            loan.approved_offer?.interest_rate,
             loan.approved_offer?.duration,
             moment(loan.approved_offer?.started_at).unix()
           )

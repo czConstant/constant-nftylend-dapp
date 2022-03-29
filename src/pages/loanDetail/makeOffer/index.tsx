@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Form } from "react-final-form";
 import { NavigateFunction } from 'react-router-dom';
+import BigNumber from 'bignumber.js';
 
 import { APP_URL } from "src/common/constants/url";
 import { toastError, toastSuccess } from "src/common/services/toaster";
@@ -11,8 +12,8 @@ import { TABS } from "src/pages/myAsset";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 
 import MakeOfferForm from './form';
-import styles from "../styles.module.scss";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
+import styles from "./makeOfferForm.module.scss";
 
 interface LoanDetailMakeOfferProps {
   loan: LoanNft;
@@ -68,20 +69,21 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
   };
 
   return (
-    <div className={styles.makeOfferFormWrapper}>
+    <div className={styles.makeOfferForm}>
       <Form
         onSubmit={onSubmit}
         initialValues={{
           amount: loan.principal_amount,
-          rate: loan.interest_rate * 100,
+          rate: new BigNumber(loan.interest_rate).multipliedBy(100).toNumber(),
           duration: LOAN_DURATION.find(
             (v) => v.id === Math.ceil(loan.duration / 86400)
           ),
         }}
       >
-        {({ handleSubmit }) => (
+        {({ values, handleSubmit }) => (
           <MakeOfferForm
             loan={loan}
+            values={values}
             onSubmit={handleSubmit}
             onClose={() => onClose()}
             // defaultTokenMint={receiveToken?.contract_address}

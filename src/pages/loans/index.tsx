@@ -124,9 +124,9 @@ const Loans = () => {
     <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
       <LoansHeader
         collection={resCollection}
+        collections={resCollections}
         isLoading={loading}
         dataLoan={loans}
-        collections={resCollections}
       />
       <div
         className={cx([
@@ -136,7 +136,7 @@ const Loans = () => {
       >
         {/* <LoansSidebar isLoading={loading} /> */}
         <div className={cx([styles.listContainerWrap])}>
-          {renderChainSelect()}
+          {!resCollection && renderChainSelect()}
           <LoansToolbar />
           <div
             className={cx(

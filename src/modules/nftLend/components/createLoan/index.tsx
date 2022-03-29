@@ -100,13 +100,14 @@ const CreateLoan = (props: CreateLoanProps) => {
 
   return (
     <Form onSubmit={onSubmit}>
-      {({ handleSubmit }) => (
+      {({ values, handleSubmit }) => (
         <CreateLoanForm
           listToken={listToken}
           onSubmit={handleSubmit}
           onClose={() => onClose()}
           defaultTokenMint={receiveToken?.contract_address}
           submitting={submitting}
+          values={values}
         />
       )}
     </Form>

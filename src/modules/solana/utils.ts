@@ -65,44 +65,6 @@ export const getCluster = () => {
   return WalletAdapterNetwork.Devnet;
 };
 
-export const calculateTotalPay = (principal: number, interest: number, duration: number /* seconds */, startedAt: number /* timestamp seconds */) => {
-  const DAY_SECS = 86400;
-  const payAt = moment().unix();
-
-  const maxLoanDay = duration / DAY_SECS;
-  let loanDay = maxLoanDay;
-  if (payAt < startedAt + duration && payAt > startedAt) {
-    loanDay = Math.floor((payAt - startedAt) / DAY_SECS) + 1;
-  }
-  if (loanDay >= maxLoanDay) {
-    loanDay = maxLoanDay;
-  }
-
-  const primaryInterest = new BigNumber(principal)
-    .multipliedBy(interest)
-    .dividedToIntegerBy(10000)
-    .multipliedBy(loanDay)
-    .dividedToIntegerBy(365);
-  let secondaryInterest = new BigNumber(0);
-  if (maxLoanDay > loanDay) {
-    // 50% interest remain day
-    secondaryInterest = new BigNumber(principal)
-      .multipliedBy(interest)
-      .dividedToIntegerBy(10000)
-      .multipliedBy(maxLoanDay - loanDay)
-      .dividedToIntegerBy(365)
-      .dividedToIntegerBy(2);
-  }
-  // 1% fee (base on principal amount)
-  const matchingFee = new BigNumber(principal).dividedToIntegerBy(100);
-
-  return new BigNumber(principal)
-    .plus(primaryInterest)
-    .plus(secondaryInterest)
-    .plus(matchingFee)
-    .toNumber();
-};
-
 export const getAccountInfo = async (connection: Connection, publicKey: PublicKey | string) => {
   try {
     const res = await connection.getAccountInfo(toPubkey(publicKey));

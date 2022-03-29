@@ -246,33 +246,6 @@
   }
 }
 
-.makeOfferFormWrapper {
-  display: flex;
-  flex-direction: column;
-  margin: -1rem;
-  padding: 2rem;
-  form {
-    width: 100%;
-  }
-  .title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #383838;
-    text-align: center;
-  }
-  .submitButton {
-    margin-top: 20px;
-    font-size: 16px;
-    height: 40px;
-    width: 100%;
-    background-color: #3772ff;
-    border: 1px solid #3772ff !important;
-    color: #ffffff !important;
-    filter: none;
-    font-weight: 700;
-  }
-}
-
 .actions {
   display: flex;
   justify-content: center;
