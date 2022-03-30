@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import Logo from 'src/assets/images/logo.svg';
-import LogoDark from 'src/assets/images/logo-dark.png';
+import LogoDark from 'src/assets/images/logo-text-dark.png';
 
 import styles from './styles.module.scss';
 

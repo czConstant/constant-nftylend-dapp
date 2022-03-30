@@ -4,11 +4,10 @@ import web3 from 'web3';
 import IERC721 from '../abi/IERC721.json';
 
 import EvmTransaction from './index';
-import { Chain, ChainPolygonID } from 'src/common/constants/network';
 import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { generateNonce, getChainIdByChain } from '../utils';
+import { generateNonce } from '../utils';
 
 export default class CreateLoanEvmTransaction extends EvmTransaction {
   async run(
@@ -25,22 +24,22 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
       const signer = provider.getSigner(0);
       const contract = new ethers.Contract(nftContractAddress, IERC721.abi, signer)
       let txHash = '';
-      if (!contract.isApprovedForAll()) {
+      if (!(await contract.isApprovedForAll(ownerAddress, this.lendingProgram))) {
         const tx = await contract.setApprovalForAll(this.lendingProgram, true);
         const receipt = await tx.wait();
         txHash = receipt.transactionHash;
       }
+      const chainId = (await provider.getNetwork()).chainId;
       const nonce = generateNonce();
       const borrowerMsg = web3.utils.soliditySha3(
         nftTokenId,
         nonce,
         nftContractAddress,
         ownerAddress,
-        getChainIdByChain(this.chain),
+        chainId,
       );
-      if (!borrowerMsg) throw new Error('Empty borrow message');
-      const borrowerSig = await signer.signMessage(borrowerMsg)
-
+      const borrowerSig = await this.signMessage(signer, borrowerMsg || '');
+      
       await api.post(API_URL.NFT_LEND.CREATE_LOAN, {
         chain: this.chain.toString(),
         borrower: ownerAddress,

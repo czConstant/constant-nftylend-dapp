@@ -10,7 +10,7 @@ interface NftyLendState {
   configs: {
     program_id: string,
     matic_nftypawn_address: string,
-
+    avax_nftypawn_address: string,
   };
 }
 
@@ -21,6 +21,7 @@ const initialState: NftyLendState = {
   configs: {
     program_id: '',
     matic_nftypawn_address: '',
+    avax_nftypawn_address: '',
   },
 };
 

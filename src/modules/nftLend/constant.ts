@@ -159,6 +159,6 @@ export const LOAN_DURATION = [
 if (SOL_CLUSTER === "devnet") {
   LOAN_DURATION.unshift({
     id: 0.01,
-    label: "0.1 days",
+    label: "0.01 days",
   });
 }

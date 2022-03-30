@@ -1,8 +1,8 @@
 import moment from 'moment-timezone';
 import { Chain } from 'src/common/constants/network';
-import { getLinkPolygonExplorer } from 'src/modules/evm/utils';
+import { getLinkEvmExplorer, getLinkPolygonExplorer } from 'src/modules/evm/utils';
 import { getLinkSolScanExplorer } from 'src/modules/solana/utils';
-import { parseNftFromLoanAsset } from '../utils';
+import { isEvmChain, parseNftFromLoanAsset } from '../utils';
 import { Currency, LoanData, LoanDataAsset } from './api';
 import { AssetNft } from './nft';
 import { OfferToLoan } from './offer';
@@ -96,7 +96,8 @@ export class LoanNft {
 
   getLinkExplorer(address?: string): string {
     if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.init_tx_hash);
-    else return getLinkPolygonExplorer(address || this.init_tx_hash);
+    if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || this.init_tx_hash, this.chain);
+    throw new Error(`Chain ${this.chain} is not supported`);
   }
 
   isCreated(): boolean {
