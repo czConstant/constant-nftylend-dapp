@@ -6,13 +6,12 @@ import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import { useWallet } from '@solana/wallet-adapter-react';
 
-import { Chain, ChainAvalancheID, ChainPolygonID } from 'src/common/constants/network';
+import { AvalancheChainConfig, Chain, ChainAvalancheID, ChainPolygonID, PolygonChainConfig } from 'src/common/constants/network';
 import tokenIcons from 'src/common/utils/tokenIcons';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { toastError } from 'src/common/services/toaster';
 import { clearWallet, selectNftyLend, updateWallet } from 'src/store/nftyLend';
 import styles from './connectWallet.module.scss';
-import { chain } from 'lodash';
 
 const NETWORKS = [
   { image: tokenIcons.sol, name: 'Solana', chain: Chain.Solana },
@@ -54,14 +53,19 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
         providerOptions,
       });
       const instance = await web3Modal.connect();
-      const chains = {
-        [Chain.Polygon]: ChainPolygonID.toString(16),
-        [Chain.Avalanche]: ChainAvalancheID.toString(16),
+
+      const chainConfigs = {
+        [Chain.Polygon]: PolygonChainConfig,
+        [Chain.Avalanche]: AvalancheChainConfig,
       }
       await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: `0x${chains[e.chain]}` }],
+        method: 'wallet_addEthereumChain',
+        params: [chainConfigs[e.chain]],
       })
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: chainConfigs[e.chain]?.chainId }],
+      });
 
       const provider = new ethers.providers.Web3Provider(instance);
       const accounts = await provider.listAccounts();
