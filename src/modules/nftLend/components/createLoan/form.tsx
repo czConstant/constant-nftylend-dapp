@@ -127,7 +127,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             className={styles.submitButton}
             disabled={submitting}
           >
-            {submitting ? <Loading dark={false} /> : "Make Loan"}
+            {submitting ? <Loading dark /> : "Make Loan"}
           </Button>
         </div>
       </form>

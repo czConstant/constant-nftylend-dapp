@@ -3,30 +3,26 @@ import BigNumber from 'bignumber.js';
 
 import { Chain } from 'src/common/constants/network';
 import { EvmNft } from '../evm/models/evmNft';
-import { getLinkPolygonExplorer } from '../evm/utils';
+import { getLinkEvmExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
 import { getLinkSolScanAccount } from '../solana/utils';
 import { LoanDataAsset } from './models/api';
-import { AssetNft } from './models/nft';
 
 export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
   if (!asset) throw new Error('Loan has no asset');
   if (chain === Chain.Solana)
     return SolanaNft.parseFromLoanAsset(asset);
   if (chain === Chain.Polygon)
-    return EvmNft.parseFromLoanAsset(asset);
+    return EvmNft.parseFromLoanAsset(asset, chain);
   if (chain === Chain.Avalanche)
-    return EvmNft.parseFromLoanAsset(asset);
+    return EvmNft.parseFromLoanAsset(asset, chain);
   throw new Error(`Chain ${chain} is not supported`);
 }
 
-export function getLinkExplorerWallet(address: string, chain: Chain) {
-  switch (chain) {
-    case Chain.Solana:
-      return getLinkSolScanAccount(address);
-    case Chain.Polygon:
-      return getLinkPolygonExplorer(address);
-  }
+export function getLinkExplorerWallet(address: string, chain: Chain): string {
+  if (isEvmChain(chain)) return getLinkEvmExplorer(address, chain);
+  if (chain === Chain.Solana) return getLinkSolScanAccount(address); 
+  return '';
 }
 
 export function isEvmChain(chain: Chain) {

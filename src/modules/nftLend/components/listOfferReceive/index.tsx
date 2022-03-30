@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useWallet } from '@solana/wallet-adapter-react';
 import cx from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 
@@ -11,30 +10,31 @@ import EmptyList from 'src/common/components/emptyList';
 import { OFFER_STATUS } from '../../constant';
 import { useAppSelector } from 'src/store/hooks';
 import { OfferToLoan } from '../../models/offer';
+import { useCurrentWallet } from '../../hooks/useCurrentWallet';
 
 const ListOfferReceive = () => {
   const needReload = useAppSelector(selectNftyLend).needReload;
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const { isConnected, currentWallet } =  useCurrentWallet();
 
   const [loading, setLoading] = useState(false);
   const [offers, setOffers] = useState<Array<OfferToLoan>>([]);
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (walletAddress) fetchOffers();
-  }, [walletAddress, status, needReload]);
+    if (isConnected) fetchOffers();
+  }, [currentWallet, status, needReload]);
 
   const fetchOffers = async () => {
-    if (!walletAddress) return;
+    if (!isConnected) return;
     try {
-      const res = await getOffersByFilter({ borrower: walletAddress, status });
+      const res = await getOffersByFilter({ borrower: currentWallet.address, status });
       setOffers(res.result.map(OfferToLoan.parseFromApi));
     } finally {
       setLoading(false);
     }
   };
 
-  if (!walletAddress) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
+  if (!isConnected) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
 
   return (
     <div className={listLoanStyles.wrapper}>

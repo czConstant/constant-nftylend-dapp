@@ -3,10 +3,8 @@ import cx from 'classnames';
 
 import LottiePlayer from '../lottiePlayer';
 import styles from './styles.module.scss';
-import lightLoading from './json/light.json';
-import darkLoading from './json/dark.json';
-import lightDesktopLoading from './json/lightDesktop.json';
-import darkDesktopLoading from './json/darkDesktop.json';
+import lightDesktopLoading from './json/light.json';
+import darkDesktopLoading from './json/dark.json';
 
 interface LoadingProps {
   height?: number;

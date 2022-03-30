@@ -35,15 +35,6 @@ export interface MakeOfferParams {
   duration: number;
 }
 
-export interface OrderOfferParams {
-  currency_contract_address: string;
-  currency_decimal: number;
-  loan_owner: string;
-  loan_data_address: string;
-  lender: string;
-  principal: number;
-}
-
 export interface CancelOfferParams {
   currency_contract_address: string;
   currency_data_address: string;
@@ -68,6 +59,20 @@ export interface AcceptOfferParams {
   lender: string;
   lender_nonce: string;
   lender_signature: string;
+}
+
+export interface OrderNowParams {
+  asset_token_id: string;
+  asset_contract_address: string;
+  loan_data_address: string;
+  currency_contract_address: string;
+  currency_decimals: number;
+  principal: number;
+  rate: number;
+  duration: number;
+  borrower: string;
+  borrower_nonce: string;
+  borrower_signature: string;
 }
 
 export interface LiquidateLoanParams {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useWallet } from "@solana/wallet-adapter-react";
 import { Dropdown } from "react-bootstrap";
 import cx from "classnames";
 
@@ -13,26 +12,26 @@ import { getLoansByOwner } from "../../api";
 import { LOAN_STATUS } from "../../constant";
 import styles from "./styles.module.scss";
 import { LoanNft } from '../../models/loan';
+import { useCurrentWallet } from '../../hooks/useCurrentWallet';
 
 const ListLoan = () => {
   const needReload = useAppSelector(selectNftyLend).needReload;
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
-  const walletChain = useAppSelector(selectNftyLend).walletChain;
+  const { currentWallet, isConnected } = useCurrentWallet();
 
   const [loading, setLoading] = useState(false);
   const [loans, setLoans] = useState<Array<LoanNft>>([]);
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    if (walletAddress) fetchNFTs();
-  }, [walletAddress, status, needReload]);
+    if (isConnected) fetchNFTs();
+  }, [isConnected, status, needReload]);
 
   const fetchNFTs = async () => {
     try {
       setLoading(true);
       const res = await getLoansByOwner({
-        owner: walletAddress.toString(),
-        network: walletChain.toString(),
+        owner: currentWallet.address.toString(),
+        network: currentWallet.chain.toString(),
         status,
       });
       setLoans(res.result.map(LoanNft.parseFromApi));
@@ -41,7 +40,7 @@ const ListLoan = () => {
     }
   };
 
-  if (!walletAddress)
+  if (!isConnected)
     return (
       <EmptyList dark labelText="Connect crypto wallet to view your assets" />
     );

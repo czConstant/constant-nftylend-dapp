@@ -11,9 +11,10 @@ import listLoanStyles from '../listLoan/styles.module.scss';
 import EmptyList from 'src/common/components/emptyList';
 import { OFFER_STATUS } from '../../constant';
 import { OfferToLoan } from '../../models/offer';
+import { useCurrentWallet } from '../../hooks/useCurrentWallet';
 
 const ListOffer = () => {
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const { currentWallet, isConnected } = useCurrentWallet();
   const needReload = useAppSelector(selectNftyLend).needReload;
 
   const [loading, setLoading] = useState(false);
@@ -21,19 +22,19 @@ const ListOffer = () => {
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (walletAddress) fetchOffers();
-  }, [walletAddress, status, needReload]);
+    if (isConnected) fetchOffers();
+  }, [currentWallet, status, needReload]);
 
   const fetchOffers = async () => {
     try {
-      const res = await getOffersByFilter({ lender: walletAddress, status });
-      setOffers(res.result.map(OfferToLoan.parseFromApi));
+      const res = await getOffersByFilter({ lender: currentWallet.address, status });
+      setOffers(res.result.map(e => OfferToLoan.parseFromApi(e, currentWallet.chain)));
     } finally {
       setLoading(false);
     }
   };
 
-  if (!walletAddress) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
+  if (!isConnected) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
 
   return (
     <div className={listLoanStyles.wrapper}>

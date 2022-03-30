@@ -48,10 +48,13 @@ const ItemBoarding = (props: ItemBoardingProps) => {
         ) : (
           <>
             <h4>{item?.name}</h4>
-            <div className={styles.totalItems}>
-              <span>
-                {item?.listing_total} item{item?.listing_total > 1 ? 's' : ''}
-              </span>
+            <div className={styles.info}>
+              <div className={styles.totalItems}>
+                <span>
+                  {item?.listing_total} item{item?.listing_total > 1 ? 's' : ''}
+                </span>
+              </div>
+              <div className={styles.chain}>{item.chain}</div>
             </div>
             <p>
               {item?.description?.length > 115

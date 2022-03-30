@@ -6,7 +6,7 @@ import { APP_URL } from "src/common/constants/url";
 import { toastSuccess } from "src/common/services/toaster";
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
 import { useAppSelector } from 'src/store/hooks';
-import { selectNftyLend } from 'src/store/nftyLend';
+import { selectCurrentWallet } from 'src/store/nftyLend';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { getLinkExplorerWallet } from 'src/modules/nftLend/utils';
 
@@ -16,21 +16,20 @@ import styles from "./styles.module.scss";
 
 const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
   const { getNftsByOwner } = useToken();
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
-  const walletChain = useAppSelector(selectNftyLend).walletChain;
+  const currentWallet = useAppSelector(selectCurrentWallet);
 
   const [myNfts, setMyNfts] = useState<Array<AssetNft>>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchNFTs();
-  }, [walletAddress]);
+  }, [currentWallet]);
 
   const fetchNFTs = async () => {
-    if (!walletAddress) return;
+    if (!currentWallet.address) return;
     try {
       setLoading(true);
-      const nfts = await getNftsByOwner(walletAddress, walletChain);
+      const nfts = await getNftsByOwner(currentWallet.address, currentWallet.chain);
       setMyNfts(nfts);
     } catch (error) {
       setMyNfts([]);
@@ -42,7 +41,7 @@ const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
   const renderContent = () => {
     if (loading) {
       return <Loading />;
-    } else if (!walletAddress) {
+    } else if (!currentWallet.address) {
       return (
         <>
           <h4>Connect Your Wallet</h4>
@@ -84,13 +83,13 @@ const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
           <div className={styles.addressWrap}>
             <a
               target="_blank"
-              href={`${getLinkExplorerWallet(walletAddress, walletChain)}`}
+              href={`${getLinkExplorerWallet(currentWallet.address, currentWallet.chain)}`}
             >
-              {walletAddress}
+              {currentWallet.address}
             </a>
             <CopyToClipboard
               onCopy={() => toastSuccess("Copied address!")}
-              text={walletAddress}
+              text={currentWallet.address}
             >
               <i className="far fa-copy" />
             </CopyToClipboard>

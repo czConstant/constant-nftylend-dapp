@@ -1,8 +1,8 @@
 .makeOfferForm {
   display: flex;
   flex-direction: column;
-  margin: -1rem;
-  padding: 2rem;
+  padding: 20px 30px;
+  max-width: 500px;
   form {
     width: 100%;
   }
@@ -43,5 +43,11 @@
         color: white;
       }
     }
+  }
+  .errorMessage {
+    display: flex;
+    margin: 5px 0;
+    max-width: 100%;
+    color: #FF7500;
   }
 }

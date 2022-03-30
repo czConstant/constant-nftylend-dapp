@@ -1,6 +1,8 @@
 import { Chain } from 'src/common/constants/network';
-import { getLinkPolygonExplorer } from 'src/modules/evm/utils';
+import { getLinkEvmExplorer } from 'src/modules/evm/utils';
 import { getLinkSolScanExplorer } from 'src/modules/solana/utils';
+import { OFFER_STATUS } from '../constant';
+import { isEvmChain } from '../utils';
 import { OfferData } from './api';
 import { LoanNft } from './loan';
 
@@ -46,10 +48,8 @@ export class OfferToLoan {
     offer.loan_id = data.loan_id;
     if (data.loan) {
       offer.loan = LoanNft.parseFromApi(data.loan);
-      if (data.loan.approved_offer) {
-        offer.expired_at = data.loan.offer_expired_at;
-        offer.started_at = data.loan.offer_started_at;
-      }
+      offer.expired_at = data.loan.offer_expired_at;
+      offer.started_at = data.loan.offer_started_at;
     }
     offer.nonce = data.nonce_hex;
     offer.signature = data.signature;
@@ -58,11 +58,12 @@ export class OfferToLoan {
   }
 
   isApproved(): boolean {
-    return !!this.started_at;
+    return this.status === OFFER_STATUS.approved.id;
   }
 
   getLinkExplorer(address?: string): string {
     if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.accept_tx_hash);
-    else return getLinkPolygonExplorer(address || this.accept_tx_hash);
+    if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || this.accept_tx_hash, this.chain);
+    throw new Error(`Chain ${this.chain} is not supported`);
   }
 }

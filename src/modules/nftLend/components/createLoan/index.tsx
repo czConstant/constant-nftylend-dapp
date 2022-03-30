@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Form } from "react-final-form";
-import { Connection } from "@solana/web3.js";
-import { WalletContextState } from "@solana/wallet-adapter-react";
 
 import CryptoDropdownItem from "src/common/components/cryptoDropdownItem";
 import { toastError, toastSuccess } from "src/common/services/toaster";
@@ -9,10 +7,11 @@ import { useAppDispatch, useAppSelector } from "src/store/hooks";
 
 import CreateLoanForm from "./form";
 import { getNftListCurrency } from "../../api";
-import { requestReload, selectNftyLend } from "src/store/nftyLend";
+import { requestReload } from "src/store/nftyLend";
 import { AssetNft } from '../../models/nft';
 import { useTransaction} from '../../hooks/useTransaction';
 import { Currency } from '../../models/api';
+import { useCurrentWallet } from '../../hooks/useCurrentWallet';
 
 interface CreateLoanProps {
   asset: AssetNft;
@@ -22,8 +21,7 @@ interface CreateLoanProps {
 const CreateLoan = (props: CreateLoanProps) => {
   const dispatch = useAppDispatch();
   const { asset, onClose } = props;
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
-  const walletChain = useAppSelector(selectNftyLend).walletChain;
+  const { currentWallet, isConnected } = useCurrentWallet();
   const { createLoan } = useTransaction();
 
   const [receiveToken, setReceiveToken] = useState<Currency>();
@@ -32,9 +30,9 @@ const CreateLoan = (props: CreateLoanProps) => {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!walletAddress) return;
+    if (!isConnected) return;
     Promise.all([
-      getNftListCurrency(walletChain),
+      getNftListCurrency(currentWallet.chain),
       // fetchAllTokenAccounts(connection, wallet.publicKey),
     ]).then((res) => {
       // if (!res[0] || !res[1]) return;

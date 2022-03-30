@@ -6,12 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Loading from "src/common/components/loading";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { closeModal, openModal } from "src/store/modal";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
-import { requestReload, selectNftyLend } from "src/store/nftyLend";
+import { useAppDispatch } from "src/store/hooks";
+import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
-import { Chain } from 'src/common/constants/network';
 import { isSameAddress } from 'src/common/utils/helper';
 import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
 
@@ -19,20 +18,19 @@ import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 import { TABS } from "../myAsset";
 import LoanDetailMakeOffer from './makeOffer';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { cancelLoan, cancelOffer, orderOffer } = useTransaction();
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
-  const walletChain = useAppSelector(selectNftyLend).walletChain;
+  const { cancelLoan, cancelOffer, orderNow } = useTransaction();
+  const { currentWallet, isConnected } = useCurrentWallet();
 
   const [canceling, setCanceling] = useState(false);
-  const [orderNow, setOrderNow] = useState(false);
-  const [orderPicking, setOrderPicking] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const isOwner = isSameAddress(walletAddress, loan.owner);
+  const isOwner = isSameAddress(currentWallet.address, loan.owner);
 
   const onMakeOffer = async () => {
     const close = () =>
@@ -63,16 +61,21 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
 
   const onOrderNow = async () => {
     try {
-      setSubmitting(true);
-      setOrderNow(true);
+      dispatch(showLoadingOverlay());
       if (!loan.currency) throw new Error('Loan has no currency');
-      const res = await orderOffer({
-        currency_contract_address: loan.currency?.contract_address,
-        currency_decimal: loan.currency.decimals,
-        loan_owner: loan.owner,
+      if (!loan.asset) throw new Error('Loan has no asset');
+      const res = await orderNow({
+        asset_token_id: loan.asset.token_id,
+        asset_contract_address: loan.asset.contract_address,
         loan_data_address: loan.data_loan_address,
-        lender: walletAddress,
+        currency_contract_address: loan.currency.contract_address,
+        currency_decimals: loan.currency.decimals,
         principal: loan.principal_amount,
+        rate: loan.interest_rate,
+        duration: loan.duration,
+        borrower: loan.owner,
+        borrower_nonce: loan.nonce,
+        borrower_signature: loan.signature,
       });
       toastSuccess(
         <>
@@ -88,8 +91,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {
-      setSubmitting(false);
-      setOrderNow(false);
+      dispatch(hideLoadingOverlay());
     }
   };
 
@@ -149,10 +151,20 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
     }
   };
 
-  if (!walletAddress) {
+  if (!isConnected) {
     return (
       <div className={styles.groupOfferButtons}>
         <ButtonConnectWallet className={styles.btnConnect} />
+      </div>
+    );
+  }
+  
+  if (currentWallet.chain !== loan.chain) {
+    return (
+      <div className={styles.groupOfferButtons}>
+        <div className={styles.differentChain}>
+          Your connected wallet is different network from this loan's network ({loan.chain})  
+        </div>
       </div>
     );
   }
@@ -166,7 +178,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
           onClick={onCancelLoan}
           disabled={submitting}
         >
-          {canceling ? <Loading dark={false} /> : "Cancel Loan"}
+          {canceling ? <Loading dark /> : "Cancel Loan"}
         </Button>
       </div>
     );
@@ -180,7 +192,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
           onClick={() => onCancelOffer(userOffer)}
           disabled={submitting}
         >
-          {canceling ? <Loading dark={false} /> : "Cancel My Offer"}
+          {canceling ? <Loading dark /> : "Cancel My Offer"}
         </Button>
       </div>
     );
@@ -188,21 +200,19 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   return (
     <div className={styles.groupOfferButtonWrapper}>
       <div className={styles.groupOfferButtons}>
-        {walletChain === Chain.Solana && (
-          <Button
-            className={styles.btnConnect}
-            disabled={isOwner || orderNow}
-            onClick={onOrderNow}
-          >
-            {orderNow ? <Loading dark={false} /> : "Order now"}
-          </Button>
-        )}
         <Button
           className={styles.btnConnect}
-          disabled={isOwner || orderPicking}
+          disabled={isOwner}
+          onClick={onOrderNow}
+        >
+          Order now
+        </Button>
+        <Button
+          className={styles.btnConnect}
+          disabled={isOwner}
           onClick={onMakeOffer}
         >
-          {orderPicking ? <Loading dark={false} /> : "Make an offer"}
+          Make an offer
         </Button>
       </div>
       <div className={styles.noteTerms}>

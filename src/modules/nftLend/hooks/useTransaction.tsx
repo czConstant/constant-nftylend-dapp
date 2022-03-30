@@ -1,7 +1,5 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { useAppSelector } from 'src/store/hooks';
-import { selectNftyLend } from 'src/store/nftyLend';
-import { AcceptOfferParams, CancelLoanParams, CancelOfferParams, CloseOfferParams, CreateLoanParams, LiquidateLoanParams, MakeOfferParams, OrderOfferParams, PayLoanParams, TransactionResult } from '../models/transaction';
+import { AcceptOfferParams, CancelLoanParams, CancelOfferParams, CloseOfferParams, CreateLoanParams, LiquidateLoanParams, MakeOfferParams, OrderNowParams, PayLoanParams, TransactionResult } from '../models/transaction';
 import acceptOfferTx from '../transactions/acceptOffer';
 import cancelLoanTx from '../transactions/cancelLoan';
 import cancelOfferTx from '../transactions/cancelOffer';
@@ -9,19 +7,18 @@ import closeOfferTx from '../transactions/closeOffer';
 import createLoanTx from '../transactions/createLoan';
 import liquidateLoanTx from '../transactions/liquidateLoan';
 import makeOfferTx from '../transactions/makeOffer';
-import orderOfferTx from '../transactions/orderOffer';
+import orderNowTx from '../transactions/orderNow';
 import payLoanTx from '../transactions/payLoan';
+import { useCurrentWallet } from './useCurrentWallet';
 
 function useTransaction() {
   const wallet = useWallet();
   const { connection } = useConnection();
-
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
-  const walletChain = useAppSelector(selectNftyLend).walletChain;
+  const { currentWallet } = useCurrentWallet();
 
   const addParams = {
-    chain: walletChain,
-    walletAddress,
+    chain: currentWallet.chain,
+    walletAddress: currentWallet.address,
     solana: {
       connection,
       wallet,
@@ -63,8 +60,8 @@ function useTransaction() {
     });
   };
 
-  const orderOffer = async (params: OrderOfferParams): Promise<TransactionResult> => {
-    return orderOfferTx({
+  const orderNow = async (params: OrderNowParams): Promise<TransactionResult> => {
+    return orderNowTx({
       ...params,
       ...addParams,
     });
@@ -97,7 +94,7 @@ function useTransaction() {
     makeOffer,
     cancelOffer,
     acceptOffer,
-    orderOffer,
+    orderNow,
     liquidateLoan,
     closeOffer,
     payLoan,

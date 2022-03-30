@@ -48,7 +48,6 @@ const evmTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
     params.currency_decimal,
     params.lender,
     params.loan_id,
-    1,
   );
   return res;
 }

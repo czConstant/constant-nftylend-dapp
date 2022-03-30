@@ -42,7 +42,12 @@ const solTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
 
 const evmTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
   const transaction = new PayLoanEvmTransaction(params.chain);
-  const res = await transaction.run(params.loan_data_address);
+  const res = await transaction.run(
+    params.loan_data_address,
+    params.walletAddress,
+    params.pay_amount * 10 ** params.currency_decimal,
+    params.currency_contract_address,
+  );
   return res;
 }
 

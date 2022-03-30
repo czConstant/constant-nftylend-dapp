@@ -57,6 +57,8 @@ const evmTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => 
     params.rate,
     params.duration * 86400,
     params.currency_id,
+    params.currency_contract_address,
+    params.currency_decimal,
   );
   return res;
 }
