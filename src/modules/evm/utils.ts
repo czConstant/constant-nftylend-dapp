@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import web3 from 'web3';
 
 import { customAlphabet } from 'nanoid';
 import { APP_CLUSTER } from 'src/common/constants/config';
@@ -8,6 +9,10 @@ import IERC721 from './abi/IERC20.json';
 
 export const generateNonce = (): string => {
   return  '0x' + customAlphabet('0123456789abcdef', 64)();
+}
+
+export const getMaxAllowance = (): string => {
+  return web3.utils.toWei('1000000', 'ether');
 }
 
 export const getLinkEvmExplorer = (address: string, chain: Chain, type?: 'tx' | 'address') => {

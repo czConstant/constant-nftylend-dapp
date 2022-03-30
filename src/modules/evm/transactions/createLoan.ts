@@ -11,18 +11,20 @@ import { generateNonce } from '../utils';
 
 export default class CreateLoanEvmTransaction extends EvmTransaction {
   async run(
-    nftTokenId: string,
-    nftContractAddress: string,
+    assetTokenId: string,
+    assetContractAddress: string,
     ownerAddress: string,
     principal: number,
     rate: number,
     duration: number,
     currencyId: number,
+    currencyContractAddress: string,
+    currencyDecimals: number,
   ): Promise<TransactionResult> {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner(0);
-      const contract = new ethers.Contract(nftContractAddress, IERC721.abi, signer)
+      const contract = new ethers.Contract(assetContractAddress, IERC721.abi, signer)
       let txHash = '';
       if (!(await contract.isApprovedForAll(ownerAddress, this.lendingProgram))) {
         const tx = await contract.setApprovalForAll(this.lendingProgram, true);
@@ -31,10 +33,17 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
       }
       const chainId = (await provider.getNetwork()).chainId;
       const nonce = generateNonce();
-      const borrowerMsg = web3.utils.soliditySha3(
-        nftTokenId,
+      const adminFee = await this.getAdminFee();
+      
+      let borrowerMsg = web3.utils.soliditySha3(
+        principal * 10 ** currencyDecimals,
+        assetTokenId,
+        duration,
+        rate * 10000,
+        adminFee,
         nonce,
-        nftContractAddress,
+        assetContractAddress,
+        currencyContractAddress,
         ownerAddress,
         chainId,
       );
@@ -47,8 +56,8 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
         principal_amount: principal,
         interest_rate: rate,
         duration: duration,
-        contract_address: nftContractAddress,
-        token_id: nftTokenId,
+        contract_address: assetContractAddress,
+        token_id: assetTokenId,
         signature: borrowerSig,
         nonce_hex: nonce,
       });

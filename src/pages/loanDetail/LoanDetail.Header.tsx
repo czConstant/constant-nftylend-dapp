@@ -11,14 +11,11 @@ import icPriceTag from "./assets/ic_price_tag.svg";
 
 import styles from "./styles.module.scss";
 import LoanDetailButtons from "./LoanDetail.Buttons";
-import LoanDetailOffers from "./LoanDetail.Offers";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { LoanDataAsset, OfferData } from 'src/modules/nftLend/models/api';
+import { OfferData } from 'src/modules/nftLend/models/api';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
-import { useAppSelector } from 'src/store/hooks';
-import { selectNftyLend } from 'src/store/nftyLend';
 import { isSameAddress } from 'src/common/utils/helper';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -28,11 +25,10 @@ export interface LoanDetailProps {
 interface LoanDetailHeaderProps extends LoanDetailProps {}
 
 const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
-  const walletAddress=  useAppSelector(selectNftyLend).walletAddress;
-
+  const { currentWallet } = useCurrentWallet();
   const userOffer: OfferData = loan.offers?.find(
     (v) =>
-      isSameAddress(v.lender?.toString(), walletAddress) &&
+      isSameAddress(v.lender?.toString(), currentWallet.address) &&
       v.status === "new"
   );
 

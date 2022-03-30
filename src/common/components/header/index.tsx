@@ -1,9 +1,8 @@
-import { memo, ReactElement } from "react";
+import { memo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import cx from "classnames";
 import { isMobile } from "react-device-detect";
 
-import ButtonSolWallet from "src/common/components/buttonSolWallet";
 import AppIcon from "src/common/components/appIcon";
 import { APP_URL } from "src/common/constants/url";
 
@@ -11,13 +10,12 @@ import styles from "./styles.module.scss";
 import ButtonCreateLoan from "../buttonCreateLoan";
 import HeaderMobile from "./index.mobile";
 import ButtonConnectWallet from '../buttonConnectWallet';
-import { useAppSelector } from 'src/store/hooks';
-import { selectNftyLend } from 'src/store/nftyLend';
 import ButtonDisconnectWallet from '../buttonDisconnectWallet';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 
 const Header = () => {
   const location = useLocation();
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const { isConnected } = useCurrentWallet();
 
   if (isMobile) return <HeaderMobile />;
 
@@ -47,7 +45,7 @@ const Header = () => {
             >
               Listing Loans
             </Link>
-            {walletAddress && (
+            {isConnected && (
               <Link
                 to={APP_URL.NFT_LENDING_MY_NFT}
                 className={cx(
@@ -62,8 +60,7 @@ const Header = () => {
           </div>
         </div>
         <div className={styles.right}>
-          {walletAddress ? <ButtonDisconnectWallet /> : <ButtonConnectWallet />}
-          {/* <ButtonSolWallet className={styles.connectButton} /> */}
+          {isConnected ? <ButtonDisconnectWallet /> : <ButtonConnectWallet />}
         </div>
         {/* {walletAccount && networkVersion !== ethNetwork && (
           <div className={styles.warningNetwork}>

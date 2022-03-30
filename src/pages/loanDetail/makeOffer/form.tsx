@@ -123,7 +123,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
         className={styles.submitButton}
         disabled={submitting}
       >
-        {submitting ? <Loading dark={false} /> : "Offer now"}
+        {submitting ? <Loading dark /> : "Offer now"}
       </Button>
     </form>
   );

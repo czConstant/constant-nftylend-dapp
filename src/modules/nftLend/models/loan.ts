@@ -37,7 +37,7 @@ export class LoanNft {
   static parseFromApi(data: LoanData): LoanNft {
     if (!data) throw new Error('No loan data to parse');
     const network = data.network;
-    const chain = network === 'SOL' ? Chain.Solana : Chain.Polygon; 
+    const chain = network as Chain;
     let loan = new LoanNft(chain);
     loan.id = data.id;
     loan.currency = data.currency;
@@ -69,7 +69,7 @@ export class LoanNft {
     if (!data) throw new Error('No loan detail data to parse');
 
     const network = data.new_loan?.network;
-    const chain = network === 'SOL' ? Chain.Solana : Chain.Polygon;
+    const chain = network as Chain;
     let loan = new LoanNft(chain);
     loan.seo_url = data.seo_url;
     loan.asset = parseNftFromLoanAsset(data, chain);

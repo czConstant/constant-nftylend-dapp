@@ -6,14 +6,15 @@ import BigNumber from 'bignumber.js';
 import { APP_URL } from "src/common/constants/url";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
-import { requestReload, selectNftyLend } from "src/store/nftyLend";
+import { useAppDispatch } from "src/store/hooks";
+import { requestReload } from "src/store/nftyLend";
 import { TABS } from "src/pages/myAsset";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 
 import MakeOfferForm from './form';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import styles from "./makeOfferForm.module.scss";
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 
 interface LoanDetailMakeOfferProps {
   loan: LoanNft;
@@ -24,13 +25,12 @@ interface LoanDetailMakeOfferProps {
 const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
   const { loan, onClose, navigate } = props;
   const dispatch = useAppDispatch();
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const { currentWallet } = useCurrentWallet();
 
   const [submitting, setSubmitting] = useState(false);
   const { makeOffer } = useTransaction();
 
   const onSubmit = async (values: any) => {
-    console.log("🚀 ~ file: index.tsx ~ line 33 ~ onSubmit ~ values", values)
     try {
       setSubmitting(true);
       if (!loan.currency) throw new Error('Loan has no currency');
@@ -41,7 +41,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
         asset_contract_address: loan.asset.contract_address,
         asset_token_id: loan.asset.token_id,
         loan_owner: loan.owner,
-        lender: walletAddress,
+        lender: currentWallet.address,
         loan_data_address: loan.data_loan_address,
         loan_id: loan.id,
         principal: values.amount,

@@ -29,12 +29,13 @@ export class EvmNft extends AssetNft {
     return nft;
   }
 
-  static parseFromLoanAsset(item: LoanDataAsset): EvmNft {
+  static parseFromLoanAsset(item: LoanDataAsset, chain: Chain): EvmNft {
     const nft = new EvmNft();
     nft.id = item.id;
     nft.contract_address = item.contract_address;
     nft.name = item.name;
     nft.token_id = item.token_id;
+    nft.chain = chain;
     nft.detail = { image: item.token_url, attributes: item.attributes } as AssetNftDetail;
     if (item.collection) {
       const collection = CollectionNft.parseFromApi(item.collection, Chain.Solana);
@@ -50,6 +51,7 @@ export class EvmNft extends AssetNft {
   async fetchDetail() {
     if (!this.detail_uri) throw new Error('No token uri');
     const response: any = await api.get(this.detail_uri);
+    this.name = response.name;
     this.detail = {
       name: response.name,
       description: response.description,
@@ -60,6 +62,6 @@ export class EvmNft extends AssetNft {
   }
 
   getLinkExplorer(address?: string): string {
-    return getLinkEvmExplorer(address || String(this.id), this.chain);
+    return getLinkEvmExplorer(address || String(this.contract_address), this.chain);
   }
 }

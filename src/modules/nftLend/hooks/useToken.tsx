@@ -3,11 +3,11 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import web3 from 'web3';
-import { Chain } from 'src/common/constants/network';
+import { AvalancheChainConfig, Chain, PolygonChainConfig } from 'src/common/constants/network';
 import { getEvmBalance } from 'src/modules/evm/utils';
 import { getBalanceSolToken } from 'src/modules/solana/utils';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { selectNftyLend, updateWallet } from 'src/store/nftyLend';
+import { useAppDispatch } from 'src/store/hooks';
+import { updateWallet } from 'src/store/nftyLend';
 import { isEvmChain } from '../utils';
 import { AssetNft } from '../models/nft';
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
@@ -15,14 +15,13 @@ import { SolanaNft } from 'src/modules/solana/models/solanaNft';
 import { EvmNft } from 'src/modules/evm/models/evmNft';
 import { getEvmNftsByOwner } from 'src/modules/evm/api';
 import localStore from 'src/common/services/localStore';
+import { useCurrentWallet } from './useCurrentWallet';
 
 function useToken() {
   const wallet = useWallet();
   const { connection } = useConnection();
   const dispatch = useAppDispatch();
-
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
-  const walletChain = useAppSelector(selectNftyLend).walletChain;
+  const { currentWallet } = useCurrentWallet();
 
   const checkConnectedWallet = async() => {
     if (wallet?.publicKey) {
@@ -32,6 +31,13 @@ function useToken() {
     if (!localStore.get('walletAddress') || !localStore.get('walletChain')) return;
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const accounts = await provider.listAccounts();
+    window.ethereum.on('accountsChanged', (e: any) => {
+      dispatch(updateWallet({ address: e[0] }));
+    });
+    window.ethereum.on('chainChanged', (e: any) => {
+      if (e === PolygonChainConfig.chainId) dispatch(updateWallet({ chain: Chain.Polygon }));
+      if (e === AvalancheChainConfig.chainId) dispatch(updateWallet({ chain: Chain.Avalanche }));
+    });
     if (accounts.length > 0) {
       dispatch(updateWallet({ address: accounts[0], chain: localStore.get('walletChain') }));
     }
@@ -48,7 +54,7 @@ function useToken() {
     } else {
       const res = await getEvmNftsByOwner(address, chain);
       assets = res.result.map((e: any) => {
-        const nft = EvmNft.parse(e);
+        const nft = EvmNft.parse(e, chain);
         nft.owner = address;
         return nft;
       });
@@ -57,25 +63,25 @@ function useToken() {
   }
 
   const getNativeBalance = async (): Promise<any> => {
-    if (walletChain === Chain.Solana) {
-      const solRes = await connection.getBalance(new PublicKey(walletAddress));
+    if (currentWallet.chain === Chain.Solana) {
+      const solRes = await connection.getBalance(new PublicKey(currentWallet.address));
       return new BigNumber(solRes).dividedBy(LAMPORTS_PER_SOL).toNumber();
-    } else if (isEvmChain(walletChain)) {
+    } else if (isEvmChain(currentWallet.chain)) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const balance = await provider.getBalance(walletAddress);
+      const balance = await provider.getBalance(currentWallet.address);
       return web3.utils.fromWei(balance._hex);
     }
-    throw new Error(`Chain ${walletChain} is not supported`)
+    throw new Error(`Chain ${currentWallet.chain} is not supported`)
   };
 
   const getBalance = async (contractAddress: string): Promise<any> => {
-    if (walletChain === Chain.Solana) {
-      return getBalanceSolToken(connection, walletAddress, contractAddress);
-    } else if (isEvmChain(walletChain)) {
-      const balance = await getEvmBalance(walletAddress, contractAddress);
+    if (currentWallet.chain === Chain.Solana) {
+      return getBalanceSolToken(connection, currentWallet.address, contractAddress);
+    } else if (isEvmChain(currentWallet.chain)) {
+      const balance = await getEvmBalance(currentWallet.address, contractAddress);
       return web3.utils.toDecimal(balance._hex);
     }
-    throw new Error(`Chain ${walletChain} is not supported`)
+    throw new Error(`Chain ${currentWallet.chain} is not supported`)
   };
 
   return { getBalance, getNativeBalance, getNftsByOwner, checkConnectedWallet };

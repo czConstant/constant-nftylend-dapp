@@ -65,10 +65,11 @@ const ItemNFT = (props: ItemNftProps) => {
           <h5>{asset.name}</h5>
           <div className={styles.infoWrap}>
             <div>{asset.collection?.name}</div>
+            <div className={styles.chain}>{asset.chain}</div>
           </div>
           {loan?.principal_amount && (
             <div className={styles.infoPrice}>
-              {formatCurrency(loan.principal_amount)} {loan?.curreny?.symbol}
+              {formatCurrency(loan.principal_amount)} {loan?.currency?.symbol}
             </div>
           )}
           <div className={styles.actions}>

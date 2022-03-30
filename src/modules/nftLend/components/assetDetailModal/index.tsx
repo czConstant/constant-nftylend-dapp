@@ -91,22 +91,24 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
             {extraData?.collection?.name}
           </a>
         </div>
-        <div >
-          <a
-            className={styles.infoCreator}
-            target="_blank"
-            href={asset.getLinkExplorer(asset.creator)}
-          >
-            Creators
-          </a>{' '}
-          ·{' '}
-          <a
-            target="_blank"
-            href={asset.getLinkExplorer(asset.owner)}
-          >
-            Authority
-          </a>
-        </div>
+        {asset.creator && (
+          <div>
+            <a
+              className={styles.infoCreator}
+              target="_blank"
+              href={asset.getLinkExplorer(asset.creator)}
+            >
+              Creators
+            </a>{' '}
+            ·{' '}
+            <a
+              target="_blank"
+              href={asset.getLinkExplorer(asset.owner)}
+            >
+              Authority
+            </a>
+          </div>
+        )}
         <div className={cx(styles.actions)}>
           {verifying
             ? <Loading />
@@ -157,4 +159,4 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   );
 };
 
-export default AssetDetailModal;
+export default React.memo(AssetDetailModal);

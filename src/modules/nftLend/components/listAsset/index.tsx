@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import EmptyList from 'src/common/components/emptyList';
@@ -15,23 +13,22 @@ import { selectNftyLend } from 'src/store/nftyLend';
 import { ItemNftProps } from '../itemNft';
 import { AssetNft } from '../../models/nft';
 import { useToken } from '../../hooks/useToken';
+import { useCurrentWallet } from '../../hooks/useCurrentWallet';
 
 const ListAsset = () => {
   const dispatch = useAppDispatch();
   const needReload = useAppSelector(selectNftyLend).needReload;
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
-  const walletChain = useAppSelector(selectNftyLend).walletChain;
+  const { currentWallet, isConnected } = useCurrentWallet();
   const { getNftsByOwner } = useToken();
 
-  const { connection } = useConnection();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [assets, setAssets] = useState([] as Array<ItemNftProps>);
 
   useEffect(() => {
-    if (walletAddress) fetchNFTs();
-  }, [walletAddress, needReload]);
+    if (isConnected) fetchNFTs();
+  }, [currentWallet, needReload]);
 
   const onMakeLoan = async (nftToken: AssetNft) => {
     const close = () => dispatch(closeModal({ id: 'createLoanModal' }));
@@ -62,9 +59,8 @@ const ListAsset = () => {
   };
 
   const fetchNFTs = async () => {
-    if (!walletAddress) return;
     try {
-      const assets = await getNftsByOwner(walletAddress, walletChain);
+      const assets = await getNftsByOwner(currentWallet.address, currentWallet.chain);
       setAssets(assets.map(e => ({
         asset: e,
         onClickItem: onClickShowDetail,
@@ -78,7 +74,7 @@ const ListAsset = () => {
     }
   };
 
-  if (!walletAddress) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
+  if (!isConnected) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
 
   return (
     <div className={styles.listAssets}>

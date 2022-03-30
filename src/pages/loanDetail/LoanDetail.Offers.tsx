@@ -1,10 +1,8 @@
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import React from "react";
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 import cx from "classnames";
-import { getLinkSolScanAccount } from "src/modules/solana/utils";
 import {
   formatCurrencyByLocale,
   shortCryptoAddress,
@@ -13,13 +11,13 @@ import moment from "moment-timezone";
 import { Button } from "react-bootstrap";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { toastError, toastSuccess } from "src/common/services/toaster";
-import AcceptOfferTransaction from "src/modules/solana/transactions/acceptOffer";
 import { requestReload, selectNftyLend } from "src/store/nftyLend";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { isSameAddress } from 'src/common/utils/helper';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 
 export const OfferTableHeader = () => (
   <div className={styles.tbHeader}>
@@ -90,7 +88,7 @@ const OfferRow = (props: OfferRowProps) => {
   
 const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
   const dispatch = useAppDispatch();
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const { currentWallet } = useCurrentWallet();
   const { cancelOffer, acceptOffer } = useTransaction();
 
   const offers = loan.offers || [];
@@ -173,7 +171,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
           <OfferRow
             loan={loan}
             offer={offer}
-            walletAddress={walletAddress}
+            walletAddress={currentWallet.address}
             onCancel={onCancel}
             onAccept={onAccept}
           />

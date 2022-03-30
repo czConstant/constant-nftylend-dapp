@@ -1,16 +1,15 @@
 import { ethers } from 'ethers';
-import web3 from 'web3';
 
+import NftyPawn from '../abi/NFTPawn.json';
 import IERC20 from '../abi/IERC20.json';
 
 import EvmTransaction from './index';
-import api from 'src/common/services/apiClient';
-import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { generateNonce, getMaxAllowance } from '../utils';
+import web3 from 'web3';
 import BigNumber from 'bignumber.js';
 
-export default class MakeOfferEvmTransaction extends EvmTransaction {
+export default class OrderNowEvmTransaction extends EvmTransaction {
   async run(
     principal: number,
     assetTokenId: string,
@@ -19,23 +18,27 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
     assetContractAddress: string,
     currencyContractAddress: string,
     currencyDecimals: number,
+    borrower: string,
+    borrowerNonce: string,
+    borrowerSignature: string,
     lender: string,
-    loanId: number,
   ): Promise<TransactionResult> {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner(0);
-      const contract = new ethers.Contract(currencyContractAddress, IERC20.abi, signer)
+
+      const erc20contract = new ethers.Contract(currencyContractAddress, IERC20.abi, signer)
+      const allowance = await erc20contract.allowance(lender, this.lendingProgram);
       
-      let txHash = '';
-      const allowance = await contract.allowance(lender, this.lendingProgram);
       if (new BigNumber(allowance._hex).lt(principal)) {
-        const tx = await contract.approve(this.lendingProgram, getMaxAllowance());
-        const receipt = await tx.wait();
-        txHash = receipt.transactionHash;
+        const tx = await erc20contract.approve(this.lendingProgram, getMaxAllowance());
+        await tx.wait();
       }
+
+      const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer)
+      
       const chainId = (await provider.getNetwork()).chainId;
-      const nonce = generateNonce();
+      const lenderNonce = generateNonce();
       const adminFee = await this.getAdminFee();
 
       let lenderMsg = web3.utils.soliditySha3(
@@ -44,7 +47,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         duration,
         rate * 10000,
         adminFee,
-        nonce,
+        lenderNonce,
         assetContractAddress,
         currencyContractAddress,
         lender,
@@ -52,21 +55,28 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
       );
       const lenderSig = await this.signMessage(signer, lenderMsg || '');
 
-      await api.post(`${API_URL.NFT_LEND.CREATE_OFFER}/${loanId}`, {
-        lender,
-        principal_amount: principal,
-        interest_rate: rate,
+
+      const tx = await contract.offerNow(
+        principal * 10 ** currencyDecimals,
+        assetTokenId,
         duration,
-        signature: lenderSig,
-        nonce_hex: nonce,
-      });
+        rate * 10000,
+        adminFee,
+        [borrowerNonce, lenderNonce],
+        assetContractAddress,
+        currencyContractAddress,
+        borrower,
+        [borrowerSignature, lenderSig],
+        { from: lender },
+      );
+      const receipt = await tx.wait();
 
       return this.handleSuccess({
-        txHash: txHash,
+        txHash: receipt.transactionHash,
+        blockNumber: receipt.blockNumber
       } as TransactionResult);
     } catch (err) {
       return this.handleError(err);
     }
-        
   }
 }

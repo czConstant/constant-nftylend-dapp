@@ -4,7 +4,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import cx from "classnames";
 import { Tab, Tabs } from "react-bootstrap";
 import queryString from "query-string";
-import { Navigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 
@@ -17,15 +16,13 @@ import ListOfferReceive from "src/modules/nftLend/components/listOfferReceive";
 import { toastSuccess } from "src/common/services/toaster";
 import { getNftListCurrency } from "src/modules/nftLend/api";
 import { Currency } from "src/modules/nftLend/models/api";
-import { useAppSelector } from 'src/store/hooks';
-import { selectNftyLend } from 'src/store/nftyLend';
 import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
 import { getLinkExplorerWallet } from 'src/modules/nftLend/utils';
-import { APP_URL } from 'src/common/constants/url';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
 
 import bgCover from "./images/bg_cover.png";
 import styles from "./styles.module.scss";
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 
 export const TABS = {
   owned: "my-assets",
@@ -37,9 +34,7 @@ export const TABS = {
 
 const MyAsset = () => {
   const { getNativeBalance, getBalance } = useToken();
-  const walletAddress = useAppSelector(selectNftyLend).walletAddress;
-  const walletChain = useAppSelector(selectNftyLend).walletChain;
-
+  const { isConnected, currentWallet} = useCurrentWallet();
   const location = useLocation();
 
   const tabActive = queryString.parse(location.search)?.tab || TABS.owned;
@@ -49,14 +44,14 @@ const MyAsset = () => {
   const [selectedTab, setSelectedTab] = useState(tabActive);
 
   useEffect(() => {
-    if (walletAddress) fetchBalance();
-  }, [walletAddress]);
+    if (isConnected) fetchBalance();
+  }, [currentWallet]);
 
   const fetchBalance = async () => {
     const nativeBalance = await getNativeBalance();
     setBalance(nativeBalance);
 
-    const listCurrencies = (await getNftListCurrency(walletChain)).result;
+    const listCurrencies = (await getNftListCurrency(currentWallet.chain)).result;
     const res = await Promise.all(
       listCurrencies.map((e: Currency) =>
         getBalance(e.contract_address)
@@ -84,18 +79,18 @@ const MyAsset = () => {
                 alt="Avatar"
               />
             </div>
-            {walletAddress ? (
+            {isConnected ? (
               <>
                 <div className={styles.addressWrap}>
                   <a
                     target="_blank"
-                    href={getLinkExplorerWallet(walletAddress, walletChain)}
+                    href={getLinkExplorerWallet(currentWallet.address, currentWallet.chain)}
                   >
-                    {shortCryptoAddress(walletAddress, 10)}
+                    {shortCryptoAddress(currentWallet.address, 10)}
                   </a>
                   <CopyToClipboard
                     onCopy={() => toastSuccess("Copied address!")}
-                    text={walletAddress}
+                    text={currentWallet.address}
                   >
                     <i className="far fa-copy" />
                   </CopyToClipboard>
@@ -104,7 +99,7 @@ const MyAsset = () => {
                   <label>Balance</label>
                   <div className={styles.balance}>
                     <span>{formatCurrencyByLocale(balance, 8)}</span>
-                    {walletChain.toString()}
+                    {currentWallet.chain.toString()}
                   </div>
                   {currencies.map((e: Currency) => (
                     <div key={e.symbol} className={styles.balance}>

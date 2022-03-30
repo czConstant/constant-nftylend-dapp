@@ -14,16 +14,13 @@ export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
   if (chain === Chain.Solana)
     return SolanaNft.parseFromLoanAsset(asset);
   if (chain === Chain.Polygon)
-    return EvmNft.parseFromLoanAsset(asset);
+    return EvmNft.parseFromLoanAsset(asset, chain);
   if (chain === Chain.Avalanche)
-    return EvmNft.parseFromLoanAsset(asset);
+    return EvmNft.parseFromLoanAsset(asset, chain);
   throw new Error(`Chain ${chain} is not supported`);
 }
 
 export function getLinkExplorerWallet(address: string, chain: Chain): string {
-  console.log("🚀 ~ file: utils.ts ~ line 24 ~ getLinkExplorerWallet ~ chain", chain)
-  console.log("🚀 ~ file: utils.ts ~ line 24 ~ getLinkExplorerWallet ~ address", address)
-  console.log("🚀 ~ file: utils.ts ~ line 27 ~ getLinkExplorerWallet ~ getLinkEvmExplorer(address, chain)", getLinkEvmExplorer(address, chain))
   if (isEvmChain(chain)) return getLinkEvmExplorer(address, chain);
   if (chain === Chain.Solana) return getLinkSolScanAccount(address); 
   return '';

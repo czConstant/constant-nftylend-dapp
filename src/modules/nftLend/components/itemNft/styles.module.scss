@@ -63,6 +63,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        min-height: 30px;
         div {
           &:first-child {
             font-weight: 500;
@@ -75,6 +76,16 @@
             line-height: 20px;
           }
         }
+      }
+      .chain {
+        width: fit-content;
+        height: fit-content;
+        padding: 0 10px;
+        background-color: rgba(255, 192, 122, 0.2);
+        color: #DE710B;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 8px;
       }
       .infoPrice {
         margin-top: 15px;
