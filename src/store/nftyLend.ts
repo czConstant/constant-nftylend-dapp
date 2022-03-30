@@ -42,18 +42,18 @@ const slice = createSlice({
     updateWallet: (state, action) => {
       if (action.payload.address) {
         state.wallet.address = action.payload.address;
-        localStore.save('walletAddress', action.payload.address);
+        localStore.save(localStore.KEY_WALLET_ADDRESS, action.payload.address);
       }
       if (action.payload.chain) {
         state.wallet.chain = action.payload.chain;
-        localStore.save('walletChain', action.payload.chain);
+        localStore.save(localStore.KEY_WALLET_CHAIN, action.payload.chain);
       }
     },
     clearWallet: (state) => {
       state.wallet.address = '';
       state.wallet.chain = Chain.None;
-      localStore.remove('walletAddress');
-      localStore.remove('walletChain');
+      localStore.remove(localStore.KEY_WALLET_ADDRESS);
+      localStore.remove(localStore.KEY_WALLET_CHAIN);
     }
   },
 });

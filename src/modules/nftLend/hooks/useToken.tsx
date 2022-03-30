@@ -1,47 +1,22 @@
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { useConnection } from '@solana/wallet-adapter-react';
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import web3 from 'web3';
-import { AvalancheChainConfig, Chain, PolygonChainConfig } from 'src/common/constants/network';
+import {  Chain } from 'src/common/constants/network';
 import { getEvmBalance } from 'src/modules/evm/utils';
 import { getBalanceSolToken } from 'src/modules/solana/utils';
-import { useAppDispatch } from 'src/store/hooks';
-import { updateWallet } from 'src/store/nftyLend';
 import { isEvmChain } from '../utils';
 import { AssetNft } from '../models/nft';
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
 import { SolanaNft } from 'src/modules/solana/models/solanaNft';
 import { EvmNft } from 'src/modules/evm/models/evmNft';
 import { getEvmNftsByOwner } from 'src/modules/evm/api';
-import localStore from 'src/common/services/localStore';
 import { useCurrentWallet } from './useCurrentWallet';
 
 function useToken() {
-  const wallet = useWallet();
   const { connection } = useConnection();
-  const dispatch = useAppDispatch();
   const { currentWallet } = useCurrentWallet();
-
-  const checkConnectedWallet = async() => {
-    if (wallet?.publicKey) {
-      dispatch(updateWallet({ address: wallet.publicKey.toString(), chain: Chain.Solana }));
-      return;
-    }
-    if (!localStore.get('walletAddress') || !localStore.get('walletChain')) return;
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const accounts = await provider.listAccounts();
-    window.ethereum.on('accountsChanged', (e: any) => {
-      dispatch(updateWallet({ address: e[0] }));
-    });
-    window.ethereum.on('chainChanged', (e: any) => {
-      if (e === PolygonChainConfig.chainId) dispatch(updateWallet({ chain: Chain.Polygon }));
-      if (e === AvalancheChainConfig.chainId) dispatch(updateWallet({ chain: Chain.Avalanche }));
-    });
-    if (accounts.length > 0) {
-      dispatch(updateWallet({ address: accounts[0], chain: localStore.get('walletChain') }));
-    }
-  }
 
   const getNftsByOwner = async(address: string, chain: Chain): Promise<Array<AssetNft>> => {
     let assets = [];
@@ -84,7 +59,7 @@ function useToken() {
     throw new Error(`Chain ${currentWallet.chain} is not supported`)
   };
 
-  return { getBalance, getNativeBalance, getNftsByOwner, checkConnectedWallet };
+  return { getBalance, getNativeBalance, getNftsByOwner };
 };
 
 export { useToken };

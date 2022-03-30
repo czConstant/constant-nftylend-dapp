@@ -12,11 +12,11 @@ import { toastSuccess } from 'src/common/services/toaster';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import styles from './styles.module.scss';
 
-interface ButtonConnectWalletProps {
+interface ButtonDisconnectWalletProps {
   className?: string;
 }
 
-const ButtonConnectWallet = (props: ButtonConnectWalletProps) => {
+const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
   const { className } = props;
   const dispatch = useAppDispatch();
   const { currentWallet } = useCurrentWallet();
@@ -55,4 +55,4 @@ const ButtonConnectWallet = (props: ButtonConnectWalletProps) => {
   );
 };
 
-export default memo(ButtonConnectWallet);
+export default memo(ButtonDisconnectWallet);

@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 // import { Scrollbars } from 'react-custom-scrollbars-2';
-import { useWallet } from '@solana/wallet-adapter-react';
 
 // import ModalManager from 'src/common/components/modal';
 import ModalManager from 'src/common/components/modalCustom';
@@ -12,15 +11,11 @@ import AppRouter from './navigation';
 import { getSystemConfigs } from './modules/nftLend/api';
 import { useAppDispatch } from './store/hooks';
 import { updateConfigs } from './store/nftyLend';
-import { useToken } from './modules/nftLend/hooks/useToken';
+import { useDetectConnectedWallet } from './modules/nftLend/hooks/useDetectWallet';
 
 export default function App() {
   const dispatch = useAppDispatch();
-  const { checkConnectedWallet } = useToken();
-  
-  useEffect(() => {
-    checkConnectedWallet();
-  }, []);
+  useDetectConnectedWallet();
 
   useEffect(() => {
     getSystemConfigs().then(res =>{ 
