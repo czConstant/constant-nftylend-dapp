@@ -115,7 +115,7 @@ const Loans = () => {
       return <EmptyDetailLoan message="There is no loans yet" />;
     }
 
-    return loans.map((loan, index) => loan.asset && (
+    return loans.map((loan) => loan.asset && (
       <ItemNFT key={loan?.id} loan={loan} asset={loan.asset} />
     ));
   };

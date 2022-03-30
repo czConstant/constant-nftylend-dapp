@@ -17,9 +17,9 @@ const HIGH_RISK_VALUE = 2.5; // 250%
 const validateHighRisk = ({ value, maxValue, message }) => {
   if (parseFloat(value) > parseFloat(maxValue) * HIGH_RISK_VALUE) {
     return (
-      <p className={styles.errorMessage}>
+      <div className={styles.errorMessage}>
         {message?.replace("%value", HIGH_RISK_VALUE * 100)}
-      </p>
+      </div>
     );
   }
 

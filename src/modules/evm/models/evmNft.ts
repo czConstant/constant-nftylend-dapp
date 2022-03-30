@@ -3,7 +3,7 @@ import api from 'src/common/services/apiClient';
 import { LoanDataAsset } from 'src/modules/nftLend/models/api';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import { AssetNft, AssetNftDetail } from 'src/modules/nftLend/models/nft';
-import { getLinkAvalancheExplorer, getLinkEvmExplorer, getLinkPolygonExplorer } from '../utils';
+import { getLinkEvmExplorer } from '../utils';
 
 export class EvmNft extends AssetNft {
   static parse(item: any, chain?: Chain): EvmNft {

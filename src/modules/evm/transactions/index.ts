@@ -3,7 +3,7 @@ import { Chain } from 'src/common/constants/network';
 import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { getAvalancheLendingProgramId, getLinkAvalancheExplorer, getLinkEvmExplorer, getLinkPolygonExplorer, getPolygonLendingProgramId } from '../utils';
+import { getAvalancheLendingProgramId, getLinkEvmExplorer, getPolygonLendingProgramId } from '../utils';
 import NftyPawn from '../abi/NFTPawn.json';
 import web3 from 'web3';
 

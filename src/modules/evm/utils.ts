@@ -3,7 +3,7 @@ import web3 from 'web3';
 
 import { customAlphabet } from 'nanoid';
 import { APP_CLUSTER } from 'src/common/constants/config';
-import { Chain, ChainAvalancheID, ChainPolygonID } from 'src/common/constants/network';
+import { Chain, ChainAvalancheID, ChainConfigs, ChainPolygonID } from 'src/common/constants/network';
 import store from 'src/store';
 import IERC721 from './abi/IERC20.json';
 
@@ -16,16 +16,8 @@ export const getMaxAllowance = (): string => {
 }
 
 export const getLinkEvmExplorer = (address: string, chain: Chain, type?: 'tx' | 'address') => {
-  if (chain === Chain.Polygon) return getLinkPolygonExplorer(address, type);
-  if (chain === Chain.Avalanche) return getLinkAvalancheExplorer(address, type);
-  return '';
+  return `${ChainConfigs[chain].blockExplorerUrls[0]}${type || 'address'}/${address}`;
 }
-
-export const getLinkPolygonExplorer = (address?: string, type?: 'tx' | 'address') =>
-  `https://${APP_CLUSTER === 'testnet' ? 'mumbai.' : ''}polygonscan.com/${type || 'address'}/${address}`;
-
-export const getLinkAvalancheExplorer = (address?: string, type?: 'tx' | 'address') =>
-  `https://${APP_CLUSTER === 'testnet' ? 'testnet.' : ''}snowtrace.io/${type || 'address'}/${address}`;
 
 export const getPolygonLendingProgramId = () => {
   return store.getState().nftyLend.configs.matic_nftypawn_address;

@@ -28,7 +28,7 @@ export const PolygonChainConfig = {
     decimals: 18,
   },
   rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://matic-mainnet.chainstacklabs.com'] : ['https://matic-mumbai.chainstacklabs.com'],
-  blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://polygonscan.com/'] : ['https://mumbai.polygonscan.com'],
+  blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://polygonscan.com/'] : ['https://mumbai.polygonscan.com/'],
 }
 
 export const AvalancheChainConfig = {
@@ -41,4 +41,9 @@ export const AvalancheChainConfig = {
   },
   rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://api.avax.network/ext/bc/C/rpc'] : ['https://api.avax-test.network/ext/bc/C/rpc'],
   blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://snowtrace.io/'] : ['https://testnet.snowtrace.io/'],
+}
+
+export const ChainConfigs = {
+  [Chain.Polygon]: PolygonChainConfig,
+  [Chain.Avalanche]: AvalancheChainConfig,
 }

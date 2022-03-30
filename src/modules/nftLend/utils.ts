@@ -3,11 +3,10 @@ import BigNumber from 'bignumber.js';
 
 import { Chain } from 'src/common/constants/network';
 import { EvmNft } from '../evm/models/evmNft';
-import { getLinkEvmExplorer, getLinkPolygonExplorer } from '../evm/utils';
+import { getLinkEvmExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
 import { getLinkSolScanAccount } from '../solana/utils';
 import { LoanDataAsset } from './models/api';
-import { AssetNft } from './models/nft';
 
 export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
   if (!asset) throw new Error('Loan has no asset');

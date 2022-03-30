@@ -1,5 +1,5 @@
 import { Chain } from 'src/common/constants/network';
-import { getLinkEvmExplorer, getLinkPolygonExplorer } from 'src/modules/evm/utils';
+import { getLinkEvmExplorer } from 'src/modules/evm/utils';
 import { getLinkSolScanExplorer } from 'src/modules/solana/utils';
 import { OFFER_STATUS } from '../constant';
 import { isEvmChain } from '../utils';

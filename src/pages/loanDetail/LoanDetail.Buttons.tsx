@@ -19,6 +19,7 @@ import styles from "./styles.module.scss";
 import { TABS } from "../myAsset";
 import LoanDetailMakeOffer from './makeOffer';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
 
 const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
@@ -27,8 +28,6 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const { currentWallet, isConnected } = useCurrentWallet();
 
   const [canceling, setCanceling] = useState(false);
-  const [ordering, setOrdering] = useState(false);
-  const [orderPicking, setOrderPicking] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const isOwner = isSameAddress(currentWallet.address, loan.owner);
@@ -62,8 +61,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
 
   const onOrderNow = async () => {
     try {
-      setSubmitting(true);
-      setOrdering(true);
+      dispatch(showLoadingOverlay());
       if (!loan.currency) throw new Error('Loan has no currency');
       if (!loan.asset) throw new Error('Loan has no asset');
       const res = await orderNow({
@@ -93,8 +91,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {
-      setSubmitting(false);
-      setOrdering(false);
+      dispatch(hideLoadingOverlay());
     }
   };
 
@@ -205,17 +202,17 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
       <div className={styles.groupOfferButtons}>
         <Button
           className={styles.btnConnect}
-          disabled={isOwner || ordering}
+          disabled={isOwner}
           onClick={onOrderNow}
         >
-          {ordering ? <Loading dark /> : "Order now"}
+          Order now
         </Button>
         <Button
           className={styles.btnConnect}
-          disabled={isOwner || orderPicking}
+          disabled={isOwner}
           onClick={onMakeOffer}
         >
-          {orderPicking ? <Loading dark /> : "Make an offer"}
+          Make an offer
         </Button>
       </div>
       <div className={styles.noteTerms}>
