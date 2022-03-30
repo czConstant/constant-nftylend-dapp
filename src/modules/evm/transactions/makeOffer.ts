@@ -20,17 +20,22 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
     currencyDecimals: number,
     lender: string,
     loanId: number,
-    adminFee : number,
   ): Promise<TransactionResult> {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner(0);
       const contract = new ethers.Contract(currencyContractAddress, IERC20.abi, signer)
-      const tx = await contract.approve(this.lendingProgram, web3.utils.toWei('1000000', 'ether'));
-      const receipt = await tx.wait();
-      
+      let txHash = '';
+      if (!(await contract.allowance(lender, this.lendingProgram))) {
+        const tx = await contract.approve(this.lendingProgram, web3.utils.toWei('1000000', 'ether'));
+        const receipt = await tx.wait();
+        txHash = receipt.transactionHash;
+      }
       const chainId = (await provider.getNetwork()).chainId;
       const nonce = generateNonce();
+
+      const adminFee = await this.getAdminFee();
+
       let lenderMsg = web3.utils.soliditySha3(
         principal * 10 ** currencyDecimals,
         assetTokenId,
@@ -43,8 +48,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         lender,
         chainId,
       );
-      if (!lenderMsg) throw new Error('Empty borrow message');
-      const lenderSig = await signer.signMessage(lenderMsg)
+      const lenderSig = await this.signMessage(signer, lenderMsg || '');
 
       await api.post(`${API_URL.NFT_LEND.CREATE_OFFER}/${loanId}`, {
         lender,
@@ -56,11 +60,11 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
       });
 
       return this.handleSuccess({
-        txHash: receipt.transactionHash,
-        blockNumber: receipt.blockNumber
+        txHash: txHash,
       } as TransactionResult);
     } catch (err) {
       return this.handleError(err);
     }
+        
   }
 }

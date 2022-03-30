@@ -1,3 +1,4 @@
+import { Chain } from 'src/common/constants/network';
 import { CollectionNft } from './collection';
 
 export abstract class AssetNft {
@@ -13,6 +14,7 @@ export abstract class AssetNft {
   detail_uri: string = '';
   origin_contract_network: string = '';
   origin_contract_address: string = '';
+  chain: Chain = Chain.None;
 
   abstract needFetchDetail(): boolean;
   abstract getLinkExplorer(address?: string): string;

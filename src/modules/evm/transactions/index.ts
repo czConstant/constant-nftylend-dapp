@@ -1,8 +1,11 @@
+import { ethers } from 'ethers';
 import { Chain } from 'src/common/constants/network';
 import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { getLinkPolygonExplorer, getPolygonLendingProgramId } from '../utils';
+import { getAvalancheLendingProgramId, getLinkAvalancheExplorer, getLinkEvmExplorer, getLinkPolygonExplorer, getPolygonLendingProgramId } from '../utils';
+import NftyPawn from '../abi/NFTPawn.json';
+import web3 from 'web3';
 
 export default class EvmTransaction {
   lendingProgram;
@@ -12,9 +15,27 @@ export default class EvmTransaction {
     this.chain = chain;
     if (chain === Chain.Polygon) {
       this.lendingProgram = getPolygonLendingProgramId();
+    } else if (chain === Chain.Avalanche) {
+      this.lendingProgram = getAvalancheLendingProgramId();
     } else {
       throw new Error(`Chain ${chain} is not supported`);
     }
+  }
+
+  getAdminFee = async (): Promise<number> => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner(0);
+    const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer);
+      
+    const fee = await contract.adminFeeInBasisPoints();
+    const adminFee = web3.utils.toDecimal(fee);
+    return adminFee;
+  };
+
+  signMessage = async (signer: ethers.providers.JsonRpcSigner, message: string) => {
+    if (!message) throw new Error('Empty message to sign');
+    const borrowerSig = await signer.signMessage(ethers.utils.arrayify(message));
+    return borrowerSig;
   }
 
   handleError = async (err: any): Promise<TransactionResult> => {
@@ -36,9 +57,7 @@ export default class EvmTransaction {
     }
     if (res.txHash) {
       let txExplorerUrl = `No explorer for chain ${this.chain}`;
-      if (this.chain === Chain.Polygon) {
-        txExplorerUrl = getLinkPolygonExplorer(res.txHash, 'tx');
-      }
+      txExplorerUrl = getLinkEvmExplorer(res.txHash, this.chain, 'tx');
       return { ...res, txExplorerUrl };
     }
     return res;

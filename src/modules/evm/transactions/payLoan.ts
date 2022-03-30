@@ -15,7 +15,6 @@ export default class PayLoanEvmTransaction extends EvmTransaction {
       const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer)
       const tx = await contract.payBackLoan(loanId);
       const receipt = await tx.wait();
-
       return this.handleSuccess({
         txHash: receipt.transactionHash,
         blockNumber: receipt.blockNumber

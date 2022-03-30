@@ -1,10 +1,8 @@
 import { ethers } from 'ethers';
-import web3 from 'web3';
 
 import NftyPawn from '../abi/NFTPawn.json';
 
 import EvmTransaction from './index';
-import { ChainPolygonID } from 'src/common/constants/network';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 
 export default class AcceptOfferEvmTransaction extends EvmTransaction {
@@ -28,8 +26,7 @@ export default class AcceptOfferEvmTransaction extends EvmTransaction {
       const signer = provider.getSigner(0);
       const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer)
       
-      const fee = await contract.adminFeeInBasisPoints();
-      const adminFee = web3.utils.toDecimal(fee);
+      const adminFee = await this.getAdminFee();
 
       const tx = await contract.beginLoan(
         principal * 10 ** currencyDecimals,

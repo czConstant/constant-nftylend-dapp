@@ -18,6 +18,7 @@ import { shortCryptoAddress } from "src/common/utils/format";
 import { OFFER_STATUS } from "../../constant";
 import { useTransaction } from '../../hooks/useTransaction';
 import { OfferToLoan } from '../../models/offer';
+import { isEvmChain } from '../../utils';
 
 interface ItemProps {
   offer: OfferToLoan;
@@ -123,9 +124,8 @@ const Item = (props: ItemProps) => {
     navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${offer?.loan?.seo_url}`);
   };
 
-  const showClaim = offer.status === "repaid";
-  const showLiquidate = offer.isApproved() &&
-    moment().isAfter(moment(offer.expired_at));
+  const showClaim = !isEvmChain(offer.chain) && offer.status === "repaid";
+  const showLiquidate = offer.isApproved() && moment().isAfter(moment(offer.expired_at));
   const showCancel = offer.status === "new";
 
   const principal = offer.principal_amount;

@@ -30,6 +30,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
   const { makeOffer } = useTransaction();
 
   const onSubmit = async (values: any) => {
+    console.log("🚀 ~ file: index.tsx ~ line 33 ~ onSubmit ~ values", values)
     try {
       setSubmitting(true);
       if (!loan.currency) throw new Error('Loan has no currency');

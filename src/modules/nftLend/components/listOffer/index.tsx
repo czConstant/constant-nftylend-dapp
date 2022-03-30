@@ -14,6 +14,7 @@ import { OfferToLoan } from '../../models/offer';
 
 const ListOffer = () => {
   const walletAddress = useAppSelector(selectNftyLend).walletAddress;
+  const walletChain = useAppSelector(selectNftyLend).walletChain;
   const needReload = useAppSelector(selectNftyLend).needReload;
 
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,7 @@ const ListOffer = () => {
   const fetchOffers = async () => {
     try {
       const res = await getOffersByFilter({ lender: walletAddress, status });
-      setOffers(res.result.map(OfferToLoan.parseFromApi));
+      setOffers(res.result.map(e => OfferToLoan.parseFromApi(e, walletChain)));
     } finally {
       setLoading(false);
     }

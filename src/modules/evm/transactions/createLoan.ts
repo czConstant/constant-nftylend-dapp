@@ -24,7 +24,7 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
       const signer = provider.getSigner(0);
       const contract = new ethers.Contract(nftContractAddress, IERC721.abi, signer)
       let txHash = '';
-      if (!contract.isApprovedForAll()) {
+      if (!(await contract.isApprovedForAll(ownerAddress, this.lendingProgram))) {
         const tx = await contract.setApprovalForAll(this.lendingProgram, true);
         const receipt = await tx.wait();
         txHash = receipt.transactionHash;
@@ -38,9 +38,8 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
         ownerAddress,
         chainId,
       );
-      if (!borrowerMsg) throw new Error('Empty borrow message');
-      const borrowerSig = await signer.signMessage(borrowerMsg)
-
+      const borrowerSig = await this.signMessage(signer, borrowerMsg || '');
+      
       await api.post(API_URL.NFT_LEND.CREATE_LOAN, {
         chain: this.chain.toString(),
         borrower: ownerAddress,

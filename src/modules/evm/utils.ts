@@ -10,11 +10,24 @@ export const generateNonce = (): string => {
   return  '0x' + customAlphabet('0123456789abcdef', 64)();
 }
 
+export const getLinkEvmExplorer = (address: string, chain: Chain, type?: 'tx' | 'address') => {
+  if (chain === Chain.Polygon) return getLinkPolygonExplorer(address, type);
+  if (chain === Chain.Avalanche) return getLinkAvalancheExplorer(address, type);
+  return '';
+}
+
 export const getLinkPolygonExplorer = (address?: string, type?: 'tx' | 'address') =>
   `https://${APP_CLUSTER === 'testnet' ? 'mumbai.' : ''}polygonscan.com/${type || 'address'}/${address}`;
 
+export const getLinkAvalancheExplorer = (address?: string, type?: 'tx' | 'address') =>
+  `https://${APP_CLUSTER === 'testnet' ? 'testnet.' : ''}snowtrace.io/${type || 'address'}/${address}`;
+
 export const getPolygonLendingProgramId = () => {
   return store.getState().nftyLend.configs.matic_nftypawn_address;
+};
+
+export const getAvalancheLendingProgramId = () => {
+  return store.getState().nftyLend.configs.avax_nftypawn_address;
 };
 
 export const getEvmBalance = async (owner: string, contractAddress: string): Promise<any> => {

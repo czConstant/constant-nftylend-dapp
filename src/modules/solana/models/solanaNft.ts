@@ -7,6 +7,8 @@ import { AssetNft, AssetNftDetail } from 'src/modules/nftLend/models/nft';
 import { getLinkSolScanExplorer } from '../utils';
 
 export class SolanaNft extends AssetNft {
+  chain: Chain = Chain.Solana;
+
   static parse(item: any): SolanaNft {
     let nft = new SolanaNft();
     nft.id = item.id;

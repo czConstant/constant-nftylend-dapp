@@ -3,16 +3,17 @@ import api from 'src/common/services/apiClient';
 import { LoanDataAsset } from 'src/modules/nftLend/models/api';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import { AssetNft, AssetNftDetail } from 'src/modules/nftLend/models/nft';
-import { getLinkPolygonExplorer } from '../utils';
+import { getLinkAvalancheExplorer, getLinkEvmExplorer, getLinkPolygonExplorer } from '../utils';
 
 export class EvmNft extends AssetNft {
-  static parse(item: any): EvmNft {
+  static parse(item: any, chain?: Chain): EvmNft {
     let nft = new EvmNft();
     nft.id = item.id;
     nft.token_id = item.token_id;
     nft.contract_address = item.token_address;
     nft.detail_uri = item.token_uri;
     nft.original_data = item;
+    if (chain) nft.chain = chain;
     try {
       const parsed = JSON.parse(item.metadata);
       nft.name = parsed.name;
@@ -59,6 +60,6 @@ export class EvmNft extends AssetNft {
   }
 
   getLinkExplorer(address?: string): string {
-    return getLinkPolygonExplorer(address || String(this.id));
+    return getLinkEvmExplorer(address || String(this.id), this.chain);
   }
 }
