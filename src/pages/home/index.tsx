@@ -7,6 +7,7 @@ import { Button } from "react-bootstrap";
 import imgTitle from "./assets/title.png";
 import imgTitle2 from "./assets/title2.png";
 import imgWhatNFTy from "./assets/what_nfty.png";
+import imgWhatNFTyMobile from "./assets/what_nfty_mobile.png";
 import imgHowItWork from "./assets/how_it_work.png";
 import icDiscord from "./assets/ic_discord.svg";
 import icTwitter from "./assets/btn_twitter.png";
@@ -107,7 +108,7 @@ const Home = () => {
           contracts.
         </p>
         <div className={styles.bgWhatNFTy}>
-          <img alt="NFT Pawn" src={imgWhatNFTy} />
+          <img alt="NFT Pawn" src={isMobile ? imgWhatNFTyMobile : imgWhatNFTy} />
         </div>
       </section>
       <section className={cx(styles.section, styles.sectionHIW)}>
