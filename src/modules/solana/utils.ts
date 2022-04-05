@@ -53,7 +53,7 @@ export const getBalanceSolToken = async (connection: Connection, publicKey: Publ
     );
     const associatedAcc = addresses[0];
     const res = await connection.getParsedAccountInfo(associatedAcc);
-    return (res.value?.data as ParsedAccountData).parsed?.info?.tokenAmount?.uiAmount;
+    return (res.value?.data as ParsedAccountData).parsed?.info?.tokenAmount?.amount;
   } catch (err) {
     console.log("🚀 ~ file: index.js ~ line 70 ~ useEffect ~ err", err)
   }
