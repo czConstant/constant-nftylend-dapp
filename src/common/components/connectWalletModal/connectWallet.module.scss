@@ -31,8 +31,13 @@
       }
     }
   }
-  :global .wallet-adapter-dropdown{
-    display: none;;
+  :global {
+    .wallet-adapter-dropdown{
+      display: none;;
+    }
+    .wallet-adapter-button {
+      display: none;
+    }
   }
 }
 

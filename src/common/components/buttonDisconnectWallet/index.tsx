@@ -11,6 +11,7 @@ import { Chain } from 'src/common/constants/network';
 import { toastSuccess } from 'src/common/services/toaster';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import styles from './styles.module.scss';
+import tokenIcons from 'src/common/utils/tokenIcons';
 
 interface ButtonDisconnectWalletProps {
   className?: string;
@@ -36,6 +37,7 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
   return (
     <Dropdown className={cx(styles.wrapper, className)}>
       <Dropdown.Toggle className={styles.disconnectButton}>
+        <img alt="" src={tokenIcons[currentWallet.chain.toLowerCase()]} />
         <span className={className}>{shortCryptoAddress(currentWallet.address)}</span>
       </Dropdown.Toggle>
       <Dropdown.Menu className={styles.dropdownMenu}>
