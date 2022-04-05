@@ -10,12 +10,10 @@ import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 
-import PayLoanTransaction from "src/modules/solana/transactions/payLoan";
-
 // import { STATUS } from '../../listLoan/leftSidebar';
 import styles from "./styles.module.scss";
 import { shortCryptoAddress } from "src/common/utils/format";
-import { LOAN_STATUS } from "../../constant";
+import { LOAN_DURATION, LOAN_STATUS } from "../../constant";
 import { useTransaction } from '../../hooks/useTransaction';
 import { LoanNft } from '../../models/loan';
 import { calculateTotalPay } from '../../utils';
@@ -117,6 +115,7 @@ const Item = (props: ItemProps) => {
     : loan.principal_amount;
   const interest = loan.approved_offer ? loan.approved_offer.interest_rate : loan.interest_rate;
   const duration = loan.approved_offer ? loan.approved_offer.duration : loan.duration;
+  const loanDuration = LOAN_DURATION.find(e => e.id === duration / 86400);
 
   let status = loan.status;
   let statusStyle = {
@@ -161,7 +160,7 @@ const Item = (props: ItemProps) => {
           {principal} {loan.currency?.symbol}
         </div>
         <div>
-          {days} days /<br />
+          {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`} /<br />
           {new BigNumber(interest).multipliedBy(100).toNumber()}%
         </div>
         {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}

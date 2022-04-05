@@ -17,7 +17,6 @@ import { LOAN_DURATION } from "../../constant";
 import { calculateMaxInterest, calculateMaxTotalPay } from '../../utils';
 import { formatCurrency } from 'src/common/utils/format';
 import { Currency } from '../../models/api';
-import { duration } from 'moment-timezone';
 import MyPopover from 'src/common/components/myPopover';
 
 interface CreateLoanFormProps {

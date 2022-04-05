@@ -11,7 +11,7 @@ import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
 
 import listLoanStyled from "../listLoan/styles.module.scss";
-import { OFFER_STATUS } from "../../constant";
+import { LOAN_DURATION, OFFER_STATUS } from "../../constant";
 import { shortCryptoAddress } from "src/common/utils/format";
 import { useTransaction } from '../../hooks/useTransaction';
 import { OfferToLoan } from '../../models/offer';
@@ -82,6 +82,7 @@ const Item = (props: ItemProps) => {
   const duration = offer.duration;
 
   const loan = offer.loan;
+  const loanDuration = LOAN_DURATION.find(e => e.id === duration / 86400);
 
   let status = offer.status;
 
@@ -130,7 +131,7 @@ const Item = (props: ItemProps) => {
           {principal} {loan?.currency?.symbol}
         </div>
         <div>
-          {Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days
+          {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
           /<br />
           {new BigNumber(interest).multipliedBy(100).toNumber()}%
         </div>
