@@ -1,4 +1,6 @@
 .disconnectButton {
+  display: flex;
+  align-items: center;
   height: 40px;
   background-color: transparent !important;
   border: 2px solid #777e90 !important;
@@ -10,6 +12,12 @@
   box-shadow: none !important;
   &::after {
     display: none;
+  }
+  > img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 20px;
   }
 }
 
