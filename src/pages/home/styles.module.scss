@@ -306,7 +306,7 @@
   margin-bottom: 0.25rem;
 }
 
-.imgIntro {    
+.imgIntro {
   max-height: 450px;
   position: absolute;
   right: 0;
@@ -323,12 +323,11 @@
     color: #808080;
     letter-spacing: -0.4px;
     line-height: 64px;
-  
+
     span {
-      color: #FFFFFF;
+      color: #ffffff;
     }
   }
-
 }
 
 .sectionToken {
@@ -338,11 +337,11 @@
     text-align: left;
     font-family: PTMono-Regular;
     font-size: 14px;
-    color: #B1B1B5;
+    color: #b1b1b5;
     letter-spacing: 0;
     line-height: 22px;
     margin-top: 20px;
-  }  
+  }
 }
 
 .titleSection {
@@ -352,6 +351,13 @@
   margin-left: 100px;
   width: 360px;
   height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .imgLogo2 {
+    align-self: flex-start;
+  }
   @media screen and (max-width: 768px) {
     position: relative;
     width: 100%;
@@ -369,7 +375,12 @@
     width: fit-content;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    background: -webkit-linear-gradient(-50deg, #2698EA 0%, #FFB176 60%, #ED5158 110%);
+    background: -webkit-linear-gradient(
+      -50deg,
+      #2698ea 0%,
+      #ffb176 60%,
+      #ed5158 110%
+    );
     -webkit-background-clip: text;
     @media screen and (max-width: 768px) {
       font-size: 12px;
@@ -380,15 +391,16 @@
   .title {
     font-weight: 600;
     font-size: 32px;
-    color: #F3F4F8;
+    color: #f3f4f8;
     line-height: 44px;
-    margin: 0 auto 20px;
+    text-align: left;
+    align-self: flex-start;
   }
   .subtitle {
     text-align: left;
     font-family: PTMono-Regular;
     font-size: 14px;
-    color: #B1B1B5;
+    color: #b1b1b5;
     letter-spacing: 0;
     line-height: 22px;
     margin-top: 20px;
@@ -398,6 +410,9 @@
 .tokenomics {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
   @media screen and (max-width: 768px) {
     padding-right: 0;
   }
@@ -413,7 +428,6 @@
   .bgImage {
     position: sticky;
     top: 300px;
-    z-index: -2;
     height: 600px;
     @media screen and (max-width: 768px) {
       position: relative;
@@ -430,7 +444,7 @@
     .bgWindow {
       max-width: unset;
       width: 680px;
-      margin-left: -10%;
+      margin-left: 11rem;
       @media screen and (max-width: 768px) {
         width: 560px;
         max-width: unset;
@@ -450,12 +464,17 @@
   .item {
     position: relative;
     width: 480px;
-    background: -webkit-linear-gradient(-50deg, #2698EA 0%, #FFB176 60%, #ED5158 110%);
+    background: -webkit-linear-gradient(
+      -50deg,
+      #2698ea 0%,
+      #ffb176 60%,
+      #ed5158 110%
+    );
     padding: 2px 1px;
     border-radius: 30px;
     margin-bottom: 40px;
     margin-left: 7%;
-    box-shadow: 0 2px 164px 0 rgba(0,0,0,0.5);
+    box-shadow: 0 2px 164px 0 rgba(0, 0, 0, 0.5);
     .itemContent {
       display: flex;
       flex-direction: column;
@@ -487,7 +506,12 @@
 
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      background: -webkit-linear-gradient(-50deg, #2698EA 0%, #FFB176 60%, #ED5158 110%);
+      background: -webkit-linear-gradient(
+        -50deg,
+        #2698ea 0%,
+        #ffb176 60%,
+        #ed5158 110%
+      );
       -webkit-background-clip: text;
     }
 
@@ -496,12 +520,12 @@
         transform: rotate(360deg);
         font-family: PTMono-Regular;
         font-size: 14px;
-        color: #B1B1B5;
+        color: #b1b1b5;
         letter-spacing: 0;
         line-height: 22px;
       }
       font-size: 22px;
-      color: #A0A0C3;
+      color: #a0a0c3;
       letter-spacing: 0;
       line-height: 30px;
       @media screen and (max-width: 768px) {
