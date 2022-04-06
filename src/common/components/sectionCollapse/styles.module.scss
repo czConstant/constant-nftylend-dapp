@@ -1,6 +1,44 @@
 .sectionWrap {
   margin-top: 1rem;
   overflow: hidden;
+  .expandIcon {
+    transform: rotate(0deg);
+    transition: transform 0.2s ease-in-out;
+  }
+  .expandIconActive {
+    transform: rotate(-180deg);
+  }
+  &.mbSectionWrap {
+    h2 {
+      button {
+        width: auto;
+        background-color: transparent !important;
+        position: relative;
+        border: none !important;
+        .expandIcon {
+          position: absolute;
+          right: 0;
+          bottom: 15px;
+        }
+        > div {
+          font-size: 15px;
+          color: #777e90;
+          letter-spacing: 0;
+          line-height: 32px;
+          font-weight: 300;
+          padding-right: 20px;
+        }
+        span {
+          display: block;
+          font-size: 30px;
+          color: #fcfcfd;
+          letter-spacing: -0.3px;
+          font-weight: 400;
+          text-transform: capitalize;
+        }
+      }
+    }
+  }
   > div {
     background-color: transparent;
     border-radius: 0;
@@ -30,6 +68,7 @@
       &::after {
         filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(10deg)
           brightness(104%) contrast(102%) !important;
+        display: none;
       }
     }
   }

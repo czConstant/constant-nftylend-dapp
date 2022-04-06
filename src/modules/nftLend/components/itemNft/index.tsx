@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import BigNumber from "bignumber.js";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 import { formatCurrency } from "src/common/utils/format";
 import { APP_URL } from "src/common/constants/url";
@@ -65,9 +65,11 @@ const ItemNFT = (props: ItemNftProps) => {
           detail={detail}
         />
         <div className={styles.itemContent}>
-          <h5>{asset.name}</h5>
           <div className={styles.infoWrap}>
-            <div>{asset.collection?.name}</div>
+            <div>
+              <h5>{asset.name}</h5>
+              <div>{asset.collection?.name}</div>
+            </div>
             <div className={styles.chain}>{asset.chain}</div>
           </div>
           {loan?.principal_amount && (
