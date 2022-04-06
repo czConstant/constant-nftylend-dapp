@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import cx from "classnames";
 import styles from "./styles.module.scss";
-import { Accordion, Collapse } from "react-bootstrap";
+import { Accordion, Collapse, useAccordionButton } from "react-bootstrap";
 import expandIco from "./assets/expand-arrow.svg";
+import { isMobile } from "react-device-detect";
 
 interface SectionCollapseProps {
   label: string;
@@ -11,6 +12,7 @@ interface SectionCollapseProps {
   content?: any;
   disabled?: boolean;
   onToggle?: (_: any) => void;
+  bodyClassName?: string;
 }
 
 const SectionCollapse: React.FC<SectionCollapseProps> = ({
@@ -20,18 +22,31 @@ const SectionCollapse: React.FC<SectionCollapseProps> = ({
   content,
   disabled,
   id,
+  bodyClassName
 }) => {
+  const [active, setActive] = useState(selected);
+  const decoratedOnClick = useAccordionButton(id, () =>
+    setActive((_active) => !_active)
+  );
   return (
     <Accordion
       alwaysOpen={selected}
       defaultActiveKey={selected && [id]}
-      className={styles.sectionWrap}
+      className={cx(isMobile && styles.mbSectionWrap, styles.sectionWrap)}
+      onClick={decoratedOnClick}
     >
       <Accordion.Item eventKey={id}>
         <Accordion.Header className={disabled && styles.btnDisabled}>
-          {label}
+          <div dangerouslySetInnerHTML={{ __html: label }} />
+          <img
+            src={expandIco}
+            className={cx(
+              active && styles.expandIconActive,
+              styles.expandIcon
+            )}
+          />
         </Accordion.Header>
-        <Accordion.Body className={styles.tabContentWrap}>
+        <Accordion.Body className={cx(bodyClassName, styles.tabContentWrap)}>
           <div className={styles.content}>{content}</div>
         </Accordion.Body>
       </Accordion.Item>

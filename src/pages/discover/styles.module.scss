@@ -11,12 +11,13 @@
     h1 {
       font-size: 30px;
       color: #fcfcfd;
-      letter-spacing: 0px;
       text-align: center;
-      line-height: 34px;
       text-transform: uppercase;
       font-weight: bold;
       margin: 5px;
+      font-weight: 400;
+      letter-spacing: -0.3px;
+      line-height: 35px;
     }
   }
 }
@@ -55,6 +56,23 @@
     .contentContainer {
       .itemContainer {
         max-width: 100%;
+        margin: 0px;
+        .image {
+          width: 90vw;
+          height: 90vw;
+          max-height: 90vw;
+          > div {
+            width: 90vw;
+            height: 90vw;
+            img {
+              height: 90vw;
+            }
+          }
+        }
+        .body {
+          width: 90vw;
+          max-width: 90vw;
+        }
       }
     }
   }
@@ -123,20 +141,20 @@
           height: fit-content;
           padding: 0 10px;
           background-color: rgba(255, 192, 122, 0.2);
-          color: #DE710B;
+          color: #de710b;
           font-weight: 600;
           font-size: 14px;
           border-radius: 8px;
         }
         .totalItems {
           border-radius: 8px;
-          border: solid 2px white;
+          border: solid 2px #45b36b;
           align-self: flex-start;
           display: flex;
           justify-content: center;
           align-items: center;
           padding: 5px 15px;
-          color: white;
+          color: #45b36b;
           text-transform: uppercase;
           font-size: 12px;
           font-weight: bold;

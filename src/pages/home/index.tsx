@@ -11,6 +11,9 @@ import imgTitle2 from "./assets/title2.png";
 import imgWhatNFTy from "./assets/what_nfty.png";
 import imgWhatNFTyMobile from "./assets/what_nfty_mobile.png";
 import imgHowItWork from "./assets/how_it_work.png";
+import imgHowItWorkMobile from "./assets/how_it_work_mobile.png";
+import imgMBCommunity1 from "./assets/mobile_img_1_communicate.png";
+import imgMBCommunity2 from "./assets/mobile_img_2_communicate.png";
 import imgIntro from "./assets/img_introduction.png";
 import BgLine from "./assets/bgTokenomics.png";
 import BgWindow from "./assets/bg_window.svg";
@@ -173,7 +176,7 @@ const Home = () => {
             Our smart contracts handle the rest.
           </p>
           <div className={styles.bgHowItWork}>
-            <img alt="NFT Pawn" src={imgHowItWork} />
+            <img alt="NFT Pawn"  src={isMobile ? imgHowItWorkMobile : imgHowItWork} />
           </div>
         </section>
       </Fade>

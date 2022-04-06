@@ -26,12 +26,17 @@ const Footer = () => (
           <Link to={APP_URL.NFT_LENDING_FAQS}>FAQs</Link>
           <a
             target={"_blank"}
-            href={"https://docs.myconstant.com/overview/introduction-myconstant"}
+            href={
+              "https://docs.myconstant.com/overview/introduction-myconstant"
+            }
           >
             Docs
           </a>
         </div>
       </div>
+    </div>
+    <div className={styles.copyright}>
+      Copyright © 2022 NFT Pawn. All rights reserved
     </div>
   </div>
 );

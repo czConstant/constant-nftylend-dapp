@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { getLoanByCollection } from "src/modules/nftLend/api";
 import ItemNFT from "src/modules/nftLend/components/itemNft";
-import { LoanNft } from 'src/modules/nftLend/models/loan';
+import { LoanNft } from "src/modules/nftLend/models/loan";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 
@@ -45,9 +46,14 @@ const LoanDetailSuggest: React.FC<LoanDetailProps> = ({ loan, asset }) => {
   return (
     <SectionCollapse
       id="suggest"
-      label="More from this collection"
+      label={
+        isMobile
+          ? "More from this<span>collection</span>"
+          : "More from this collection"
+      }
       content={renderSuggestContent()}
       selected={true}
+      bodyClassName={isMobile && styles.bodyClassName}
     />
   );
 };
