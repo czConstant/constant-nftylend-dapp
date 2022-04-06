@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import { Chain } from 'src/common/constants/network';
 import { getLinkEvmExplorer } from 'src/modules/evm/utils';
 import { getLinkSolScanExplorer } from 'src/modules/solana/utils';
@@ -65,5 +66,9 @@ export class OfferToLoan {
     if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.accept_tx_hash);
     if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || this.accept_tx_hash, this.chain);
     throw new Error(`Chain ${this.chain} is not supported`);
+  }
+
+  isLiquidated(): boolean {
+    return this.status === 'created' && moment().isAfter(moment(this.expired_at));
   }
 }

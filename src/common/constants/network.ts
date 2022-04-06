@@ -27,7 +27,7 @@ export const PolygonChainConfig = {
     symbol: 'MATIC',
     decimals: 18,
   },
-  rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://matic-mainnet.chainstacklabs.com'] : ['https://matic-mumbai.chainstacklabs.com'],
+  rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://matic-mainnet.chainstacklabs.com'] : ['https://matic-testnet-archive-rpc.bwarelabs.com'],
   blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://polygonscan.com/'] : ['https://mumbai.polygonscan.com/'],
 }
 

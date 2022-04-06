@@ -16,6 +16,7 @@ import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { isSameAddress } from 'src/common/utils/helper';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { LOAN_DURATION } from 'src/modules/nftLend/constant';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -31,6 +32,9 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
       isSameAddress(v.lender?.toString(), currentWallet.address) &&
       v.status === "new"
   );
+
+  const loanDuration = LOAN_DURATION.find(e => e.id === loan.duration / 86400);
+  const offerDuration = LOAN_DURATION.find(e => e.id === userOffer?.duration / 86400);
 
   return (
     <div className={styles.headerContainer}>
@@ -88,10 +92,7 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
               <div>
                 <div className={styles.feeInfoTitle}>Terms</div>
                 <div className={styles.feeInfoValue}>
-                  {new BigNumber(loan.duration)
-                    .dividedBy(86400)
-                    .toNumber()}{" "}
-                  Days
+                  {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(loan.duration).dividedBy(86400).toNumber())} days`}
                 </div>
               </div>
               {userOffer && (
@@ -138,10 +139,7 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
                       className={styles.feeInfoValue}
                       style={{ color: "green", fontWeight: "bold" }}
                     >
-                      {new BigNumber(userOffer?.duration)
-                        .dividedBy(86400)
-                        .toNumber()}{" "}
-                      Days
+                      {offerDuration ? offerDuration.label : `${Math.ceil(new BigNumber(userOffer.duration).dividedBy(86400).toNumber())} days`}
                     </div>
                   </div>
                 </>
