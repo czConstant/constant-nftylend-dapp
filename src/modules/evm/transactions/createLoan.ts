@@ -8,6 +8,7 @@ import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { generateNonce } from '../utils';
+import BigNumber from 'bignumber.js';
 
 export default class CreateLoanEvmTransaction extends EvmTransaction {
   async run(
@@ -35,8 +36,9 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
       const nonce = generateNonce();
       const adminFee = await this.getAdminFee();
       
+      const principalStr = `${new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString()}`;
       let borrowerMsg = web3.utils.soliditySha3(
-        principal * 10 ** currencyDecimals,
+        principalStr,
         assetTokenId,
         duration,
         rate * 10000,
@@ -47,7 +49,9 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
         ownerAddress,
         chainId,
       );
+      console.log('ok')
       const borrowerSig = await this.signMessage(signer, borrowerMsg || '');
+      console.log('ok 1')
       
       await api.post(API_URL.NFT_LEND.CREATE_LOAN, {
         chain: this.chain.toString(),

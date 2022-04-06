@@ -2,13 +2,14 @@ import { ethers } from 'ethers';
 import web3 from 'web3';
 
 import { customAlphabet } from 'nanoid';
-import { APP_CLUSTER } from 'src/common/constants/config';
 import { Chain, ChainAvalancheID, ChainConfigs, ChainPolygonID } from 'src/common/constants/network';
 import store from 'src/store';
 import IERC721 from './abi/IERC20.json';
 
 export const generateNonce = (): string => {
-  return  '0x' + customAlphabet('0123456789abcdef', 64)();
+  let hex = customAlphabet('0123456789abcdef', 64)();
+  if (hex.length % 2 === 1) hex = '0' + hex;
+  return  '0x' + hex;
 }
 
 export const getMaxAllowance = (): string => {

@@ -4,6 +4,7 @@ import NftyPawn from '../abi/NFTPawn.json';
 
 import EvmTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
+import BigNumber from 'bignumber.js';
 
 export default class AcceptOfferEvmTransaction extends EvmTransaction {
   async run(
@@ -28,8 +29,10 @@ export default class AcceptOfferEvmTransaction extends EvmTransaction {
       
       const adminFee = await this.getAdminFee();
 
+      const principalStr = `${new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString()}`;
+
       const tx = await contract.beginLoan(
-        principal * 10 ** currencyDecimals,
+        principalStr,
         assetTokenId,
         duration,
         rate * 10000,

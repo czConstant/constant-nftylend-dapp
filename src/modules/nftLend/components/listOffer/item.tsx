@@ -15,7 +15,7 @@ import { APP_URL } from "src/common/constants/url";
 
 import listLoanStyles from "../listLoan/styles.module.scss";
 import { shortCryptoAddress } from "src/common/utils/format";
-import { OFFER_STATUS } from "../../constant";
+import { LOAN_DURATION, OFFER_STATUS } from "../../constant";
 import { useTransaction } from '../../hooks/useTransaction';
 import { OfferToLoan } from '../../models/offer';
 import { isEvmChain } from '../../utils';
@@ -33,6 +33,7 @@ const Item = (props: ItemProps) => {
   const [open, setOpen] = useState(false);
 
   const loan = offer.loan;
+  const loanDuration = LOAN_DURATION.find(e => e.id === offer.duration / 86400);
 
   const onClaim = async () => {
     try {
@@ -125,7 +126,7 @@ const Item = (props: ItemProps) => {
   };
 
   const showClaim = !isEvmChain(offer.chain) && offer.status === "repaid";
-  const showLiquidate = offer.isApproved() && moment().isAfter(moment(offer.expired_at));
+  const showLiquidate = offer.isLiquidated();
   const showCancel = offer.status === "new";
 
   const principal = offer.principal_amount;
@@ -162,10 +163,6 @@ const Item = (props: ItemProps) => {
     };
   }
 
-  const days = new BigNumber(duration)
-    .dividedBy(86400)
-    .toPrecision(2, BigNumber.ROUND_CEIL);
-
   return (
     <div
       key={offer.id}
@@ -180,7 +177,7 @@ const Item = (props: ItemProps) => {
           {principal} {loan?.currency?.symbol}
         </div>
         <div>
-          {days} days / <br />
+          {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`} / <br />
           {new BigNumber(interest).multipliedBy(100).toNumber()}%
         </div>
         {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}

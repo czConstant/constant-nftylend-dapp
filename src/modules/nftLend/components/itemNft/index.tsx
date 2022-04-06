@@ -10,6 +10,7 @@ import styles from "./styles.module.scss";
 import ItemNftMedia from "./itemNftMedia";
 import { AssetNft } from '../../models/nft';
 import { LoanNft } from '../../models/loan';
+import { LOAN_DURATION } from '../../constant';
 
 export const mediaTypes = {
   video: ["mov", "mp4", "video"],
@@ -51,6 +52,8 @@ const ItemNFT = (props: ItemNftProps) => {
     if (loan?.seo_url)
       navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
   };
+
+  const loanDuration = LOAN_DURATION.find(e => e.id === loan?.duration / 86400);
 
   return (
     <div className={styles.itemContainer}>
@@ -107,7 +110,7 @@ const ItemNFT = (props: ItemNftProps) => {
               <div>
                 <label>Duration</label>
                 <div>
-                  {new BigNumber(loan.duration / 86400).toNumber()} days
+                  {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(loan?.duration).dividedBy(86400).toNumber())} days`}
                 </div>
               </div>
             </div>

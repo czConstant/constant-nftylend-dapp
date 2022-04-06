@@ -38,8 +38,10 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
       const nonce = generateNonce();
       const adminFee = await this.getAdminFee();
 
+      const principalStr = `${new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString()}`;
+
       let lenderMsg = web3.utils.soliditySha3(
-        principal * 10 ** currencyDecimals,
+        principalStr,
         assetTokenId,
         duration,
         rate * 10000,

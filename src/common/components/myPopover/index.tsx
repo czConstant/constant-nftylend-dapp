@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { Button, Overlay, Popover } from 'react-bootstrap';
+import { isMobile } from "react-device-detect";
 import cx from 'classnames';
-
-import browserDetect from 'src/common/services/browserDetect';
 
 import styles from './styles.module.scss';
 import { closeModal, openModal } from 'src/store/modal';
@@ -103,7 +102,7 @@ const MyPopover = (props: MyPopoverProps, forwardedRef: React.Ref<any>) => {
     event.preventDefault();
     event.stopPropagation();
     if (onShow) onShow();
-    if (browserDetect.isMobile) {
+    if (isMobile) {
       showDialog();
     } else {
       setShow(!show);

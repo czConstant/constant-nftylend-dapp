@@ -1,4 +1,5 @@
-import { SOL_CLUSTER } from 'src/common/constants/config';
+import BigNumber from 'bignumber.js';
+import { APP_CLUSTER } from 'src/common/constants/config';
 
 export const LOAN_STATUS = [
   {
@@ -156,9 +157,13 @@ export const LOAN_DURATION = [
   },
 ];
 
-if (SOL_CLUSTER === "devnet") {
+if (APP_CLUSTER === "testnet") {
   LOAN_DURATION.unshift({
     id: 0.01,
     label: "0.01 days",
+  });
+  LOAN_DURATION.unshift({
+    id: new BigNumber(60 / 86400).toNumber(),
+    label: "60 seconds",
   });
 }

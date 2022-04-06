@@ -17,7 +17,7 @@ import { LOAN_DURATION } from "../../constant";
 import { calculateMaxInterest, calculateMaxTotalPay } from '../../utils';
 import { formatCurrency } from 'src/common/utils/format';
 import { Currency } from '../../models/api';
-import { duration } from 'moment-timezone';
+import MyPopover from 'src/common/components/myPopover';
 
 interface CreateLoanFormProps {
   onSubmit: FormEventHandler;
@@ -64,13 +64,14 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
       <div className={styles.info}>
         <label>Estimated</label>
         <div>
-          Max interest: <strong>{formatCurrency(maxInterest, 4)} {receiveToken?.symbol}</strong>
+          Max interest <strong>{formatCurrency(maxInterest, 4)} {receiveToken?.symbol}</strong>
         </div>
         <div>
-          Matching fee: <strong>{formatCurrency(matchingFee)} {receiveToken?.symbol}</strong>
+          <span>Platform fee <MyPopover desc="This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans." /></span>
+          <strong>{formatCurrency(matchingFee)} {receiveToken?.symbol}</strong>
         </div>
         <div>
-          Max repayment: <strong>{formatCurrency(totalRepay)} {receiveToken?.symbol}</strong>
+          Max repayment <strong>{formatCurrency(totalRepay)} {receiveToken?.symbol}</strong>
         </div>
       </div>
     )

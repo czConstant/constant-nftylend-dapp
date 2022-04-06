@@ -10,6 +10,7 @@ import nodePolyfills from 'rollup-plugin-polyfill-node';
 export default ({ mode}) => {
   const env = loadEnv(mode, process.cwd(), 'REACT_');
   const production = process.env.NODE_ENV === 'production';
+  const version = new Date().getTime();
   
   return defineConfig({
     plugins: [
@@ -53,7 +54,7 @@ export default ({ mode}) => {
             if (id.includes('moment')) return 'moment';
             if (id.includes('lodash')) return 'lodash';
             if (id.includes('axios')) return 'axios';
-            if (id.includes('node_modules')) return 'vendor';
+            if (id.includes('node_modules')) return `vendor_${version}`;
           }
         }
       }
