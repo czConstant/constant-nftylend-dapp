@@ -41,8 +41,10 @@ export default class OrderNowEvmTransaction extends EvmTransaction {
       const lenderNonce = generateNonce();
       const adminFee = await this.getAdminFee();
 
+      const principalStr = `${new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString()}`;
+
       let lenderMsg = web3.utils.soliditySha3(
-        principal * 10 ** currencyDecimals,
+        principalStr,
         assetTokenId,
         duration,
         rate * 10000,
@@ -55,9 +57,8 @@ export default class OrderNowEvmTransaction extends EvmTransaction {
       );
       const lenderSig = await this.signMessage(signer, lenderMsg || '');
 
-
       const tx = await contract.offerNow(
-        principal * 10 ** currencyDecimals,
+        principalStr,
         assetTokenId,
         duration,
         rate * 10000,

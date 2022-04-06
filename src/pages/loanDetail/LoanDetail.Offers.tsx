@@ -3,21 +3,24 @@ import SectionCollapse from "src/common/components/sectionCollapse";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 import cx from "classnames";
+import BigNumber from 'bignumber.js';
+import moment from "moment-timezone";
+import { Button } from "react-bootstrap";
+
 import {
   formatCurrencyByLocale,
   shortCryptoAddress,
 } from "src/common/utils/format";
-import moment from "moment-timezone";
-import { Button } from "react-bootstrap";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { toastError, toastSuccess } from "src/common/services/toaster";
-import { requestReload, selectNftyLend } from "src/store/nftyLend";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { requestReload } from "src/store/nftyLend";
+import { useAppDispatch } from "src/store/hooks";
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { isSameAddress } from 'src/common/utils/helper';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { LOAN_DURATION } from 'src/modules/nftLend/constant';
 
 export const OfferTableHeader = () => (
   <div className={styles.tbHeader}>
@@ -43,7 +46,7 @@ const OfferRow = (props: OfferRowProps) => {
 
   const isMyOffer = isSameAddress(offer.lender,walletAddress);
   const isMyLoan = isSameAddress(loan.owner, walletAddress);
-  
+  const offerDuration = LOAN_DURATION.find(e => e.id === offer.duration / 86400);
   return (
     <div className={cx(styles.tbHeader, styles.tbBody)} key={offer?.id}>
       <div>
@@ -58,7 +61,9 @@ const OfferRow = (props: OfferRowProps) => {
       <div>
         {`${formatCurrencyByLocale(offer.principal_amount, 2)} ${loan.currency?.symbol}`}
       </div>
-      <div>{Math.ceil(offer.duration / 86400)} days</div>
+      <div>
+        {offerDuration ? offerDuration.label : `${Math.ceil(new BigNumber(offer.duration).dividedBy(86400).toNumber())} days`}
+      </div>
       <div>{offer.interest_rate * 100}%</div>
       {/* <div>{offer.principal_amount} {detail?.new_loan?.currency?.symbol}</div> */}
       <div>{moment(offer?.created_at).fromNow()}</div>
