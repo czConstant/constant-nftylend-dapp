@@ -237,7 +237,12 @@ const Home = () => {
         </section>
       </Fade>
       <Slide duration={DURATION}>
-        <Row>
+        <Row
+          style={{
+            marginLeft: 0,
+            marginRight: 0,
+          }}
+        >
           <Col
             xs={{ span: 12, order: 2 }}
             md={{ span: 7, order: 1 }}
