@@ -287,3 +287,53 @@
   font-style: italic;
   font-display: swap;
 }
+
+
+/* --------------------------------------------------- SFMono --------------------------------------------------- */
+@font-face {
+  font-family: SFMono;
+  src: url('../../assets/fonts/sfmono/SFMono-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: SFMono;
+  src: url('../../assets/fonts/sfmono/SFMono-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: SFMono;
+  src: url('../../assets/fonts/sfmono/SFMono-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: SFMono;
+  src: url('../../assets/fonts/sfmono/SFMono-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: SFMono;
+  src: url('../../assets/fonts/sfmono/SFMono-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: SFMono;
+  src: url('../../assets/fonts/sfmono/SFMono-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
