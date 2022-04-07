@@ -12,6 +12,7 @@ import HeaderMobile from "./index.mobile";
 import ButtonConnectWallet from '../buttonConnectWallet';
 import ButtonDisconnectWallet from '../buttonDisconnectWallet';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { APP_CLUSTER } from 'src/common/constants/config';
 
 const Header = () => {
   const location = useLocation();
@@ -62,12 +63,12 @@ const Header = () => {
         <div className={styles.right}>
           {isConnected ? <ButtonDisconnectWallet /> : <ButtonConnectWallet />}
         </div>
-        {/* {walletAccount && networkVersion !== ethNetwork && (
-          <div className={styles.warningNetwork}>
-            Your wallet is connected to the {ETH_CHAIN_NAME[networkVersion]} network. To use NFT Pawning, please switch to {ETH_CHAIN_NAME[ethNetwork]}
-          </div>
-        )} */}
       </div>
+      {APP_CLUSTER && (
+        <div className={styles.warningNetwork}>
+          You are on the NFT Pawn test network. Go to&nbsp;<a>NFT Pawn main network</a>&nbsp;to hop off the test network.
+        </div>
+      )}
     </div>
   );
 };

@@ -29,7 +29,7 @@ const ModalComponent = (props: ModalComponentProps) => {
       {title && (
         <div className={styles.header}>
           <div>{title}</div>
-          <i className="fal fa-times" onClick={handleClose} />
+          {/* <i className="fal fa-times" onClick={handleClose} /> */}
         </div>
       )}
       {render(actions)}

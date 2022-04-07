@@ -10,8 +10,10 @@ import { shortCryptoAddress } from 'src/common/utils/format';
 import { Chain } from 'src/common/constants/network';
 import { toastSuccess } from 'src/common/services/toaster';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
-import styles from './styles.module.scss';
 import tokenIcons from 'src/common/utils/tokenIcons';
+import { closeModal, openModal } from 'src/store/modal';
+import styles from './styles.module.scss';
+import ConnectWalletModal from '../connectWalletModal';
 
 interface ButtonDisconnectWalletProps {
   className?: string;
@@ -21,6 +23,20 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
   const { className } = props;
   const dispatch = useAppDispatch();
   const { currentWallet } = useCurrentWallet();
+
+  const onChangeWallet = () => {
+    const id = 'connectWalletModal';
+    const close = () => dispatch(closeModal({ id }))
+    dispatch(openModal({
+      id,
+      theme: 'dark',
+      modalProps: {
+        centered: true,
+        contentClassName: styles.modalContent,
+      },
+      render: () => <ConnectWalletModal onClose={close} />,
+    }))
+  }
 
   const onDisconnect = () => {
     dispatch(clearWallet());
@@ -48,6 +64,9 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
           >
             <div className={styles.item}>Copy address</div>
           </CopyToClipboard>
+        </Dropdown.Item>
+        <Dropdown.Item eventKey="changeWallet" onClick={onChangeWallet}>
+          <div className={styles.item}>Change wallet</div>
         </Dropdown.Item>
         <Dropdown.Item eventKey="disconnect" onClick={onDisconnect}>
           <div className={styles.item}>Disconnect</div>
