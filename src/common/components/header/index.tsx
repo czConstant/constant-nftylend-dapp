@@ -66,7 +66,7 @@ const Header = () => {
       </div>
       {APP_CLUSTER && (
         <div className={styles.warningNetwork}>
-          You are on the NFT Pawn test network. Go to&nbsp;<a>NFT Pawn main network</a>&nbsp;to hop off the test network.
+          You are on the NFT Pawn test network, we're working toward releasing the mainnet soon.
         </div>
       )}
     </div>
