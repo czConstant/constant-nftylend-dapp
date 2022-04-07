@@ -5,7 +5,7 @@
   &.inputWrapperDark {
     color: white;
     input {
-      background-color: var(--bs-gray-dark);
+      background-color: #0d0d0d;
       color: white !important;
     }
     .groupAppend {
@@ -16,25 +16,25 @@
     .labelWrapper {
       color: #dedfe5;
       padding: 0px 2px;
-      background-color: var(--bs-gray-dark);
+      background-color: #0d0d0d;
     }
     :global {
       .dropdown-toggle {
         color: white;
       }
       .dropdown-menu.show {
-        background-color: var(--bs-gray);
+        background-color: black;
         a {
           color: white !important;
           &:hover {
-            background-color: var(--bs-gray-dark);
+            background-color: #188EEA;
           }
           span {
             color: var(--bs-gray-400);
           }
         }
         input {
-          background-color: var(--bs-gray-dark) !important;
+          background-color: #0d0d0d !important;
           color: white !important;
         }
       }

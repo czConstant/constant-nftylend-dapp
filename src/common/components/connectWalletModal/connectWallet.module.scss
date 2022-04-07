@@ -31,24 +31,4 @@
       }
     }
   }
-  :global {
-    .wallet-adapter-dropdown{
-      display: none;;
-    }
-    .wallet-adapter-button {
-      display: none;
-    }
-  }
-}
-
-.solButton {
-  &, &:hover {
-    // display: none;
-    background: none !important;
-    border: none;
-    width: unset;
-    height: unset;
-    line-height: unset;
-    filter: none !important;
-  }
 }

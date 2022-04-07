@@ -12,6 +12,10 @@ import HeaderMobile from "./index.mobile";
 import ButtonConnectWallet from '../buttonConnectWallet';
 import ButtonDisconnectWallet from '../buttonDisconnectWallet';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { APP_CLUSTER } from 'src/common/constants/config';
+import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+
+import '@solana/wallet-adapter-react-ui/styles.css';
 
 const Header = () => {
   const location = useLocation();
@@ -60,14 +64,21 @@ const Header = () => {
           </div>
         </div>
         <div className={styles.right}>
+          <div className={styles.hiddenSolButton}>
+            <WalletModalProvider className={styles.solModal}>
+              <WalletMultiButton className={styles.solButton}>
+                <div id="solButton" />
+              </WalletMultiButton>
+            </WalletModalProvider>
+          </div>
           {isConnected ? <ButtonDisconnectWallet /> : <ButtonConnectWallet />}
         </div>
-        {/* {walletAccount && networkVersion !== ethNetwork && (
-          <div className={styles.warningNetwork}>
-            Your wallet is connected to the {ETH_CHAIN_NAME[networkVersion]} network. To use NFT Pawning, please switch to {ETH_CHAIN_NAME[ethNetwork]}
-          </div>
-        )} */}
       </div>
+      {APP_CLUSTER && (
+        <div className={styles.warningNetwork}>
+          You are on the NFT Pawn test network, we're working toward releasing the mainnet soon.
+        </div>
+      )}
     </div>
   );
 };

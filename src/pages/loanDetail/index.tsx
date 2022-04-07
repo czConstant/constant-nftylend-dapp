@@ -54,9 +54,11 @@ const LoanDetail = () => {
       const response: ResponseResult = await getLoanById(pathLoan);
       const result: LoanDataAsset = response.result;
 
-      defaultBreadCrumbs.current[1].label = result.collection.name;
-      defaultBreadCrumbs.current[1].link = `${APP_URL.NFT_LENDING_LIST_LOAN}/?collection=${result.collection.seo_url}`;
-      defaultBreadCrumbs.current[2].label = result.name;
+      if (result?.collection?.name) {
+        defaultBreadCrumbs.current[1].label = result?.collection.name;
+        defaultBreadCrumbs.current[1].link = `${APP_URL.NFT_LENDING_LIST_LOAN}/?collection=${result.collection.seo_url}`;
+        defaultBreadCrumbs.current[2].label = result?.name;
+      }
 
       setBreadCrumbs(defaultBreadCrumbs.current);
       setLoan(LoanNft.parseFromApiDetail(result));
