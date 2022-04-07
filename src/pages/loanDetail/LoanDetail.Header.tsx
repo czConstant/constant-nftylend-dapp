@@ -58,7 +58,10 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
         />
       </div>
       <div>
-        <h4>{asset.name}</h4>
+        <h4>
+          {asset.name}
+          <div className={styles.chain}>{asset.chain}</div>
+        </h4>
         <div className={styles.infoAuthor}>
           <Link
             to={`${APP_URL.NFT_LENDING_LIST_LOAN}?collection=${asset.collection?.seo_url}`}
