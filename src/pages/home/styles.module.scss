@@ -141,16 +141,19 @@
     margin-top: 2rem;
     position: relative;
     .bgImage {
-      position: absolute;
-      top: 0px;
-      height: auto;
+      position: relative;
+      margin-left: 25px;
+      margin-top: 0;
+      top: 0;
+      margin-bottom: -250px;
+      overflow: hidden;
+      height: unset;
       img {
         width: 100%;
       }
       .bgWindow {
+        width: 560px;
         max-width: unset;
-        width: 100vw;
-        margin-left: 5rem;
       }
       .bgLine {
         margin-top: 0;
