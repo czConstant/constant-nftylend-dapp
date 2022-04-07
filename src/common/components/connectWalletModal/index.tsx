@@ -32,7 +32,7 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
   const { currentWallet, isConnected } = useCurrentWallet();
 
   useEffect(() => {
-    if (isConnected) onClose();
+    if (isConnected && currentWallet.chain === Chain.Solana) onClose();
   }, [isConnected]);
 
   useEffect(() => {
