@@ -106,6 +106,64 @@
       width: 250px;
     }
   }
+  .textLeftWrap {
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    .text {
+      font-size: 25px;
+      line-height: 40px;
+
+      span {
+        color: #ffffff;
+      }
+    }
+  }
+  .titleSection {
+    position: relative;
+    top: 0;
+    margin-top: 0;
+    margin-left: 0;
+    width: fit-content;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+    .imgLogo2 {
+      align-self: center;
+    }
+    .title {
+      align-self: center;
+    }
+    .subtitle {
+      text-align: center;
+    }
+  }
+  .tokenomics {
+    padding: 0;
+    margin-top: 2rem;
+    position: relative;
+    .bgImage {
+      position: absolute;
+      top: 0px;
+      height: auto;
+      img {
+        width: 100%;
+      }
+      .bgWindow {
+        max-width: unset;
+        width: 100vw;
+        margin-left: 5rem;
+      }
+      .bgLine {
+        margin-top: 0;
+        margin-left: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
 }
 
 .sectionBG {
@@ -354,7 +412,6 @@
 }
 
 .textLeftWrap {
-  margin-top: 3rem;
   margin-right: 12rem;
   margin-top: 3rem;
   .text {
@@ -398,15 +455,6 @@
   .imgLogo2 {
     align-self: flex-start;
   }
-  @media screen and (max-width: 768px) {
-    position: relative;
-    width: 100%;
-    height: fit-content;
-    margin: 0;
-    padding: 0 15px;
-    text-align: center;
-    top: unset;
-  }
   .top {
     font-weight: 600;
     font-size: 13px;
@@ -422,11 +470,6 @@
       #ed5158 110%
     );
     -webkit-background-clip: text;
-    @media screen and (max-width: 768px) {
-      font-size: 12px;
-      margin-left: auto;
-      margin-right: auto;
-    }
   }
   .title {
     font-weight: 600;
@@ -438,7 +481,7 @@
   }
   .subtitle {
     text-align: left;
-    font-family: PTMono-Regular;
+    font-family: SFMono;
     font-size: 14px;
     color: #b1b1b5;
     letter-spacing: 0;
@@ -453,9 +496,6 @@
   justify-content: center;
   align-items: center;
   padding: 0;
-  @media screen and (max-width: 768px) {
-    padding-right: 0;
-  }
   :global .slick-dots {
     bottom: 0;
     li button::before {
@@ -469,15 +509,6 @@
     position: sticky;
     top: 300px;
     height: 600px;
-    @media screen and (max-width: 768px) {
-      position: relative;
-      margin-left: 25px;
-      margin-top: 0;
-      top: 0;
-      margin-bottom: -250px;
-      overflow: hidden;
-      height: unset;
-    }
     img {
       width: 100%;
     }
@@ -486,7 +517,7 @@
       width: 680px;
       margin-left: 11rem;
       @media screen and (max-width: 768px) {
-        width: 560px;
+        width: 100vw;
         max-width: unset;
       }
     }
@@ -574,4 +605,14 @@
       }
     }
   }
+}
+
+.bottomMask {
+  position: fixed;
+  bottom: 0;
+  height: 150px;
+  width: 100%;
+  background-image: linear-gradient(bottom, #000 0%, transparent 100%);
+  z-index: 9;
+  pointer-events: none;
 }
