@@ -23,8 +23,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
     loanId: number,
   ): Promise<TransactionResult> {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner(0);
+      const signer = this.provider.getSigner(0);
       const contract = new ethers.Contract(currencyContractAddress, IERC20.abi, signer)
       
       let txHash = '';
@@ -34,7 +33,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         const receipt = await tx.wait();
         txHash = receipt.transactionHash;
       }
-      const chainId = (await provider.getNetwork()).chainId;
+      const chainId = (await this.provider.getNetwork()).chainId;
       const nonce = generateNonce();
       const adminFee = await this.getAdminFee();
 

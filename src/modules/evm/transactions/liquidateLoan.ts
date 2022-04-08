@@ -10,8 +10,7 @@ export default class LiquidateLoanEvmTransaction extends EvmTransaction {
     loanId: string,
   ): Promise<TransactionResult> {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner(0);
+      const signer = this.provider.getSigner(0);
       const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer)
       const tx = await contract.liquidateOverdueLoan(loanId);
       const receipt = await tx.wait();

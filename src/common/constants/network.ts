@@ -6,6 +6,7 @@ export enum Chain {
   Solana = 'SOL',
   Polygon = 'MATIC',
   Avalanche = 'AVAX',
+  BSC = 'BNB',
 };
 
 export const ChainPolygonID = APP_CLUSTER === 'mainnet' ? '' : 80001;
@@ -27,7 +28,7 @@ export const PolygonChainConfig = {
     symbol: 'MATIC',
     decimals: 18,
   },
-  rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://matic-mainnet.chainstacklabs.com'] : ['https://matic-testnet-archive-rpc.bwarelabs.com'],
+  rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://matic-mainnet.chainstacklabs.com'] : ['https://rpc-mumbai.maticvigil.com'],
   blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://polygonscan.com/'] : ['https://mumbai.polygonscan.com/'],
 }
 

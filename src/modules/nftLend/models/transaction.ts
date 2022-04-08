@@ -1,7 +1,21 @@
+import { WalletContextState } from '@solana/wallet-adapter-react';
+import { Connection } from '@solana/web3.js';
+import { EvmProvider } from 'src/common/constants/wallet';
+
 export interface TransactionResult {
   txHash: string;
   txExplorerUrl: string;
   blockNumber: number;
+}
+
+export interface TransactionOptions {
+  solana?: {
+    connection: Connection;
+    wallet: WalletContextState;
+  }
+  evm?: {
+    provider?: EvmProvider;
+  }
 }
 
 export interface CreateLoanParams {

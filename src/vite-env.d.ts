@@ -4,5 +4,7 @@ declare const __CLIENT__: boolean;
 declare const __SERVER__: boolean;
 
 interface Window {
-  ethereum: any
+  ethereum: any,
+  BinanceChain: any,
+  evmProvider: any,
 }

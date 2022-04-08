@@ -19,9 +19,14 @@ function useTransaction() {
   const addParams = {
     chain: currentWallet.chain,
     walletAddress: currentWallet.address,
-    solana: {
-      connection,
-      wallet,
+    options: {
+      solana: {
+        connection,
+        wallet,
+      },
+      evm: {
+        provider: window.evmProvider,
+      }
     }
   };
 

@@ -5,6 +5,7 @@ import { customAlphabet } from 'nanoid';
 import { Chain, ChainAvalancheID, ChainConfigs, ChainPolygonID } from 'src/common/constants/network';
 import store from 'src/store';
 import IERC721 from './abi/IERC20.json';
+import { getEvmProvider } from 'src/common/constants/wallet';
 
 export const generateNonce = (): string => {
   let hex = customAlphabet('0123456789abcdef', 64)();
@@ -29,7 +30,7 @@ export const getAvalancheLendingProgramId = () => {
 };
 
 export const getEvmBalance = async (owner: string, contractAddress: string): Promise<any> => {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const provider = getEvmProvider();
   const signer = provider.getSigner(0);
   const contract = new ethers.Contract(contractAddress, IERC721.abi, signer);
   return contract.balanceOf(owner);

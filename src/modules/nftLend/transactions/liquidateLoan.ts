@@ -1,28 +1,26 @@
-import { WalletContextState } from '@solana/wallet-adapter-react';
-import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
 import LiquidateLoanEvmTransaction from 'src/modules/evm/transactions/liquidateLoan';
 import LiquidateLoanTransaction from 'src/modules/solana/transactions/liquidateLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
-import { LiquidateLoanParams, TransactionResult } from '../models/transaction';
+import { LiquidateLoanParams, TransactionOptions, TransactionResult } from '../models/transaction';
 import { isEvmChain } from '../utils';
 
 interface LiquidateLoanTxParams extends LiquidateLoanParams {
   chain: Chain;
   walletAddress: string;
-  solana?: {
-    connection: Connection;
-    wallet: WalletContextState;
-  }
+  options: TransactionOptions;
 }
 
 const solTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {
-  if (!params.solana?.connection || !params.solana?.wallet) throw new Error('No connection to Solana provider');
+  if (!params.options?.solana?.connection || !params.options?.solana?.wallet) throw new Error('No connection to Solana provider');
     
   const nftAssociated = await getAssociatedAccount(params.walletAddress, params.asset_contract_address);
   if (!nftAssociated) throw new Error('No associated account for asset');
   
-  const transaction = new LiquidateLoanTransaction(params.solana?.connection, params.solana?.wallet);
+  const transaction = new LiquidateLoanTransaction(
+    params.options.solana.connection,
+    params.options.solana.wallet,
+  );
   const res = await transaction.run(
     params.asset_contract_address,
     params.loan_owner,
@@ -35,7 +33,12 @@ const solTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> 
 }
 
 const evmTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {
-  const transaction = new LiquidateLoanEvmTransaction(params.chain);
+  if (!params.options?.evm?.provider) throw new Error('No ethereum provider');
+
+  const transaction = new LiquidateLoanEvmTransaction(
+    params.chain,
+    params.options.evm.provider,
+  );
   const res = await transaction.run(params.loan_data_address);
   return res;
 }

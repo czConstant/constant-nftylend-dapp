@@ -1,22 +1,35 @@
-import { useEffect } from 'react';
-import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import cx from 'classnames';
-import { ethers } from 'ethers';
-import Web3Modal from 'web3modal';
+import { useEffect, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
+import cx from 'classnames';
 
-import { AvalancheChainConfig, Chain, PolygonChainConfig } from 'src/common/constants/network';
+import { Chain } from 'src/common/constants/network';
 import tokenIcons from 'src/common/utils/tokenIcons';
 import { useAppDispatch } from 'src/store/hooks';
-import { toastError } from 'src/common/services/toaster';
 import { clearWallet, updateWallet } from 'src/store/nftyLend';
-import styles from './connectWallet.module.scss';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+
+import styles from './connectWallet.module.scss';
+import { CryptoWallet } from 'src/common/constants/wallet';
+import { toastError } from 'src/common/services/toaster';
+import walletIcons from 'src/common/utils/walletIcons';
 
 const NETWORKS = [
   { image: tokenIcons.sol, name: 'Solana', chain: Chain.Solana },
   { image: tokenIcons.matic, name: 'Polygon', chain: Chain.Polygon },
   { image: tokenIcons.avax, name: 'Avalanche', chain: Chain.Avalanche },
+];
+
+const WALLETS = [
+  { key: CryptoWallet.Metamask, name: 'Metamask' },
+  {
+    key: CryptoWallet.BinanceWallet,
+    name: 'Binance Wallet Extension',
+    chains: [Chain.BSC],
+  },
+  {
+    key: CryptoWallet.CoinbaseWallet,
+    name: 'Coinbase Wallet Extension',
+  },
 ];
 
 interface ConnectWalletModalProps {
@@ -28,8 +41,9 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
 
   const dispatch = useAppDispatch();
   const wallet = useWallet();
-  const { currentWallet, isConnected, connectEvmWallet, connectSolanaWallet } = useCurrentWallet();
-
+  const { currentWallet, isConnected, connectWallet, connectSolanaWallet } = useCurrentWallet();
+  const [selectedChain, setSelectedChain] = useState<Chain>();
+ 
   useEffect(() => {
     if (isConnected && currentWallet.chain === Chain.Solana) onClose();
   }, [isConnected]);
@@ -39,39 +53,58 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
     else if (currentWallet.chain === Chain.Solana) dispatch(clearWallet());
   }, [wallet.publicKey]);
 
-  const onSelect = async (e: any) => {
+  const onSelectChain = async (e: any) => {
     if (e.chain === Chain.Solana) {
       connectSolanaWallet();
     } else {
-      await connectEvmWallet(e.chain);
-      onClose();
+      setSelectedChain(e.chain);
     }
   };
-
-  // const renderHiddenSolButton = () => {
-  //   return (
-  //     <WalletModalProvider className={styles.modalContainer}>
-  //       <WalletMultiButton className={cx(styles.solButton)}>
-  //         <div id="solButton" />
-  //       </WalletMultiButton>
-  //     </WalletModalProvider>
-  //   )
-  // }
+  
+  const onSelectWallet = async (e: any) => {
+    if (!selectedChain) return;
+    try {
+      await connectWallet(selectedChain, e.key);
+      onClose();
+    } catch (err: any) {
+      toastError(err.message || err);
+    }
+  }
 
   return (
     <div className={styles.connectWallet}>
       <h2>Connect wallet</h2>
       <div className={styles.content}>
-        <div className={styles.step}>Choose network</div>
+        <div className={styles.step}>1. Choose network</div>
         <div className={styles.listNetwork}>
           {NETWORKS.map(e => (
-            <div key={e.chain} className={styles.network} onClick={() => onSelect(e)}>
+            <div
+              key={e.chain}
+              className={cx(styles.network, e.chain === selectedChain && styles.active)}
+              onClick={() => onSelectChain(e)}
+            >
               <img alt="" src={e.image} />
               <div>{e.name}</div>
             </div>
           ))}
         </div>
-        {/* {!isConnected && renderHiddenSolButton()} */}
+        {selectedChain && (
+          <>
+            <div className={styles.step}>2. Choose wallet</div>
+            <div className={styles.listWallet}>
+              {WALLETS.filter(e => !e.chains || e.chains.includes(selectedChain)).map(e => (
+                <div
+                  key={e.name}
+                  className={styles.wallet}
+                  onClick={() => onSelectWallet(e)}
+                >
+                  <img alt="" src={walletIcons[e.key]} />
+                  <div>{e.name}</div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
