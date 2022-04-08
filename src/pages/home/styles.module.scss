@@ -579,10 +579,10 @@
     }
     .name {
       font-weight: 700;
-      font-size: 32px;
+      font-size: 24px;
+      color: #a0a0c3;
       line-height: 40px;
       margin-bottom: 30px;
-
       background-clip: text;
       -webkit-text-fill-color: transparent;
       background: -webkit-linear-gradient(
@@ -592,21 +592,20 @@
         #ed5158 110%
       );
       -webkit-background-clip: text;
+
     }
 
     .desc {
-      strong {
-        transform: rotate(360deg);
-        font-family: PTMono-Regular;
-        font-size: 14px;
-        color: #b1b1b5;
-        letter-spacing: 0;
-        line-height: 22px;
-      }
+      font-weight: bold;
       font-size: 22px;
       color: #a0a0c3;
       letter-spacing: 0;
       line-height: 30px;
+      font-family: SFProDisplay;
+      strong {
+        display: block;
+        margin-bottom: 10px;
+      }
       @media screen and (max-width: 768px) {
         font-size: 20px;
         line-height: 30px;

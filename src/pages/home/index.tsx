@@ -80,23 +80,17 @@ const DATA = [
     title: "Token Information",
     desc: (
       <div>
-        Token Name:
+        Token Name
         <br />
         <strong style={{ color: "white" }}>PWP (Pawn Protocol Token)</strong>
-        <br />
-        <br />
         Blockchain
         <br />
         <strong style={{ color: "white" }}>
           Solana, Near, Polygon, Avalanche
         </strong>
-        <br />
-        <br />
         Max Token Supply
         <br />
         <strong style={{ color: "white" }}>900,000,000 PWP</strong>
-        <br />
-        <br />
         Initial Token Circulation
         <br />
         <strong style={{ color: "white" }}>189,900,000 PWP</strong>
