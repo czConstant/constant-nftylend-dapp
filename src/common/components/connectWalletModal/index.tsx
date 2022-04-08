@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import cx from 'classnames';
-import '@solana/wallet-adapter-react-ui/styles.css';
 import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -29,7 +28,7 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
 
   const dispatch = useAppDispatch();
   const wallet = useWallet();
-  const { currentWallet, isConnected } = useCurrentWallet();
+  const { currentWallet, isConnected, connectEvmWallet, connectSolanaWallet } = useCurrentWallet();
 
   useEffect(() => {
     if (isConnected && currentWallet.chain === Chain.Solana) onClose();
@@ -42,47 +41,22 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
 
   const onSelect = async (e: any) => {
     if (e.chain === Chain.Solana) {
-      const el = document.getElementById('solButton');
-      if (el) el.click();
+      connectSolanaWallet();
     } else {
-      if (!window.ethereum) {
-        return toastError('Metamask not installed');
-      }
-      const providerOptions = { };
-      const web3Modal = new Web3Modal({
-        providerOptions,
-      });
-      const instance = await web3Modal.connect();
-
-      const chainConfigs = {
-        [Chain.Polygon]: PolygonChainConfig,
-        [Chain.Avalanche]: AvalancheChainConfig,
-      }
-      await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [chainConfigs[e.chain]],
-      })
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: chainConfigs[e.chain]?.chainId }],
-      });
-
-      const provider = new ethers.providers.Web3Provider(instance);
-      const accounts = await provider.listAccounts();
-      dispatch(updateWallet({ address: accounts[0], chain: e.chain }));
+      await connectEvmWallet(e.chain);
       onClose();
     }
   };
 
-  const renderHiddenSolButton = () => {
-    return (
-      <WalletModalProvider className={styles.modalContainer}>
-        <WalletMultiButton className={cx(styles.solButton)}>
-          <div id="solButton" />
-        </WalletMultiButton>
-      </WalletModalProvider>
-    )
-  }
+  // const renderHiddenSolButton = () => {
+  //   return (
+  //     <WalletModalProvider className={styles.modalContainer}>
+  //       <WalletMultiButton className={cx(styles.solButton)}>
+  //         <div id="solButton" />
+  //       </WalletMultiButton>
+  //     </WalletModalProvider>
+  //   )
+  // }
 
   return (
     <div className={styles.connectWallet}>
@@ -97,7 +71,7 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
             </div>
           ))}
         </div>
-        {!isConnected && renderHiddenSolButton()}
+        {/* {!isConnected && renderHiddenSolButton()} */}
       </div>
     </div>
   );

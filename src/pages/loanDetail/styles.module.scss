@@ -80,12 +80,26 @@
     &:last-child {
       // flex: 1;
       h4 {
+        display: flex;
+        align-items: center;
         margin-bottom: 5px;
         font-weight: bold;
         font-size: 30px;
         color: #fcfcfd;
         letter-spacing: -0.3px;
         line-height: 48px;
+      }
+      .chain {
+        width: fit-content;
+        height: fit-content;
+        padding: 0 10px;
+        background-color: rgba(255, 192, 122, 0.2);
+        color: #DE710B;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        border-radius: 8px;
+        margin-left: 10px;
       }
       .infoAuthor {
         font-weight: bold;
@@ -228,6 +242,12 @@
     border-radius: 8px;
     font-weight: bold;
     letter-spacing: 1px;
+  }
+  .btnSwitchChain {
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 40px;
+    margin-top: 10px;
   }
   .btnConnect {
     background: #3772ff;

@@ -25,7 +25,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { cancelLoan, cancelOffer, orderNow } = useTransaction();
-  const { currentWallet, isConnected } = useCurrentWallet();
+  const { currentWallet, isConnected, connectWallet } = useCurrentWallet();
 
   const [canceling, setCanceling] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -150,7 +150,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
       setCanceling(false);
     }
   };
-
+  
   if (!isConnected) {
     return (
       <div className={styles.groupOfferButtons}>
@@ -164,6 +164,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
       <div className={styles.groupOfferButtons}>
         <div className={styles.differentChain}>
           Your connected wallet is different network from this loan's network ({loan.chain})  
+          <Button className={styles.btnSwitchChain} onClick={() => connectWallet(loan.chain)}>Switch to {loan.chain}</Button>
         </div>
       </div>
     );

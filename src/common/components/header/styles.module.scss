@@ -1,7 +1,7 @@
 .wrapper {
   position: relative;
   background-color: #141416;
-  min-height: 66px;
+  min-height: var(--header-height);
 }
 
 .content {
@@ -69,11 +69,9 @@
 }
 
 .warningNetwork {
-  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
-  bottom: -40px;
   width: 100vw;
   height: 40px;
   font-size: 14px;
@@ -84,6 +82,25 @@
   > a {
     font-weight: bold;
     text-decoration: underline !important;
+  }
+}
+
+.hiddenSolButton {
+  :global {
+    .wallet-adapter-dropdown{
+      display: none;
+    }
+    .wallet-adapter-button {
+      &, &:hover {
+        display: none;
+        background: none;
+        border: none;
+        width: unset;
+        height: unset;
+        line-height: unset;
+        filter: none;
+      }
+    }
   }
 }
 

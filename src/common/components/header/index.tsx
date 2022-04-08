@@ -13,6 +13,9 @@ import ButtonConnectWallet from '../buttonConnectWallet';
 import ButtonDisconnectWallet from '../buttonDisconnectWallet';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { APP_CLUSTER } from 'src/common/constants/config';
+import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+
+import '@solana/wallet-adapter-react-ui/styles.css';
 
 const Header = () => {
   const location = useLocation();
@@ -61,6 +64,13 @@ const Header = () => {
           </div>
         </div>
         <div className={styles.right}>
+          <div className={styles.hiddenSolButton}>
+            <WalletModalProvider className={styles.solModal}>
+              <WalletMultiButton className={styles.solButton}>
+                <div id="solButton" />
+              </WalletMultiButton>
+            </WalletModalProvider>
+          </div>
           {isConnected ? <ButtonDisconnectWallet /> : <ButtonConnectWallet />}
         </div>
       </div>
