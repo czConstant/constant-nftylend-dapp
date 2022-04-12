@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 
-import { AvalancheChainConfig, Chain, PolygonChainConfig } from 'src/common/constants/network';
+import { Chain, ChainConfigs } from 'src/common/constants/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { clearWallet, selectCurrentWallet, updateWallet } from 'src/store/nftyLend';
 import { isEvmChain } from '../utils';
@@ -16,21 +16,20 @@ function useCurrentWallet() {
   };
 
   const connectEvmWallet = async (chain: Chain, wallet?: CryptoWallet) => {
-    const chainConfigs = {
-      [Chain.Polygon]: PolygonChainConfig,
-      [Chain.Avalanche]: AvalancheChainConfig,
-    }
-
     const provider = getEvmProvider(wallet);
     window.evmProvider = provider;
-    await provider.send(
-      'wallet_addEthereumChain',
-      [ chainConfigs[chain] ],
-    );
-    await provider.send(
-      'wallet_switchEthereumChain',
-      [{ chainId: chainConfigs[chain]?.chainId }],
-    );
+    if (wallet !== CryptoWallet.BinanceWallet) {
+      try {
+        await provider.send(
+          'wallet_addEthereumChain',
+          [ ChainConfigs[chain] ],
+        );
+        await provider.send(
+          'wallet_switchEthereumChain',
+          [{ chainId: ChainConfigs[chain]?.chainId }],
+        );
+      } catch (err) {}
+    }
     await provider.send('eth_requestAccounts', []);
     const accounts = await provider.listAccounts();
     dispatch(updateWallet({ address: accounts[0], chain, wallet, name: wallet }));

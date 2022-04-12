@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 import web3 from 'web3';
 
 import { customAlphabet } from 'nanoid';
-import { Chain, ChainAvalancheID, ChainConfigs, ChainPolygonID } from 'src/common/constants/network';
+import { Chain, ChainConfigs } from 'src/common/constants/network';
 import store from 'src/store';
 import IERC721 from './abi/IERC20.json';
 import { getEvmProvider } from 'src/common/constants/wallet';
@@ -21,12 +21,16 @@ export const getLinkEvmExplorer = (address: string, chain: Chain, type?: 'tx' | 
   return `${ChainConfigs[chain].blockExplorerUrls[0]}${type || 'address'}/${address}`;
 }
 
-export const getPolygonLendingProgramId = () => {
-  return store.getState().nftyLend.configs.matic_nftypawn_address;
-};
-
-export const getAvalancheLendingProgramId = () => {
-  return store.getState().nftyLend.configs.avax_nftypawn_address;
+export const getLendingProgramId = (chain: Chain) => {
+  switch (chain) {
+    case Chain.Polygon: 
+      return store.getState().nftyLend.configs.matic_nftypawn_address;
+    case Chain.Avalanche:
+      return store.getState().nftyLend.configs.avax_nftypawn_address;
+    case Chain.BSC:
+      return store.getState().nftyLend.configs.bsc_nftypawn_address;
+  }
+  throw new Error(`Chain ${chain} is not supported`);
 };
 
 export const getEvmBalance = async (owner: string, contractAddress: string): Promise<any> => {
@@ -34,15 +38,4 @@ export const getEvmBalance = async (owner: string, contractAddress: string): Pro
   const signer = provider.getSigner(0);
   const contract = new ethers.Contract(contractAddress, IERC721.abi, signer);
   return contract.balanceOf(owner);
-}
-
-export const getChainIdByChain = (chain: Chain) => {
-  switch (chain) {
-    case Chain.Polygon:
-      return ChainPolygonID;
-    case Chain.Avalanche:
-      return ChainAvalancheID;
-    default:
-      throw new Error(`Chain ${chain} is not supported`);
-  }
 }

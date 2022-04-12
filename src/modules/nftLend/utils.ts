@@ -12,9 +12,7 @@ export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
   if (!asset) throw new Error('Loan has no asset');
   if (chain === Chain.Solana)
     return SolanaNft.parseFromLoanAsset(asset);
-  if (chain === Chain.Polygon)
-    return EvmNft.parseFromLoanAsset(asset, chain);
-  if (chain === Chain.Avalanche)
+  if (isEvmChain(chain))
     return EvmNft.parseFromLoanAsset(asset, chain);
   throw new Error(`Chain ${chain} is not supported`);
 }
@@ -26,7 +24,7 @@ export function getLinkExplorerWallet(address: string, chain: Chain): string {
 }
 
 export function isEvmChain(chain: Chain) {
-  return [Chain.Polygon, Chain.Avalanche].includes(chain);
+  return [Chain.Polygon, Chain.Avalanche, Chain.BSC].includes(chain);
 }
 
 export const calculateMaxInterest = (principal: number, interest: number, duration: number): number => {

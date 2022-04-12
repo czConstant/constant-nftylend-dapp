@@ -3,7 +3,7 @@ import { Chain } from 'src/common/constants/network';
 import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { getAvalancheLendingProgramId, getLinkEvmExplorer, getPolygonLendingProgramId } from '../utils';
+import { getLendingProgramId, getLinkEvmExplorer } from '../utils';
 import NftyPawn from '../abi/NFTPawn.json';
 import web3 from 'web3';
 import { EvmProvider } from 'src/common/constants/wallet';
@@ -16,13 +16,7 @@ export default class EvmTransaction {
   constructor(chain: Chain, provider: EvmProvider) {
     this.chain = chain;
     this.provider = provider;
-    if (chain === Chain.Polygon) {
-      this.lendingProgram = getPolygonLendingProgramId();
-    } else if (chain === Chain.Avalanche) {
-      this.lendingProgram = getAvalancheLendingProgramId();
-    } else {
-      throw new Error(`Chain ${chain} is not supported`);
-    }
+    this.lendingProgram = getLendingProgramId(chain);
   }
 
   getAdminFee = async (): Promise<number> => {

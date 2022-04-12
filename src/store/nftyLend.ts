@@ -15,6 +15,7 @@ interface NftyLendState {
     program_id: string,
     matic_nftypawn_address: string,
     avax_nftypawn_address: string,
+    bsc_nftypawn_address: string,
   };
 }
 
@@ -29,6 +30,7 @@ const initialState: NftyLendState = {
     program_id: '',
     matic_nftypawn_address: '',
     avax_nftypawn_address: '',
+    bsc_nftypawn_address: '',
   },
 };
 
@@ -60,6 +62,7 @@ const slice = createSlice({
       state.wallet.address = '';
       state.wallet.chain = Chain.None;
       state.wallet.name = CryptoWallet.None;
+      window.evmProvider = null;
       localStore.remove(localStore.KEY_WALLET_ADDRESS);
       localStore.remove(localStore.KEY_WALLET_CHAIN);
       localStore.remove(localStore.KEY_WALLET_NAME);

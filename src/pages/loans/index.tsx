@@ -40,7 +40,11 @@ const chains = {
   avax: {
     title: 'Avalanche',
     key: Chain.Avalanche,
-  }
+  },
+  bsc: {
+    title: 'BSC',
+    key: Chain.BSC,
+  },
 }
 
 const Loans = () => {

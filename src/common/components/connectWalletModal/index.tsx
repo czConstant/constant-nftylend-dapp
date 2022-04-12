@@ -17,6 +17,7 @@ const NETWORKS = [
   { image: tokenIcons.sol, name: 'Solana', chain: Chain.Solana },
   { image: tokenIcons.matic, name: 'Polygon', chain: Chain.Polygon },
   { image: tokenIcons.avax, name: 'Avalanche', chain: Chain.Avalanche },
+  { image: tokenIcons.bnb, name: 'Binance Smart Chain', chain: Chain.BSC },
 ];
 
 const WALLETS = [
@@ -30,6 +31,14 @@ const WALLETS = [
     key: CryptoWallet.CoinbaseWallet,
     name: 'Coinbase Wallet Extension',
   },
+  {
+    key: CryptoWallet.FrameWallet,
+    name: 'Frame Wallet',
+  },
+  {
+    key: CryptoWallet.CloverWallet,
+    name: 'Clover Wallet',
+  },
 ];
 
 interface ConnectWalletModalProps {
@@ -41,7 +50,7 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
 
   const dispatch = useAppDispatch();
   const wallet = useWallet();
-  const { currentWallet, isConnected, connectWallet, connectSolanaWallet } = useCurrentWallet();
+  const { currentWallet, isConnected, connectWallet, disconnectWallet, connectSolanaWallet } = useCurrentWallet();
   const [selectedChain, setSelectedChain] = useState<Chain>();
  
   useEffect(() => {
@@ -64,6 +73,7 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
   const onSelectWallet = async (e: any) => {
     if (!selectedChain) return;
     try {
+      await disconnectWallet();
       await connectWallet(selectedChain, e.key);
       onClose();
     } catch (err: any) {

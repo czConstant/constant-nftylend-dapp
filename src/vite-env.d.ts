@@ -7,4 +7,5 @@ interface Window {
   ethereum: any,
   BinanceChain: any,
   evmProvider: any,
+  coin98: any,
 }
