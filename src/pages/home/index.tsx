@@ -108,7 +108,10 @@ const Home = () => {
           contracts.
         </p>
         <div className={styles.bgWhatNFTy}>
-          <img alt="NFT Pawn" src={isMobile ? imgWhatNFTyMobile : imgWhatNFTy} />
+          <img
+            alt="NFT Pawn"
+            src={isMobile ? imgWhatNFTyMobile : imgWhatNFTy}
+          />
         </div>
       </section>
       <section className={cx(styles.section, styles.sectionHIW)}>
@@ -136,7 +139,7 @@ const Home = () => {
       </section>
       <section className={cx(styles.section)}>
         <div className={styles.sectionBgOurPartner}>
-        <h4 className={styles.sectionTitle}>PAWN PROTOCOL</h4>
+          <h4 className={styles.sectionTitle}>PAWN PROTOCOL</h4>
           <h1>Partners</h1>
           <div className={styles.wrapPartner}>
             {logoPartners.map((v) => (
@@ -147,19 +150,19 @@ const Home = () => {
           </div>
         </div>
       </section>
-      {/* <section className={cx(styles.section)}>
+      <section className={cx(styles.section)}>
         <div className={styles.sectionBgJoin}>
           <div className={styles.sectionBgJoinTop}>
             <h1>Join our communities</h1>
-            <p>MyConstant redefines banking using decentralized thinking.</p>
+            <p>NFT Pawn redefines banking using decentralized thinking.</p>
             <div className={styles.groupButton}>
-              <a target="_blank" href="https://discord.gg/ncjPApdgBz">
+              <a target="_blank" href="https://discord.gg/WJFDxUdW">
                 <img src={icDiscord} /> Discord
               </a>
-              <a target="_blank" href="https://twitter.com/myconstantp2p">
+              <a target="_blank" href="https://twitter.com/NFTPawn_Lending">
                 <img src={icTwitter} />
               </a>
-              <a target="_blank" href="https://www.facebook.com/myconstantp2p">
+              {/* <a target="_blank" href="https://www.facebook.com/myconstantp2p">
                 <img src={icFacebook} />
               </a>
               <a
@@ -167,7 +170,7 @@ const Home = () => {
                 href="https://www.youtube.com/channel/UCedaWJPf9sgsy5JajmqBAtg"
               >
                 <img src={icYoutube} />
-              </a>
+              </a> */}
             </div>
           </div>
           {isMobile && (
@@ -180,7 +183,7 @@ const Home = () => {
             </>
           )}
         </div>
-      </section> */}
+      </section>
     </BodyContainer>
   );
 };
