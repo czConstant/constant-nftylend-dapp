@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import LoadingOverlay from 'react-loading-overlay';
 import cx from 'classnames';
 
 import darkLoading from 'src/common/components/loading/json/dark.json';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { hideLoadingOverlay, selectLoadingOverlay } from 'src/store/loadingOverlay';
 
+import BgMascot from './background.json';
 import Mascot from './mascot.gif';
 import LottiePlayer from '../lottiePlayer';
 import styles from './styles.module.scss';
@@ -48,8 +48,11 @@ const MyLoadingOverlay = (props: MyLoadingOverlayProps) => {
         text={message}
       >
         {children}
-      </LoadingOverlay> */}
-      <img alt="" src={Mascot} />
+      </LoadingOverlay> */}      
+      <div className={styles.inner}>
+        <LottiePlayer className={styles.bg} autoplay loop style={{ height: 300 }} src={BgMascot} />
+        <img alt="" src={Mascot} />
+      </div>
     </div>
   );
 };
