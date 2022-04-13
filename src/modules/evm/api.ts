@@ -4,7 +4,7 @@ import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 
 export const getEvmNftsByOwner = async (owner: string, chain: Chain): Promise<any> => {
-  if (chain === Chain.Boba) return [];
+  if (chain === Chain.Boba) return { result: [] };
   const chainName = MoralisChainName[chain];
   return api.get(
     `${API_URL.MORALIS.GET_NFTS.replace('{owner}', owner)}?chain=${chainName}`,

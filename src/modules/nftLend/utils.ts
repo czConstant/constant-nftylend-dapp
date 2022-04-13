@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { Chain } from 'src/common/constants/network';
 import { EvmNft } from '../evm/models/evmNft';
-import { getLinkEvmExplorer } from '../evm/utils';
+import { checkOwnerNft, getLinkEvmExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
 import { getLinkSolScanAccount } from '../solana/utils';
 import { LoanDataAsset } from './models/api';
@@ -25,6 +25,11 @@ export function getLinkExplorerWallet(address: string, chain: Chain): string {
 
 export function isEvmChain(chain: Chain) {
   return [Chain.Polygon, Chain.Avalanche, Chain.BSC, Chain.Boba].includes(chain);
+}
+
+export async function isAssetOwner(owner: string, chain: Chain, contractAddress: string, tokenId: string | number): Promise<boolean> {
+  if (isEvmChain(chain)) return checkOwnerNft(owner, contractAddress, Number(tokenId));
+  return true;
 }
 
 export const calculateMaxInterest = (principal: number, interest: number, duration: number): number => {

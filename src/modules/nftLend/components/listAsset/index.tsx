@@ -15,6 +15,7 @@ import { ItemNftProps } from '../itemNft';
 import { AssetNft } from '../../models/nft';
 import { useToken } from '../../hooks/useToken';
 import { useCurrentWallet } from '../../hooks/useCurrentWallet';
+import LoadingList from '../loadingList';
 
 const ListAsset = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +25,7 @@ const ListAsset = () => {
 
   const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [assets, setAssets] = useState([] as Array<ItemNftProps>);
 
   useEffect(() => {
@@ -76,6 +77,8 @@ const ListAsset = () => {
   };
 
   if (!isConnected) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
+  if (loading) return <div className={styles.listAssets}><LoadingList /></div>
+
   if (assets.length === 0) return (
     <div className={styles.noAssets}>
       <div>We can not detect your assets, but you can still manually create a loan</div>

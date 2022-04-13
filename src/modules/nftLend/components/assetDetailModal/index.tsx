@@ -6,10 +6,13 @@ import { Button, Dropdown } from 'react-bootstrap';
 import styles from './styles.module.scss';
 import ItemNftMedia from '../itemNft/itemNftMedia';
 import { APP_URL } from 'src/common/constants/url';
-import { verifyAsset } from '../../api';
+import { getLoanById, verifyAsset } from '../../api';
 import Loading from 'src/common/components/loading';
 import { isMobile } from 'react-device-detect';
 import { AssetNft } from '../../models/nft';
+import { isEvmChain } from '../../utils';
+import { useCurrentWallet } from '../../hooks/useCurrentWallet';
+import { LoanNft } from '../../models/loan';
 
 interface AssetDetailModalProps {
   asset: AssetNft;
@@ -20,21 +23,39 @@ interface AssetDetailModalProps {
 
 const AssetDetailModal = (props: AssetDetailModalProps) => {
   const { asset, navigate, onClose, onMakeLoan } = props;
+  const { currentWallet } = useCurrentWallet();
+
   const [extraData, setExtraData] = useState(asset.detail || {});
   const [listingDetail, setListingDetail] = useState({} as any);
   const [loading, setLoading] = useState(false);
   const [verifying, setVerifying] = useState(false);
+  const [haveLoan, setHaveLoan] = useState<boolean>(false);
 
   useEffect(() => {
     if (asset.needFetchDetail()) getExtraData();
     verifiedCollection();
+    checkLoanInfo();
   }, [asset]);
 
   const verifiedCollection = async () => {
     try {
       setVerifying(true);
-      const response = await verifyAsset(asset.id as string);
+      const response = await verifyAsset(String(asset.id));
       setListingDetail(response.result);
+    } catch (error) {
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const checkLoanInfo = async () => {
+    try {
+      setVerifying(true);
+      const id = isEvmChain(currentWallet.chain)
+        ? `${asset.contract_address}-${asset.token_id}`
+        : asset.contract_address ;
+      const response = await getLoanById(id);
+      setHaveLoan(response.result && response.result.new_loan);
     } catch (error) {
     } finally {
       setVerifying(false);
@@ -57,11 +78,35 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
     if (onMakeLoan) onMakeLoan();
   }
 
+  const onGoTtoLoan = () => {
+    onClose();
+    navigate(`${APP_URL.NFT_LENDING_DETAIL_LOAN.replace(':id', `${asset.contract_address}-${asset.token_id}`)}`)
+  };
+
   const onClickVerify = () => {
     onClose();
     const name = extraData?.collection?.name;
     const author = extraData?.properties?.creators[0]?.address;
     navigate(`${APP_URL.NFT_LENDING_SUBMIT_WHITELIST}?collection=${name}&creator=${author}`);
+  };
+
+  const renderButton = () => {
+    if (verifying) return <Loading />;
+    if (haveLoan) return (
+      <Button onClick={onGoTtoLoan} className={styles.btnConnect}>
+        Go to loan
+      </Button>
+    );
+    if (listingDetail) return (
+      <Button onClick={onClickMakeLoan} className={styles.btnConnect}>
+        Make a Loan
+      </Button>
+    );
+    return (
+      <div className={styles.notVerified}>
+        Assets on NFT Pawn are required verification by us to use as collateral. Please <a onClick={onClickVerify}>submit verification form</a> for this collection.
+      </div>
+    );
   };
 
   return (
@@ -110,19 +155,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
           </div>
         )}
         <div className={cx(styles.actions)}>
-          {verifying
-            ? <Loading />
-            : listingDetail
-              ? (
-                <Button onClick={onClickMakeLoan} className={styles.btnConnect}>
-                  Make a Loan
-                </Button>
-              ) : (
-                <div className={styles.notVerified}>
-                  Assets on NFT Pawn are required verification by us to use as collateral. Please <a onClick={onClickVerify}>submit verification form</a> for this collection.
-                </div>
-              )
-          }
+          {renderButton()}
           <Dropdown align={'end'} className={styles.dropdown}>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
               <i className="far fa-ellipsis-v"></i>

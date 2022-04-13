@@ -4,7 +4,8 @@ import web3 from 'web3';
 import { customAlphabet } from 'nanoid';
 import { Chain, ChainConfigs } from 'src/common/constants/network';
 import store from 'src/store';
-import IERC721 from './abi/IERC20.json';
+import IERC20 from './abi/IERC20.json';
+import IERC721 from './abi/IERC721.json';
 import { getEvmProvider } from 'src/common/constants/wallet';
 
 export const generateNonce = (): string => {
@@ -38,6 +39,14 @@ export const getLendingProgramId = (chain: Chain) => {
 export const getEvmBalance = async (owner: string, contractAddress: string): Promise<any> => {
   const provider = getEvmProvider();
   const signer = provider.getSigner(0);
-  const contract = new ethers.Contract(contractAddress, IERC721.abi, signer);
+  const contract = new ethers.Contract(contractAddress, IERC20.abi, signer);
   return contract.balanceOf(owner);
 }
+
+export const checkOwnerNft = async (owner: string, contractAddress: string, tokenId: number): Promise<boolean> => {
+  const provider = getEvmProvider();
+  const signer = provider.getSigner(0);
+  const contract = new ethers.Contract(contractAddress, IERC721.abi, signer);
+  const realOwner = await contract.ownerOf(tokenId);
+  return owner === realOwner;
+} 

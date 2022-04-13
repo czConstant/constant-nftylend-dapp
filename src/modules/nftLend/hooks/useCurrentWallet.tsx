@@ -28,7 +28,9 @@ function useCurrentWallet() {
           'wallet_switchEthereumChain',
           [{ chainId: ChainConfigs[chain]?.chainId }],
         );
-      } catch (err) {}
+      } catch (err) {
+        console.log("🚀 ~ file: useCurrentWallet.tsx ~ line 32 ~ connectEvmWal ~ err", err)
+      }
     }
     await provider.send('eth_requestAccounts', []);
     const accounts = await provider.listAccounts();
