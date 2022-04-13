@@ -11,6 +11,9 @@ import imgTitle2 from "./assets/title2.png";
 import imgWhatNFTy from "./assets/what_nfty.png";
 import imgWhatNFTyMobile from "./assets/what_nfty_mobile.png";
 import imgHowItWork from "./assets/how_it_work.png";
+import imgHowItWorkMobile from "./assets/how_it_work_mobile.png";
+import imgMBCommunity1 from "./assets/mobile_img_1_communicate.png";
+import imgMBCommunity2 from "./assets/mobile_img_2_communicate.png";
 import imgIntro from "./assets/img_introduction.png";
 import BgLine from "./assets/bgTokenomics.png";
 import BgWindow from "./assets/bg_window.svg";
@@ -105,8 +108,8 @@ const DATA = [
     desc: "Steps towards complete decentralization, NFT Pawn is managed by a decentralized community of PWP token-holders and their delegates, who propose and vote on upgrades to the protocol.",
   },
   {
-    title: "TXN Fee",
-    desc: "User to pay a protocol fee when processing pawn transactions",
+    title: "Burn Token",
+    desc: "The PWP token burning events are scheduled to occur every quarter until 720,000,000 PWP are finally destroyed, which represents 80% of the total PWP ever issued (900,000,000 PWP)",
   },
   {
     title: "Staking",
@@ -127,6 +130,7 @@ const Home = () => {
     <BodyContainer
       className={cx(isMobile && styles.mobileWrapper, styles.wrapper)}
     >
+      <div className={styles.bottomMask} />
       <Fade duration={DURATION}>
         <section className={cx(styles.section, styles.sectionBG)}>
           <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
@@ -172,15 +176,14 @@ const Home = () => {
             Our smart contracts handle the rest.
           </p>
           <div className={styles.bgHowItWork}>
-            <img alt="NFT Pawn" src={imgHowItWork} />
+            <img alt="NFT Pawn"  src={isMobile ? imgHowItWorkMobile : imgHowItWork} />
           </div>
         </section>
       </Fade>
-      <Fade duration={DURATION}>
+      {/* <Fade duration={DURATION}>
         <section className={cx(styles.section)}>
           <img alt="NFT Pawn" src={imgTitle2} className={styles.imgLogo2} />
           <h1>Press</h1>
-          {/* <p>Our smart contracts handle the rest.</p> */}
           <div className={styles.wrapPartner}>
             {logoPress.map((v, i) => (
               <Fade key={i} duration={DURATION + i * 100}>
@@ -191,9 +194,9 @@ const Home = () => {
             ))}
           </div>
         </section>
-      </Fade>
+      </Fade> */}
 
-      <Fade duration={DURATION}>
+      {/* <Fade duration={DURATION}>
         <section className={cx(styles.section)}>
           <div className={styles.sectionBgOurPartner}>
             <img alt="NFT Pawn" src={imgTitle2} className={styles.imgLogo2} />
@@ -209,7 +212,7 @@ const Home = () => {
             </div>
           </div>
         </section>
-      </Fade>
+      </Fade> */}
       <Fade>
         <section
           className={cx(styles.section)}
@@ -233,7 +236,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <img src={imgIntro} className={styles.imgIntro} />
+          {!isMobile && <img src={imgIntro} className={styles.imgIntro} />}
         </section>
       </Fade>
       <Slide duration={DURATION}>

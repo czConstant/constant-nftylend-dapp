@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="14px" height="8px" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
-    <title>icons8-expand_arrow_filled</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="HS---Betting" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Drop-down-menu-2" transform="translate(-365.000000, -174.000000)" fill="#000000" fill-rule="nonzero">
-            <g id="icons8-expand_arrow_filled" transform="translate(365.000000, 174.000000)">
-                <path d="M13.0822011,0.294836957 C12.9205163,0.299592391 12.7683424,0.366168478 12.6565898,0.482676783 L7,6.1392663 L1.34341048,0.482676783 C1.22809096,0.364979696 1.07116161,0.298403609 0.905910478,0.298403609 C0.65862787,0.298403609 0.436311217,0.449388739 0.343580087,0.678838391 C0.249660478,0.908288043 0.305536609,1.17102574 0.482676783,1.34341048 L6.5696333,7.430367 C6.80740504,7.66813874 7.19259526,7.66813874 7.430367,7.430367 L13.5173235,1.34341048 C13.69803,1.16983696 13.7550953,0.902343826 13.6576087,0.670516304 C13.5613112,0.438688783 13.3330503,0.290081522 13.0822011,0.294836957 Z" id="Shape"></path>
+<svg width="16px" height="10px" viewBox="0 0 16 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons/Arrow Down Simple/Line</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="4-Detail-NFT" transform="translate(-185.000000, -1575.000000)" fill="#FCFCFD">
+            <g id="Frame-896" transform="translate(18.000000, 1528.000000)">
+                <g id="Sellers" transform="translate(0.000000, 23.000000)">
+                    <g id="icons/Arrow-Down-Simple/Line" transform="translate(155.000000, 9.000000)">
+                        <path d="M24.0951778,15.7618443 L19.4403558,20.4166662 L24.0951778,25.0714886 C24.7460518,25.7223618 24.7460518,26.7776374 24.0951778,27.4285106 C23.4443042,28.0793854 22.3890294,28.0793854 21.7381554,27.4285106 L15.9048222,21.5951772 C15.2539483,20.9443037 15.2539483,19.8890289 15.9048222,19.2381549 L21.7381554,13.4048216 C22.3890294,12.7539478 23.4443042,12.7539478 24.0951778,13.4048216 C24.7460518,14.0556954 24.7460518,15.1109705 24.0951778,15.7618443 Z" id="Shape" transform="translate(20.000000, 20.416666) scale(-1, 1) rotate(-89.999997) translate(-20.000000, -20.416666) "></path>
+                    </g>
+                </g>
             </g>
         </g>
     </g>
