@@ -18,6 +18,7 @@ const NETWORKS = [
   { image: tokenIcons.matic, name: 'Polygon', chain: Chain.Polygon },
   { image: tokenIcons.avax, name: 'Avalanche', chain: Chain.Avalanche },
   { image: tokenIcons.bnb, name: 'Binance Smart Chain', chain: Chain.BSC },
+  { image: tokenIcons.boba, name: 'Boba Network', chain: Chain.Boba },
 ];
 
 const WALLETS = [

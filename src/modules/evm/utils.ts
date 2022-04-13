@@ -29,6 +29,8 @@ export const getLendingProgramId = (chain: Chain) => {
       return store.getState().nftyLend.configs.avax_nftypawn_address;
     case Chain.BSC:
       return store.getState().nftyLend.configs.bsc_nftypawn_address;
+    case Chain.Boba:
+      return store.getState().nftyLend.configs.boba_nftypawn_address;
   }
   throw new Error(`Chain ${chain} is not supported`);
 };

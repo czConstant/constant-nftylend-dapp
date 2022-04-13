@@ -202,18 +202,22 @@
     li {
       margin-right: 10px;
     }
-    button {
-      background-color: transparent;
-      color: white;
-      border: 1px solid white;
-      border-radius: 0.25rem;
-      padding: 8px 30px;
-      transition: 0.2s all;
-    }
-    :global button.active {
-      background-color: white;
-      font-weight: 600;
-      color: black;
+    :global {
+      .nav-item {
+        button {
+          background-color: transparent;
+          color: white;
+          border: 1px solid white;
+          border-radius: 0.25rem;
+          padding: 8px 30px;
+          transition: 0.2s all;
+        }
+        button.active {
+          background-color: white;
+          font-weight: 600;
+          color: black;
+        }
+      }
     }
   }
 }

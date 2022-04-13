@@ -16,6 +16,7 @@ interface NftyLendState {
     matic_nftypawn_address: string,
     avax_nftypawn_address: string,
     bsc_nftypawn_address: string,
+    boba_nftypawn_address: string,
   };
 }
 
@@ -31,6 +32,7 @@ const initialState: NftyLendState = {
     matic_nftypawn_address: '',
     avax_nftypawn_address: '',
     bsc_nftypawn_address: '',
+    boba_nftypawn_address: '',
   },
 };
 

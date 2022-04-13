@@ -19,6 +19,7 @@ export const getEvmProvider = (wallet?: CryptoWallet): EvmProvider => {
     throw new Error('Metamask not installed');
   }
   let provider = window.ethereum;
+  if (!window.ethereum.providers) return new ethers.providers.Web3Provider(provider);
   // if (wallet === CryptoWallet.Coin98) {
   //   if (!window.coin98) {
   //     throw new Error('Coin98 Wallet Extension not installed');

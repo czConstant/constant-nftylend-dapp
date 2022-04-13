@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 import EmptyList from 'src/common/components/emptyList';
 import { closeModal, openModal } from 'src/store/modal';
@@ -30,7 +31,7 @@ const ListAsset = () => {
     if (isConnected) fetchNFTs();
   }, [currentWallet, needReload]);
 
-  const onMakeLoan = async (nftToken: AssetNft) => {
+  const onMakeLoan = async (nftToken?: AssetNft) => {
     const close = () => dispatch(closeModal({ id: 'createLoanModal' }));
     dispatch(openModal({
       id: 'createLoanModal',
@@ -75,6 +76,12 @@ const ListAsset = () => {
   };
 
   if (!isConnected) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
+  if (assets.length === 0) return (
+    <div className={styles.noAssets}>
+      <div>We can not detect your assets, but you can still manually create a loan</div>
+      <Button className={styles.createButton} onClick={() => onMakeLoan(undefined)}>Create loan</Button>
+    </div>
+  );
 
   return (
     <div className={styles.listAssets}>
