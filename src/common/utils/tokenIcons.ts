@@ -2,6 +2,7 @@ const tokenIcons = {
   eth: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png',
   btc: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png',
   bnb: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+  bsc: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
   dgx: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2739.png',
   ftm: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png',
   tomo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2570.png',

@@ -24,8 +24,7 @@ export default class OrderNowEvmTransaction extends EvmTransaction {
     lender: string,
   ): Promise<TransactionResult> {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner(0);
+      const signer = this.provider.getSigner(0);
 
       const erc20contract = new ethers.Contract(currencyContractAddress, IERC20.abi, signer)
       const allowance = await erc20contract.allowance(lender, this.lendingProgram);
@@ -37,7 +36,7 @@ export default class OrderNowEvmTransaction extends EvmTransaction {
 
       const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer)
       
-      const chainId = (await provider.getNetwork()).chainId;
+      const chainId = (await this.provider.getNetwork()).chainId;
       const lenderNonce = generateNonce();
       const adminFee = await this.getAdminFee();
 

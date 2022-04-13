@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import web3 from 'web3';
+import BigNumber from 'bignumber.js';
 
 import IERC20 from '../abi/IERC20.json';
 
@@ -8,7 +9,6 @@ import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { generateNonce, getMaxAllowance } from '../utils';
-import BigNumber from 'bignumber.js';
 
 export default class MakeOfferEvmTransaction extends EvmTransaction {
   async run(
@@ -23,8 +23,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
     loanId: number,
   ): Promise<TransactionResult> {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner(0);
+      const signer = this.provider.getSigner(0);
       const contract = new ethers.Contract(currencyContractAddress, IERC20.abi, signer)
       
       let txHash = '';
@@ -34,17 +33,18 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         const receipt = await tx.wait();
         txHash = receipt.transactionHash;
       }
-      const chainId = (await provider.getNetwork()).chainId;
+      const chainId = (await this.provider.getNetwork()).chainId;
       const nonce = generateNonce();
       const adminFee = await this.getAdminFee();
 
       const principalStr = `${new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString()}`;
+      const rateStr = `${new BigNumber(rate).multipliedBy(10000).toString()}`;
 
       let lenderMsg = web3.utils.soliditySha3(
         principalStr,
         assetTokenId,
         duration,
-        rate * 10000,
+        rateStr,
         adminFee,
         nonce,
         assetContractAddress,
@@ -63,9 +63,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         nonce_hex: nonce,
       });
 
-      return this.handleSuccess({
-        txHash: txHash,
-      } as TransactionResult);
+      return this.handleSuccess({ txHash: txHash } as TransactionResult);
     } catch (err) {
       return this.handleError(err);
     }

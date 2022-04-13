@@ -3,28 +3,24 @@ import { Chain } from 'src/common/constants/network';
 import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { getAvalancheLendingProgramId, getLinkEvmExplorer, getPolygonLendingProgramId } from '../utils';
+import { getLendingProgramId, getLinkEvmExplorer } from '../utils';
 import NftyPawn from '../abi/NFTPawn.json';
 import web3 from 'web3';
+import { EvmProvider } from 'src/common/constants/wallet';
 
 export default class EvmTransaction {
   lendingProgram;
   chain: Chain;
+  provider: EvmProvider;
 
-  constructor(chain: Chain) {
+  constructor(chain: Chain, provider: EvmProvider) {
     this.chain = chain;
-    if (chain === Chain.Polygon) {
-      this.lendingProgram = getPolygonLendingProgramId();
-    } else if (chain === Chain.Avalanche) {
-      this.lendingProgram = getAvalancheLendingProgramId();
-    } else {
-      throw new Error(`Chain ${chain} is not supported`);
-    }
+    this.provider = provider;
+    this.lendingProgram = getLendingProgramId(chain);
   }
 
   getAdminFee = async (): Promise<number> => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner(0);
+    const signer = this.provider.getSigner(0);
     const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer);
       
     const fee = await contract.adminFeeInBasisPoints();

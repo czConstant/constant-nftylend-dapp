@@ -6,6 +6,7 @@ import darkLoading from 'src/common/components/loading/json/dark.json';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { hideLoadingOverlay, selectLoadingOverlay } from 'src/store/loadingOverlay';
 
+import Mascot from './mascot.gif';
 import LottiePlayer from '../lottiePlayer';
 import styles from './styles.module.scss';
 
@@ -41,13 +42,14 @@ const MyLoadingOverlay = (props: MyLoadingOverlayProps) => {
 
   return (
     <div className={cx(styles.loadingOverlay, show && styles.show)}>
-      <LoadingOverlay
+      {/* <LoadingOverlay
         active={active}
         spinner={spinner || defaulSpinner()}
         text={message}
       >
         {children}
-      </LoadingOverlay>
+      </LoadingOverlay> */}
+      <img alt="" src={Mascot} />
     </div>
   );
 };

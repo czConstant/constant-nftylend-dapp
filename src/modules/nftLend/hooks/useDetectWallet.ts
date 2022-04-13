@@ -1,11 +1,11 @@
 import { useWallet } from '@solana/wallet-adapter-react';
-import { ethers } from 'ethers';
 import { AvalancheChainConfig, Chain, PolygonChainConfig } from 'src/common/constants/network';
 import { useAppDispatch } from 'src/store/hooks';
 import { clearWallet, updateWallet } from 'src/store/nftyLend';
 import localStore from 'src/common/services/localStore';
 import { useCurrentWallet } from './useCurrentWallet';
 import { useEffect } from 'react';
+import { getEvmProvider } from 'src/common/constants/wallet';
 
 function useDetectConnectedWallet() {
   const wallet = useWallet();
@@ -24,7 +24,9 @@ function useDetectConnectedWallet() {
     if (!wallet.connected && currentWallet.chain === Chain.Solana) {
       return dispatch(clearWallet());
     }
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const walletName = localStore.get(localStore.KEY_WALLET_NAME);
+    const provider = getEvmProvider(walletName);
+    window.evmProvider = provider;
     const accounts = await provider.listAccounts();
     window.ethereum.on('accountsChanged', (e: any) => {
       dispatch(updateWallet({ address: e[0] }));
@@ -34,7 +36,11 @@ function useDetectConnectedWallet() {
       if (e === AvalancheChainConfig.chainId) dispatch(updateWallet({ chain: Chain.Avalanche }));
     });
     if (accounts.length > 0) {
-      dispatch(updateWallet({ address: accounts[0], chain: localStore.get(localStore.KEY_WALLET_CHAIN) }));
+      dispatch(updateWallet({
+        address: accounts[0],
+        chain: localStore.get(localStore.KEY_WALLET_CHAIN),
+        name: walletName,
+      }));
     }
   }
 };

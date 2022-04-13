@@ -10,8 +10,7 @@ export default class CancelLoanEvmTransaction extends EvmTransaction {
     nonce: string,
   ): Promise<TransactionResult> {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner(0);
+      const signer = this.provider.getSigner(0);
       const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer)
       const tx = await contract.cancelLoanCommitmentBeforeLoanHasBegun(nonce);
       const receipt = await tx.wait();

@@ -6,17 +6,20 @@ export enum Chain {
   Solana = 'SOL',
   Polygon = 'MATIC',
   Avalanche = 'AVAX',
+  BSC = 'BSC',
 };
 
 export const ChainPolygonID = APP_CLUSTER === 'mainnet' ? '' : 80001;
 export const ChainAvalancheID = APP_CLUSTER === 'mainnet' ? '' : 43113;
 export const ChainSolanaNetwork = APP_CLUSTER === 'mainnet' ? WalletAdapterNetwork.Mainnet : WalletAdapterNetwork.Devnet;
+export const ChainBscID = APP_CLUSTER === 'mainnet' ? '' : 97;
 
 // https://docs.moralis.io/moralis-dapp/web3-sdk/supported-chains
 export const MoralisChainName = {
   [Chain.Solana]: APP_CLUSTER === 'mainnet' ? 'mainnet' : 'testnet',
   [Chain.Polygon]: APP_CLUSTER === 'mainnet' ? 'matic' : 'mumbai',
   [Chain.Avalanche]: APP_CLUSTER === 'mainnet' ? 'avalanche' : '0xa869',
+  [Chain.BSC]: APP_CLUSTER === 'mainnet' ? 'bsc' : '0x61',
 }
 
 export const PolygonChainConfig = {
@@ -27,7 +30,7 @@ export const PolygonChainConfig = {
     symbol: 'MATIC',
     decimals: 18,
   },
-  rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://matic-mainnet.chainstacklabs.com'] : ['https://matic-testnet-archive-rpc.bwarelabs.com'],
+  rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://matic-mainnet.chainstacklabs.com'] : ['https://rpc-mumbai.maticvigil.com'],
   blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://polygonscan.com/'] : ['https://mumbai.polygonscan.com/'],
 }
 
@@ -43,7 +46,20 @@ export const AvalancheChainConfig = {
   blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://snowtrace.io/'] : ['https://testnet.snowtrace.io/'],
 }
 
+export const BscChainConfig = {
+  chainId: `0x${ChainBscID.toString(16)}`,
+  chainName: APP_CLUSTER === 'mainnet' ? 'BSC mainnet' : 'BSC testnet',
+  nativeCurrency: {
+    name: 'BNB',
+    symbol: 'BNB',
+    decimals: 18,
+  },
+  rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://rpc.ankr.com/bsc'] : ['https://data-seed-prebsc-1-s1.binance.org:8545'],
+  blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://bscscan.com/'] : ['https://testnet.bscscan.com/'],
+}
+
 export const ChainConfigs = {
   [Chain.Polygon]: PolygonChainConfig,
   [Chain.Avalanche]: AvalancheChainConfig,
+  [Chain.BSC]: BscChainConfig,
 }

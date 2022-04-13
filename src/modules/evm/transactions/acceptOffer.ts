@@ -23,8 +23,7 @@ export default class AcceptOfferEvmTransaction extends EvmTransaction {
     lenderSignature: string,
   ): Promise<TransactionResult> {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner(0);
+      const signer = this.provider.getSigner(0);
       const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer)
       
       const adminFee = await this.getAdminFee();

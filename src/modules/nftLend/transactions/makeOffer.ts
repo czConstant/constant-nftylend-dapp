@@ -1,28 +1,26 @@
-import { WalletContextState } from '@solana/wallet-adapter-react';
-import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
 import MakeOfferEvmTransaction from 'src/modules/evm/transactions/makeOffer';
 import MakeOfferTransaction from 'src/modules/solana/transactions/makeOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
-import { MakeOfferParams, TransactionResult } from '../models/transaction';
+import { MakeOfferParams, TransactionOptions, TransactionResult } from '../models/transaction';
 import { isEvmChain } from '../utils';
 
 interface MakeOfferTxParams extends MakeOfferParams {
   chain: Chain;
   walletAddress: string;
-  solana?: {
-    connection: Connection;
-    wallet: WalletContextState;
-  }
+  options?: TransactionOptions;
 }
 
 const solTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
-  if (!params.solana?.connection || !params.solana?.wallet) throw new Error('No connection to Solana provider');
+  if (!params.options?.solana?.connection || !params.options?.solana?.wallet) throw new Error('No connection to Solana provider');
     
   const currencyAssociated = await getAssociatedAccount(params.walletAddress, params.currency_contract_address);
   if (!currencyAssociated) throw new Error('No associated account for currency');
 
-  const transaction = new MakeOfferTransaction(params.solana.connection, params.solana.wallet);
+  const transaction = new MakeOfferTransaction(
+    params.options.solana.connection,
+    params.options.solana.wallet,
+  );
   const res = await transaction.run(
   params.currency_contract_address,
     currencyAssociated,
@@ -37,7 +35,12 @@ const solTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
 }
 
 const evmTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
-  const transaction = new MakeOfferEvmTransaction(params.chain);
+  if (!params.options?.evm?.provider) throw new Error('No ethereum provider');
+
+  const transaction = new MakeOfferEvmTransaction(
+    params.chain,
+    params.options.evm.provider,
+  );
   const res = await transaction.run(
     params.principal,
     params.asset_token_id,

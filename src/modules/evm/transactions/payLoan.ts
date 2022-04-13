@@ -17,8 +17,7 @@ export default class PayLoanEvmTransaction extends EvmTransaction {
     currencyContractAddress: string,
   ): Promise<TransactionResult> {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner(0);
+      const signer = this.provider.getSigner(0);
 
       const erc20contract = new ethers.Contract(currencyContractAddress, IERC20.abi, signer)
       const allowance = await erc20contract.allowance(borrower, this.lendingProgram);

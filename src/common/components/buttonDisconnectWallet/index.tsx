@@ -4,7 +4,6 @@ import cx from 'classnames';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import { clearWallet } from 'src/store/nftyLend';
 import { useAppDispatch } from 'src/store/hooks';
 import { shortCryptoAddress } from 'src/common/utils/format';
 import { Chain } from 'src/common/constants/network';
@@ -14,6 +13,7 @@ import tokenIcons from 'src/common/utils/tokenIcons';
 import { closeModal, openModal } from 'src/store/modal';
 import styles from './styles.module.scss';
 import ConnectWalletModal from '../connectWalletModal';
+import walletIcons from 'src/common/utils/walletIcons';
 
 interface ButtonDisconnectWalletProps {
   className?: string;
@@ -22,7 +22,7 @@ interface ButtonDisconnectWalletProps {
 const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
   const { className } = props;
   const dispatch = useAppDispatch();
-  const { currentWallet } = useCurrentWallet();
+  const { currentWallet, disconnectWallet } = useCurrentWallet();
 
   const onChangeWallet = () => {
     const id = 'connectWalletModal';
@@ -38,10 +38,6 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
     }))
   }
 
-  const onDisconnect = () => {
-    dispatch(clearWallet());
-  };
-
   if (currentWallet.chain === Chain.Solana) {
     return (
       <WalletModalProvider className={styles.modalContainer}>
@@ -54,6 +50,7 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
     <Dropdown className={cx(styles.wrapper, className)}>
       <Dropdown.Toggle className={styles.disconnectButton}>
         <img alt="" src={tokenIcons[currentWallet.chain.toLowerCase()]} />
+        <img alt="" src={walletIcons[currentWallet.name]} />
         <span className={className}>{shortCryptoAddress(currentWallet.address)}</span>
       </Dropdown.Toggle>
       <Dropdown.Menu className={styles.dropdownMenu}>
@@ -68,7 +65,7 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
         <Dropdown.Item eventKey="changeWallet" onClick={onChangeWallet}>
           <div className={styles.item}>Change wallet</div>
         </Dropdown.Item>
-        <Dropdown.Item eventKey="disconnect" onClick={onDisconnect}>
+        <Dropdown.Item eventKey="disconnect" onClick={disconnectWallet}>
           <div className={styles.item}>Disconnect</div>
         </Dropdown.Item>
       </Dropdown.Menu>

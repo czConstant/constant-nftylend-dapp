@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import web3 from 'web3';
+import BigNumber from 'bignumber.js';
 
 import IERC721 from '../abi/IERC721.json';
 
@@ -8,7 +9,6 @@ import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { generateNonce } from '../utils';
-import BigNumber from 'bignumber.js';
 
 export default class CreateLoanEvmTransaction extends EvmTransaction {
   async run(
@@ -23,8 +23,7 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
     currencyDecimals: number,
   ): Promise<TransactionResult> {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner(0);
+      const signer = this.provider.getSigner(0);
       const contract = new ethers.Contract(assetContractAddress, IERC721.abi, signer)
       let txHash = '';
       if (!(await contract.isApprovedForAll(ownerAddress, this.lendingProgram))) {
@@ -32,16 +31,18 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
         const receipt = await tx.wait();
         txHash = receipt.transactionHash;
       }
-      const chainId = (await provider.getNetwork()).chainId;
+      const chainId = (await this.provider.getNetwork()).chainId;
       const nonce = generateNonce();
       const adminFee = await this.getAdminFee();
       
       const principalStr = `${new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString()}`;
+      const rateStr = `${new BigNumber(rate).multipliedBy(10000).toString()}`;
+
       let borrowerMsg = web3.utils.soliditySha3(
         principalStr,
         assetTokenId,
         duration,
-        rate * 10000,
+        rateStr,
         adminFee,
         nonce,
         assetContractAddress,
@@ -49,9 +50,7 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
         ownerAddress,
         chainId,
       );
-      console.log('ok')
       const borrowerSig = await this.signMessage(signer, borrowerMsg || '');
-      console.log('ok 1')
       
       await api.post(API_URL.NFT_LEND.CREATE_LOAN, {
         chain: this.chain.toString(),
@@ -66,7 +65,7 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
         nonce_hex: nonce,
       });
 
-      return this.handleSuccess({ txHash });
+      return this.handleSuccess({ txHash } as TransactionResult);
     } catch (err) {
       return this.handleError(err);
     }
