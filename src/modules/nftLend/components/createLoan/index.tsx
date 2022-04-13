@@ -3,7 +3,7 @@ import { Form } from "react-final-form";
 
 import CryptoDropdownItem from "src/common/components/cryptoDropdownItem";
 import { toastError, toastSuccess } from "src/common/services/toaster";
-import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import { useAppDispatch } from "src/store/hooks";
 
 import CreateLoanForm from "./form";
 import { getNftListCurrency } from "../../api";
@@ -14,7 +14,7 @@ import { Currency } from '../../models/api';
 import { useCurrentWallet } from '../../hooks/useCurrentWallet';
 
 interface CreateLoanProps {
-  asset: AssetNft;
+  asset?: AssetNft;
   onClose: Function;
 }
 
@@ -33,12 +33,9 @@ const CreateLoan = (props: CreateLoanProps) => {
     if (!isConnected) return;
     Promise.all([
       getNftListCurrency(currentWallet.chain),
-      // fetchAllTokenAccounts(connection, wallet.publicKey),
     ]).then((res) => {
-      // if (!res[0] || !res[1]) return;
       setTokenBalance(res);
       const list = res[0].result.map((e: any) => {
-        // const balance = res[1][e.contract_address]?.uiAmount;
         return {
           ...e,
           label: (
@@ -67,8 +64,8 @@ const CreateLoan = (props: CreateLoanProps) => {
     try {
       setSubmitting(true);
       const res = await createLoan({
-        asset_token_id: asset.token_id,
-        asset_contract_address: asset.contract_address,
+        asset_token_id: values.token_id || asset?.token_id,
+        asset_contract_address: values.asset_contract_address || asset?.contract_address,
         currency_contract_address: values.receiveTokenMint,
         principal: values.amount,
         rate: values.rate / 100,
@@ -100,6 +97,7 @@ const CreateLoan = (props: CreateLoanProps) => {
     <Form onSubmit={onSubmit}>
       {({ values, handleSubmit }) => (
         <CreateLoanForm
+          isManual={!asset}
           listToken={listToken}
           onSubmit={handleSubmit}
           onClose={() => onClose()}

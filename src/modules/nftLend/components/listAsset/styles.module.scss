@@ -11,3 +11,17 @@
     padding: 40px 0;
   }
 }
+
+.noAssets {
+  text-align: center;
+  color: white;
+  margin: 40px 0;
+  .createButton {
+    width: 200px;
+    height: 50px;
+    margin-top: 40px;
+    background-color: #3772ff;
+    color: #fcfcfd;
+    font-weight: bold;
+  }
+}

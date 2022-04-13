@@ -8,16 +8,18 @@ import { Button } from "react-bootstrap";
 import { Field, useForm } from "react-final-form";
 
 import Loading from "src/common/components/loading";
-
+import { required } from "src/common/utils/formValidate";
 import InputWrapper from "src/common/components/form/inputWrapper";
 import FieldAmount from "src/common/components/form/fieldAmount";
-import styles from "./styles.module.scss";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
-import { LOAN_DURATION } from "../../constant";
-import { calculateMaxInterest, calculateMaxTotalPay } from '../../utils';
 import { formatCurrency } from 'src/common/utils/format';
-import { Currency } from '../../models/api';
 import MyPopover from 'src/common/components/myPopover';
+import FieldText from 'src/common/components/form/fieldText';
+
+import { Currency } from '../../models/api';
+import { calculateMaxInterest, calculateMaxTotalPay } from '../../utils';
+import { LOAN_DURATION } from "../../constant";
+import styles from "./styles.module.scss";
 
 interface CreateLoanFormProps {
   onSubmit: FormEventHandler;
@@ -26,10 +28,11 @@ interface CreateLoanFormProps {
   defaultTokenMint?: string;
   submitting: boolean;
   values: any;
+  isManual: boolean;
 }
 
 const CreateLoanForm = (props: CreateLoanFormProps) => {
-  const { listToken, defaultTokenMint, onSubmit, values, submitting } = props;
+  const { listToken, defaultTokenMint, onSubmit, values, submitting, isManual } = props;
   const form = useForm();
 
   const [receiveToken, setReceiveToken] = useState<Currency>();
@@ -80,6 +83,24 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
   return (
     <div className={styles.createLoanForm}>
       <form onSubmit={onSubmit}>
+        {isManual && (<>
+          <InputWrapper label="Contract Address" theme="dark">
+            <Field
+              name="asset_contract_address"
+              placeholder="0x0000000000000000"
+              children={FieldText}
+              validate={required}
+            />
+          </InputWrapper>
+          <InputWrapper label="Token ID" theme="dark">
+            <Field
+              name="token_id"
+              placeholder="0"
+              children={FieldText}
+              validate={required}
+            />
+          </InputWrapper>
+        </>)}
         <InputWrapper label="Receive Token" theme="dark">
           <Field
             name="receiveTokenMint"
@@ -91,6 +112,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             alignMenu="right"
             searchFields={["name", "symbol"]}
             handleItemOnChange={onChangeReceiveToken}
+            validate={required}
           />
         </InputWrapper>
         <InputWrapper label="Receive Amount" theme="dark">
@@ -99,6 +121,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             children={FieldAmount}
             placeholder="0.0"
             appendComp={receiveToken?.symbol}
+            validate={required}
           />
         </InputWrapper>
         <InputWrapper label="Loan duration" theme="dark">
@@ -111,6 +134,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             list={LOAN_DURATION}
             valueField="id"
             alignMenu="right"
+            validate={required}
           />
         </InputWrapper>
         <InputWrapper label="Loan interest" theme="dark">
@@ -119,6 +143,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             children={FieldAmount}
             placeholder="0.0"
             appendComp="% APY"
+            validate={required}
           />
         </InputWrapper>
         {renderEstimatedInfo()}

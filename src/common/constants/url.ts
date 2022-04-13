@@ -29,6 +29,9 @@ export const API_URL = {
     CREATE_LOAN: `${MCT_ROOT}${MCT_API_BASE}/loans/create`,
     CREATE_OFFER: `${MCT_ROOT}${MCT_API_BASE}/loans/offers/create`,
     UPDATE_BLOCK_EVM: `${MCT_ROOT}${MCT_API_BASE}/blockchain/{network}/scan-block`,
+  },
+  MORALIS: {
+    GET_NFTS: `${MCT_ROOT}${MCT_API_BASE}/moralis/{owner}/nft`,
   }
 }
 
@@ -37,6 +40,6 @@ export const API_URL = {
 //   GET_NFT_METADATA: APP_CLUSTER === 'mainnet' ? '' : `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_API_KEY}/getNFTMetadata/`,
 // }
 
-export const MORALIS_URL = {
-  GET_NFTS: `https://deep-index.moralis.io/api/v2/{owner}/nft`,
-}
+// export const MORALIS_URL = {
+//   GET_NFTS: `https://deep-index.moralis.io/api/v2/{owner}/nft`,
+// }

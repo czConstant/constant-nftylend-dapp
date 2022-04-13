@@ -24,7 +24,7 @@ export function getLinkExplorerWallet(address: string, chain: Chain): string {
 }
 
 export function isEvmChain(chain: Chain) {
-  return [Chain.Polygon, Chain.Avalanche, Chain.BSC].includes(chain);
+  return [Chain.Polygon, Chain.Avalanche, Chain.BSC, Chain.Boba].includes(chain);
 }
 
 export const calculateMaxInterest = (principal: number, interest: number, duration: number): number => {

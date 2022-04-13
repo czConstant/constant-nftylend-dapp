@@ -31,6 +31,7 @@ function useTransaction() {
   };
 
   const createLoan = async (params: CreateLoanParams): Promise<TransactionResult> => {
+  console.log("🚀 ~ file: useTransaction.tsx ~ line 34 ~ createLoan ~ params", params)
     return createLoanTx({
       ...params,
       ...addParams,
