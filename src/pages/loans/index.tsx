@@ -45,6 +45,10 @@ const chains = {
     title: 'BSC',
     key: Chain.BSC,
   },
+  boba: {
+    title: 'Boba',
+    key: Chain.Boba,
+  },
 }
 
 const Loans = () => {

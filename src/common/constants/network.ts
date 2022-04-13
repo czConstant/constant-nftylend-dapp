@@ -61,14 +61,14 @@ export const BscChainConfig = {
 }
 
 export const BobaNetworkConfig = {
-  chainId: `0x${ChainBscID.toString(16)}`,
+  chainId: `0x${ChainBobaID.toString(16)}`,
   chainName: APP_CLUSTER === 'mainnet' ? 'Boba Network' : 'Boba Rinkeby',
   nativeCurrency: {
     name: 'ETH',
     symbol: 'ETH',
     decimals: 18,
   },
-  rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://mainnet.boba.network	'] : ['https://rinkeby.boba.network/	'],
+  rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://mainnet.boba.network'] : ['https://rinkeby.boba.network/'],
   blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://blockexplorer.boba.network/'] : ['https://blockexplorer.rinkeby.boba.network/'],
 }
 

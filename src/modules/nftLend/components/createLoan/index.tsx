@@ -12,6 +12,7 @@ import { AssetNft } from '../../models/nft';
 import { useTransaction} from '../../hooks/useTransaction';
 import { Currency } from '../../models/api';
 import { useCurrentWallet } from '../../hooks/useCurrentWallet';
+import { isAssetOwner } from '../../utils';
 
 interface CreateLoanProps {
   asset?: AssetNft;
@@ -63,9 +64,15 @@ const CreateLoan = (props: CreateLoanProps) => {
     if (!receiveToken) return;
     try {
       setSubmitting(true);
+      const asset_token_id = values.token_id || asset?.token_id;
+      const asset_contract_address = values.asset_contract_address || asset?.contract_address;
+      if (!asset) {
+        const isOwner = await isAssetOwner(currentWallet.address, currentWallet.chain, asset_contract_address, asset_token_id);
+        if (!isOwner) throw new Error('This asset is not owned by current account');
+      }
       const res = await createLoan({
-        asset_token_id: values.token_id || asset?.token_id,
-        asset_contract_address: values.asset_contract_address || asset?.contract_address,
+        asset_token_id,
+        asset_contract_address,
         currency_contract_address: values.receiveTokenMint,
         principal: values.amount,
         rate: values.rate / 100,
@@ -87,6 +94,7 @@ const CreateLoan = (props: CreateLoanProps) => {
       dispatch(requestReload());
       onClose();
     } catch (err: any) {
+      console.log("🚀 ~ file: index.tsx ~ line 97 ~ onSubmit ~ err", err)
       toastError(err.message || err);
     } finally {
       setSubmitting(false);
