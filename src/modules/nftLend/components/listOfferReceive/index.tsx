@@ -27,7 +27,7 @@ const ListOfferReceive = () => {
   const fetchOffers = async () => {
     if (!isConnected) return;
     try {
-      const res = await getOffersByFilter({ borrower: currentWallet.address, status });
+      const res = await getOffersByFilter({ borrower: currentWallet.address, status, network: currentWallet.chain });
       setOffers(res.result.map(OfferToLoan.parseFromApi));
     } finally {
       setLoading(false);

@@ -53,7 +53,7 @@ const OfferRow = (props: OfferRowProps) => {
         <a
           className={styles.scanLink}
           target="_blank"
-          href={offer.getLinkExplorer(offer.lender)}
+          href={offer.getLinkExplorerAddr(offer.lender)}
         >
           {shortCryptoAddress(offer?.lender, 8)}
         </a>
