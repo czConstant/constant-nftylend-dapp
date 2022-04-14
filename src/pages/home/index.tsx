@@ -15,6 +15,7 @@ import icFacebook from "./assets/btn_facebook.png";
 import icYoutube from "./assets/btn_youtube.png";
 import imgMBCommunity1 from "./assets/mobile_img_1_communicate.png";
 import imgMBCommunity2 from "./assets/mobile_img_2_communicate.png";
+import imgCommunityLogo from "./assets/img_community_logo.png";
 
 import fantom from "./assets/partner/fantom.png";
 import cardano from "./assets/partner/cardano.png";
@@ -173,7 +174,15 @@ const Home = () => {
               </a> */}
             </div>
           </div>
-          {isMobile && (
+          <div className={styles.sectionBgJoinBottom}>
+            <img
+              className={styles.joinCommunicateBG}
+              alt=""
+              src={imgMBCommunity2}
+            />
+            <img className={styles.imgToken} alt="" src={imgCommunityLogo} />
+          </div>
+          {/* {isMobile && (
             <>
               <img src={imgMBCommunity2} className={styles.joinCommunicateBG} />
               <img
@@ -181,7 +190,7 @@ const Home = () => {
                 className={styles.joinCommunicateLogo}
               />
             </>
-          )}
+          )} */}
         </div>
       </section>
     </BodyContainer>
