@@ -69,6 +69,6 @@ export class OfferToLoan {
   }
 
   isLiquidated(): boolean {
-    return this.status === 'created' && moment().isAfter(moment(this.expired_at));
+    return this.status === 'approved' && moment().isAfter(moment(this.expired_at));
   }
 }

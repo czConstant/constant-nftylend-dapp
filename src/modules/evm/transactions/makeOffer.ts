@@ -8,7 +8,7 @@ import EvmTransaction from './index';
 import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { generateNonce, getMaxAllowance } from '../utils';
+import { formatAmountSigning, generateNonce, getMaxAllowance } from '../utils';
 
 export default class MakeOfferEvmTransaction extends EvmTransaction {
   async run(
@@ -37,7 +37,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
       const nonce = generateNonce();
       const adminFee = await this.getAdminFee();
 
-      const principalStr = `${new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString()}`;
+      const principalStr = formatAmountSigning(principal, currencyDecimals);
       const rateStr = `${new BigNumber(rate).multipliedBy(10000).toString()}`;
 
       let lenderMsg = web3.utils.soliditySha3(
@@ -56,7 +56,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
 
       await api.post(`${API_URL.NFT_LEND.CREATE_OFFER}/${loanId}`, {
         lender,
-        principal_amount: principal,
+        principal_amount: String(principal),
         interest_rate: rate,
         duration,
         signature: lenderSig,
