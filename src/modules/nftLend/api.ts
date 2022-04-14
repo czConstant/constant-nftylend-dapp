@@ -86,6 +86,7 @@ export const getLoansByOwner = (
 interface OffersParams {
   borrower?: string;
   lender?: string;
+  network?: string;
   status?:
     | "new"
     | "approved"

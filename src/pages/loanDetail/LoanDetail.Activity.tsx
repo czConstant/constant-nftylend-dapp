@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
 import cx from "classnames";
 import sortBy from "lodash/sortBy";
+import moment from "moment-timezone";
+import BigNumber from "bignumber.js";
+
 import SectionCollapse from "src/common/components/sectionCollapse";
-import { LoanDetailProps } from "./LoanDetail.Header";
-import styles from "./styles.module.scss";
 import {
   getSaleTransactions,
   getLoanTransactions,
 } from "src/modules/nftLend/api";
 import {
-  getLinkSolScanAccount,
-  getLinkSolScanTx,
-} from "src/modules/solana/utils";
-import {
   formatCurrencyByLocale,
   shortCryptoAddress,
 } from "src/common/utils/format";
-import moment from "moment-timezone";
-import BigNumber from "bignumber.js";
 import { LOAN_TRANSACTION_ACTIVITY } from "src/modules/nftLend/constant";
-import { useAppSelector } from 'src/store/hooks';
-import { selectNftyLend } from 'src/store/nftyLend';
+import { LoanDetailProps } from "./LoanDetail.Header";
+import styles from "./styles.module.scss";
+import { AssetActivity, ActivityType } from 'src/modules/nftLend/models/activity';
 
 const TableHeader = () => (
   <div className={cx(styles.tbHeader, styles.activityWrapBody)}>
@@ -37,7 +33,7 @@ const TableHeader = () => (
 
 const TableBody = ({ results = [] }) => {
   return (<>
-    {results.map((result) => {
+    {results.map((result: AssetActivity) => {
       let statusColor = "#ffffff";
 
       if (["listed"].includes(result.status)) {
@@ -66,17 +62,18 @@ const TableBody = ({ results = [] }) => {
             <a
               className={styles.scanLink}
               target="_blank"
-              href={getLinkSolScanTx(result?.tx_hash)}
+              href={result.getLinkExplorerTx()}
             >
-              {shortCryptoAddress(result?.tx_hash, 8)}
+              {shortCryptoAddress(result.tx_hash, 8)}
             </a>
           </div>
-          <div>{moment(result?.created_at).fromNow()}</div>
+          <div>{moment(result.created_at).fromNow()}</div>
           <div>
-            {result?.amount &&
-              `${formatCurrencyByLocale(parseFloat(result?.amount), 2)} ${
-                result?.currency
-              }`}
+            {result?.principal && `
+              ${formatCurrencyByLocale(result.principal, 2)}
+              ${' '}
+              ${result.loan?.currency?.symbol}
+            `}
           </div>
           <div>
             {result.duration &&
@@ -85,8 +82,8 @@ const TableBody = ({ results = [] }) => {
               )} days`}
           </div>
           <div>
-            {result.interest_rate &&
-              `${new BigNumber(result.interest_rate)
+            {result.interest &&
+              `${new BigNumber(result.interest)
                 .multipliedBy(100)
                 .toNumber()} %APY`}
           </div>
@@ -94,19 +91,19 @@ const TableBody = ({ results = [] }) => {
             <a
               className={styles.scanLink}
               target="_blank"
-              href={getLinkSolScanAccount(result?.borrower)}
+              href={result.getLinkExplorerAddr(result.borrower)}
             >
-              {shortCryptoAddress(result?.borrower, 8)}
+              {shortCryptoAddress(result.borrower, 8)}
             </a>
           </div>
           <div>
-            {result?.lender && (
+            {result.lender && (
               <a
                 className={styles.scanLink}
                 target="_blank"
-                href={getLinkSolScanAccount(result?.lender)}
-              >
-                {shortCryptoAddress(result?.lender, 8)}
+                href={result.getLinkExplorerAddr(result.lender)}
+                >
+                {shortCryptoAddress(result.lender, 8)}
               </a>
             )}
           </div>
@@ -114,10 +111,6 @@ const TableBody = ({ results = [] }) => {
       );
     })}
   </>)
-}
-
-class ItemActivityModel {
-  type: string;
 }
 
 const FilterTypes = [
@@ -132,9 +125,8 @@ const FilterTypes = [
 ];
 
 const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan, asset }) => {
-  const [results, setResults] = useState([]);
-  const [sales, setSales] = useState<Array<ItemActivityModel>>([]);
-  const [activities, setActivities] = useState<Array<ItemActivityModel>>([]);
+  const [sales, setSales] = useState<Array<AssetActivity>>([]);
+  const [activities, setActivities] = useState<Array<AssetActivity>>([]);
 
   useEffect(() => {
     if (loan?.id) {
@@ -145,22 +137,8 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan, asset }) => {
 
   const fetchLoanTransactions = async () => {
     try {
-      const res = await getLoanTransactions({ asset_id: asset.id });
-      const _activities: ItemActivityModel[] = res.result?.map(
-        (v: any) => ({
-          type: FilterTypes[1].id,
-          id: v.id,
-          status: v.type,
-          tx_hash: v.tx_hash,
-          created_at: v.created_at,
-          amount: v.offer_principal_amount || v.principal_amount,
-          currency: v.loan?.currency?.symbol,
-          duration: v.duration,
-          interest_rate: v.interest_rate,
-          borrower: v.borrower,
-          lender: v.lender,
-        })
-      );
+      const res = await getLoanTransactions({ asset_id: String(asset.id) });
+      const _activities: AssetActivity[] = res.result?.map((e: any) => AssetActivity.parseFromApi(e, ActivityType.loan));
       setActivities(_activities);
     } catch (err) {
 
@@ -169,19 +147,8 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan, asset }) => {
 
   const fetchSaleTransactions = async () => {
     try {
-      const res = await getSaleTransactions({ asset_id: asset.id });
-      const _sales: ItemActivityModel[] = res.result?.map((v: any) => ({
-        type: FilterTypes[0].id,
-        id: v.id,
-        // status: v.type,
-        tx_hash: v.transaction_id,
-        created_at: v.created_at,
-        // amount: v.offer_principal_amount || v.principal_amount,
-        // duration: v.duration,
-        // interest_rate: v.interest_rate,
-        borrower: v.seller,
-        lender: v.buyer,
-      }));
+      const res = await getSaleTransactions({ asset_id: String(asset.id) });
+      const _sales: AssetActivity[] = res.result?.map((e: any) => AssetActivity.parseFromApi(e, ActivityType.sale));
       setSales(_sales);
     } catch (err) {
 
@@ -189,7 +156,7 @@ const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan, asset }) => {
   };
 
   const renderActivityContent = () => {
-    const _results: ItemActivityModel[] = sortBy(
+    const _results: AssetActivity[] = sortBy(
       activities?.concat(sales),
       ["created_at"]
     ).reverse();

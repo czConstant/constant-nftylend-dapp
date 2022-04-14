@@ -62,9 +62,15 @@ export class OfferToLoan {
     return this.status === OFFER_STATUS.approved.id;
   }
 
-  getLinkExplorer(address?: string): string {
+  getLinkExplorerAddr(address?: string): string {
     if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.accept_tx_hash);
-    if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || this.accept_tx_hash, this.chain);
+    if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || '', this.chain, 'address');
+    throw new Error(`Chain ${this.chain} is not supported`);
+  }
+
+  getLinkExplorerTx(address?: string): string {
+    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.accept_tx_hash);
+    if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || this.accept_tx_hash, this.chain, 'tx');
     throw new Error(`Chain ${this.chain} is not supported`);
   }
 
