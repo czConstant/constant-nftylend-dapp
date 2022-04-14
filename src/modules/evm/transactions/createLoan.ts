@@ -8,7 +8,7 @@ import EvmTransaction from './index';
 import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { generateNonce } from '../utils';
+import { formatAmountSigning, generateNonce } from '../utils';
 
 export default class CreateLoanEvmTransaction extends EvmTransaction {
   async run(
@@ -35,7 +35,7 @@ export default class CreateLoanEvmTransaction extends EvmTransaction {
       const nonce = generateNonce();
       const adminFee = await this.getAdminFee();
       
-      const principalStr = `${new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString()}`;
+      const principalStr = formatAmountSigning(principal, currencyDecimals);
       const rateStr = `${new BigNumber(rate).multipliedBy(10000).toString()}`;
 
       let borrowerMsg = web3.utils.soliditySha3(

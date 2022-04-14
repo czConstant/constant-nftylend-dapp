@@ -7,11 +7,16 @@ import store from 'src/store';
 import IERC20 from './abi/IERC20.json';
 import IERC721 from './abi/IERC721.json';
 import { getEvmProvider } from 'src/common/constants/wallet';
+import BigNumber from 'bignumber.js';
 
 export const generateNonce = (): string => {
   let hex = customAlphabet('0123456789abcdef', 64)();
   if (hex.length % 2 === 1) hex = '0' + hex;
   return  '0x' + hex;
+}
+
+export const formatAmountSigning = (amount: number, decimals: number) => {
+  return `${new BigNumber(amount).multipliedBy(10 ** decimals).toString(10)}`;
 }
 
 export const getMaxAllowance = (): string => {

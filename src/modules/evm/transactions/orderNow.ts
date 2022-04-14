@@ -5,7 +5,7 @@ import IERC20 from '../abi/IERC20.json';
 
 import EvmTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { generateNonce, getMaxAllowance } from '../utils';
+import { formatAmountSigning, generateNonce, getMaxAllowance } from '../utils';
 import web3 from 'web3';
 import BigNumber from 'bignumber.js';
 
@@ -40,7 +40,7 @@ export default class OrderNowEvmTransaction extends EvmTransaction {
       const lenderNonce = generateNonce();
       const adminFee = await this.getAdminFee();
 
-      const principalStr = `${new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString()}`;
+      const principalStr = formatAmountSigning(principal, currencyDecimals);
 
       let lenderMsg = web3.utils.soliditySha3(
         principalStr,
