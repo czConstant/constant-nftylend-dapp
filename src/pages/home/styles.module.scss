@@ -53,6 +53,7 @@
     height: calc(calc(100vw - 40px) * calc(526 / 337));
     padding: 0px;
     position: relative;
+    overflow: unset;
     .sectionBgJoinTop {
       padding: 60px 10px 20px;
       h2 {
@@ -72,6 +73,15 @@
       .groupButton {
         a {
           height: 45px;
+        }
+      }
+    }
+    .sectionBgJoinBottom {
+      max-width: 100%;
+      img {
+        &:first-child {
+          right: -20px;
+          bottom: -20px;
         }
       }
     }
@@ -243,14 +253,44 @@
   height: 293px;
   width: 1111px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
-  padding: 10px 4rem;
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-direction: column;
+  .groupButton {
+    justify-content: center;
+  }
   .sectionBgJoinTop {
     flex: 1;
     flex-direction: column;
     justify-content: center;
     display: flex;
+    padding: 2rem;
+  }
+  .sectionBgJoinBottom {
+    flex: 1;
+    object-fit: cover;
+    height: 100%;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    -webkit-mask-image: linear-gradient(to left, #00436A 40%, rgba(36,38,47,0) 100%);
+    max-width: 50%;
+    position: relative;
+    img {
+      &:first-child {
+        width: 100%;
+        height: 100%;
+      }
+      &:last-child {
+        bottom: 0;
+        display: block;
+        position: absolute;
+        right: 2rem;
+        width: 200px;
+      }
+    }
   }
   p,
   h1 {
