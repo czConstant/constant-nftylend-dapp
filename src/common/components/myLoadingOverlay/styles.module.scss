@@ -22,10 +22,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    
+  }
+  .inner {
+    position: relative;
     img {
+      position: relative;
+      z-index: 1;
       width: 300px;
       height: 300px;
       object-fit: contain;
+    }
+    .bg {
+      position: absolute;
+      bottom: 20px;
+      left: -80px;
     }
   }
 }
