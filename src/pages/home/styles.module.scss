@@ -148,22 +148,23 @@
   }
   .tokenomics {
     padding: 0;
-    margin-top: 2rem;
+    margin-top: 5rem;
     position: relative;
     .bgImage {
       position: relative;
       margin-left: 25px;
       margin-top: 0;
       top: 0;
-      margin-bottom: -250px;
+      margin-bottom: -10rem;
       overflow: hidden;
       height: unset;
       img {
         width: 100%;
       }
       .bgWindow {
-        width: 560px;
+        width: 90vw;
         max-width: unset;
+        margin-left: 0;
       }
       .bgLine {
         margin-top: 0;
