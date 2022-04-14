@@ -59,6 +59,7 @@
     padding: 0px;
     position: relative;
     overflow: unset;
+    flex-direction: column;
     .sectionBgJoinTop {
       padding: 60px 10px 20px;
       h2 {
@@ -84,7 +85,7 @@
     .sectionBgJoinBottom {
       max-width: 100%;
       img {
-        &:first-child {
+        &:last-child {
           right: -20px;
           bottom: -20px;
         }
@@ -327,7 +328,6 @@
   padding: 0;
   border-radius: 12px;
   overflow: hidden;
-  flex-direction: column;
   .groupButton {
     justify-content: center;
   }
