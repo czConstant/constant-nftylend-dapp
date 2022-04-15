@@ -1,10 +1,9 @@
-import { ethers } from 'ethers';
-
 import { Chain, ChainConfigs } from 'src/common/constants/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { clearWallet, selectCurrentWallet, updateWallet } from 'src/store/nftyLend';
 import { isEvmChain } from '../utils';
 import { CryptoWallet, getEvmProvider } from 'src/common/constants/wallet';
+import { getNearConfig } from 'src/modules/near/utils';
 
 function useCurrentWallet() {
   const dispatch = useAppDispatch();
@@ -13,6 +12,10 @@ function useCurrentWallet() {
   const connectSolanaWallet = async () => {
     const el = document.getElementById('solButton');
     if (el) el.click();
+  };
+
+  const connectNearWallet = async () => {
+    window.nearWallet.connection.requestSignIn(getNearConfig().contractName);
   };
 
   const connectEvmWallet = async (chain: Chain, wallet?: CryptoWallet) => {
@@ -40,6 +43,8 @@ function useCurrentWallet() {
   const connectWallet = async (chain: Chain, wallet?: CryptoWallet) => {
     if (chain === Chain.Solana) {
       return connectSolanaWallet();
+    } else if (chain === Chain.Near) {
+      return connectNearWallet();
     } else if (isEvmChain(chain)) {
       return connectEvmWallet(chain, wallet);
     }
