@@ -69,6 +69,7 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
       connectSolanaWallet();
     } else if (e.chain === Chain.Near) {
       await connectWallet(e.chain);
+      onClose();
     } else {
       setSelectedChain(e.chain);
     }

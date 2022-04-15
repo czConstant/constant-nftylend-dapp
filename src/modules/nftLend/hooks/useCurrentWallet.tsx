@@ -15,7 +15,16 @@ function useCurrentWallet() {
   };
 
   const connectNearWallet = async () => {
-    window.nearWallet.connection.requestSignIn(getNearConfig().contractName);
+    const accountId = window.nearWallet?.connection?.getAccountId();
+    if (accountId) {
+      dispatch(updateWallet({
+        address: accountId,
+        chain: Chain.Near,
+        name: 'near',
+      }));
+    } else {
+      window.nearWallet.connection.requestSignIn(getNearConfig().contractName);
+    }
   };
 
   const connectEvmWallet = async (chain: Chain, wallet?: CryptoWallet) => {
