@@ -5,7 +5,7 @@ import { Chain } from 'src/common/constants/network';
 import { EvmNft } from '../evm/models/evmNft';
 import { checkOwnerNft, getLinkEvmExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
-import { getLinkSolScanAccount } from '../solana/utils';
+import { getLinkSolScanExplorer } from '../solana/utils';
 import { LoanDataAsset } from './models/api';
 
 export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
@@ -19,7 +19,7 @@ export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
 
 export function getLinkExplorerWallet(address: string, chain: Chain): string {
   if (isEvmChain(chain)) return getLinkEvmExplorer(address, chain);
-  if (chain === Chain.Solana) return getLinkSolScanAccount(address); 
+  if (chain === Chain.Solana) return getLinkSolScanExplorer(address); 
   return '';
 }
 

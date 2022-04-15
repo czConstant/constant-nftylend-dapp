@@ -6,6 +6,7 @@ const tokenIcons = {
   boba: 'https://s2.coinmarketcap.com/static/img/coins/64x64/14556.png',
   dgx: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2739.png',
   ftm: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3513.png',
+  near: 'https://s2.coinmarketcap.com/static/img/coins/64x64/6535.png',
   tomo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2570.png',
   elf: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2299.png',
   rep: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1104.png',

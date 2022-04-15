@@ -19,6 +19,7 @@ const NETWORKS = [
   { image: tokenIcons.avax, name: 'Avalanche', chain: Chain.Avalanche },
   { image: tokenIcons.bnb, name: 'Binance Smart Chain', chain: Chain.BSC },
   { image: tokenIcons.boba, name: 'Boba Network', chain: Chain.Boba },
+  { image: tokenIcons.near, name: 'Near', chain: Chain.Near },
 ];
 
 const WALLETS = [
@@ -66,6 +67,9 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
   const onSelectChain = async (e: any) => {
     if (e.chain === Chain.Solana) {
       connectSolanaWallet();
+    } else if (e.chain === Chain.Near) {
+      await connectWallet(e.chain);
+      onClose();
     } else {
       setSelectedChain(e.chain);
     }

@@ -4,6 +4,7 @@ import { APP_CLUSTER } from './config';
 export enum Chain {
   None = '',
   Solana = 'SOL',
+  Near = 'NEAR',
   Polygon = 'MATIC',
   Avalanche = 'AVAX',
   BSC = 'BSC',

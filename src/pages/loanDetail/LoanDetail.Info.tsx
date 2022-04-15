@@ -1,10 +1,8 @@
 import React, { useMemo } from "react";
 import { shortCryptoAddress } from "src/common/utils/format";
-import { AssetNft } from 'src/modules/nftLend/models/nft';
 import {
   getLinkETHScanAddress,
   getLinkETHScanTokenId,
-  getLinkSolScanAccount,
 } from "src/modules/solana/utils";
 import { LoanDetailProps } from './LoanDetail.Header';
 import styles from "./styles.module.scss";
@@ -18,9 +16,7 @@ const LoanDetailInfo: React.FC<LoanDetailProps> = ({ loan, asset }) => {
       },
       {
         label: "Owner",
-        value: `<a target="_blank" href="${getLinkSolScanAccount(
-          loan.owner
-        )}">${shortCryptoAddress(loan.owner, 8)}</a>`,
+        value: `<a target="_blank" href="${asset.getLinkExplorer(loan.owner)}">${shortCryptoAddress(loan.owner, 8)}</a>`,
       },
     ];
     if (!loan) {

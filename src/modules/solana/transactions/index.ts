@@ -3,7 +3,7 @@ import { Connection } from '@solana/web3.js';
 import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { getLinkSolScanTx, getSolanaLendingProgramId } from '../utils';
+import { getLinkSolScanExplorer, getSolanaLendingProgramId } from '../utils';
 
 export default class SolTransaction {
   wallet: WalletContextState;
@@ -47,7 +47,7 @@ export default class SolTransaction {
       await new Promise(r => setTimeout(r, 5000));
       count += 1;
     }
-    const txExplorerUrl = getLinkSolScanTx(res.txHash);
+    const txExplorerUrl = getLinkSolScanExplorer(res.txHash, 'tx');
     return {...res, txExplorerUrl };
   };
 }

@@ -50,8 +50,12 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
     <Dropdown className={cx(styles.wrapper, className)}>
       <Dropdown.Toggle className={styles.disconnectButton}>
         <img alt="" src={tokenIcons[currentWallet.chain.toLowerCase()]} />
-        <img alt="" src={walletIcons[currentWallet.name]} />
-        <span className={className}>{shortCryptoAddress(currentWallet.address)}</span>
+        {walletIcons[currentWallet.name] && <img alt="" src={walletIcons[currentWallet.name]} />}
+        <span className={className}>
+          {currentWallet.chain === Chain.Near
+            ? currentWallet.address
+            : shortCryptoAddress(currentWallet.address)}
+        </span>
       </Dropdown.Toggle>
       <Dropdown.Menu className={styles.dropdownMenu}>
         <Dropdown.Item eventKey="copy">
