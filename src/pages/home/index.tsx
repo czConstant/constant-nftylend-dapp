@@ -12,11 +12,13 @@ import imgWhatNFTy from "./assets/what_nfty.png";
 import imgWhatNFTyMobile from "./assets/what_nfty_mobile.png";
 import imgHowItWork from "./assets/how_it_work.png";
 import imgHowItWorkMobile from "./assets/how_it_work_mobile.png";
-import imgMBCommunity1 from "./assets/mobile_img_1_communicate.png";
 import imgMBCommunity2 from "./assets/mobile_img_2_communicate.png";
 import imgIntro from "./assets/img_introduction.png";
 import BgLine from "./assets/bgTokenomics.png";
 import BgWindow from "./assets/bg_window.svg";
+import icDiscord from "./assets/ic_discord.svg";
+import icTwitter from "./assets/btn_twitter.png";
+import imgCommunityLogo from "./assets/img_community_logo.png";
 
 import fantom from "./assets/partner/fantom.png";
 import cardano from "./assets/partner/cardano.png";
@@ -80,23 +82,17 @@ const DATA = [
     title: "Token Information",
     desc: (
       <div>
-        Token Name:
+        Token Name
         <br />
         <strong style={{ color: "white" }}>PWP (Pawn Protocol Token)</strong>
-        <br />
-        <br />
         Blockchain
         <br />
         <strong style={{ color: "white" }}>
           Solana, Near, Polygon, Avalanche
         </strong>
-        <br />
-        <br />
         Max Token Supply
         <br />
         <strong style={{ color: "white" }}>900,000,000 PWP</strong>
-        <br />
-        <br />
         Initial Token Circulation
         <br />
         <strong style={{ color: "white" }}>189,900,000 PWP</strong>
@@ -176,7 +172,10 @@ const Home = () => {
             Our smart contracts handle the rest.
           </p>
           <div className={styles.bgHowItWork}>
-            <img alt="NFT Pawn"  src={isMobile ? imgHowItWorkMobile : imgHowItWork} />
+            <img
+              alt="NFT Pawn"
+              src={isMobile ? imgHowItWorkMobile : imgHowItWork}
+            />
           </div>
         </section>
       </Fade>
@@ -300,6 +299,50 @@ const Home = () => {
           </Col>
         </Row>
       </Slide>
+      <Fade>
+        <section className={cx(styles.section)}>
+          <div className={styles.sectionBgJoin}>
+            <div className={styles.sectionBgJoinTop}>
+              <h1>Join our communities</h1>
+              <p>NFT Pawn redefines banking using decentralized thinking.</p>
+              <div className={styles.groupButton}>
+                <a target="_blank" href="https://discord.gg/WJFDxUdW">
+                  <img src={icDiscord} /> Discord
+                </a>
+                <a target="_blank" href="https://twitter.com/NFTPawn_Lending">
+                  <img src={icTwitter} />
+                </a>
+                {/* <a target="_blank" href="https://www.facebook.com/myconstantp2p">
+                <img src={icFacebook} />
+              </a>
+              <a
+                target="_blank"
+                href="https://www.youtube.com/channel/UCedaWJPf9sgsy5JajmqBAtg"
+              >
+                <img src={icYoutube} />
+              </a> */}
+              </div>
+            </div>
+            <div className={styles.sectionBgJoinBottom}>
+              <img
+                className={styles.joinCommunicateBG}
+                alt=""
+                src={imgMBCommunity2}
+              />
+              <img className={styles.imgToken} alt="" src={imgCommunityLogo} />
+            </div>
+            {/* {isMobile && (
+            <>
+              <img src={imgMBCommunity2} className={styles.joinCommunicateBG} />
+              <img
+                src={imgMBCommunity1}
+                className={styles.joinCommunicateLogo}
+              />
+            </>
+          )} */}
+          </div>
+        </section>
+      </Fade>
     </BodyContainer>
   );
 };
