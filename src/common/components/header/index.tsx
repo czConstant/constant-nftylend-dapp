@@ -49,6 +49,15 @@ const Header = () => {
             >
               Listing Loans
             </Link>
+            <Link
+              to={APP_URL.NFT_LENDING_BLOG}
+              className={cx(
+                location.pathname === APP_URL.NFT_LENDING_BLOG &&
+                  styles.active
+              )}
+            >
+              Blog
+            </Link>
             {isConnected && (
               <Link
                 to={APP_URL.NFT_LENDING_MY_NFT}
