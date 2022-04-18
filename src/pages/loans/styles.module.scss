@@ -7,6 +7,14 @@
   }
   &.mbWrapper {
     padding-top: var(--header-height);
+    .listContainerWrap {
+      padding: 0px;
+    }
+    .listContainer {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 0.5rem;
+      padding: 0px 0.5rem;
+    }
     .headerWrapper {
       padding-left: 20px;
       padding-right: 20px;
@@ -36,6 +44,17 @@
     .contentWrapper {
       padding-left: 0;
       padding-right: 0;
+    }
+    .chainSelector {
+      max-width: calc(100vw);
+      overflow: auto;
+      justify-content: flex-start;
+      scroll-behavior: smooth;
+      scroll-margin-top: 10px;
+      scroll-padding-top: 20px;
+      overscroll-behavior: none;    
+      background-color: transparent;
+      border-radius: 0px;
     }
   }
   .chainSelector {
