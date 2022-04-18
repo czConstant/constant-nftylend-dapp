@@ -16,81 +16,82 @@ function useTransaction() {
   const { connection } = useConnection();
   const { currentWallet } = useCurrentWallet();
 
-  const addParams = {
-    chain: currentWallet.chain,
-    walletAddress: currentWallet.address,
-    options: {
-      solana: {
-        connection,
-        wallet,
-      },
-      evm: {
-        provider: window.evmProvider,
+  const getBlockChainParams = () => {
+    return {
+      chain: currentWallet.chain,
+      walletAddress: currentWallet.address,
+      options: {
+        solana: {
+          connection,
+          wallet,
+        },
+        evm: {
+          provider: window.evmProvider,
+        }
       }
-    }
-  };
+    };
+  }
 
   const createLoan = async (params: CreateLoanParams): Promise<TransactionResult> => {
-  console.log("🚀 ~ file: useTransaction.tsx ~ line 34 ~ createLoan ~ params", params)
     return createLoanTx({
       ...params,
-      ...addParams,
+      ...getBlockChainParams(),
     })
   };
 
   const cancelLoan = async (params: CancelLoanParams): Promise<TransactionResult> => {
     return cancelLoanTx({
       ...params,
-      ...addParams,
+      ...getBlockChainParams(),
     });
   };
 
   const makeOffer = async (params: MakeOfferParams): Promise<TransactionResult> => {
     return makeOfferTx({
       ...params,
-      ...addParams,
+      ...getBlockChainParams(),
     });
   };
 
   const cancelOffer = async (params: CancelOfferParams): Promise<TransactionResult> => {
     return cancelOfferTx({
       ...params,
-      ...addParams,
+      ...getBlockChainParams(),
     });
   };
 
   const acceptOffer = async (params: AcceptOfferParams): Promise<TransactionResult> => {
     return acceptOfferTx({
       ...params,
-      ...addParams,
+      ...getBlockChainParams(),
     });
   };
 
   const orderNow = async (params: OrderNowParams): Promise<TransactionResult> => {
     return orderNowTx({
       ...params,
-      ...addParams,
+      ...getBlockChainParams(),
     });
   };
 
   const liquidateLoan = async (params: LiquidateLoanParams): Promise<TransactionResult> => {
     return liquidateLoanTx({
       ...params,
-      ...addParams,
+      ...getBlockChainParams(),
     });
   };
 
   const closeOffer = async (params: CloseOfferParams): Promise<TransactionResult> => {
     return closeOfferTx({
       ...params,
-      ...addParams,
+      ...getBlockChainParams(),
     });
   };
 
   const payLoan = async (params: PayLoanParams): Promise<TransactionResult> => {
     return payLoanTx({
       ...params,
-      ...addParams,
+      ...getBlockChainParams(),
     });
   };
 

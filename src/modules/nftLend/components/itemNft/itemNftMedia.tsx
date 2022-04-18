@@ -1,5 +1,4 @@
 import React, { memo, useEffect, useRef, useState, useMemo } from 'react';
-import axios from 'axios';
 import last from 'lodash/last';
 import cx from 'classnames';
 
@@ -41,8 +40,9 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
   const getMediaType = () => {
     let mediaType = '';
     if (detail?.image) {
-      mediaType = last(last(detail?.image as string)?.split('.')) || '';
+      mediaType = last(String(detail?.image as string)?.split('.')) || '';
       if (mediaTypes.image.includes(mediaType)) return mediaType;
+      if (mediaTypes.video.includes(mediaType)) return mediaType;
     }
   
     mediaType = detail?.properties?.files?.length > 0
@@ -54,6 +54,7 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
   const renderMedia = (mediaType?: string) => {
     // if (!mediaType) return null;
     let media = null;
+    console.log("🚀 ~ file: itemNftMedia.tsx ~ line 54 ~ renderMedia ~ mediaType", detail?.name, mediaType)
     if (mediaTypes.video.includes(mediaType || '')) {
       media = (
         <video
@@ -62,11 +63,13 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
           loop
           disablePictureInPicture
           playsInline
-          onMouseEnter={() => refVideo.current?.play()}
-          onMouseLeave={() => refVideo.current?.pause()}
+          controls
+          // autoPlay
+          // onMouseEnter={() => refVideo.current?.play()}
+          // onMouseLeave={() => refVideo.current?.pause()}
           {...config?.video}
         >
-          <source src={detail?.image} type={`video/${mediaType}`} />
+          <source src={getImageThumb({ url: detail?.image })} type={`video/${mediaType}`} />
         </video>
       );
     } else {

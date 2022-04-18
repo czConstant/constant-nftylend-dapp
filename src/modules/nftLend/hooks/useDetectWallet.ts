@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import queryString from "query-string";
 
-import { AvalancheChainConfig, Chain, PolygonChainConfig } from 'src/common/constants/network';
+import { AvalancheChainConfig, BobaNetworkConfig, BscChainConfig, Chain, PolygonChainConfig } from 'src/common/constants/network';
 import { useAppDispatch } from 'src/store/hooks';
 import { clearWallet, updateWallet } from 'src/store/nftyLend';
 import localStore from 'src/common/services/localStore';
@@ -50,12 +50,14 @@ function useDetectConnectedWallet() {
     const provider = getEvmProvider(walletName);
     window.evmProvider = provider;
     const accounts = await provider.listAccounts();
-    window.ethereum.on('accountsChanged', (e: any) => {
+    provider.provider.on('accountsChanged', (e: any) => {
       dispatch(updateWallet({ address: e[0] }));
     });
-    window.ethereum.on('chainChanged', (e: any) => {
+    provider.provider.on('chainChanged', (e: any) => {
       if (e === PolygonChainConfig.chainId) dispatch(updateWallet({ chain: Chain.Polygon }));
       if (e === AvalancheChainConfig.chainId) dispatch(updateWallet({ chain: Chain.Avalanche }));
+      if (e === BscChainConfig.chainId) dispatch(updateWallet({ chain: Chain.BSC }));
+      if (e === BobaNetworkConfig.chainId) dispatch(updateWallet({ chain: Chain.Boba }));
     });
     if (accounts.length > 0) {
       dispatch(updateWallet({
