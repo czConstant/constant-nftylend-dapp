@@ -63,8 +63,10 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
           loop
           disablePictureInPicture
           playsInline
-          onMouseEnter={() => refVideo.current?.play()}
-          onMouseLeave={() => refVideo.current?.pause()}
+          controls
+          // autoPlay
+          // onMouseEnter={() => refVideo.current?.play()}
+          // onMouseLeave={() => refVideo.current?.pause()}
           {...config?.video}
         >
           <source src={getImageThumb({ url: detail?.image })} type={`video/${mediaType}`} />
