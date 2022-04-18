@@ -20,8 +20,8 @@ export class EvmNft extends AssetNft {
       nft.detail = {
         name: parsed.name,
         description: parsed.description,
-        image: parsed.image,
-        attributes: parsed.attributes,
+        image: parsed.image || parsed.animation_url,
+        attributes: parsed.attributes || parsed.animation_url,
       } as AssetNftDetail;
     } catch (err) {
 
@@ -45,10 +45,10 @@ export class EvmNft extends AssetNft {
   }
 
   needFetchDetail(): boolean {
-    return !this.detail;
+    return !this.detail || !this.detail.image;
   }
   
-  async fetchDetail() {
+  async fetchDetail(): Promise<any> {
     if (!this.detail_uri) throw new Error('No token uri');
     const response: any = await api.get(this.detail_uri);
     this.name = response.name;
@@ -56,9 +56,9 @@ export class EvmNft extends AssetNft {
       name: response.name,
       description: response.description,
       attributes: response.attributes,
-      image: response.image,
+      image: response.image || response.animation_url,
     } as AssetNftDetail;
-    return response;
+    return this.detail;
   }
 
   getLinkExplorer(address?: string): string {
