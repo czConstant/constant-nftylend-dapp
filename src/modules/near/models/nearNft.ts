@@ -10,7 +10,7 @@ export class NearNft extends AssetNft {
   static parse(item: any): NearNft {
     let nft = new NearNft();
     nft.id = item.id;
-    nft.contract_address = item.owner_id;
+    nft.contract_address = item.contract_address;
     nft.token_id = item.token_id;
     nft.name = item.metadata.title;
     nft.original_data = item;

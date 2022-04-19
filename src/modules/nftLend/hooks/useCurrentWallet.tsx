@@ -1,3 +1,5 @@
+import * as nearAPI from 'near-api-js';
+
 import { Chain, ChainConfigs } from 'src/common/constants/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { clearWallet, selectCurrentWallet, updateWallet } from 'src/store/nftyLend';
@@ -15,15 +17,16 @@ function useCurrentWallet() {
   };
 
   const connectNearWallet = async () => {
-    const accountId = window.nearWallet?.connection?.getAccountId();
-    if (accountId) {
+    const signedIn = window.nearAccount.isSignedIn();
+    if (signedIn) {
       dispatch(updateWallet({
-        address: accountId,
+        address: window.nearAccount.getAccountId(),
         chain: Chain.Near,
         name: 'near',
       }));
     } else {
-      window.nearWallet.connection.requestSignIn(getNearConfig().contractName);
+      const connection = new nearAPI.WalletConnection(window.near, null);
+      connection.requestSignIn(getNearConfig().contractName);
     }
   };
 

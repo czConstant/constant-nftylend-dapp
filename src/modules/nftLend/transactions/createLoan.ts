@@ -1,5 +1,6 @@
 import { Chain } from 'src/common/constants/network';
 import CreateLoanEvmTransaction from 'src/modules/evm/transactions/createLoan';
+import CreateLoanNearTransaction from 'src/modules/near/transactions/createLoan';
 import CreateLoanSolTransaction from 'src/modules/solana/transactions/createLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { CreateLoanParams, TransactionOptions, TransactionResult } from '../models/transaction';
@@ -66,9 +67,25 @@ const evmTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => 
   return res;
 }
 
+const nearTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => {
+  const transaction = new CreateLoanNearTransaction();
+  const res = await transaction.run(
+    params.asset_token_id,
+    params.asset_contract_address,
+    params.principal,
+    params.rate,
+    params.duration * 86400,
+    params.currency_contract_address,
+    params.currency_decimal,
+  );
+  return res;
+}
+
 const createLoanTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
-    return solTx(params)
+    return solTx(params);
+  } else if (params.chain === Chain.Near) {
+    return nearTx(params);
   } else if (isEvmChain(params.chain)) {
     return evmTx(params);
   }

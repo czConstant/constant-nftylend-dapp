@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import * as nearAPI from 'near-api-js';
+
 import { Chain } from 'src/common/constants/network';
 import { CryptoWallet } from 'src/common/constants/wallet';
 import localStore from 'src/common/services/localStore';
@@ -17,6 +19,7 @@ interface NftyLendState {
     avax_nftypawn_address: string,
     bsc_nftypawn_address: string,
     boba_nftypawn_address: string,
+    near_nftypawn_address: string,
   };
 }
 
@@ -33,6 +36,7 @@ const initialState: NftyLendState = {
     avax_nftypawn_address: '',
     bsc_nftypawn_address: '',
     boba_nftypawn_address: '',
+    near_nftypawn_address: '',
   },
 };
 
@@ -64,10 +68,15 @@ const slice = createSlice({
       state.wallet.address = '';
       state.wallet.chain = Chain.None;
       state.wallet.name = CryptoWallet.None;
-      window.evmProvider = null;
       localStore.remove(localStore.KEY_WALLET_ADDRESS);
       localStore.remove(localStore.KEY_WALLET_CHAIN);
       localStore.remove(localStore.KEY_WALLET_NAME);
+      window.evmProvider = null;
+
+      window.nearAccount.signOut();
+      window.near = null;
+      window.nearInitPromise = null;
+      window.nearAccount = null;
     }
   },
 });
