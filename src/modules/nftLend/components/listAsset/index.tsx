@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import cx from 'classnames';
 
 import EmptyList from 'src/common/components/emptyList';
 import { closeModal, openModal } from 'src/store/modal';
@@ -15,6 +16,7 @@ import { ItemNftProps } from '../itemNft';
 import { AssetNft } from '../../models/nft';
 import { useToken } from '../../hooks/useToken';
 import { useCurrentWallet } from '../../hooks/useCurrentWallet';
+import { isMobile } from 'react-device-detect';
 import LoadingList from '../loadingList';
 
 const ListAsset = () => {
@@ -87,7 +89,7 @@ const ListAsset = () => {
   );
 
   return (
-    <div className={styles.listAssets}>
+    <div className={cx(isMobile && styles.listAssetsMobile, styles.listAssets)}>
       <ListNft data={assets} />
     </div>
   );

@@ -56,6 +56,11 @@ const HeaderMobile = ({}) => {
             Listing Loans
           </Link>
         </li>
+        <li>
+          <Link onTouchEnd={onToggle} to={APP_URL.NFT_LENDING_BLOG}>
+            News
+          </Link>
+        </li>
         {publicKey && (
           <li>
             <Link onTouchEnd={onToggle} to={APP_URL.NFT_LENDING_MY_NFT}>

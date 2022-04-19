@@ -2,6 +2,7 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import { useEffect, useState } from "react";
+import cx from 'classnames'
 
 import { formatCurrency } from "src/common/utils/format";
 import { APP_URL } from "src/common/constants/url";
@@ -23,10 +24,11 @@ export interface ItemNftProps {
   onClickItem?: Function;
   onViewLoan?: Function;
   onCancelLoan?: Function;
+  className?: string;
 }
 
 const ItemNFT = (props: ItemNftProps) => {
-  const { loan, asset, onClickItem, onViewLoan, onCancelLoan } = props;
+  const { loan, asset, onClickItem, onViewLoan, onCancelLoan, className } = props;
   const navigate = useNavigate();
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detail, setDetail] = useState(asset?.detail);
@@ -56,7 +58,7 @@ const ItemNFT = (props: ItemNftProps) => {
   const loanDuration = LOAN_DURATION.find(e => e.id === loan?.duration / 86400);
 
   return (
-    <div className={styles.itemContainer}>
+    <div className={cx(className, styles.itemContainer)}>
       <a onClick={onView}>
         <ItemNftMedia
           name={asset.name}

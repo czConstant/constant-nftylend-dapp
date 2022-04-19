@@ -25,3 +25,26 @@
     font-weight: bold;
   }
 }
+.listAssetsMobile {
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  > div {
+    > div {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 0.5rem;
+      > div {
+        width: calc(50vw - 1rem);
+        > a {
+          > div {
+            &:first-child {
+              height: calc(50vw - 1rem);
+            }
+            &:last-child {
+              padding: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
