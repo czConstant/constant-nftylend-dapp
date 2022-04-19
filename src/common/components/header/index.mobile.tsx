@@ -58,7 +58,7 @@ const HeaderMobile = ({}) => {
         </li>
         <li>
           <Link onTouchEnd={onToggle} to={APP_URL.NFT_LENDING_BLOG}>
-            Blog
+            News
           </Link>
         </li>
         {publicKey && (

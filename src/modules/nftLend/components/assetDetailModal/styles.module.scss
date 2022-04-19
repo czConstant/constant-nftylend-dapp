@@ -8,14 +8,18 @@
     grid-template-columns: 1fr;
     padding-top: 40px;
     position: relative;
+    max-width: 100%;
     .btnClose {
       position: absolute;
-      top: 0;
-      right: 0;
+      top: 10px;
+      right: 10px;
       color: white;
       i {
         font-size: 25px;
       }
+    }
+    > div {
+      margin-top: 20px;
     }
   }
   h4 {

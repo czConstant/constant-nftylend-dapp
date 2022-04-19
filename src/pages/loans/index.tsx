@@ -116,7 +116,7 @@ const Loans = () => {
     }
 
     return loans.map((loan) => loan.asset && (
-      <ItemNFT key={loan?.id} loan={loan} asset={loan.asset} />
+      <ItemNFT key={loan?.id} loan={loan} asset={loan.asset} className={styles.loanItemContainer} />
     ));
   };
 

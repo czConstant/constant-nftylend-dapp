@@ -55,6 +55,15 @@
       }
     }
   }
+  .modalMobileDialog {
+    min-width: auto;
+    width: 95vw;
+    &>div {
+      &>div {
+        padding: 20px;
+      }
+    }
+  }
   &.show {
     opacity: 1;
     pointer-events: all;

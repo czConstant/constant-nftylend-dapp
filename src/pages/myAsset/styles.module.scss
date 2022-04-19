@@ -16,8 +16,8 @@
       }
       .right {
         .tabWrapper {
-          margin: 0 20px;
-          padding: 10px;
+          margin: 0;
+          padding: 0px;
           justify-content: center;
           align-items: center;
 
@@ -35,15 +35,16 @@
             margin: 0px 20px;
           }
           ul {
-            display: flex;
-            border: 1px solid #25272e;
-            border-radius: 30px;
-            overflow: hidden;
-            padding-inline-start: 0;
-            list-style-type: none;
-            margin: 0px;
+            flex-wrap: nowrap;
+            overflow: auto;
+            max-width: calc(100vw - 0rem);
+            justify-content: flex-start;
+            border: none;
+            margin-left: 0;
+            margin-right: 0;
+            border-radius: 0px;
             li {
-              flex: 1;
+              flex: none;
               padding: 5px;
               &::marker {
                 display: none;

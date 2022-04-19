@@ -5,6 +5,7 @@ import LoadingList from '../loadingList';
 import ItemNft, { ItemNftProps } from '../itemNft';
 // import EmptyDetailLoan from '../../detailLoan/empty';
 import styles from './styles.module.scss';
+import { isMobile } from 'react-device-detect';
 
 interface ListNftProps {
   data: Array<ItemNftProps>;
@@ -40,7 +41,7 @@ const ListNft = (props: ListNftProps) => {
 
   return (
     <div className={styles.container}>
-      <div className={cx(styles.wrapContent, !isLoading && loans.length === 0 && styles.wrapContentEmpty)}>
+      <div className={cx( isMobile && styles.wrapMobile, !isLoading && loans.length === 0 && styles.wrapContentEmpty, styles.wrapContent)}>
         {renderContentList()}
       </div>
     </div>

@@ -11,6 +11,7 @@ import { OFFER_STATUS } from '../../constant';
 import { useAppSelector } from 'src/store/hooks';
 import { OfferToLoan } from '../../models/offer';
 import { useCurrentWallet } from '../../hooks/useCurrentWallet';
+import { isMobile } from 'react-device-detect';
 
 const ListOfferReceive = () => {
   const needReload = useAppSelector(selectNftyLend).needReload;
@@ -37,7 +38,7 @@ const ListOfferReceive = () => {
   if (!isConnected) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
 
   return (
-    <div className={listLoanStyles.wrapper}>
+    <div className={cx(isMobile && listLoanStyles.mobileWrap, listLoanStyles.wrapper)}>
       <Dropdown className={listLoanStyles.dropdown} onSelect={e => e && setStatus(e)}>
         <Dropdown.Toggle><span>{status.toUpperCase() || 'ALL'}</span></Dropdown.Toggle>
         <Dropdown.Menu className={listLoanStyles.dropdownMenu}>

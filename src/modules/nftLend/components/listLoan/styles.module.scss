@@ -94,3 +94,26 @@
     padding: 0px 10px!important;
   }
 }
+
+.mobileWrap {
+  > div {
+    &:first-child {
+      padding: 0px 1rem;
+    }
+    &:last-child {
+      background-color: #19191C;
+      overflow: auto;
+      border-radius: 0px;
+      > div {
+        width: max-content;
+        > div {
+          justify-content: center;
+          width: 175px;
+          >div {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
