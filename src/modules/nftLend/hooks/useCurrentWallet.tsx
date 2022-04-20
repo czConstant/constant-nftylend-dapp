@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { clearWallet, selectCurrentWallet, updateWallet } from 'src/store/nftyLend';
 import { isEvmChain } from '../utils';
 import { CryptoWallet, getEvmProvider } from 'src/common/constants/wallet';
-import { getNearConfig } from 'src/modules/near/utils';
+import { getNearConfig, initNear } from 'src/modules/near/utils';
 
 function useCurrentWallet() {
   const dispatch = useAppDispatch();
@@ -17,6 +17,7 @@ function useCurrentWallet() {
   };
 
   const connectNearWallet = async () => {
+    if (!window.nearAccount) await initNear();
     const signedIn = window.nearAccount.isSignedIn();
     if (signedIn) {
       dispatch(updateWallet({

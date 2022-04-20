@@ -76,3 +76,17 @@ export async function getNearNftsByOwner(owner: string): Promise<Array<any>> {
   }
   return list;
 }
+
+export const hasKey = async (accountId: string, publicKey: string) => {
+	const pubKeyStr = publicKey.toString();
+	const account = new nearAPI.Account(window.near.connection, accountId);
+	try {
+		const accessKeys = await account.getAccessKeys();
+		if (accessKeys.length > 0 && accessKeys.find(({ public_key }) => public_key === pubKeyStr)) {
+			return true;
+		}
+	} catch (e) {
+		console.warn(e);
+	}
+	return false;
+};
