@@ -170,7 +170,7 @@ const Item = (props: ItemProps) => {
         </div>
       </div>
       <div>
-        <a target="_blank" href={loan.getLinkExplorer()}>
+        <a target="_blank" href={loan.getLinkExplorerTx()}>
           {shortCryptoAddress(loan.init_tx_hash, 8)}
         </a>
       </div>
