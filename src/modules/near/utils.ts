@@ -4,6 +4,8 @@ import api from 'src/common/services/apiClient';
 import store from 'src/store';
 
 export const NEAR_DEFAULT_GAS = 30000000000000;
+export const NEAR_DEFAULT_STORAGE_FEE = nearAPI.utils.format.parseNearAmount('0.25');
+export const NEAR_DEAULT_DEPOSIT_YOCTO = 350000000000000000000;
 
 export function getNearConfig(): nearAPI.ConnectConfig  {
   switch (APP_CLUSTER) {
@@ -76,17 +78,3 @@ export async function getNearNftsByOwner(owner: string): Promise<Array<any>> {
   }
   return list;
 }
-
-export const hasKey = async (accountId: string, publicKey: string) => {
-	const pubKeyStr = publicKey.toString();
-	const account = new nearAPI.Account(window.near.connection, accountId);
-	try {
-		const accessKeys = await account.getAccessKeys();
-		if (accessKeys.length > 0 && accessKeys.find(({ public_key }) => public_key === pubKeyStr)) {
-			return true;
-		}
-	} catch (e) {
-		console.warn(e);
-	}
-	return false;
-};

@@ -1,10 +1,10 @@
-import * as nearApi from 'near-api-js';
+import * as nearAPI from 'near-api-js';
 import { Chain } from 'src/common/constants/network';
 import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import store from 'src/store';
-import { getLinkNearExplorer, NEAR_DEFAULT_GAS } from '../utils';
+import { getLinkNearExplorer, getNearConfig, NEAR_DEFAULT_GAS } from '../utils';
 
 export default class NearTransaction {
   lendingProgram;
@@ -13,30 +13,48 @@ export default class NearTransaction {
     this.lendingProgram = store.getState().nftyLend.configs.near_nftypawn_address;
   }
 
-  checkNeedDepositStorage = async (contractAddress: string, autoDeposit: boolean = false): Promise<boolean> => {
-    const accountId = window.nearAccount.getAccountId();
-    const contract = await window.near.loadContract(
-      contractAddress,
-      {
-        viewMethods: ['storage_amount', 'storage_balance_of'],
-        changeMethods: ['storage_deposit'],
-        sender: accountId,
-      },
-    );
-    const requiredAmount = await contract.storage_amount();
-    const balance = await contract.storage_balance_of({ account_id: accountId });
+  // checkNeedDepositStorage = async (contractAddress: string, autoDeposit: boolean = false): Promise<boolean> => {
+  //   console.log("🚀 ~ file: index.ts ~ line 17 ~ NearTransaction ~ checkNeedDepositStorage= ~ contractAddress", contractAddress)
+  //   const accountId = window.nearAccount.getAccountId();
+  //   const contract = await window.near.loadContract(
+  //     contractAddress,
+  //     {
+  //       viewMethods: ['storage_minimum_balance', 'storage_balance_of'],
+  //       changeMethods: ['storage_deposit'],
+  //       sender: accountId,
+  //     },
+  //   );
+  //   const requiredAmount = await contract.storage_minimum_balance();
+  //   console.log("🚀 ~ file: index.ts ~ line 27 ~ NearTransaction ~ checkNeedDepositStorage= ~ requiredAmount", requiredAmount)
+  //   const balance = await contract.storage_balance_of({ account_id: accountId });
+  //   console.log("🚀 ~ file: index.ts ~ line 29 ~ NearTransaction ~ checkNeedDepositStorage= ~ balance", balance)
 
-    if (autoDeposit) {
-      const account = await window.near.account(accountId);
-      console.log('b')
-      await contract.storage_deposit({
-        account_id: accountId,
-      }, NEAR_DEFAULT_GAS, requiredAmount);
-      console.log('c')
-    }
+  //   if (requiredAmount > balance && autoDeposit) {
+  //     const account = window.nearAccount.account();
+  //     const depositAction = contract.storage_deposit({
+  //       account_id: accountId,
+  //     }, NEAR_DEFAULT_GAS, requiredAmount);
 
-    return requiredAmount > balance;
-  }
+  //     const accessKey = await account.accessKeyForTransaction(contractAddress, [depositAction])
+  //     console.log("🚀 ~ file: index.ts ~ line 39 ~ NearTransaction ~ checkNeedDepositStorage= ~ accessKey", accessKey)
+  //     // if (!accessKey) {
+  //     //   const keyPair = nearAPI.KeyPair.fromRandom('ed25519');
+  //     //   const keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
+  //     //   await keyStore.setKey(getNearConfig().networkId, accountId, keyPair);
+  //     //   await account.addKey(
+  //     //     keyPair.getPublicKey(),
+  //     //     contractAddress,
+  //     //     ['storage_deposit'],
+  //     //     NEAR_DEFAULT_ALLOWANCE,
+  //     //   );
+  //     // }
+  //     console.log('0')
+  //     await depositAction;
+  //     console.log('1')
+  //   }
+
+  //   return requiredAmount > balance;
+  // }
 
   handleError = async (err: any): Promise<TransactionResult> => {
     if (err?.name === 'WalletSignTransactionError') return {} as TransactionResult;
