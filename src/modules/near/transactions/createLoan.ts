@@ -51,20 +51,24 @@ export default class CreateLoanNearTransaction extends NearTransaction {
             requiredAmount
           )
         ),
-        // pawnContract.storage_deposit(
-        //   { account_id: accountId },
-        //   NEAR_DEFAULT_GAS,
-        //   requiredAmount
-        // ),
-        // nftContract.nft_approve(
-        //   {
-        //     token_id: assetTokenId,
-        //     account_id: this.lendingProgram,
-        //     msg,
-        //   },
-        //   NEAR_DEFAULT_GAS,
-        //   NEAR_DEAULT_DEPOSIT_YOCTO,
-        // ),
+        nearAPI.transactions.functionCall(
+          'storage-deposit',
+          NEAR_DEFAULT_GAS,
+          requiredAmount
+        ),
+        pawnContract.storage_deposit(
+          { account_id: accountId },
+          
+        ),
+        nftContract.nft_approve(
+          {
+            token_id: assetTokenId,
+            account_id: this.lendingProgram,
+            msg,
+          },
+          NEAR_DEFAULT_GAS,
+          NEAR_DEAULT_DEPOSIT_YOCTO,
+        ),
       ];
       const res = await account.signAndSendTransaction(accountId, actions)
       return this.handleSuccess({ txHash: '' } as TransactionResult);
