@@ -3,60 +3,43 @@ import * as nearAPI from 'near-api-js';
 
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { getNearConfig } from '../utils';
 
-export default class CreateLoanNearTransaction extends NearTransaction {
+export default class OrderNowNearTransaction extends NearTransaction {
   async run(
     assetTokenId: string,
     assetContractAddress: string,
+    currencyContractAddress: string,
+    currencyDecimals: number,
     principal: number,
     rate: number,
     duration: number,
-    currencyContractAddress: string,
-    currencyDecimals: number,
   ): Promise<TransactionResult> {
     try {
-      const accountId = window.nearAccount.getAccountId();
       const connection = new nearAPI.WalletConnection(window.near, null);
       const account: nearAPI.ConnectedWalletAccount = window.nearAccount.account();
-      const keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
-      const keyPair = await keyStore.getKey(getNearConfig().networkId, accountId);
-      const pawnContract = new nearAPI.Contract(
-        account,
-        this.lendingProgram,
-        {
-          viewMethods: ['storage_minimum_balance'],
-          changeMethods: ['storage_deposit'],
-        },
-      );
-      const requiredAmount = await pawnContract.storage_minimum_balance();
 
       const msg = JSON.stringify({
+        nft_contract_id: assetContractAddress,
+        token_id: assetTokenId,
+        action: 'offer_now',
         loan_principal_amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
         loan_duration: duration,
         loan_currency: currencyContractAddress,
         loan_interest_rate: rate * 10000,
       });
-
+      
       const gas = await this.calculateGasFee();
       const transactions = [
-        // account.functionCall({
-        //   contractId: this.lendingProgram,
-        //   methodName: 'storage_deposit',
-        //   args: { account_id: accountId },
-        //   gas,
-        //   attachedDeposit: requiredAmount,
-        // }),
         account.functionCall({
-          contractId: assetContractAddress,
-          methodName: 'nft_approve',
+          contractId: currencyContractAddress,
+          methodName: 'ft_transfer_call',
           args: {
-            token_id: assetTokenId,
-            account_id: this.lendingProgram,
+            receiver_id: this.lendingProgram,
+            amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
             msg,
           },
           gas,
-          attachedDeposit: requiredAmount,
+          attachedDeposit: 1,
         }),
       ];
       await connection.requestSignTransactions({ transactions })

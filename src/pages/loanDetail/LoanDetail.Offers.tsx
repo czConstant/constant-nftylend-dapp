@@ -138,6 +138,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         currency_contract_address: loan.currency.contract_address,
         loan_data_address: loan.data_loan_address,
         offer_data_address: offer.data_offer_address,
+        offer_id: offer.id,
         currency_data_address: offer.data_currency_address,
         currency_decimals: loan.currency.decimals,
         principal: offer.principal_amount,

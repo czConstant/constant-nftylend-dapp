@@ -9,6 +9,9 @@ import MyLoadingOverlay from 'src/common/components/myLoadingOverlay';
 
 import AppRouter from './navigation';
 import { getSystemConfigs } from './modules/nftLend/api';
+import { SolanaWalletProvider } from './modules/solana/hooks/withWalletProvider';
+import { NearProvider } from './modules/near/hooks/withNearProvider';
+
 import { useAppDispatch } from './store/hooks';
 import { updateConfigs } from './store/nftyLend';
 import { useDetectConnectedWallet } from './modules/nftLend/hooks/useDetectWallet';
@@ -24,15 +27,18 @@ export default function App() {
   }, []);
 
   return (
-    <>
-      <BrowserRouter>
-      {/* <Scrollbars  style={{ width: `100vw`, height: `100vh` }}> */}
-        <AppRouter />
-      {/* </Scrollbars> */}
-      </BrowserRouter>
-      <ModalManager />
-      <ToastContainer />
-      <MyLoadingOverlay />
-    </>
+    <BrowserRouter>
+      <NearProvider>
+        <SolanaWalletProvider>
+        {/* <Scrollbars  style={{ width: `100vw`, height: `100vh` }}> */}
+          <AppRouter />
+        {/* </Scrollbars> */}
+        <ModalManager />
+        <ToastContainer />
+        <MyLoadingOverlay />
+
+        </SolanaWalletProvider>
+      </NearProvider>
+    </BrowserRouter>
   );
 }

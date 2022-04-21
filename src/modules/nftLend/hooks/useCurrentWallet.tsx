@@ -2,14 +2,15 @@ import * as nearAPI from 'near-api-js';
 
 import { Chain, ChainConfigs } from 'src/common/constants/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { clearWallet, selectCurrentWallet, updateWallet } from 'src/store/nftyLend';
+import { clearWallet, selectCurrentWallet, selectNftyLend, updateWallet } from 'src/store/nftyLend';
 import { isEvmChain } from '../utils';
 import { CryptoWallet, getEvmProvider } from 'src/common/constants/wallet';
-import { getNearConfig, initNear } from 'src/modules/near/utils';
+import { getNearConfig } from 'src/modules/near/utils';
 
 function useCurrentWallet() {
   const dispatch = useAppDispatch();
   const currentWallet = useAppSelector(selectCurrentWallet);
+  const near_nftypawn_address = useAppSelector(selectNftyLend).configs.near_nftypawn_address;
 
   const connectSolanaWallet = async () => {
     const el = document.getElementById('solButton');
@@ -17,7 +18,6 @@ function useCurrentWallet() {
   };
 
   const connectNearWallet = async () => {
-    if (!window.nearAccount) await initNear();
     const signedIn = window.nearAccount.isSignedIn();
     if (signedIn) {
       dispatch(updateWallet({
@@ -27,7 +27,7 @@ function useCurrentWallet() {
       }));
     } else {
       const connection = new nearAPI.WalletConnection(window.near, null);
-      connection.requestSignIn(getNearConfig().contractName);
+      connection.requestSignIn(near_nftypawn_address);
     }
   };
 

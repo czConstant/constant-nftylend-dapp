@@ -2,6 +2,7 @@ import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
 import PayLoanEvmTransaction from 'src/modules/evm/transactions/payLoan';
+import PayLoanNearTransaction from 'src/modules/near/transactions/payLoan';
 import PayLoanTransaction from 'src/modules/solana/transactions/payLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { PayLoanParams, TransactionOptions, TransactionResult } from '../models/transaction';
@@ -54,8 +55,23 @@ const evmTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
   const res = await transaction.run(
     params.loan_data_address,
     params.walletAddress,
-    params.pay_amount * 10 ** params.currency_decimal,
+    params.pay_amount,
     params.currency_contract_address,
+    params.currency_decimal,
+  );
+  return res;
+}
+
+const nearTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
+  const transaction = new PayLoanNearTransaction();
+  const res = await transaction.run(
+    params.asset_token_id,
+    params.asset_contract_address,
+    params.currency_contract_address,
+    params.currency_decimal,
+    params.principal,
+    params.rate,
+    params.duration,
   );
   return res;
 }
@@ -63,6 +79,8 @@ const evmTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
 const payLoanTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
+  } if (params.chain === Chain.Near) {
+    return nearTx(params)
   } else if (isEvmChain(params.chain)) {
     return evmTx(params);
   }

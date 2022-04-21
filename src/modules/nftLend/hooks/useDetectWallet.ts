@@ -1,43 +1,25 @@
 import { useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import queryString from "query-string";
 
 import { AvalancheChainConfig, BobaNetworkConfig, BscChainConfig, Chain, PolygonChainConfig } from 'src/common/constants/network';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { clearWallet, selectNftyLend, updateWallet } from 'src/store/nftyLend';
+import { useAppDispatch } from 'src/store/hooks';
+import { clearWallet, updateWallet } from 'src/store/nftyLend';
 import localStore from 'src/common/services/localStore';
 import { getEvmProvider } from 'src/common/constants/wallet';
 import { useCurrentWallet } from './useCurrentWallet';
-import { initNear } from 'src/modules/near/utils';
 import { isEvmChain } from '../utils';
 
 function useDetectConnectedWallet() {
   const wallet = useWallet();
   const dispatch = useAppDispatch();
-  const near_nftypawn_address = useAppSelector(selectNftyLend).configs.near_nftypawn_address;
   const { currentWallet } = useCurrentWallet();
 
-  useEffect(() => {
-    if (near_nftypawn_address) initNear().then(() => checkWallet());
-  }, [near_nftypawn_address]);
-  
   useEffect(() => {
     checkWallet();
   }, [wallet]);
 
   const checkWallet = async () => {
     const walletChain = localStore.get(localStore.KEY_WALLET_CHAIN);
-    const isBackFromNear = !!queryString.parse(window.location.search).account_id;
-    const isPreviousConnected = localStore.get(localStore.KEY_WALLET_ADDRESS) && localStore.get(localStore.KEY_WALLET_CHAIN);
-    if (window.near && (isBackFromNear || walletChain === Chain.Near))  {
-      const signedIn = window.nearAccount.isSignedIn();
-      if (signedIn) return dispatch(updateWallet({
-          address: window.nearAccount.getAccountId(),
-          chain: Chain.Near,
-          name: 'near',
-        }));
-    }
-    if (!isPreviousConnected) return;
     /* Check SOL wallet */
     if (wallet.connected) {
       return dispatch(updateWallet({ address: wallet.publicKey?.toString(), chain: Chain.Solana }));

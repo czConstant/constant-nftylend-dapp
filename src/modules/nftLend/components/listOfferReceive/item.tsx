@@ -39,6 +39,7 @@ const Item = (props: ItemProps) => {
         currency_contract_address: offer.loan.currency.contract_address,
         loan_data_address: offer.loan.data_loan_address,
         offer_data_address: offer.data_offer_address,
+        offer_id: offer.id,
         currency_data_address: offer.data_currency_address,
         currency_decimals: offer.loan.currency.decimals,
         principal: offer.principal_amount,

@@ -73,10 +73,9 @@ const slice = createSlice({
       localStore.remove(localStore.KEY_WALLET_NAME);
       window.evmProvider = null;
 
-      window.nearAccount.signOut();
-      window.near = null;
-      window.nearInitPromise = null;
-      window.nearAccount = null;
+      if (window.nearAccount) {
+        window.nearAccount.signOut();
+      }
     }
   },
 });

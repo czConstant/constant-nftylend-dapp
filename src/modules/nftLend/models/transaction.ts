@@ -62,6 +62,7 @@ export interface AcceptOfferParams {
   currency_contract_address: string;
   loan_data_address: string;
   offer_data_address: string;
+  offer_id: number;
   currency_data_address: string;
   currency_decimals: number;
   principal: number;
@@ -91,6 +92,7 @@ export interface OrderNowParams {
 
 export interface LiquidateLoanParams {
   loan_owner: string;
+  asset_token_id: string;
   asset_contract_address: string;
   asset_data_address: string;
   loan_data_address: string;
@@ -106,11 +108,15 @@ export interface CloseOfferParams {
 
 export interface PayLoanParams {
   pay_amount: number;
+  principal: number;
+  rate: number;
+  duration: number;
   currency_decimal: number;
   loan_data_address: string;
   offer_data_address: string;
   asset_data_address: string,
   asset_contract_address: string;
+  asset_token_id: string;
   currency_data_address: string;
   currency_contract_address: string;
   lender: string;

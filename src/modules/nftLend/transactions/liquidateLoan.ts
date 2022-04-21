@@ -1,5 +1,6 @@
 import { Chain } from 'src/common/constants/network';
 import LiquidateLoanEvmTransaction from 'src/modules/evm/transactions/liquidateLoan';
+import LiquidateLoanNearTransaction from 'src/modules/near/transactions/liquidateLoan';
 import LiquidateLoanTransaction from 'src/modules/solana/transactions/liquidateLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { LiquidateLoanParams, TransactionOptions, TransactionResult } from '../models/transaction';
@@ -43,9 +44,17 @@ const evmTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> 
   return res;
 }
 
+const nearTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {
+  const transaction = new LiquidateLoanNearTransaction();
+  const res = await transaction.run(params.asset_token_id, params.asset_contract_address);
+  return res;
+}
+
 const liquidateLoanTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
+  } else if (params.chain === Chain.Near) {
+    return nearTx(params)
   } else if (isEvmChain(params.chain)) {
     return evmTx(params);
   }
