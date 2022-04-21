@@ -3,9 +3,9 @@ import { APP_CLUSTER } from 'src/common/constants/config'
 import api from 'src/common/services/apiClient';
 import store from 'src/store';
 
-export const NEAR_DEFAULT_GAS = 30000000000000;
+export const NEAR_DEFAULT_GAS = nearAPI.utils.format.parseNearAmount('0.0000000003');
 export const NEAR_DEFAULT_STORAGE_FEE = nearAPI.utils.format.parseNearAmount('0.25');
-export const NEAR_DEAULT_DEPOSIT_YOCTO = 350000000000000000000;
+export const NEAR_DEAULT_DEPOSIT_YOCTO = nearAPI.utils.format.parseNearAmount('0.00035');
 
 export function getNearConfig(): nearAPI.ConnectConfig  {
   switch (APP_CLUSTER) {

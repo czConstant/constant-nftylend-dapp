@@ -17,19 +17,19 @@ export default class CreateLoanNearTransaction extends NearTransaction {
   ): Promise<TransactionResult> {
     try {
       const accountId = window.nearAccount.getAccountId();
-      const account = window.nearAccount.account();
+      const connection = new nearAPI.WalletConnection(window.near, null);
+      const account: nearAPI.ConnectedWalletAccount = window.nearAccount.account();
       const keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
       const keyPair = await keyStore.getKey(getNearConfig().networkId, accountId);
-      const pawnContract = await window.near.loadContract(
+      const pawnContract = new nearAPI.Contract(
+        account,
         this.lendingProgram,
         {
           viewMethods: ['storage_minimum_balance'],
           changeMethods: ['storage_deposit'],
-          sender: accountId,
         },
       );
       const requiredAmount = await pawnContract.storage_minimum_balance();
-      console.log("🚀 ~ file: createLoan.ts ~ line 32 ~ CreateLoanNearTransaction ~ requiredAmount", requiredAmount)
 
       const msg = JSON.stringify({
         loan_principal_amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
@@ -37,40 +37,67 @@ export default class CreateLoanNearTransaction extends NearTransaction {
         loan_currency: currencyContractAddress,
         loan_interest_rate: rate,
       });
-      const nftContract = await window.near.loadContract(
+      
+      const nftContract = new nearAPI.Contract(
+        account,
         assetContractAddress,
-        { viewMethods: [], changeMethods: ["nft_approve"], sender: accountId }
+        { viewMethods: [], changeMethods: ["nft_approve"] }
       );
-
-      const actions = [
+      console.log("🚀 ~ file: createLoan.ts ~ line 50 ~ CreateLoanNearTransaction ~ this.lendingProgram", this.lendingProgram)
+      // await nftContract.nft_approve(
+      //   {
+      //     token_id: assetTokenId,
+      //     account_id: this.lendingProgram,
+      //     msg,
+      //   },
+      //   NEAR_DEFAULT_GAS,
+      //   NEAR_DEAULT_DEPOSIT_YOCTO,
+      // );
+      
+      const transactions = [
         nearAPI.transactions.addKey(
           keyPair.getPublicKey(),
           nearAPI.transactions.functionCallAccessKey(
             this.lendingProgram,
-            ['storage-deposit'],
+            ['storage_deposit'],
             requiredAmount
           )
         ),
-        nearAPI.transactions.functionCall(
-          'storage-deposit',
-          NEAR_DEFAULT_GAS,
-          requiredAmount
-        ),
-        pawnContract.storage_deposit(
-          { account_id: accountId },
-          
-        ),
-        nftContract.nft_approve(
-          {
+        account.functionCall({
+          contractId: this.lendingProgram,
+          methodName: 'storage_deposit',
+          args: { account_id: accountId },
+          gas: NEAR_DEFAULT_GAS,
+          attachedDeposit: requiredAmount,
+        }),
+        account.functionCall({
+          contractId: assetContractAddress,
+          methodName: 'nft_approve',
+          args: {
             token_id: assetTokenId,
             account_id: this.lendingProgram,
             msg,
           },
-          NEAR_DEFAULT_GAS,
-          NEAR_DEAULT_DEPOSIT_YOCTO,
-        ),
+          gas: NEAR_DEFAULT_GAS,
+          attachedDeposit: requiredAmount,
+        }),
+        // pawnContract.storage_deposit(
+        //   { account_id: accountId },
+        //   NEAR_DEFAULT_GAS,
+        //   requiredAmount
+        // ),
+        // nftContract.nft_approve(
+        //   {
+        //     token_id: assetTokenId,
+        //     account_id: this.lendingProgram,
+        //     msg,
+        //   },
+        //   NEAR_DEFAULT_GAS,
+        //   NEAR_DEAULT_DEPOSIT_YOCTO,
+        // ),
       ];
-      const res = await account.signAndSendTransaction(accountId, actions)
+      const res = await connection.requestSignTransactions({ transactions })
+      console.log("🚀 ~ file: createLoan.ts ~ line 75 ~ CreateLoanNearTransaction ~ res", res)
       return this.handleSuccess({ txHash: '' } as TransactionResult);
     } catch (err) {
       console.log("🚀 ~ file: createLoan.ts ~ line 53 ~ CreateLoanNearTransaction ~ err", JSON.stringify(err))
