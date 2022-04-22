@@ -1,4 +1,5 @@
 import cx from "classnames";
+import { isMobile } from "react-device-detect";
 
 import { useAppDispatch } from "src/store/hooks";
 import { closeModal } from "src/store/modal";
@@ -16,7 +17,15 @@ export interface ModalComponentProps {
 }
 
 const ModalComponent = (props: ModalComponentProps) => {
-  const { id, render, className, title, actions, onClose, theme = 'dark' } = props;
+  const {
+    id,
+    render,
+    className,
+    title,
+    actions,
+    onClose,
+    theme = "dark",
+  } = props;
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -25,7 +34,13 @@ const ModalComponent = (props: ModalComponentProps) => {
   };
 
   return (
-    <div className={cx(styles.modalDialog, styles[theme], className)}>
+    <div
+      className={cx(
+        styles.modalDialog,
+        styles[theme],
+        className
+      )}
+    >
       {title && (
         <div className={styles.header}>
           <div>{title}</div>

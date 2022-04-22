@@ -20,6 +20,7 @@ const Footer = () => (
         <div className={styles.menus}>
           <Link to={APP_URL.NFT_LENDING}>Discover</Link>
           <Link to={APP_URL.NFT_LENDING_LIST_LOAN}>Listing Loans</Link>
+          <Link to={APP_URL.NFT_LENDING_BLOG}>News</Link>
           <Link to={APP_URL.NFT_LENDING_TERM_OF_SERVICE}>
             Terms of Services
           </Link>

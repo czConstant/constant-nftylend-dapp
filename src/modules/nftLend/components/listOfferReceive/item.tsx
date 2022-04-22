@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import BigNumber from "bignumber.js";
 import moment from "moment-timezone";
+import cx from 'classnames';
 
 import { useAppDispatch } from "src/store/hooks";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
@@ -122,10 +123,9 @@ const Item = (props: ItemProps) => {
     <div
       key={offer.id}
       onClick={() => setOpen(!open)}
-      className={listLoanStyled.item}
+      className={cx(listLoanStyled.item, listLoanStyled.row)}
     >
-      <div className={listLoanStyled.row}>
-        <div>
+      <div>
           <a onClick={onViewLoan}>{loan?.asset?.name}</a>
         </div>
         <div>
@@ -151,7 +151,6 @@ const Item = (props: ItemProps) => {
         <div className={listLoanStyled.actions}>
           {showAccept && <Button onClick={onAccept}>Accept</Button>}
         </div>
-      </div>
     </div>
   );
 };

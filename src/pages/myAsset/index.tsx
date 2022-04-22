@@ -120,7 +120,7 @@ const MyAsset = () => {
               <Tabs
                 activeKey={selectedTab}
                 onSelect={(e) => setSelectedTab(e || "")}
-                className={styles.tabWrapper}
+                // className={styles.tabWrapper}
               >
                 <Tab
                   eventKey={TABS.owned}

@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
+import cx from 'classnames';
 
 import { useAppDispatch } from "src/store/hooks";
 import {
@@ -168,10 +169,9 @@ const Item = (props: ItemProps) => {
     <div
       key={offer.id}
       onClick={() => setOpen(!open)}
-      className={listLoanStyles.item}
+      className={cx(listLoanStyles.item, listLoanStyles.row)}
     >
-      <div className={listLoanStyles.row}>
-        <div>
+      <div>
           <a onClick={onViewLoan}>{loan?.asset?.name}</a>
         </div>
         <div>
@@ -202,7 +202,6 @@ const Item = (props: ItemProps) => {
           {showLiquidate && <Button title="Claim for NFT" onClick={onLiquidate}>Claim (?)</Button>}
           {showCancel && <Button onClick={onCancel}>Cancel</Button>}
         </div>
-      </div>
     </div>
   );
 };
