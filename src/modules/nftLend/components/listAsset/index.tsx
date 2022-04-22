@@ -104,11 +104,7 @@ const ListAsset = () => {
   );
 
   return (
-<<<<<<< Updated upstream
     <div className={cx(isMobile && styles.listAssetsMobile, styles.listAssets)}>
-      <ListNft data={assets} />
-=======
-    <div className={styles.listAssets}>
       <ListNft data={displayAssets} />
       {listPage.length > 1 && (
         <div className={styles.pagination}>
@@ -125,7 +121,6 @@ const ListAsset = () => {
           </Pagination>
         </div>
       )}
->>>>>>> Stashed changes
     </div>
   );
 };
