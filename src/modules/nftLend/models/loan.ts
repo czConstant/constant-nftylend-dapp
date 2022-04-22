@@ -90,6 +90,10 @@ export class LoanNft {
       loan.data_loan_address = data.new_loan.data_loan_address;
       loan.data_asset_address = data.new_loan.data_asset_address;
       loan.offers = data.new_loan.offers.map(e => OfferToLoan.parseFromApi(e, chain));
+      
+      loan.approved_offer = OfferToLoan.parseFromApi(data.new_loan.approved_offer, chain);
+      loan.approved_offer.started_at = data.new_loan.offer_started_at;
+      loan.approved_offer.expired_at = data.new_loan.offer_expired_at;
     }
     return loan;
   }
@@ -106,7 +110,7 @@ export class LoanNft {
     throw new Error(`Chain ${this.chain} is not supported`);
   }
 
-  isCreated(): boolean {
+  isOngoing(): boolean {
     return this.status === 'created';
   }
 

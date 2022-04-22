@@ -164,6 +164,52 @@
           }
         }
       }
+      .inEscrow {
+        margin: 14px 0px;
+        background-color: #141416;
+        border-radius: 16px;
+        border: 1px solid #25272e;
+        padding: 15px 20px;
+        color: #fcfcfd;
+        .progress {
+          display: flex;
+          align-items: center;
+          margin-top: 10px;
+          > div:first-child {
+            flex: 1;
+          }
+          > div:nth-child(2) {
+            margin-left: 20px;
+          }
+        }
+        .title {
+          font-weight: bold;
+          font-size: 24px;
+          line-height: 32px;
+        }
+        .expireProgress {
+          margin: 20px 0;
+        }
+        .info {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: 20px 0;
+          > div:nth-child(2) {
+            text-align: right;
+          }
+          label {
+            font-size: 14px;
+          }
+          .value {
+            font-size: 18px;
+            font-weight: bold;
+          }
+        }
+        .desc {
+          
+        }
+      }
     }
   }
 }
