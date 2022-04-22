@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { clearWallet, selectCurrentWallet, selectNftyLend, updateWallet } from 'src/store/nftyLend';
 import { isEvmChain } from '../utils';
 import { CryptoWallet, getEvmProvider } from 'src/common/constants/wallet';
-import { getNearConfig } from 'src/modules/near/utils';
 
 function useCurrentWallet() {
   const dispatch = useAppDispatch();

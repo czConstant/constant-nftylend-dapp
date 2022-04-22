@@ -102,10 +102,14 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
     dispatch(showLoadingOverlay());
     try {
       if (!loan.currency) throw new Error('Loan has no currency');
+      if (!loan.asset) throw new Error('Loan has no asset');
       const res = await cancelOffer({
         currency_contract_address: loan.currency.contract_address,
         currency_data_address: offer.data_currency_address,
         offer_data_address: offer.data_offer_address,
+        offer_id: offer.id,
+        asset_token_id: loan.asset.token_id,
+        asset_contract_address: loan.asset.contract_address,
         nonce: offer.nonce,
       });
       toastSuccess(

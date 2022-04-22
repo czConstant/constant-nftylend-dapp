@@ -1,5 +1,6 @@
 import { Chain } from 'src/common/constants/network';
 import CancelLoanEvmTransaction from 'src/modules/evm/transactions/cancelLoan';
+import CancelLoanNearTransaction from 'src/modules/near/transactions/cancelLoan';
 import CancelLoanTransaction from 'src/modules/solana/transactions/cancelLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { CancelLoanParams, TransactionOptions, TransactionResult } from '../models/transaction';
@@ -40,9 +41,19 @@ const evmTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => 
   return res;
 }
 
+const nearTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
+  if (!params.options?.evm?.provider) throw new Error('No ethereum provider');
+
+  const transaction = new CancelLoanNearTransaction();
+  const res = await transaction.run(params.asset_token_id, params.asset_contract_address);
+  return res;
+}
+
 const cancelLoanTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
+  } else if (params.chain === Chain.Near) {
+    return nearTx(params)
   } else if (isEvmChain(params.chain)) {
     return evmTx(params);
   }

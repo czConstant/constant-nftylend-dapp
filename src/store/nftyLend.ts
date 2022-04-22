@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import * as nearAPI from 'near-api-js';
 
 import { Chain } from 'src/common/constants/network';
 import { CryptoWallet } from 'src/common/constants/wallet';

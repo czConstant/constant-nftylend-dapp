@@ -30,6 +30,7 @@ export interface CreateLoanParams {
 }
 
 export interface CancelLoanParams {
+  asset_token_id: string;
   asset_contract_address: string;
   loan_data_address: string;
   nonce: string;
@@ -50,9 +51,12 @@ export interface MakeOfferParams {
 }
 
 export interface CancelOfferParams {
+  asset_contract_address: string;
+  asset_token_id: string;
   currency_contract_address: string;
   currency_data_address: string;
   offer_data_address: string;
+  offer_id: number;
   nonce: string;
 }
 

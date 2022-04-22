@@ -25,7 +25,7 @@ export default class CreateLoanNearTransaction extends NearTransaction {
         account,
         this.lendingProgram,
         {
-          viewMethods: ['storage_minimum_balance', 'storage_minimum_balance'],
+          viewMethods: ['storage_minimum_balance', 'storage_balance_of'],
           changeMethods: ['storage_deposit'],
         },
       );

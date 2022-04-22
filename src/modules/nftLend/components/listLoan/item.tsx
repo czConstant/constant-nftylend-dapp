@@ -34,10 +34,12 @@ const Item = (props: ItemProps) => {
   const onCancelLoan = async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
+      if (!loan.asset) throw new Error('Loan has no asset');
       dispatch(showLoadingOverlay());
       const res = await cancelLoan({
         nonce: loan.nonce,
-        asset_contract_address: loan.asset?.contract_address || '',
+        asset_token_id: loan.asset.token_id || '',
+        asset_contract_address: loan.asset.contract_address || '',
         loan_data_address: '' 
       });
       toastSuccess(

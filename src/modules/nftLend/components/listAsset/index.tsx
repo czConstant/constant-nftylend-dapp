@@ -22,6 +22,9 @@ import OrderNowNearTransaction from 'src/modules/near/transactions/orderNow';
 import PayLoanNearTransaction from 'src/modules/near/transactions/payLoan';
 import MakeOfferNearTransaction from 'src/modules/near/transactions/makeOffer';
 import AcceptOfferNearTransaction from 'src/modules/near/transactions/acceptOffer';
+import LiquidateLoanNearTransaction from 'src/modules/near/transactions/liquidateLoan';
+import CancelLoanNearTransaction from 'src/modules/near/transactions/cancelLoan';
+import CancelOfferNearTransaction from 'src/modules/near/transactions/cancelOffer';
 
 const PAGE_SIZE = 12;
 
@@ -55,13 +58,13 @@ const ListAsset = () => {
 
   const onMakeLoan = async (nftToken?: AssetNft) => {
     const close = () => dispatch(closeModal({ id: 'createLoanModal' }));
-    // dispatch(openModal({
-    //   id: 'createLoanModal',
-    //   modalProps: { centered: true, backdrop: 'static' },
-    //   render: () => <CreateLoan asset={nftToken} onClose={close} />,
-    //   theme: 'dark',
-    //   title: 'Create Loan'
-    // }));
+    dispatch(openModal({
+      id: 'createLoanModal',
+      modalProps: { centered: true, backdrop: 'static' },
+      render: () => <CreateLoan asset={nftToken} onClose={close} />,
+      theme: 'dark',
+      title: 'Create Loan'
+    }));
 
     // const transaction = new OrderNowNearTransaction();
     // const res = await transaction.run(
@@ -106,6 +109,19 @@ const ListAsset = () => {
     // const res = await transaction.run(
     //   '2',
     //   'duynguyen-nft.testnet',
+    //   1,
+    // );
+
+    // const transaction = new CancelLoanNearTransaction();
+    // const res = await transaction.run(
+    //   '0',
+    //   'locmc.testnet',
+    // );
+
+    // const transaction = new CancelOfferNearTransaction();
+    // const res = await transaction.run(
+    //   '0',
+    //   'locmc.testnet',
     //   1,
     // );
   };

@@ -98,11 +98,15 @@ const Item = (props: ItemProps) => {
   const onCancel = async () => {
     dispatch(showLoadingOverlay());
     if (!offer.loan || !offer.loan.currency) throw new Error('Offer has no loan currency');
+    if (!offer.loan || !offer.loan.asset) throw new Error('Offer has no loan asset');
     try {
       const res = await cancelOffer({
         currency_contract_address: offer.loan.currency.contract_address,
         currency_data_address: offer.data_currency_address,
         offer_data_address: offer.data_offer_address,
+        offer_id: offer.id,
+        asset_token_id: offer.loan.asset.token_id,
+        asset_contract_address: offer.loan.asset.contract_address,
         nonce: offer.nonce,
       });
       toastSuccess(
