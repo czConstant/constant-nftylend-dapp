@@ -21,7 +21,7 @@ export class EvmNft extends AssetNft {
         name: parsed.name,
         description: parsed.description,
         image: parsed.image || parsed.animation_url,
-        attributes: parsed.attributes || parsed.animation_url,
+        attributes: parsed.attributes,
       } as AssetNftDetail;
     } catch (err) {
 

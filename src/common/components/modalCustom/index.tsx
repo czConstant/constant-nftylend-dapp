@@ -1,24 +1,25 @@
-import last from 'lodash/last';
-import cx from 'classnames';
-import { closeModal, openModal, selectModals } from 'src/store/modal';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import ModalComponent from './ModalComponent';
-import styles from './styles.module.scss';
+import last from "lodash/last";
+import cx from "classnames";
+import { closeModal, openModal, selectModals } from "src/store/modal";
+import { useAppDispatch, useAppSelector } from "src/store/hooks";
+import ModalComponent from "./ModalComponent";
+import styles from "./styles.module.scss";
+import { isMobile } from "react-device-detect";
 
 const ModalManager = () => {
   const modals = useAppSelector(selectModals).modals;
   const dispatch = useAppDispatch();
 
   const onBackdropClick = () => {
-    const id = last(modals)?.id || '';
+    const id = last(modals)?.id || "";
     dispatch(closeModal({ id }));
   };
 
   return (
     <div className={cx(styles.modalCustom, modals.length > 0 && styles.show)}>
       <div className={styles.backdrop} onClick={onBackdropClick} />
-      <div className={cx(styles.dialog)}>
-        {modals.map(modal => (
+      <div className={cx(isMobile && styles.modalMobileDialog, styles.dialog)}>
+        {modals.map((modal) => (
           <ModalComponent
             key={modal.id}
             actions={{ openModal, closeModal }}
@@ -32,7 +33,7 @@ const ModalManager = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ModalManager;

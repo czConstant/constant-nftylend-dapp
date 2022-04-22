@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
+import cx from 'classnames';
 
 import { useAppDispatch } from "src/store/hooks";
 import { toastError, toastSuccess } from "src/common/services/toaster";
@@ -108,7 +109,7 @@ const Item = (props: ItemProps) => {
   };
 
   const showCancel = loan.status === "new";
-  const showPay = loan.isCreated() && moment().isBefore(moment(loan.approved_offer?.expired_at));
+  const showPay = loan.isOngoing() && moment().isBefore(moment(loan.approved_offer?.expired_at));
 
   const principal = loan.approved_offer
     ? loan.approved_offer.principal_amount
@@ -151,34 +152,32 @@ const Item = (props: ItemProps) => {
     .toPrecision(2, BigNumber.ROUND_CEIL);
 
   return (
-    <div key={loan.id} onClick={() => setOpen(!open)} className={styles.item}>
-      <div className={styles.row}>
-        <div>
-          <a onClick={onViewLoan}>{loan.asset?.name}</a>
+    <div key={loan.id} onClick={() => setOpen(!open)} className={cx(styles.item, styles.row)}>
+      <div>
+        <a onClick={onViewLoan}>{loan.asset?.name}</a>
+      </div>
+      <div>
+        {principal} {loan.currency?.symbol}
+      </div>
+      <div>
+        {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`} /<br />
+        {new BigNumber(interest).multipliedBy(100).toNumber()}%
+      </div>
+      {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
+      <div>
+        <div className={styles.statusWrap} style={statusStyle}>
+          {LOAN_STATUS.find((v) => v.id === status)?.name || "Unknown"}
         </div>
-        <div>
-          {principal} {loan.currency?.symbol}
-        </div>
-        <div>
-          {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`} /<br />
-          {new BigNumber(interest).multipliedBy(100).toNumber()}%
-        </div>
-        {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
-        <div>
-          <div className={styles.statusWrap} style={statusStyle}>
-            {LOAN_STATUS.find((v) => v.id === status)?.name || "Unknown"}
-          </div>
-        </div>
-        <div>
-          <a target="_blank" href={loan.getLinkExplorerTx()}>
-            {shortCryptoAddress(loan.init_tx_hash, 8)}
-          </a>
-        </div>
-        <div>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</div>
-        <div className={styles.actions}>
-          {showCancel && <Button onClick={onCancelLoan}>Cancel</Button>}
-          {showPay && <Button onClick={onPayLoan}>Pay</Button>}
-        </div>
+      </div>
+      <div>
+        <a target="_blank" href={loan.getLinkExplorerTx()}>
+          {shortCryptoAddress(loan.init_tx_hash, 8)}
+        </a>
+      </div>
+      <div>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</div>
+      <div className={styles.actions}>
+        {showCancel && <Button onClick={onCancelLoan}>Cancel</Button>}
+        {showPay && <Button onClick={onPayLoan}>Pay</Button>}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Pagination } from 'react-bootstrap';
+import cx from 'classnames';
 
 import EmptyList from 'src/common/components/emptyList';
 import { closeModal, openModal } from 'src/store/modal';
@@ -15,7 +16,10 @@ import { ItemNftProps } from '../itemNft';
 import { AssetNft } from '../../models/nft';
 import { useToken } from '../../hooks/useToken';
 import { useCurrentWallet } from '../../hooks/useCurrentWallet';
+import { isMobile } from 'react-device-detect';
 import LoadingList from '../loadingList';
+
+const PAGE_SIZE = 12;
 
 const ListAsset = () => {
   const dispatch = useAppDispatch();
@@ -26,11 +30,24 @@ const ListAsset = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
-  const [assets, setAssets] = useState([] as Array<ItemNftProps>);
+  const [assets, setAssets] = useState<Array<ItemNftProps>>([]);
+  const [displayAssets, setDisplayAssets] = useState<Array<ItemNftProps>>([]);
+  const [page, setPage] = useState(0);
+  const [listPage, setListPage] = useState<Array<number>>([]);
 
   useEffect(() => {
     if (isConnected) fetchNFTs();
   }, [currentWallet, needReload]);
+
+  useEffect(() => {
+    const totalPage = Math.ceil(assets.length / PAGE_SIZE)
+    setListPage([...Array(totalPage).keys()])
+  }, [assets, page]);
+
+  useEffect(() => {
+    setDisplayAssets(assets.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE))
+    window.scrollTo(0, 0);
+  }, [listPage, page])
 
   const onMakeLoan = async (nftToken?: AssetNft) => {
     const close = () => dispatch(closeModal({ id: 'createLoanModal' }));
@@ -87,8 +104,23 @@ const ListAsset = () => {
   );
 
   return (
-    <div className={styles.listAssets}>
-      <ListNft data={assets} />
+    <div className={cx(isMobile && styles.listAssetsMobile, styles.listAssets)}>
+      <ListNft data={displayAssets} />
+      {listPage.length > 1 && (
+        <div className={styles.pagination}>
+          <Pagination>
+            {listPage.map(p => (
+              <Pagination.Item
+                key={p}
+                className={cx(p === page && styles.active)}
+                onClick={() => setPage(p)}
+              >
+                {p+1}
+              </Pagination.Item>
+            ))}
+          </Pagination>
+        </div>
+      )}
     </div>
   );
 };

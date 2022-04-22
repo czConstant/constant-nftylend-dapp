@@ -1,9 +1,9 @@
-import { Chain, ChainConfigs } from 'src/common/constants/network';
+import { AvalancheChainConfig, BobaNetworkConfig, BscChainConfig, Chain, ChainConfigs, PolygonChainConfig } from 'src/common/constants/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { clearWallet, selectCurrentWallet, updateWallet } from 'src/store/nftyLend';
-import { isEvmChain } from '../utils';
 import { CryptoWallet, getEvmProvider } from 'src/common/constants/wallet';
 import { getNearConfig } from 'src/modules/near/utils';
+import { isEvmChain } from '../utils';
 
 function useCurrentWallet() {
   const dispatch = useAppDispatch();
@@ -46,7 +46,18 @@ function useCurrentWallet() {
     }
     await provider.send('eth_requestAccounts', []);
     const accounts = await provider.listAccounts();
-    dispatch(updateWallet({ address: accounts[0], chain, wallet, name: wallet }));
+    provider.provider.on('accountsChanged', (e: any) => {
+      dispatch(updateWallet({ address: e[0] }));
+    });
+    provider.provider.on('chainChanged', (e: any) => {
+      if (e === PolygonChainConfig.chainId) dispatch(updateWallet({ chain: Chain.Polygon }));
+      if (e === AvalancheChainConfig.chainId) dispatch(updateWallet({ chain: Chain.Avalanche }));
+      if (e === BscChainConfig.chainId) dispatch(updateWallet({ chain: Chain.BSC }));
+      if (e === BobaNetworkConfig.chainId) dispatch(updateWallet({ chain: Chain.Boba }));
+    });
+    if (accounts.length > 0) {
+      dispatch(updateWallet({ address: accounts[0], chain, wallet, name: wallet }));
+    }
   };
 
   const connectWallet = async (chain: Chain, wallet?: CryptoWallet) => {
@@ -73,6 +84,7 @@ function useCurrentWallet() {
     currentWallet,
     isConnected: currentWallet.address && currentWallet.chain,
     connectSolanaWallet,
+    connectEvmWallet,
     connectWallet,
     disconnectWallet,
     switchChain,

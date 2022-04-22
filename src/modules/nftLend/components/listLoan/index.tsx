@@ -13,6 +13,7 @@ import { LOAN_STATUS } from "../../constant";
 import styles from "./styles.module.scss";
 import { LoanNft } from '../../models/loan';
 import { useCurrentWallet } from '../../hooks/useCurrentWallet';
+import { isMobile } from "react-device-detect";
 
 const ListLoan = () => {
   const needReload = useAppSelector(selectNftyLend).needReload;
@@ -46,7 +47,7 @@ const ListLoan = () => {
     );
 
   return (
-    <div className={styles.wrapper}>
+    <div className={cx(isMobile && styles.mobileWrap, styles.wrapper)}>
       <Dropdown className={styles.dropdown} onSelect={(e) => e && setStatus(e)}>
         <Dropdown.Toggle>
           <span>{status.toUpperCase() || "ALL"}</span>
