@@ -25,11 +25,12 @@ export default class CreateLoanNearTransaction extends NearTransaction {
         account,
         this.lendingProgram,
         {
-          viewMethods: ['storage_minimum_balance'],
+          viewMethods: ['storage_minimum_balance', 'storage_minimum_balance'],
           changeMethods: ['storage_deposit'],
         },
       );
       const requiredAmount = await pawnContract.storage_minimum_balance();
+      const storageBalance = await pawnContract.storage_balance_of({ account_id: accountId });
 
       const msg = JSON.stringify({
         loan_principal_amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
@@ -39,15 +40,16 @@ export default class CreateLoanNearTransaction extends NearTransaction {
       });
 
       const gas = await this.calculateGasFee();
-      const transactions = [
-        // account.functionCall({
-        //   contractId: this.lendingProgram,
-        //   methodName: 'storage_deposit',
-        //   args: { account_id: accountId },
-        //   gas,
-        //   attachedDeposit: requiredAmount,
-        // }),
-        account.functionCall({
+      if (requiredAmount > storageBalance) {
+        await account.functionCall({
+          contractId: this.lendingProgram,
+          methodName: 'storage_deposit',
+          args: { account_id: accountId },
+          gas,
+          attachedDeposit: requiredAmount,
+        });
+      } else {
+        await account.functionCall({
           contractId: assetContractAddress,
           methodName: 'nft_approve',
           args: {
@@ -57,9 +59,29 @@ export default class CreateLoanNearTransaction extends NearTransaction {
           },
           gas,
           attachedDeposit: requiredAmount,
-        }),
-      ];
-      await connection.requestSignTransactions({ transactions })
+        });
+      }
+      // const transactions =  [
+      //   account.functionCall({
+      //     contractId: this.lendingProgram,
+      //     methodName: 'storage_deposit',
+      //     args: { account_id: accountId },
+      //     gas,
+      //     attachedDeposit: requiredAmount,
+      //   }),
+      //   account.functionCall({
+      //     contractId: assetContractAddress,
+      //     methodName: 'nft_approve',
+      //     args: {
+      //       token_id: assetTokenId,
+      //       account_id: this.lendingProgram,
+      //       msg,
+      //     },
+      //     gas,
+      //     attachedDeposit: requiredAmount,
+      //   }),
+      // ];
+      // await connection.requestSignTransactions({ transactions })
       return this.handleSuccess({ txHash: '' } as TransactionResult);
     } catch (err) {
       return this.handleError(err);
