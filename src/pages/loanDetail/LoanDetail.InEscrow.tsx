@@ -17,18 +17,18 @@ interface LoanDetailInEscrowProps extends LoanDetailProps {}
 
 const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
   const { currentWallet } = useCurrentWallet();
-  console.log("🚀 ~ file: LoanDetail.InEscrow.tsx ~ line 19 ~ loan", loan)
 
   if (!loan.approved_offer) return null;
-  const loanDuration = LOAN_DURATION.find(e => e.id === loan.duration / 86400);
+  const loanDuration = LOAN_DURATION.find(e => e.id === loan.approved_offer?.duration / 86400);
   const payAmount = calculateTotalPay(
     Number(loan.approved_offer?.principal_amount),
     loan.approved_offer?.interest_rate,
     loan.approved_offer?.duration,
     moment(loan.approved_offer?.started_at).unix()
   );
-  console.log("🚀 ~ file: LoanDetail.InEscrow.tsx ~ line 39 ~ moment(loan.approved_offer?.started_at).diff(moment(), 'd')", moment(loan.approved_offer?.started_at).diff(moment(), 'd'))
-  console.log("🚀 ~ file: LoanDetail.InEscrow.tsx ~ line 40 ~ loan.approved_offer?.started_at", loan.approved_offer?.started_at)
+
+  const durationDays = Math.ceil(loan.approved_offer?.duration / 86400);
+  const loanDays = moment().diff(moment(loan.approved_offer?.started_at), 'd')
 
   return (
     <div className={styles.inEscrow}>
@@ -36,8 +36,8 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       <div className={styles.expireProgress}>
         <div>Time until loan expires</div>
         <div className={styles.progress}>
-          <ProgressBar now={60} />
-          <div>{moment('2022-04-29').diff(moment(loan.approved_offer?.started_at), 'd')}/{loanDuration?.label}</div>
+          <ProgressBar now={loanDays * 100 / durationDays} />
+          <div>{loanDays}/{loanDuration?.label}</div>
         </div>
       </div>
       <div className={styles.info}>
