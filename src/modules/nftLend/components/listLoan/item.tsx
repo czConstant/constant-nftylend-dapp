@@ -111,7 +111,7 @@ const Item = (props: ItemProps) => {
   };
 
   const showCancel = loan.status === "new";
-  const showPay = loan.isCreated() && moment().isBefore(moment(loan.approved_offer?.expired_at));
+  const showPay = loan.isOngoing() && moment().isBefore(moment(loan.approved_offer?.expired_at));
 
   const principal = loan.approved_offer
     ? loan.approved_offer.principal_amount
