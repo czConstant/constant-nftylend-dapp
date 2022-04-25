@@ -51,7 +51,7 @@ export class NearNft extends AssetNft {
     const response: any = await api.get(this.detail_uri);
 
     if (!this.detail) this.detail = {} as AssetNftDetail;
-    this.name = response.title || this.name;
+    this.name = this.name || response.title;
     this.detail.description = response.desciption || this.detail.description;
     this.detail.attributes = response.attributes;
     return this.detail;
