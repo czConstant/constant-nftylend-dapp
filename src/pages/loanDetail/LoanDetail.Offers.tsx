@@ -112,7 +112,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         asset_contract_address: loan.asset.contract_address,
         nonce: offer.nonce,
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Cancel offer successfully.{" "}
             {res.txExplorerUrl && (
@@ -155,7 +155,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         lender_nonce: offer.nonce,
         lender_signature: offer.signature
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Accept offer successfully.{" "}
           {res.txExplorerUrl && (

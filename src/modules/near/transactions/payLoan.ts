@@ -16,7 +16,7 @@ export default class PayLoanNearTransaction extends NearTransaction {
   ): Promise<TransactionResult> {
     try {
       const connection = new nearAPI.WalletConnection(window.near, null);
-      const account: nearAPI.ConnectedWalletAccount = window.nearAccount.account();
+      const gas = await this.calculateGasFee();
 
       const msg = JSON.stringify({
         nft_contract_id: assetContractAddress,
@@ -27,22 +27,23 @@ export default class PayLoanNearTransaction extends NearTransaction {
         loan_currency: currencyContractAddress,
         loan_interest_rate: rate * 10000,
       });
-      
-      const gas = await this.calculateGasFee();
-      const transactions = [
-        account.functionCall({
-          contractId: currencyContractAddress,
-          methodName: 'ft_transfer_call',
-          args: {
-            receiver_id: this.lendingProgram,
-            amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
-            msg,
-          },
-          gas,
-          attachedDeposit: 1,
-        }),
-      ];
-      await connection.requestSignTransactions({ transactions })
+
+      const action = nearAPI.transactions.functionCall(
+        'ft_transfer_call',
+        Buffer.from(JSON.stringify({
+          receiver_id: this.lendingProgram,
+          amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
+          msg,
+        })),
+        gas,
+        1
+      );
+      const transaction = await this.createTransaction([ action ], currencyContractAddress);
+      await connection.requestSignTransactions({ 
+        transactions: [transaction],
+        callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }),
+      });
+
       return this.handleSuccess({ txHash: '' } as TransactionResult);
     } catch (err) {
       return this.handleError(err);

@@ -30,6 +30,7 @@ export const API_URL = {
     CREATE_LOAN: `${MCT_ROOT}${MCT_API_BASE}/loans/create`,
     CREATE_OFFER: `${MCT_ROOT}${MCT_API_BASE}/loans/offers/create`,
     UPDATE_BLOCK_EVM: `${MCT_ROOT}${MCT_API_BASE}/blockchain/{network}/scan-block`,
+    SYNC_NEAR: `${MCT_ROOT}${MCT_API_BASE}/loans/near/sync`,
   },
   MORALIS: {
     GET_NFTS: `${MCT_ROOT}${MCT_API_BASE}/moralis/{owner}/nft`,

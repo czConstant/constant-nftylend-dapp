@@ -81,7 +81,7 @@ const CreateLoan = (props: CreateLoanProps) => {
         currency_id: receiveToken.id,
       });
 
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Create loan successfully.{" "}
           {res.txExplorerUrl && (
@@ -94,7 +94,6 @@ const CreateLoan = (props: CreateLoanProps) => {
       dispatch(requestReload());
       onClose();
     } catch (err: any) {
-      console.log("🚀 ~ file: index.tsx ~ line 97 ~ onSubmit ~ err", err)
       toastError(err.message || err);
     } finally {
       setSubmitting(false);

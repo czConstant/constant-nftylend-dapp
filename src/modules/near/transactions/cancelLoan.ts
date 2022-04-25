@@ -9,19 +9,25 @@ export default class CancelLoanNearTransaction extends NearTransaction {
     assetContractAddress: string,
   ): Promise<TransactionResult> {
     try {
-      const account: nearAPI.ConnectedWalletAccount = window.nearAccount.account();
+      const connection = new nearAPI.WalletConnection(window.near, null);
 
       const gas = await this.calculateGasFee();
-      await account.functionCall({
-        contractId: this.lendingProgram,
-        methodName: 'cancel_loan',
-        args: {
+
+      const action = nearAPI.transactions.functionCall(
+        'cancel_loan',
+        Buffer.from(JSON.stringify({
           nft_contract_id: assetContractAddress,
           token_id: assetTokenId
-        },
+        })),
         gas,
-        attachedDeposit: 1,
+        1
+      );
+      const transaction = await this.createTransaction([ action ], this.lendingProgram);
+      await connection.requestSignTransactions({ 
+        transactions: [transaction],
+        callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }),
       });
+
       return this.handleSuccess({ txHash: '' } as TransactionResult);
     } catch (err) {
       return this.handleError(err);

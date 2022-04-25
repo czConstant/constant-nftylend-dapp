@@ -11,23 +11,24 @@ export default class AcceptOfferNearTransaction extends NearTransaction {
   ): Promise<TransactionResult> {
     try {
       const connection = new nearAPI.WalletConnection(window.near, null);
-      const account: nearAPI.ConnectedWalletAccount = window.nearAccount.account();
-
       const gas = await this.calculateGasFee();
-      const transactions = [
-        account.functionCall({
-          contractId: this.lendingProgram,
-          methodName: 'accept_offer',
-          args: {
-            nft_contract_id: assetContractAddress,
-            token_id: assetTokenId,
-            offer_id: offerId,
-          },
-          gas,
-          attachedDeposit: 1,
-        }),
-      ];
-      await connection.requestSignTransactions({ transactions })
+
+      const action = nearAPI.transactions.functionCall(
+        'accept_offer',
+        Buffer.from(JSON.stringify({
+          nft_contract_id: assetContractAddress,
+          token_id: assetTokenId,
+          offer_id: offerId,
+        })),
+        gas,
+        1
+      );
+      const transaction = await this.createTransaction([ action ], this.lendingProgram);
+      await connection.requestSignTransactions({ 
+        transactions: [transaction],
+        callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }),
+      });
+
       return this.handleSuccess({ txHash: '' } as TransactionResult);
     } catch (err) {
       return this.handleError(err);

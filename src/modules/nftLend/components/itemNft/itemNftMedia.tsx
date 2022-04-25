@@ -3,9 +3,9 @@ import last from 'lodash/last';
 import cx from 'classnames';
 
 import Loading from 'src/common/components/loading';
+import { getImageThumb } from "src/modules/nftLend/utils";
 
 import styles from './styles.module.scss';
-import { getImageThumb } from '../../api';
 
 export const mediaTypes = {
   video: ['mov', 'mp4', 'video'],

@@ -53,7 +53,7 @@ const Item = (props: ItemProps) => {
         lender_nonce: offer.nonce,
         lender_signature: offer.signature,
       });
-      if (res?.txHash) {
+      if (res?.completed) {
         toastSuccess(
           <>
             Accept offer successfully.{" "}

@@ -54,8 +54,8 @@ export default class EvmTransaction {
     if (res.txHash) {
       let txExplorerUrl = `No explorer for chain ${this.chain}`;
       txExplorerUrl = getLinkEvmExplorer(res.txHash, this.chain, 'tx');
-      return { ...res, txExplorerUrl };
+      return { ...res, txExplorerUrl, completed: true };
     }
-    return res;
+    return { ...res, completed: true };
   };
 }

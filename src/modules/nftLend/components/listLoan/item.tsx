@@ -42,7 +42,7 @@ const Item = (props: ItemProps) => {
         asset_contract_address: loan.asset.contract_address || '',
         loan_data_address: '' 
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Cancel loan successfully.{" "}
           {res.txExplorerUrl && (

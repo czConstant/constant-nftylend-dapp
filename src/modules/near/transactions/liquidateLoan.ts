@@ -10,22 +10,23 @@ export default class LiquidateLoanNearTransaction extends NearTransaction {
   ): Promise<TransactionResult> {
     try {
       const connection = new nearAPI.WalletConnection(window.near, null);
-      const account: nearAPI.ConnectedWalletAccount = window.nearAccount.account();
-
       const gas = await this.calculateGasFee();
-      const transactions = [
-        account.functionCall({
-          contractId: this.lendingProgram,
-          methodName: 'liquidate_overdue_loan',
-          args: {
-            nft_contract_id: assetContractAddress,
-            token_id: assetTokenId
-          },
-          gas,
-          attachedDeposit: 1,
-        }),
-      ];
-      await connection.requestSignTransactions({ transactions })
+
+      const action = nearAPI.transactions.functionCall(
+        'liquidate_overdue_loan',
+        Buffer.from(JSON.stringify({
+          nft_contract_id: assetContractAddress,
+          token_id: assetTokenId
+        })),
+        gas,
+        1
+      );
+      const transaction = await this.createTransaction([ action ], this.lendingProgram);
+      await connection.requestSignTransactions({ 
+        transactions: [transaction],
+        callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }),
+      });
+
       return this.handleSuccess({ txHash: '' } as TransactionResult);
     } catch (err) {
       return this.handleError(err);

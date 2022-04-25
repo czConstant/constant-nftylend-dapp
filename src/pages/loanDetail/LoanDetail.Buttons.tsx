@@ -77,7 +77,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
         borrower_nonce: loan.nonce,
         borrower_signature: loan.signature,
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Make offer successfully.{" "}
           {res.txExplorerUrl && (
@@ -106,7 +106,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
         asset_contract_address: loan.asset.contract_address || '',
         loan_data_address: '' 
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Cancel loan successfully.{" "}
           {res.txExplorerUrl && (
@@ -139,7 +139,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
         asset_contract_address: loan.asset.contract_address,
         nonce: offer.nonce,
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Cancel offer successfully.{" "}
           {res.txExplorerUrl && (

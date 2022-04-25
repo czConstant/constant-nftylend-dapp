@@ -1,7 +1,7 @@
 import random from "lodash/random";
 import React from "react";
 import Avatar from "src/common/components/avatar";
-import { getImageThumb } from "src/modules/nftLend/api";
+import { getImageThumb } from "src/modules/nftLend/utils";
 import { mediaTypes } from "src/modules/nftLend/components/itemNft";
 import { LoanNft } from "src/modules/nftLend/models/loan";
 

@@ -49,16 +49,20 @@ export async function getBalanceNearToken(owner: string, contractAddress: string
 }
 
 export async function getNearNftsByOwner(owner: string): Promise<Array<any>> {
-  let accounts = await api.get(`https://helper.testnet.near.org/account/${owner}/likelyNFTs`) as Array<string>;
+  let accounts = await api.get(`${getNearConfig().helperUrl}/account/${owner}/likelyNFTs`) as Array<string>;
   let list = [];
   const account = await window.near.account(owner);
   for (let id of accounts) {
-    const result = await account.viewFunction(id, "nft_tokens_for_owner", {
-        account_id: owner,
-        from_index: "0",
-        limit: 64,
-      });
-    list.push(...result.map((e: any) => ({ ...e, contract_address: id })));
+    try {
+      const result = await account.viewFunction(id, "nft_tokens_for_owner", {
+          account_id: owner,
+          from_index: "0",
+          limit: 64,
+        });
+      list.push(...result.map((e: any) => ({ ...e, contract_address: id })));
+    } catch (err) {
+      console.log("🚀 ~ file: utils.ts ~ line 64 ~ getNearNftsByOwner ~ err", err)
+    }
   }
   return list;
 }

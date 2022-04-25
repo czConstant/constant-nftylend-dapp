@@ -45,7 +45,7 @@ const Item = (props: ItemProps) => {
         currency_data_address: offer.data_currency_address,
         currency_contract_address: offer.loan?.currency?.contract_address,
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Claim asset successfully.{" "}
           {res.txExplorerUrl && (
@@ -77,7 +77,7 @@ const Item = (props: ItemProps) => {
         asset_data_address: offer.loan.data_asset_address,
         currency_data_address: offer.data_currency_address,
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Liquidate asset successfully.{" "}
           {res.txExplorerUrl && (
@@ -109,7 +109,7 @@ const Item = (props: ItemProps) => {
         asset_contract_address: offer.loan.asset.contract_address,
         nonce: offer.nonce,
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Cancel offer successfully.{" "}
           {res.txExplorerUrl && (

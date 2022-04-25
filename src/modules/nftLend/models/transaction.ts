@@ -6,6 +6,7 @@ export interface TransactionResult {
   txHash: string;
   txExplorerUrl: string;
   blockNumber: number;
+  completed: boolean;
 }
 
 export interface TransactionOptions {

@@ -7,11 +7,52 @@ import { checkOwnerNft, getLinkEvmExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
 import { getLinkSolScanExplorer } from '../solana/utils';
 import { LoanDataAsset } from './models/api';
+import { NearNft } from '../near/models/nearNft';
+import { AssetNft } from './models/nft';
+
+interface ImageThumb {
+  width: number;
+  height: number;
+  url: string;
+  showOriginal?: boolean;
+}
+
+export const generateSeoUrl = (asset: AssetNft): string => {
+  const id = asset.chain === Chain.Solana
+    ? asset.contract_address
+    : `${asset.contract_address}-${asset.token_id}`;
+  return id.replaceAll(/[^a-zA-Z0-9]+/g, '-');
+}
+
+export const getImageThumb = (params: ImageThumb, chain?: Chain) => {
+  const { width, height, url, showOriginal } = params;
+  if (chain === Chain.Solana) {
+    if (showOriginal)
+      return `https://solana-cdn.com/cdn-cgi/image/quality=100/${encodeURIComponent(
+        url
+      )}`;
+    return `https://solana-cdn.com/cdn-cgi/image/width=${width},height=${height},quality=100,fit=crop/${encodeURIComponent(
+      url
+    )}`;
+  }
+  return getUrlWithIpfsDefault(url);
+};
+
+export const getUrlWithIpfsDefault = (url: string): string => {
+  if (!url) return '';
+  if (url.includes('https://')) {
+    return String(url).replace ('ipfs://', 'https://ipfs.io/ipfs/');
+  } else {
+    return `https://cloudflare-ipfs.com/ipfs/${url}`;
+  }
+}
 
 export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
   if (!asset) throw new Error('Loan has no asset');
   if (chain === Chain.Solana)
     return SolanaNft.parseFromLoanAsset(asset);
+  if (chain === Chain.Near)
+    return NearNft.parseFromLoanAsset(asset);
   if (isEvmChain(chain))
     return EvmNft.parseFromLoanAsset(asset, chain);
   throw new Error(`Chain ${chain} is not supported`);

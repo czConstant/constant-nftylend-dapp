@@ -42,8 +42,6 @@ const evmTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => 
 }
 
 const nearTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
-  if (!params.options?.evm?.provider) throw new Error('No ethereum provider');
-
   const transaction = new CancelLoanNearTransaction();
   const res = await transaction.run(params.asset_token_id, params.asset_contract_address);
   return res;

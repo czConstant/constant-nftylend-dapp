@@ -12,11 +12,11 @@ const LoanDetailInfo: React.FC<LoanDetailProps> = ({ loan, asset }) => {
     let details = [
       {
         label: "Mint address",
-        value: `<a target="_blank" href="${asset.getLinkExplorer()}">${shortCryptoAddress(asset.contract_address, 8)}</a>`,
+        value: `<a target="_blank" href="${asset.getLinkExplorer()}">${shortCryptoAddress(asset.contract_address, 24)}</a>`,
       },
       {
         label: "Owner",
-        value: `<a target="_blank" href="${asset.getLinkExplorer(loan.owner)}">${shortCryptoAddress(loan.owner, 8)}</a>`,
+        value: `<a target="_blank" href="${asset.getLinkExplorer(loan.owner)}">${shortCryptoAddress(loan.owner, 24)}</a>`,
       },
     ];
     if (!loan) {
@@ -28,7 +28,7 @@ const LoanDetailInfo: React.FC<LoanDetailProps> = ({ loan, asset }) => {
           label: "Original Contract Address",
           value: `<a target="_blank" href="${getLinkETHScanAddress(
             loan?.origin_contract_address
-          )}">${shortCryptoAddress(loan?.origin_contract_address, 8)}</a>`,
+          )}">${shortCryptoAddress(loan?.origin_contract_address, 24)}</a>`,
         },
         {
           label: "Original Network",
