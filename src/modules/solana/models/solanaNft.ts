@@ -16,7 +16,7 @@ export class SolanaNft extends AssetNft {
     nft.name = item.data.name;
     nft.original_data = item;
     nft.detail_uri = item.data.uri;
-    nft.owner = item.updateAuthoriy;
+    nft.owner = item.updateAuthoriy.toLowerCase();
     return nft;
   }
 

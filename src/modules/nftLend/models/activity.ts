@@ -37,8 +37,8 @@ export class AssetActivity {
     activity.id = data.id;
     activity.created_at = data.created_at;
     activity.expired_at = data.expired_at;
-    activity.lender = data.lender;
-    activity.borrower = data.borrower;
+    activity.lender = data.lender.toLowerCase();
+    activity.borrower = data.borrower.toLowerCase();
     activity.chain = data.network as Chain;
     activity.principal = data.principal_amount;
     activity.interest = data.interest_rate;
