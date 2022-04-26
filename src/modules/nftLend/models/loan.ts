@@ -115,6 +115,10 @@ export class LoanNft {
     throw new Error(`Chain ${this.chain} is not supported`);
   }
 
+  isListing(): boolean {
+    return this.status === 'new';
+  }
+
   isOngoing(): boolean {
     return this.status === 'created';
   }

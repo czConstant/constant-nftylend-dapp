@@ -25,7 +25,12 @@ const NearProvider = ({ children }) => {
     const walletChain = localStore.get(localStore.KEY_WALLET_CHAIN);
     if (walletChain === Chain.Near && token_id && contract_address) {
       api.post(API_URL.NFT_LEND.SYNC_NEAR, { token_id, contract_address }).then(res => {
-        dispatch(requestReload())
+        if (res.result) dispatch(requestReload())
+        else setTimeout(() => {
+          api.post(API_URL.NFT_LEND.SYNC_NEAR, { token_id, contract_address }).then(() => {
+            dispatch(requestReload());
+          });
+        }, 5000);
       });
     }
     if (walletChain === Chain.Near && txHash) {

@@ -11,6 +11,7 @@ import { isMobile } from 'react-device-detect';
 import { AssetNft } from '../../models/nft';
 import { generateSeoUrl } from '../../utils';
 import { useCurrentWallet } from '../../hooks/useCurrentWallet';
+import { LoanNft } from '../../models/loan';
 
 interface AssetDetailModalProps {
   asset: AssetNft;
@@ -49,8 +50,9 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   const checkLoanInfo = async () => {
     try {
       setVerifying(true);
-      const response = await getLoanById(generateSeoUrl(asset));
-      setHaveLoan(response.result && response.result.new_loan);
+      const res = await getLoanById(generateSeoUrl(asset));
+      const loan = LoanNft.parseFromApiDetail(res.result);
+      setHaveLoan(loan.isListing());
     } catch (error) {
     } finally {
       setVerifying(false);
