@@ -54,7 +54,6 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
   const renderMedia = (mediaType?: string) => {
     // if (!mediaType) return null;
     let media = null;
-    console.log("🚀 ~ file: itemNftMedia.tsx ~ line 54 ~ renderMedia ~ mediaType", detail?.name, mediaType)
     if (mediaTypes.video.includes(mediaType || '')) {
       media = (
         <video

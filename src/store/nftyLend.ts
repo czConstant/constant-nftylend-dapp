@@ -48,8 +48,8 @@ const slice = createSlice({
     },
     updateWallet: (state, action) => {
       if (action.payload.address) {
-        state.wallet.address = action.payload.address;
-        localStore.save(localStore.KEY_WALLET_ADDRESS, action.payload.address);
+        state.wallet.address = action.payload.address.toLowerCase();
+        localStore.save(localStore.KEY_WALLET_ADDRESS, action.payload.address.toLowerCase());
       }
       if (action.payload.chain) {
         state.wallet.chain = action.payload.chain;

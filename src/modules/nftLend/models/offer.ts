@@ -35,7 +35,7 @@ export class OfferToLoan {
   static parseFromApi(data: OfferData, chain: Chain): OfferToLoan {
     let offer = new OfferToLoan(chain);
     offer.id = data.id;
-    offer.lender = data.lender;
+    offer.lender = data.lender.toLowerCase();
     offer.principal_amount = data.principal_amount;
     offer.interest_rate = data.interest_rate;
     offer.duration = data.duration;
