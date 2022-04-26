@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BodyContainer from "src/common/components/bodyContainer";
 import BreadCrumb, { BreadCrumbItem } from "src/common/components/breadCrumb";
 import { APP_URL } from "src/common/constants/url";
@@ -23,6 +23,7 @@ import { LoanNft } from 'src/modules/nftLend/models/loan';
 const LoanDetail = () => {
   const location = useLocation();
   const pathLoan: string = last(location.pathname.split("/"))?.toString() || '';
+  const navigate = useNavigate();
 
   const needReload = useAppSelector(selectNftyLend).needReload;
 
@@ -62,6 +63,8 @@ const LoanDetail = () => {
 
       setBreadCrumbs(defaultBreadCrumbs.current);
       setLoan(LoanNft.parseFromApiDetail(result));
+    } catch(err) {
+      navigate(APP_URL.NFT_LENDING_LIST_LOAN);
     } finally {
       setLoading(false);
     }

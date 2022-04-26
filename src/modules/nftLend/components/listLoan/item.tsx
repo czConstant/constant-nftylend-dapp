@@ -81,11 +81,15 @@ const Item = (props: ItemProps) => {
         loan_data_address: loan.data_loan_address,
         offer_data_address: loan.approved_offer?.data_offer_address,
         asset_data_address: loan.data_asset_address,
+        asset_token_id: loan.asset.token_id,
         asset_contract_address: loan.asset?.contract_address,
         currency_data_address: loan.approved_offer?.data_currency_address,
         currency_contract_address: loan.currency?.contract_address,
         lender: loan.approved_offer?.lender,
         admin_fee_address: loan.currency?.admin_fee_address,
+        principal: loan.approved_offer.principal_amount,
+        rate: loan.approved_offer.interest_rate,
+        duration: loan.approved_offer.duration,
       });
       toastSuccess(
         <>

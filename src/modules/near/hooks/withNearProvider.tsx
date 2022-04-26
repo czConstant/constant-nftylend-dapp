@@ -24,14 +24,7 @@ const NearProvider = ({ children }) => {
     const contract_address = params.contract_address as string;
     const walletChain = localStore.get(localStore.KEY_WALLET_CHAIN);
     if (walletChain === Chain.Near && token_id && contract_address) {
-      api.post(API_URL.NFT_LEND.SYNC_NEAR, { token_id, contract_address }).then(res => {
-        if (res.result) dispatch(requestReload())
-        else setTimeout(() => {
-          api.post(API_URL.NFT_LEND.SYNC_NEAR, { token_id, contract_address }).then(() => {
-            dispatch(requestReload());
-          });
-        }, 5000);
-      });
+      checkSync(token_id, contract_address);
     }
     if (walletChain === Chain.Near && txHash) {
       window.history.replaceState(null, '', window.location.pathname);
@@ -49,6 +42,21 @@ const NearProvider = ({ children }) => {
       checkConnected()
     });
   }, [near_nftypawn_address])
+
+  const checkSync = async (token_id: string, contract_address: string ) => {
+    let count = 0;
+    while (count < 6) {
+      try {
+        const res = await api.post(API_URL.NFT_LEND.SYNC_NEAR, { token_id, contract_address });
+        if (res.result) {
+          dispatch(requestReload());
+          break;
+        }
+      } catch (err) { }
+      await new Promise(r => setTimeout(r, 5000));
+      count += 1;
+    }
+  }
 
   const checkConnected = () => {
     const walletChain = localStore.get(localStore.KEY_WALLET_CHAIN);

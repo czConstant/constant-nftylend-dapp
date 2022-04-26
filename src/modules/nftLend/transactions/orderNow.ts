@@ -67,8 +67,8 @@ const nearTx = async (params: OrderNowTxParams): Promise<TransactionResult> => {
     params.currency_contract_address,
     params.currency_decimals,
     params.principal,
-    params.duration,
     params.rate,
+    params.duration,
   );
   return res;
 }
