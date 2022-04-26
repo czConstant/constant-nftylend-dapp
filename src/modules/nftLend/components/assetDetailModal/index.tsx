@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import last from 'lodash/last';
 import cx from 'classnames';
 import { Button, Dropdown } from 'react-bootstrap';
 
@@ -10,7 +9,7 @@ import { getLoanById, verifyAsset } from '../../api';
 import Loading from 'src/common/components/loading';
 import { isMobile } from 'react-device-detect';
 import { AssetNft } from '../../models/nft';
-import { isEvmChain } from '../../utils';
+import { generateSeoUrl } from '../../utils';
 import { useCurrentWallet } from '../../hooks/useCurrentWallet';
 import { LoanNft } from '../../models/loan';
 
@@ -51,11 +50,9 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   const checkLoanInfo = async () => {
     try {
       setVerifying(true);
-      const id = isEvmChain(currentWallet.chain)
-        ? `${asset.contract_address}-${asset.token_id}`
-        : asset.contract_address ;
-      const response = await getLoanById(id);
-      setHaveLoan(response.result && response.result.new_loan);
+      const res = await getLoanById(generateSeoUrl(asset));
+      const loan = LoanNft.parseFromApiDetail(res.result);
+      setHaveLoan(loan.isListing());
     } catch (error) {
     } finally {
       setVerifying(false);
@@ -80,7 +77,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
 
   const onGoTtoLoan = () => {
     onClose();
-    navigate(`${APP_URL.NFT_LENDING_DETAIL_LOAN.replace(':id', `${asset.contract_address}-${asset.token_id}`)}`)
+    navigate(`${APP_URL.NFT_LENDING_DETAIL_LOAN.replace(':id', `${generateSeoUrl(asset)}`)}`)
   };
 
   const onClickVerify = () => {

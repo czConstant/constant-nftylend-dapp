@@ -1,5 +1,6 @@
 import { Chain } from 'src/common/constants/network';
 import CancelOfferEvmTransaction from 'src/modules/evm/transactions/cancelOffer';
+import CancelOfferNearTransaction from 'src/modules/near/transactions/cancelOffer';
 import CancelOfferTransaction from 'src/modules/solana/transactions/cancelOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { CancelOfferParams, TransactionOptions, TransactionResult } from '../models/transaction';
@@ -40,9 +41,21 @@ const evmTx = async (params: CancelOfferTxParams): Promise<TransactionResult> =>
   return res;
 }
 
+const nearTx = async (params: CancelOfferTxParams): Promise<TransactionResult> => {
+  const transaction = new CancelOfferNearTransaction();
+  const res = await transaction.run(
+    params.asset_token_id,
+    params.asset_contract_address,
+    params.offer_id,
+  );
+  return res;
+}
+
 const cancelOfferTx = async (params: CancelOfferTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
+  } else if (params.chain === Chain.Near) {
+    return nearTx(params)
   } else if (isEvmChain(params.chain)) {
     return evmTx(params);
   }

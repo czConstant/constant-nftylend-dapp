@@ -43,6 +43,7 @@ const tokenIcons = {
   enj: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2130.png',
   icx: 'https://s2.coinmarketcap.com/static/img/coins/64x64/2099.png',
   usdt: 'https://s2.coinmarketcap.com/static/img/coins/64x64/825.png',
+  usn: 'https://s2.coinmarketcap.com/static/img/coins/64x64/19682.png',
   vet: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3077.png',
   adx: 'https://s2.coinmarketcap.com/static/img/coins/64x64/1768.png',
   beam: 'https://s2.coinmarketcap.com/static/img/coins/64x64/3702.png',

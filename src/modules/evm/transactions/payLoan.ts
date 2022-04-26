@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
-import web3 from 'web3';
 
 import IERC20 from '../abi/IERC20.json';
 import NftyPawn from '../abi/NFTPawn.json';
@@ -15,6 +14,7 @@ export default class PayLoanEvmTransaction extends EvmTransaction {
     borrower: string,
     payAmount: number,
     currencyContractAddress: string,
+    currencyDecimals: number,
   ): Promise<TransactionResult> {
     try {
       const signer = this.provider.getSigner(0);
@@ -22,7 +22,9 @@ export default class PayLoanEvmTransaction extends EvmTransaction {
       const erc20contract = new ethers.Contract(currencyContractAddress, IERC20.abi, signer)
       const allowance = await erc20contract.allowance(borrower, this.lendingProgram);
       
-      if (new BigNumber(allowance._hex).lt(payAmount)) {
+      const amount = new BigNumber(payAmount).multipliedBy(10 ** currencyDecimals);
+
+      if (new BigNumber(allowance._hex).lt(amount)) {
         const tx = await erc20contract.approve(this.lendingProgram, getMaxAllowance());
         await tx.wait();
       }

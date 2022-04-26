@@ -86,7 +86,7 @@ const MyAsset = () => {
                     target="_blank"
                     href={getLinkExplorerWallet(currentWallet.address, currentWallet.chain)}
                   >
-                    {shortCryptoAddress(currentWallet.address, 10)}
+                    {shortCryptoAddress(currentWallet.address, 24)}
                   </a>
                   <CopyToClipboard
                     onCopy={() => toastSuccess("Copied address!")}

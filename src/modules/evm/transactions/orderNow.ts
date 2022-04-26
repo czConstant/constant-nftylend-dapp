@@ -76,7 +76,6 @@ export default class OrderNowEvmTransaction extends EvmTransaction {
         blockNumber: receipt.blockNumber
       } as TransactionResult);
     } catch (err) {
-      console.log("🚀 ~ file: orderNow.ts ~ line 79 ~ OrderNowEvmTransaction ~ err", err)
       return this.handleError(err);
     }
   }

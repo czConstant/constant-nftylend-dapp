@@ -18,6 +18,13 @@ import { useToken } from '../../hooks/useToken';
 import { useCurrentWallet } from '../../hooks/useCurrentWallet';
 import { isMobile } from 'react-device-detect';
 import LoadingList from '../loadingList';
+import OrderNowNearTransaction from 'src/modules/near/transactions/orderNow';
+import PayLoanNearTransaction from 'src/modules/near/transactions/payLoan';
+import MakeOfferNearTransaction from 'src/modules/near/transactions/makeOffer';
+import AcceptOfferNearTransaction from 'src/modules/near/transactions/acceptOffer';
+import LiquidateLoanNearTransaction from 'src/modules/near/transactions/liquidateLoan';
+import CancelLoanNearTransaction from 'src/modules/near/transactions/cancelLoan';
+import CancelOfferNearTransaction from 'src/modules/near/transactions/cancelOffer';
 
 const PAGE_SIZE = 12;
 
@@ -58,6 +65,65 @@ const ListAsset = () => {
       theme: 'dark',
       title: 'Create Loan'
     }));
+
+    // const transaction = new OrderNowNearTransaction();
+    // const res = await transaction.run(
+    //   '2',
+    //   'duynguyen-nft.testnet',
+    //   'duynguyen-usdt.testnet',
+    //   8,
+    //   1,
+    //   0.01,
+    //   86400,
+    // );
+
+    // const transaction = new LiquidateLoanNearTransaction();
+    // const res = await transaction.run(
+    //   'duynguyen-nft.testnet',
+    //   '2',
+    // );
+
+    // const transaction = new PayLoanNearTransaction();
+    // const res = await transaction.run(
+    //   '2',
+    //   'duynguyen-nft.testnet',
+    //   'duynguyen-usdt.testnet',
+    //   8,
+    //   11,
+    //   0.01,
+    //   86400,
+    // );
+
+    // const transaction = new MakeOfferNearTransaction();
+    // const res = await transaction.run(
+    //   '2',
+    //   'duynguyen-nft.testnet',
+    //   'duynguyen-usdt.testnet',
+    //   8,
+    //   1,
+    //   0.01,
+    //   86400,
+    // );
+
+    // const transaction = new AcceptOfferNearTransaction();
+    // const res = await transaction.run(
+    //   '2',
+    //   'duynguyen-nft.testnet',
+    //   1,
+    // );
+
+    // const transaction = new CancelLoanNearTransaction();
+    // const res = await transaction.run(
+    //   '0',
+    //   'locmc.testnet',
+    // );
+
+    // const transaction = new CancelOfferNearTransaction();
+    // const res = await transaction.run(
+    //   '0',
+    //   'locmc.testnet',
+    //   1,
+    // );
   };
 
   const onClickShowDetail = (asset: AssetNft) => {
@@ -85,7 +151,6 @@ const ListAsset = () => {
         onClickItem: onClickShowDetail,
         onMakeLoan: () => onMakeLoan(e),
       })));
-
     } catch (e) {
       console.log('🚀 ~ file: index.js ~ line 32 ~ fetchNFTs ~ e', e);
     } finally {

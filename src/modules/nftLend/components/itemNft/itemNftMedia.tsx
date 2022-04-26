@@ -3,9 +3,9 @@ import last from 'lodash/last';
 import cx from 'classnames';
 
 import Loading from 'src/common/components/loading';
+import { getImageThumb } from "src/modules/nftLend/utils";
 
 import styles from './styles.module.scss';
-import { getImageThumb } from '../../api';
 
 export const mediaTypes = {
   video: ['mov', 'mp4', 'video'],
@@ -54,7 +54,6 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
   const renderMedia = (mediaType?: string) => {
     // if (!mediaType) return null;
     let media = null;
-    console.log("🚀 ~ file: itemNftMedia.tsx ~ line 54 ~ renderMedia ~ mediaType", detail?.name, mediaType)
     if (mediaTypes.video.includes(mediaType || '')) {
       media = (
         <video

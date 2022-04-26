@@ -1,5 +1,6 @@
 import { Chain } from 'src/common/constants/network';
 import MakeOfferEvmTransaction from 'src/modules/evm/transactions/makeOffer';
+import MakeOfferNearTransaction from 'src/modules/near/transactions/makeOffer';
 import MakeOfferTransaction from 'src/modules/solana/transactions/makeOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { MakeOfferParams, TransactionOptions, TransactionResult } from '../models/transaction';
@@ -55,9 +56,25 @@ const evmTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
   return res;
 }
 
+const nearTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
+  const transaction = new MakeOfferNearTransaction();
+  const res = await transaction.run(
+    params.asset_token_id,
+    params.asset_contract_address,
+    params.currency_contract_address,
+    params.currency_decimal,
+    params.principal,
+    params.rate,
+    params.duration * 86400,
+  );
+  return res;
+}
+
 const makeOfferTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
+  } else if (params.chain === Chain.Near) {
+    return nearTx(params)
   } else if (isEvmChain(params.chain)) {
     return evmTx(params);
   }

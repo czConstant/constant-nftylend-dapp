@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 import { Chain } from 'src/common/constants/network';
 import { getLinkEvmExplorer } from 'src/modules/evm/utils';
+import { getLinkNearExplorer } from 'src/modules/near/utils';
 import { getLinkSolScanExplorer } from 'src/modules/solana/utils';
 import { isEvmChain, parseNftFromLoanAsset } from '../utils';
 import { Currency, LoanData, LoanDataAsset } from './api';
@@ -91,23 +92,31 @@ export class LoanNft {
       loan.data_asset_address = data.new_loan.data_asset_address;
       loan.offers = data.new_loan.offers.map(e => OfferToLoan.parseFromApi(e, chain));
       
-      loan.approved_offer = OfferToLoan.parseFromApi(data.new_loan.approved_offer, chain);
-      loan.approved_offer.started_at = data.new_loan.offer_started_at;
-      loan.approved_offer.expired_at = data.new_loan.offer_expired_at;
+      if (data.new_loan.approved_offer) {
+        loan.approved_offer = OfferToLoan.parseFromApi(data.new_loan.approved_offer, chain);
+        loan.approved_offer.started_at = data.new_loan.offer_started_at;
+        loan.approved_offer.expired_at = data.new_loan.offer_expired_at;
+      }
     }
     return loan;
   }
 
   getLinkExplorerAddr(address?: string): string {
     if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.init_tx_hash);
+    if (this.chain === Chain.Near) return getLinkNearExplorer(address || this.init_tx_hash);
     if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || '', this.chain, 'address');
     throw new Error(`Chain ${this.chain} is not supported`);
   }
 
   getLinkExplorerTx(address?: string): string {
-    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.init_tx_hash);
+    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.init_tx_hash, );
+    if (this.chain === Chain.Near) return getLinkNearExplorer(address || this.init_tx_hash, 'tx');
     if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || this.init_tx_hash, this.chain, 'tx');
     throw new Error(`Chain ${this.chain} is not supported`);
+  }
+
+  isListing(): boolean {
+    return this.status === 'new';
   }
 
   isOngoing(): boolean {

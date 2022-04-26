@@ -48,7 +48,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
         rate: values.rate / 100,
         duration: values.duration?.id || values.duration,
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Make offer successfully.{" "}
           {res.txExplorerUrl && (

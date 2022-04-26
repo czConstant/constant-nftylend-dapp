@@ -1,5 +1,6 @@
 import { Chain } from 'src/common/constants/network';
 import OrderNowEvmTransaction from 'src/modules/evm/transactions/orderNow';
+import OrderNowNearTransaction from 'src/modules/near/transactions/orderNow';
 import OrderNowTransaction from 'src/modules/solana/transactions/orderNow';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { OrderNowParams, TransactionOptions, TransactionResult } from '../models/transaction';
@@ -58,9 +59,25 @@ const evmTx = async (params: OrderNowTxParams): Promise<TransactionResult> => {
   return res;
 }
 
+const nearTx = async (params: OrderNowTxParams): Promise<TransactionResult> => {
+  const transaction = new OrderNowNearTransaction();
+  const res = await transaction.run(
+    params.asset_token_id,
+    params.asset_contract_address,
+    params.currency_contract_address,
+    params.currency_decimals,
+    params.principal,
+    params.duration,
+    params.rate,
+  );
+  return res;
+}
+
 const orderNowTx = async (params: OrderNowTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params);
+  } else if (params.chain === Chain.Near) {
+    return nearTx(params);
   } else if (isEvmChain(params.chain)) {
     return evmTx(params);
   }

@@ -1,30 +1,9 @@
-import { Chain } from 'src/common/constants/network';
 import { API_URL } from "src/common/constants/url";
 import api from "src/common/services/apiClient";
 import { CollectionData, ListResponse, ResponseResult, SubmitCollection } from "./models/api";
 
 export const fetchCollections = async (): Promise<CollectionData> => {
   return api.get(API_URL.NFT_LEND.COLLECTIONS);
-};
-
-interface ImageThumb {
-  width: number;
-  height: number;
-  url: string;
-  showOriginal?: boolean;
-}
-export const getImageThumb = (params: ImageThumb, chain?: Chain) => {
-  const { width, height, url, showOriginal } = params;
-  if (chain === Chain.Solana) {
-    if (showOriginal)
-      return `https://solana-cdn.com/cdn-cgi/image/quality=100/${encodeURIComponent(
-        url
-      )}`;
-    return `https://solana-cdn.com/cdn-cgi/image/width=${width},height=${height},quality=100,fit=crop/${encodeURIComponent(
-      url
-    )}`;
-  }
-  return String(url).replace('ipfs://', 'https://ipfs.io/ipfs/');
 };
 
 interface ListParams {

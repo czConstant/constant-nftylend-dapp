@@ -29,6 +29,10 @@ const chains = {
     title: 'All',
     key: Chain.None,
   },
+  near: {
+    title: 'Near',
+    key: Chain.Near
+  },
   sol: {
     title: 'Solana',
     key: Chain.Solana

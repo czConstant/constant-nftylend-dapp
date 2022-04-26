@@ -1,5 +1,6 @@
 import { Chain } from 'src/common/constants/network';
 import { getLinkEvmExplorer } from 'src/modules/evm/utils';
+import { getLinkNearExplorer } from 'src/modules/near/utils';
 import { getLinkSolScanExplorer } from 'src/modules/solana/utils';
 import { isEvmChain } from '../utils';
 import { TransactionData } from './api';
@@ -51,13 +52,15 @@ export class AssetActivity {
   }
 
   getLinkExplorerAddr(address?: string): string {
-    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.tx_hash);
+    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.tx_hash, 'tx');
+    if (this.chain === Chain.Near) return getLinkNearExplorer(address || this.tx_hash, 'tx');
     if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || '', this.chain, 'address');
     throw new Error(`Chain ${this.chain} is not supported`);
   }
 
   getLinkExplorerTx(address?: string): string {
-    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.tx_hash);
+    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.tx_hash, 'tx');
+    if (this.chain === Chain.Near) return getLinkNearExplorer(address || this.tx_hash, 'tx');
     if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || this.tx_hash, this.chain, 'tx');
     throw new Error(`Chain ${this.chain} is not supported`);
   }

@@ -102,13 +102,17 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
     dispatch(showLoadingOverlay());
     try {
       if (!loan.currency) throw new Error('Loan has no currency');
+      if (!loan.asset) throw new Error('Loan has no asset');
       const res = await cancelOffer({
         currency_contract_address: loan.currency.contract_address,
         currency_data_address: offer.data_currency_address,
         offer_data_address: offer.data_offer_address,
+        offer_id: offer.id,
+        asset_token_id: loan.asset.token_id,
+        asset_contract_address: loan.asset.contract_address,
         nonce: offer.nonce,
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Cancel offer successfully.{" "}
             {res.txExplorerUrl && (
@@ -138,6 +142,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         currency_contract_address: loan.currency.contract_address,
         loan_data_address: loan.data_loan_address,
         offer_data_address: offer.data_offer_address,
+        offer_id: offer.id,
         currency_data_address: offer.data_currency_address,
         currency_decimals: loan.currency.decimals,
         principal: offer.principal_amount,
@@ -150,7 +155,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         lender_nonce: offer.nonce,
         lender_signature: offer.signature
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Accept offer successfully.{" "}
           {res.txExplorerUrl && (

@@ -48,6 +48,6 @@ export default class SolTransaction {
       count += 1;
     }
     const txExplorerUrl = getLinkSolScanExplorer(res.txHash, 'tx');
-    return {...res, txExplorerUrl };
+    return {...res, txExplorerUrl, completed: true };
   };
 }

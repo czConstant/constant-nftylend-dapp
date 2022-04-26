@@ -1,5 +1,6 @@
 import { Chain } from 'src/common/constants/network';
 import AcceptOfferEvmTransaction from 'src/modules/evm/transactions/acceptOffer';
+import AcceptOfferNearTransaction from 'src/modules/near/transactions/acceptOffer';
 import AcceptOfferTransaction from 'src/modules/solana/transactions/acceptOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { AcceptOfferParams, TransactionResult, TransactionOptions } from '../models/transaction';
@@ -59,9 +60,21 @@ const evmTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> =>
   return res;
 }
 
+const nearTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {
+  const transaction = new AcceptOfferNearTransaction();
+  const res = await transaction.run(
+    params.asset_token_id,
+    params.asset_contract_address,
+    params.offer_id,
+  );
+  return res;
+}
+
 const acceptOfferTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {
   if (params.chain === Chain.Solana) {
     return solTx(params)
+  } else if (params.chain === Chain.Near) {
+    return nearTx(params)
   } else if (isEvmChain(params.chain)) {
     return evmTx(params);
   }
