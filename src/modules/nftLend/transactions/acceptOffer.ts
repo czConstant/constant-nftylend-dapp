@@ -65,7 +65,7 @@ const nearTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> =
   const res = await transaction.run(
     params.asset_token_id,
     params.asset_contract_address,
-    params.offer_id,
+    Number(params.lender_nonce),
   );
   return res;
 }

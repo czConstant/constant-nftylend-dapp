@@ -95,7 +95,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
     }
   };
 
-  const onCancelLoan = async (e) => {
+  const onCancelLoan = async () => {
     try {
       if (!loan.asset) throw new Error('Loan has no asset');
       setSubmitting(true);
