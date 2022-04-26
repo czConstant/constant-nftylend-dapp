@@ -65,6 +65,7 @@ const evmTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
 const nearTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
   const transaction = new PayLoanNearTransaction();
   const res = await transaction.run(
+    params.pay_amount,
     params.asset_token_id,
     params.asset_contract_address,
     params.currency_contract_address,

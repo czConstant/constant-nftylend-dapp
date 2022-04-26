@@ -69,10 +69,11 @@ const Item = (props: ItemProps) => {
       if (!loan.asset) throw new Error('Loan has no asset');
       const payAmount = loan?.status === "created"
         ? calculateTotalPay(
-            Number(loan.approved_offer?.principal_amount),
-            loan.approved_offer?.interest_rate,
-            loan.approved_offer?.duration,
-            moment(loan.approved_offer?.started_at).unix()
+          Number(loan.approved_offer?.principal_amount),
+          loan.currency.decimals,
+          loan.approved_offer?.interest_rate,
+          loan.approved_offer?.duration,
+          moment(loan.approved_offer?.started_at).unix()
           )
         : 0;
       const res = await payLoan({
@@ -91,7 +92,7 @@ const Item = (props: ItemProps) => {
         rate: loan.approved_offer.interest_rate,
         duration: loan.approved_offer.duration,
       });
-      toastSuccess(
+      if (res.completed) toastSuccess(
         <>
           Pay loan successfully.{" "}
           {res.txExplorerUrl && (

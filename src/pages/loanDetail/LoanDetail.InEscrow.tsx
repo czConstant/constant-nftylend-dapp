@@ -22,6 +22,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
   const loanDuration = LOAN_DURATION.find(e => e.id === loan.approved_offer?.duration / 86400);
   const payAmount = calculateTotalPay(
     Number(loan.approved_offer?.principal_amount),
+    Number(loan.currency?.decimals),
     loan.approved_offer?.interest_rate,
     loan.approved_offer?.duration,
     moment(loan.approved_offer?.started_at).unix()

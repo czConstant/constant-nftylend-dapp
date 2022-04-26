@@ -97,7 +97,7 @@ export const calculateMaxTotalPay = (principal: number, interest: number, durati
     .toNumber();
 }
 
-export const calculateTotalPay = (principal: number, interest: number, duration: number /* seconds */, startedAt: number /* timestamp seconds */) => {
+export const calculateTotalPay = (principal: number, decimals: number, interest: number, duration: number /* seconds */, startedAt: number /* timestamp seconds */) => {
   const DAY_SECS = 86400;
   const payAt = moment().unix();
 
@@ -111,26 +111,30 @@ export const calculateTotalPay = (principal: number, interest: number, duration:
   }
 
   const primaryInterest = new BigNumber(principal)
+    .multipliedBy(10 ** decimals)
     .multipliedBy(interest)
-    .dividedToIntegerBy(10000)
     .multipliedBy(loanDay)
     .dividedToIntegerBy(365);
   let secondaryInterest = new BigNumber(0);
   if (maxLoanDay > loanDay) {
     // 50% interest remain day
     secondaryInterest = new BigNumber(principal)
+      .multipliedBy(10 ** decimals)
       .multipliedBy(interest)
-      .dividedToIntegerBy(10000)
       .multipliedBy(maxLoanDay - loanDay)
       .dividedToIntegerBy(365)
       .dividedToIntegerBy(2);
   }
   // 1% fee (base on principal amount)
-  const matchingFee = new BigNumber(principal).dividedToIntegerBy(100);
+  const matchingFee = new BigNumber(principal)
+    .multipliedBy(10 ** decimals)
+    .dividedToIntegerBy(100);
 
   return new BigNumber(principal)
+    .multipliedBy(10 ** decimals)
     .plus(primaryInterest)
     .plus(secondaryInterest)
     .plus(matchingFee)
+    .dividedBy(10 ** decimals)
     .toNumber();
 };

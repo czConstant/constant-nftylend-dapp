@@ -6,6 +6,7 @@ import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 
 export default class PayLoanNearTransaction extends NearTransaction {
   async run(
+    payAmount: number,
     assetTokenId: string,
     assetContractAddress: string,
     currencyContractAddress: string,
@@ -32,7 +33,7 @@ export default class PayLoanNearTransaction extends NearTransaction {
         'ft_transfer_call',
         Buffer.from(JSON.stringify({
           receiver_id: this.lendingProgram,
-          amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
+          amount: new BigNumber(payAmount).multipliedBy(10 ** currencyDecimals).toString(10),
           msg,
         })),
         gas,
