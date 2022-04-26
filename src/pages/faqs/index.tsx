@@ -300,10 +300,10 @@ const FAQs = () => {
                 <li>
                   Discord:{" "}
                   <a
-                    href="https://discord.com/invite/ncjPApdgBz"
+                    href="https://discord.gg/afKpDmv2"
                     target={"_blank"}
                   >
-                    https://discord.com/invite/ncjPApdgBz
+                    https://discord.gg/afKpDmv2
                   </a>
                 </li>
                 <li>
