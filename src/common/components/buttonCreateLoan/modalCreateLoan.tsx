@@ -76,9 +76,7 @@ const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
       return (
         <>
           <div>
-            Your wallet has no NFT to create a loan. Please consider our
-            <a>Whitelisted Collections</a> to buy or deposit NFTs into your
-            wallet.
+            Your wallet has no NFT to create a loan. Please consider our <a>Whitelisted Collections</a> to buy or deposit NFTs into your wallet.
           </div>
           <div className={styles.addressWrap}>
             <a

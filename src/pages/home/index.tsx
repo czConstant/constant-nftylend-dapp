@@ -306,7 +306,7 @@ const Home = () => {
               <h1>Join our communities</h1>
               <p>NFT Pawn redefines banking using decentralized thinking.</p>
               <div className={styles.groupButton}>
-                <a target="_blank" href="https://discord.gg/WJFDxUdW">
+                <a target="_blank" href="https://discord.gg/afKpDmv2">
                   <img src={icDiscord} /> Discord
                 </a>
                 <a target="_blank" href="https://twitter.com/NFTPawn_Lending">

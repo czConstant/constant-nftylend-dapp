@@ -46,7 +46,7 @@ export class LoanNft {
     loan.interest_rate = data.interest_rate;
     loan.duration = data.duration;
     loan.seo_url = data.asset.seo_url;
-    loan.owner = data.owner;
+    loan.owner = data.owner.toLowerCase();
     loan.nonce = data.nonce_hex;
     loan.signature = data.signature;
     loan.status = data.status;
@@ -81,7 +81,7 @@ export class LoanNft {
       loan.principal_amount = data.new_loan.principal_amount;
       loan.interest_rate = data.new_loan. interest_rate;
       loan.duration = data.new_loan.duration;
-      loan.owner = data.new_loan.owner;
+      loan.owner = data.new_loan.owner.toLowerCase();
       loan.nonce = data.new_loan.nonce_hex;
       loan.signature = data.new_loan.signature;
       loan.status = data.new_loan.status;
