@@ -31,18 +31,9 @@ function useToken() {
         return nft;
       });
     } else if (chain === Chain.Near) {
-      const res = await getNearNftsByOwner(currentWallet.address);
-      assets = res.map(e => {
-        const nft = NearNft.parse(e);
-        return nft;
-      });
+      assets = await getNearNftsByOwner(currentWallet.address);
     } else {
-      const res = await getEvmNftsByOwner(address, chain);
-      assets = res.result.map((e: any) => {
-        const nft = EvmNft.parse(e, chain);
-        nft.owner = address;
-        return nft;
-      });
+      assets = await getEvmNftsByOwner(address, chain);
     }
     return assets;
   }

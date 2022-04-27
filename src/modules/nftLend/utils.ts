@@ -35,16 +35,21 @@ export const getImageThumb = (params: ImageThumb, chain?: Chain) => {
       url
     )}`;
   }
-  return getUrlWithIpfsDefault(url);
+  return url;
 };
 
-export const getUrlWithIpfsDefault = (url: string): string => {
-  if (!url) return '';
-  if (url.includes('https://')) {
-    return String(url).replace ('ipfs://', 'https://ipfs.io/ipfs/');
+export const getUrlWithBaseDefault = (uri: string, base?: string): string => {
+  if (!uri) return '';
+  if (isUrl(uri)) {
+    return String(uri).replace ('ipfs://', 'https://ipfs.io/ipfs/');
   } else {
-    return `https://cloudflare-ipfs.com/ipfs/${url}`;
+    return `${base || 'https://cloudflare-ipfs.com/ipfs'}/${uri}`;
   }
+}
+
+const isUrl = (url: string): boolean => {
+  try { return Boolean(new URL(url)); }
+  catch(e){ return false; }
 }
 
 export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {

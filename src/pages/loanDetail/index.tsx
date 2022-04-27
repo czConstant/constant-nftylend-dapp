@@ -9,7 +9,7 @@ import { isMobile } from "react-device-detect";
 
 import styles from "./styles.module.scss";
 import Loading from "src/common/components/loading";
-import { getLoanById } from "src/modules/nftLend/api";
+import { getAssetBySeo } from "src/modules/nftLend/api";
 import { LoanDataAsset, ResponseResult } from "src/modules/nftLend/models/api";
 import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
 import LoanDetailHeader from "./LoanDetail.Header";
@@ -52,7 +52,7 @@ const LoanDetail = () => {
   const getLoan = async () => {
     setLoading(true);
     try {
-      const response: ResponseResult = await getLoanById(pathLoan);
+      const response: ResponseResult = await getAssetBySeo(pathLoan);
       const result: LoanDataAsset = response.result;
 
       if (result?.collection?.name) {

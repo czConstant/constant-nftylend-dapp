@@ -5,7 +5,7 @@ import { Button, Dropdown } from 'react-bootstrap';
 import styles from './styles.module.scss';
 import ItemNftMedia from '../itemNft/itemNftMedia';
 import { APP_URL } from 'src/common/constants/url';
-import { getLoanById, verifyAsset } from '../../api';
+import { getAssetInfo, verifyAsset } from '../../api';
 import Loading from 'src/common/components/loading';
 import { isMobile } from 'react-device-detect';
 import { AssetNft } from '../../models/nft';
@@ -50,7 +50,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   const checkLoanInfo = async () => {
     try {
       setVerifying(true);
-      const res = await getLoanById(generateSeoUrl(asset));
+      const res = await getAssetInfo(asset.contract_address, asset.token_id);
       const loan = LoanNft.parseFromApiDetail(res.result);
       setHaveLoan(loan.isListing());
     } catch (error) {
