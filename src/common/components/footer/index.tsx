@@ -7,6 +7,7 @@ import { APP_URL } from "../../constants/url";
 import AppIcon from "../appIcon";
 
 import styles from "./styles.module.scss";
+import MyPopover from '../myPopover';
 
 const Footer = () => (
   <div className={cx(isMobile && styles.mobileFooter, styles.wrapper)}>
@@ -37,7 +38,10 @@ const Footer = () => (
       </div>
     </div>
     <div className={styles.copyright}>
-      Copyright © 2022 NFT Pawn. All rights reserved
+      <p>
+        This project is in public beta <MyPopover desc="This project is in public beta. - NFTPawn's smart contract is not yet audited by well-known security organization or firm. Use at your own risk!" />
+      </p>
+      <p>Copyright © 2022 NFT Pawn. All rights reserved</p>
     </div>
   </div>
 );

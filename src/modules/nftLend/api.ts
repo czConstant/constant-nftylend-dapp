@@ -48,8 +48,15 @@ export const getLoansByAssetId = (
   return api.get(`${API_URL.NFT_LEND.GET_LOANS}`, { params });
 };
 
-export const getLoanById = (id: number | string): Promise<any> => {
-  return api.get(`${API_URL.NFT_LEND.LOANS_BY_ID}/${id}`);
+export const getAssetBySeo = (seo: number | string): Promise<any> => {
+  return api.get(`${API_URL.NFT_LEND.ASSET_BY_SEO}/${seo}`);
+};
+
+export const getAssetInfo = (contractAddress: string, tokenId?: string): Promise<any> => {
+  return api.get(
+    API_URL.NFT_LEND.ASSET_INFO,
+    { params: { contract_address: contractAddress, token_id: tokenId } },
+  );
 };
 
 interface LoanByOwnerParams {
