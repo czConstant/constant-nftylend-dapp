@@ -9,6 +9,7 @@ import { CollectionNft } from "src/modules/nftLend/models/collection";
 import Loading from "src/common/components/loading";
 import { OnBoardingHeader } from "../discover";
 import { isMobile } from "react-device-detect";
+import Avatar from 'src/common/components/avatar';
 
 interface LoansHeaderProps {
   dataLoan: Array<LoanNft>;
@@ -49,7 +50,12 @@ const LoansHeader: React.FC<LoansHeaderProps> = ({
     } else if (collection) {
       return (
         <>
-          <RandomAvatar loans={dataLoan} size={isMobile && 150} />
+          <Avatar
+            img={collection.random_asset?.detail?.image}
+            name={collection.random_asset?.name}
+            size={isMobile ? 150 : 300}
+          />
+          {/* <RandomAvatar loans={dataLoan} size={isMobile ? 150 : 300} /> */}
           <h4>{collection?.name}</h4>
           <div className={styles.infoWrap}>
             {attributes.map((att) => (

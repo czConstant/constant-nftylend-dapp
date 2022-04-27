@@ -14,6 +14,7 @@ import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { requestReload } from 'src/store/nftyLend';
 import styles from "./styles.module.scss";
+import { formatCurrency } from 'src/common/utils/format';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -102,7 +103,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       <div className={styles.info}>
         <div>
           <label>Repayment Amount</label>
-          <div className={styles.value}>{payAmount} {loan.currency?.symbol}</div>
+          <div className={styles.value}>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</div>
         </div>
         <div>
           <label>APR</label>
@@ -114,7 +115,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
         </div>
       </div>
       <div className={styles.desc}>
-        {loan.asset?.name} is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{payAmount} {loan.currency?.symbol}</strong> is made before {moment(loan.approved_offer.expired_at).toLocaleString()}
+        {loan.asset?.name} is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</strong> is made before {moment(loan.approved_offer.expired_at).toLocaleString()}
       </div>
       {currentWallet.address === loan.owner && (
         <div className={styles.groupOfferButtons}>

@@ -15,8 +15,9 @@ export class CollectionNft {
   total_volume: string = '';
   listing_asset?: AssetNft;
   chain: Chain = Chain.None;
+  random_asset?: AssetNft;
 
-  static parseFromApi(item: CollectionData, chain?: Chain): CollectionNft {
+  static parseFromApi(item: CollectionData): CollectionNft {
     let collection = new CollectionNft();
     collection.id = item.id;
     collection.name = item.name;
@@ -29,6 +30,9 @@ export class CollectionNft {
     collection.chain = Chain[chainValue];
     if (item.listing_asset) {
       collection.listing_asset = parseNftFromLoanAsset(item.listing_asset, collection.chain);
+    }
+    if (item.rand_asset) {
+      collection.random_asset = parseNftFromLoanAsset(item.rand_asset, collection.chain);
     }
     return collection;
   }
