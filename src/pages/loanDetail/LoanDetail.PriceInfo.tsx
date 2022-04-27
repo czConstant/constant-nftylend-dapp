@@ -7,7 +7,6 @@ import styles from "./styles.module.scss";
 import LoanDetailButtons from "./LoanDetail.Buttons";
 import { OfferData } from 'src/modules/nftLend/models/api';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { isSameAddress } from 'src/common/utils/helper';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { LOAN_DURATION } from 'src/modules/nftLend/constant';

@@ -71,6 +71,7 @@ export interface LoanData {
 export interface LoanDataAsset {
   id: number;
   name: string;
+  network: string;
   token_id: string;
   contract_address: string;
   collection?: CollectionData;

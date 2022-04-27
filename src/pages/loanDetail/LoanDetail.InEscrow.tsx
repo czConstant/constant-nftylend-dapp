@@ -48,7 +48,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       if (!loan.asset) throw new Error('Loan has no asset');
       const payAmount = loan?.status === "created"
         ? calculateTotalPay(
-            Number(loan.approved_offer?.principal_amount),
+          Number(loan.approved_offer?.principal_amount),
             Number(loan.currency.decimals),
             loan.approved_offer?.interest_rate,
             loan.approved_offer?.duration,

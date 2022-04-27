@@ -76,6 +76,7 @@ export async function isAssetOwner(owner: string, chain: Chain, contractAddress:
 export const calculateMaxInterest = (principal: number, interest: number, duration: number): number => {
   const DAY_SECS = 86400;
   const loanDay = duration / DAY_SECS;
+  
   const primaryInterest = new BigNumber(principal)
     .multipliedBy(interest)
     .multipliedBy(loanDay)
@@ -100,8 +101,11 @@ export const calculateMaxTotalPay = (principal: number, interest: number, durati
 export const calculateTotalPay = (principal: number, decimals: number, interest: number, duration: number /* seconds */, startedAt: number /* timestamp seconds */) => {
   const DAY_SECS = 86400;
   const payAt = moment().unix();
+  const _decimal = new BigNumber(10).pow(decimals)
 
-  const maxLoanDay = duration / DAY_SECS;
+  let maxLoanDay = Math.floor(duration / DAY_SECS);
+  if (maxLoanDay === 0) maxLoanDay = 1;
+
   let loanDay = maxLoanDay;
   if (payAt < startedAt + duration && payAt > startedAt) {
     loanDay = Math.floor((payAt - startedAt) / DAY_SECS) + 1;
@@ -111,7 +115,7 @@ export const calculateTotalPay = (principal: number, decimals: number, interest:
   }
 
   const primaryInterest = new BigNumber(principal)
-    .multipliedBy(10 ** decimals)
+    .multipliedBy(_decimal)
     .multipliedBy(interest)
     .multipliedBy(loanDay)
     .dividedToIntegerBy(365);
@@ -119,7 +123,7 @@ export const calculateTotalPay = (principal: number, decimals: number, interest:
   if (maxLoanDay > loanDay) {
     // 50% interest remain day
     secondaryInterest = new BigNumber(principal)
-      .multipliedBy(10 ** decimals)
+      .multipliedBy(_decimal)
       .multipliedBy(interest)
       .multipliedBy(maxLoanDay - loanDay)
       .dividedToIntegerBy(365)
@@ -127,14 +131,14 @@ export const calculateTotalPay = (principal: number, decimals: number, interest:
   }
   // 1% fee (base on principal amount)
   const matchingFee = new BigNumber(principal)
-    .multipliedBy(10 ** decimals)
+    .multipliedBy(_decimal)
     .dividedToIntegerBy(100);
 
   return new BigNumber(principal)
-    .multipliedBy(10 ** decimals)
+    .multipliedBy(_decimal)
     .plus(primaryInterest)
     .plus(secondaryInterest)
     .plus(matchingFee)
-    .dividedBy(10 ** decimals)
-    .toNumber();
+    .dividedBy(_decimal)
+    .toString(10);
 };
