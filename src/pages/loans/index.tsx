@@ -23,6 +23,7 @@ import { Chain } from 'src/common/constants/network';
 import styles from "./styles.module.scss";
 import LoansSidebar from "./Loans.Sidebar";
 import LoansToolbar from "./Loans.Toolbar";
+import { CollectionNft } from 'src/modules/nftLend/models/collection';
 
 const chains = {
   all: {
@@ -33,26 +34,26 @@ const chains = {
     title: 'Near',
     key: Chain.Near
   },
-  sol: {
-    title: 'Solana',
-    key: Chain.Solana
-  },
   matic: {
     title: 'Matic',
     key: Chain.Polygon,
   },
-  avax: {
-    title: 'Avalanche',
-    key: Chain.Avalanche,
-  },
-  bsc: {
-    title: 'BSC',
-    key: Chain.BSC,
-  },
-  boba: {
-    title: 'Boba',
-    key: Chain.Boba,
-  },
+  // sol: {
+  //   title: 'Solana',
+  //   key: Chain.Solana
+  // },
+  // avax: {
+  //   title: 'Avalanche',
+  //   key: Chain.Avalanche,
+  // },
+  // bsc: {
+  //   title: 'BSC',
+  //   key: Chain.BSC,
+  // },
+  // boba: {
+  //   title: 'Boba',
+  //   key: Chain.Boba,
+  // },
 }
 
 const Loans = () => {
@@ -63,7 +64,7 @@ const Loans = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingList, setLoadingList] = useState<boolean>(false);
   const [loans, setLoans] = useState<LoanNft[]>([]);
-  const [resCollection, setResCollection] = useState<CollectionData>();
+  const [resCollection, setResCollection] = useState<CollectionNft>();
   const [resCollections, setResCollections] = useState<CollectionData[]>([]);
 
   const defaultChain = Chain[paramCollection.network || ''] || Chain.None;
@@ -85,7 +86,7 @@ const Loans = () => {
           paramCollection.collection
         );
         params.collection_id = _resCollection.result?.id;
-        setResCollection(_resCollection?.result);
+        setResCollection(CollectionNft.parseFromApi(_resCollection?.result));
       } else {
         const _resCollections: ListResponse = await getCollections({
           offset: 0,
