@@ -179,6 +179,7 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
         <OfferTableHeader />
         {offers.map(offer => (
           <OfferRow
+            key={offer.id}
             loan={loan}
             offer={offer}
             walletAddress={currentWallet.address}

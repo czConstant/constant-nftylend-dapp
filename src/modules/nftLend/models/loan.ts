@@ -31,7 +31,7 @@ export class LoanNft {
   approved_offer?: OfferToLoan;
 
   constructor(chain: Chain) {
-    this.id = 0;
+    this.id = -1;
     this.chain = chain;
   }
 
@@ -69,7 +69,7 @@ export class LoanNft {
     if (!data) throw new Error('No loan detail data to parse');
     if (!data) throw new Error('No loan detail data to parse');
 
-    const network = data.new_loan?.network;
+    const network = data.network || data.new_loan?.network;
     const chain = network as Chain;
     let loan = new LoanNft(chain);
     loan.seo_url = data.seo_url;
@@ -115,6 +115,10 @@ export class LoanNft {
     throw new Error(`Chain ${this.chain} is not supported`);
   }
 
+  isEmpty(): boolean {
+    return this.id === -1;
+  }
+
   isListing(): boolean {
     return this.status === 'new';
   }
@@ -125,5 +129,9 @@ export class LoanNft {
 
   isLiquidated(): boolean {
     return this.status === 'created' && moment().isAfter(moment(this.approved_offer?.expired_at));
+  }
+
+  isDone(): boolean {
+    return this.status === 'done';
   }
 }

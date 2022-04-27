@@ -11,10 +11,12 @@ import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import LoanDetailPriceInfo from './LoanDetail.PriceInfo';
 import LoanDetailInEscrow from './LoanDetail.InEscrow';
+import { OfferData } from 'src/modules/nftLend/models/api';
 
 export interface LoanDetailProps {
   loan: LoanNft;
   asset: AssetNft;
+  userOffer?: OfferData;
 }
 
 interface LoanDetailHeaderProps extends LoanDetailProps {}
@@ -53,7 +55,7 @@ const LoanDetailHeader: React.FC<LoanDetailHeaderProps> = ({ loan, asset }) => {
             {asset.collection?.name}
           </Link>
         </div>
-        {loan.isOngoing() ? <LoanDetailInEscrow loan={loan} /> : <LoanDetailPriceInfo loan={loan} />}
+        {(loan.isEmpty() || loan.isDone()) ? null : loan.isOngoing() ? <LoanDetailInEscrow loan={loan} /> : <LoanDetailPriceInfo loan={loan} />}
         <SectionCollapse
           id="detail"
           label="Detail"

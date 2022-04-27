@@ -204,6 +204,8 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
       </div>
     );
 
+  if (!loan.isListing()) return null;
+
   return (
     <div className={styles.groupOfferButtonWrapper}>
       <div className={styles.groupOfferButtons}>
