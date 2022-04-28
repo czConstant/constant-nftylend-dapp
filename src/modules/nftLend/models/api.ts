@@ -39,11 +39,12 @@ export interface CollectionData {
   description: string;
   total_listed: number;
   listing_total: number;
-  avg24h_amount: string;
-  total_volume: string;
+  avg24h_amount: number;
+  total_volume: number;
   listing_asset?: LoanDataAsset;
   rand_asset?: LoanDataAsset;
   network: string;
+  verified: boolean;
 }
 
 export interface LoanData {

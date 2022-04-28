@@ -137,6 +137,13 @@
     letter-spacing: -0.55px;
     text-align: center;
     line-height: 30px;
+    display: flex;
+    align-items: center;
+    img {
+      width: 30px;
+      height: 30px;
+      margin-left: 10px;
+    }
   }
   .infoWrap {
     display: flex;

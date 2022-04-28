@@ -25,7 +25,7 @@ interface LoanDetailInEscrowProps extends LoanDetailProps {}
 const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
   const { currentWallet } = useCurrentWallet();
   const dispatch = useDispatch();
-  const { payLoan } = useTransaction();
+  const { payLoan, liquidateLoan } = useTransaction();
 
   if (!loan.approved_offer) return null;
   const loanDuration = LOAN_DURATION.find(e => e.id === loan.approved_offer?.duration / 86400);
@@ -89,6 +89,40 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       dispatch(hideLoadingOverlay());
     }
   };
+
+  const onLiquidate = async () => {
+    dispatch(showLoadingOverlay());
+    try {
+      if (!loan.currency) throw new Error('Loan has no currency');
+      if (!loan.asset) throw new Error('Loan has no asset');
+      if (!loan.approved_offer) throw new Error('Loan has no offer');
+
+      const res = await liquidateLoan({
+        asset_contract_address: loan.asset.contract_address,
+        asset_token_id: loan.asset.token_id,
+        loan_owner: loan.owner,
+        loan_data_address: loan.data_loan_address,
+        offer_data_address: loan.approved_offer.data_offer_address,
+        asset_data_address: loan.data_asset_address,
+        currency_data_address: loan.approved_offer.data_currency_address,
+      });
+      if (res.completed) toastSuccess(
+        <>
+          Liquidate asset successfully.{" "}
+          {res.txExplorerUrl && (
+            <a target="_blank" href={res.txExplorerUrl}>
+              View transaction
+            </a>
+          )}
+        </>
+      );
+      dispatch(requestReload());
+    } catch (err: any) {
+      toastError(err?.message || err);
+    } finally {
+      dispatch(hideLoadingOverlay());
+    }
+  };
   
   return (
     <div className={styles.inEscrow}>
@@ -117,7 +151,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       <div className={styles.desc}>
         {loan.asset?.name} is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</strong> is made before {moment(loan.approved_offer.expired_at).toLocaleString()}
       </div>
-      {currentWallet.address === loan.owner && (
+      {!loan.isLiquidated() && currentWallet.address === loan.owner && (
         <div className={styles.groupOfferButtons}>
           <Button
             className={cx(styles.btnConnect)}
@@ -125,6 +159,17 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
             onClick={onPayLoan}
           >
             Pay Loan
+          </Button>
+        </div>
+      )}
+      {loan.isLiquidated() && currentWallet.address === loan.approved_offer?.lender && (
+        <div className={styles.groupOfferButtons}>
+          <Button
+            className={cx(styles.btnConnect)}
+            variant="danger"
+            onClick={onLiquidate}
+          >
+            Claim NFT
           </Button>
         </div>
       )}

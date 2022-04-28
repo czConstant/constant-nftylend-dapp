@@ -1,15 +1,17 @@
 import React, { useMemo } from "react";
-import RandomAvatar from "./randomAvatar";
-import cx from "classnames";
+import { isMobile } from "react-device-detect";
+import cx from 'classnames';
 
-import homeStyles from "../home/styles.module.scss";
-import styles from "./styles.module.scss";
 import { LoanNft } from "src/modules/nftLend/models/loan";
 import { CollectionNft } from "src/modules/nftLend/models/collection";
 import Loading from "src/common/components/loading";
-import { OnBoardingHeader } from "../discover";
-import { isMobile } from "react-device-detect";
 import Avatar from 'src/common/components/avatar';
+import { formatCurrency } from 'src/common/utils/format';
+
+import homeStyles from "../home/styles.module.scss";
+import { OnBoardingHeader } from "../discover";
+import IcVerified from './icon-verified.svg';
+import styles from "./styles.module.scss";
 
 interface LoansHeaderProps {
   dataLoan: Array<LoanNft>;
@@ -33,7 +35,7 @@ const LoansHeader: React.FC<LoansHeaderProps> = ({
       },
       {
         id: "avg24h_amount",
-        label: "Avg Sale Price",
+        label: "Avg Loan Price",
         symbol: "$",
       },
       {
@@ -56,14 +58,14 @@ const LoansHeader: React.FC<LoansHeaderProps> = ({
             size={isMobile ? 150 : 300}
           />
           {/* <RandomAvatar loans={dataLoan} size={isMobile ? 150 : 300} /> */}
-          <h4>{collection?.name}</h4>
+          <h4>{collection?.name} {collection.verified && <img src={IcVerified} />}</h4>
           <div className={styles.infoWrap}>
             {attributes.map((att) => (
               <div key={att.id}>
                 <div>{att.label}</div>
                 <div>
                   {att.symbol}
-                  {collection?.[`${att.id}`]}
+                  {formatCurrency(Number(collection[att.id]))}
                 </div>
               </div>
             ))}
