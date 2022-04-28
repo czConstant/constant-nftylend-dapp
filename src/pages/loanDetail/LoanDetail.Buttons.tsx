@@ -170,7 +170,7 @@ const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
       <div className={styles.groupOfferButtons}>
         <div className={styles.differentChain}>
           Your connected wallet is different network from this loan's network ({loan.chain})  
-          <Button className={styles.btnSwitchChain} onClick={() => connectWallet(loan.chain)}>Switch to {loan.chain}</Button>
+          <Button className={styles.btnSwitchChain} onClick={() => connectWallet(loan.chain, currentWallet.name)}>Switch to {loan.chain}</Button>
         </div>
       </div>
     );
