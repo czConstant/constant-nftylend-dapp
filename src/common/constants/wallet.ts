@@ -13,8 +13,8 @@ export enum CryptoWallet {
 
 export type EvmProvider = ethers.providers.Web3Provider;
 
-export const getEvmProvider = (wallet?: CryptoWallet): EvmProvider => {
-  if (window.evmProvider) return window.evmProvider;
+export const getEvmProvider = (wallet?: CryptoWallet, renew?: boolean): EvmProvider => {
+  if (window.evmProvider && !renew) return window.evmProvider;
   if (!window.ethereum) {
     throw new Error('Metamask not installed');
   }

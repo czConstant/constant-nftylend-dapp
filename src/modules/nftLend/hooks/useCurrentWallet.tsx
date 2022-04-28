@@ -32,7 +32,6 @@ function useCurrentWallet() {
 
   const connectEvmWallet = async (chain: Chain, wallet?: CryptoWallet) => {
     const provider = getEvmProvider(wallet);
-    window.evmProvider = provider;
     if (wallet !== CryptoWallet.BinanceWallet) {
       try {
         await provider.send(
@@ -47,6 +46,8 @@ function useCurrentWallet() {
         console.log("🚀 ~ file: useCurrentWallet.tsx ~ line 32 ~ connectEvmWal ~ err", err)
       }
     }
+    window.evmProvider = getEvmProvider(wallet, true);
+
     await provider.send('eth_requestAccounts', []);
     const accounts = await provider.listAccounts();
     provider.provider.on('accountsChanged', (e: any) => {

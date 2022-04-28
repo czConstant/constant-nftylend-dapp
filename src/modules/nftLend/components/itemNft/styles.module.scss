@@ -46,6 +46,7 @@
       padding: 24px 20px;
       display: flex;
       flex-direction: column;
+      min-height: 200px;
       h5 {
         font-weight: 500;
         width: 100%;
@@ -60,9 +61,7 @@
       }
       .infoWrap {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        min-height: 30px;
         div {
           &:first-child {
             font-weight: 500;
@@ -73,6 +72,7 @@
             color: #777e90;
             letter-spacing: 0;
             line-height: 20px;
+            min-height: 44px;
           }
         }
       }
