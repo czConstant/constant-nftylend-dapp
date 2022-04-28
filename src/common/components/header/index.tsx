@@ -64,14 +64,15 @@ const Header = () => {
               </Link>
             )}
 
-            <Link
-              to={APP_URL.NFT_LENDING_BLOG}
+            <a
+              target="_blank"
+              href={APP_URL.NFT_LENDING_BLOG}
               className={cx(
                 location.pathname === APP_URL.NFT_LENDING_BLOG && styles.active
               )}
             >
               News
-            </Link>
+            </a>
             <ButtonCreateLoan />
           </div>
         </div>
