@@ -319,6 +319,9 @@
   .btnCancel {
     background: var(--bs-danger);
   }
+  .btnDisabled {
+    background: var(--bs-gray);
+  }
 }
 
 .actions {
