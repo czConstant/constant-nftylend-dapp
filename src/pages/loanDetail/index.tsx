@@ -19,6 +19,7 @@ import LoanDetailOffers from "./LoanDetail.Offers";
 import { useAppSelector } from "src/store/hooks";
 import { selectNftyLend } from "src/store/nftyLend";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
+import LoanDetailSaleHistory from './LoanDetail.SaleHistory';
 
 const LoanDetail = () => {
   const location = useLocation();
@@ -79,6 +80,7 @@ const LoanDetail = () => {
         <LoanDetailHeader asset={loan?.asset} loan={loan} />
         <LoanDetailOffers asset={loan?.asset} loan={loan} />
         <LoanDetailActivity asset={loan?.asset} loan={loan} />
+        <LoanDetailSaleHistory asset={loan?.asset} loan={loan} />
         <LoanDetailSuggest asset={loan?.asset} loan={loan} />
       </>
     );

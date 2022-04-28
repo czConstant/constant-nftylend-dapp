@@ -107,7 +107,7 @@ const ItemNFT = (props: ItemNftProps) => {
               <div>
                 <label>Interest</label>
                 <div>
-                  {new BigNumber(loan.interest_rate * 100).toPrecision(2)} %APY
+                  {formatCurrency(new BigNumber(loan.interest_rate).multipliedBy(100).toNumber(), 2)} %APY
                 </div>
               </div>
               <div />
