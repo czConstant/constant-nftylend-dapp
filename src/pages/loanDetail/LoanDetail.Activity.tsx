@@ -16,24 +16,24 @@ import {
 import { LOAN_TRANSACTION_ACTIVITY } from "src/modules/nftLend/constant";
 import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
-import { AssetActivity, ActivityType } from 'src/modules/nftLend/models/activity';
+import { AssetLoanHistory } from 'src/modules/nftLend/models/activity';
 
 const TableHeader = () => (
-  <div className={cx(styles.tbHeader, styles.activityWrapBody)}>
-    <div>txType</div>
-    <div>txHash</div>
-    <div>Time</div>
-    <div>Principal</div>
-    <div>Interest</div>
-    <div>Duration</div>
-    <div>Borrower</div>
-    <div>Lender</div>
+  <div className={cx(styles.tbHeader)}>
+    <div style={{ flex: 1 }}>Type</div>
+    <div style={{ flex: 1 }}>TX Hash</div>
+    <div style={{ flex: 1 }}>Time</div>
+    <div style={{ flex: 1 }}>Principal</div>
+    <div style={{ flex: 1 }}>Interest</div>
+    <div style={{ flex: 1 }}>Duration</div>
+    <div style={{ flex: 1 }}>Borrower</div>
+    <div style={{ flex: 1 }}>Lender</div>
   </div>
 );
 
 const TableBody = ({ results = [] }) => {
   return (<>
-    {results.map((result: AssetActivity) => {
+    {results.map((result: AssetLoanHistory) => {
       let statusColor = "#ffffff";
 
       if (["listed"].includes(result.status)) {
@@ -46,10 +46,10 @@ const TableBody = ({ results = [] }) => {
 
       return (
         <div
-          className={cx(styles.tbHeader, styles.tbBody, styles.activityWrapBody)}
+          className={cx(styles.tbHeader, styles.tbBody)}
           key={result?.id}
         >
-          <div className={styles.typeWrap}>
+          <div style={{ flex: 1 }} className={styles.typeWrap}>
             {FilterTypes.find((v) => v.id === result?.type)?.label}
             {result?.status && (
               <span style={{ color: statusColor }}>
@@ -58,52 +58,52 @@ const TableBody = ({ results = [] }) => {
               </span>
             )}
           </div>
-          <div>
+          <div style={{ flex: 1 }}>
             <a
               className={styles.scanLink}
               target="_blank"
               href={result.getLinkExplorerTx()}
             >
-              {shortCryptoAddress(result.tx_hash, 8)}
+              {shortCryptoAddress(result.tx_hash)}
             </a>
           </div>
-          <div>{moment(result.created_at).fromNow()}</div>
-          <div>
+          <div style={{ flex: 1 }}>{moment(result.created_at).fromNow()}</div>
+          <div style={{ flex: 1 }}>
             {result?.principal && `
-              ${formatCurrencyByLocale(result.principal, 2)}
+              ${formatCurrencyByLocale(result.principal)}
               ${' '}
               ${result.loan?.currency?.symbol}
             `}
           </div>
-          <div>
+          <div style={{ flex: 1 }}>
             {result.duration &&
               `${Math.ceil(
                 new BigNumber(result.duration).dividedBy(86400).toNumber()
               )} days`}
           </div>
-          <div>
+          <div style={{ flex: 1 }}>
             {result.interest &&
               `${new BigNumber(result.interest)
                 .multipliedBy(100)
                 .toNumber()} %APY`}
           </div>
-          <div>
+          <div style={{ flex: 1 }}>
             <a
               className={styles.scanLink}
               target="_blank"
               href={result.getLinkExplorerAddr(result.borrower)}
             >
-              {shortCryptoAddress(result.borrower, 8)}
+              {shortCryptoAddress(result.borrower)}
             </a>
           </div>
-          <div>
+          <div style={{ flex: 1 }}>
             {result.lender && (
               <a
                 className={styles.scanLink}
                 target="_blank"
                 href={result.getLinkExplorerAddr(result.lender)}
                 >
-                {shortCryptoAddress(result.lender, 8)}
+                {shortCryptoAddress(result.lender)}
               </a>
             )}
           </div>
@@ -125,52 +125,35 @@ const FilterTypes = [
 ];
 
 const LoanDetailActivity: React.FC<LoanDetailProps> = ({ loan, asset }) => {
-  const [sales, setSales] = useState<Array<AssetActivity>>([]);
-  const [activities, setActivities] = useState<Array<AssetActivity>>([]);
+  const [activities, setActivities] = useState<Array<AssetLoanHistory>>([]);
 
   useEffect(() => {
     if (loan?.id) {
       fetchLoanTransactions();
-      fetchSaleTransactions();
     }
   }, [loan?.id]);
 
   const fetchLoanTransactions = async () => {
     try {
       const res = await getLoanTransactions({ asset_id: String(asset.id) });
-      const _activities: AssetActivity[] = res.result?.map((e: any) => AssetActivity.parseFromApi(e, ActivityType.loan));
+      const _activities: AssetLoanHistory[] = res.result?.map((e: any) => AssetLoanHistory.parseFromApi(e));
       setActivities(_activities);
     } catch (err) {
 
     }
   };
 
-  const fetchSaleTransactions = async () => {
-    try {
-      const res = await getSaleTransactions({ asset_id: String(asset.id) });
-      const _sales: AssetActivity[] = res.result?.map((e: any) => AssetActivity.parseFromApi(e, ActivityType.sale));
-      setSales(_sales);
-    } catch (err) {
-
-    }
-  };
-
   const renderActivityContent = () => {
-    const _results: AssetActivity[] = sortBy(
-      activities?.concat(sales),
-      ["created_at"]
-    ).reverse();
-
     return (
       <>
         <TableHeader />
-        <TableBody results={_results} />
+        <TableBody results={activities} />
       </>
     );
   };
 
   return (
-    <SectionCollapse id="activites" label="Activities" content={renderActivityContent()} />
+    <SectionCollapse id="loansHistory" label="Loans History" content={renderActivityContent()} />
   );
 };
 

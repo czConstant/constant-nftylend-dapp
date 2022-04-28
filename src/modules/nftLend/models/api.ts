@@ -103,18 +103,3 @@ export interface OfferData {
   nonce_hex: string;
   signature: string;
 }
-
-export interface TransactionData {
-  id: number;
-  borrower: string;
-  created_at: string;
-  expired_at: string;
-  lender: string;
-  loan: LoanData;
-  network: string;
-  principal_amount: number;
-  interest_rate: number;
-  duration: number;
-  type: string;
-  tx_hash: string;
-}

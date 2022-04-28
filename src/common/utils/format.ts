@@ -10,6 +10,7 @@ export const shortCryptoAddress = (address: string = '', toLength?: number) => {
     const x = Math.floor(toLength / 2);
     return `${address?.substr(0, x)}...${address?.substr(address?.length - x)}`;
   }
+  if (address.length <= 16) return address;
   return `${address?.substr(0, 8)}...${address?.substr(address?.length - 8)}`;
 };
 
