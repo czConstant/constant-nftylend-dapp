@@ -1,6 +1,6 @@
 .sectionWrap {
-  margin-top: 1rem;
   overflow: hidden;
+  border-radius: 16px !important;
   .expandIcon {
     transform: rotate(0deg);
     transition: transform 0.2s ease-in-out;
@@ -59,7 +59,7 @@
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      border-radius: 16px !important;
+      border-radius: 0 !important;
       border: 1px solid #141416 !important;
       background-color: #141416 !important;
       color: var(--bs-white) !important;
@@ -74,9 +74,9 @@
   }
   .tabContentWrap {
     background-color: #19191c;
-    border-radius: 21px;
+    border-radius: 0 0 16px 16px;
     padding: 25px 20px;
-    margin-top: 5px;
+    margin-top: 2px;
     overflow-x: scroll;
     > div {
       font-size: 16px;

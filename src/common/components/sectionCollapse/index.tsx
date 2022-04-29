@@ -13,6 +13,7 @@ interface SectionCollapseProps {
   disabled?: boolean;
   onToggle?: (_: any) => void;
   bodyClassName?: string;
+  className?: string;
 }
 
 const SectionCollapse: React.FC<SectionCollapseProps> = ({
@@ -22,7 +23,8 @@ const SectionCollapse: React.FC<SectionCollapseProps> = ({
   content,
   disabled,
   id,
-  bodyClassName
+  bodyClassName,
+  className
 }) => {
   const [active, setActive] = useState(selected);
   const decoratedOnClick = useAccordionButton(id, () =>
@@ -32,7 +34,7 @@ const SectionCollapse: React.FC<SectionCollapseProps> = ({
     <Accordion
       alwaysOpen={selected}
       defaultActiveKey={selected && [id]}
-      className={cx(isMobile && styles.mbSectionWrap, styles.sectionWrap)}
+      className={cx(isMobile && styles.mbSectionWrap, styles.sectionWrap, className)}
       onClick={decoratedOnClick}
     >
       <Accordion.Item eventKey={id}>

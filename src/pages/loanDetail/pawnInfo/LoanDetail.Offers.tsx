@@ -1,16 +1,9 @@
 import React from "react";
-import SectionCollapse from "src/common/components/sectionCollapse";
-import { LoanDetailProps } from "./LoanDetail.Header";
-import styles from "./styles.module.scss";
 import cx from "classnames";
 import BigNumber from 'bignumber.js';
-import moment from "moment-timezone";
 import { Button } from "react-bootstrap";
 
-import {
-  formatCurrencyByLocale,
-  shortCryptoAddress,
-} from "src/common/utils/format";
+import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { requestReload } from "src/store/nftyLend";
@@ -22,14 +15,17 @@ import { isSameAddress } from 'src/common/utils/helper';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { LOAN_DURATION } from 'src/modules/nftLend/constant';
 
+
+import styles from "../styles.module.scss";
+import pawnStyles from './pawnInfo.module.scss';
+
 export const OfferTableHeader = () => (
-  <div className={styles.tbHeader}>
-    <div>Lender</div>
-    <div>Principal</div>
-    <div>Duration</div>
-    <div>Interest rate</div>
-    <div>Time</div>
-    <div />
+  <div className={cx(styles.tbHeader, pawnStyles.offerTable)}>
+    <div style={{ flex: 1 }}>Principal</div>
+    <div style={{ flex: 1 }}>Duration</div>
+    <div style={{ flex: 1 }}>Interest</div>
+    <div style={{ flex: 2 }}>From</div>
+    <div style={{ flex: 1 }} />
   </div>
 );
 
@@ -48,16 +44,7 @@ const OfferRow = (props: OfferRowProps) => {
   const isMyLoan = isSameAddress(loan.owner, walletAddress);
   const offerDuration = LOAN_DURATION.find(e => e.id === offer.duration / 86400);
   return (
-    <div className={cx(styles.tbHeader, styles.tbBody)} key={offer?.id}>
-      <div>
-        <a
-          className={styles.scanLink}
-          target="_blank"
-          href={offer.getLinkExplorerAddr(offer.lender)}
-        >
-          {shortCryptoAddress(offer?.lender, 8)}
-        </a>
-      </div>
+    <div className={cx(styles.tbHeader, styles.tbBody, pawnStyles.offerTable)} key={offer?.id}>
       <div>
         {`${formatCurrencyByLocale(offer.principal_amount, 2)} ${loan.currency?.symbol}`}
       </div>
@@ -65,8 +52,15 @@ const OfferRow = (props: OfferRowProps) => {
         {offerDuration ? offerDuration.label : `${Math.ceil(new BigNumber(offer.duration).dividedBy(86400).toNumber())} days`}
       </div>
       <div>{offer.interest_rate * 100}%</div>
-      {/* <div>{offer.principal_amount} {detail?.new_loan?.currency?.symbol}</div> */}
-      <div>{moment(offer?.created_at).fromNow()}</div>
+      <div>
+        <a
+          className={styles.scanLink}
+          target="_blank"
+          href={offer.getLinkExplorerAddr(offer.lender)}
+        >
+          {shortCryptoAddress(offer?.lender, 30)}
+        </a>
+      </div>
       <div className={styles.actions}>
         {isMyOffer && offer?.status === "new" && (
           <Button
@@ -86,12 +80,17 @@ const OfferRow = (props: OfferRowProps) => {
             Accept
           </Button>
         )}
+        {offer?.status === 'cancelled' && <span>Cancelled</span>}
       </div>
     </div>
   );
 }
+
+interface LoanDetailOffersProps {
+  loan: LoanNft;
+}
   
-const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
+const LoanDetailOffers: React.FC<LoanDetailOffersProps> = ({ loan }) => {
   const dispatch = useAppDispatch();
   const { currentWallet } = useCurrentWallet();
   const { cancelOffer, acceptOffer } = useTransaction();
@@ -173,32 +172,20 @@ const LoanDetailOffers: React.FC<LoanDetailProps> = ({ loan }) => {
     }
   };
 
-  const renderOfferContent = () => {
-    return (
-      <>
-        <OfferTableHeader />
-        {offers.map(offer => (
-          <OfferRow
-            key={offer.id}
-            loan={loan}
-            offer={offer}
-            walletAddress={currentWallet.address}
-            onCancel={onCancel}
-            onAccept={onAccept}
-          />
-        ))}
-      </>
-    );
-  };
-
   return (
-    <SectionCollapse
-      id="Offers"
-      label={offers.length === 0 ? "Not yet offer" : "Offers"}
-      content={renderOfferContent()}
-      selected={offers.length > 0}
-      disabled={offers.length === 0}
-    />
+    <>
+      <OfferTableHeader />
+      {offers.map(offer => (
+        <OfferRow
+          key={offer.id}
+          loan={loan}
+          offer={offer}
+          walletAddress={currentWallet.address}
+          onCancel={onCancel}
+          onAccept={onAccept}
+        />
+      ))}
+    </>
   );
 };
 

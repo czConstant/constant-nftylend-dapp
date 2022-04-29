@@ -119,3 +119,7 @@ export const getSaleTransactions = (
 export const submitWhitelistCollection = (body: SubmitCollection): Promise<ResponseResult> => {
   return api.post(`${API_URL.NFT_LEND.SUBMIT_COLLECTION}`, body);
 };
+
+export const getBorrowerStats = (address: string): Promise<ResponseResult> => {
+  return api.get(`${API_URL.NFT_LEND.BORROWER_STATS}/${address}`);
+};

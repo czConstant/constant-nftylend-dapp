@@ -12,14 +12,15 @@ import Loading from "src/common/components/loading";
 import { getAssetBySeo } from "src/modules/nftLend/api";
 import { LoanDataAsset, ResponseResult } from "src/modules/nftLend/models/api";
 import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
-import LoanDetailHeader from "./LoanDetail.Header";
+import LoanDetailPawnIfo from "./pawnInfo";
 import LoanDetailActivity from "./LoanDetail.Activity";
 import LoanDetailSuggest from "./LoanDetail.Suggest";
-import LoanDetailOffers from "./LoanDetail.Offers";
+import LoanDetailOffers from "./pawnInfo/LoanDetail.Offers";
 import { useAppSelector } from "src/store/hooks";
 import { selectNftyLend } from "src/store/nftyLend";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import LoanDetailSaleHistory from './LoanDetail.SaleHistory';
+import ItemNftMedia from 'src/modules/nftLend/components/itemNft/itemNftMedia';
+import AssetInfo from './assetInfo';
 
 const LoanDetail = () => {
   const location = useLocation();
@@ -77,11 +78,31 @@ const LoanDetail = () => {
     return (
       <>
         <BreadCrumb items={breadCrumbs} />
-        <LoanDetailHeader asset={loan?.asset} loan={loan} />
-        <LoanDetailOffers asset={loan?.asset} loan={loan} />
-        <LoanDetailActivity asset={loan?.asset} loan={loan} />
-        <LoanDetailSaleHistory asset={loan?.asset} loan={loan} />
-        <LoanDetailSuggest asset={loan?.asset} loan={loan} />
+        <div className={styles.headerContainer}>
+          <div>
+            <ItemNftMedia
+              detail={loan.asset.detail}
+              name={loan.asset.name}
+              width={200}
+              height={300}
+              config={{
+                video: {
+                  controls: true,
+                  controlsList: "nodownload",
+                  autoPlay: true,
+                  onMouseEnter: () => {},
+                  onMouseLeave: () => {},
+                },
+              }}
+              className={styles.itemMedia}
+              showOriginal={true}
+            />
+            <AssetInfo asset={loan.asset} owner={loan.owner} />
+          </div>
+          <LoanDetailPawnIfo loan={loan} />
+        </div>
+        <LoanDetailActivity asset={loan?.asset} />
+        <LoanDetailSuggest loan={loan} />
       </>
     );
   };

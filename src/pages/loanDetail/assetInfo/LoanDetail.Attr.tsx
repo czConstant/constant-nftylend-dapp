@@ -1,8 +1,7 @@
 import React from "react";
-import { LoanDetailProps } from "./LoanDetail.Header";
-import styles from "./styles.module.scss";
 import cx from "classnames";
 import { AssetNft, AssetNftAttribute } from 'src/modules/nftLend/models/nft';
+import styles from "../styles.module.scss";
 
 interface LoanDetailAttrProps {
   asset: AssetNft;

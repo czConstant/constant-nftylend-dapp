@@ -1,21 +1,13 @@
 import React, { useEffect, useState } from "react";
 import cx from "classnames";
-import sortBy from "lodash/sortBy";
 import moment from "moment-timezone";
-import BigNumber from "bignumber.js";
 
 import SectionCollapse from "src/common/components/sectionCollapse";
-import {
-  getSaleTransactions,
-} from "src/modules/nftLend/api";
-import {
-  formatCurrencyByLocale,
-  shortCryptoAddress,
-} from "src/common/utils/format";
-import { LOAN_TRANSACTION_ACTIVITY } from "src/modules/nftLend/constant";
-import { LoanDetailProps } from "./LoanDetail.Header";
-import styles from "./styles.module.scss";
+import { getSaleTransactions } from "src/modules/nftLend/api";
+import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
 import { AssetSaleHistory } from 'src/modules/nftLend/models/activity';
+import { AssetNft } from 'src/modules/nftLend/models/nft';
+import styles from "./styles.module.scss";
 
 const TableHeader = () => (
   <div className={cx(styles.tbHeader, styles.activityWrapBody)}>
@@ -72,14 +64,18 @@ const TableBody = ({ results = [] }) => {
   </>)
 }
 
-const LoanDetailSaleHistory: React.FC<LoanDetailProps> = ({ loan, asset }) => {
+interface LoanDetailSaleHistoryProps {
+  asset: AssetNft;
+}
+
+const LoanDetailSaleHistory: React.FC<LoanDetailSaleHistoryProps> = ({ asset }) => {
   const [activities, setActivities] = useState<Array<AssetSaleHistory>>([]);
 
   useEffect(() => {
-    if (loan?.id) {
+    if (asset?.id) {
       fetchSaleTransactions();
     }
-  }, [loan?.id]);
+  }, [asset]);
 
   const fetchSaleTransactions = async () => {
     try {

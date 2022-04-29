@@ -4,13 +4,16 @@ import SectionCollapse from "src/common/components/sectionCollapse";
 import { getLoanByCollection } from "src/modules/nftLend/api";
 import ItemNFT from "src/modules/nftLend/components/itemNft";
 import { LoanNft } from "src/modules/nftLend/models/loan";
-import { LoanDetailProps } from "./LoanDetail.Header";
 import styles from "./styles.module.scss";
 
-const LoanDetailSuggest: React.FC<LoanDetailProps> = ({ loan, asset }) => {
+interface LoanDetailSuggestProps {
+  loan: LoanNft;
+}
+
+const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
   const [items, setItems] = useState<Array<LoanNft>>([]);
 
-  const collectionId = asset.collection?.id;
+  const collectionId = loan.asset?.collection?.id;
   const detailLoanId = loan.id;
 
   useEffect(() => {
@@ -33,7 +36,7 @@ const LoanDetailSuggest: React.FC<LoanDetailProps> = ({ loan, asset }) => {
     return (
       <div className={styles.suggestWrap}>
         <div className={styles.suggestContainer}>
-          {items.map((loan) => (
+          {items.map((loan) => loan.asset && (
             <ItemNFT key={loan.id} asset={loan.asset} loan={loan} />
           ))}
         </div>
@@ -46,11 +49,7 @@ const LoanDetailSuggest: React.FC<LoanDetailProps> = ({ loan, asset }) => {
   return (
     <SectionCollapse
       id="suggest"
-      label={
-        isMobile
-          ? "More from this<span>collection</span>"
-          : "More from this collection"
-      }
+      label="More from this collection"
       content={renderSuggestContent()}
       selected={true}
       bodyClassName={isMobile && styles.bodyClassName}

@@ -13,7 +13,7 @@ import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { requestReload } from 'src/store/nftyLend';
-import styles from "./styles.module.scss";
+import styles from "../styles.module.scss";
 import { formatCurrency } from 'src/common/utils/format';
 
 export interface LoanDetailProps {
