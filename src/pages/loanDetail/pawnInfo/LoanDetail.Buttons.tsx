@@ -13,15 +13,20 @@ import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { isSameAddress } from 'src/common/utils/helper';
 import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
-
-import { LoanDetailProps } from "./LoanDetail.Header";
-import styles from "./styles.module.scss";
-import { TABS } from "../myAsset";
-import LoanDetailMakeOffer from './makeOffer';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
+import { LoanNft } from 'src/modules/nftLend/models/loan';
 
-const LoanDetailButtons: React.FC<LoanDetailProps> = ({ loan, userOffer }) => {
+import { TABS } from "../../myAsset";
+import LoanDetailMakeOffer from '../makeOffer';
+import styles from "../styles.module.scss";
+
+interface LoanDetailButtonsProps {
+  loan: LoanNft;
+  userOffer: OfferToLoan;
+}
+
+const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { cancelLoan, cancelOffer, orderNow } = useTransaction();

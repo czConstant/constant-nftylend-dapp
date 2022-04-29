@@ -1,52 +1,51 @@
 import React, { useMemo } from "react";
 import { shortCryptoAddress } from "src/common/utils/format";
-import {
-  getLinkETHScanAddress,
-  getLinkETHScanTokenId,
-} from "src/modules/solana/utils";
-import { LoanDetailProps } from './LoanDetail.Header';
-import styles from "./styles.module.scss";
+import { AssetNft } from 'src/modules/nftLend/models/nft';
+import { getLinkETHScanAddress, getLinkETHScanTokenId } from "src/modules/solana/utils";
+import styles from "../styles.module.scss";
 
-const LoanDetailInfo: React.FC<LoanDetailProps> = ({ loan, asset }) => {
+interface LoanDetailAssetInfoProps {
+  asset: AssetNft;
+  borrower: string;
+}
+
+const LoanDetailInfo: React.FC<LoanDetailAssetInfoProps> = ({ asset, borrower }) => {
   const details = useMemo(() => {
     let details = [
       {
         label: "Mint address",
-        value: `<a target="_blank" href="${asset.getLinkExplorer()}">${shortCryptoAddress(asset.contract_address, 24)}</a>`,
+        value: `<a target="_blank" href="${asset.getLinkExplorer()}">${shortCryptoAddress(asset.contract_address)}</a>`,
       },
       {
         label: "Owner",
-        value: `<a target="_blank" href="${asset.getLinkExplorer(loan.owner)}">${shortCryptoAddress(loan.owner, 24)}</a>`,
+        value: `<a target="_blank" href="${asset.getLinkExplorer(borrower)}">${shortCryptoAddress(borrower)}</a>`,
       },
     ];
-    if (!loan) {
-      details = details?.splice(1, 1);
-    }
-    if (loan?.origin_contract_address) {
+    if (asset.origin_contract_address) {
       details.push(
         {
           label: "Original Contract Address",
           value: `<a target="_blank" href="${getLinkETHScanAddress(
-            loan?.origin_contract_address
-          )}">${shortCryptoAddress(loan?.origin_contract_address, 24)}</a>`,
+            asset.origin_contract_address
+          )}">${shortCryptoAddress(asset.origin_contract_address)}</a>`,
         },
         {
           label: "Original Network",
-          value: `${loan?.origin_network}`,
+          value: `${asset.origin_contract_network}`,
         },
         {
           label: "Original Contract Id",
           value: `<a target="_blank" href="${getLinkETHScanTokenId(
-            loan?.origin_contract_address,
-            loan?.origin_token_id
-          )}">${loan?.origin_token_id}</a>`,
+            asset.origin_contract_address,
+            asset.origin_token_id
+          )}">${asset.origin_token_id}</a>`,
         }
       );
     }
     details.push(
       {
         label: "Artist Royalties",
-        value: `${parseFloat(loan?.seller_fee_rate || 0) * 100}%`,
+        value: `${(asset.detail?.seller_fee_rate || 0) * 100}%`,
       },
       {
         label: "Listing/Bidding/Cancel",
@@ -54,7 +53,7 @@ const LoanDetailInfo: React.FC<LoanDetailProps> = ({ loan, asset }) => {
       }
     );
     return details;
-  }, [loan?.new_loan]);
+  }, [asset]);
 
   return (
     <div className={styles.tabContentWrap}>

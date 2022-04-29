@@ -1,9 +1,9 @@
 import BigNumber from "bignumber.js";
 import React from "react";
 import { formatCurrencyByLocale } from "src/common/utils/format";
-import icPriceTag from "./assets/ic_price_tag.svg";
 
-import styles from "./styles.module.scss";
+import icPriceTag from "../images/ic_price_tag.svg";
+import styles from "../styles.module.scss";
 import LoanDetailButtons from "./LoanDetail.Buttons";
 import { OfferData } from 'src/modules/nftLend/models/api';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
@@ -31,7 +31,7 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
   return (
     <div className={styles.infoPrice}>
       <div className={styles.infoPriceTags}>
-        <label>Item Price</label>
+        <label>Principal</label>
         <img src={icPriceTag} alt="item price" />
       </div>
       <div className={styles.infoPriceValue}>

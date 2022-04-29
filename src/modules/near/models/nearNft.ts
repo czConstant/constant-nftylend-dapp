@@ -36,10 +36,12 @@ export class NearNft extends AssetNft {
     nft.contract_address = item.contract_address;
     nft.name = item.name;
     nft.origin_contract_address = item.origin_contract_address;
+    nft.origin_token_id = item.origin_token_id;
     nft.origin_contract_network = item.origin_contract_network;
     nft.detail = { image: item.token_url, attributes: item.attributes } as AssetNftDetail;
+    nft.stats = item.stats;
     if (item.collection) {
-      const collection = CollectionNft.parseFromApi(item.collection, Chain.Solana);
+      const collection = CollectionNft.parseFromApi(item.collection);
       if (collection) nft.collection = collection;
     }
     return nft;

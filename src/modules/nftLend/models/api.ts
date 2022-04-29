@@ -84,6 +84,8 @@ export interface LoanDataAsset {
   seller_fee_rate: number;
   origin_contract_network: string;
   origin_contract_address: string;
+  origin_token_id: string;
+  stats: AssetStatData;
 }
 
 export interface OfferData {
@@ -103,4 +105,11 @@ export interface OfferData {
   close_tx_hash: string;
   nonce_hex: string;
   signature: string;
+}
+
+export interface AssetStatData {
+  id: number;
+  avg_price: number;
+  currency: Currency;
+  floor_price: number;
 }

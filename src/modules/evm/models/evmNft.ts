@@ -37,8 +37,9 @@ export class EvmNft extends AssetNft {
     nft.token_id = item.token_id;
     nft.chain = chain;
     nft.detail = { image: item.token_url, attributes: item.attributes } as AssetNftDetail;
+    nft.stats = item.stats;
     if (item.collection) {
-      const collection = CollectionNft.parseFromApi(item.collection, Chain.Solana);
+      const collection = CollectionNft.parseFromApi(item.collection);
       if (collection) nft.collection = collection;
     }
     return nft;

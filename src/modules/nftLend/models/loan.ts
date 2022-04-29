@@ -20,7 +20,6 @@ export class LoanNft {
   owner: string = '';
   data_loan_address: string = '';
   data_asset_address: string = '';
-  origin_contract_address: string = '';
   nonce: string = '';
   signature: string = '';
   status: string = '';
