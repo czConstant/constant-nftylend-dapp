@@ -1,11 +1,12 @@
-import {
+import React, {
   FormEventHandler,
   ReactEventHandler,
   useEffect,
   useState,
 } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap";
 import { Field, useForm } from "react-final-form";
+import Switch from 'rc-switch';
 
 import Loading from "src/common/components/loading";
 import { required } from "src/common/utils/formValidate";
@@ -36,6 +37,9 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
   const { change } = useForm();
 
   const [receiveToken, setReceiveToken] = useState<Currency>();
+  const [allowAmount, setAllowAmount] = useState(true);
+  const [allowRate, setAllowRate] = useState(true);
+  const [allowDuration, setAllowDuration] = useState(true);
 
   useEffect(() => {
     change("receiveTokenMint", defaultTokenMint);
@@ -80,72 +84,103 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
     )
   };
 
+  const prepareSubmit = (e: any) => {
+    e.preventDefault();
+    onSubmit({ ...values, allowAmount, allowRate, allowDuration  })
+  }
+
   return (
     <div className={styles.createLoanForm}>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={prepareSubmit}>
+        <div className={styles.titleOpenOffer}>
+          Open to offers<MyPopover desc="Allow others to offer different variables" />
+        </div>
+        <Row>
         {isManual && (<>
-          <InputWrapper label="Contract Address" theme="dark">
-            <Field
-              name="asset_contract_address"
-              placeholder="0x0000000000000000"
-              children={FieldText}
-              validate={required}
-            />
-          </InputWrapper>
-          <InputWrapper label="Token ID" theme="dark">
-            <Field
-              name="token_id"
-              placeholder="0"
-              children={FieldText}
-              validate={required}
-            />
-          </InputWrapper>
+          <Col xs={9}>
+            <InputWrapper label="Contract Address" theme="dark">
+              <Field
+                name="asset_contract_address"
+                placeholder="0x0000000000000000"
+                children={FieldText}
+                validate={required}
+              />
+            </InputWrapper>
+          </Col>
+          <Col xs={9}>
+            <InputWrapper label="Token ID" theme="dark">
+              <Field
+                name="token_id"
+                placeholder="0"
+                children={FieldText}
+                validate={required}
+              />
+            </InputWrapper>
+          </Col>
         </>)}
-        <InputWrapper label="Receive Token" theme="dark">
-          <Field
-            name="receiveTokenMint"
-            children={FieldDropdown}
-            defaultValue={receiveToken?.contract_address}
-            list={listToken}
-            valueField="contract_address"
-            searchable
-            alignMenu="right"
-            searchFields={["name", "symbol"]}
-            handleItemOnChange={onChangeReceiveToken}
-            validate={required}
-          />
-        </InputWrapper>
-        <InputWrapper label="Receive Amount" theme="dark">
-          <Field
-            name="amount"
-            children={FieldAmount}
-            placeholder="0.0"
-            appendComp={receiveToken?.symbol}
-            validate={required}
-          />
-        </InputWrapper>
-        <InputWrapper label="Loan duration" theme="dark">
-          <Field
-            name="duration"
-            placeholder="0"
-            appendComp="days"
-            children={FieldDropdown}
-            defaultValue={LOAN_DURATION[0]}
-            list={LOAN_DURATION}
-            valueField="id"
-            alignMenu="right"
-            validate={required}
-          />
-        </InputWrapper>
-        <InputWrapper label="Loan interest" theme="dark">
-          <Field
-            name="rate"
-            children={FieldAmount}
-            placeholder="0.0"
-            appendComp="% APY"
-            validate={required}
-          />
-        </InputWrapper>
+          <Col xs={9}>
+            <InputWrapper label="Receive Token" theme="dark">
+              <Field
+                name="receiveTokenMint"
+                children={FieldDropdown}
+                defaultValue={receiveToken?.contract_address}
+                list={listToken}
+                valueField="contract_address"
+                searchable
+                alignMenu="right"
+                searchFields={["name", "symbol"]}
+                handleItemOnChange={onChangeReceiveToken}
+                validate={required}
+              />
+            </InputWrapper>
+          </Col>
+          <Col xs={9}>
+            <InputWrapper label="Receive Amount" theme="dark">
+              <Field
+                name="amount"
+                children={FieldAmount}
+                placeholder="0.0"
+                appendComp={receiveToken?.symbol}
+                validate={required}
+              />
+            </InputWrapper>
+          </Col>
+          <Col xs={3}>
+            <Switch checked={allowAmount} onChange={e => setAllowAmount(e)} />
+          </Col>
+          <Col xs={9}>
+            <InputWrapper label="Loan duration" theme="dark">
+              <Field
+                name="duration"
+                placeholder="0"
+                appendComp="days"
+                children={FieldDropdown}
+                defaultValue={LOAN_DURATION[0]}
+                list={LOAN_DURATION}
+                valueField="id"
+                alignMenu="right"
+                validate={required}
+              />
+            </InputWrapper>
+          </Col>
+          <Col xs={3}>
+            <Switch checked={allowDuration} onChange={e => setAllowDuration(e)} />
+          </Col>
+          <Col xs={9}>
+            <InputWrapper label="Loan interest" theme="dark">
+              <Field
+                name="rate"
+                children={FieldAmount}
+                placeholder="0.0"
+                appendComp="% APY"
+                validate={required}
+              />
+            </InputWrapper>
+          </Col>
+          <Col xs={3}>
+            <Switch checked={allowRate} onChange={e => setAllowRate(e)} />
+          </Col>
+        </Row>
         {renderEstimatedInfo()}
         <div className={styles.actions}>
           <Button
