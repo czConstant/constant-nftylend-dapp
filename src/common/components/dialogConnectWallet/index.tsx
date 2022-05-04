@@ -43,11 +43,11 @@ const WALLETS = [
   },
 ];
 
-interface ConnectWalletModalProps {
+interface DialogConnectWalletProps {
   onClose: Function;
 }
 
-const ConnectWalletModal = (props: ConnectWalletModalProps) => {
+const DialogConnectWallet = (props: DialogConnectWalletProps) => {
   const { onClose, } = props;
 
   const dispatch = useAppDispatch();
@@ -125,4 +125,4 @@ const ConnectWalletModal = (props: ConnectWalletModalProps) => {
   );
 };
 
-export default ConnectWalletModal;
+export default DialogConnectWallet;

@@ -1,5 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import { Button } from "react-bootstrap";
-import { Field, useForm } from "react-final-form";
+import { Field, useForm, useFormState } from "react-final-form";
 
 import FieldAmount from "src/common/components/form/fieldAmount";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
@@ -29,28 +30,33 @@ const validateHighRisk = ({ value, maxValue, message }) => {
 
 interface MakeOfferFormProps {
   loan: LoanNft;
-  onSubmit: Function;
+  onSubmit: React.FormEventHandler;
   submitting: boolean;
   values: any;
 };
 
 const MakeOfferForm = (props: MakeOfferFormProps) => {
-  const { onSubmit, loan, values, submitting } = props;
-  const _form = useForm().getState().values;
+  const { onSubmit, loan, submitting } = props;
+  const [warnings, setWarnings] = useState({ amount: '', rate: '' })
+  const { values } = useFormState()
 
-  const amountValidate = validateHighRisk({
-    value: _form.amount,
-    maxValue: loan.principal_amount,
-    message:
-      "Loan Amount offer higher %value% of the original loan order, want review?",
-  });
+  useEffect(() => {
+    const amountValidate = validateHighRisk({
+      value: values.amount,
+      maxValue: loan.principal_amount,
+      message:
+        "Loan Amount offer higher %value% of the original loan order, want review?",
+    });
+  
+    const interestValidate = validateHighRisk({
+      value: values.rate,
+      maxValue: loan.interest_rate * 100,
+      message:
+        "Loan Interest %APY offer higher 250% of the original loan order, want review? ",
+    });
 
-  const interestValidate = validateHighRisk({
-    value: _form.rate,
-    maxValue: loan.interest_rate * 100,
-    message:
-      "Loan Interest %APY offer higher 250% of the original loan order, want review? ",
-  });
+    setWarnings({ amount: amountValidate, rate: interestValidate });
+  }, [values])
 
   const renderEstimatedInfo = () => {
     if (!values.amount || !values.rate || !values.duration) return null;
@@ -92,8 +98,8 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           children={FieldAmount}
           placeholder="0.0"
           appendComp={loan.currency?.symbol}
-          errorMessage={amountValidate}
         />
+        <div className={styles.errorMessage}>{warnings.amount}</div>
       </InputWrapper>
       <InputWrapper label="Loan duration" theme="dark">
         <Field
@@ -114,11 +120,9 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           children={FieldAmount}
           placeholder="0.0"
           appendComp="% APY"
-          errorMessage={interestValidate}
         />
+        <div className={styles.errorMessage}>{warnings.rate}</div>
       </InputWrapper>
-      {amountValidate}
-      {interestValidate}
       {renderEstimatedInfo()}
       <Button
         type="submit"

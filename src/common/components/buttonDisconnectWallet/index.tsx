@@ -11,9 +11,10 @@ import { toastSuccess } from 'src/common/services/toaster';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import tokenIcons from 'src/common/utils/tokenIcons';
 import { closeModal, openModal } from 'src/store/modal';
-import styles from './styles.module.scss';
-import ConnectWalletModal from '../connectWalletModal';
+import DialogConnectWallet from 'src/common/components/dialogConnectWallet';
 import walletIcons from 'src/common/utils/walletIcons';
+import DialogAddEmail from 'src/common/components/dialogAddEmail';
+import styles from './styles.module.scss';
 
 interface ButtonDisconnectWalletProps {
   className?: string;
@@ -34,9 +35,23 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
         centered: true,
         contentClassName: styles.modalContent,
       },
-      render: () => <ConnectWalletModal onClose={close} />,
+      render: () => <DialogConnectWallet onClose={close} />,
     }))
-  }
+  };
+
+  const onEnableNotification = () => {
+    const id = 'addEmailModal';
+    const close = () => dispatch(closeModal({ id }))
+    dispatch(openModal({
+      id,
+      theme: 'dark',
+      modalProps: {
+        centered: true,
+        contentClassName: styles.modalContent,
+      },
+      render: () => <DialogAddEmail onClose={close} />,
+    }))
+  };
 
   if (currentWallet.chain === Chain.Solana) {
     return (
@@ -66,6 +81,9 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
             <div className={styles.item}>Copy address</div>
           </CopyToClipboard>
         </Dropdown.Item>
+        {/* <Dropdown.Item eventKey="changeWallet" onClick={onEnableNotification}>
+          <div className={styles.item}>Enable notification</div>
+        </Dropdown.Item> */}
         <Dropdown.Item eventKey="changeWallet" onClick={onChangeWallet}>
           <div className={styles.item}>Change wallet</div>
         </Dropdown.Item>
