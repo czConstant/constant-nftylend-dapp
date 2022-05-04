@@ -81,10 +81,9 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
           ),
         }}
       >
-        {({ values, handleSubmit }) => (
+        {({ handleSubmit }) => (
           <MakeOfferForm
             loan={loan}
-            values={values}
             onSubmit={handleSubmit}
             onClose={() => onClose()}
             // defaultTokenMint={receiveToken?.contract_address}

@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { useAppDispatch } from 'src/store/hooks';
 import styles from './styles.module.scss';
 import { closeModal, openModal } from 'src/store/modal';
-import ConnectWalletModal from '../connectWalletModal';
+import DialogConnectWallet from '../dialogConnectWallet';
 
 interface ButtonConnectWalletProps {
   className?: string;
@@ -27,7 +27,7 @@ const ButtonConnectWallet = (props: ButtonConnectWalletProps) => {
         centered: true,
         contentClassName: styles.modalContent,
       },
-      render: () => <ConnectWalletModal onClose={close} />,
+      render: () => <DialogConnectWallet onClose={close} />,
     }))
   };
 

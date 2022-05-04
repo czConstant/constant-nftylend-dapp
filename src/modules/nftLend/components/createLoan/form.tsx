@@ -33,12 +33,12 @@ interface CreateLoanFormProps {
 
 const CreateLoanForm = (props: CreateLoanFormProps) => {
   const { listToken, defaultTokenMint, onSubmit, values, submitting, isManual } = props;
-  const form = useForm();
+  const { change } = useForm();
 
   const [receiveToken, setReceiveToken] = useState<Currency>();
 
   useEffect(() => {
-    form.change("receiveTokenMint", defaultTokenMint);
+    change("receiveTokenMint", defaultTokenMint);
     const token = listToken.find(
       (e) => e.contract_address === defaultTokenMint
     );
