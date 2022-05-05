@@ -54,6 +54,10 @@ const chains = {
   //   title: 'Boba',
   //   key: Chain.Boba,
   // },
+  harmony: {
+    title: 'Harmony',
+    key: Chain.Harmony,
+  },
 }
 
 const Loans = () => {

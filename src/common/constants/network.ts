@@ -9,6 +9,7 @@ export enum Chain {
   Avalanche = 'AVAX',
   BSC = 'BSC',
   Boba = 'BOBA',
+  Harmony = 'ONE',
 };
 
 export const ChainPolygonID = APP_CLUSTER === 'mainnet' ? '' : 80001;
@@ -16,6 +17,7 @@ export const ChainAvalancheID = APP_CLUSTER === 'mainnet' ? '' : 43113;
 export const ChainSolanaNetwork = APP_CLUSTER === 'mainnet' ? WalletAdapterNetwork.Mainnet : WalletAdapterNetwork.Devnet;
 export const ChainBscID = APP_CLUSTER === 'mainnet' ? '' : 97;
 export const ChainBobaID = APP_CLUSTER === 'mainnet' ? '' : 28;
+export const ChainHarmonyID = APP_CLUSTER === 'mainnet' ? '' : 1666700000;
 
 // https://docs.moralis.io/moralis-dapp/web3-sdk/supported-chains
 export const MoralisChainName = {
@@ -73,9 +75,22 @@ export const BobaNetworkConfig = {
   blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://blockexplorer.boba.network/'] : ['https://blockexplorer.rinkeby.boba.network/'],
 }
 
+export const HarmonyChainConfig = {
+  chainId: `0x${ChainHarmonyID.toString(16)}`,
+  chainName: APP_CLUSTER === 'mainnet' ? 'Harmony mainnet' : 'Harmony testnet',
+  nativeCurrency: {
+    name: 'ONE',
+    symbol: 'ONE',
+    decimals: 18,
+  },
+  rpcUrls: APP_CLUSTER === 'mainnet' ? ['https://api.harmony.one'] : ['https://api.s0.b.hmny.io'],
+  blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://explorer.harmony.one/'] : ['https://explorer.pops.one/'],
+}
+
 export const ChainConfigs = {
   [Chain.Polygon]: PolygonChainConfig,
   [Chain.Avalanche]: AvalancheChainConfig,
   [Chain.BSC]: BscChainConfig,
   [Chain.Boba]: BobaNetworkConfig,
+  [Chain.Harmony]: HarmonyChainConfig,
 }

@@ -37,6 +37,8 @@ export const getLendingProgramId = (chain: Chain) => {
       return store.getState().nftyLend.configs.bsc_nftypawn_address;
     case Chain.Boba:
       return store.getState().nftyLend.configs.boba_nftypawn_address;
+    case Chain.Harmony:
+      return store.getState().nftyLend.configs.one_nftypawn_address;
   }
   throw new Error(`Chain ${chain} is not supported`);
 };
@@ -53,5 +55,5 @@ export const checkOwnerNft = async (owner: string, contractAddress: string, toke
   const signer = provider.getSigner(0);
   const contract = new ethers.Contract(contractAddress, IERC721.abi, signer);
   const realOwner = await contract.ownerOf(tokenId);
-  return owner === realOwner;
+  return owner.toLowerCase() === String(realOwner).toLowerCase();
 } 

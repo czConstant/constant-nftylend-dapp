@@ -20,6 +20,7 @@ const NETWORKS = [
   // { image: tokenIcons.bnb, name: 'Binance Smart Chain', chain: Chain.BSC },
   // { image: tokenIcons.boba, name: 'Boba Network', chain: Chain.Boba },
   { image: tokenIcons.near, name: 'Near', chain: Chain.Near },
+  { image: tokenIcons.one, name: 'Harmony', chain: Chain.Harmony },
 ];
 
 const WALLETS = [

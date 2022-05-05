@@ -51,14 +51,14 @@ const OfferRow = (props: OfferRowProps) => {
       <div>
         {offerDuration ? offerDuration.label : `${Math.ceil(new BigNumber(offer.duration).dividedBy(86400).toNumber())} days`}
       </div>
-      <div>{offer.interest_rate * 100}%</div>
+      <div>{formatCurrencyByLocale(offer.interest_rate * 100)}%</div>
       <div>
         <a
           className={styles.scanLink}
           target="_blank"
           href={offer.getLinkExplorerAddr(offer.lender)}
         >
-          {shortCryptoAddress(offer?.lender, 30)}
+          {shortCryptoAddress(offer?.lender, 18)}
         </a>
       </div>
       <div className={styles.actions}>

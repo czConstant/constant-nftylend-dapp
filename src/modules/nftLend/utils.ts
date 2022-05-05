@@ -70,7 +70,7 @@ export function getLinkExplorerWallet(address: string, chain: Chain): string {
 }
 
 export function isEvmChain(chain: Chain) {
-  return [Chain.Polygon, Chain.Avalanche, Chain.BSC, Chain.Boba].includes(chain);
+  return [Chain.Polygon, Chain.Avalanche, Chain.BSC, Chain.Boba, Chain.Harmony].includes(chain);
 }
 
 export async function isAssetOwner(owner: string, chain: Chain, contractAddress: string, tokenId: string | number): Promise<boolean> {

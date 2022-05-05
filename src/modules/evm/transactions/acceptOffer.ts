@@ -24,6 +24,7 @@ export default class AcceptOfferEvmTransaction extends EvmTransaction {
   ): Promise<TransactionResult> {
     try {
       const signer = this.provider.getSigner(0);
+      const chainId = (await this.provider.getNetwork()).chainId;
       const contract = new ethers.Contract(this.lendingProgram, NftyPawn.abi, signer)
       
       const adminFee = await this.getAdminFee();

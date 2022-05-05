@@ -50,7 +50,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         assetContractAddress,
         currencyContractAddress,
         lender,
-        chainId,
+        '2',
       );
       const lenderSig = await this.signMessage(signer, lenderMsg || '');
 

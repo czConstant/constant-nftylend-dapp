@@ -19,6 +19,7 @@ interface NftyLendState {
     bsc_nftypawn_address: string,
     boba_nftypawn_address: string,
     near_nftypawn_address: string,
+    one_nftypawn_address: string,
   };
 }
 
@@ -36,6 +37,7 @@ const initialState: NftyLendState = {
     bsc_nftypawn_address: '',
     boba_nftypawn_address: '',
     near_nftypawn_address: '',
+    one_nftypawn_address: '',
   },
 };
 
