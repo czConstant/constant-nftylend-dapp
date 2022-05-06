@@ -5,6 +5,7 @@ import cx from "classnames";
 import styles from "./styles.module.scss";
 import BodyContainer from "src/common/components/bodyContainer";
 import SectionCollapse from "src/common/components/sectionCollapse";
+import { DISCORD_URL } from 'src/common/constants/url';
 
 const FAQs = () => {
   return (
@@ -300,10 +301,10 @@ const FAQs = () => {
                 <li>
                   Discord:{" "}
                   <a
-                    href="https://discord.gg/afKpDmv2"
+                    href={DISCORD_URL}
                     target={"_blank"}
                   >
-                    https://discord.gg/afKpDmv2
+                    {DISCORD_URL}
                   </a>
                 </li>
                 <li>

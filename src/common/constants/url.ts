@@ -1,5 +1,7 @@
 import { BASE_PATH, MCT_API_BASE, MCT_ROOT } from './config'
 
+export const DISCORD_URL = 'https://discord.gg/V9HHBFNG4a';
+
 export const APP_URL = {
   HOME: `${BASE_PATH}/`,
   NFT_LENDING: `${BASE_PATH}/discover`,

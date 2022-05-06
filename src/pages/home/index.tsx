@@ -1,10 +1,11 @@
-import React from "react";
 import BodyContainer from "src/common/components/bodyContainer";
 import styles from "./styles.module.scss";
 import cx from "classnames";
 import { Button, Col, Row } from "react-bootstrap";
 import Slide from "react-reveal/Slide";
 import Fade from "react-reveal/Fade";
+import { useNavigate } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 
 import imgTitle from "./assets/title.png";
 import imgTitle2 from "./assets/title2.png";
@@ -43,10 +44,8 @@ import press10 from "./assets/partner/press/10.png";
 import press11 from "./assets/partner/press/11.png";
 import press12 from "./assets/partner/press/12.png";
 
-import { useNavigate } from "react-router-dom";
-import { APP_URL } from "src/common/constants/url";
+import { APP_URL, DISCORD_URL } from "src/common/constants/url";
 import ButtonCreateLoan from "src/common/components/buttonCreateLoan";
-import { isMobile } from "react-device-detect";
 
 const DURATION = 1000;
 
@@ -306,7 +305,7 @@ const Home = () => {
               <h1>Join our communities</h1>
               <p>NFT Pawn redefines banking using decentralized thinking.</p>
               <div className={styles.groupButton}>
-                <a target="_blank" href="https://discord.gg/afKpDmv2">
+                <a target="_blank" href={DISCORD_URL}>
                   <img src={icDiscord} /> Discord
                 </a>
                 <a target="_blank" href="https://twitter.com/NFTPawn_Lending">
