@@ -103,6 +103,7 @@ export interface OfferData {
   data_currency_address: string;
   created_at: string;
   updated_at: string;
+  valid_at: string;
   accept_tx_hash: string;
   close_tx_hash: string;
   nonce_hex: string;

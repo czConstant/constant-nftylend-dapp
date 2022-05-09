@@ -98,8 +98,6 @@ const Item = (props: ItemProps) => {
     moment().isAfter(moment(offer.loan?.approved_offer?.expired_at))
   ) {
     status = "overdue";
-  } else if (status === "done" && offer?.close_tx_hash) {
-    status = "expired";
   }
 
   if (["overdue"].includes(status)) {

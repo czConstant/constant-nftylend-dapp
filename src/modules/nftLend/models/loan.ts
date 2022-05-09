@@ -150,4 +150,8 @@ export class LoanNft {
       default: return true;
     }
   }
+
+  isExpired(): boolean {
+    return this.status === 'new' && moment().isAfter(moment(this.valid_at));
+  }
 }
