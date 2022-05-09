@@ -46,7 +46,8 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
         loan_id: loan.id,
         principal: values.amount,
         rate: values.rate / 100,
-        duration: values.duration?.id || values.duration,
+        duration: Number(values.duration?.id || values.duration) * 86400,
+        available_in: values.available_in * 86400,
       });
       if (res.completed) toastSuccess(
         <>
@@ -74,6 +75,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
       <Form
         onSubmit={onSubmit}
         initialValues={{
+          available_in: 7,
           amount: loan.principal_amount,
           rate: new BigNumber(loan.interest_rate).multipliedBy(100).toNumber(),
           duration: LOAN_DURATION.find(
@@ -86,7 +88,6 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
             loan={loan}
             onSubmit={handleSubmit}
             onClose={() => onClose()}
-            // defaultTokenMint={receiveToken?.contract_address}
             submitting={submitting}
           />
         )}

@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import moment from 'moment-timezone';
 import { Chain } from 'src/common/constants/network';
 import { getLinkEvmExplorer } from 'src/modules/evm/utils';
@@ -25,9 +26,11 @@ export class LoanNft {
   status: string = '';
   created_at: string = '';
   updated_at: string = '';
+  valid_at: string = '';
   init_tx_hash: string = '';
   offers: Array<OfferToLoan> = [];
   approved_offer?: OfferToLoan;
+  config: number = 0;
 
   constructor(chain: Chain) {
     this.id = -1;
@@ -51,9 +54,11 @@ export class LoanNft {
     loan.status = data.status;
     loan.created_at = data.created_at;
     loan.updated_at = data.updated_at;
+    loan.valid_at = data.valid_at;
     loan.init_tx_hash = data.init_tx_hash;
     loan.data_loan_address = data.data_loan_address;
     loan.data_asset_address = data.data_asset_address;
+    loan.config = data.config;
     loan.offers = data.offers.map(e => OfferToLoan.parseFromApi(e, chain));
     loan.asset = parseNftFromLoanAsset(data.asset, chain)
     if (data.approved_offer) {
@@ -132,5 +137,17 @@ export class LoanNft {
 
   isDone(): boolean {
     return this.status === 'done';
+  }
+
+  isAllowChange(field: 'principal_amount' | 'duration' | 'interest_rate'): boolean {
+    switch (field) {
+      case 'principal_amount':
+        return !!(new BigNumber(this.config).mod(10).dividedToIntegerBy(1));
+      case 'duration':
+        return !!(new BigNumber(this.config).mod(100).dividedToIntegerBy(10));
+      case 'interest_rate':
+        return !!(new BigNumber(this.config).mod(1000).dividedToIntegerBy(100));
+      default: return true;
+    }
   }
 }

@@ -76,9 +76,11 @@ const CreateLoan = (props: CreateLoanProps) => {
         currency_contract_address: values.receiveTokenMint,
         principal: values.amount,
         rate: values.rate / 100,
-        duration: Number(values.duration.id || values.duration),
+        duration: Number(values.duration.id || values.duration) * 86400,
         currency_decimal: receiveToken.decimals,
         currency_id: receiveToken.id,
+        available_in: values.available_in * 86400,
+        loan_config: Number(`${values.allow_rate}${values.allow_duration}${values.allow_amount}`),
       });
 
       if (res.completed) toastSuccess(
@@ -100,8 +102,15 @@ const CreateLoan = (props: CreateLoanProps) => {
     }
   };
 
+  const initValues = {
+    available_in: 7,
+    allow_amount: 1,
+    allow_duration: 1,
+    allow_rate: 1,
+  }
+
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit} initialValues={initValues}>
       {({ values, handleSubmit }) => (
         <CreateLoanForm
           isManual={!asset}

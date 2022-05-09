@@ -37,9 +37,6 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
   const { change } = useForm();
 
   const [receiveToken, setReceiveToken] = useState<Currency>();
-  const [allowAmount, setAllowAmount] = useState(true);
-  const [allowRate, setAllowRate] = useState(true);
-  const [allowDuration, setAllowDuration] = useState(true);
 
   useEffect(() => {
     change("receiveTokenMint", defaultTokenMint);
@@ -84,14 +81,9 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
     )
   };
 
-  const prepareSubmit = (e: any) => {
-    e.preventDefault();
-    onSubmit({ ...values, allowAmount, allowRate, allowDuration  })
-  }
-
   return (
     <div className={styles.createLoanForm}>
-      <form onSubmit={prepareSubmit}>
+      <form onSubmit={onSubmit}>
         <Row>
         {isManual && (<>
           <Col xs={9}>
@@ -148,7 +140,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             </InputWrapper>
           </Col>
           <Col xs={3}>
-            <Switch checked={allowAmount} onChange={e => setAllowAmount(e)} />
+            <Switch checked={!!values.allow_amount} onChange={e => change('allow_amount', e ? 1 : 0)} />
           </Col>
           <Col xs={9}>
             <InputWrapper label="Loan duration" theme="dark">
@@ -166,7 +158,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             </InputWrapper>
           </Col>
           <Col xs={3}>
-            <Switch checked={allowDuration} onChange={e => setAllowDuration(e)} />
+          <Switch checked={!!values.allow_duration} onChange={e => change('allow_duration', e ? 1 : 0)} />
           </Col>
           <Col xs={9}>
             <InputWrapper label="Loan interest" theme="dark">
@@ -180,7 +172,18 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             </InputWrapper>
           </Col>
           <Col xs={3}>
-            <Switch checked={allowRate} onChange={e => setAllowRate(e)} />
+          <Switch checked={!!values.allow_rate} onChange={e => change('allow_rate', e ? 1 : 0)} />
+          </Col>
+          <Col xs={9}>
+            <InputWrapper label="Loan available in" theme="dark">
+              <Field
+                name="available_in"
+                children={FieldAmount}
+                placeholder="0.0"
+                appendComp="days"
+                validate={required}
+              />
+            </InputWrapper>
           </Col>
         </Row>
         {renderEstimatedInfo()}
