@@ -126,7 +126,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
         />
         <div className={styles.errorMessage}>{warnings.rate}</div>
       </InputWrapper>
-      <InputWrapper label="Available in" theme="dark">
+      <InputWrapper label="Offer available in" theme="dark">
         <Field
           validate={required}
           name="available_in"
