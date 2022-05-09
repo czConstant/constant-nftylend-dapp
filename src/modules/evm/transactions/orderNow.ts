@@ -8,6 +8,7 @@ import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { formatAmountSigning, generateNonce, getMaxAllowance } from '../utils';
 import web3 from 'web3';
 import BigNumber from 'bignumber.js';
+import { Chain } from 'src/common/constants/network';
 
 export default class OrderNowEvmTransaction extends EvmTransaction {
   async run(
@@ -52,7 +53,7 @@ export default class OrderNowEvmTransaction extends EvmTransaction {
         assetContractAddress,
         currencyContractAddress,
         lender,
-        chainId,
+        this.chain === Chain.Harmony ? 2 :chainId,
       );
       const lenderSig = await this.signMessage(signer, lenderMsg || '');
 

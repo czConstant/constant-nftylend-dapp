@@ -13,7 +13,7 @@ import tokenIcons from 'src/common/utils/tokenIcons';
 import { closeModal, openModal } from 'src/store/modal';
 import DialogConnectWallet from 'src/common/components/dialogConnectWallet';
 import walletIcons from 'src/common/utils/walletIcons';
-import DialogAddEmail from 'src/common/components/dialogAddEmail';
+import DialogSettingNotification from 'src/common/components/dialogSettingNotification';
 import styles from './styles.module.scss';
 
 interface ButtonDisconnectWalletProps {
@@ -49,7 +49,7 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
         centered: true,
         contentClassName: styles.modalContent,
       },
-      render: () => <DialogAddEmail onClose={close} />,
+      render: () => <DialogSettingNotification onClose={close} />,
     }))
   };
 
@@ -82,7 +82,7 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
           </CopyToClipboard>
         </Dropdown.Item>
         {/* <Dropdown.Item eventKey="changeWallet" onClick={onEnableNotification}>
-          <div className={styles.item}>Enable notification</div>
+          <div className={styles.item}>Notification Preference</div>
         </Dropdown.Item> */}
         <Dropdown.Item eventKey="changeWallet" onClick={onChangeWallet}>
           <div className={styles.item}>Change wallet</div>

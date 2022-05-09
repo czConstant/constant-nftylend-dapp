@@ -36,7 +36,7 @@ export default class EvmTransaction {
 
   handleError = async (err: any): Promise<TransactionResult> => {
     if (err?.name === 'WalletSignTransactionError') return {} as TransactionResult;
-    if (err?.code === -32603) throw new Error('Nonce is invalid.')
+    if (err?.code === -32603) throw new Error(err.data?.message)
     throw err;
   };
 

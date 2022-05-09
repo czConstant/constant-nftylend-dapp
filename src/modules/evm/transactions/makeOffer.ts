@@ -9,6 +9,7 @@ import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { formatAmountSigning, generateNonce, getMaxAllowance } from '../utils';
+import { Chain } from 'src/common/constants/network';
 
 export default class MakeOfferEvmTransaction extends EvmTransaction {
   async run(
@@ -50,7 +51,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         assetContractAddress,
         currencyContractAddress,
         lender,
-        chainId,
+        this.chain === Chain.Harmony ? 2 : chainId,
       );
       const lenderSig = await this.signMessage(signer, lenderMsg || '');
 
@@ -67,6 +68,5 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
     } catch (err) {
       return this.handleError(err);
     }
-        
   }
 }
