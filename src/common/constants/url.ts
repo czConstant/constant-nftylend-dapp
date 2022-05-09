@@ -1,6 +1,6 @@
 import { BASE_PATH, MCT_API_BASE, MCT_ROOT } from './config'
 
-export const DISCORD_URL = 'https://discord.gg/V9HHBFNG4a';
+export const DISCORD_URL = 'https://discord.gg/dyMrkSXyq7';
 
 export const APP_URL = {
   HOME: `${BASE_PATH}/`,
