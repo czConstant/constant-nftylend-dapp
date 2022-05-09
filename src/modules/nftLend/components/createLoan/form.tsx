@@ -92,9 +92,6 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
   return (
     <div className={styles.createLoanForm}>
       <form onSubmit={prepareSubmit}>
-        <div className={styles.titleOpenOffer}>
-          Open to offers<MyPopover desc="Allow others to offer different variables" />
-        </div>
         <Row>
         {isManual && (<>
           <Col xs={9}>
@@ -133,6 +130,11 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
                 validate={required}
               />
             </InputWrapper>
+          </Col>
+          <Col xs={3}>
+            <div className={styles.titleOpenOffer}>
+              Open to offers<MyPopover desc="Allow others to offer different variables" />
+            </div>
           </Col>
           <Col xs={9}>
             <InputWrapper label="Receive Amount" theme="dark">
