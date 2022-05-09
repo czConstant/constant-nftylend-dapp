@@ -91,10 +91,10 @@ const DATA = [
         </strong>
         Max Token Supply
         <br />
-        <strong style={{ color: "white" }}>900,000,000 PWP</strong>
+        <strong style={{ color: "white" }}>9,000,000,000 PWP</strong>
         Initial Token Circulation
         <br />
-        <strong style={{ color: "white" }}>189,900,000 PWP</strong>
+        <strong style={{ color: "white" }}>1,890,000,000 PWP</strong>
       </div>
     ),
   },
