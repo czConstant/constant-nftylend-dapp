@@ -29,7 +29,7 @@ const Footer = () => (
           <a
             target={"_blank"}
             href={
-              "https://docs.myconstant.com/overview/introduction-myconstant"
+              "https://docs.nftpawn.financial/overview/introduction-myconstant"
             }
           >
             Docs
