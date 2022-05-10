@@ -20,15 +20,15 @@ const LoanDetailAssetInfo: React.FC<LoanDetailAssetInfoProps> = ({ asset, owner 
         content={<div>{asset.detail?.description || 'There is no description'}</div>}
       />
       <SectionCollapse
-        id="detail"
-        label="Detail"
-        selected
-        content={<LoanDetailInfo asset={asset} borrower={owner} />}
-      />
-      <SectionCollapse
         id="attributes"
         label="Attributes"
+        selected
         content={<LoanDetailAttr asset={asset} />}
+      />
+      <SectionCollapse
+        id="detail"
+        label="Detail"
+        content={<LoanDetailInfo asset={asset} borrower={owner} />}
       />
     </div>
   );

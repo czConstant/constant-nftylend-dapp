@@ -9,8 +9,6 @@ import { getAssetInfo, verifyAsset } from '../../api';
 import Loading from 'src/common/components/loading';
 import { isMobile } from 'react-device-detect';
 import { AssetNft } from '../../models/nft';
-import { generateSeoUrl } from '../../utils';
-import { useCurrentWallet } from '../../hooks/useCurrentWallet';
 import { LoanNft } from '../../models/loan';
 
 interface AssetDetailModalProps {
@@ -22,13 +20,12 @@ interface AssetDetailModalProps {
 
 const AssetDetailModal = (props: AssetDetailModalProps) => {
   const { asset, navigate, onClose, onMakeLoan } = props;
-  const { currentWallet } = useCurrentWallet();
 
   const [extraData, setExtraData] = useState(asset.detail || {});
   const [listingDetail, setListingDetail] = useState({} as any);
   const [loading, setLoading] = useState(false);
   const [verifying, setVerifying] = useState(false);
-  const [haveLoan, setHaveLoan] = useState<boolean>(false);
+  const [loan, setLoan] = useState<LoanNft>();
 
   useEffect(() => {
     if (asset.needFetchDetail()) getExtraData();
@@ -52,7 +49,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
       setVerifying(true);
       const res = await getAssetInfo(asset.contract_address, asset.token_id);
       const loan = LoanNft.parseFromApiDetail(res.result);
-      setHaveLoan(loan.isListing());
+      setLoan(loan);
     } catch (error) {
     } finally {
       setVerifying(false);
@@ -77,7 +74,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
 
   const onGoTtoLoan = () => {
     onClose();
-    navigate(`${APP_URL.NFT_LENDING_DETAIL_LOAN.replace(':id', `${generateSeoUrl(asset)}`)}`)
+    navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
   };
 
   const onClickVerify = () => {
@@ -89,7 +86,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
 
   const renderButton = () => {
     if (verifying) return <Loading />;
-    if (haveLoan) return (
+    if (loan?.isListing()) return (
       <Button onClick={onGoTtoLoan} className={styles.btnConnect}>
         Go to loan
       </Button>

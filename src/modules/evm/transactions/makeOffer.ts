@@ -21,6 +21,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
     currencyDecimals: number,
     lender: string,
     loanId: number,
+    availableIn: number,
   ): Promise<TransactionResult> {
     try {
       const signer = this.provider.getSigner(0);
@@ -61,6 +62,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         duration,
         signature: lenderSig,
         nonce_hex: nonce,
+        available_in: availableIn,
       });
 
       return this.handleSuccess({ txHash: txHash } as TransactionResult);
