@@ -93,7 +93,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
     <form onSubmit={onSubmit}>
       <InputWrapper label="Loan Amount" theme="dark">
         <Field
-          disabled={loan.isAllowChange('principal_amount')}
+          disabled={!loan.isAllowChange('principal_amount')}
           validate={required}
           name="amount"
           children={FieldAmount}
@@ -104,7 +104,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
       </InputWrapper>
       <InputWrapper label="Loan duration" theme="dark">
         <Field
-          disabled={loan.isAllowChange('duration')}
+          disabled={!loan.isAllowChange('duration')}
           name="duration"
           placeholder="0"
           appendComp="days"
@@ -117,7 +117,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
       </InputWrapper>
       <InputWrapper label="Loan interest" theme="dark">
         <Field
-          disabled={loan.isAllowChange('interest_rate')}
+          disabled={!loan.isAllowChange('interest_rate')}
           validate={required}
           name="rate"
           children={FieldAmount}

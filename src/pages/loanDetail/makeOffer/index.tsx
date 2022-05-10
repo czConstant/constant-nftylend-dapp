@@ -31,6 +31,9 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
   const { makeOffer } = useTransaction();
 
   const onSubmit = async (values: any) => {
+    if (loan.isExpired()) {
+      return toastError('This loan has been expired. Please reload and select another one.');
+    }
     try {
       setSubmitting(true);
       if (!loan.currency) throw new Error('Loan has no currency');

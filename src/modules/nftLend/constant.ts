@@ -70,13 +70,6 @@ export const OFFER_STATUS = {
     borrower: "New",
     loan: "New",
   },
-  created: {
-    id: "created",
-    name: "Created",
-    lender: "Offer Sent",
-    borrower: "New",
-    loan: "Repaid",
-  },
   approved: {
     id: "approved",
     name: "Approved",

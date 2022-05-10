@@ -65,6 +65,9 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
   };
 
   const onOrderNow = async () => {
+    if (loan.isExpired()) {
+      return toastError('This loan has been expired. Please reload and select another one.');
+    }
     try {
       dispatch(showLoadingOverlay());
       if (!loan.currency) throw new Error('Loan has no currency');
@@ -209,7 +212,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
       </div>
     );
 
-  if (!loan.isListing()) return null;
+  if (!loan.isListing() || loan.isExpired()) return null;
 
   return (
     <div className={styles.groupOfferButtonWrapper}>

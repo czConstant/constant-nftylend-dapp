@@ -71,7 +71,6 @@ export class LoanNft {
 
   static parseFromApiDetail(data: LoanDataAsset): LoanNft {
     if (!data) throw new Error('No loan detail data to parse');
-    if (!data) throw new Error('No loan detail data to parse');
 
     const network = data.network || data.new_loan?.network;
     const chain = network as Chain;
@@ -91,8 +90,10 @@ export class LoanNft {
       loan.status = data.new_loan.status;
       loan.created_at = data.new_loan.created_at;
       loan.updated_at = data.new_loan.updated_at;
+      loan.valid_at = data.new_loan.valid_at;
       loan.init_tx_hash = data.new_loan.init_tx_hash;
       loan.data_loan_address = data.new_loan.data_loan_address;
+      loan.config = data.new_loan.config;
       loan.data_asset_address = data.new_loan.data_asset_address;
       loan.offers = data.new_loan.offers.map(e => OfferToLoan.parseFromApi(e, chain));
       
@@ -142,11 +143,11 @@ export class LoanNft {
   isAllowChange(field: 'principal_amount' | 'duration' | 'interest_rate'): boolean {
     switch (field) {
       case 'principal_amount':
-        return !!(new BigNumber(this.config).mod(10).dividedToIntegerBy(1));
+        return !!(new BigNumber(this.config).mod(10).dividedToIntegerBy(1).toNumber());
       case 'duration':
-        return !!(new BigNumber(this.config).mod(100).dividedToIntegerBy(10));
+        return !!(new BigNumber(this.config).mod(100).dividedToIntegerBy(10).toNumber());
       case 'interest_rate':
-        return !!(new BigNumber(this.config).mod(1000).dividedToIntegerBy(100));
+        return !!(new BigNumber(this.config).mod(1000).dividedToIntegerBy(100).toNumber());
       default: return true;
     }
   }
