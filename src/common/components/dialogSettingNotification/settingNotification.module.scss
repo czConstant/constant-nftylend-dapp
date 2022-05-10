@@ -17,16 +17,17 @@
     align-items: center;
     > div {
       margin-bottom: 0;
-      margin-right: 10px;
       flex: 1;
     }
     .submitButton {
-      font-size: 14px;
+      min-width: 120px;
       height: 45px;
+      font-size: 14px;
       background-color: #3772ff;
       filter: none;
       font-weight: bold;
       border-radius: 8px;
+      margin-left: 10px;
     }
   }
   .switchRow {

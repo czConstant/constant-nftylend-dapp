@@ -9,30 +9,35 @@ import Loading from 'src/common/components/loading';
 import styles from './settingNotification.module.scss';
 
 interface AddEmailFormProps {
+  email: string;
   submitting: boolean;
   onSubmit: React.FormEventHandler;
 }
 
 const AddEmailForm = (props: AddEmailFormProps) => {
-  const { submitting, onSubmit } = props;
+  const { email, submitting, onSubmit } = props;
 
   return (
     <form className={styles.formEmail} onSubmit={onSubmit}>
       <InputWrapper label="Email" theme="dark">
         <Field
-          name=" email"
+          disabled={email}
+          defaultValue={email}
+          name="email"
           children={FieldText}
-          placeholder="0.0"
+          placeholder="example@nftpawn.financial"
           validate={composeValidators(required, isEmail())}
         />
       </InputWrapper>
-      <Button
-        type="submit"
-        disabled={submitting}
-        className={styles.submitButton}
-      >
-        {submitting ? <Loading dark /> : "Add email"}
-      </Button>
+      {!email && (
+        <Button
+          type="submit"
+          disabled={submitting}
+          className={styles.submitButton}
+        >
+          {submitting ? <Loading dark /> : "Add email"}
+        </Button>
+      )}
     </form>
   );
 }
