@@ -9,6 +9,9 @@ import Loading from 'src/common/components/loading';
 
 import styles from './settingNotification.module.scss';
 import AddEmailForm from './form';
+import api from 'src/common/services/apiClient';
+import { API_URL } from 'src/common/constants/url';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 
 interface DialogSettingNotificationProps {
   onClose: Function;
@@ -16,14 +19,42 @@ interface DialogSettingNotificationProps {
 
 const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
   const { onClose } = props;
+  const { currentWallet } = useCurrentWallet();
 
   const [submitting, setSubmitting] = useState(false);
   const [saving, setSaving] = useState(false);
   const [newsletterActive, setNewsletterActive] = useState(false)
   const [loanActivity, setLoanActivity] = useState(false)
+  const [settings, setSettings] = useState<any>(null)
+
+  useEffect(() => {
+    fetchSetting();
+  }, [])
+
+  const fetchSetting = async () => {
+    try {
+      const res = await api.get(API_URL.NFT_LEND.USER_SETTINGS, { params: {
+        network: currentWallet.chain.toString(),
+        address: currentWallet.address
+      }});
+      setSettings(res.result);
+    } catch { }
+  }
   
-  const onSubmit = (values) => {
-    console.log("🚀 ~ file: index.tsx ~ line 20 ~ onSubmit ~ values", values)
+  const onSubmit = async (values: any) => {
+    try {
+      setSubmitting(true)
+      await api.post(API_URL.NFT_LEND.USER_EMAIL_SETTINGS, {
+        address: currentWallet.address,
+        network: currentWallet.chain.toString(),
+        email: values.email,
+      })
+      fetchSetting();
+    } catch (err: any) {
+      toastError(err?.message || err);
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   const onSave = (values) => {
@@ -34,8 +65,9 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
     <div className={styles.wrapper}>
       <h2>Setting</h2>
       <Form onSubmit={onSubmit}>
-        {({ values, handleSubmit }) => (
+        {({ handleSubmit }) => (
           <AddEmailForm
+            email={settings?.email}
             submitting={submitting}
             onSubmit={handleSubmit}
           />

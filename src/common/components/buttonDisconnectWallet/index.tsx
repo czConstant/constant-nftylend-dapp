@@ -81,9 +81,9 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
             <div className={styles.item}>Copy address</div>
           </CopyToClipboard>
         </Dropdown.Item>
-        {/* <Dropdown.Item eventKey="changeWallet" onClick={onEnableNotification}>
-          <div className={styles.item}>Notification Preference</div>
-        </Dropdown.Item> */}
+        <Dropdown.Item eventKey="changeWallet" onClick={onEnableNotification}>
+          <div className={styles.item}>Settings</div>
+        </Dropdown.Item>
         <Dropdown.Item eventKey="changeWallet" onClick={onChangeWallet}>
           <div className={styles.item}>Change wallet</div>
         </Dropdown.Item>
