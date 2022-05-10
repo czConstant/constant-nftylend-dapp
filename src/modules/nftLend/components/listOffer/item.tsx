@@ -133,7 +133,7 @@ const Item = (props: ItemProps) => {
 
   const showClaim = !isEvmChain(offer.chain) && offer.status === "repaid";
   const showLiquidate = offer.isLiquidated();
-  const showCancel = offer.status === "new";
+  const showCancel = offer.isListing() || offer.isExpired();
 
   const principal = offer.principal_amount;
   const interest = offer.interest_rate;
@@ -147,10 +147,10 @@ const Item = (props: ItemProps) => {
   };
 
   if (showLiquidate) {
-    status = "overdue";
-  } else if (status === "done" && offer.close_tx_hash) {
-    status = "expired";
-  } 
+    status = 'overdue';
+  } else if (loan?.isExpired()) {
+    status = 'expired';
+  }
 
   if (["overdue"].includes(status)) {
     statusStyle = {

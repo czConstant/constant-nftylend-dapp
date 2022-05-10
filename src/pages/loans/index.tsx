@@ -101,7 +101,14 @@ const Loans = () => {
       }
       const response: ListResponse = await getLoanByCollection(params);
       const result = response.result;
-      setLoans(result.map((e: LoanData) => LoanNft.parseFromApi(e)));
+      setLoans(result.map((e: LoanData) => {
+        try {
+          const loan = LoanNft.parseFromApi(e);
+          return loan;
+        } catch {
+          return null;
+        }
+      }).filter((e: any) => !!e));
     } catch (error) {
     } finally {
       setLoading(false);

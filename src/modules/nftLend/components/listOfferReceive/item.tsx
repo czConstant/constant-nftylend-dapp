@@ -77,7 +77,7 @@ const Item = (props: ItemProps) => {
     navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${offer.loan?.seo_url}`);
   };
 
-  const showAccept = offer.status === "new";
+  const showAccept = offer.isListing() && !offer.isExpired();
 
   const principal = offer.principal_amount;
   const interest = offer.interest_rate;
@@ -98,8 +98,8 @@ const Item = (props: ItemProps) => {
     moment().isAfter(moment(offer.loan?.approved_offer?.expired_at))
   ) {
     status = "overdue";
-  } else if (status === "done" && offer?.close_tx_hash) {
-    status = "expired";
+  } else if (offer.isExpired()) {
+    status = 'expired'
   }
 
   if (["overdue"].includes(status)) {

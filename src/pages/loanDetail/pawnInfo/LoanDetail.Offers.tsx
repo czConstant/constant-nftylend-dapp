@@ -61,27 +61,34 @@ const OfferRow = (props: OfferRowProps) => {
           {shortCryptoAddress(offer?.lender, 18)}
         </a>
       </div>
-      <div className={styles.actions}>
-        {isMyOffer && offer?.status === "new" && (
-          <Button
-            style={{ color: "#dc3545" }}
-            variant="link"
-            onClick={() => onCancel(offer)}
-          >
-            Cancel
-          </Button>
-        )}
-        {isMyLoan && offer?.status === "new" && (
-          <Button
-            style={{ color: "#0d6efd" }}
-            variant="link"
-            onClick={() => onAccept(offer)}
-          >
-            Accept
-          </Button>
-        )}
-        {offer?.status === 'cancelled' && <span>Cancelled</span>}
-      </div>
+      {offer?.isListing() && (
+        <div className={styles.actions}>
+          {isMyOffer && (
+            <Button
+              style={{ color: "#dc3545" }}
+              variant="link"
+              onClick={() => onCancel(offer)}
+            >
+              Cancel
+            </Button>
+          )}
+          {isMyLoan && !offer?.isExpired() && (
+            <Button
+              style={{ color: "#0d6efd" }}
+              variant="link"
+              onClick={() => onAccept(offer)}
+            >
+              Accept
+            </Button>
+          )}
+          {isMyLoan && offer?.isExpired() && (
+            <div>
+              Expired
+            </div>
+          )}
+          {offer?.status === 'cancelled' && <span>Cancelled</span>}
+        </div>
+      )}
     </div>
   );
 }

@@ -78,6 +78,11 @@
     padding: 25px 20px;
     margin-top: 2px;
     overflow-x: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    &::-webkit-scrollbar {
+      display: none;
+    }
     > div {
       font-size: 16px;
       color: #777e90;

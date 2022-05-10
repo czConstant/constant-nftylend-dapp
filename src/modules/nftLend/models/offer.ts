@@ -28,6 +28,7 @@ export class OfferToLoan {
   signature: string = '';
   expired_at: string = '';
   started_at: string = '';
+  valid_at: string = '';
 
   constructor(chain: Chain) {
     this.chain = chain;
@@ -47,6 +48,7 @@ export class OfferToLoan {
     offer.status = data.status;
     offer.created_at = data.created_at;
     offer.updated_at = data.updated_at;
+    offer.valid_at = data.valid_at;
     offer.loan_id = data.loan_id;
     if (data.loan) {
       offer.loan = LoanNft.parseFromApi(data.loan);
@@ -79,5 +81,13 @@ export class OfferToLoan {
 
   isLiquidated(): boolean {
     return this.status === 'approved' && moment().isAfter(moment(this.expired_at));
+  }
+
+  isListing(): boolean {
+    return this.status === 'new';
+  }
+
+  isExpired(): boolean {
+    return this.status === 'new' && moment().isAfter(moment(this.valid_at));
   }
 }

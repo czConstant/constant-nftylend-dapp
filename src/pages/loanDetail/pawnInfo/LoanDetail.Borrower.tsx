@@ -4,6 +4,7 @@ import { AssetNft } from 'src/modules/nftLend/models/nft';
 import styles from "../styles.module.scss";
 import { getBorrowerStats } from 'src/modules/nftLend/api';
 import { formatCurrency } from 'src/common/utils/format';
+import BigNumber from 'bignumber.js';
 
 interface LoanDetailBorrowerProps {
   asset: AssetNft;
@@ -20,11 +21,13 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ asset, borrower
     });
   }, [borrower])
 
+  const rate = new BigNumber(borrowerStats?.total_done_loans).dividedBy(borrowerStats?.total_loans).multipliedBy(100).toNumber();
+
   return (
     <div className={cx(styles.tabContentWrap, styles.tabContentAttrWrap)}>
       <div className={styles.tabContentAttrItem}>
-        <label>Total Completed</label>
-        <div>{borrowerStats?.total_done_loans}</div>
+        <label>Repaid Rate</label>
+        <div>{formatCurrency(rate)}%</div>
       </div>
       <div className={styles.tabContentAttrItem}>
         <label>Total Loans</label>

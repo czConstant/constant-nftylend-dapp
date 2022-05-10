@@ -93,6 +93,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
     <form onSubmit={onSubmit}>
       <InputWrapper label="Loan Amount" theme="dark">
         <Field
+          disabled={!loan.isAllowChange('principal_amount')}
           validate={required}
           name="amount"
           children={FieldAmount}
@@ -103,6 +104,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
       </InputWrapper>
       <InputWrapper label="Loan duration" theme="dark">
         <Field
+          disabled={!loan.isAllowChange('duration')}
           name="duration"
           placeholder="0"
           appendComp="days"
@@ -115,6 +117,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
       </InputWrapper>
       <InputWrapper label="Loan interest" theme="dark">
         <Field
+          disabled={!loan.isAllowChange('interest_rate')}
           validate={required}
           name="rate"
           children={FieldAmount}
@@ -122,6 +125,15 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           appendComp="% APY"
         />
         <div className={styles.errorMessage}>{warnings.rate}</div>
+      </InputWrapper>
+      <InputWrapper label="Offer available in" theme="dark">
+        <Field
+          validate={required}
+          name="available_in"
+          children={FieldAmount}
+          placeholder="0.0"
+          appendComp="days"
+        />
       </InputWrapper>
       {renderEstimatedInfo()}
       <Button

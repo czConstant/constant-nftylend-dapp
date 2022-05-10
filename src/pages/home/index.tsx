@@ -104,7 +104,7 @@ const DATA = [
   },
   {
     title: "Burn Token",
-    desc: "The PWP token burning events are scheduled to occur every quarter until 720,000,000 PWP are finally destroyed, which represents 80% of the total PWP ever issued (900,000,000 PWP)",
+    desc: "The PWP token burning events are scheduled to occur every quarter until 7,200,000,000 PWP are finally destroyed, which represents 80% of the total PWP ever issued (9,000,000,000 PWP)",
   },
   {
     title: "Staking",

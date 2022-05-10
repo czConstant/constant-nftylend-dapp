@@ -28,6 +28,8 @@ export interface CreateLoanParams {
   principal: number;
   rate: number;
   duration: number;
+  loan_config: number;
+  available_in: number;
 }
 
 export interface CancelLoanParams {
@@ -49,6 +51,7 @@ export interface MakeOfferParams {
   principal: number;
   rate: number;
   duration: number;
+  available_in: number;
 }
 
 export interface CancelOfferParams {
