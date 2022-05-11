@@ -8,20 +8,12 @@ import { SolanaNft } from '../solana/models/solanaNft';
 import { getLinkSolScanExplorer } from '../solana/utils';
 import { LoanDataAsset } from './models/api';
 import { NearNft } from '../near/models/nearNft';
-import { AssetNft } from './models/nft';
 
 interface ImageThumb {
   width: number;
   height: number;
   url: string;
   showOriginal?: boolean;
-}
-
-export const generateSeoUrl = (asset: AssetNft): string => {
-  const id = asset.chain === Chain.Solana
-    ? asset.contract_address
-    : `${asset.contract_address}-${asset.token_id}`;
-  return id.replaceAll(/[^a-zA-Z0-9]+/g, '-');
 }
 
 export const getImageThumb = (params: ImageThumb, chain?: Chain) => {
@@ -77,6 +69,10 @@ export async function isAssetOwner(owner: string, chain: Chain, contractAddress:
   if (isEvmChain(chain)) return checkOwnerNft(owner, contractAddress, Number(tokenId));
   return true;
 }
+
+export function getAvailableAt(availableInSec: number): number {
+  return new BigNumber(new Date().getTime()).dividedToIntegerBy(1000).plus(availableInSec).toNumber();
+};
 
 export const calculateMaxInterest = (principal: number, interest: number, duration: number): number => {
   const DAY_SECS = 86400;

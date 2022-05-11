@@ -3,6 +3,7 @@ import * as nearAPI from 'near-api-js';
 
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
+import { getAvailableAt } from 'src/modules/nftLend/utils';
 
 export default class CreateLoanNearTransaction extends NearTransaction {
   async run(
@@ -33,7 +34,7 @@ export default class CreateLoanNearTransaction extends NearTransaction {
       const msg = JSON.stringify({
         loan_principal_amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
         loan_config: loanConfig,
-        available_in: availableIn,
+        available_at: getAvailableAt(availableIn),
         loan_duration: duration,
         loan_currency: currencyContractAddress,
         loan_interest_rate: new BigNumber(rate).multipliedBy(10000).toNumber(),

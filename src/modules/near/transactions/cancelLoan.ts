@@ -2,6 +2,7 @@ import * as nearAPI from 'near-api-js';
 
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
+import { APP_URL } from 'src/common/constants/url';
 
 export default class CancelLoanNearTransaction extends NearTransaction {
   async run(
@@ -25,7 +26,7 @@ export default class CancelLoanNearTransaction extends NearTransaction {
       const transaction = await this.createTransaction([ action ], this.lendingProgram);
       await connection.requestSignTransactions({ 
         transactions: [transaction],
-        callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }),
+        callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }, `${window.location.origin}${APP_URL.NFT_LENDING_MY_NFT}`),
       });
 
       return this.handleSuccess({ txHash: '' } as TransactionResult);

@@ -27,7 +27,7 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ asset, borrower
     <div className={cx(styles.tabContentWrap, styles.tabContentAttrWrap)}>
       <div className={styles.tabContentAttrItem}>
         <label>Repaid Rate</label>
-        <div>{formatCurrency(rate)}%</div>
+        <div>{rate ? `${formatCurrency(rate)}%` : 'Not Available'}</div>
       </div>
       <div className={styles.tabContentAttrItem}>
         <label>Total Loans</label>

@@ -100,6 +100,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           placeholder="0.0"
           appendComp={loan.currency?.symbol}
         />
+        {!loan.isAllowChange('principal_amount') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
         <div className={styles.errorMessage}>{warnings.amount}</div>
       </InputWrapper>
       <InputWrapper label="Loan duration" theme="dark">
@@ -114,6 +115,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           alignMenu="right"
           validate={required}
         />
+        {!loan.isAllowChange('duration') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
       </InputWrapper>
       <InputWrapper label="Loan interest" theme="dark">
         <Field
@@ -134,7 +136,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           placeholder="0.0"
           appendComp="days"
         />
-      </InputWrapper>
+        {!loan.isAllowChange('interest_rate') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}      </InputWrapper>
       {renderEstimatedInfo()}
       <Button
         type="submit"
