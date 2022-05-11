@@ -70,6 +70,10 @@ export async function isAssetOwner(owner: string, chain: Chain, contractAddress:
   return true;
 }
 
+export function getAvailableAt(availableInSec: number): number {
+  return new BigNumber(new Date().getTime()).dividedToIntegerBy(1000).plus(availableInSec).toNumber();
+};
+
 export const calculateMaxInterest = (principal: number, interest: number, duration: number): number => {
   const DAY_SECS = 86400;
   const loanDay = duration / DAY_SECS;

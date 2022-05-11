@@ -87,7 +87,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   const renderButton = () => {
     if (verifying) return <Loading />;
     if (loan?.isListing()) return (
-      <Button onClick={onGoTtoLoan} className={styles.btnConnect}>
+      <Button onClick={onGoTtoLoan} className={styles.btnGoToLoan}>
         Go to loan
       </Button>
     );

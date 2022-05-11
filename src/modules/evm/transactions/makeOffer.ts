@@ -9,6 +9,7 @@ import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { formatAmountSigning, generateNonce, getMaxAllowance } from '../utils';
+import { getAvailableAt } from 'src/modules/nftLend/utils';
 
 export default class MakeOfferEvmTransaction extends EvmTransaction {
   async run(
@@ -62,7 +63,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         duration,
         signature: lenderSig,
         nonce_hex: nonce,
-        available_in: availableIn,
+        available_at: getAvailableAt(availableIn),
       });
 
       return this.handleSuccess({ txHash: txHash } as TransactionResult);
