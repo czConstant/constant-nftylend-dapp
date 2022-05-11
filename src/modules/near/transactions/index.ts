@@ -1,44 +1,46 @@
 import * as nearAPI from 'near-api-js';
 import { baseDecode } from 'borsh';
 
-import { Chain } from 'src/common/constants/network';
 import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import store from 'src/store';
+import localStore from 'src/common/services/localStore';
 import { getLinkNearExplorer, getNearConfig, NEAR_DEFAULT_GAS } from '../utils';
 
 export default class NearTransaction {
   lendingProgram;
+  accountId;
 
-  constructor() {
+  constructor(accountId: string) {
     this.lendingProgram = store.getState().nftyLend.configs.near_nftypawn_address;
+    this.accountId = localStore.get(localStore.KEY_WALLET_ADDRESS);
   }
 
   calculateGasFee = async (): Promise<string | null> => {
     return NEAR_DEFAULT_GAS;
   }
 
-  createTransaction = async (actions: Array<nearAPI.transactions.Action>, receiverId: string): Promise<nearAPI.transactions.Transaction> => {
-    const account: nearAPI.ConnectedWalletAccount = window.nearAccount.account();
-    const accountId = window.nearAccount.getAccountId();
-    const keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
-    const keyPair = await keyStore.getKey(getNearConfig().networkId, accountId);
+  // createTransaction = async (actions: Array<nearAPI.transactions.Action>, receiverId: string): Promise<nearAPI.transactions.Transaction> => {
+  //   const account: nearAPI.ConnectedWalletAccount = window.nearAccount.account();
+  //   const accountId = window.nearAccount.getAccountId();
+  //   const keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
+  //   const keyPair = await keyStore.getKey(getNearConfig().networkId, accountId);
     
-    const block = await account.connection.provider.block({ finality: 'final' });
-    const blockHash =  baseDecode(block.header.hash);
+  //   const block = await account.connection.provider.block({ finality: 'final' });
+  //   const blockHash =  baseDecode(block.header.hash);
 
-    let accessKey = await account.accessKeyForTransaction(accountId, actions, keyPair.getPublicKey());
-    const nonce = accessKey.access_key.nonce + 1;
-    return nearAPI.transactions.createTransaction(
-      accountId,
-      keyPair.getPublicKey(),
-      receiverId,
-      nonce,
-      actions,
-      blockHash,
-    );
-  }
+  //   let accessKey = await account.accessKeyForTransaction(accountId, actions, keyPair.getPublicKey());
+  //   const nonce = accessKey.access_key.nonce + 1;
+  //   return nearAPI.transactions.createTransaction(
+  //     accountId,
+  //     keyPair.getPublicKey(),
+  //     receiverId,
+  //     nonce,
+  //     actions,
+  //     blockHash,
+  //   );
+  // }
 
   generateCallbackUrl = (query: any, customUrl?: string): string => {
     let url = new URL(customUrl || `${window.location.origin}${window.location.pathname}`);
@@ -51,13 +53,17 @@ export default class NearTransaction {
     throw err;
   };
 
-  handleSuccess = async (res: TransactionResult): Promise<TransactionResult> => {
-    if (res.blockNumber) {
+  handleSuccess = async (res: TransactionResult, assetContractAddress?: string, assetTokenId?: string): Promise<TransactionResult> => {
+    let completed = false;
+    if (assetContractAddress && assetTokenId) {
       let count = 0;
       while (count < 6) {
         try {
-          await api.post(`${API_URL.NFT_LEND.UPDATE_BLOCK_EVM.replace('{network}', Chain.Near)}/${res.blockNumber}`);
-          break;
+          const res = await api.post(API_URL.NFT_LEND.SYNC_NEAR, { token_id: assetTokenId, contract_address: assetContractAddress });
+          if (res.result) {
+            completed = true;
+            break;
+          }
         } catch (err) { }
         await new Promise(r => setTimeout(r, 5000));
         count += 1;
@@ -65,8 +71,8 @@ export default class NearTransaction {
     }
     if (res.txHash) {
       const txExplorerUrl = getLinkNearExplorer(res.txHash, 'tx');
-      return { ...res, txExplorerUrl, completed: false };
+      return { ...res, txExplorerUrl, completed };
     }
-    return { ...res, completed: false };
+    return { ...res, completed };
   };
 }

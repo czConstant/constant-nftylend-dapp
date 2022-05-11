@@ -1,15 +1,12 @@
-import * as nearAPI from 'near-api-js';
-
 import { AvalancheChainConfig, BobaNetworkConfig, BscChainConfig, Chain, ChainConfigs, PolygonChainConfig } from 'src/common/constants/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { clearWallet, selectCurrentWallet, selectNftyLend, updateWallet } from 'src/store/nftyLend';
+import { clearWallet, selectCurrentWallet, updateWallet } from 'src/store/nftyLend';
 import { isEvmChain } from '../utils';
 import { CryptoWallet, getEvmProvider } from 'src/common/constants/wallet';
 
 function useCurrentWallet() {
   const dispatch = useAppDispatch();
   const currentWallet = useAppSelector(selectCurrentWallet);
-  const near_nftypawn_address = useAppSelector(selectNftyLend).configs.near_nftypawn_address;
 
   const connectSolanaWallet = async () => {
     const el = document.getElementById('solButton');
@@ -17,16 +14,17 @@ function useCurrentWallet() {
   };
 
   const connectNearWallet = async () => {
-    const signedIn = window.nearAccount.isSignedIn();
-    if (signedIn) {
+    const nearAccounts =  await window.nearSelector?.getAccounts();
+    const isSignedIn = await window.nearSelector?.isSignedIn();
+    if (isSignedIn || nearAccounts.length > 0) {
+      if (!isSignedIn) window.nearSelector?.signIn();
       dispatch(updateWallet({
-        address: window.nearAccount.getAccountId(),
+        address: nearAccounts[0]?.accountId,
         chain: Chain.Near,
         name: 'near',
       }));
     } else {
-      const connection = new nearAPI.WalletConnection(window.near, null);
-      connection.requestSignIn(near_nftypawn_address);
+      window.nearSelector?.show();
     }
   };
 

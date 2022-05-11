@@ -49,7 +49,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
         loan_id: loan.id,
         principal: values.amount,
         rate: values.rate / 100,
-        duration: Number(values.duration?.id || values.duration) * 86400,
+        duration: Number(values.duration?.id || values.duration),
         available_in: values.available_in * 86400,
       });
       if (res.completed) toastSuccess(
@@ -82,7 +82,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
           amount: loan.principal_amount,
           rate: new BigNumber(loan.interest_rate).multipliedBy(100).toNumber(),
           duration: LOAN_DURATION.find(
-            (v) => v.id === Math.ceil(loan.duration / 86400)
+            (v) => v.id === loan.duration,
           ),
         }}
       >

@@ -76,7 +76,7 @@ const CreateLoan = (props: CreateLoanProps) => {
         currency_contract_address: values.receiveTokenMint,
         principal: values.amount,
         rate: values.rate / 100,
-        duration: Number(values.duration.id || values.duration) * 86400,
+        duration: Number(values.duration.id || values.duration),
         currency_decimal: receiveToken.decimals,
         currency_id: receiveToken.id,
         available_in: values.available_in * 86400,
