@@ -12,23 +12,15 @@
   .content {
     max-width: 600px;
   }
-  .formEmail {
-    display: flex;
-    align-items: center;
-    > div {
-      margin-bottom: 0;
-      flex: 1;
-    }
-    .submitButton {
-      min-width: 120px;
-      height: 45px;
-      font-size: 14px;
-      background-color: #3772ff;
-      filter: none;
-      font-weight: bold;
-      border-radius: 8px;
-      margin-left: 10px;
-    }
+  .submitButton {
+    min-width: 120px;
+    height: 45px;
+    font-size: 14px;
+    background-color: #3772ff;
+    filter: none;
+    font-weight: bold;
+    border-radius: 8px;
+    margin-left: 10px;
   }
   .switchRow {
     width: 100%;
