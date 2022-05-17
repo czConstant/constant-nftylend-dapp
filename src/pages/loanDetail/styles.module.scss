@@ -102,10 +102,13 @@
         margin-left: 10px;
       }
       .infoAuthor {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         font-weight: bold;
         cursor: pointer;
         font-size: 14px;
-        color: #45b36b;
+        color: white;
         letter-spacing: 0;
         line-height: 16px;
       }
@@ -278,6 +281,7 @@
 }
 
 .groupOfferButtons {
+  position: relative;
   display: flex;
   margin: 15px 0px;
   width: 100%;
@@ -311,14 +315,16 @@
     &:not(:first-child) {
       margin-left: 10px;
     }
-    &:nth-child(2) {
+    &.outline {
       background: transparent;
       border: 1px solid #3772ff;
       color: #3772ff;
     }
   }
   .btnCancel {
-    background: var(--bs-danger);
+    background: transparent;
+    border: 1px solid var(--bs-danger);
+    color: var(--bs-danger);
   }
   .btnDisabled {
     background: var(--bs-gray);
@@ -338,7 +344,6 @@
 
 .tbHeader {
   display: flex;
-  background-color: #19191c;
   div {
     flex: 1;
     font-size: 12px;
@@ -358,8 +363,8 @@
 
 .tbBody {
   display: flex;
-  background-color: hsla(240, 6%, 10%, 0.8);
   font-size: 14px;
+  line-height: 20px;
   border-radius: 0px 0px 16px 16px;
   margin-top: 5px;
   div {

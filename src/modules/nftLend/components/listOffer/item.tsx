@@ -133,7 +133,7 @@ const Item = (props: ItemProps) => {
 
   const showClaim = !isEvmChain(offer.chain) && offer.status === "repaid";
   const showLiquidate = offer.isLiquidated();
-  const showCancel = offer.status === "new";
+  const showCancel = offer.isListing() || offer.isExpired();
 
   const principal = offer.principal_amount;
   const interest = offer.interest_rate;
@@ -147,10 +147,10 @@ const Item = (props: ItemProps) => {
   };
 
   if (showLiquidate) {
-    status = "overdue";
-  } else if (status === "done" && offer.close_tx_hash) {
-    status = "expired";
-  } 
+    status = 'overdue';
+  } else if (loan?.isExpired()) {
+    status = 'expired';
+  }
 
   if (["overdue"].includes(status)) {
     statusStyle = {
@@ -182,7 +182,8 @@ const Item = (props: ItemProps) => {
           {principal} {loan?.currency?.symbol}
         </div>
         <div>
-          {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`} / <br />
+          {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
+          &nbsp;/&nbsp;
           {new BigNumber(interest).multipliedBy(100).toNumber()}%
         </div>
         {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
@@ -191,11 +192,11 @@ const Item = (props: ItemProps) => {
             {OFFER_STATUS?.[status]?.lender}
           </div>
         </div>
-        <div>
+        {/* <div>
           <a target="_blank" href={loan?.getLinkExplorerTx()}>
             {shortCryptoAddress(loan?.init_tx_hash, 8)}
           </a>
-        </div>
+        </div> */}
         <div>{moment(offer.updated_at).format("MM/DD/YYYY HH:mm A")}</div>
         <div className={listLoanStyles.actions}>
           {showClaim && (

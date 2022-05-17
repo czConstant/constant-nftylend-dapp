@@ -3,6 +3,7 @@ import * as nearAPI from 'near-api-js';
 
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
+import { getAvailableAt } from 'src/modules/nftLend/utils';
 
 export default class MakeOfferNearTransaction extends NearTransaction {
   async run(
@@ -13,6 +14,7 @@ export default class MakeOfferNearTransaction extends NearTransaction {
     principal: number,
     rate: number,
     duration: number,
+    availableIn: number,
   ): Promise<TransactionResult> {
     try {
       const connection = new nearAPI.WalletConnection(window.near, null);
@@ -25,7 +27,8 @@ export default class MakeOfferNearTransaction extends NearTransaction {
         loan_principal_amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
         loan_duration: duration,
         loan_currency: currencyContractAddress,
-        loan_interest_rate: rate * 10000,
+        loan_interest_rate: new BigNumber(rate).multipliedBy(10000).toNumber(),
+        available_at: getAvailableAt(availableIn),
       });
       
       const action = nearAPI.transactions.functionCall(
@@ -44,7 +47,7 @@ export default class MakeOfferNearTransaction extends NearTransaction {
         callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }),
       });
 
-      return this.handleSuccess({ txHash: '' } as TransactionResult);
+      return this.handleSuccess({ } as TransactionResult);
     } catch (err) {
       return this.handleError(err);
     }

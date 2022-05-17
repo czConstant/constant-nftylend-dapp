@@ -77,7 +77,7 @@ const Item = (props: ItemProps) => {
     navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${offer.loan?.seo_url}`);
   };
 
-  const showAccept = offer.status === "new";
+  const showAccept = offer.isListing() && !offer.isExpired();
 
   const principal = offer.principal_amount;
   const interest = offer.interest_rate;
@@ -98,8 +98,8 @@ const Item = (props: ItemProps) => {
     moment().isAfter(moment(offer.loan?.approved_offer?.expired_at))
   ) {
     status = "overdue";
-  } else if (status === "done" && offer?.close_tx_hash) {
-    status = "expired";
+  } else if (offer.isExpired()) {
+    status = 'expired'
   }
 
   if (["overdue"].includes(status)) {
@@ -133,20 +133,19 @@ const Item = (props: ItemProps) => {
         </div>
         <div>
           {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
-          /<br />
+          &nbsp;/&nbsp;
           {new BigNumber(interest).multipliedBy(100).toNumber()}%
         </div>
-
         <div>
           <div className={listLoanStyled.statusWrap} style={statusStyle}>
             {OFFER_STATUS[status]?.borrower}
           </div>
         </div>
-        <div>
+        {/* <div>
           <a target="_blank" href={loan?.getLinkExplorerTx()}>
             {shortCryptoAddress(loan?.init_tx_hash, 8)}
           </a>
-        </div>
+        </div> */}
         <div>{moment(loan?.created_at).format("MM/DD/YYYY HH:mm A")}</div>
         <div className={listLoanStyled.actions}>
           {showAccept && <Button onClick={onAccept}>Accept</Button>}

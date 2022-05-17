@@ -9,6 +9,7 @@ import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { formatAmountSigning, generateNonce, getMaxAllowance } from '../utils';
+import { getAvailableAt } from 'src/modules/nftLend/utils';
 
 export default class MakeOfferEvmTransaction extends EvmTransaction {
   async run(
@@ -21,6 +22,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
     currencyDecimals: number,
     lender: string,
     loanId: number,
+    availableIn: number,
   ): Promise<TransactionResult> {
     try {
       const signer = this.provider.getSigner(0);
@@ -61,6 +63,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         duration,
         signature: lenderSig,
         nonce_hex: nonce,
+        available_at: getAvailableAt(availableIn),
       });
 
       return this.handleSuccess({ txHash: txHash } as TransactionResult);

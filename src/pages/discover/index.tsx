@@ -32,7 +32,14 @@ const Home = () => {
     try {
       const response = await fetchCollections();
       const list = response.result.filter((v: any) => v?.listing_total > 0);
-      setCollections(list.map(CollectionNft.parseFromApi));
+      setCollections(list.map((e: CollectionData) => {
+        try {
+          const collection = CollectionNft.parseFromApi(e);
+          return collection;
+        } catch {
+          return null;
+        }
+      }).filter((e: any) => !!e));
     } catch (err) {
       console.log("🚀 ~ file: index.tsx ~ line 39 ~ getData ~ err", err)
     } finally {

@@ -115,7 +115,7 @@ const Item = (props: ItemProps) => {
     navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
   };
 
-  const showCancel = loan.status === "new";
+  const showCancel = loan.isListing() || loan.isExpired();
   const showPay = loan.isOngoing() && moment().isBefore(moment(loan.approved_offer?.expired_at));
 
   const principal = loan.approved_offer
@@ -134,7 +134,9 @@ const Item = (props: ItemProps) => {
   if (loan.isLiquidated()) {
     status = "liquidated";
   } else if(showPay) {
-    status = 'approved'
+    status = 'approved';
+  } else if (loan.isExpired()) {
+    status = 'expired';
   }
 
   if (["liquidated"].includes(status)) {
@@ -154,10 +156,6 @@ const Item = (props: ItemProps) => {
     };
   }
 
-  const days = new BigNumber(duration)
-    .dividedBy(86400)
-    .toPrecision(2, BigNumber.ROUND_CEIL);
-
   return (
     <div key={loan.id} onClick={() => setOpen(!open)} className={cx(styles.item, styles.row)}>
       <div>
@@ -167,7 +165,8 @@ const Item = (props: ItemProps) => {
         {principal} {loan.currency?.symbol}
       </div>
       <div>
-        {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`} /<br />
+        {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
+        &nbsp;/&nbsp;
         {new BigNumber(interest).multipliedBy(100).toNumber()}%
       </div>
       {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
@@ -176,11 +175,11 @@ const Item = (props: ItemProps) => {
           {LOAN_STATUS.find((v) => v.id === status)?.name || "Unknown"}
         </div>
       </div>
-      <div>
+      {/* <div>
         <a target="_blank" href={loan.getLinkExplorerTx()}>
           {shortCryptoAddress(loan.init_tx_hash, 8)}
         </a>
-      </div>
+      </div> */}
       <div>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</div>
       <div className={styles.actions}>
         {showCancel && <Button onClick={onCancelLoan}>Cancel</Button>}

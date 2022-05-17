@@ -12,11 +12,11 @@ const LoanDetailPriceStatistic: React.FC<LoanDetailPriceStatisticProps> = ({ ass
     <div className={cx(styles.tabContentWrap, styles.tabContentAttrWrap)}>
       <div className={styles.tabContentAttrItem}>
         <label>Avg Price</label>
-        <div>{asset.stats?.avg_price} {asset.stats?.currency.symbol}</div>
+        <div>{asset.stats?.avg_price} {asset.stats?.currency?.symbol}</div>
       </div>
       <div className={styles.tabContentAttrItem}>
         <label>Floor Price</label>
-        <div>{asset.stats?.floor_price} {asset.stats?.currency.symbol}</div>
+        <div>{asset.stats?.floor_price} {asset.stats?.currency?.symbol}</div>
       </div>
     </div>
   );

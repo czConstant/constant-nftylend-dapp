@@ -18,6 +18,7 @@ import { LOAN_DURATION } from 'src/modules/nftLend/constant';
 
 import styles from "../styles.module.scss";
 import pawnStyles from './pawnInfo.module.scss';
+import CountdownText from 'src/common/components/countdownText';
 
 export const OfferTableHeader = () => (
   <div className={cx(styles.tbHeader, pawnStyles.offerTable)}>
@@ -25,6 +26,7 @@ export const OfferTableHeader = () => (
     <div style={{ flex: 1 }}>Duration</div>
     <div style={{ flex: 1 }}>Interest</div>
     <div style={{ flex: 2 }}>From</div>
+    <div style={{ flex: 1 }}>Ends in</div>
     <div style={{ flex: 1 }} />
   </div>
 );
@@ -61,27 +63,37 @@ const OfferRow = (props: OfferRowProps) => {
           {shortCryptoAddress(offer?.lender, 30)}
         </a>
       </div>
-      <div className={styles.actions}>
-        {isMyOffer && offer?.status === "new" && (
-          <Button
-            style={{ color: "#dc3545" }}
-            variant="link"
-            onClick={() => onCancel(offer)}
-          >
-            Cancel
-          </Button>
-        )}
-        {isMyLoan && offer?.status === "new" && (
-          <Button
-            style={{ color: "#0d6efd" }}
-            variant="link"
-            onClick={() => onAccept(offer)}
-          >
-            Accept
-          </Button>
-        )}
-        {offer?.status === 'cancelled' && <span>Cancelled</span>}
+      <div>
+        <CountdownText to={offer.valid_at} />
       </div>
+      {offer?.isListing() && (
+        <div className={styles.actions}>
+          {isMyOffer && (
+            <Button
+              style={{ color: "#dc3545" }}
+              variant="link"
+              onClick={() => onCancel(offer)}
+            >
+              Cancel
+            </Button>
+          )}
+          {isMyLoan && !offer?.isExpired() && (
+            <Button
+              style={{ color: "#0d6efd" }}
+              variant="link"
+              onClick={() => onAccept(offer)}
+            >
+              Accept
+            </Button>
+          )}
+          {isMyLoan && offer?.isExpired() && (
+            <div>
+              Expired
+            </div>
+          )}
+          {offer?.status === 'cancelled' && <span>Cancelled</span>}
+        </div>
+      )}
     </div>
   );
 }

@@ -29,7 +29,7 @@ const solTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
     params.loan_data_address,
     params.principal * 10 ** params.currency_decimal,
     params.rate * 10000,
-    params.duration * 86400,
+    params.duration,
     Math.floor(Date.now() / 1000) + 7 * 86400,
   );
   return res;
@@ -45,13 +45,14 @@ const evmTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
   const res = await transaction.run(
     params.principal,
     params.asset_token_id,
-    params.duration * 86400,
+    params.duration,
     params.rate,
     params.asset_contract_address,
     params.currency_contract_address,
     params.currency_decimal,
     params.lender,
     params.loan_id,
+    params.available_in,
   );
   return res;
 }
@@ -65,7 +66,8 @@ const nearTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => 
     params.currency_decimal,
     params.principal,
     params.rate,
-    params.duration * 86400,
+    params.duration,
+    params.available_in,
   );
   return res;
 }

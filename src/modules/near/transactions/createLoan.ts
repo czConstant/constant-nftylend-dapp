@@ -3,6 +3,7 @@ import * as nearAPI from 'near-api-js';
 
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
+import { getAvailableAt } from 'src/modules/nftLend/utils';
 
 export default class CreateLoanNearTransaction extends NearTransaction {
   async run(
@@ -13,6 +14,8 @@ export default class CreateLoanNearTransaction extends NearTransaction {
     duration: number,
     currencyContractAddress: string,
     currencyDecimals: number,
+    availableIn: number,
+    loanConfig: number,
   ): Promise<TransactionResult> {
     try {
       const accountId = window.nearAccount.getAccountId();
@@ -30,9 +33,11 @@ export default class CreateLoanNearTransaction extends NearTransaction {
 
       const msg = JSON.stringify({
         loan_principal_amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
+        loan_config: loanConfig,
+        available_at: getAvailableAt(availableIn),
         loan_duration: duration,
         loan_currency: currencyContractAddress,
-        loan_interest_rate: rate * 10000,
+        loan_interest_rate: new BigNumber(rate).multipliedBy(10000).toNumber(),
       });
 
       const gas = await this.calculateGasFee();

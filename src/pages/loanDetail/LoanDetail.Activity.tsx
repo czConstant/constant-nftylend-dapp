@@ -43,7 +43,7 @@ const TableBody = ({ results = [] }) => {
 
       return (
         <div
-          className={cx(styles.tbHeader, styles.tbBody)}
+          className={cx(styles.tbBody)}
           key={result?.id}
         >
           <div style={{ flex: 1 }} className={styles.typeWrap}>

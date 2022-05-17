@@ -93,16 +93,19 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
     <form onSubmit={onSubmit}>
       <InputWrapper label="Loan Amount" theme="dark">
         <Field
+          disabled={!loan.isAllowChange('principal_amount')}
           validate={required}
           name="amount"
           children={FieldAmount}
           placeholder="0.0"
           appendComp={loan.currency?.symbol}
         />
+        {!loan.isAllowChange('principal_amount') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
         <div className={styles.errorMessage}>{warnings.amount}</div>
       </InputWrapper>
       <InputWrapper label="Loan duration" theme="dark">
         <Field
+          disabled={!loan.isAllowChange('duration')}
           name="duration"
           placeholder="0"
           appendComp="days"
@@ -112,16 +115,28 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           alignMenu="right"
           validate={required}
         />
+        {!loan.isAllowChange('duration') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
       </InputWrapper>
       <InputWrapper label="Loan interest" theme="dark">
         <Field
+          disabled={!loan.isAllowChange('interest_rate')}
           validate={required}
           name="rate"
           children={FieldAmount}
           placeholder="0.0"
           appendComp="% APY"
         />
+        {!loan.isAllowChange('interest_rate') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
         <div className={styles.errorMessage}>{warnings.rate}</div>
+      </InputWrapper>
+      <InputWrapper label="Offer available in" theme="dark">
+        <Field
+          validate={required}
+          name="available_in"
+          children={FieldAmount}
+          placeholder="0.0"
+          appendComp="days"
+        />
       </InputWrapper>
       {renderEstimatedInfo()}
       <Button

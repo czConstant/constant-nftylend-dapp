@@ -1,15 +1,18 @@
 import BigNumber from "bignumber.js";
 import React from "react";
-import { formatCurrencyByLocale } from "src/common/utils/format";
 
 import icPriceTag from "../images/ic_price_tag.svg";
-import styles from "../styles.module.scss";
 import LoanDetailButtons from "./LoanDetail.Buttons";
 import { OfferData } from 'src/modules/nftLend/models/api';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { isSameAddress } from 'src/common/utils/helper';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { LOAN_DURATION } from 'src/modules/nftLend/constant';
+import { formatCurrencyByLocale } from "src/common/utils/format";
+
+import pawnStyles from './pawnInfo.module.scss';
+import styles from "../styles.module.scss";
+import CountdownText from 'src/common/components/countdownText';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -30,15 +33,27 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
 
   return (
     <div className={styles.infoPrice}>
-      <div className={styles.infoPriceTags}>
-        <label>Principal</label>
-        <img src={icPriceTag} alt="item price" />
-      </div>
-      <div className={styles.infoPriceValue}>
-        <div>{`${formatCurrencyByLocale(
-          loan.principal_amount,
-          2
-        )} ${loan.currency?.symbol}`}</div>
+      <div className={pawnStyles.head}> 
+        <div>
+          <div className={styles.infoPriceTags}>
+            <label>Principal</label>
+            <img src={icPriceTag} alt="item price" />
+          </div>
+          <div className={styles.infoPriceValue}>
+            <div>{`${formatCurrencyByLocale(
+              loan.principal_amount,
+              2
+            )} ${loan.currency?.symbol}`}</div>
+          </div>
+        </div>
+        <div className={pawnStyles.configs}>
+          <label>Negotiation</label>
+          <ul> 
+            <li className={loan.isAllowChange('principal_amount') ? pawnStyles.allow : pawnStyles.notallow }>Principal</li>
+            <li className={loan.isAllowChange('duration') ? pawnStyles.allow : pawnStyles.notallow }>Duration</li>
+            <li className={loan.isAllowChange('interest_rate') ? pawnStyles.allow : pawnStyles.notallow }>Interest rate</li>
+          </ul>
+        </div>
       </div>
       <LoanDetailButtons loan={loan} userOffer={userOffer} />
       <div className={styles.feeInfoWrap}>

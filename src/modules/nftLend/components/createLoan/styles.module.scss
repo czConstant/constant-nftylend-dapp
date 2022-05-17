@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   padding: 40px 30px;
+  width: 600px;
   form {
     width: 100%;
   }
@@ -23,6 +24,12 @@
       }
     }
   }
+  .titleOpenOffer {
+    text-align: right;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: bold;
+  }
   .info {
     background-color: #141416;
     padding: 10px 20px;
@@ -43,5 +50,9 @@
         color: white;
       }
     }
+  }
+  :global .rc-switch {
+    margin-top: 10px;
+    float: right;
   }
 }

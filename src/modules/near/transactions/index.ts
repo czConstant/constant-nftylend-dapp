@@ -40,8 +40,8 @@ export default class NearTransaction {
     );
   }
 
-  generateCallbackUrl = (query: any): string => {
-    let url = new URL(`${window.location.origin}${window.location.pathname}`);
+  generateCallbackUrl = (query: any, customUrl?: string): string => {
+    let url = new URL(customUrl || `${window.location.origin}${window.location.pathname}`);
     Object.keys(query).forEach(k => url.searchParams.set(k, query[k]));
     return url.toString();
   }

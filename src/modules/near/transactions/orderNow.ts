@@ -25,7 +25,8 @@ export default class OrderNowNearTransaction extends NearTransaction {
         loan_principal_amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
         loan_duration: duration,
         loan_currency: currencyContractAddress,
-        loan_interest_rate: rate * 10000,
+        loan_interest_rate: new BigNumber(rate).multipliedBy(10000).toNumber(),
+        available_in: 0,
       });
       
       const action = nearAPI.transactions.functionCall(

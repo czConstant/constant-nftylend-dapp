@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js';
 import moment from 'moment-timezone';
 import { Chain } from 'src/common/constants/network';
 import { getLinkEvmExplorer } from 'src/modules/evm/utils';
@@ -25,9 +26,11 @@ export class LoanNft {
   status: string = '';
   created_at: string = '';
   updated_at: string = '';
+  valid_at: string = '';
   init_tx_hash: string = '';
   offers: Array<OfferToLoan> = [];
   approved_offer?: OfferToLoan;
+  config: number = 0;
 
   constructor(chain: Chain) {
     this.id = -1;
@@ -51,9 +54,11 @@ export class LoanNft {
     loan.status = data.status;
     loan.created_at = data.created_at;
     loan.updated_at = data.updated_at;
+    loan.valid_at = data.valid_at;
     loan.init_tx_hash = data.init_tx_hash;
     loan.data_loan_address = data.data_loan_address;
     loan.data_asset_address = data.data_asset_address;
+    loan.config = data.config;
     loan.offers = data.offers.map(e => OfferToLoan.parseFromApi(e, chain));
     loan.asset = parseNftFromLoanAsset(data.asset, chain)
     if (data.approved_offer) {
@@ -65,7 +70,6 @@ export class LoanNft {
   }
 
   static parseFromApiDetail(data: LoanDataAsset): LoanNft {
-    if (!data) throw new Error('No loan detail data to parse');
     if (!data) throw new Error('No loan detail data to parse');
 
     const network = data.network || data.new_loan?.network;
@@ -86,8 +90,10 @@ export class LoanNft {
       loan.status = data.new_loan.status;
       loan.created_at = data.new_loan.created_at;
       loan.updated_at = data.new_loan.updated_at;
+      loan.valid_at = data.new_loan.valid_at;
       loan.init_tx_hash = data.new_loan.init_tx_hash;
       loan.data_loan_address = data.new_loan.data_loan_address;
+      loan.config = data.new_loan.config;
       loan.data_asset_address = data.new_loan.data_asset_address;
       loan.offers = data.new_loan.offers.map(e => OfferToLoan.parseFromApi(e, chain));
       
@@ -132,5 +138,21 @@ export class LoanNft {
 
   isDone(): boolean {
     return this.status === 'done';
+  }
+
+  isAllowChange(field: 'principal_amount' | 'duration' | 'interest_rate'): boolean {
+    switch (field) {
+      case 'principal_amount':
+        return !!(new BigNumber(this.config).mod(10).dividedToIntegerBy(1).toNumber());
+      case 'duration':
+        return !!(new BigNumber(this.config).mod(100).dividedToIntegerBy(10).toNumber());
+      case 'interest_rate':
+        return !!(new BigNumber(this.config).mod(1000).dividedToIntegerBy(100).toNumber());
+      default: return true;
+    }
+  }
+
+  isExpired(): boolean {
+    return this.status === 'new' && moment().isAfter(moment(this.valid_at));
   }
 }
