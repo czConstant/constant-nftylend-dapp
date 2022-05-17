@@ -19,7 +19,6 @@ const NearProvider = ({ children }) => {
 
   useEffect(() => {
     const params = queryString.parse(location.search);
-    console.log("🚀 ~ file: withNearProvider.tsx ~ line 24 ~ useEffect ~ params", params)
     const txHash = params.transactionHashes as string;
     const token_id = params.token_id as string;
     const contract_address = params.contract_address as string;

@@ -54,7 +54,7 @@ const ListOffer = () => {
           <div>Amount</div>
           <div>Duration / Interest</div>
           <div>Status</div>
-          <div>TxHash</div>
+          {/* <div>TxHash</div> */}
           <div>Created At</div>
           <div>Action</div>
         </div>

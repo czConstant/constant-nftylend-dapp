@@ -165,7 +165,8 @@ const Item = (props: ItemProps) => {
         {principal} {loan.currency?.symbol}
       </div>
       <div>
-        {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`} /<br />
+        {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
+        &nbsp;/&nbsp;
         {new BigNumber(interest).multipliedBy(100).toNumber()}%
       </div>
       {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
@@ -174,11 +175,11 @@ const Item = (props: ItemProps) => {
           {LOAN_STATUS.find((v) => v.id === status)?.name || "Unknown"}
         </div>
       </div>
-      <div>
+      {/* <div>
         <a target="_blank" href={loan.getLinkExplorerTx()}>
           {shortCryptoAddress(loan.init_tx_hash, 8)}
         </a>
-      </div>
+      </div> */}
       <div>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</div>
       <div className={styles.actions}>
         {showCancel && <Button onClick={onCancelLoan}>Cancel</Button>}

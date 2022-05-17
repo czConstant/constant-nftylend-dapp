@@ -19,7 +19,9 @@ import { LoanNft } from 'src/modules/nftLend/models/loan';
 
 import { TABS } from "../../myAsset";
 import LoanDetailMakeOffer from '../makeOffer';
+import LoanDetailOffers from './LoanDetail.Offers';
 import styles from "../styles.module.scss";
+import pawnInfoStyles from "./pawnInfo.module.scss";
 
 interface LoanDetailButtonsProps {
   loan: LoanNft;
@@ -32,6 +34,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
   const { cancelLoan, cancelOffer, orderNow } = useTransaction();
   const { currentWallet, isConnected, connectWallet } = useCurrentWallet();
 
+  const [isShowOffer, setShowOffer] = useState(false);
   const [canceling, setCanceling] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -189,12 +192,21 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
       <div className={styles.groupOfferButtons}>
         <Button
           className={cx(styles.btnConnect, styles.btnCancel)}
-          variant="danger"
+          // variant="danger"
           onClick={onCancelLoan}
           disabled={submitting}
         >
           {canceling ? <Loading dark /> : "Cancel Loan"}
         </Button>
+        <Button
+          className={cx(styles.btnConnect)}
+          onClick={() => setShowOffer(!isShowOffer)}
+        >
+          {isShowOffer ? 'Hide' : 'Show'} Offers ({loan.offers.length})
+        </Button>
+        <div className={cx(pawnInfoStyles.listOffer, isShowOffer && pawnInfoStyles.show)}>
+          <LoanDetailOffers loan={loan} />
+        </div>
       </div>
     );
 
@@ -225,7 +237,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
           Order now
         </Button>
         <Button
-          className={styles.btnConnect}
+          className={cx(styles.btnConnect, styles.outline)}
           disabled={isOwner}
           onClick={onMakeOffer}
         >
