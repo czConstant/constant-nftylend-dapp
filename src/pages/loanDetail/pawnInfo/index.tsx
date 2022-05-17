@@ -43,7 +43,7 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
         id="priceStats"
         label="Price Statistic"
         selected
-        content={<LoanDetailPriceStatistic asset={loan.asset} />}
+        content={<LoanDetailPriceStatistic loan={loan} />}
       />
       <SectionCollapse
         id="borrowerStats"
