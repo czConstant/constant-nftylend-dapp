@@ -36,7 +36,6 @@ export const API_URL = {
     SYNC_NEAR: `${MCT_ROOT}${MCT_API_BASE}/loans/near/sync`,
     BORROWER_STATS: `${MCT_ROOT}${MCT_API_BASE}/loans/borrower-stats`,
     USER_SETTINGS: `${MCT_ROOT}${MCT_API_BASE}/users/settings`,
-    USER_EMAIL_SETTINGS: `${MCT_ROOT}${MCT_API_BASE}/users/email-settings`,
   },
   MORALIS: {
     GET_NFTS: `${MCT_ROOT}${MCT_API_BASE}/moralis/{owner}/nft`,

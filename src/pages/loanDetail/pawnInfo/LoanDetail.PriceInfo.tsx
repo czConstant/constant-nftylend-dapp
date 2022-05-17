@@ -12,6 +12,7 @@ import { formatCurrencyByLocale } from "src/common/utils/format";
 
 import pawnStyles from './pawnInfo.module.scss';
 import styles from "../styles.module.scss";
+import CountdownText from 'src/common/components/countdownText';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -46,7 +47,7 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
           </div>
         </div>
         <div className={pawnStyles.configs}>
-          <label>Negotiable</label>
+          <label>Negotiation</label>
           <ul> 
             <li className={loan.isAllowChange('principal_amount') ? pawnStyles.allow : pawnStyles.notallow }>Principal</li>
             <li className={loan.isAllowChange('duration') ? pawnStyles.allow : pawnStyles.notallow }>Duration</li>
