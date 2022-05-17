@@ -22,6 +22,7 @@ import LoanDetailMakeOffer from '../makeOffer';
 import LoanDetailOffers from './LoanDetail.Offers';
 import styles from "../styles.module.scss";
 import pawnInfoStyles from "./pawnInfo.module.scss";
+import CountdownText from 'src/common/components/countdownText';
 
 interface LoanDetailButtonsProps {
   loan: LoanNft;
@@ -219,7 +220,8 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
           onClick={() => onCancelOffer(userOffer)}
           disabled={submitting}
         >
-          {canceling ? <Loading dark /> : "Cancel My Offer"}
+          {canceling && <Loading dark />}
+          Cancel My Offer (Ends in <CountdownText to={userOffer.valid_at} />)
         </Button>
       </div>
     );
