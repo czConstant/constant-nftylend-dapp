@@ -9,10 +9,14 @@ import nearWalletIconUrl from "@near-wallet-selector/near-wallet/assets/near-wal
 import senderIconUrl from "@near-wallet-selector/sender/assets/sender-icon.png";
 
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { clearWallet, selectNftyLend, updateWallet } from 'src/store/nftyLend';
+import { clearWallet, requestReload, selectNftyLend, updateWallet } from 'src/store/nftyLend';
 import { Chain } from 'src/common/constants/network';
-import { getNearConfig } from '../utils';
 import localStore from 'src/common/services/localStore';
+import { API_URL } from 'src/common/constants/url';
+import api from 'src/common/services/apiClient';
+import { toastSuccess } from 'src/common/services/toaster';
+
+import { getLinkNearExplorer, getNearConfig } from '../utils';
 
 interface WalletSelectorContextValue {
   selector: NearWalletSelector;
@@ -78,6 +82,41 @@ export const NearWalletProvider: React.FC = ({ children }) => {
       alert("Failed to initialise wallet selector");
     }
   }
+
+  const checkSync = async (token_id: string, contract_address: string ) => {
+    let count = 0;
+    while (count < 6) {
+      try {
+        const res = await api.post(API_URL.NFT_LEND.SYNC_NEAR, { token_id, contract_address });
+        if (res.result) {
+          dispatch(requestReload());
+          break;
+        }
+      } catch (err) { }
+      await new Promise(r => setTimeout(r, 5000));
+      count += 1;
+    }
+  }
+
+  useEffect(() => {
+    const params = queryString.parse(location.search);
+    const txHash = params.transactionHashes as string;
+    const token_id = params.token_id as string;
+    const contract_address = params.contract_address as string;
+    const walletChain = localStore.get(localStore.KEY_WALLET_CHAIN);
+    if (walletChain === Chain.Near && token_id && contract_address) {
+      checkSync(token_id, contract_address);
+    }
+    if (walletChain === Chain.Near && txHash) {
+      window.history.replaceState(null, '', window.location.pathname);
+      toastSuccess(<>
+        Transaction is successful.{" "}
+        <a target="_blank" href={getLinkNearExplorer(txHash, 'tx')}>
+          View transaction
+        </a>
+      </>);
+    }
+  }, []);
 
   useEffect(() => {
     if (near_nftypawn_address) initSelector();

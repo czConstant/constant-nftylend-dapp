@@ -4,11 +4,14 @@ import moment from 'moment-timezone';
 interface CountdownText {
   to: string | Date;
   label?: string;
+  endText?: string;
+  hideWhenEnd?: boolean;
 }
 
 const CountdownText = (props: CountdownText) => {
-  const { label,  to } = props;
+  const { label, endText, hideWhenEnd, to } = props;
   const [text, setText] = useState<string>('');
+  const [isEnd, setIsEnd] = useState(false);
   const interval = useRef<any>(null);
 
   useEffect(() => {
@@ -17,6 +20,8 @@ const CountdownText = (props: CountdownText) => {
       let second = moment(to).diff(moment(), 's');
       if (second < 0) {
         clearInterval(interval.current);
+        setIsEnd(true);
+        setText(endText || 'Ended');
         return null;
       }
       const day = Math.floor(second / 86400);
@@ -32,6 +37,11 @@ const CountdownText = (props: CountdownText) => {
       interval.current = null;
     }
   }, []);
+
+  if (isEnd) {
+    if (hideWhenEnd) return null;
+    return <span>{endText || 'Ended'}</span> 
+  }
 
   return !text ? null : (
     <span>{label} <strong>{text}</strong></span>

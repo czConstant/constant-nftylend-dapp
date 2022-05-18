@@ -322,6 +322,9 @@
     }
   }
   .btnCancel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: 1px solid var(--bs-danger);
     color: var(--bs-danger);

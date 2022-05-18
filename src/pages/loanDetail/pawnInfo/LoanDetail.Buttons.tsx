@@ -221,7 +221,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
           disabled={submitting}
         >
           {canceling && <Loading dark />}
-          Cancel My Offer (Ends in <CountdownText to={userOffer.valid_at} />)
+          Cancel My Offer ({userOffer.isExpired() ? 'Expired' : <CountdownText hideWhenEnd label='Ends in ' to={userOffer.valid_at} />})
         </Button>
       </div>
     );
