@@ -56,12 +56,11 @@ export default class MakeOfferNearTransaction extends NearTransaction {
       });
       
       return this.handleSuccess(
-        { txHash: res[0].transaction.hash } as TransactionResult,
+        { txHash: res ? res[0].transaction.hash : '' } as TransactionResult,
         assetContractAddress,
         assetTokenId,
       );
     } catch (err) {
-      console.log("🚀 ~ file: makeOffer.ts ~ line 66 ~ MakeOfferNearTransaction ~ err", err)
       return this.handleError(err);
     }
   }

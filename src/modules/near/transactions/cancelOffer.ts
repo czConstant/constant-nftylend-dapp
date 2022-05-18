@@ -37,7 +37,7 @@ export default class CancelOfferNearTransaction extends NearTransaction {
       });
       
       return this.handleSuccess(
-        { txHash: res[0].transaction.hash } as TransactionResult,
+        { txHash: res ? res[0].transaction.hash : '' } as TransactionResult,
         assetContractAddress,
         assetTokenId,
       );
