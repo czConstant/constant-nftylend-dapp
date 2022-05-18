@@ -11,14 +11,15 @@ import LoanDetailInEscrow from './LoanDetail.InEscrow';
 import LoanDetailBorrower from './LoanDetail.Borrower';
 import LoanDetailOffers from './LoanDetail.Offers';
 import LoanDetailPriceStatistic from './LoanDetail.PriceStatistic';
+import CountdownText from 'src/common/components/countdownText';
 import styles from "../styles.module.scss";
 
-export interface LoanDetailPawnIfoProps {
+export interface LoanDetailPawnInfoProps {
   loan: LoanNft;
   userOffer?: OfferData;
 }
 
-const LoanDetailPawnIfo: React.FC<LoanDetailPawnIfoProps> = ({ loan }) => {
+const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
   if (!loan.asset) return null;
 
   return (
@@ -33,13 +34,16 @@ const LoanDetailPawnIfo: React.FC<LoanDetailPawnIfoProps> = ({ loan }) => {
         >
           {loan.asset.collection?.name}
         </Link>
+        <div>
+          <CountdownText label='Ends in' to={loan.valid_at} />
+        </div>
       </div>
       {(loan.isEmpty() || loan.isDone()) ? null : loan.isOngoing() ? <LoanDetailInEscrow loan={loan} /> : <LoanDetailPriceInfo loan={loan} />}
       <SectionCollapse
         id="priceStats"
         label="Price Statistic"
         selected
-        content={<LoanDetailPriceStatistic asset={loan.asset} />}
+        content={<LoanDetailPriceStatistic loan={loan} />}
       />
       <SectionCollapse
         id="borrowerStats"
@@ -47,14 +51,14 @@ const LoanDetailPawnIfo: React.FC<LoanDetailPawnIfoProps> = ({ loan }) => {
         selected
         content={<LoanDetailBorrower asset={loan.asset} borrower={loan.owner} />}
       />
-      <SectionCollapse
+      {/* <SectionCollapse
         id="offers"
         label="Offers"
         selected
         content={<LoanDetailOffers loan={loan} />}
-      />
+      /> */}
     </div>
   );
 };
 
-export default LoanDetailPawnIfo;
+export default LoanDetailPawnInfo;

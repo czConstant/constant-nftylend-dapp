@@ -35,6 +35,7 @@ export const API_URL = {
     UPDATE_BLOCK_EVM: `${MCT_ROOT}${MCT_API_BASE}/blockchain/{network}/scan-block`,
     SYNC_NEAR: `${MCT_ROOT}${MCT_API_BASE}/loans/near/sync`,
     BORROWER_STATS: `${MCT_ROOT}${MCT_API_BASE}/loans/borrower-stats`,
+    USER_SETTINGS: `${MCT_ROOT}${MCT_API_BASE}/users/settings`,
   },
   MORALIS: {
     GET_NFTS: `${MCT_ROOT}${MCT_API_BASE}/moralis/{owner}/nft`,

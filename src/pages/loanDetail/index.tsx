@@ -12,15 +12,15 @@ import Loading from "src/common/components/loading";
 import { getAssetBySeo } from "src/modules/nftLend/api";
 import { LoanDataAsset, ResponseResult } from "src/modules/nftLend/models/api";
 import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
-import LoanDetailPawnIfo from "./pawnInfo";
+import LoanDetailPawnInfo from "./pawnInfo";
 import LoanDetailActivity from "./LoanDetail.Activity";
 import LoanDetailSuggest from "./LoanDetail.Suggest";
-import LoanDetailOffers from "./pawnInfo/LoanDetail.Offers";
 import { useAppSelector } from "src/store/hooks";
 import { selectNftyLend } from "src/store/nftyLend";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import ItemNftMedia from 'src/modules/nftLend/components/itemNft/itemNftMedia';
 import AssetInfo from './assetInfo';
+import LoanDetailSaleHistory from './LoanDetail.SaleHistory';
 
 const LoanDetail = () => {
   const location = useLocation();
@@ -99,9 +99,10 @@ const LoanDetail = () => {
             />
             <AssetInfo asset={loan.asset} owner={loan.owner} />
           </div>
-          <LoanDetailPawnIfo loan={loan} />
+          <LoanDetailPawnInfo loan={loan} />
         </div>
         <LoanDetailActivity asset={loan?.asset} />
+        <LoanDetailSaleHistory asset={loan?.asset} />
         <LoanDetailSuggest loan={loan} />
       </>
     );
