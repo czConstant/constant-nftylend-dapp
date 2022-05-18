@@ -31,7 +31,7 @@ export default ({ mode}) => {
       }
     },
     define: {
-      "global": {},
+      "global": "window",
       "process.env.NODE_DEBUG": JSON.stringify(""),
       "DOT_ENV": env,
       "__CLIENT__": true,

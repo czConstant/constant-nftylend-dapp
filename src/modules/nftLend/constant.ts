@@ -130,26 +130,22 @@ export const OFFER_STATUS = {
 
 export const LOAN_DURATION = [
   {
-    id: 10,
+    id: 10 * 86400,
     label: "10 days",
   },
   {
-    id: 30,
+    id: 30 * 86400,
     label: "30 days",
   },
   {
-    id: 60,
+    id: 60 * 86400,
     label: "60 days",
   },
 ];
 
 if (APP_CLUSTER === "testnet") {
   LOAN_DURATION.unshift({
-    id: 0.01,
-    label: "0.01 days",
-  });
-  LOAN_DURATION.unshift({
-    id: new BigNumber(60 / 86400).toNumber(),
+    id: 60,
     label: "60 seconds",
   });
 }

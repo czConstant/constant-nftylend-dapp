@@ -9,10 +9,8 @@ import {  Chain } from 'src/common/constants/network';
 import { getEvmBalance } from 'src/modules/evm/utils';
 import { getBalanceSolToken } from 'src/modules/solana/utils';
 import { SolanaNft } from 'src/modules/solana/models/solanaNft';
-import { EvmNft } from 'src/modules/evm/models/evmNft';
 import { getEvmNftsByOwner } from 'src/modules/evm/api';
-import { getBalanceNearToken, getNearNftsByOwner } from 'src/modules/near/utils';
-import { NearNft } from 'src/modules/near/models/nearNft';
+import { getBalanceNearToken, getNearBalance, getNearNftsByOwner, nearViewFunction } from 'src/modules/near/utils';
 
 import { isEvmChain } from '../utils';
 import { AssetNft } from '../models/nft';
@@ -43,9 +41,8 @@ function useToken() {
       const solRes = await connection.getBalance(new PublicKey(currentWallet.address));
       return new BigNumber(solRes).dividedBy(LAMPORTS_PER_SOL).toNumber();
     } else if (currentWallet.chain === Chain.Near) {
-      const account = await window.near.account(window.nearAccount.getAccountId());
-      const nearRes = await account.getAccountBalance();
-      return new BigNumber(nearRes.available).dividedBy(10 ** 24).toNumber();
+      const nearRes = await getNearBalance(currentWallet.address);
+      return nearRes;
     } else if (isEvmChain(currentWallet.chain)) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const balance = await provider.getBalance(currentWallet.address);

@@ -9,6 +9,7 @@ interface Window {
   evmProvider: any,
   coin98: any,
   near: any;
+  nearSelector: any;
   nearInitPromise: any;
   nearAccount: any;
 }

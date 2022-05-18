@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js';
-import * as nearAPI from 'near-api-js';
 
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
+import { getAvailableAt } from 'src/modules/nftLend/utils';
 
 export default class OrderNowNearTransaction extends NearTransaction {
   async run(
@@ -15,7 +15,6 @@ export default class OrderNowNearTransaction extends NearTransaction {
     duration: number,
   ): Promise<TransactionResult> {
     try {
-      const connection = new nearAPI.WalletConnection(window.near, null);
       const gas = await this.calculateGasFee();
 
       const msg = JSON.stringify({
@@ -26,26 +25,40 @@ export default class OrderNowNearTransaction extends NearTransaction {
         loan_duration: duration,
         loan_currency: currencyContractAddress,
         loan_interest_rate: new BigNumber(rate).multipliedBy(10000).toNumber(),
-        available_in: 0,
+        available_at: getAvailableAt(0),
       });
       
-      const action = nearAPI.transactions.functionCall(
-        'ft_transfer_call',
-        Buffer.from(JSON.stringify({
-          receiver_id: this.lendingProgram,
-          amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
-          msg,
-        })),
-        gas,
-        1
-      );
-      const transaction = await this.createTransaction([ action ], currencyContractAddress);
-      await connection.requestSignTransactions({ 
-        transactions: [transaction],
+      const transactions = [
+        {
+          receiverId: currencyContractAddress,
+          actions: [
+            {
+              type: 'FunctionCall',
+              params: {
+                methodName: "ft_transfer_call",
+                args: {
+                  receiver_id: this.lendingProgram,
+                  amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
+                  msg,
+                },
+                gas,
+                deposit: 1,
+              },
+            }
+          ]
+        },
+      ];
+
+      const res = await window.nearSelector.signAndSendTransactions({ 
+        transactions,
         callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }),
       });
-
-      return this.handleSuccess({ txHash: '' } as TransactionResult);
+      
+      return this.handleSuccess(
+        { txHash: res[0].transaction.hash } as TransactionResult,
+        assetContractAddress,
+        assetTokenId,
+      );
     } catch (err) {
       return this.handleError(err);
     }
