@@ -28,7 +28,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
   const { payLoan, liquidateLoan } = useTransaction();
 
   if (!loan.approved_offer) return null;
-  const loanDuration = LOAN_DURATION.find(e => e.id === loan.approved_offer?.duration / 86400);
+  const loanDuration = LOAN_DURATION.find(e => e.id === loan.approved_offer?.duration);
   const payAmount = calculateTotalPay(
     Number(loan.approved_offer?.principal_amount),
     Number(loan.currency?.decimals),
