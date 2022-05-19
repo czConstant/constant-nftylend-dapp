@@ -30,6 +30,8 @@ export default class AcceptOfferNearTransaction extends NearTransaction {
           ]
         },
       ];
+
+      this.saveStateBeforeRedirect({ contract_address: assetContractAddress, token_id: assetTokenId });
       
       const res = await window.nearSelector.signAndSendTransactions({ 
         transactions,

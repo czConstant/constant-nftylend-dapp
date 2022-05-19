@@ -26,12 +26,10 @@ const LoanDetailPriceStatistic: React.FC<LoanDetailPriceStatisticProps> = ({ loa
         <label>Floor Price</label>
         <div>{formatCurrency(loan.asset?.stats?.floor_price)} {loan.asset?.stats?.currency?.symbol}</div>
       </div>
-      {!!ltv && (
-        <div className={styles.tabContentAttrItem}>
-          <label>Loan To Value</label>
-          <div>{formatCurrency(ltv)}%</div>
-        </div>
-      )}
+      <div className={styles.tabContentAttrItem}>
+        <label>Loan To Value</label>
+        <div>{ltv ? `${formatCurrency(ltv)}%` : 'Not Available'}</div>
+      </div>
     </div>
   );
 };

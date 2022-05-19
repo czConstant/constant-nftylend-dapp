@@ -36,13 +36,14 @@ export const NearWalletProvider: React.FC = ({ children }) => {
   const [accountId, setAccountId] = useState<string | null>(null);
 
   const savedAddress = useMemo(() => localStore.get(localStore.KEY_WALLET_ADDRESS), []);
-  const savedChain= useMemo(() => localStore.get(localStore.KEY_WALLET_CHAIN), []);
 
   const syncAccountState = (
     currentAccountId: string | null,
     newAccounts: Array<AccountInfo>
   ) => {
     const isBackFromNear = !!queryString.parse(location.search).account_id;
+    const savedChain= localStore.get(localStore.KEY_WALLET_CHAIN);
+
     if (savedChain !== Chain.Near && !isBackFromNear) return;
     if (!newAccounts.length) {
       dispatch(clearWallet());
@@ -101,12 +102,16 @@ export const NearWalletProvider: React.FC = ({ children }) => {
   useEffect(() => {
     const params = queryString.parse(location.search);
     const txHash = params.transactionHashes as string;
-    const token_id = params.token_id as string;
-    const contract_address = params.contract_address as string;
     const walletChain = localStore.get(localStore.KEY_WALLET_CHAIN);
+
+    let token_id = params.token_id as string || localStore.get(localStore.KEY_NEAT_NFT_TOKEN_ID);
+    let contract_address = params.contract_address as string || localStore.get(localStore.KEY_NEAR_NFT_CONTRACT);
     if (walletChain === Chain.Near && token_id && contract_address) {
+      localStore.remove(localStore.KEY_NEAR_NFT_CONTRACT);
+      localStore.remove(localStore.KEY_NEAT_NFT_TOKEN_ID);
       checkSync(token_id, contract_address);
     }
+
     if (walletChain === Chain.Near && txHash) {
       window.history.replaceState(null, '', window.location.pathname);
       toastSuccess(<>
@@ -124,11 +129,20 @@ export const NearWalletProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (!selector) return;
-    const subscription = selector.on("accountsChanged", (e) => {
+    
+    const changedListener = selector.on("accountsChanged", (e) => {
       syncAccountState(accountId, e.accounts);
     });
 
-    return () => subscription.remove();
+    const signInListender = selector.on("signIn", (e) => {
+      localStore.save(localStore.KEY_WALLET_CHAIN, Chain.Near);
+      syncAccountState(accountId, e.accounts);
+    });
+
+    return () => {
+      changedListener.remove();
+      signInListender.remove();
+    }
   }, [selector, accountId]);
 
   if (!selector) {
