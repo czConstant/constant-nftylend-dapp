@@ -308,7 +308,7 @@ const Home = () => {
                 <a target="_blank" href={DISCORD_URL}>
                   <img src={icDiscord} /> Discord
                 </a>
-                <a target="_blank" href="https://twitter.com/NFTPawn_Lending">
+                <a target="_blank" href="https://twitter.com/pawnprotocol">
                   <img src={icTwitter} />
                 </a>
                 {/* <a target="_blank" href="https://www.facebook.com/myconstantp2p">
