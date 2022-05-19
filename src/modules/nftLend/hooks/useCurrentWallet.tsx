@@ -16,8 +16,7 @@ function useCurrentWallet() {
   const connectNearWallet = async () => {
     const nearAccounts =  await window.nearSelector?.getAccounts();
     const isSignedIn = await window.nearSelector?.isSignedIn();
-    if (isSignedIn || nearAccounts.length > 0) {
-      if (!isSignedIn) window.nearSelector?.signIn();
+    if (isSignedIn && nearAccounts.length > 0) {
       dispatch(updateWallet({
         address: nearAccounts[0]?.accountId,
         chain: Chain.Near,

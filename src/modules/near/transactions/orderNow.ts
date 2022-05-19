@@ -49,6 +49,8 @@ export default class OrderNowNearTransaction extends NearTransaction {
         },
       ];
 
+      this.saveStateBeforeRedirect({ contract_address: assetContractAddress, token_id: assetTokenId });
+
       const res = await window.nearSelector.signAndSendTransactions({ 
         transactions,
         callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }),

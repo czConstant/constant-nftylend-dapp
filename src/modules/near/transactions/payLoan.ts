@@ -51,6 +51,8 @@ export default class PayLoanNearTransaction extends NearTransaction {
         },
       ];
 
+      this.saveStateBeforeRedirect({ contract_address: assetContractAddress, token_id: assetTokenId });
+
       const res = await window.nearSelector.signAndSendTransactions({ 
         transactions,
         callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }, `${window.location.origin}${APP_URL.NFT_LENDING_MY_NFT}`),
