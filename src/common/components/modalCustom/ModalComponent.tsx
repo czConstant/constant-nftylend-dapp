@@ -14,6 +14,7 @@ export interface ModalComponentProps {
   actions?: object;
   onClose?: Function;
   theme?: "light" | "dark";
+  active: boolean;
 }
 
 const ModalComponent = (props: ModalComponentProps) => {
@@ -25,6 +26,7 @@ const ModalComponent = (props: ModalComponentProps) => {
     actions,
     onClose,
     theme = "dark",
+    active
   } = props;
   const dispatch = useAppDispatch();
 
@@ -35,6 +37,7 @@ const ModalComponent = (props: ModalComponentProps) => {
 
   return (
     <div
+      style={{ display: active ? 'block' : 'none' }}
       className={cx(
         styles.modalDialog,
         styles[theme],

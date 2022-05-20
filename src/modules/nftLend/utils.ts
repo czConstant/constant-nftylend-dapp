@@ -18,16 +18,13 @@ interface ImageThumb {
 
 export const getImageThumb = (params: ImageThumb, chain?: Chain) => {
   const { width, height, url, showOriginal } = params;
-  if (chain === Chain.Solana) {
-    if (showOriginal)
-      return `https://solana-cdn.com/cdn-cgi/image/quality=100/${encodeURIComponent(
-        url
-      )}`;
-    return `https://solana-cdn.com/cdn-cgi/image/width=${width},height=${height},quality=100,fit=crop/${encodeURIComponent(
+  if (showOriginal)
+    return `https://nftpawn.financial/cdn-cgi/image/quality=100/${encodeURIComponent(
       url
     )}`;
-  }
-  return url;
+  return `https://nftpawn.financial/cdn-cgi/image/width=${width},height=${height},quality=100,fit=crop/${encodeURIComponent(
+    url
+  )}`;
 };
 
 export const getUrlWithBaseDefault = (uri: string, base?: string): string => {

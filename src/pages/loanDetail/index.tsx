@@ -83,7 +83,7 @@ const LoanDetail = () => {
             <ItemNftMedia
               detail={loan.asset.detail}
               name={loan.asset.name}
-              width={200}
+              width={300}
               height={300}
               config={{
                 video: {
@@ -95,7 +95,7 @@ const LoanDetail = () => {
                 },
               }}
               className={styles.itemMedia}
-              showOriginal={true}
+              showOriginal
             />
             <AssetInfo asset={loan.asset} owner={loan.owner} />
           </div>
