@@ -10,11 +10,13 @@ import { useAppDispatch } from "src/store/hooks";
 import { requestReload } from "src/store/nftyLend";
 import { TABS } from "src/pages/myAsset";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
+import ModalConfirmAmount from 'src/modules/nftLend/components/confirmAmountModal';
 
 import MakeOfferForm from './form';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import styles from "./makeOfferForm.module.scss";
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { closeModal, openModal } from 'src/store/modal';
 
 interface LoanDetailMakeOfferProps {
   loan: LoanNft;
@@ -34,6 +36,24 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
     if (loan.isExpired()) {
       return toastError('This loan has been expired. Please reload and select another one.');
     }
+    dispatch(
+      openModal({
+        id: "confirmAmountModal",
+        theme: "dark",
+        render: () => (
+          <ModalConfirmAmount
+            onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
+            onConfirm={() => processMakeOffer(values)}
+            asset={loan.asset}
+            amount={values.amount}
+            symbol={loan.currency?.symbol}
+          />
+        ),
+      })
+    );
+  };
+
+  const processMakeOffer = async (values: any) => {
     try {
       setSubmitting(true);
       if (!loan.currency) throw new Error('Loan has no currency');
@@ -71,7 +91,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
     } finally {
       setSubmitting(false);
     }
-  };
+  }
 
   return (
     <div className={styles.makeOfferForm}>

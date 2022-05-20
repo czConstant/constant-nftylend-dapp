@@ -13,8 +13,11 @@ import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { requestReload } from 'src/store/nftyLend';
+import ModalConfirmAmount from 'src/modules/nftLend/components/confirmAmountModal';
+
 import styles from "../styles.module.scss";
 import { formatCurrency } from 'src/common/utils/format';
+import { closeModal, openModal } from 'src/store/modal';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -42,22 +45,41 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
 
   const onPayLoan = async (e) => {
     e.stopPropagation();
+    const payAmount = loan?.status === "created"
+      ? calculateTotalPay(
+        Number(loan.approved_offer?.principal_amount),
+          Number(loan.currency.decimals),
+          loan.approved_offer?.interest_rate,
+          loan.approved_offer?.duration,
+          moment(loan.approved_offer?.started_at).unix()
+        )
+      : 0;
+    dispatch(
+      openModal({
+        id: "confirmAmountModal",
+        theme: "dark",
+        render: () => (
+          <ModalConfirmAmount
+            onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
+            onConfirm={() => processPayLoan(payAmount)}
+            asset={loan.asset}
+            amount={payAmount}
+            symbol={loan.currency?.symbol}
+          />
+        ),
+      })
+    );
+  };
+
+  const processPayLoan = async (amount: number) => {
     dispatch(showLoadingOverlay());
     try {
       if (!loan.approved_offer) throw new Error('Loan has no approved offer');
       if (!loan.currency) throw new Error('Loan has no currency');
       if (!loan.asset) throw new Error('Loan has no asset');
-      const payAmount = loan?.status === "created"
-        ? calculateTotalPay(
-          Number(loan.approved_offer?.principal_amount),
-            Number(loan.currency.decimals),
-            loan.approved_offer?.interest_rate,
-            loan.approved_offer?.duration,
-            moment(loan.approved_offer?.started_at).unix()
-          )
-        : 0;
+      
       const res = await payLoan({
-        pay_amount: payAmount,
+        pay_amount: amount,
         currency_decimal: loan.currency.decimals,
         loan_data_address: loan.data_loan_address,
         offer_data_address: loan.approved_offer?.data_offer_address,
@@ -88,7 +110,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
     } finally {
       dispatch(hideLoadingOverlay());
     }
-  };
+  }
 
   const onLiquidate = async () => {
     dispatch(showLoadingOverlay());

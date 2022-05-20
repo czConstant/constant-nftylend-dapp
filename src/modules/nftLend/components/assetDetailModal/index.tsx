@@ -26,6 +26,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   const [loading, setLoading] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [loan, setLoan] = useState<LoanNft>();
+  const [collectionName, setCollectionName] = useState('');
 
   useEffect(() => {
     if (asset.needFetchDetail()) getExtraData();
@@ -50,6 +51,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
       const res = await getAssetInfo(asset.contract_address, asset.token_id);
       const loan = LoanNft.parseFromApiDetail(res.result);
       setLoan(loan);
+      setCollectionName(res.result.collection?.name);
     } catch (error) {
     } finally {
       setVerifying(false);
@@ -119,6 +121,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
       />
       <div>
         <h4>{asset.name}</h4>
+        <div>{collectionName}</div>
         <div>
           <a
             className={styles.infoAuthor}

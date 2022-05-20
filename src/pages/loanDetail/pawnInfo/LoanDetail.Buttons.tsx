@@ -16,6 +16,7 @@ import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
+import ModalConfirmAmount from 'src/modules/nftLend/components/confirmAmountModal';
 
 import { TABS } from "../../myAsset";
 import LoanDetailMakeOffer from '../makeOffer';
@@ -72,6 +73,24 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
     if (loan.isExpired()) {
       return toastError('This loan has been expired. Please reload and select another one.');
     }
+    dispatch(
+      openModal({
+        id: "confirmAmountModal",
+        theme: "dark",
+        render: () => (
+          <ModalConfirmAmount
+            onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
+            onConfirm={processOrderNow}
+            asset={loan.asset}
+            amount={loan.principal_amount}
+            symbol={loan.currency?.symbol}
+          />
+        ),
+      })
+    );
+  };
+
+  const processOrderNow = async () => {
     try {
       dispatch(showLoadingOverlay());
       if (!loan.currency) throw new Error('Loan has no currency');
@@ -105,7 +124,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
     } finally {
       dispatch(hideLoadingOverlay());
     }
-  };
+  }
 
   const onCancelLoan = async () => {
     try {

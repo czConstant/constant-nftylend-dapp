@@ -19,7 +19,7 @@ const ModalManager = () => {
     <div className={cx(styles.modalCustom, modals.length > 0 && styles.show)}>
       <div className={styles.backdrop} onClick={onBackdropClick} />
       <div className={cx(isMobile && styles.modalMobileDialog, styles.dialog)}>
-        {modals.map((modal) => (
+        {modals.map((modal, index) => (
           <ModalComponent
             key={modal.id}
             actions={{ openModal, closeModal }}
@@ -29,6 +29,7 @@ const ModalManager = () => {
             className={modal.className}
             onClose={modal.onClose}
             theme={modal.theme}
+            active={index === modals.length - 1}
           />
         ))}
       </div>
