@@ -1,11 +1,11 @@
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { Connection, ParsedAccountData, PublicKey } from '@solana/web3.js';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import BigNumber from 'bignumber.js';
-import moment from 'moment-timezone';
 
-import { SOL_CLUSTER } from '../../common/constants/config';
+import { APP_CLUSTER } from '../../common/constants/config';
 import store from 'src/store';
+
+const SOL_CLUSTER = APP_CLUSTER === 'mainnet' ? 'mainnet-beta' : 'devnet';
 
 const toPubkey = (key: PublicKey | string) => typeof(key) === 'string' ? new PublicKey(key) : key;
 
@@ -58,7 +58,6 @@ export const getBalanceSolToken = async (connection: Connection, publicKey: Publ
 };
 
 export const getCluster = () => {
-  if (SOL_CLUSTER === 'testnet') return WalletAdapterNetwork.Testnet;
   if (SOL_CLUSTER === 'mainnet-beta') return WalletAdapterNetwork.Mainnet;
   return WalletAdapterNetwork.Devnet;
 };

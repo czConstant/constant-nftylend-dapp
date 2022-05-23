@@ -68,7 +68,8 @@ const DialogConnectWallet = (props: DialogConnectWalletProps) => {
     if (e.chain === Chain.Solana) {
       connectSolanaWallet();
     } else if (e.chain === Chain.Near) {
-      await connectWallet(e.chain);
+      if (isConnected) window.nearSelector.show();
+      else await connectWallet(e.chain);
       onClose();
     } else {
       setSelectedChain(e.chain);
