@@ -3,7 +3,9 @@ import BigNumber from 'bignumber.js';
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { getAvailableAt } from 'src/modules/nftLend/utils';
-import { nearViewFunction } from '../utils';
+import { nearViewFunction, NEAR_LOAN_STATUS } from '../utils';
+import api from 'src/common/services/apiClient';
+import { API_URL } from 'src/common/constants/url';
 
 export default class CreateLoanNearTransaction extends NearTransaction {
   async run(
@@ -18,6 +20,16 @@ export default class CreateLoanNearTransaction extends NearTransaction {
     loanConfig: number,
   ): Promise<TransactionResult> {
     try {
+      const existed = await nearViewFunction(
+        this.lendingProgram,
+        'get_sale',
+        { nft_contract_token: `${assetContractAddress}||${assetTokenId}` },
+      );
+      if (existed  && [NEAR_LOAN_STATUS.Open, NEAR_LOAN_STATUS.Processing].includes(existed.status)) {
+        // Request api to sync the asset
+        api.post(API_URL.NFT_LEND.SYNC_NEAR, { token_id: assetTokenId, contract_address: assetContractAddress });
+        throw new Error('This asset is in a processing loan');
+      }
       const requiredAmount = await nearViewFunction(this.lendingProgram, 'storage_minimum_balance');
 
       const msg = JSON.stringify({
