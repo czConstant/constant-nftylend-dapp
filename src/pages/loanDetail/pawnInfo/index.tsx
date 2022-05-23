@@ -34,9 +34,11 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
         >
           {loan.asset.collection?.name}
         </Link>
-        <div>
-          <CountdownText label='Ends in' to={loan.valid_at} />
-        </div>
+        {loan.isListing() && (
+          <div>
+            <CountdownText label='Ends in' to={loan.valid_at} />
+          </div>
+        )}
       </div>
       {(loan.isEmpty() || loan.isDone()) ? null : loan.isOngoing() ? <LoanDetailInEscrow loan={loan} /> : <LoanDetailPriceInfo loan={loan} />}
       <SectionCollapse
