@@ -13,7 +13,7 @@ interface LoanDetailPriceStatisticProps {
 
 const LoanDetailPriceStatistic: React.FC<LoanDetailPriceStatisticProps> = ({ loan }) => {
   const ltv = loan.asset?.stats?.avg_price 
-    ? new BigNumber(loan.principal_amount).dividedBy(loan.asset?.stats?.avg_price).toNumber()
+    ? new BigNumber(loan.principal_amount).dividedBy(loan.asset?.stats?.avg_price).multipliedBy(loan.asset?.stats?.currency?.price).toNumber()
     : 0;
 
   return (
