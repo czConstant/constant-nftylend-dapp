@@ -52,17 +52,17 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
 
   const renderEstimatedInfo = () => {
     if (!values.amount || !values.rate || !values.duration) return null;
-    const durationDay = isNaN(values.duration) ? values.duration.id : values.duration;
+    const duration = isNaN(values.duration) ? values.duration.id : values.duration;
     const maxInterest = calculateMaxInterest(
       values.amount,
       values.rate / 100,
-      durationDay * 86400,
+      duration,
     );
     const matchingFee = values.amount / 100;
     const totalRepay = calculateMaxTotalPay(
       values.amount,
       values.rate / 100,
-      durationDay * 86400,
+      duration,
     );
     return (
       <div className={styles.info}>
