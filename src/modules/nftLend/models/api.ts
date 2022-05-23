@@ -21,6 +21,7 @@ export interface Currency {
   network: string;
   symbol: string;
   updated_at: string;
+  price: number;
 }
 
 export interface SubmitCollection {

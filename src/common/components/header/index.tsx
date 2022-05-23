@@ -87,7 +87,7 @@ const Header = () => {
           {isConnected ? <ButtonDisconnectWallet /> : <ButtonConnectWallet />}
         </div>
       </div>
-      {APP_CLUSTER && (
+      {APP_CLUSTER !== 'mainnet' && (
         <div className={styles.warningNetwork}>
           You are on the NFT Pawn test network, we're working toward releasing
           the mainnet soon.
