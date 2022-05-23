@@ -8,6 +8,15 @@ import { NearNft } from 'src/modules/near/models/nearNft';
 
 export const NEAR_DEFAULT_GAS = nearAPI.utils.format.parseNearAmount('0.0000000003');
 
+export enum NEAR_LOAN_STATUS {
+  Open = 0,
+  Processing = 1,
+  Done = 2,
+  Liquidated = 3,
+  Refunded = 4,
+  Canceled = 5,
+};
+
 export function getNearConfig(): nearAPI.ConnectConfig  {
   switch (APP_CLUSTER) {
   case 'mainnet':
