@@ -18,6 +18,11 @@ interface ModalConfirmAmountProps {
 const ModalConfirmAmount = (props: ModalConfirmAmountProps) => {
   const { asset, amount, symbol, onClose, onConfirm } = props;
 
+  const handleConfirm = () => {
+    onClose();
+    onConfirm();
+  }
+
   return (
     <div className={cx(isMobile && styles.moModalConfirmAmount, styles.confirmAmount)}>
       {isMobile && (
@@ -36,7 +41,7 @@ const ModalConfirmAmount = (props: ModalConfirmAmountProps) => {
         <Button onClick={onClose} variant="secondary">
           Cancel
         </Button>
-        <Button onClick={onConfirm} className={styles.btnConnect}>
+        <Button onClick={handleConfirm} className={styles.btnConnect}>
           Confirm
         </Button>
       </div>

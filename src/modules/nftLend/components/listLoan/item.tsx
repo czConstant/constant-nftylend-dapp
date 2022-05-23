@@ -79,7 +79,7 @@ const Item = (props: ItemProps) => {
         render: () => (
           <ModalConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
-            onConfirm={() => processPayLoan(amount)}
+            onConfirm={() => processPayLoan(payAmount)}
             asset={loan.asset}
             amount={payAmount}
             symbol={loan.currency?.symbol}
