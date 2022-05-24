@@ -85,6 +85,7 @@ export interface LoanDataAsset {
   attributes: AssetNftAttribute;
   new_loan?: LoanData;
   seller_fee_rate: number;
+  description: string;
   origin_contract_network: string;
   origin_contract_address: string;
   origin_token_id: string;
