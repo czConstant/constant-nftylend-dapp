@@ -4,7 +4,7 @@ import moment from "moment-timezone";
 
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { getSaleTransactions } from "src/modules/nftLend/api";
-import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
+import { formatCurrency, shortCryptoAddress } from "src/common/utils/format";
 import { AssetSaleHistory } from 'src/modules/nftLend/models/activity';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import styles from "./styles.module.scss";
@@ -38,7 +38,7 @@ const TableBody = ({ results = [] }) => {
             </a>
           </div>
           <div style={{ flex: 1 }}>{moment(result.transaction_at).format('YYYY-MM-DD HH:mm')}</div>
-          <div style={{ flex: 1 }}>{formatCurrencyByLocale(result.amount, 2)} {result.currency?.symbol}</div>
+          <div style={{ flex: 1 }}>{formatCurrency(result.amount)} {result.currency?.symbol}</div>
           <div style={{ flex: 1 }}>
             <a
               className={styles.scanLink}

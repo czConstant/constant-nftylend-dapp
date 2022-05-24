@@ -87,6 +87,8 @@ export class AssetSaleHistory extends AssetActivity {
     activity.created_at = data.created_at;
     activity.chain = data.network as Chain;
 
+    activity.amount = data.amount;
+    activity.currency = data.currency;
     activity.type = ActivityType.sale;
     activity.tx_hash = data.transaction_id;
     activity.transaction_at = data.transaction_at;
