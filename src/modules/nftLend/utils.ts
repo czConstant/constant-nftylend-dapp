@@ -16,7 +16,7 @@ interface ImageThumb {
   showOriginal?: boolean;
 }
 
-export const getImageThumb = (params: ImageThumb, chain?: Chain) => {
+export const getImageThumb = (params: ImageThumb) => {
   const { width, height, url, showOriginal } = params;
   if (showOriginal)
     return `https://nftpawn.financial/cdn-cgi/image/quality=100/${encodeURIComponent(
