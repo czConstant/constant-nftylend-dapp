@@ -64,6 +64,7 @@ export class NearNft extends AssetNft {
     this.name = this.name || response.title;
     this.detail.description = response.desciption || this.detail.description;
     this.detail.attributes = response.attributes;
+    this.detail.mime_type = response.mime_type;
     return this.detail;
   }
   
