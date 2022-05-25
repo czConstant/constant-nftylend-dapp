@@ -43,6 +43,7 @@ export class NearNft extends AssetNft {
       attributes: item.attributes,
       description: item.description,
       seller_fee_rate: item.seller_fee_rate,
+      mime_type: item.mime_type,
     } as AssetNftDetail;
     nft.stats = item.stats;
     if (item.collection) {

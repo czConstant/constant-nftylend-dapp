@@ -101,6 +101,8 @@ const Loans = () => {
   }, [loans])
 
   useEffect(() => {
+    loansRef.current = [];
+    page.current = 1;
     getData();
   }, [JSON.stringify(paramCollection), selectedChain]);
 
