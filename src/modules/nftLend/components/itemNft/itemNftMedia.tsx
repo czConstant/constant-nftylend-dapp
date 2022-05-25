@@ -37,7 +37,16 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
 
   const refVideo = useRef();
 
-  const getMediaType = () => {
+  const isVideo = () => {
+    if (detail?.mime_type?.includes('video')) return true;
+    if (detail?.image) {
+      const mediaType = last(String(detail?.image as string)?.split('.')) || '';
+      if (mediaTypes.video.includes(mediaType)) return true;
+    }
+    return false;
+  }
+
+  const getFileExtension = (): string => {
     let mediaType = '';
     if (detail?.image) {
       mediaType = last(String(detail?.image as string)?.split('.')) || '';
@@ -48,13 +57,14 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
     mediaType = detail?.properties?.files?.length > 0
       ? detail?.properties?.files[0]?.type
       : '';
-    return last(mediaType.split('/'));
+    return last(mediaType.split('/')) || '';
   };
   
-  const renderMedia = (mediaType?: string) => {
+  const renderMedia = () => {
     // if (!mediaType) return null;
     let media = null;
-    if (mediaTypes.video.includes(mediaType || '')) {
+    const extension = getFileExtension()
+    if (isVideo()) {
       media = (
         <video
           muted
@@ -68,7 +78,7 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
           // onMouseLeave={() => refVideo.current?.pause()}
           {...config?.video}
         >
-          <source src={getImageThumb({ url: detail?.image })} type={`video/${mediaType}`} />
+          <source src={detail?.image} type={detail?.mime_type || `video/${extension}`} />
         </video>
       );
     } else {
@@ -87,7 +97,7 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
       </div>
     );
   }
-  return renderMedia(getMediaType());
+  return renderMedia();
 };
 
 export default ItemNftMedia;

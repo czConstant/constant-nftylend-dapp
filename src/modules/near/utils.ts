@@ -67,7 +67,7 @@ export async function getNearNftsByOwner(owner: string): Promise<Array<any>> {
       const result = await nearViewFunction(id, "nft_tokens_for_owner", {
         account_id: owner,
         from_index: "0",
-        limit: 64,
+        // limit: 64,
       });
       list.push(...result.map((e: any) => {
         e.contract_address = id;
