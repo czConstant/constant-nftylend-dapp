@@ -63,8 +63,7 @@ const Header = () => {
                 My Assets
               </Link>
             )}
-
-            <a
+            {/* <a
               target="_blank"
               href={APP_URL.NFT_LENDING_BLOG}
               className={cx(
@@ -72,7 +71,7 @@ const Header = () => {
               )}
             >
               News
-            </a>
+            </a> */}
             <ButtonCreateLoan />
           </div>
         </div>
