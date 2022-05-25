@@ -7,6 +7,7 @@ import { CollectionNft } from "src/modules/nftLend/models/collection";
 import Loading from "src/common/components/loading";
 import Avatar from 'src/common/components/avatar';
 import { formatCurrency } from 'src/common/utils/format';
+import { getImageThumb } from 'src/modules/nftLend/utils';
 
 import homeStyles from "../home/styles.module.scss";
 import { OnBoardingHeader } from "../discover";
@@ -53,7 +54,7 @@ const LoansHeader: React.FC<LoansHeaderProps> = ({
       return (
         <>
           <Avatar
-            img={collection.random_asset?.detail?.image}
+            img={getImageThumb({ url: collection.random_asset?.detail?.image || '', width: 300, height: 300 })}
             name={collection.random_asset?.name}
             size={isMobile ? 150 : 300}
           />
