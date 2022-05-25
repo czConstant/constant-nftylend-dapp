@@ -62,11 +62,11 @@ const PAGE_SIZE = 20;
 
 const Loans = () => {
   const location = useLocation();
-  const paramCollection: GetListingLoanParams =
+  const pageQuery: GetListingLoanParams =
     queryString.parse(location.search) || null;
 
   const [loans, setLoans] = useState<LoanNft[]>([]);
-  const [resCollection, setResCollection] = useState<CollectionNft>();
+  const [collection, setCollection] = useState<CollectionNft>();
   const [resCollections, setResCollections] = useState<CollectionData[]>([]);
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -76,7 +76,7 @@ const Loans = () => {
   const page = useRef(1);
   const loadingVisible = useRef(false);
 
-  const defaultChain = Chain[paramCollection.network || ''] || Chain.None;
+  const defaultChain = Chain[pageQuery.network || ''] || Chain.None;
   const [selectedChain, setSelectedChain] = useState<Chain>(defaultChain);
 
   useEffect(() => {
@@ -86,7 +86,7 @@ const Loans = () => {
       if (el.getBoundingClientRect().bottom <= window.innerHeight) {
         const prev = loadingVisible.current;
         loadingVisible.current = true;
-        setTimeout(() => !prev && debounceGetData(), 0);
+        setTimeout(() => !prev && debounceFetchLoans(), 0);
       } else { 
         loadingVisible.current = false;
       }
@@ -103,33 +103,37 @@ const Loans = () => {
   useEffect(() => {
     loansRef.current = [];
     page.current = 1;
-    getData();
-  }, [JSON.stringify(paramCollection), selectedChain]);
+    fetchLoans();
+    fetchCollection();
+  }, [JSON.stringify(pageQuery), selectedChain]);
 
-  const getData = async () => {
+  const fetchCollection = async (): Promise<CollectionNft> => {
+    if (!pageQuery.collection) throw new Error('No collection selected');
+    const params: GetListingLoanParams = {
+      ...pageQuery,
+      network: selectedChain,
+    };
+    const res: ResponseResult = await getCollectionById(pageQuery.collection);
+    params.collection_id = res.result?.id;
+    setCollection(CollectionNft.parseFromApi(res?.result));
+    return CollectionNft.parseFromApi(res?.result);
+  }
+
+  const fetchLoans = async () => {
     if (loading) return;
     setLoading(true);
     try {
+      let collectionId = collection?.id
+      if (pageQuery.collection && !collectionId) {
+        collectionId = (await fetchCollection()).id;
+      }
       const params: GetListingLoanParams = {
-        ...paramCollection,
+        ...pageQuery,
         network: selectedChain,
         page: page.current,
         limit: PAGE_SIZE,
+        collection_id: collectionId,
       };
-      // if (paramCollection.collection) {
-      //   const _resCollection: ResponseResult = await getCollectionById(
-      //     paramCollection.collection
-      //   );
-      //   params.collection_id = _resCollection.result?.id;
-      //   setResCollection(CollectionNft.parseFromApi(_resCollection?.result));
-      // } else {
-      //   const _resCollections: ListResponse = await getCollections({
-      //     offset: 0,
-      //     limit: 10,
-      //   });
-      //   setResCollections(_resCollections.result);
-      //   setResCollection(null);
-      // }
       const response: ListResponse = await getListingLoans(params);
       if (response.result.length < PAGE_SIZE) setHasMore(false);
       else page.current += 1;
@@ -148,7 +152,7 @@ const Loans = () => {
     }
   };
 
-  const debounceGetData = useMemo(() => debounce(getData, 100), []);
+  const debounceFetchLoans = useMemo(() => debounce(fetchLoans, 100), []);
 
   const renderChainSelect = () => {
     return (
@@ -178,21 +182,20 @@ const Loans = () => {
 
   return (
     <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
-      {/* <LoansHeader
-        collection={resCollection}
+      <LoansHeader
+        collection={collection}
         collections={resCollections}
-        isLoading={loading}
         dataLoan={loans}
-      /> */}
+      />
       <div
         className={cx([
           styles.contentWrapper,
-          resCollection && styles.listContainerWrapBorder,
+          collection && styles.listContainerWrapBorder,
         ])}
       >
         {/* <LoansSidebar isLoading={loading} /> */}
         <div className={cx([styles.listContainerWrap])}>
-          {!resCollection && renderChainSelect()}
+          {!collection && renderChainSelect()}
           <LoansToolbar />
           <div
             className={cx(
