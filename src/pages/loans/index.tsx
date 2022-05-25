@@ -104,7 +104,9 @@ const Loans = () => {
     loansRef.current = [];
     page.current = 1;
     fetchLoans();
-    fetchCollection();
+
+    if (pageQuery.collection) fetchCollection();
+    else setCollection(null);
   }, [JSON.stringify(pageQuery), selectedChain]);
 
   const fetchCollection = async (): Promise<CollectionNft> => {
@@ -123,9 +125,10 @@ const Loans = () => {
     if (loading) return;
     setLoading(true);
     try {
-      let collectionId = collection?.id
-      if (pageQuery.collection && !collectionId) {
-        collectionId = (await fetchCollection()).id;
+      let collectionId;
+      if (pageQuery.collection) {
+        collectionId = collection?.id;
+        if (!collectionId) collectionId = (await fetchCollection()).id;
       }
       const params: GetListingLoanParams = {
         ...pageQuery,
@@ -135,6 +138,9 @@ const Loans = () => {
         collection_id: collectionId,
       };
       const response: ListResponse = await getListingLoans(params);
+      // Check for duplicate fetching when scroll to end of list
+      if (params.page !== page.current) return;
+
       if (response.result.length < PAGE_SIZE) setHasMore(false);
       else page.current += 1;
 
