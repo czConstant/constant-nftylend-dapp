@@ -171,7 +171,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
         </div>
       </div>
       <div className={styles.desc}>
-        {loan.isLiquidated
+        {loan.isLiquidated()
           ? <>{loan.asset?.name} is currently held in escrow in an NFTPawn contract and pending your lender to claim.</>
           : <>{loan.asset?.name} is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</strong> is made before {moment(loan.approved_offer.expired_at).toLocaleString()}.</>
         }
