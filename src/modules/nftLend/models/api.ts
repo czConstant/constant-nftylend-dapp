@@ -82,6 +82,7 @@ export interface LoanDataAsset {
   collection?: CollectionData;
   token_url: string;
   seo_url: string;
+  mime_type: string;
   attributes: AssetNftAttribute;
   new_loan?: LoanData;
   seller_fee_rate: number;
