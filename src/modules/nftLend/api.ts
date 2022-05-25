@@ -23,16 +23,18 @@ export const getCollectionById = (id: number | string): Promise<ResponseResult> 
   return api.get(`${API_URL.NFT_LEND.COLLECTION_BY_ID}/${id}`);
 };
 
-export interface LoanByCollectionParams {
+export interface GetListingLoanParams {
   collection_id?: number | undefined;
   exclude_ids?: string;
   min_price?: number;
   max_price?: number;
   collection?: string;
   network?: string;
+  page: number;
+  limit: number;
 }
-export const getLoanByCollection = (
-  params?: LoanByCollectionParams
+export const getListingLoans = (
+  params?: GetListingLoanParams
 ): Promise<ListResponse> => {
   return api.get(API_URL.NFT_LEND.ALL_LISTING_LOANS, {
     params,

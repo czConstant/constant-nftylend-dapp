@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import SectionCollapse from "src/common/components/sectionCollapse";
-import { getLoanByCollection } from "src/modules/nftLend/api";
+import { getListingLoans } from "src/modules/nftLend/api";
 import ItemNFT from "src/modules/nftLend/components/itemNft";
 import { LoanNft } from "src/modules/nftLend/models/loan";
 import styles from "./styles.module.scss";
@@ -22,7 +22,7 @@ const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
 
   const getData = async () => {
     try {
-      const response = await getLoanByCollection({
+      const response = await getListingLoans({
         collection_id: collectionId,
         exclude_ids: detailLoanId,
       });
