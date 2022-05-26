@@ -65,65 +65,6 @@ const ListAsset = () => {
       theme: 'dark',
       title: 'Create Loan'
     }));
-
-    // const transaction = new OrderNowNearTransaction();
-    // const res = await transaction.run(
-    //   '2',
-    //   'duynguyen-nft.testnet',
-    //   'duynguyen-usdt.testnet',
-    //   8,
-    //   1,
-    //   0.01,
-    //   86400,
-    // );
-
-    // const transaction = new LiquidateLoanNearTransaction();
-    // const res = await transaction.run(
-    //   'duynguyen-nft.testnet',
-    //   '2',
-    // );
-
-    // const transaction = new PayLoanNearTransaction();
-    // const res = await transaction.run(
-    //   '2',
-    //   'duynguyen-nft.testnet',
-    //   'duynguyen-usdt.testnet',
-    //   8,
-    //   11,
-    //   0.01,
-    //   86400,
-    // );
-
-    // const transaction = new MakeOfferNearTransaction();
-    // const res = await transaction.run(
-    //   '2',
-    //   'duynguyen-nft.testnet',
-    //   'duynguyen-usdt.testnet',
-    //   8,
-    //   1,
-    //   0.01,
-    //   86400,
-    // );
-
-    // const transaction = new AcceptOfferNearTransaction();
-    // const res = await transaction.run(
-    //   '2',
-    //   'duynguyen-nft.testnet',
-    //   1,
-    // );
-
-    // const transaction = new CancelLoanNearTransaction();
-    // const res = await transaction.run(
-    //   '0',
-    //   'locmc.testnet',
-    // );
-
-    // const transaction = new CancelOfferNearTransaction();
-    // const res = await transaction.run(
-    //   '0',
-    //   'locmc.testnet',
-    //   1,
-    // );
   };
 
   const onClickShowDetail = (asset: AssetNft) => {
