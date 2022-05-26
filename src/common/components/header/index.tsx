@@ -88,8 +88,7 @@ const Header = () => {
       </div>
       {APP_CLUSTER !== 'mainnet' && (
         <div className={styles.warningNetwork}>
-          You are on the NFT Pawn test network, we're working toward releasing
-          the mainnet soon.
+          You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;<a href="https://nftpawn.financial">https://nftpawn.financial</a>
         </div>
       )}
     </div>
