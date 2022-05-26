@@ -38,7 +38,13 @@ export class NearNft extends AssetNft {
     nft.origin_contract_address = item.origin_contract_address;
     nft.origin_token_id = item.origin_token_id;
     nft.origin_contract_network = item.origin_contract_network;
-    nft.detail = { image: item.token_url, attributes: item.attributes } as AssetNftDetail;
+    nft.detail = {
+      image: item.token_url,
+      attributes: item.attributes,
+      description: item.description,
+      seller_fee_rate: item.seller_fee_rate,
+      mime_type: item.mime_type,
+    } as AssetNftDetail;
     nft.stats = item.stats;
     if (item.collection) {
       const collection = CollectionNft.parseFromApi(item.collection);
@@ -59,6 +65,7 @@ export class NearNft extends AssetNft {
     this.name = this.name || response.title;
     this.detail.description = response.desciption || this.detail.description;
     this.detail.attributes = response.attributes;
+    this.detail.mime_type = response.mime_type;
     return this.detail;
   }
   

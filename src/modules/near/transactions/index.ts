@@ -40,8 +40,8 @@ export default class NearTransaction {
   // }
 
   saveStateBeforeRedirect = ({ contract_address, token_id }) => {
-    localStore.save(localStore.KEY_NEAR_NFT_CONTRACT, contract_address);
-    localStore.save(localStore.KEY_NEAT_NFT_TOKEN_ID, token_id);
+    // localStore.save(localStore.KEY_NEAR_NFT_CONTRACT, contract_address);
+    // localStore.save(localStore.KEY_NEAT_NFT_TOKEN_ID, token_id);
   }
 
   generateCallbackUrl = (query: any, customUrl?: string): string => {

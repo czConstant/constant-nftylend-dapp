@@ -82,9 +82,11 @@ export interface LoanDataAsset {
   collection?: CollectionData;
   token_url: string;
   seo_url: string;
+  mime_type: string;
   attributes: AssetNftAttribute;
   new_loan?: LoanData;
   seller_fee_rate: number;
+  description: string;
   origin_contract_network: string;
   origin_contract_address: string;
   origin_token_id: string;

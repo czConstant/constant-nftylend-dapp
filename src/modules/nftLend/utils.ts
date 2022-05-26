@@ -16,7 +16,7 @@ interface ImageThumb {
   showOriginal?: boolean;
 }
 
-export const getImageThumb = (params: ImageThumb, chain?: Chain) => {
+export const getImageThumb = (params: ImageThumb) => {
   const { width, height, url, showOriginal } = params;
   if (showOriginal)
     return `https://nftpawn.financial/cdn-cgi/image/quality=100/${encodeURIComponent(
@@ -30,10 +30,17 @@ export const getImageThumb = (params: ImageThumb, chain?: Chain) => {
 export const getUrlWithBaseDefault = (uri: string, base?: string): string => {
   if (!uri) return '';
   if (isUrl(uri)) {
-    return String(uri).replace ('ipfs://', 'https://ipfs.io/ipfs/');
+    return String(uri)
+    .replace('https://ipfs.io/ipfs/', 'https://cloudflare-ipfs.com/ipfs/')
+    .replace('ipfs://', 'https://cloudflare-ipfs.com/ipfs/');
   } else {
-    return `${base || 'https://cloudflare-ipfs.com/ipfs'}/${uri}`;
+    const url = `${base || 'https://cloudflare-ipfs.com/ipfs'}/${uri}`;
+    return fixUrlMultiSlash(url);
   }
+}
+
+const fixUrlMultiSlash = (str: string): string => {
+  return str.replace(/([^:])(\/{2,})/g,'$1/')
 }
 
 const isUrl = (url: string): boolean => {

@@ -36,7 +36,13 @@ export class EvmNft extends AssetNft {
     nft.name = item.name;
     nft.token_id = item.token_id;
     nft.chain = chain;
-    nft.detail = { image: item.token_url, attributes: item.attributes } as AssetNftDetail;
+    nft.detail = {
+      image: item.token_url,
+      attributes: item.attributes,
+      description: item.description,
+      seller_fee_rate: item.seller_fee_rate,
+      mime_type: item.mime_type,
+    } as AssetNftDetail;
     nft.stats = item.stats;
     if (item.collection) {
       const collection = CollectionNft.parseFromApi(item.collection);

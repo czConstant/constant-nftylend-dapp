@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import cx from "classnames";
 import { isMobile } from "react-device-detect";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
+import debounce from 'lodash/debounce';
 
 import BodyContainer from "src/common/components/bodyContainer";
 import {
   getCollectionById,
   getCollections,
-  getLoanByCollection,
-  LoanByCollectionParams,
+  GetListingLoanParams,
+  getListingLoans,
 } from "src/modules/nftLend/api";
 import { ListResponse, LoanData, ResponseResult } from "src/modules/nftLend/models/api";
 import { LoanNft } from "src/modules/nftLend/models/loan";
@@ -24,6 +25,7 @@ import styles from "./styles.module.scss";
 import LoansSidebar from "./Loans.Sidebar";
 import LoansToolbar from "./Loans.Toolbar";
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
+import Loading from 'src/common/components/loading';
 
 const chains = {
   all: {
@@ -60,61 +62,107 @@ const chains = {
   },
 }
 
+const PAGE_SIZE = 20;
+
 const Loans = () => {
   const location = useLocation();
-  const paramCollection: LoanByCollectionParams =
+  const pageQuery: GetListingLoanParams =
     queryString.parse(location.search) || null;
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [loadingList, setLoadingList] = useState<boolean>(false);
   const [loans, setLoans] = useState<LoanNft[]>([]);
-  const [resCollection, setResCollection] = useState<CollectionNft>();
+  const [collection, setCollection] = useState<CollectionNft>();
   const [resCollections, setResCollections] = useState<CollectionData[]>([]);
 
-  const defaultChain = Chain[paramCollection.network || ''] || Chain.None;
+  const [loading, setLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+
+  const loansRef = useRef<LoanNft[]>([]);
+  const page = useRef(1);
+  const loadingVisible = useRef(false);
+
+  const defaultChain = Chain[pageQuery.network || ''] || Chain.None;
   const [selectedChain, setSelectedChain] = useState<Chain>(defaultChain);
 
   useEffect(() => {
-    getData();
-  }, [JSON.stringify(paramCollection), selectedChain]);
-
-  const getData = async () => {
-    setLoadingList(true);
-    try {
-      const params: LoanByCollectionParams = {
-        ...paramCollection,
-        network: selectedChain,
-      };
-      if (paramCollection.collection) {
-        const _resCollection: ResponseResult = await getCollectionById(
-          paramCollection.collection
-        );
-        params.collection_id = _resCollection.result?.id;
-        setResCollection(CollectionNft.parseFromApi(_resCollection?.result));
-      } else {
-        const _resCollections: ListResponse = await getCollections({
-          offset: 0,
-          limit: 10,
-        });
-        setResCollections(_resCollections.result);
-        setResCollection(null);
+    const handleScroll = () => {
+      const el = document.getElementById('loading');
+      if (!el) return;
+      if (el.getBoundingClientRect().bottom <= window.innerHeight) {
+        const prev = loadingVisible.current;
+        loadingVisible.current = true;
+        setTimeout(() => !prev && debounceFetchLoans(), 0);
+      } else { 
+        loadingVisible.current = false;
       }
-      const response: ListResponse = await getLoanByCollection(params);
-      const result = response.result;
-      setLoans(result.map((e: LoanData) => {
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [])
+
+  useEffect(() => {
+    loansRef.current = loans;
+  }, [loans])
+
+  useEffect(() => {
+    loansRef.current = [];
+    page.current = 1;
+    fetchLoans();
+
+    if (pageQuery.collection) fetchCollection();
+    else setCollection(null);
+  }, [JSON.stringify(pageQuery), selectedChain]);
+
+  const fetchCollection = async (): Promise<CollectionNft> => {
+    if (!pageQuery.collection) throw new Error('No collection selected');
+    const params: GetListingLoanParams = {
+      ...pageQuery,
+      network: selectedChain,
+    };
+    const res: ResponseResult = await getCollectionById(pageQuery.collection);
+    params.collection_id = res.result?.id;
+    setCollection(CollectionNft.parseFromApi(res?.result));
+    return CollectionNft.parseFromApi(res?.result);
+  }
+
+  const fetchLoans = async () => {
+    if (loading) return;
+    setLoading(true);
+    try {
+      let collectionId;
+      if (pageQuery.collection) {
+        collectionId = collection?.id;
+        if (!collectionId) collectionId = (await fetchCollection()).id;
+      }
+      const params: GetListingLoanParams = {
+        ...pageQuery,
+        network: selectedChain,
+        page: page.current,
+        limit: PAGE_SIZE,
+        collection_id: collectionId,
+      };
+      const response: ListResponse = await getListingLoans(params);
+      // Check for duplicate fetching when scroll to end of list
+      if (params.page !== page.current) return;
+
+      if (response.result.length < PAGE_SIZE) setHasMore(false);
+      else page.current += 1;
+
+      const validLoans = response.result.map((e: LoanData) => {
         try {
           const loan = LoanNft.parseFromApi(e);
           return loan;
         } catch {
           return null;
         }
-      }).filter((e: any) => !!e));
-    } catch (error) {
+      }).filter((e: any) => !!e);
+      setLoans([ ...loansRef.current, ...validLoans ]);
     } finally {
       setLoading(false);
-      setLoadingList(false);
     }
   };
+
+  const debounceFetchLoans = useMemo(() => debounce(fetchLoans, 100), []);
 
   const renderChainSelect = () => {
     return (
@@ -133,9 +181,7 @@ const Loans = () => {
   };
 
   const renderContentList = () => {
-    if (loading || loadingList) {
-      return <LoadingList num_items={4} />;
-    } else if (loans?.length === 0) {
+    if (!loading && loans?.length === 0) {
       return <EmptyDetailLoan message="There is no loans yet" />;
     }
 
@@ -147,20 +193,19 @@ const Loans = () => {
   return (
     <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
       <LoansHeader
-        collection={resCollection}
+        collection={collection}
         collections={resCollections}
-        isLoading={loading}
         dataLoan={loans}
       />
       <div
         className={cx([
           styles.contentWrapper,
-          resCollection && styles.listContainerWrapBorder,
+          collection && styles.listContainerWrapBorder,
         ])}
       >
         {/* <LoansSidebar isLoading={loading} /> */}
         <div className={cx([styles.listContainerWrap])}>
-          {!resCollection && renderChainSelect()}
+          {!collection && renderChainSelect()}
           <LoansToolbar />
           <div
             className={cx(
@@ -169,7 +214,9 @@ const Loans = () => {
             )}
           >
             {renderContentList()}
+            {(loading) && <LoadingList num_items={4} />}
           </div>
+          {hasMore && <div id="loading" style={{ margin: 20 }}><Loading /></div>}
         </div>
       </div>
     </BodyContainer>

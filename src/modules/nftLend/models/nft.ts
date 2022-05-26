@@ -33,6 +33,7 @@ export interface AssetNftDetail {
   image: string;
   attributes: AssetNftAttribute;
   seller_fee_rate: number;
+  mime_type: string;
 }
 
 export interface AssetNftAttribute {

@@ -11,9 +11,9 @@
   "dependencies": {
     "@coinbase/wallet-sdk": "^3.0.5",
     "@lottiefiles/react-lottie-player": "^3.4.2",
-    "@near-wallet-selector/core": "^3.0.2",
-    "@near-wallet-selector/near-wallet": "^3.0.2",
-    "@near-wallet-selector/sender": "^3.0.2",
+    "@near-wallet-selector/core": "^3.1.0",
+    "@near-wallet-selector/near-wallet": "^3.1.0",
+    "@near-wallet-selector/sender": "^3.1.0",
     "@nfteyez/sol-rayz": "^0.10.2",
     "@reduxjs/toolkit": "^1.8.0",
     "@solana/buffer-layout-utils": "^0.2.0",
