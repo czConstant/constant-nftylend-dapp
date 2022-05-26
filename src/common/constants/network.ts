@@ -19,7 +19,6 @@ export const ChainBobaID = APP_CLUSTER === 'mainnet' ? '' : 28;
 
 // https://docs.moralis.io/moralis-dapp/web3-sdk/supported-chains
 export const MoralisChainName = {
-  [Chain.Solana]: APP_CLUSTER === 'mainnet' ? 'mainnet' : 'testnet',
   [Chain.Polygon]: APP_CLUSTER === 'mainnet' ? 'matic' : 'mumbai',
   [Chain.Avalanche]: APP_CLUSTER === 'mainnet' ? 'avalanche' : '0xa869',
   [Chain.BSC]: APP_CLUSTER === 'mainnet' ? 'bsc' : '0x61',
