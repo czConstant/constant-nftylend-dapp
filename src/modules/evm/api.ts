@@ -5,8 +5,7 @@ import { EvmNft } from './models/evmNft';
 
 export const getEvmNftsByOwner = async (owner: string, chain: Chain): Promise<any> => {
   if (chain === Chain.Boba) return { result: [] };
-  const chainName = MoralisChainName[chain];
-  const res = await api.get(`${API_URL.NFT_LEND.GET_OWNED_NFTS.replace('{owner}', owner)}?chain=${chainName}`);
+  const res = await api.get(`${API_URL.NFT_LEND.GET_OWNED_NFTS.replace('{owner}', owner)}?chain=${chain.toString()}`);
   return res.result.map(e => {
     const nft = EvmNft.parse(e, chain);
     nft.owner = owner;
