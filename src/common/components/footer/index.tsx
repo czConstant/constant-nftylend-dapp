@@ -16,6 +16,10 @@ const Footer = () => (
         <Link to={APP_URL.NFT_LENDING}>
           <AppIcon dark />
         </Link>
+        <div className={styles.copyright}>
+          <div>This project is in public beta <MyPopover desc="This project is in public beta. - NFTPawn's smart contract is not yet audited by well-known security organization or firm. Use at your own risk!" /></div>
+          <div>Copyright © 2022 NFT Pawn. All rights reserved</div>
+        </div>
       </div>
       <div className={styles.right}>
         <div className={styles.menus}>
@@ -35,13 +39,12 @@ const Footer = () => (
             Docs
           </a>
         </div>
+        <div className={styles.company}>
+          <span className={styles.companyName}><i className="far fa-copyright" />2019-2022 Const LLC.</span>
+          <br />
+          <span>3500 S dupont hwy Dover 19901 Delaware</span>
+        </div>
       </div>
-    </div>
-    <div className={styles.copyright}>
-      <p>
-        This project is in public beta <MyPopover desc="This project is in public beta. - NFTPawn's smart contract is not yet audited by well-known security organization or firm. Use at your own risk!" />
-      </p>
-      <p>Copyright © 2022 NFT Pawn. All rights reserved</p>
     </div>
   </div>
 );
