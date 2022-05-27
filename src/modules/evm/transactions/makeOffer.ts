@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import web3 from 'web3';
 import BigNumber from 'bignumber.js';
+import { timestampAfter } from '@nftpawn-js/core';
 
 import IERC20 from '../abi/IERC20.json';
 
@@ -9,7 +10,6 @@ import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { formatAmountSigning, generateNonce, getMaxAllowance } from '../utils';
-import { getAvailableAt } from 'src/modules/nftLend/utils';
 
 export default class MakeOfferEvmTransaction extends EvmTransaction {
   async run(
@@ -63,7 +63,7 @@ export default class MakeOfferEvmTransaction extends EvmTransaction {
         duration,
         signature: lenderSig,
         nonce_hex: nonce,
-        available_at: getAvailableAt(availableIn),
+        available_at: timestampAfter(availableIn),
       });
 
       return this.handleSuccess({ txHash: txHash } as TransactionResult);

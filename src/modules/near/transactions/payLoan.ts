@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { APP_URL } from 'src/common/constants/url';
-import { getAvailableAt } from 'src/modules/nftLend/utils';
+import { timestampAfter } from '@nftpawn-js/core';
 
 export default class PayLoanNearTransaction extends NearTransaction {
   async run(
@@ -27,7 +27,7 @@ export default class PayLoanNearTransaction extends NearTransaction {
         loan_duration: duration,
         loan_currency: currencyContractAddress,
         loan_interest_rate: new BigNumber(rate).multipliedBy(10000).toNumber(),
-        available_at: getAvailableAt(0),
+        available_at: timestampAfter(0),
       });
 
       const transactions = [

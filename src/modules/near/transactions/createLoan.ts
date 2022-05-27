@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js';
+import { timestampAfter } from '@nftpawn-js/core';
 
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
-import { getAvailableAt } from 'src/modules/nftLend/utils';
 import { nearViewFunction, NEAR_LOAN_STATUS } from '../utils';
 import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
@@ -35,7 +35,7 @@ export default class CreateLoanNearTransaction extends NearTransaction {
       const msg = JSON.stringify({
         loan_principal_amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
         loan_config: loanConfig,
-        available_at: getAvailableAt(availableIn),
+        available_at: timestampAfter(availableIn),
         loan_duration: duration,
         loan_currency: currencyContractAddress,
         loan_interest_rate: new BigNumber(rate).multipliedBy(10000).toNumber(),
