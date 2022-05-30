@@ -74,32 +74,7 @@ export async function isAssetOwner(owner: string, chain: Chain, contractAddress:
   return true;
 }
 
-export const calculateMaxInterest = (principal: number, interest: number, duration: number): number => {
-  const DAY_SECS = 86400;
-  const loanDay = duration / DAY_SECS;
-  
-  const primaryInterest = new BigNumber(principal)
-    .multipliedBy(interest)
-    .multipliedBy(loanDay)
-    .dividedBy(365);
-  return primaryInterest.toNumber();
-}
-
-export const calculateMaxTotalPay = (principal: number, interest: number, duration: number): number => {
-  const DAY_SECS = 86400;
-  const loanDay = duration / DAY_SECS;
-  const primaryInterest = new BigNumber(principal)
-    .multipliedBy(interest)
-    .multipliedBy(loanDay)
-    .dividedBy(365);
-  const matchingFee = new BigNumber(principal).dividedBy(100);
-  return new BigNumber(principal)
-    .plus(primaryInterest)
-    .plus(matchingFee)
-    .toNumber();
-}
-
-export const calculateTotalPay = (principal: number, decimals: number, interest: number, duration: number /* seconds */, startedAt: number /* timestamp seconds */) => {
+export const calculateTotalPay = (principal: number, interest: number, duration: number /* seconds */, decimals: number, startedAt: number /* timestamp seconds */) => {
   const DAY_SECS = 86400;
   const payAt = moment().unix();
   const _decimal = new BigNumber(10).pow(decimals)

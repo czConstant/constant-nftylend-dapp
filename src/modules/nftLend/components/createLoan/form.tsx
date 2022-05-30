@@ -7,6 +7,7 @@ import React, {
 import { Button, Row, Col } from "react-bootstrap";
 import { Field, useForm } from "react-final-form";
 import Switch from 'rc-switch';
+import { calculateMaxInterest, calculateMaxTotalPay } from '@nftpawn-js/core';
 
 import Loading from "src/common/components/loading";
 import { required } from "src/common/utils/formValidate";
@@ -18,7 +19,6 @@ import MyPopover from 'src/common/components/myPopover';
 import FieldText from 'src/common/components/form/fieldText';
 
 import { Currency } from '../../models/api';
-import { calculateMaxInterest, calculateMaxTotalPay } from '../../utils';
 import { LOAN_DURATION } from "../../constant";
 import styles from "./styles.module.scss";
 

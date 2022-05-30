@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { LOAN_DURATION } from 'src/modules/nftLend/constant';
-import { calculateTotalPay } from 'src/modules/nftLend/utils';
 import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
@@ -18,6 +17,7 @@ import ModalConfirmAmount from 'src/modules/nftLend/components/confirmAmountModa
 import styles from "../styles.module.scss";
 import { formatCurrency } from 'src/common/utils/format';
 import { closeModal, openModal } from 'src/store/modal';
+import { calculateTotalPay } from '@nftpawn-js/core';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -34,9 +34,9 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
   const loanDuration = LOAN_DURATION.find(e => e.id === loan.approved_offer?.duration);
   const payAmount = calculateTotalPay(
     Number(loan.approved_offer?.principal_amount),
-    Number(loan.currency?.decimals),
     loan.approved_offer?.interest_rate,
     loan.approved_offer?.duration,
+    loan.currency?.decimals,
     moment(loan.approved_offer?.started_at).unix()
   );
 
@@ -47,10 +47,10 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
     e.stopPropagation();
     const payAmount = loan?.status === "created"
       ? calculateTotalPay(
-        Number(loan.approved_offer?.principal_amount),
-          Number(loan.currency.decimals),
+          Number(loan.approved_offer?.principal_amount),
           loan.approved_offer?.interest_rate,
           loan.approved_offer?.duration,
+          loan.currency?.decimals,
           moment(loan.approved_offer?.started_at).unix()
         )
       : 0;

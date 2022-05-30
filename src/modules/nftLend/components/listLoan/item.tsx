@@ -4,6 +4,7 @@ import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
 import cx from 'classnames';
+import { calculateTotalPay } from '@nftpawn-js/core';
 
 import { useAppDispatch } from "src/store/hooks";
 import { toastError, toastSuccess } from "src/common/services/toaster";
@@ -18,7 +19,7 @@ import styles from "./styles.module.scss";
 import { LOAN_DURATION, LOAN_STATUS } from "../../constant";
 import { useTransaction } from '../../hooks/useTransaction';
 import { LoanNft } from '../../models/loan';
-import { calculateTotalPay } from '../../utils';
+// import { calculateTotalPay } from '../../utils';
 
 interface ItemProps {
   loan: LoanNft;
@@ -65,11 +66,11 @@ const Item = (props: ItemProps) => {
     e.stopPropagation();
     const payAmount = loan?.status === "created"
       ? calculateTotalPay(
-        Number(loan.approved_offer?.principal_amount),
-        loan.currency.decimals,
-        loan.approved_offer?.interest_rate,
-        loan.approved_offer?.duration,
-        moment(loan.approved_offer?.started_at).unix()
+          Number(loan.approved_offer?.principal_amount),
+          loan.approved_offer?.interest_rate,
+          loan.approved_offer?.duration,
+          loan.currency?.decimals,
+          moment(loan.approved_offer?.started_at).unix()
         )
       : 0;
     dispatch(

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from "react-bootstrap";
-import { Field, useForm, useFormState } from "react-final-form";
+import { Field, useFormState } from "react-final-form";
+import { calculateMaxInterest, calculateMaxTotalPay } from '@nftpawn-js/core';
 
 import FieldAmount from "src/common/components/form/fieldAmount";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
@@ -9,7 +10,6 @@ import Loading from "src/common/components/loading";
 import { required } from "src/common/utils/formValidate";
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import { calculateMaxInterest, calculateMaxTotalPay } from 'src/modules/nftLend/utils';
 import { formatCurrency } from 'src/common/utils/format';
 import MyPopover from 'src/common/components/myPopover';
 import styles from "./makeOfferForm.module.scss";
