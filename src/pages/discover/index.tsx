@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
+import { isMobile } from 'react-device-detect';
 
 import { fetchCollections } from 'src/modules/nftLend/api';
 import { APP_URL } from 'src/common/constants/url';
 import BodyContainer from 'src/common/components/bodyContainer';
 
-import Item from './item';
-import styles from './styles.module.scss';
-import { isMobile } from 'react-device-detect';
 import { CollectionData } from 'src/modules/nftLend/models/api';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
+import Introduce from 'src/views/discover/introduce';
 
-export const OnBoardingHeader = () => (
-  <div className={cx(isMobile && styles.mbHeader, styles.headerWrapper)}>
-    <h5>Create, explore, & collect digital art NFTs</h5>
-    <h1>The new creative economy.</h1>
-  </div>
-);
+import Item from './item';
+import styles from './styles.module.scss';
+import News from 'src/views/discover/news';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -40,16 +36,15 @@ const Home = () => {
           return null;
         }
       }).filter((e: any) => !!e));
-    } catch (err) {
-      console.log("🚀 ~ file: index.tsx ~ line 39 ~ getData ~ err", err)
     } finally {
       setLoading(false);
     }
   };
 
-  return (
+  return (<>
+    <Introduce />
+    <News />
     <BodyContainer className={styles.wrapper}>
-      <OnBoardingHeader />
       <div className={cx(isMobile && styles.mbContentWrapper, styles.contentWrapper)}>
         <div className={styles.contentContainer}>
           {collections.map((collection, index) => (
@@ -67,6 +62,7 @@ const Home = () => {
         </div>
       </div>
     </BodyContainer>
+  </>
   );
 };
 

@@ -4,7 +4,7 @@ export const DISCORD_URL = 'https://discord.gg/dyMrkSXyq7';
 
 export const APP_URL = {
   HOME: `${BASE_PATH}/`,
-  ABOUT: `${BASE_PATH}/about`,
+  PAWN_PROTOCOL: `${BASE_PATH}/pawn-protocol`,
   DISCOVER: `${BASE_PATH}/discover`,
   MY_NFT: `${BASE_PATH}/my-nft`,
   LIST_LOAN: `${BASE_PATH}/loans`,

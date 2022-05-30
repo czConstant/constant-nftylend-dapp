@@ -119,7 +119,7 @@ export const OnBoardingHeader = () => (
   </div>
 );
 
-const Home = () => {
+const PawwnProtocol = () => {
   const navigate = useNavigate();
   return (
     <BodyContainer
@@ -346,4 +346,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default PawwnProtocol;

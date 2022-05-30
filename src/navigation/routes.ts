@@ -20,7 +20,7 @@ const routes: Array<RouteProps> = [
     component: Discover,
   },
   {
-    path: APP_URL.ABOUT,
+    path: APP_URL.PAWN_PROTOCOL,
     component: About,
   },
   {

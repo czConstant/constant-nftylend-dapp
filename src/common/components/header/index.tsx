@@ -10,7 +10,7 @@ import styles from "./styles.module.scss";
 import ButtonCreateLoan from "../buttonCreateLoan";
 import HeaderMobile from "./index.mobile";
 import ButtonConnectWallet from "../buttonConnectWallet";
-import ButtonDisconnectWallet from "../buttonDisconnectWallet";
+import ButtonWalletDropdown from "../buttonWalletDropdown";
 import { useCurrentWallet } from "src/modules/nftLend/hooks/useCurrentWallet";
 import { APP_CLUSTER } from "src/common/constants/config";
 import {
@@ -41,20 +41,6 @@ const Header = () => {
             >
               Listing Loans
             </Link>
-            <Link
-              to={APP_URL.ABOUT}
-              className={cx(location.pathname === APP_URL.ABOUT && styles.active)}
-            >
-              About
-            </Link>
-            {isConnected && (
-              <Link
-                to={APP_URL.MY_NFT}
-                className={cx(location.pathname === APP_URL.MY_NFT && styles.active)}
-              >
-                My Assets
-              </Link>
-            )}
             {/* <a
               target="_blank"
               href={APP_URL.NFT_PAWN_BLOG}
@@ -64,6 +50,12 @@ const Header = () => {
             >
               News
             </a> */}
+            <Link
+              to={APP_URL.PAWN_PROTOCOL}
+              className={cx(location.pathname === APP_URL.PAWN_PROTOCOL && styles.active)}
+            >
+              Pawn Protocol
+            </Link>
             <ButtonCreateLoan />
           </div>
         </div>
@@ -75,7 +67,7 @@ const Header = () => {
               </WalletMultiButton>
             </WalletModalProvider>
           </div>
-          {isConnected ? <ButtonDisconnectWallet /> : <ButtonConnectWallet />}
+          {isConnected ? <ButtonWalletDropdown /> : <ButtonConnectWallet />}
         </div>
       </div>
       {APP_CLUSTER !== 'mainnet' && (

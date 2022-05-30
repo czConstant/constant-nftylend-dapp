@@ -9,8 +9,8 @@ import Avatar from 'src/common/components/avatar';
 import { formatCurrency } from 'src/common/utils/format';
 import { getImageThumb } from 'src/modules/nftLend/utils';
 import aboutStyles from "src/pages/about/styles.module.scss";
+import { OnBoardingHeader } from "src/pages/about";
 
-import { OnBoardingHeader } from "../discover";
 import IcVerified from './icon-verified.svg';
 import styles from "./styles.module.scss";
 

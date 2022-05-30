@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import cx from 'classnames';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
@@ -6,7 +6,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from 'src/store/hooks';
-import { shortCryptoAddress } from 'src/common/utils/format';
+import { formatCurrency, shortCryptoAddress } from 'src/common/utils/format';
 import { Chain } from 'src/common/constants/network';
 import { toastSuccess } from 'src/common/services/toaster';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -22,15 +22,26 @@ import IconCopy from './images/ic_copy_address.svg'
 import IconDisconnect from './images/ic_disconnect.svg'
 import styles from './styles.module.scss';
 import { APP_URL } from 'src/common/constants/url';
+import { useToken } from 'src/modules/nftLend/hooks/useToken';
 
-interface ButtonDisconnectWalletProps {
+interface ButtonWalletDropdownProps {
   className?: string;
 }
 
-const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
+const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
   const { className } = props;
   const dispatch = useAppDispatch();
-  const { currentWallet, disconnectWallet } = useCurrentWallet();
+  const navigate = useNavigate();
+  const { isConnected, currentWallet, disconnectWallet } = useCurrentWallet();
+  const { getNativeBalance } = useToken();
+
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    if (isConnected) {
+      getNativeBalance().then(res => setBalance(res));
+    };
+  }, [currentWallet]);
 
   const onChangeWallet = () => {
     // const id = 'connectWalletModal';
@@ -72,15 +83,20 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
   return (
     <Dropdown className={cx(styles.wrapper, className)}>
       <Dropdown.Toggle className={styles.disconnectButton}>
+        {/* {walletIcons[currentWallet.name] && <img alt="" src={walletIcons[currentWallet.name]} />} */}
+        <div className={styles.address}>
+          {shortCryptoAddress(currentWallet.address, 10)}
+          &nbsp;
+        </div>
+        <div className={styles.balance}>
+          | {formatCurrency(balance)} {currentWallet.chain.toString()}
+        </div>
         <img alt="" src={tokenIcons[currentWallet.chain.toLowerCase()]} />
-        {walletIcons[currentWallet.name] && <img alt="" src={walletIcons[currentWallet.name]} />}
-        <span className={className}>
-          {currentWallet.chain === Chain.Near
-            ? currentWallet.address
-            : shortCryptoAddress(currentWallet.address)}
-        </span>
       </Dropdown.Toggle>
       <Dropdown.Menu className={styles.dropdownMenu} align="end">
+        <Dropdown.Item eventKey="myAssets" onClick={() => navigate(APP_URL.MY_NFT)}>
+          <div className={styles.item}><img src={IconMyAsset} />My Assets</div>
+        </Dropdown.Item>
         <Dropdown.Item eventKey="copy">
           <CopyToClipboard
             onCopy={() => toastSuccess("Copied address!")}
@@ -103,4 +119,4 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
   );
 };
 
-export default memo(ButtonDisconnectWallet);
+export default memo(ButtonWalletDropdown);
