@@ -32,11 +32,11 @@ const LoanDetail = () => {
   const defaultBreadCrumbs = useRef<BreadCrumbItem[]>([
     {
       label: "Discover",
-      link: APP_URL.NFT_LENDING,
+      link: APP_URL.DISCOVER,
     },
     {
       label: "Collections",
-      link: APP_URL.NFT_LENDING_LIST_LOAN,
+      link: APP_URL.LIST_LOAN,
     },
     {
       label: "Loan",
@@ -59,14 +59,14 @@ const LoanDetail = () => {
 
       if (result?.collection?.name) {
         defaultBreadCrumbs.current[1].label = result?.collection.name;
-        defaultBreadCrumbs.current[1].link = `${APP_URL.NFT_LENDING_LIST_LOAN}/?collection=${result.collection.seo_url}`;
+        defaultBreadCrumbs.current[1].link = `${APP_URL.LIST_LOAN}/?collection=${result.collection.seo_url}`;
         defaultBreadCrumbs.current[2].label = result?.name;
       }
 
       setBreadCrumbs(defaultBreadCrumbs.current);
       setLoan(LoanNft.parseFromApiDetail(result));
     } catch(err) {
-      navigate(APP_URL.NFT_LENDING_LIST_LOAN);
+      navigate(APP_URL.LIST_LOAN);
     } finally {
       setLoading(false);
     }

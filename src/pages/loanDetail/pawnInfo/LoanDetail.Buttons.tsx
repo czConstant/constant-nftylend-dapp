@@ -118,7 +118,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
           )}
         </>
       );
-      return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=${TABS.offer}`);
+      return navigate(`${APP_URL.MY_NFT}?tab=${TABS.offer}`);
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {
@@ -147,7 +147,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
           )}
         </>
       );
-      return navigate(`${APP_URL.NFT_LENDING_MY_NFT}`);
+      return navigate(`${APP_URL.MY_NFT}`);
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {
@@ -267,7 +267,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
       </div>
       <div className={styles.noteTerms}>
         By clicking "Make an offer", you agree to{" "}
-        <Link target={"_blank"} to={APP_URL.NFT_LENDING_TERM_OF_SERVICE}>
+        <Link target={"_blank"} to={APP_URL.TERM_OF_SERVICE}>
           Terms of Service
         </Link>
       </div>

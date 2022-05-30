@@ -76,14 +76,14 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
 
   const onGoTtoLoan = () => {
     onClose();
-    navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
+    navigate(`${APP_URL.LIST_LOAN}/${loan?.seo_url}`);
   };
 
   const onClickVerify = () => {
     onClose();
     const name = extraData?.collection?.name;
     const author = extraData?.properties?.creators[0]?.address;
-    navigate(`${APP_URL.NFT_LENDING_SUBMIT_WHITELIST}?collection=${name}&creator=${author}`);
+    navigate(`${APP_URL.SUBMIT_WHITELIST}?collection=${name}&creator=${author}`);
   };
 
   const renderButton = () => {
@@ -127,7 +127,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
             className={styles.infoAuthor}
             target="_blank"
             href={`${
-              APP_URL.NFT_LENDING_LIST_LOAN
+              APP_URL.LIST_LOAN
             }?collection=${extraData?.collection?.family?.toLowerCase()}`}
           >
             {extraData?.collection?.name}

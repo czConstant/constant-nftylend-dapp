@@ -31,43 +31,35 @@ const Header = () => {
       <div className={styles.content}>
         <div className={styles.left}>
           <Link to={APP_URL.HOME}>
-            <AppIcon dark />
+            <AppIcon />
           </Link>
           <div className={styles.divider} />
           <div className={styles.menus}>
             <Link
-              to={APP_URL.NFT_LENDING}
-              className={cx(
-                location.pathname === APP_URL.NFT_LENDING && styles.active
-              )}
-            >
-              Discover
-            </Link>
-            <Link
-              to={APP_URL.NFT_LENDING_LIST_LOAN}
-              className={cx(
-                location.pathname === APP_URL.NFT_LENDING_LIST_LOAN &&
-                  styles.active
-              )}
+              to={APP_URL.LIST_LOAN}
+              className={cx(location.pathname === APP_URL.LIST_LOAN && styles.active)}
             >
               Listing Loans
             </Link>
+            <Link
+              to={APP_URL.ABOUT}
+              className={cx(location.pathname === APP_URL.ABOUT && styles.active)}
+            >
+              About
+            </Link>
             {isConnected && (
               <Link
-                to={APP_URL.NFT_LENDING_MY_NFT}
-                className={cx(
-                  location.pathname === APP_URL.NFT_LENDING_MY_NFT &&
-                    styles.active
-                )}
+                to={APP_URL.MY_NFT}
+                className={cx(location.pathname === APP_URL.MY_NFT && styles.active)}
               >
                 My Assets
               </Link>
             )}
             {/* <a
               target="_blank"
-              href={APP_URL.NFT_LENDING_BLOG}
+              href={APP_URL.NFT_PAWN_BLOG}
               className={cx(
-                location.pathname === APP_URL.NFT_LENDING_BLOG && styles.active
+                location.pathname === APP_URL.NFT_PAWN_BLOG && styles.active
               )}
             >
               News

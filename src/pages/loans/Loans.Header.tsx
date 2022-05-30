@@ -8,8 +8,8 @@ import Loading from "src/common/components/loading";
 import Avatar from 'src/common/components/avatar';
 import { formatCurrency } from 'src/common/utils/format';
 import { getImageThumb } from 'src/modules/nftLend/utils';
+import aboutStyles from "src/pages/about/styles.module.scss";
 
-import homeStyles from "../home/styles.module.scss";
 import { OnBoardingHeader } from "../discover";
 import IcVerified from './icon-verified.svg';
 import styles from "./styles.module.scss";
@@ -82,7 +82,7 @@ const LoansHeader: React.FC<LoansHeaderProps> = ({
   if (!collection) return null;
 
   return (
-    <div className={cx(homeStyles.headerWrapper, styles.headerWrapper)}>
+    <div className={cx(aboutStyles.headerWrapper, styles.headerWrapper)}>
       {renderHeaderContent()}
     </div>
   );

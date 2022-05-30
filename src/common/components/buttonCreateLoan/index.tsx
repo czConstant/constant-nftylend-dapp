@@ -38,7 +38,7 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
     );
   };
 
-  if (location.pathname.includes(APP_URL.NFT_LENDING_MY_NFT)) return null;
+  if (location.pathname.includes(APP_URL.MY_NFT)) return null;
 
   return (
     <Button onClick={onOpenModal} className={styles.container}>

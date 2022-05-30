@@ -63,7 +63,7 @@ const MyAsset = () => {
     setCurrencies(listCurrencies);
   };
 
-  // if (!walletAddress) return <Navigate to={APP_URL.NFT_LENDING} />
+  // if (!walletAddress) return <Navigate to={APP_URL.DISCOVER} />
 
   return (
     <>

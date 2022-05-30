@@ -131,7 +131,7 @@ const Item = (props: ItemProps) => {
 
   const onViewLoan = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
+    navigate(`${APP_URL.LIST_LOAN}/${loan?.seo_url}`);
   };
 
   const showCancel = loan.isListing() || loan.isExpired();

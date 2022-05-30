@@ -64,7 +64,7 @@ const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
             onClick={() => {
               onClose();
               onCallBack?.();
-              navigate(APP_URL.NFT_LENDING_MY_NFT);
+              navigate(APP_URL.MY_NFT);
             }}
             className={styles.btnConnect}
           >

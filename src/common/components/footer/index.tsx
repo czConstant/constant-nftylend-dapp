@@ -13,7 +13,7 @@ const Footer = () => (
   <div className={cx(isMobile && styles.mobileFooter, styles.wrapper)}>
     <div className={styles.content}>
       <div className={styles.left}>
-        <Link to={APP_URL.NFT_LENDING}>
+        <Link to={APP_URL.DISCOVER}>
           <AppIcon dark />
         </Link>
         <div className={styles.copyright}>
@@ -23,13 +23,13 @@ const Footer = () => (
       </div>
       <div className={styles.right}>
         <div className={styles.menus}>
-          <Link to={APP_URL.NFT_LENDING}>Discover</Link>
-          <Link to={APP_URL.NFT_LENDING_LIST_LOAN}>Listing Loans</Link>
-          {/* <Link to={APP_URL.NFT_LENDING_BLOG}>News</Link> */}
-          <Link to={APP_URL.NFT_LENDING_TERM_OF_SERVICE}>
+          <Link to={APP_URL.DISCOVER}>Discover</Link>
+          <Link to={APP_URL.LIST_LOAN}>Listing Loans</Link>
+          {/* <Link to={APP_URL.NFT_PAWN_BLOG}>News</Link> */}
+          <Link to={APP_URL.TERM_OF_SERVICE}>
             Terms of Services
           </Link>
-          <Link to={APP_URL.NFT_LENDING_FAQS}>FAQs</Link>
+          <Link to={APP_URL.FAQS}>FAQs</Link>
           <a
             target={"_blank"}
             href={

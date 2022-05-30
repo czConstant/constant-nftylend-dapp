@@ -52,7 +52,7 @@ const ItemNFT = (props: ItemNftProps) => {
   const onView = () => {
     if (onClickItem) return onClickItem(asset);
     if (loan?.seo_url)
-      navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
+      navigate(`${APP_URL.LIST_LOAN}/${loan?.seo_url}`);
   };
 
   const loanDuration = LOAN_DURATION.find(e => e.id === loan?.duration / 86400);

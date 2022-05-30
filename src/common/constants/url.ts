@@ -4,14 +4,15 @@ export const DISCORD_URL = 'https://discord.gg/dyMrkSXyq7';
 
 export const APP_URL = {
   HOME: `${BASE_PATH}/`,
-  NFT_LENDING: `${BASE_PATH}/discover`,
-  NFT_LENDING_MY_NFT: `${BASE_PATH}/my-nft`,
-  NFT_LENDING_LIST_LOAN: `${BASE_PATH}/loans`,
-  NFT_LENDING_DETAIL_LOAN: `${BASE_PATH}/loans/:id`,
-  NFT_LENDING_SUBMIT_WHITELIST: `${BASE_PATH}/submit`,
-  NFT_LENDING_TERM_OF_SERVICE: `${BASE_PATH}/terms-of-service`,
-  NFT_LENDING_FAQS: `${BASE_PATH}/help`,
-  NFT_LENDING_BLOG: `${BASE_PATH}/news/`,
+  ABOUT: `${BASE_PATH}/about`,
+  DISCOVER: `${BASE_PATH}/discover`,
+  MY_NFT: `${BASE_PATH}/my-nft`,
+  LIST_LOAN: `${BASE_PATH}/loans`,
+  DETAIL_LOAN: `${BASE_PATH}/loans/:id`,
+  SUBMIT_WHITELIST: `${BASE_PATH}/submit`,
+  TERM_OF_SERVICE: `${BASE_PATH}/terms-of-service`,
+  FAQS: `${BASE_PATH}/help`,
+  NFT_PAWN_BLOG: `${BASE_PATH}/news/`,
 }
 
 export const API_URL = { 

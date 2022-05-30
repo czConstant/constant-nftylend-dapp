@@ -96,7 +96,7 @@ const LoansSidebar: React.FC<LoansSidebarProps> = ({ isLoading }) => {
   const onSubmit = (values: any) => {
     const params = queryString.parse(location.search);
     const url = queryString.stringifyUrl({
-      url: APP_URL.NFT_LENDING_LIST_LOAN,
+      url: APP_URL.LIST_LOAN,
       query: {
         ...params,
         ...values,

@@ -17,7 +17,7 @@ const EmptyDetailLoan = (props: EmptyDetailLoanProps) => {
     <div className={styles.emptyWrap}>
       <img alt="NFT Lending Empty" src={imgEmpty} />
       <h3>{message || 'Sorry, we couldn’t find this Loans.'}</h3>
-      <Button onClick={() => navigate(APP_URL.NFT_LENDING)}>Discover</Button>
+      <Button onClick={() => navigate(APP_URL.DISCOVER)}>Discover</Button>
     </div>
   );
 };

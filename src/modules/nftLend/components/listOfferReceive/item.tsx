@@ -74,7 +74,7 @@ const Item = (props: ItemProps) => {
   };
 
   const onViewLoan = async () => {
-    navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${offer.loan?.seo_url}`);
+    navigate(`${APP_URL.LIST_LOAN}/${offer.loan?.seo_url}`);
   };
 
   const showAccept = offer.isListing() && !offer.isExpired();

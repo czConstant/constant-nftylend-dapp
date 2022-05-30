@@ -3,6 +3,7 @@ import { Dropdown } from 'react-bootstrap';
 import cx from 'classnames';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch } from 'src/store/hooks';
 import { shortCryptoAddress } from 'src/common/utils/format';
@@ -14,7 +15,13 @@ import { closeModal, openModal } from 'src/store/modal';
 import DialogConnectWallet from 'src/common/components/dialogConnectWallet';
 import walletIcons from 'src/common/utils/walletIcons';
 import DialogSettingNotification from 'src/common/components/dialogSettingNotification';
+
+import IconMyAsset from './images/ic_my_assets.svg'
+import IconChange from './images/ic_change_wallet.svg'
+import IconCopy from './images/ic_copy_address.svg'
+import IconDisconnect from './images/ic_disconnect.svg'
 import styles from './styles.module.scss';
+import { APP_URL } from 'src/common/constants/url';
 
 interface ButtonDisconnectWalletProps {
   className?: string;
@@ -23,7 +30,7 @@ interface ButtonDisconnectWalletProps {
 const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
   const { className } = props;
   const dispatch = useAppDispatch();
-  const { currentWallet, disconnectWallet, connectNearWallet } = useCurrentWallet();
+  const { currentWallet, disconnectWallet } = useCurrentWallet();
 
   const onChangeWallet = () => {
     // const id = 'connectWalletModal';
@@ -73,23 +80,23 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
             : shortCryptoAddress(currentWallet.address)}
         </span>
       </Dropdown.Toggle>
-      <Dropdown.Menu className={styles.dropdownMenu}>
+      <Dropdown.Menu className={styles.dropdownMenu} align="end">
         <Dropdown.Item eventKey="copy">
           <CopyToClipboard
             onCopy={() => toastSuccess("Copied address!")}
             text={currentWallet.address}
           >
-            <div className={styles.item}>Copy address</div>
+            <div className={styles.item}><img src={IconCopy} />Copy address</div>
           </CopyToClipboard>
         </Dropdown.Item>
         <Dropdown.Item eventKey="setting" onClick={onEnableNotification}>
-          <div className={styles.item}>Settings</div>
+          <div className={styles.item}><img src={IconMyAsset} />Settings</div>
         </Dropdown.Item>
         <Dropdown.Item eventKey="changeWallet" onClick={onChangeWallet}>
-          <div className={styles.item}>Change wallet</div>
+          <div className={styles.item}><img src={IconChange} />Change wallet</div>
         </Dropdown.Item>
         <Dropdown.Item eventKey="disconnect" onClick={disconnectWallet}>
-          <div className={styles.item}>Disconnect</div>
+          <div className={styles.item}><img src={IconDisconnect} />Disconnect</div>
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

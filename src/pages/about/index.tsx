@@ -138,7 +138,7 @@ const Home = () => {
           <div className={styles.groupButton}>
             <ButtonCreateLoan hiddenIcon={true} title="Borrow" />
             {/* <Button>Borrow</Button> */}
-            <Button onClick={() => navigate(APP_URL.NFT_LENDING_LIST_LOAN)}>
+            <Button onClick={() => navigate(APP_URL.LIST_LOAN)}>
               Lend
             </Button>
           </div>
