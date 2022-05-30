@@ -86,6 +86,7 @@ function useCurrentWallet() {
     isConnected: currentWallet.address && currentWallet.chain,
     connectSolanaWallet,
     connectEvmWallet,
+    connectNearWallet,
     connectWallet,
     disconnectWallet,
     switchChain,
