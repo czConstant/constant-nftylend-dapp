@@ -1,13 +1,14 @@
-import { APP_URL } from 'src/common/constants/url';
+import { APP_URL } from "src/common/constants/url";
 
-import Home from 'src/pages/home';
-import Discover from 'src/pages/discover';
-import LoanDetail from 'src/pages/loanDetail';
-import Loans from 'src/pages/loans';
-import MyAsset from 'src/pages/myAsset';
-import SubmitWhitelist from 'src/pages/submitWhitelist';
+import Home from "src/pages/home";
+import Discover from "src/pages/discover";
+import LoanDetail from "src/pages/loanDetail";
+import Loans from "src/pages/loans";
+import MyAsset from "src/pages/myAsset";
+import SubmitWhitelist from "src/pages/submitWhitelist";
 import TermsOfService from "src/pages/termsOfService";
-import FAQs from 'src/pages/faqs';
+import FAQs from "src/pages/faqs";
+import Voting from "src/pages/voting";
 
 export interface RouteProps {
   path: string;
@@ -46,6 +47,10 @@ const routes: Array<RouteProps> = [
   {
     path: APP_URL.NFT_LENDING_FAQS,
     component: FAQs,
+  },
+  {
+    path: APP_URL.NFT_LENDING_VOTING,
+    component: Voting,
   },
 ];
 

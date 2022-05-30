@@ -52,6 +52,15 @@ const Header = () => {
             >
               Listing Loans
             </Link>
+            <Link
+              to={APP_URL.NFT_LENDING_VOTING}
+              className={cx(
+                location.pathname === APP_URL.NFT_LENDING_VOTING &&
+                  styles.active
+              )}
+            >
+              Voting
+            </Link>
             {isConnected && (
               <Link
                 to={APP_URL.NFT_LENDING_MY_NFT}
@@ -86,9 +95,11 @@ const Header = () => {
           {isConnected ? <ButtonDisconnectWallet /> : <ButtonConnectWallet />}
         </div>
       </div>
-      {APP_CLUSTER !== 'mainnet' && (
+      {APP_CLUSTER !== "mainnet" && (
         <div className={styles.warningNetwork}>
-          You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;<a href="https://nftpawn.financial">https://nftpawn.financial</a>
+          You are on the NFT Pawn test network. For the mainnet version,
+          visit&nbsp;
+          <a href="https://nftpawn.financial">https://nftpawn.financial</a>
         </div>
       )}
     </div>
