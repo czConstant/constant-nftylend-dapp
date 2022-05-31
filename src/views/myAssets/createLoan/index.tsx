@@ -6,13 +6,13 @@ import { toastError, toastSuccess } from "src/common/services/toaster";
 import { useAppDispatch } from "src/store/hooks";
 
 import CreateLoanForm from "./form";
-import { getNftListCurrency } from "../../api";
+import { getNftListCurrency } from "src/modules/nftLend/api";
 import { requestReload } from "src/store/nftyLend";
-import { AssetNft } from '../../models/nft';
-import { useTransaction} from '../../hooks/useTransaction';
-import { Currency } from '../../models/api';
-import { useCurrentWallet } from '../../hooks/useCurrentWallet';
-import { isAssetOwner } from '../../utils';
+import { AssetNft } from 'src/modules/nftLend/models/nft';
+import { useTransaction} from 'src/modules/nftLend/hooks/useTransaction';
+import { Currency } from 'src/modules/nftLend/models/api';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { isAssetOwner } from 'src/modules/nftLend/utils';
 
 interface CreateLoanProps {
   asset?: AssetNft;

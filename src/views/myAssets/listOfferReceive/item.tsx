@@ -12,10 +12,10 @@ import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
 
 import listLoanStyled from "../listLoan/styles.module.scss";
-import { LOAN_DURATION, OFFER_STATUS } from "../../constant";
+import { LOAN_DURATION, OFFER_STATUS } from "src/modules/nftLend/constant";
 import { shortCryptoAddress } from "src/common/utils/format";
-import { useTransaction } from '../../hooks/useTransaction';
-import { OfferToLoan } from '../../models/offer';
+import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
+import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 
 interface ItemProps {
   offer: OfferToLoan;

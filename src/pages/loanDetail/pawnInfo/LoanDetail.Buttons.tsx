@@ -16,7 +16,7 @@ import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import ModalConfirmAmount from 'src/modules/nftLend/components/confirmAmountModal';
+import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
 
 import { TABS } from "../../myAsset";
 import LoanDetailMakeOffer from '../makeOffer';

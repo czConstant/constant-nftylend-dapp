@@ -69,40 +69,18 @@ const CardNftLoan = (props: CardNftLoanProps) => {
         <div className={styles.itemContent}>
           <div className={styles.infoWrap}>
             <div>
-              <h5>{asset.name}</h5>
               <div>{asset.collection?.name}</div>
+              <h5>{asset.name}</h5>
             </div>
-            <div className={styles.chain}>{asset.chain}</div>
+            {/* <div className={styles.chain}>{asset.chain}</div> */}
           </div>
-          {loan?.principal_amount && (
+          {loan?.principal_amount && (<>
+            <div>Price</div>
             <div className={styles.infoPrice}>
               {formatCurrency(loan.principal_amount)} {loan?.currency?.symbol}
             </div>
-          )}
-          <div className={styles.actions}>
-            {onViewLoan && (
-              <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                  onViewLoan();
-                }}
-              >
-                View Loan
-              </Button>
-            )}
-            {onCancelLoan && (
-              <Button
-                onClick={(e) => {
-                  e.preventDefault();
-                  onCancelLoan();
-                }}
-                className={styles.btnCancel}
-              >
-                Cancel
-              </Button>
-            )}
-          </div>
-          {loan?.interest_rate && loan?.duration && (
+          </>)}
+          {/* {loan?.interest_rate && loan?.duration && (
             <div className={styles.footer}>
               <div>
                 <label>Interest</label>
@@ -118,7 +96,7 @@ const CardNftLoan = (props: CardNftLoanProps) => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </a>
     </div>

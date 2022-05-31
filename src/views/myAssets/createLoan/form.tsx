@@ -16,10 +16,10 @@ import FieldDropdown from "src/common/components/form/fieldDropdown";
 import { formatCurrency } from 'src/common/utils/format';
 import MyPopover from 'src/common/components/myPopover';
 import FieldText from 'src/common/components/form/fieldText';
+import { Currency } from 'src/modules/nftLend/models/api';
+import { calculateMaxInterest, calculateMaxTotalPay } from 'src/modules/nftLend/utils';
+import { LOAN_DURATION } from "src/modules/nftLend/constant";
 
-import { Currency } from '../../models/api';
-import { calculateMaxInterest, calculateMaxTotalPay } from '../../utils';
-import { LOAN_DURATION } from "../../constant";
 import styles from "./styles.module.scss";
 
 interface CreateLoanFormProps {

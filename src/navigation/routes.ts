@@ -3,7 +3,7 @@ import { APP_URL } from 'src/common/constants/url';
 import About from 'src/pages/about';
 import Discover from 'src/pages/discover';
 import LoanDetail from 'src/pages/loanDetail';
-import Loans from 'src/pages/loans';
+import ListingLoans from 'src/pages/listingLoans';
 import MyAsset from 'src/pages/myAsset';
 import SubmitWhitelist from 'src/pages/submitWhitelist';
 import TermsOfService from "src/pages/termsOfService";
@@ -29,7 +29,7 @@ const routes: Array<RouteProps> = [
   },
   {
     path: APP_URL.LIST_LOAN,
-    component: Loans,
+    component: ListingLoans,
   },
   {
     path: APP_URL.DETAIL_LOAN,

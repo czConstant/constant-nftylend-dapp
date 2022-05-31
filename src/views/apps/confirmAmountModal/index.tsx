@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { isMobile } from 'react-device-detect';
 
 import styles from './styles.module.scss';
-import { AssetNft } from '../../models/nft';
+import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { formatCurrency } from 'src/common/utils/format';
 
 interface ModalConfirmAmountProps {

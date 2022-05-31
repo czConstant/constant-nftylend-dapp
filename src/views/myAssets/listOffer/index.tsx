@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react';
 import cx from 'classnames';
 import { Dropdown } from 'react-bootstrap';
-
-import Item from './item';
-import listLoanStyles from '../listLoan/styles.module.scss';
-import { selectNftyLend } from 'src/store/nftyLend';
-import { getOffersByFilter } from '../../api';
-import EmptyList from 'src/common/components/emptyList';
-import { OFFER_STATUS } from '../../constant';
-import { useAppSelector } from 'src/store/hooks';
-import { OfferToLoan } from '../../models/offer';
-import { useCurrentWallet } from '../../hooks/useCurrentWallet';
 import { isMobile } from 'react-device-detect';
 
-const ListOfferReceive = () => {
+import { selectNftyLend } from 'src/store/nftyLend';
+import { useAppSelector } from 'src/store/hooks';
+
+import { getOffersByFilter } from 'src/modules/nftLend/api';
+import EmptyList from 'src/common/components/emptyList';
+import { OFFER_STATUS } from 'src/modules/nftLend/constant';
+import { OfferToLoan } from 'src/modules/nftLend/models/offer';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import Item from './item';
+import listLoanStyles from '../listLoan/styles.module.scss';
+
+const ListOffer = () => {
+  const { currentWallet, isConnected } = useCurrentWallet();
   const needReload = useAppSelector(selectNftyLend).needReload;
-  const { isConnected, currentWallet } =  useCurrentWallet();
 
   const [loading, setLoading] = useState(false);
   const [offers, setOffers] = useState<Array<OfferToLoan>>([]);
@@ -26,10 +27,9 @@ const ListOfferReceive = () => {
   }, [currentWallet, status, needReload]);
 
   const fetchOffers = async () => {
-    if (!isConnected) return;
     try {
-      const res = await getOffersByFilter({ borrower: currentWallet.address, status, network: currentWallet.chain });
-      setOffers(res.result.map(OfferToLoan.parseFromApi));
+      const res = await getOffersByFilter({ lender: currentWallet.address, status, network: currentWallet.chain });
+      setOffers(res.result.map(e => OfferToLoan.parseFromApi(e, currentWallet.chain)));
     } finally {
       setLoading(false);
     }
@@ -65,4 +65,4 @@ const ListOfferReceive = () => {
   );
 };
 
-export default ListOfferReceive;
+export default ListOffer;

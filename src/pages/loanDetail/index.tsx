@@ -11,7 +11,7 @@ import styles from "./styles.module.scss";
 import Loading from "src/common/components/loading";
 import { getAssetBySeo } from "src/modules/nftLend/api";
 import { LoanDataAsset, ResponseResult } from "src/modules/nftLend/models/api";
-import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
+import EmptyDetailLoan from "src/views/apps/emptyDetailLoan";
 import LoanDetailPawnInfo from "./pawnInfo";
 import LoanDetailActivity from "./LoanDetail.Activity";
 import LoanDetailSuggest from "./LoanDetail.Suggest";

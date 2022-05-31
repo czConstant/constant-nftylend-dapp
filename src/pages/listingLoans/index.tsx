@@ -6,19 +6,12 @@ import { useLocation } from "react-router-dom";
 import debounce from 'lodash/debounce';
 
 import BodyContainer from "src/common/components/bodyContainer";
-import {
-  getCollectionById,
-  getCollections,
-  GetListingLoanParams,
-  getListingLoans,
-} from "src/modules/nftLend/api";
-import { ListResponse, LoanData, ResponseResult } from "src/modules/nftLend/models/api";
+import { GetListingLoanParams, getListingLoans } from "src/modules/nftLend/api";
+import { ListResponse, LoanData } from "src/modules/nftLend/models/api";
 import { LoanNft } from "src/modules/nftLend/models/loan";
-import { CollectionData } from "src/modules/nftLend/models/api";
 import CardNftLoan from "src/views/apps/CardNftLoan";
-import LoadingList from "src/modules/nftLend/components/loadingList";
-import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
-import LoansHeader from "./Loans.Header";
+import LoadingList from "src/views/apps/loadingList";
+import EmptyDetailLoan from "src/views/apps/emptyDetailLoan";
 import { Chain } from 'src/common/constants/network';
 
 import styles from "./styles.module.scss";
@@ -26,6 +19,7 @@ import LoansSidebar from "./Loans.Sidebar";
 import LoansToolbar from "./Loans.Toolbar";
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import Loading from 'src/common/components/loading';
+import CollectionInfo from 'src/views/listLoans/collectionInfo';
 
 const chains = {
   all: {
@@ -60,17 +54,15 @@ const chains = {
 
 const PAGE_SIZE = 20;
 
-const Loans = () => {
+const ListingLoans = () => {
   const location = useLocation();
   const pageQuery: GetListingLoanParams =
     queryString.parse(location.search) || null;
 
   const [loans, setLoans] = useState<LoanNft[]>([]);
-  const [collection, setCollection] = useState<CollectionNft>();
-  const [resCollections, setResCollections] = useState<CollectionData[]>([]);
-
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [collection, setCollection] = useState<CollectionNft>();
 
   const loansRef = useRef<LoanNft[]>([]);
   const page = useRef(1);
@@ -104,39 +96,19 @@ const Loans = () => {
     loansRef.current = [];
     page.current = 1;
     fetchLoans();
-
-    if (pageQuery.collection) fetchCollection();
-    else setCollection(null);
   }, [JSON.stringify(pageQuery), selectedChain]);
-
-  const fetchCollection = async (): Promise<CollectionNft> => {
-    if (!pageQuery.collection) throw new Error('No collection selected');
-    const params: GetListingLoanParams = {
-      ...pageQuery,
-      network: selectedChain,
-    };
-    const res: ResponseResult = await getCollectionById(pageQuery.collection);
-    params.collection_id = res.result?.id;
-    setCollection(CollectionNft.parseFromApi(res?.result));
-    return CollectionNft.parseFromApi(res?.result);
-  }
 
   const fetchLoans = async () => {
     if (loading) return;
     setLoading(true);
     try {
-      let collectionId;
-      if (pageQuery.collection) {
-        collectionId = collection?.id;
-        if (!collectionId) collectionId = (await fetchCollection()).id;
-      }
       const params: GetListingLoanParams = {
         ...pageQuery,
         network: selectedChain,
         page: page.current,
         limit: PAGE_SIZE,
-        collection_id: collectionId,
       };
+      if (pageQuery.collection) params.collection_seo_url = pageQuery.collection;
       const response: ListResponse = await getListingLoans(params);
       // Check for duplicate fetching when scroll to end of list
       if (params.page !== page.current) return;
@@ -160,21 +132,21 @@ const Loans = () => {
 
   const debounceFetchLoans = useMemo(() => debounce(fetchLoans, 100), []);
 
-  const renderChainSelect = () => {
-    return (
-      <div className={styles.chainSelector}>
-        {Object.values(chains).map(e => (
-          <div
-            key={e.key}
-            onClick={() => setSelectedChain(e.key)}
-            className={cx(styles.item, e.key === selectedChain && styles.active)}
-          >
-              {e.title}
-          </div>
-        ))}
-      </div>
-    )
-  };
+  // const renderChainSelect = () => {
+  //   return (
+  //     <div className={styles.chainSelector}>
+  //       {Object.values(chains).map(e => (
+  //         <div
+  //           key={e.key}
+  //           onClick={() => setSelectedChain(e.key)}
+  //           className={cx(styles.item, e.key === selectedChain && styles.active)}
+  //         >
+  //             {e.title}
+  //         </div>
+  //       ))}
+  //     </div>
+  //   )
+  // };
 
   const renderContentList = () => {
     if (!loading && loans?.length === 0) {
@@ -188,18 +160,13 @@ const Loans = () => {
 
   return (
     <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
-      <LoansHeader
-        collection={collection}
-        collections={resCollections}
-        dataLoan={loans}
-      />
+      {pageQuery.collection && <CollectionInfo collection_seo={pageQuery.collection} />}
       <div
         className={cx([
           styles.contentWrapper,
           collection && styles.listContainerWrapBorder,
         ])}
       >
-        {/* <LoansSidebar isLoading={loading} /> */}
         <div className={cx([styles.listContainerWrap])}>
           {/* {!collection && renderChainSelect()} */}
           <LoansToolbar />
@@ -219,4 +186,4 @@ const Loans = () => {
   );
 };
 
-export default Loans;
+export default ListingLoans;

@@ -9,10 +9,10 @@ import { isMobile } from "react-device-detect";
 
 import BodyContainer from "src/common/components/bodyContainer";
 import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
-import ListAsset from "src/modules/nftLend/components/listAsset";
-import ListLoan from "src/modules/nftLend/components/listLoan";
-import ListOffer from "src/modules/nftLend/components/listOffer";
-import ListOfferReceive from "src/modules/nftLend/components/listOfferReceive";
+import ListAsset from "src/views/myAssets/listAsset";
+import ListLoan from "src/views/myAssets/listLoan";
+import ListOffer from "src/views/myAssets/listOffer";
+import ListOfferReceive from "src/views/myAssets/listOfferReceive";
 import { toastSuccess } from "src/common/services/toaster";
 import { getNftListCurrency } from "src/modules/nftLend/api";
 import { Currency } from "src/modules/nftLend/models/api";
@@ -158,13 +158,6 @@ const MyAsset = () => {
                 >
                   <ListOfferReceive />
                 </Tab>
-                {/* <Tab
-                  eventKey={TABS.history}
-                  tabClassName={styles.tab}
-                  title="History"
-                >
-                  <MyListHistory />
-                </Tab> */}
               </Tabs>
             </div>
           </div>

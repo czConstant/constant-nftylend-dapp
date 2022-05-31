@@ -1,5 +1,7 @@
-import BodyContainer from 'src/common/components/bodyContainer';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
+import { APP_URL } from 'src/common/constants/url';
 import styles from './introduce.module.scss';
 
 const examples = [
@@ -11,7 +13,21 @@ const examples = [
   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/483970a827af847e0b031c7d90d70baf/6cc644f1',
 ]
 
-const Introduce = props => {
+const Introduce = () => {
+  const navigate = useNavigate();
+
+  const animateImg = (e: any, i: number) => {
+    return (
+      <motion.img
+        initial={{ translateX: '500%', translateY: '200%' }}
+        animate={{ translateX: 0, translateY: 0 }}
+        transition={{ ease: 'easeOut', duration: (i+1) * 0.5 }}
+        alt=""
+        src={e}
+      />
+    );
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.introduce}>
@@ -22,14 +38,20 @@ const Introduce = props => {
             Art NFTs
           </h1>
           <p>Buy and sell NETs from the world's artists. More than 1000 premium digital artworks are aviable to be your's</p>
-          <button>Start Collecting</button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate(APP_URL.LIST_LOAN)}
+          >
+              Start Collecting
+          </motion.button>
         </div>
         <div className={styles.right}>
           <div className={styles.imageRow}>
-            {examples.slice(0, 3).map(e => <img alt="" src={e} />)}
+            {examples.slice(0, 3).map((e, i) => animateImg(e, i))}
           </div>
           <div className={styles.imageRow}>
-            {examples.slice(3, 6).map(e => <img alt="" src={e} />)}
+            {examples.slice(3, 6).map((e, i) => animateImg(e, i))}
           </div>
         </div>
       </div>

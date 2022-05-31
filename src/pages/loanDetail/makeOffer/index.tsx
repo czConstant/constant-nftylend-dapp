@@ -10,7 +10,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { requestReload } from "src/store/nftyLend";
 import { TABS } from "src/pages/myAsset";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
-import ModalConfirmAmount from 'src/modules/nftLend/components/confirmAmountModal';
+import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
 
 import MakeOfferForm from './form';
 import { LoanNft } from 'src/modules/nftLend/models/loan';

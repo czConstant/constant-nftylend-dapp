@@ -11,14 +11,14 @@ import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { closeModal, openModal } from 'src/store/modal';
-import ModalConfirmAmount from 'src/modules/nftLend/components/confirmAmountModal';
+import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
+import { LOAN_DURATION, LOAN_STATUS } from "src/modules/nftLend/constant";
+import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
+import { LoanNft } from 'src/modules/nftLend/models/loan';
+import { calculateTotalPay } from 'src/modules/nftLend/utils';
 
 // import { STATUS } from '../../listLoan/leftSidebar';
 import styles from "./styles.module.scss";
-import { LOAN_DURATION, LOAN_STATUS } from "../../constant";
-import { useTransaction } from '../../hooks/useTransaction';
-import { LoanNft } from '../../models/loan';
-import { calculateTotalPay } from '../../utils';
 
 interface ItemProps {
   loan: LoanNft;

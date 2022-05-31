@@ -25,6 +25,7 @@ export const API_URL = {
     ALL_LISTING_LOANS: `${MCT_ROOT}${MCT_API_BASE}/loans/listing`,
     GET_LOANS: `${MCT_ROOT}${MCT_API_BASE}/loans/list`,
     GET_OFERS: `${MCT_ROOT}${MCT_API_BASE}/loans/offers`,
+    PLATFORM_STATS: `${MCT_ROOT}${MCT_API_BASE}/loans/platform-stats`,
     ASSET_BY_SEO: `${MCT_ROOT}${MCT_API_BASE}/assets/detail`,
     ASSET_INFO: `${MCT_ROOT}${MCT_API_BASE}/assets/info`,
     LIST_CURRENCY: `${MCT_ROOT}${MCT_API_BASE}/currencies/list`,

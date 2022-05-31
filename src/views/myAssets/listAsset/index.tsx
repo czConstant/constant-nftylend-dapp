@@ -7,16 +7,15 @@ import { isMobile } from 'react-device-detect';
 import EmptyList from 'src/common/components/emptyList';
 import { closeModal, openModal } from 'src/store/modal';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import AssetDetailModal from 'src/modules/nftLend/components/assetDetailModal';
+import AssetDetailModal from 'src/views/myAssets/assetDetailModal';
 import { selectNftyLend } from 'src/store/nftyLend';
-import { CardNftLoanProps } from 'src/views/apps/CardNftLoan';
+import CardNftLoan, { CardNftLoanProps } from 'src/views/apps/CardNftLoan';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import CreateLoan from 'src/views/myAssets/createLoan';
+import LoadingList from 'src/views/apps/loadingList';
 
-import ListNft from '../listNft';
-import CreateLoan from '../createLoan';
-import LoadingList from '../loadingList';
 import styles from './styles.module.scss';
 
 const PAGE_SIZE = 12;
@@ -103,8 +102,19 @@ const ListAsset = () => {
   );
 
   return (
-    <div className={cx(isMobile && styles.listAssetsMobile, styles.listAssets)}>
-      <ListNft data={displayAssets} />
+    <div className={cx(isMobile && styles.listAssetsMobile, styles.wrapper)}>
+      <div className={cx(isMobile && styles.wrapMobile, styles.list)}>
+        {displayAssets.map(e => (
+          <CardNftLoan
+            key={e.asset.id + e.asset.token_id + e.asset.contract_address}
+            asset={e.asset}
+            loan={e.loan}
+            onClickItem={e.onClickItem}
+            onCancelLoan={e.onCancelLoan}
+            onViewLoan={e.onViewLoan}
+          />
+        ))}
+      </div>
       {listPage.length > 1 && (
         <div className={styles.pagination}>
           <Pagination>

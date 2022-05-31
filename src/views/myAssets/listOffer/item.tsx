@@ -16,10 +16,10 @@ import { APP_URL } from "src/common/constants/url";
 
 import listLoanStyles from "../listLoan/styles.module.scss";
 import { shortCryptoAddress } from "src/common/utils/format";
-import { LOAN_DURATION, OFFER_STATUS } from "../../constant";
-import { useTransaction } from '../../hooks/useTransaction';
-import { OfferToLoan } from '../../models/offer';
-import { isEvmChain } from '../../utils';
+import { LOAN_DURATION, OFFER_STATUS } from "src/modules/nftLend/constant";
+import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
+import { OfferToLoan } from 'src/modules/nftLend/models/offer';
+import { isEvmChain } from 'src/modules/nftLend/utils';
 
 interface ItemProps {
   offer: OfferToLoan;
