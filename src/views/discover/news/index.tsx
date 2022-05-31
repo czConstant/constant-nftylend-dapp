@@ -1,8 +1,8 @@
-import BodyContainer from 'src/common/components/bodyContainer';
+import SectionContainer from 'src/common/components/sectionContainer';
 
 import styles from './news.module.scss';
 
-const News = props => {
+const News = () => {
   const data = [
     {
       category: 'community',
@@ -28,7 +28,7 @@ const News = props => {
   ]
 
   return (
-    <BodyContainer className={styles.wrapper}>
+    <SectionContainer className={styles.wrapper}>
       <h2>News</h2>
       <div className={styles.list}>
         {data.map(e => {
@@ -45,7 +45,7 @@ const News = props => {
           )
         })}
       </div>
-    </BodyContainer>
+    </SectionContainer>
   )
 };
 

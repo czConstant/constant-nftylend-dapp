@@ -2,7 +2,7 @@ import random from "lodash/random";
 import React from "react";
 import Avatar from "src/common/components/avatar";
 import { getImageThumb } from "src/modules/nftLend/utils";
-import { mediaTypes } from "src/modules/nftLend/components/itemNft";
+import { mediaTypes } from "src/views/apps/CardNftLoan";
 import { LoanNft } from "src/modules/nftLend/models/loan";
 
 interface RandomAvatarProps {

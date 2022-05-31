@@ -1,69 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import cx from 'classnames';
-import { isMobile } from 'react-device-detect';
+import { useEffect, useState } from 'react';
+import { motion } from "framer-motion"
 
-import { fetchCollections } from 'src/modules/nftLend/api';
-import { APP_URL } from 'src/common/constants/url';
-import BodyContainer from 'src/common/components/bodyContainer';
-
-import { CollectionData } from 'src/modules/nftLend/models/api';
-import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import Introduce from 'src/views/discover/introduce';
-
-import Item from './item';
-import styles from './styles.module.scss';
 import News from 'src/views/discover/news';
+import FeaturedCollections from 'src/views/discover/featuredCollections';
+import SocialLinks from 'src/views/apps/socialLinks';
 
-const Home = () => {
-  const navigate = useNavigate();
-  const [collections, setCollections] = useState<Array<CollectionNft>>(Array(3).fill(0));
-  const [loading, setLoading] = useState(true);
+const Discover = () => {
+  const [isScrollEnd, setIsScrollEnd] = useState(false)
 
   useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    try {
-      const response = await fetchCollections();
-      const list = response.result.filter((v: any) => v?.listing_total > 0);
-      setCollections(list.map((e: CollectionData) => {
-        try {
-          const collection = CollectionNft.parseFromApi(e);
-          return collection;
-        } catch {
-          return null;
-        }
-      }).filter((e: any) => !!e));
-    } finally {
-      setLoading(false);
+    const handleScroll = () => {
+      setIsScrollEnd(window.document.body.clientHeight - window.innerHeight - window.scrollY < 200);
+      console.log("🚀 ~ file: index.tsx ~ line 15 ~ handleScroll ~ window.scrollY", window.scrollY)
+      console.log("🚀 ~ file: index.tsx ~ line 15 ~ handleScroll ~ window.document.body.clientHeight", window.document.body.clientHeight)
     }
-  };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [])
 
   return (<>
     <Introduce />
     <News />
-    <BodyContainer className={styles.wrapper}>
-      <div className={cx(isMobile && styles.mbContentWrapper, styles.contentWrapper)}>
-        <div className={styles.contentContainer}>
-          {collections.map((collection, index) => (
-            <Item
-              key={collection?.id || index}
-              item={collection}
-              loading={loading}
-              onPressItem={() =>
-                navigate(
-                  `${APP_URL.LIST_LOAN}?collection=${collection?.seo_url}`,
-                )
-              }
-            />
-          ))}
-        </div>
-      </div>
-    </BodyContainer>
+    <FeaturedCollections />
+    <motion.div
+      animate={{ opacity: isScrollEnd ? 0 : 1 }}
+      transition={{ ease: "easeOut", duration: 0.2 }}
+      style={{ position: 'fixed', top: 800, right: 15 }}
+    >
+      <SocialLinks layout='vertical' />
+    </motion.div>
   </>
   );
 };
 
-export default Home;
+export default Discover;

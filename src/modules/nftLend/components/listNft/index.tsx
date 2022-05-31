@@ -1,14 +1,14 @@
 import { memo } from 'react';
 import cx from 'classnames';
-
-import LoadingList from '../loadingList';
-import ItemNft, { ItemNftProps } from '../itemNft';
-// import EmptyDetailLoan from '../../detailLoan/empty';
-import styles from './styles.module.scss';
 import { isMobile } from 'react-device-detect';
 
+import CardNftLoan, { CardNftLoanProps } from 'src/views/apps/CardNftLoan';
+import LoadingList from '../loadingList';
+// import EmptyDetailLoan from '../../detailLoan/empty';
+import styles from './styles.module.scss';
+
 interface ListNftProps {
-  data: Array<ItemNftProps>;
+  data: Array<CardNftLoanProps>;
   isLoading?: boolean;
 }
 
@@ -18,7 +18,7 @@ const ListNft = (props: ListNftProps) => {
 
   const renderItems = () => {
     return loans.map(e => (
-      <ItemNft
+      <CardNftLoan
         key={e.asset.id + e.asset.token_id + e.asset.contract_address}
         asset={e.asset}
         loan={e.loan}

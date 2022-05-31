@@ -15,7 +15,7 @@ import {
 import { ListResponse, LoanData, ResponseResult } from "src/modules/nftLend/models/api";
 import { LoanNft } from "src/modules/nftLend/models/loan";
 import { CollectionData } from "src/modules/nftLend/models/api";
-import ItemNFT from "src/modules/nftLend/components/itemNft";
+import CardNftLoan from "src/views/apps/CardNftLoan";
 import LoadingList from "src/modules/nftLend/components/loadingList";
 import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
 import LoansHeader from "./Loans.Header";
@@ -182,7 +182,7 @@ const Loans = () => {
     }
 
     return loans.map((loan) => loan.asset && (
-      <ItemNFT key={loan?.id} loan={loan} asset={loan.asset} className={styles.loanItemContainer} />
+      <CardNftLoan key={loan?.id} loan={loan} asset={loan.asset} className={styles.loanItemContainer} />
     ));
   };
 

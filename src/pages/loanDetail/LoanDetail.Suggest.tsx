@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { getListingLoans } from "src/modules/nftLend/api";
-import ItemNFT from "src/modules/nftLend/components/itemNft";
+import CardNftLoan from "src/views/apps/CardNftLoan";
 import { LoanNft } from "src/modules/nftLend/models/loan";
 import styles from "./styles.module.scss";
 
@@ -37,7 +37,7 @@ const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
       <div className={styles.suggestWrap}>
         <div className={styles.suggestContainer}>
           {items.map((loan) => loan.asset && (
-            <ItemNFT key={loan.id} asset={loan.asset} loan={loan} />
+            <CardNftLoan key={loan.id} asset={loan.asset} loan={loan} />
           ))}
         </div>
       </div>

@@ -1,21 +1,22 @@
 import { memo } from 'react';
 import ContentLoader from 'react-content-loader';
 
-import ItemNftMedia from 'src/modules/nftLend/components/itemNft/itemNftMedia';
+import CardNftMedia from 'src/views/apps/CardNftMedia';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import styles from './styles.module.scss';
 
-interface ItemBoardingProps {
+interface ItemProps {
   loading?: boolean;
   item: CollectionNft;
   onPressItem: Function;
 }
 
-const ItemBoarding = (props: ItemBoardingProps) => {
+const Item = (props: ItemProps) => {
   const { loading, item, onPressItem } = props;
   const itemAsset = item.listing_asset;
 
   const pressItem = () => {
+    if (loading) return null;
     if (!Boolean(onPressItem)) return null;
     return onPressItem();
   };
@@ -32,7 +33,7 @@ const ItemBoarding = (props: ItemBoardingProps) => {
           >
             <rect x="0" y="0" rx="0" ry="0" height="200" width="100%" />
           </ContentLoader>
-        ) : <ItemNftMedia detail={itemAsset?.detail} name={item?.name} />
+        ) : <CardNftMedia detail={itemAsset?.detail} name={item?.name} />
         }
       </div>
       <div className={styles.body}>
@@ -47,7 +48,7 @@ const ItemBoarding = (props: ItemBoardingProps) => {
           </ContentLoader>
         ) : (
           <>
-            <h4>{item?.name}</h4>
+            <div className={styles.name}>{item?.name}</div>
             <div className={styles.info}>
               <div className={styles.totalItems}>
                 <span>
@@ -68,4 +69,4 @@ const ItemBoarding = (props: ItemBoardingProps) => {
   );
 };
 
-export default memo(ItemBoarding);
+export default memo(Item);

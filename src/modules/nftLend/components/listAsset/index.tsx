@@ -2,29 +2,22 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Pagination } from 'react-bootstrap';
 import cx from 'classnames';
+import { isMobile } from 'react-device-detect';
 
 import EmptyList from 'src/common/components/emptyList';
 import { closeModal, openModal } from 'src/store/modal';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import AssetDetailModal from 'src/modules/nftLend/components/assetDetailModal';
+import { selectNftyLend } from 'src/store/nftyLend';
+import { CardNftLoanProps } from 'src/views/apps/CardNftLoan';
+import { AssetNft } from 'src/modules/nftLend/models/nft';
+import { useToken } from 'src/modules/nftLend/hooks/useToken';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 
 import ListNft from '../listNft';
-import styles from './styles.module.scss';
-import AssetDetailModal from 'src/modules/nftLend/components/assetDetailModal';
 import CreateLoan from '../createLoan';
-import { selectNftyLend } from 'src/store/nftyLend';
-import { ItemNftProps } from '../itemNft';
-import { AssetNft } from '../../models/nft';
-import { useToken } from '../../hooks/useToken';
-import { useCurrentWallet } from '../../hooks/useCurrentWallet';
-import { isMobile } from 'react-device-detect';
 import LoadingList from '../loadingList';
-import OrderNowNearTransaction from 'src/modules/near/transactions/orderNow';
-import PayLoanNearTransaction from 'src/modules/near/transactions/payLoan';
-import MakeOfferNearTransaction from 'src/modules/near/transactions/makeOffer';
-import AcceptOfferNearTransaction from 'src/modules/near/transactions/acceptOffer';
-import LiquidateLoanNearTransaction from 'src/modules/near/transactions/liquidateLoan';
-import CancelLoanNearTransaction from 'src/modules/near/transactions/cancelLoan';
-import CancelOfferNearTransaction from 'src/modules/near/transactions/cancelOffer';
+import styles from './styles.module.scss';
 
 const PAGE_SIZE = 12;
 
@@ -37,8 +30,8 @@ const ListAsset = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
-  const [assets, setAssets] = useState<Array<ItemNftProps>>([]);
-  const [displayAssets, setDisplayAssets] = useState<Array<ItemNftProps>>([]);
+  const [assets, setAssets] = useState<Array<CardNftLoanProps>>([]);
+  const [displayAssets, setDisplayAssets] = useState<Array<CardNftLoanProps>>([]);
   const [page, setPage] = useState(0);
   const [listPage, setListPage] = useState<Array<number>>([]);
 

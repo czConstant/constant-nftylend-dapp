@@ -26,7 +26,7 @@
   }
 }
 
-.itemContainer {
+.cardNftLoan {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,9 +39,10 @@
     height: 100%;
     max-height: 550px;
     display: inline-block;
-    background-color: #0f0e0e;
+    background: #282828;
     border-radius: 16px;
     overflow: hidden;
+    padding: 10px;
     .itemContent {
       padding: 24px 20px;
       display: flex;

@@ -18,7 +18,7 @@ import LoanDetailSuggest from "./LoanDetail.Suggest";
 import { useAppSelector } from "src/store/hooks";
 import { selectNftyLend } from "src/store/nftyLend";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import ItemNftMedia from 'src/modules/nftLend/components/itemNft/itemNftMedia';
+import CardNftMedia from 'src/views/apps/CardNftMedia';
 import AssetInfo from './assetInfo';
 import LoanDetailSaleHistory from './LoanDetail.SaleHistory';
 
@@ -80,7 +80,7 @@ const LoanDetail = () => {
         <BreadCrumb items={breadCrumbs} />
         <div className={styles.headerContainer}>
           <div>
-            <ItemNftMedia
+            <CardNftMedia
               detail={loan.asset.detail}
               name={loan.asset.name}
               width={300}

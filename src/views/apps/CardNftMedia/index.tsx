@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState, useMemo } from 'react';
+import React, { useRef } from 'react';
 import last from 'lodash/last';
 import cx from 'classnames';
 
@@ -12,7 +12,7 @@ export const mediaTypes = {
   image: ['jpg', 'png', 'gif', 'jpeg', 'image'],
 };
 
-interface ItemNftMediaProps {
+interface CardNftMediaProps {
   config?: any;
   className?: string;
   name?: string;
@@ -23,7 +23,7 @@ interface ItemNftMediaProps {
   loading?: boolean;
 }
 
-const ItemNftMedia = (props: ItemNftMediaProps) => {
+const CardNftMedia = (props: CardNftMediaProps) => {
   const {
     config,
     className,
@@ -86,13 +86,13 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
     }
 
     return (
-      <div className={cx(styles.itemMedia, className)}>{media}</div>
+      <div className={cx(styles.cardNftMedia, className)}>{media}</div>
     );
   };
 
   if (loading) {
     return (
-      <div className={cx(styles.itemMedia, className)}>
+      <div className={cx(styles.cardNftMedia, className)}>
         <Loading />
       </div>
     );
@@ -100,4 +100,4 @@ const ItemNftMedia = (props: ItemNftMediaProps) => {
   return renderMedia();
 };
 
-export default ItemNftMedia;
+export default CardNftMedia;

@@ -1,0 +1,22 @@
+.socialLinks {
+  display: flex;
+  &.vertical {
+    flex-direction: column;
+    .item:not(:first-child) {
+      margin-top: 10px;
+    }
+  }
+  &.horizontal {
+    flex-direction: row;
+    .item:not(:first-child) {
+      margin-left: 10px;
+    }
+  }
+  .item {
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+    }
+  }
+}

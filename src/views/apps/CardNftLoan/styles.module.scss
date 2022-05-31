@@ -1,0 +1,137 @@
+.cardNftLoan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  transition: 0.3s;
+  cursor: pointer;
+  a {
+    width: 100%;
+    max-width: 340px;
+    height: 100%;
+    max-height: 550px;
+    display: inline-block;
+    background: #282828;
+    border-radius: 16px;
+    overflow: hidden;
+    padding: 10px;
+    .itemContent {
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      h5 {
+        font-weight: 500;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-bottom: 0px;
+        font-size: 16px;
+        color: #fcfcfd;
+        letter-spacing: 0;
+        line-height: 24px;
+      }
+      .infoWrap {
+        display: flex;
+        justify-content: space-between;
+        div {
+          &:first-child {
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 12px;
+            color: #777e90;
+            letter-spacing: 0;
+            line-height: 20px;
+            min-height: 44px;
+          }
+        }
+      }
+      .chain {
+        width: fit-content;
+        height: fit-content;
+        padding: 0 10px;
+        background-color: rgba(255, 192, 122, 0.2);
+        color: #DE710B;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 8px;
+      }
+      .infoPrice {
+        margin-top: 15px;
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--bs-green);
+        border: 2px solid var(--bs-green);
+        align-self: flex-start;
+        padding: 5px 15px;
+        border-radius: 8px;
+      }
+    }
+    .actions {
+      display: flex;
+      width: 100%;
+      margin-top: 10px;
+      > button {
+        flex: 1;
+        font-size: 16px;
+        font-weight: 600;
+        height: 45px;
+        line-height: 25px;
+        border-radius: 4px;
+      }
+      > button:not(:first-child) {
+        margin-left: 10px;
+      }
+      .btnCancel {
+        background: transparent;
+        border: 1px solid #e34d4d;
+        color: #e34d4d;
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+.footer {
+  display: flex;
+  background-color: var(--bs-gray-900);
+  margin-left: -20px;
+  margin-right: -20px;
+  margin-bottom: -24px;
+  margin-top: 10px;
+  > div {
+    label {
+      color: #777e90;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+      text-align: center;
+    }
+    > div {
+      color: #ffffff;
+      font-size: 13px;
+      margin-top: 2px;
+      font-weight: bold;
+      text-align: center;
+    }
+    &:first-child,
+    &:last-child {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 5px;
+    }
+    &:nth-child(2) {
+      width: 2px;
+      height: auto;
+      background-color: var(--bs-gray-800);
+      margin: 10px 0px;
+      border-radius: 100px;
+    }
+  }
+}

@@ -6,19 +6,19 @@ import cx from 'classnames'
 
 import { formatCurrency } from "src/common/utils/format";
 import { APP_URL } from "src/common/constants/url";
+import { AssetNft } from 'src/modules/nftLend/models/nft';
+import { LoanNft } from 'src/modules/nftLend/models/loan';
+import { LOAN_DURATION } from 'src/modules/nftLend/constant';
 
 import styles from "./styles.module.scss";
-import ItemNftMedia from "./itemNftMedia";
-import { AssetNft } from '../../models/nft';
-import { LoanNft } from '../../models/loan';
-import { LOAN_DURATION } from '../../constant';
+import CardNftMedia from "../CardNftMedia";
 
 export const mediaTypes = {
   video: ["mov", "mp4", "video"],
   img: ["jpg", "png", "gif", "jpeg", "image"],
 };
 
-export interface ItemNftProps {
+export interface CardNftAssetProps {
   loan?: LoanNft;
   asset: AssetNft;
   onClickItem?: Function;
@@ -27,7 +27,7 @@ export interface ItemNftProps {
   className?: string;
 }
 
-const ItemNFT = (props: ItemNftProps) => {
+const CardNftAsset = (props: CardNftAssetProps) => {
   const { loan, asset, onClickItem, onViewLoan, onCancelLoan, className } = props;
   const navigate = useNavigate();
   const [loadingDetail, setLoadingDetail] = useState(false);
@@ -58,9 +58,9 @@ const ItemNFT = (props: ItemNftProps) => {
   const loanDuration = LOAN_DURATION.find(e => e.id === loan?.duration / 86400);
 
   return (
-    <div className={cx(className, styles.itemContainer)}>
+    <div className={cx(className, styles.cardNftAsset)}>
       <a onClick={onView}>
-        <ItemNftMedia
+        <CardNftMedia
           name={asset.name}
           className={styles.image}
           loading={loadingDetail}
@@ -125,4 +125,4 @@ const ItemNFT = (props: ItemNftProps) => {
   );
 };
 
-export default ItemNFT;
+export default CardNftAsset;

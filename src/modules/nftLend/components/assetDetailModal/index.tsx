@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
 import { Button, Dropdown } from 'react-bootstrap';
-
-import styles from './styles.module.scss';
-import ItemNftMedia from '../itemNft/itemNftMedia';
-import { APP_URL } from 'src/common/constants/url';
-import { getAssetInfo, verifyAsset } from '../../api';
-import Loading from 'src/common/components/loading';
 import { isMobile } from 'react-device-detect';
-import { AssetNft } from '../../models/nft';
-import { LoanNft } from '../../models/loan';
+
+import CardNftMedia from 'src/views/apps/CardNftMedia';
+import { APP_URL } from 'src/common/constants/url';
+import Loading from 'src/common/components/loading';
+import { getAssetInfo, verifyAsset } from 'src/modules/nftLend/api';
+import { AssetNft } from 'src/modules/nftLend/models/nft';
+import { LoanNft } from 'src/modules/nftLend/models/loan';
+import styles from './styles.module.scss';
 
 interface AssetDetailModalProps {
   asset: AssetNft;
@@ -113,7 +113,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
             <i className="fas fa-times"></i>
           </a>
       }
-      <ItemNftMedia
+      <CardNftMedia
         name={asset.name}
         className={cx(extraData?.attributes?.length > 6 && styles.largeImage)}
         detail={extraData}
