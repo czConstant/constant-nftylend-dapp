@@ -132,7 +132,7 @@ const Home = () => {
           <h2>The leading of NFTs Lending platform</h2>
           <p>
             The first marketplace for NFTs P2P Lending. The fastest way to
-            liquid your NFTs. Lenders and Borrowers are connected by our smart
+            liquidate your NFTs. Lenders and Borrowers are connected by our smart
             contract.
           </p>
           <div className={styles.groupButton}>
