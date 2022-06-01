@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  min-width: 250px;
   transition: 0.3s;
   cursor: pointer;
   a {
@@ -16,7 +17,7 @@
     overflow: hidden;
     padding: 10px;
     .itemContent {
-      padding: 10px;
+      padding: 10px 10px 0;
       display: flex;
       flex-direction: column;
       font-size: 12px;
@@ -51,6 +52,16 @@
         color: #45B36B;
         line-height: 24px;
       }
+    }
+    .detailButton {
+      height: 40px;
+      margin-top: 20px;
+      border: none;
+      background-image: linear-gradient(180deg, #222222 0%, #242424 100%);
+      border-radius: 8px;
+      font-size: 14px;
+      color: #909090;
+      line-height: 24px;
     }
   }
 }

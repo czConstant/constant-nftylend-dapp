@@ -1,6 +1,4 @@
-import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import BigNumber from "bignumber.js";
 import { useEffect, useState } from "react";
 import cx from 'classnames'
 
@@ -80,6 +78,9 @@ const CardNftLoan = (props: CardNftLoanProps) => {
               {formatCurrency(loan.principal_amount)} {loan?.currency?.symbol}
             </div>
           </>)}
+          <button className={styles.detailButton}>
+            Details
+          </button>
           {/* {loan?.interest_rate && loan?.duration && (
             <div className={styles.footer}>
               <div>

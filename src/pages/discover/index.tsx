@@ -1,12 +1,12 @@
 import Introduce from 'src/views/discover/introduce';
 import News from 'src/views/discover/news';
-import FeaturedCollections from 'src/views/discover/featuredCollections';
+import LatestLoans from 'src/views/discover/latestLoans';
 
 const Discover = () => {
   return (<>
     <Introduce />
     <News />
-    <FeaturedCollections />
+    <LatestLoans />
   </>
   );
 };

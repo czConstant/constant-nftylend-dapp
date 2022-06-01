@@ -48,6 +48,9 @@ export interface CollectionData {
   rand_asset?: LoanDataAsset;
   network: string;
   verified: boolean;
+  creator_url: string;
+  discord_url: string;
+  twitter_id: string;
 }
 
 export interface LoanData {

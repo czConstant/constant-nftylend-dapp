@@ -1,8 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import shuffle from 'lodash/shuffle';
 
 import { APP_URL } from 'src/common/constants/url';
-import styles from './introduce.module.scss';
+import styles from './styles.module.scss';
+import { useEffect, useState } from 'react';
+import { getListingLoans } from 'src/modules/nftLend/api';
+import { LoanNft } from 'src/modules/nftLend/models/loan';
+import { getImageThumb } from 'src/modules/nftLend/utils';
+import { LoanData } from 'src/modules/nftLend/models/api';
 
 const examples = [
   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/d5c12b4eb46e676d72569a2084345c94/6ef0628f',
@@ -15,15 +21,34 @@ const examples = [
 
 const Introduce = () => {
   const navigate = useNavigate();
+  const [pictures, setPictures] = useState([])
+  const [displayPictures, setDisplayPictures] = useState([])
+  console.log("🚀 ~ file: index.tsx ~ line 25 ~ Introduce ~ displayPictures", displayPictures)
 
-  const animateImg = (e: any, i: number) => {
+  useEffect(() => {
+    getListingLoans({ page: 1, limit: 30 }).then(res => {
+      setPictures(res.result.map((e: LoanData) => {
+        return e.asset?.token_url;
+      }))
+    })
+  }, [])
+
+  useEffect(() => {
+    setInterval(() => {
+      const list = shuffle(pictures);
+      setDisplayPictures(list.slice(0, 6));
+    }, 5000)
+  }, [pictures])
+
+  const animateImg = (url: string, i: number) => {
     return (
       <motion.img
-        initial={{ translateX: '500%', translateY: '200%' }}
-        animate={{ translateX: 0, translateY: 0 }}
+        key={i}
+        initial={{ translateX: '500%' }}
+        animate={{ translateX: 0 }}
         transition={{ ease: 'easeOut', duration: (i+1) * 0.5 }}
         alt=""
-        src={e}
+        src={getImageThumb({ url, width: 300, height: 300 })}
       />
     );
   };
@@ -48,10 +73,10 @@ const Introduce = () => {
         </div>
         <div className={styles.right}>
           <div className={styles.imageRow}>
-            {examples.slice(0, 3).map((e, i) => animateImg(e, i))}
+            {displayPictures.slice(0, 3).map((e, i) => animateImg(e, i))}
           </div>
           <div className={styles.imageRow}>
-            {examples.slice(3, 6).map((e, i) => animateImg(e, i))}
+            {displayPictures.slice(3, 6).map((e, i) => animateImg(e, i))}
           </div>
         </div>
       </div>

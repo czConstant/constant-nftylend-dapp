@@ -3,40 +3,38 @@ import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
 
-import { APP_URL } from 'src/common/constants/url';
 import SectionContainer from 'src/common/components/sectionContainer';
-import { getCollections, getPlatformStats } from 'src/modules/nftLend/api';
-import { CollectionData } from 'src/modules/nftLend/models/api';
-import { CollectionNft } from 'src/modules/nftLend/models/collection';
+import { getListingLoans, getPlatformStats } from 'src/modules/nftLend/api';
+import { LoanData } from 'src/modules/nftLend/models/api';
 
-import Item from './item';
 import styles from './styles.module.scss';
-import BigNumber from 'bignumber.js';
 import { formatCurrency } from 'src/common/utils/format';
+import { LoanNft } from 'src/modules/nftLend/models/loan';
+import CardNftLoan from 'src/views/apps/CardNftLoan';
 
-const FeaturedCollections = () => {
+const LatestLoans = () => {
   const navigate = useNavigate();
-  const [collections, setCollections] = useState<Array<CollectionNft>>(Array(3).fill(0));
+  const [loans, setLoans] = useState<Array<LoanNft>>(Array(3).fill(0));
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchColletions();
+    fetchListData();
     fetchStats();
   }, []);
 
-  const fetchColletions = async () => {
+  const fetchListData = async () => {
     try {
-      const response = await getCollections();
-      const list = response.result.filter((v: any) => v?.listing_total > 0);
-      setCollections(list.map((e: CollectionData) => {
+      const res = await getListingLoans({ page: 1, limit: 8 });
+      const validLoans = res.result.map((e: LoanData) => {
         try {
-          const collection = CollectionNft.parseFromApi(e);
-          return collection;
+          const loan = LoanNft.parseFromApi(e);
+          return loan;
         } catch {
           return null;
         }
-      }).filter((e: any) => !!e));
+      }).filter((e: any) => !!e);
+      setLoans(validLoans)
     } finally {
       setLoading(false);
     }
@@ -72,16 +70,12 @@ const FeaturedCollections = () => {
           </div>
         </div>
         <div className={styles.list}>
-          {collections.map((collection, index) => (
-            <Item
-              key={collection?.id || index}
-              item={collection}
-              loading={loading}
-              onPressItem={() =>
-                navigate(
-                  `${APP_URL.LIST_LOAN}?collection=${collection?.seo_url}`,
-                )
-              }
+          {loans.map((item, index) => item.asset && (
+            <CardNftLoan
+              key={item?.id}
+              loan={item}
+              asset={item.asset}
+              className={styles.item}
             />
           ))}
         </div>
@@ -90,4 +84,4 @@ const FeaturedCollections = () => {
   );
 };
 
-export default FeaturedCollections;
+export default LatestLoans;
