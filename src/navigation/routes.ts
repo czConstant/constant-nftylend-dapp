@@ -9,6 +9,7 @@ import SubmitWhitelist from "src/pages/submitWhitelist";
 import TermsOfService from "src/pages/termsOfService";
 import FAQs from "src/pages/faqs";
 import Voting from "src/pages/voting";
+import MakeProposal from "src/pages/voting/makeProposal";
 
 export interface RouteProps {
   path: string;
@@ -51,6 +52,10 @@ const routes: Array<RouteProps> = [
   {
     path: APP_URL.NFT_LENDING_VOTING,
     component: Voting,
+  },
+  {
+    path: APP_URL.NFT_LENDING_VOTING_PROPOSAL_MAKE,
+    component: MakeProposal,
   },
 ];
 

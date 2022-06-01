@@ -4,7 +4,7 @@
   color: #2d2d2d;
   &.inputWrapperDark {
     color: white;
-    input {
+    input, textarea {
       background-color: #0d0d0d;
       color: white !important;
     }
@@ -79,7 +79,7 @@
   }
   .formControl {
     flex: 1;
-    input {
+    input, textarea {
       width: 100%;
       border: none;
       outline: none;

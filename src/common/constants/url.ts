@@ -13,6 +13,7 @@ export const APP_URL = {
   NFT_LENDING_FAQS: `${BASE_PATH}/help`,
   NFT_LENDING_BLOG: `${BASE_PATH}/news/`,
   NFT_LENDING_VOTING: `${BASE_PATH}/voting/`,
+  NFT_LENDING_VOTING_PROPOSAL_MAKE: `${BASE_PATH}/voting/proposal/make`,
 }
 
 export const API_URL = { 

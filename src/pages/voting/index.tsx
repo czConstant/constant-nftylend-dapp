@@ -10,4 +10,4 @@ const Voting = () => {
   );
 };
 
-export default memo(Voting);
+export default Voting;
