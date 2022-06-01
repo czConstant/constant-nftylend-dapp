@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import shuffle from 'lodash/shuffle';
 
 import { APP_URL } from 'src/common/constants/url';
@@ -21,9 +21,9 @@ const examples = [
 
 const Introduce = () => {
   const navigate = useNavigate();
+  const controls = useAnimation();
   const [pictures, setPictures] = useState([])
   const [displayPictures, setDisplayPictures] = useState([])
-  console.log("🚀 ~ file: index.tsx ~ line 25 ~ Introduce ~ displayPictures", displayPictures)
 
   useEffect(() => {
     getListingLoans({ page: 1, limit: 30 }).then(res => {
@@ -34,10 +34,13 @@ const Introduce = () => {
   }, [])
 
   useEffect(() => {
-    setInterval(() => {
+    if (pictures.length === 0) return;
+    setTimeout(() => controls.start({ translateX: 0 }), 1000);
+    (function randomPic() {
       const list = shuffle(pictures);
       setDisplayPictures(list.slice(0, 6));
-    }, 5000)
+      setTimeout(randomPic, 5000);
+    })()
   }, [pictures])
 
   const animateImg = (url: string, i: number) => {
@@ -45,7 +48,7 @@ const Introduce = () => {
       <motion.img
         key={i}
         initial={{ translateX: '500%' }}
-        animate={{ translateX: 0 }}
+        animate={controls}
         transition={{ ease: 'easeOut', duration: (i+1) * 0.5 }}
         alt=""
         src={getImageThumb({ url, width: 300, height: 300 })}
