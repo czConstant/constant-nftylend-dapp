@@ -11,6 +11,10 @@ const MakeProposalChoices = () => {
 
   const onSubmit = (values) => {};
 
+  const onAddChoice = () => {
+    setChoices((value) => value + 1);
+  };
+
   return (
     <div className={styles.choiceWrapper}>
       <div className={styles.choiceTitle}>
@@ -30,14 +34,16 @@ const MakeProposalChoices = () => {
                       theme="dark"
                     >
                       <Field
-                        name="title"
+                        name={`choice_${i+1}`}
                         placeholder="Input choice text"
                         children={FieldText}
                         validate={required}
                       />
                     </InputWrapper>
                   ))}
-                <Button className={styles.btnChoice}>Add Choice</Button>
+                <Button onClick={onAddChoice} className={styles.btnChoice}>
+                  Add Choice
+                </Button>
               </div>
             );
           }}

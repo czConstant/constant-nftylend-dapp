@@ -83,7 +83,7 @@
     padding: 0px 15px;
   }
   .btnChoice {
-    background-image: linear-gradient(136deg, #6a1bff 0%, #0019BD 100%);
+    background-image: linear-gradient(136deg, #6a1bff 0%, #0019bd 100%);
     height: 45px;
     width: 130px;
     color: #ffffff;
@@ -93,4 +93,15 @@
     font-weight: bold;
     font-size: 13px;
   }
+}
+
+.btnSubmitAProposal {
+  margin-bottom: 15px;
+  border-radius: 16px;
+  width: 100%;
+  height: 55px;
+}
+
+.btnConnect {
+  background-image: linear-gradient(136deg, #3f3f3f 0%, #353535 100%);
 }
