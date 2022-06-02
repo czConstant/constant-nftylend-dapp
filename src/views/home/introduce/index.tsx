@@ -4,12 +4,14 @@ import shuffle from 'lodash/shuffle';
 import { useDispatch } from 'react-redux';
 
 import { APP_URL } from 'src/common/constants/url';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getListingLoans } from 'src/modules/nftLend/api';
 import { getImageThumb } from 'src/modules/nftLend/utils';
 import { LoanData } from 'src/modules/nftLend/models/api';
 import { closeModal, openModal } from 'src/store/modal';
 import DialogGuideStart from 'src/views/apps/DialogGuideStart';
+
+import LogoNear from './img/logo_near.svg';
 import styles from './styles.module.scss';
 
 // const examples = [
@@ -21,16 +23,22 @@ import styles from './styles.module.scss';
 //   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/483970a827af847e0b031c7d90d70baf/6cc644f1',
 // ]
 
+const NUM_PIC_POOL = 30;
+
 const Introduce = () => {
   const navigate = useNavigate();
   const controls = useAnimation();
   const dispatch = useDispatch();
 
-  const [pictures, setPictures] = useState([])
-  const [displayPictures, setDisplayPictures] = useState([])
+  const [pictures, setPictures] = useState<string[]>([]);
+  const [displayPictures, setDisplayPictures] = useState<string[]>([]);
+
+  const displayPicturesRef = useRef<Array<string>>([]);
+  const picToChange = useRef(6);
+  const cardToChange = useRef(0);
 
   useEffect(() => {
-    getListingLoans({ page: 1, limit: 30 }).then(res => {
+    getListingLoans({ page: 1, limit: NUM_PIC_POOL }).then(res => {
       setPictures(res.result.map((e: LoanData) => {
         return e.asset?.token_url;
       }))
@@ -40,12 +48,24 @@ const Introduce = () => {
   useEffect(() => {
     if (pictures.length === 0) return;
     setTimeout(() => controls.start({ translateX: 0 }), 1000);
-    (function randomPic() {
-      const list = shuffle(pictures);
-      setDisplayPictures(list.slice(0, 6));
-      setTimeout(randomPic, 5000);
-    })()
+    
+    function changePic() {
+      const list = [...displayPicturesRef.current];
+      list[cardToChange.current] = pictures[picToChange.current];
+      setDisplayPictures(list);
+
+      cardToChange.current = (cardToChange.current + 1) % 6
+      picToChange.current = (picToChange.current + 1) % NUM_PIC_POOL
+      setTimeout(changePic, 2000);
+    }
+
+    setDisplayPictures(pictures.slice(0, 6));
+    setTimeout(changePic, 2000)
   }, [pictures])
+
+  useEffect(() => {
+    displayPicturesRef.current = displayPictures;
+  }, [displayPictures])
 
   const onStart = () => {
     const close = () => dispatch(closeModal({ id: "createLoanModal" }));
@@ -77,17 +97,15 @@ const Introduce = () => {
       <div className={styles.introduce}>
         <div className={styles.left}>
           <h1>
-            Create, Explore<br/>
-            & Collect Digital<br/>
-            Art NFTs
+            The leading<br />of NFTs<br/>Lending platform
           </h1>
-          <p>Buy and sell NETs from the world's artists. More than 1000 premium digital artworks are aviable to be your's</p>
+          <p>The first P2P NFTs Lending platform on<br /> <img className={styles.nearLogo} src={LogoNear} /> Protocol. A fast, secure and reliable solution you need.</p>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onStart}
           >
-              Start Collecting
+              Create Loans
           </motion.button>
         </div>
         <div className={styles.right}>

@@ -8,6 +8,7 @@ import { DISCORD_URL, GITBOOK_URL, TWITTER_URL } from 'src/common/constants/url'
 
 interface SocialLinksProps {
   layout?: 'vertical' | 'horizontal',
+  iconSize?: number,
 }
 
 const links = [
@@ -17,13 +18,13 @@ const links = [
 ]
 
 const SocialLinks = (props: SocialLinksProps) => {
-  const { layout = 'horizontal' } = props;
+  const { iconSize = 30, layout = 'horizontal' } = props;
 
   return (
     <div className={cx(styles.socialLinks, styles[layout])}>
       {links.map(e => (
         <a key={e.id} className={styles.item} target="_blank" href={e.url} >
-          <img alt={e.id} src={e.icon} />
+          <img alt={e.id} src={e.icon} style={{ width: iconSize, height: iconSize, borderRadius: iconSize/2 }} />
         </a>
       ))}
     </div>

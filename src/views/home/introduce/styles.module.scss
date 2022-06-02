@@ -13,20 +13,27 @@
   display: flex;
   padding: 100px 0 140px;
   .left {
-    min-width: 400px;
-    max-width: 400px;
+    min-width: 500px;
+    max-width: 500px;
     color: white;
     padding-top: 80px;
     h1 {
       font-family: Poppins;
       font-size: 50px;
       line-height: 75px;
+      margin-bottom: 40px;
     }
     p {
       font-family: Poppins;
       font-weight: 300;
       font-size: 20px;
       line-height: 31px;
+      .nearLogo {
+        width: 80px;
+        height: 50px;
+        border-radius: 20px;
+        margin-bottom: 5px;
+      }
     }
     button {
       width: 230px;

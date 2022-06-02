@@ -86,4 +86,18 @@
       min-width: 300px;
     }
   }
+  .viewMore {
+    text-align: center;
+    margin-top: 20px;
+    button {
+      width: 120px;
+      height: 40px;
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      border-radius: 40px;
+      background-image: linear-gradient(136deg, #AE83FF 0%, #0019BD 100%);
+      border: none;
+    }
+  }
 }

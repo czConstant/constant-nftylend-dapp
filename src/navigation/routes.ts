@@ -1,6 +1,7 @@
 import { APP_URL } from 'src/common/constants/url';
 
 import About from 'src/pages/about';
+import Home from 'src/pages/home';
 import Discover from 'src/pages/discover';
 import LoanDetail from 'src/pages/loanDetail';
 import ListingLoans from 'src/pages/listingLoans';
@@ -17,7 +18,7 @@ export interface RouteProps {
 const routes: Array<RouteProps> = [
   {
     path: APP_URL.HOME,
-    component: Discover,
+    component: Home,
   },
   {
     path: APP_URL.PAWN_PROTOCOL,

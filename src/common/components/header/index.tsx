@@ -37,6 +37,12 @@ const Header = () => {
           <div className={styles.divider} />
           <div className={styles.menus}>
             <Link
+              to={APP_URL.DISCOVER}
+              className={cx(location.pathname === APP_URL.DISCOVER && styles.active)}
+            >
+              Discover
+            </Link>
+            <Link
               to={APP_URL.LIST_LOAN}
               className={cx(location.pathname === APP_URL.LIST_LOAN && styles.active)}
             >

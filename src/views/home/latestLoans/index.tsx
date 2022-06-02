@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
 
@@ -11,6 +11,7 @@ import styles from './styles.module.scss';
 import { formatCurrency } from 'src/common/utils/format';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import CardNftLoan from 'src/views/apps/CardNftLoan';
+import { APP_URL } from 'src/common/constants/url';
 
 const LatestLoans = () => {
   const navigate = useNavigate();
@@ -78,6 +79,14 @@ const LatestLoans = () => {
               className={styles.item}
             />
           ))}
+        </div>
+        <div className={styles.viewMore}>
+          <button onClick={() => {
+            window.scrollTo(0, 0);
+            navigate(APP_URL.LIST_LOAN);
+          }}>
+            View More
+          </button>
         </div>
       </div>
     </SectionContainer>
