@@ -32,6 +32,7 @@ export interface GetListingLoanParams {
   network?: string;
   page: number;
   limit: number;
+  search?: string;
 }
 export const getListingLoans = (
   params?: GetListingLoanParams

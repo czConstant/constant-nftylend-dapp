@@ -30,9 +30,9 @@ const Layout = (props: LayoutProps) => {
       <motion.div
         animate={{ opacity: isScrollEnd ? 0 : 1 }}
         transition={{ ease: "easeOut", duration: 0.2 }}
-        style={{ position: 'fixed', top: 800, right: 15 }}
+        style={{ position: 'fixed', top: 300, right: 15 }}
       >
-        <SocialLinks layout='vertical' />
+        <SocialLinks layout='vertical' iconSize={40} />
       </motion.div>
     </div>
   );

@@ -1,15 +1,17 @@
+import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import BigNumber from "bignumber.js";
 import { useEffect, useState } from "react";
 import cx from 'classnames'
 
 import { formatCurrency } from "src/common/utils/format";
 import { APP_URL } from "src/common/constants/url";
+
+import styles from "./styles.module.scss";
+import CardNftMedia from "../CardNftMedia";
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { LOAN_DURATION } from 'src/modules/nftLend/constant';
-
-import CardNftMedia from "../CardNftMedia";
-import styles from "./styles.module.scss";
 
 export const mediaTypes = {
   video: ["mov", "mp4", "video"],
@@ -67,21 +69,40 @@ const CardNftLoan = (props: CardNftLoanProps) => {
         <div className={styles.itemContent}>
           <div className={styles.infoWrap}>
             <div>
-              <div>{asset.collection?.name}</div>
               <h5>{asset.name}</h5>
+              <div>{asset.collection?.name}</div>
             </div>
-            {/* <div className={styles.chain}>{asset.chain}</div> */}
+            <div className={styles.chain}>{asset.chain}</div>
           </div>
-          {loan?.principal_amount && (<>
-            <div>Price</div>
+          {loan?.principal_amount && (
             <div className={styles.infoPrice}>
               {formatCurrency(loan.principal_amount)} {loan?.currency?.symbol}
             </div>
-          </>)}
-          <button className={styles.detailButton}>
-            Details
-          </button>
-          {/* {loan?.interest_rate && loan?.duration && (
+          )}
+          <div className={styles.actions}>
+            {onViewLoan && (
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  onViewLoan();
+                }}
+              >
+                View Loan
+              </Button>
+            )}
+            {onCancelLoan && (
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  onCancelLoan();
+                }}
+                className={styles.btnCancel}
+              >
+                Cancel
+              </Button>
+            )}
+          </div>
+          {loan?.interest_rate && loan?.duration && (
             <div className={styles.footer}>
               <div>
                 <label>Interest</label>
@@ -97,7 +118,7 @@ const CardNftLoan = (props: CardNftLoanProps) => {
                 </div>
               </div>
             </div>
-          )} */}
+          )}
         </div>
       </a>
     </div>
