@@ -1,27 +1,31 @@
 import { useNavigate } from 'react-router-dom';
 import { motion, useAnimation } from 'framer-motion';
 import shuffle from 'lodash/shuffle';
+import { useDispatch } from 'react-redux';
 
 import { APP_URL } from 'src/common/constants/url';
-import styles from './styles.module.scss';
 import { useEffect, useState } from 'react';
 import { getListingLoans } from 'src/modules/nftLend/api';
-import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { getImageThumb } from 'src/modules/nftLend/utils';
 import { LoanData } from 'src/modules/nftLend/models/api';
+import { closeModal, openModal } from 'src/store/modal';
+import DialogGuideStart from 'src/views/apps/DialogGuideStart';
+import styles from './styles.module.scss';
 
-const examples = [
-  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/d5c12b4eb46e676d72569a2084345c94/6ef0628f',
-  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/dcs_pfp_1650520191170.png',
-  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://i.imgur.com/fO3tI1t.png',
-  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/smokeheads_pfp_1652898735936.png',
-  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/puppies_pfp_1653869027436.png',
-  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/483970a827af847e0b031c7d90d70baf/6cc644f1',
-]
+// const examples = [
+//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/d5c12b4eb46e676d72569a2084345c94/6ef0628f',
+//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/dcs_pfp_1650520191170.png',
+//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://i.imgur.com/fO3tI1t.png',
+//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/smokeheads_pfp_1652898735936.png',
+//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/puppies_pfp_1653869027436.png',
+//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/483970a827af847e0b031c7d90d70baf/6cc644f1',
+// ]
 
 const Introduce = () => {
   const navigate = useNavigate();
   const controls = useAnimation();
+  const dispatch = useDispatch();
+
   const [pictures, setPictures] = useState([])
   const [displayPictures, setDisplayPictures] = useState([])
 
@@ -42,6 +46,18 @@ const Introduce = () => {
       setTimeout(randomPic, 5000);
     })()
   }, [pictures])
+
+  const onStart = () => {
+    const close = () => dispatch(closeModal({ id: "createLoanModal" }));
+    dispatch(
+      openModal({
+        id: "createLoanModal",
+        className: styles.modalContent,
+        render: () => <DialogGuideStart onClose={close} navigate={navigate} />,
+        theme: "dark",
+      })
+    );
+  }
 
   const animateImg = (url: string, i: number) => {
     return (
@@ -69,7 +85,7 @@ const Introduce = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate(APP_URL.LIST_LOAN)}
+            onClick={onStart}
           >
               Start Collecting
           </motion.button>

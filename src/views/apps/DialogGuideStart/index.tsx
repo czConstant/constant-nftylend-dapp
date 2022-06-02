@@ -10,11 +10,19 @@ import { selectCurrentWallet } from 'src/store/nftyLend';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { getLinkExplorerWallet } from 'src/modules/nftLend/utils';
 
-import Loading from "../loading";
-import ButtonConnectWallet from '../buttonConnectWallet';
+import Loading from "../../../common/components/loading";
+import ButtonConnectWallet from '../../../common/components/buttonConnectWallet';
 import styles from "./styles.module.scss";
 
-const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
+interface DialogGuideStartProps {
+  navigate?: any;
+  onClose?: Function;
+  onGoToAsset?: Function;
+}
+
+const DialogGuideStart = (props: DialogGuideStartProps) => {
+  const { onClose, onGoToAsset, navigate } = props;
+
   const { getNftsByOwner } = useToken();
   const currentWallet = useAppSelector(selectCurrentWallet);
 
@@ -62,8 +70,8 @@ const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
           </div>
           <Button
             onClick={() => {
-              onClose();
-              onCallBack?.();
+              if (onClose) onClose();
+              if (onGoToAsset) onGoToAsset();
               navigate(APP_URL.MY_NFT);
             }}
             className={styles.btnConnect}
@@ -97,7 +105,7 @@ const ModalCreateLoan = ({ navigate, onClose, onCallBack }) => {
     }
   };
 
-  return <div className={styles.modalContainer}>{renderContent()}</div>;
+  return <div className={styles.modalContent}>{renderContent()}</div>;
 };
 
-export default ModalCreateLoan;
+export default DialogGuideStart;

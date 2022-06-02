@@ -39,14 +39,10 @@
     }
   }
   .right {
-    .connectButton {
-      height: 40px;
-      background: transparent;
-      border: 2px solid #777e90;
-      color: #fcfcfd;
-      font-size: 14px;
-      font-weight: bold;
-      border-radius: 20px;
+    display: flex;
+    align-items: center;
+    .search {
+      margin-right: 10px;
     }
   }
 }

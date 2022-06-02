@@ -1,0 +1,33 @@
+.buttonSearchLoans {
+  cursor: pointer;
+  background: #272727;
+  border: 2px solid #2E3136;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  input {
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    width: 300px;
+    color: #b1b5c4;
+    font-size: 14px;
+    margin-left: 15px;
+    &:focus {
+      outline: none;
+    }
+  }
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    img {
+      width: 20px;
+      height: 20px;
+      background-color: transparent;
+    }
+  }
+}

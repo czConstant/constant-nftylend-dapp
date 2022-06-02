@@ -6,10 +6,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { closeModal, openModal } from "src/store/modal";
 import { APP_URL } from "src/common/constants/url";
+import DialogGuideStart from 'src/views/apps/DialogGuideStart';
 
 import lfCards from "./assets/lt_cards.json";
 import styles from "./styles.module.scss";
-import ModalCreateLoan from './modalCreateLoan';
 
 interface ButtonCreateLoanProps {
   hiddenIcon?: boolean;
@@ -31,8 +31,7 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
     dispatch(
       openModal({
         id: "createLoanModal",
-        className: styles.modalContent,
-        render: () => <ModalCreateLoan onClose={close} navigate={navigate} onCallBack={onCallBack} />,
+        render: () => <DialogGuideStart onClose={close} navigate={navigate} onGoToAsset={onCallBack} />,
         theme: "dark",
       })
     );

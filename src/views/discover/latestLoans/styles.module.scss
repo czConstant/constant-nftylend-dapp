@@ -58,9 +58,8 @@
   .list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    column-gap: 15px;
+    grid-gap: 15px;
     flex-wrap: wrap;
-    max-width: 990px;
     @media screen and (max-width: 768px) {
       .item {
         max-width: 100%;

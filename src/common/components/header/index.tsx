@@ -19,6 +19,7 @@ import {
 } from "@solana/wallet-adapter-react-ui";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
+import ButtonSearchLoans from 'src/views/apps/ButtonSearchLoans';
 
 const Header = () => {
   const location = useLocation();
@@ -56,7 +57,6 @@ const Header = () => {
             >
               Pawn Protocol
             </Link>
-            <ButtonCreateLoan />
           </div>
         </div>
         <div className={styles.right}>
@@ -67,6 +67,7 @@ const Header = () => {
               </WalletMultiButton>
             </WalletModalProvider>
           </div>
+          <ButtonSearchLoans className={styles.search} />
           {isConnected ? <ButtonWalletDropdown /> : <ButtonConnectWallet />}
         </div>
       </div>
