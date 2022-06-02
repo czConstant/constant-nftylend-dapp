@@ -98,7 +98,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
       <Form
         onSubmit={onSubmit}
         initialValues={{
-          available_in: 7,
+          available_in: 30,
           amount: loan.principal_amount,
           rate: new BigNumber(loan.interest_rate).multipliedBy(100).toNumber(),
           duration: LOAN_DURATION.find(

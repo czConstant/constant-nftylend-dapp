@@ -23,20 +23,21 @@ interface ButtonDisconnectWalletProps {
 const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
   const { className } = props;
   const dispatch = useAppDispatch();
-  const { currentWallet, disconnectWallet } = useCurrentWallet();
+  const { currentWallet, disconnectWallet, connectNearWallet } = useCurrentWallet();
 
   const onChangeWallet = () => {
-    const id = 'connectWalletModal';
-    const close = () => dispatch(closeModal({ id }))
-    dispatch(openModal({
-      id,
-      theme: 'dark',
-      modalProps: {
-        centered: true,
-        contentClassName: styles.modalContent,
-      },
-      render: () => <DialogConnectWallet onClose={close} />,
-    }))
+    // const id = 'connectWalletModal';
+    // const close = () => dispatch(closeModal({ id }))
+    // dispatch(openModal({
+    //   id,
+    //   theme: 'dark',
+    //   modalProps: {
+    //     centered: true,
+    //     contentClassName: styles.modalContent,
+    //   },
+    //   render: () => <DialogConnectWallet onClose={close} />,
+    // }))
+    window.nearSelector?.show();
   };
 
   const onEnableNotification = () => {
@@ -81,7 +82,7 @@ const ButtonDisconnectWallet = (props: ButtonDisconnectWalletProps) => {
             <div className={styles.item}>Copy address</div>
           </CopyToClipboard>
         </Dropdown.Item>
-        <Dropdown.Item eventKey="changeWallet" onClick={onEnableNotification}>
+        <Dropdown.Item eventKey="setting" onClick={onEnableNotification}>
           <div className={styles.item}>Settings</div>
         </Dropdown.Item>
         <Dropdown.Item eventKey="changeWallet" onClick={onChangeWallet}>

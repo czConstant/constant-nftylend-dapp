@@ -14,7 +14,7 @@ interface LoanDetailPriceStatisticProps {
 const LoanDetailPriceStatistic: React.FC<LoanDetailPriceStatisticProps> = ({ loan }) => {
   const usdValue = new BigNumber(loan.asset?.stats?.avg_price).multipliedBy(loan.asset?.stats?.currency?.price);
   const ltv = !usdValue.isEqualTo(0)
-    ? new BigNumber(loan.principal_amount).dividedBy(usdValue).multipliedBy(100).toNumber()
+    ? new BigNumber(loan.principal_amount).multipliedBy(loan.currency?.price).dividedBy(usdValue).multipliedBy(100).toNumber()
     : 0;
 
   return (

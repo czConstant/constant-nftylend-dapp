@@ -205,7 +205,7 @@ const Loans = () => {
       >
         {/* <LoansSidebar isLoading={loading} /> */}
         <div className={cx([styles.listContainerWrap])}>
-          {!collection && renderChainSelect()}
+          {/* {!collection && renderChainSelect()} */}
           <LoansToolbar />
           <div
             className={cx(

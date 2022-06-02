@@ -103,7 +103,7 @@ const CreateLoan = (props: CreateLoanProps) => {
   };
 
   const initValues = {
-    available_in: 7,
+    available_in: 30,
     allow_amount: 1,
     allow_duration: 1,
     allow_rate: 1,
