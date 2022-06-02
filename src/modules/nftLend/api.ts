@@ -1,15 +1,15 @@
 import { API_URL } from "src/common/constants/url";
 import api from "src/common/services/apiClient";
-import { CollectionData, ListResponse, ResponseResult, SubmitCollection } from "./models/api";
-
-export const fetchCollections = async (): Promise<CollectionData> => {
-  return api.get(API_URL.NFT_LEND.COLLECTIONS);
-};
+import { ListResponse, ResponseResult, SubmitCollection } from "./models/api";
 
 interface ListParams {
   offset?: number;
   limit?: number;
 }
+
+export const getPlatformStats = async (): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.PLATFORM_STATS);
+};
 
 export const getNftListCurrency = async (network: string = ''): Promise<ListResponse> => {
   return api.get(`${API_URL.NFT_LEND.LIST_CURRENCY}?network=${network}`);
@@ -19,16 +19,16 @@ export const getCollections = (params?: ListParams): Promise<ListResponse> => {
   return api.get(API_URL.NFT_LEND.COLLECTIONS, { params });
 };
 
-export const getCollectionById = (id: number | string): Promise<ResponseResult> => {
-  return api.get(`${API_URL.NFT_LEND.COLLECTION_BY_ID}/${id}`);
+export const getCollection = (seo_url: string): Promise<ResponseResult> => {
+  return api.get(`${API_URL.NFT_LEND.COLLECTION_BY_ID}/${seo_url}`);
 };
 
 export interface GetListingLoanParams {
-  collection_id?: number | undefined;
+  collection_seo_url?: string | undefined;
+  collection?: string;
   exclude_ids?: string;
   min_price?: number;
   max_price?: number;
-  collection?: string;
   network?: string;
   page: number;
   limit: number;

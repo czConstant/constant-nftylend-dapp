@@ -11,14 +11,14 @@ import styles from "./styles.module.scss";
 import Loading from "src/common/components/loading";
 import { getAssetBySeo } from "src/modules/nftLend/api";
 import { LoanDataAsset, ResponseResult } from "src/modules/nftLend/models/api";
-import EmptyDetailLoan from "src/modules/nftLend/components/emptyDetailLoan";
+import EmptyDetailLoan from "src/views/apps/emptyDetailLoan";
 import LoanDetailPawnInfo from "./pawnInfo";
 import LoanDetailActivity from "./LoanDetail.Activity";
 import LoanDetailSuggest from "./LoanDetail.Suggest";
 import { useAppSelector } from "src/store/hooks";
 import { selectNftyLend } from "src/store/nftyLend";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import ItemNftMedia from 'src/modules/nftLend/components/itemNft/itemNftMedia';
+import CardNftMedia from 'src/views/apps/CardNftMedia';
 import AssetInfo from './assetInfo';
 import LoanDetailSaleHistory from './LoanDetail.SaleHistory';
 
@@ -32,11 +32,11 @@ const LoanDetail = () => {
   const defaultBreadCrumbs = useRef<BreadCrumbItem[]>([
     {
       label: "Discover",
-      link: APP_URL.NFT_LENDING,
+      link: APP_URL.DISCOVER,
     },
     {
       label: "Collections",
-      link: APP_URL.NFT_LENDING_LIST_LOAN,
+      link: APP_URL.LIST_LOAN,
     },
     {
       label: "Loan",
@@ -59,14 +59,14 @@ const LoanDetail = () => {
 
       if (result?.collection?.name) {
         defaultBreadCrumbs.current[1].label = result?.collection.name;
-        defaultBreadCrumbs.current[1].link = `${APP_URL.NFT_LENDING_LIST_LOAN}/?collection=${result.collection.seo_url}`;
+        defaultBreadCrumbs.current[1].link = `${APP_URL.LIST_LOAN}/?collection=${result.collection.seo_url}`;
         defaultBreadCrumbs.current[2].label = result?.name;
       }
 
       setBreadCrumbs(defaultBreadCrumbs.current);
       setLoan(LoanNft.parseFromApiDetail(result));
     } catch(err) {
-      navigate(APP_URL.NFT_LENDING_LIST_LOAN);
+      navigate(APP_URL.LIST_LOAN);
     } finally {
       setLoading(false);
     }
@@ -80,7 +80,7 @@ const LoanDetail = () => {
         <BreadCrumb items={breadCrumbs} />
         <div className={styles.headerContainer}>
           <div>
-            <ItemNftMedia
+            <CardNftMedia
               detail={loan.asset.detail}
               name={loan.asset.name}
               width={300}

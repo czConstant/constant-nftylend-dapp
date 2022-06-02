@@ -30,7 +30,7 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
       </h4>
       <div className={styles.infoAuthor}>
         <Link
-          to={`${APP_URL.NFT_LENDING_LIST_LOAN}?collection=${loan.asset.collection?.seo_url}`}
+          to={`${APP_URL.LIST_LOAN}?collection=${loan.asset.collection?.seo_url}`}
         >
           {loan.asset.collection?.name}
         </Link>

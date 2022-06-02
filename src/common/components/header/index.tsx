@@ -10,7 +10,7 @@ import styles from "./styles.module.scss";
 import ButtonCreateLoan from "../buttonCreateLoan";
 import HeaderMobile from "./index.mobile";
 import ButtonConnectWallet from "../buttonConnectWallet";
-import ButtonDisconnectWallet from "../buttonDisconnectWallet";
+import ButtonWalletDropdown from "../buttonWalletDropdown";
 import { useCurrentWallet } from "src/modules/nftLend/hooks/useCurrentWallet";
 import { APP_CLUSTER } from "src/common/constants/config";
 import {
@@ -19,6 +19,7 @@ import {
 } from "@solana/wallet-adapter-react-ui";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
+import ButtonSearchLoans from 'src/views/apps/ButtonSearchLoans';
 
 const Header = () => {
   const location = useLocation();
@@ -31,48 +32,31 @@ const Header = () => {
       <div className={styles.content}>
         <div className={styles.left}>
           <Link to={APP_URL.HOME}>
-            <AppIcon dark />
+            <AppIcon />
           </Link>
           <div className={styles.divider} />
           <div className={styles.menus}>
             <Link
-              to={APP_URL.NFT_LENDING}
-              className={cx(
-                location.pathname === APP_URL.NFT_LENDING && styles.active
-              )}
-            >
-              Discover
-            </Link>
-            <Link
-              to={APP_URL.NFT_LENDING_LIST_LOAN}
-              className={cx(
-                location.pathname === APP_URL.NFT_LENDING_LIST_LOAN &&
-                  styles.active
-              )}
+              to={APP_URL.LIST_LOAN}
+              className={cx(location.pathname === APP_URL.LIST_LOAN && styles.active)}
             >
               Listing Loans
             </Link>
-            {isConnected && (
-              <Link
-                to={APP_URL.NFT_LENDING_MY_NFT}
-                className={cx(
-                  location.pathname === APP_URL.NFT_LENDING_MY_NFT &&
-                    styles.active
-                )}
-              >
-                My Assets
-              </Link>
-            )}
             {/* <a
               target="_blank"
-              href={APP_URL.NFT_LENDING_BLOG}
+              href={APP_URL.NFT_PAWN_BLOG}
               className={cx(
-                location.pathname === APP_URL.NFT_LENDING_BLOG && styles.active
+                location.pathname === APP_URL.NFT_PAWN_BLOG && styles.active
               )}
             >
               News
             </a> */}
-            <ButtonCreateLoan />
+            <Link
+              to={APP_URL.PAWN_PROTOCOL}
+              className={cx(location.pathname === APP_URL.PAWN_PROTOCOL && styles.active)}
+            >
+              Pawn Protocol
+            </Link>
           </div>
         </div>
         <div className={styles.right}>
@@ -83,7 +67,8 @@ const Header = () => {
               </WalletMultiButton>
             </WalletModalProvider>
           </div>
-          {isConnected ? <ButtonDisconnectWallet /> : <ButtonConnectWallet />}
+          <ButtonSearchLoans className={styles.search} />
+          {isConnected ? <ButtonWalletDropdown /> : <ButtonConnectWallet />}
         </div>
       </div>
       {APP_CLUSTER !== 'mainnet' && (
