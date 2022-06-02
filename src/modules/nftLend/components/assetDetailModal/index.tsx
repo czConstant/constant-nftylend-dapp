@@ -37,7 +37,11 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   const verifiedCollection = async () => {
     try {
       setVerifying(true);
-      const response = await verifyAsset(String(asset.id));
+      const response = await verifyAsset({
+        network: asset.chain,
+        contract_address: asset.contract_address,
+        token_id: asset.token_id
+      });
       setListingDetail(response.result);
     } catch (error) {
     } finally {
