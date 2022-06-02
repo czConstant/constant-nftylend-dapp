@@ -2,7 +2,7 @@ import { BASE_PATH, MCT_API_BASE, MCT_ROOT } from './config'
 
 export const DISCORD_URL = 'https://discord.gg/dyMrkSXyq7';
 export const TWITTER_URL = 'https://twitter.com/pawnprotocol';
-export const GITBOOK_URL = 'https://docs.nftpawn.financial/overview/introduction-nft-pawn';
+export const GITBOOK_URL = 'https://docs.nftpawn.financial/';
 
 export const APP_URL = {
   HOME: `${BASE_PATH}/`,
