@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import NftPawn from '@nftpawn-js/core';
 // import { Scrollbars } from 'react-custom-scrollbars-2';
 
 // import ModalManager from 'src/common/components/modal';
 import ModalManager from 'src/common/components/modalCustom';
 import MyLoadingOverlay from 'src/common/components/myLoadingOverlay';
+import { APP_CLUSTER } from 'src/common/constants/config';
 
 import AppRouter from './navigation';
-import { getSystemConfigs } from './modules/nftLend/api';
 import { SolanaWalletProvider } from './modules/solana/hooks/withWalletProvider';
 import { NearWalletProvider } from './modules/near/hooks/withNearWalletProvider';
 
@@ -21,8 +22,8 @@ export default function App() {
   useDetectConnectedWallet();
 
   useEffect(() => {
-    getSystemConfigs().then(res =>{ 
-      if (res.result) dispatch(updateConfigs(res.result));
+    NftPawn.init({ cluster: APP_CLUSTER }).then(() => {
+      dispatch(updateConfigs(NftPawn.getConfig()));
     });
   }, []);
 

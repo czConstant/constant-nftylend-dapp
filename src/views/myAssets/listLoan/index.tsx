@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Dropdown } from "react-bootstrap";
 import cx from "classnames";
 import { isMobile } from "react-device-detect";
+import NftPawn from '@nftpawn-js/core';
 
 import { selectNftyLend } from "src/store/nftyLend";
 import { useAppSelector } from "src/store/hooks";
 import EmptyList from "src/common/components/emptyList";
 import Loading from "src/common/components/loading";
-import { getLoansByOwner } from "src/modules/nftLend/api";
 import { LOAN_STATUS } from "src/modules/nftLend/constant";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -30,7 +30,7 @@ const ListLoan = () => {
   const fetchNFTs = async () => {
     try {
       setLoading(true);
-      const res = await getLoansByOwner({
+      const res = await NftPawn.loans({
         owner: currentWallet.address.toString(),
         network: currentWallet.chain.toString(),
         status,

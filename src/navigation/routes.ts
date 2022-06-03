@@ -6,7 +6,6 @@ import Discover from 'src/pages/discover';
 import LoanDetail from 'src/pages/loanDetail';
 import ListingLoans from 'src/pages/listingLoans';
 import MyAsset from 'src/pages/myAsset';
-import SubmitWhitelist from 'src/pages/submitWhitelist';
 import TermsOfService from "src/pages/termsOfService";
 import FAQs from 'src/pages/faqs';
 
@@ -39,10 +38,6 @@ const routes: Array<RouteProps> = [
   {
     path: APP_URL.MY_NFT,
     component: MyAsset,
-  },
-  {
-    path: APP_URL.SUBMIT_WHITELIST,
-    component: SubmitWhitelist,
   },
   {
     path: APP_URL.TERM_OF_SERVICE,

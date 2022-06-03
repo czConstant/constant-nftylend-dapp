@@ -1,15 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import NftPawn, { CollectionData } from '@nftpawn-js/core';
 
 import Loading from "src/common/components/loading";
 import Avatar from 'src/common/components/avatar';
-import { formatCurrency } from 'src/common/utils/format';
 import { getImageThumb } from 'src/modules/nftLend/utils';
-import { getCollection } from 'src/modules/nftLend/api';
 import SectionContainer from 'src/common/components/sectionContainer';
-import { CollectionData } from 'src/modules/nftLend/models/api';
 import { getLinkNearExplorer } from 'src/modules/near/utils';
 
 import IcVerified from './img/icon-verified.svg';
@@ -25,7 +22,7 @@ interface CollectionInfoProps {
 
 const CollectionInfo = (props: CollectionInfoProps) => {
   const { collection_seo } = props;
-  const navigate = useNavigate()
+  console.log("🚀 ~ file: index.tsx ~ line 25 ~ CollectionInfo ~ collection_seo", collection_seo)
 
   const [data, setData] = useState<CollectionData>();
   const [loading, setLoading] = useState(true);
@@ -36,7 +33,7 @@ const CollectionInfo = (props: CollectionInfoProps) => {
 
   const fetchCollection = async () => {
     try {
-      const res = await getCollection(collection_seo);
+      const res = await NftPawn.collection({ seo_url: collection_seo });
       setData(res?.result);
     } finally {
       setLoading(false)

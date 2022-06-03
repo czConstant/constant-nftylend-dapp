@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import cx from "classnames";
-import { AssetNft } from 'src/modules/nftLend/models/nft';
-import styles from "../styles.module.scss";
-import { getBorrowerStats } from 'src/modules/nftLend/api';
-import { formatCurrency } from 'src/common/utils/format';
 import BigNumber from 'bignumber.js';
+import NftPawn from '@nftpawn-js/core';
+
+import { AssetNft } from 'src/modules/nftLend/models/nft';
+import { formatCurrency } from 'src/common/utils/format';
+import styles from "../styles.module.scss";
 
 interface LoanDetailBorrowerProps {
   asset: AssetNft;
@@ -16,7 +17,7 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ asset, borrower
     
   useEffect(() => {
     if (!borrower) return;
-    getBorrowerStats(borrower).then(res => {
+    NftPawn.borrower(borrower).then(res => {
       setBorrowerStats(res.result)
     });
   }, [borrower])

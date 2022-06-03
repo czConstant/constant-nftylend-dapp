@@ -89,7 +89,7 @@ const Item = (props: ItemProps) => {
     );
   };
 
-  const processPayLoan = async (amount: number) => {
+  const processPayLoan = async (amount: number | string) => {
     dispatch(showLoadingOverlay());
     try {
       if (!loan.approved_offer) throw new Error('Loan has no approved offer');

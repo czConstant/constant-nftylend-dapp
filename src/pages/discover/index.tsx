@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
+import NftPawn, { CollectionData } from '@nftpawn-js/core';
 
-import { getCollections } from 'src/modules/nftLend/api';
 import { APP_URL } from 'src/common/constants/url';
 import BodyContainer from 'src/common/components/bodyContainer';
 
 import Item from './item';
 import styles from './styles.module.scss';
 import { isMobile } from 'react-device-detect';
-import { CollectionData } from 'src/modules/nftLend/models/api';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 
 export const OnBoardingHeader = () => (
@@ -30,7 +29,7 @@ const Discover = () => {
 
   const getData = async () => {
     try {
-      const response = await getCollections();
+      const response = await NftPawn.collections();
       const list = response.result.filter((v: any) => v?.listing_total > 0);
       setCollections(list.map((e: CollectionData) => {
         try {

@@ -4,9 +4,9 @@ import { isMobile } from "react-device-detect";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
 import debounce from 'lodash/debounce';
+import NftPawn from '@nftpawn-js/core';
 
 import BodyContainer from "src/common/components/bodyContainer";
-import { GetListingLoanParams, getListingLoans } from "src/modules/nftLend/api";
 import { ListResponse, LoanData } from "src/modules/nftLend/models/api";
 import { LoanNft } from "src/modules/nftLend/models/loan";
 import CardNftLoan from "src/views/apps/CardNftLoan";
@@ -102,14 +102,14 @@ const ListingLoans = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const params: GetListingLoanParams = {
+      const params = {
         ...pageQuery,
         network: selectedChain,
         page: page.current,
         limit: PAGE_SIZE,
       };
       if (pageQuery.collection) params.collection_seo_url = pageQuery.collection;
-      const response: ListResponse = await getListingLoans(params);
+      const response: ListResponse = await NftPawn.listingLoans(params);
       // Check for duplicate fetching when scroll to end of list
       if (params.page !== page.current) return;
 

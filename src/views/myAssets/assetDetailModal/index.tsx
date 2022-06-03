@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
 import { Button, Dropdown } from 'react-bootstrap';
 import { isMobile } from 'react-device-detect';
+import NftPawn from '@nftpawn-js/core';
 
 import CardNftMedia from 'src/views/apps/CardNftMedia';
 import { APP_URL } from 'src/common/constants/url';
 import Loading from 'src/common/components/loading';
-import { getAssetInfo, verifyAsset } from 'src/modules/nftLend/api';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import styles from './styles.module.scss';
@@ -37,7 +37,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   const verifiedCollection = async () => {
     try {
       setVerifying(true);
-      const response = await verifyAsset({
+      const response = await NftPawn.collectionVerified({
         network: asset.chain,
         contract_address: asset.contract_address,
         token_id: asset.token_id
@@ -52,7 +52,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   const checkLoanInfo = async () => {
     try {
       setVerifying(true);
-      const res = await getAssetInfo(asset.contract_address, asset.token_id);
+      const res = await NftPawn.loan({ contract_address: asset.contract_address, token_id: asset.token_id});
       const loan = LoanNft.parseFromApiDetail(res.result);
       setLoan(loan);
       setCollectionName(res.result.collection?.name);

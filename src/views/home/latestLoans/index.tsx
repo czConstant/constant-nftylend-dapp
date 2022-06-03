@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import cx from 'classnames';
-import { isMobile } from 'react-device-detect';
+import { useNavigate } from 'react-router-dom';
+import NftPawn, { LoanData } from '@nftpawn-js/core';
 
 import SectionContainer from 'src/common/components/sectionContainer';
-import { getListingLoans, getPlatformStats } from 'src/modules/nftLend/api';
-import { LoanData } from 'src/modules/nftLend/models/api';
-
-import styles from './styles.module.scss';
 import { formatCurrency } from 'src/common/utils/format';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import CardNftLoan from 'src/views/apps/CardNftLoan';
 import { APP_URL } from 'src/common/constants/url';
+
+import styles from './styles.module.scss';
 
 const LatestLoans = () => {
   const navigate = useNavigate();
@@ -26,7 +23,7 @@ const LatestLoans = () => {
 
   const fetchListData = async () => {
     try {
-      const res = await getListingLoans({ page: 1, limit: 8 });
+      const res = await NftPawn.listingLoans({ page: 1, limit: 8 });
       const validLoans = res.result.map((e: LoanData) => {
         try {
           const loan = LoanNft.parseFromApi(e);
@@ -43,7 +40,7 @@ const LatestLoans = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await getPlatformStats();
+      const response = await NftPawn.marketStats();
       setStats(response.result)
     } finally { }
   };

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Form } from "react-final-form";
+import NftPawn from '@nftpawn-js/core';
 
 import CryptoDropdownItem from "src/common/components/cryptoDropdownItem";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { useAppDispatch } from "src/store/hooks";
 
 import CreateLoanForm from "./form";
-import { getNftListCurrency } from "src/modules/nftLend/api";
 import { requestReload } from "src/store/nftyLend";
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { useTransaction} from 'src/modules/nftLend/hooks/useTransaction';
@@ -33,7 +33,7 @@ const CreateLoan = (props: CreateLoanProps) => {
   useEffect(() => {
     if (!isConnected) return;
     Promise.all([
-      getNftListCurrency(currentWallet.chain),
+      NftPawn.currencies(currentWallet.chain),
     ]).then((res) => {
       setTokenBalance(res);
       const list = res[0].result.map((e: any) => {

@@ -7,7 +7,7 @@ import { timestampAfter } from '@nftpawn-js/core';
 
 export default class PayLoanNearTransaction extends NearTransaction {
   async run(
-    payAmount: number,
+    payAmount: number | string,
     assetTokenId: string,
     assetContractAddress: string,
     currencyContractAddress: string,

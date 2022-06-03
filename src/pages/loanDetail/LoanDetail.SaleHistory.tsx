@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import cx from "classnames";
 import moment from "moment-timezone";
+import NftPawn from '@nftpawn-js/core';
 
 import SectionCollapse from "src/common/components/sectionCollapse";
-import { getSaleTransactions } from "src/modules/nftLend/api";
 import { formatCurrency, shortCryptoAddress } from "src/common/utils/format";
 import { AssetSaleHistory } from 'src/modules/nftLend/models/activity';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
@@ -79,7 +79,7 @@ const LoanDetailSaleHistory: React.FC<LoanDetailSaleHistoryProps> = ({ asset }) 
 
   const fetchSaleTransactions = async () => {
     try {
-      const res = await getSaleTransactions({ asset_id: String(asset.id) });
+      const res = await NftPawn.assetTransactions({ asset_id: String(asset.id) });
       const _sales: AssetSaleHistory[] = res.result?.map((e: any) => AssetSaleHistory.parseFromApi(e));
       setActivities(_sales);
     } catch (err) {

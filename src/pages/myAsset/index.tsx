@@ -6,6 +6,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
 import { isMobile } from "react-device-detect";
+import NftPawn, { CurrencyData } from '@nftpawn-js/core';
 
 import BodyContainer from "src/common/components/bodyContainer";
 import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
@@ -14,8 +15,6 @@ import ListLoan from "src/views/myAssets/listLoan";
 import ListOffer from "src/views/myAssets/listOffer";
 import ListOfferReceive from "src/views/myAssets/listOfferReceive";
 import { toastSuccess } from "src/common/services/toaster";
-import { getNftListCurrency } from "src/modules/nftLend/api";
-import { Currency } from "src/modules/nftLend/models/api";
 import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
 import { getLinkExplorerWallet } from 'src/modules/nftLend/utils';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
@@ -51,14 +50,15 @@ const MyAsset = () => {
     const nativeBalance = await getNativeBalance();
     setBalance(nativeBalance);
 
-    const listCurrencies = (await getNftListCurrency(currentWallet.chain)).result;
-    const res = await Promise.all(
-      listCurrencies.map((e: Currency) =>
+    const listCurrencies = (await NftPawn.currencies(currentWallet.chain)).result;
+    const res = await Promise.allSettled(
+      listCurrencies.map((e: CurrencyData) =>
         getBalance(e.contract_address)
       )
     );
     listCurrencies.forEach((e: any, i: number) => {
-      e.balance = new BigNumber(res[i]).dividedBy(10 ** listCurrencies[i].decimals);
+      if (!res[i]?.value) return;
+      e.balance = new BigNumber(res[i].value).dividedBy(10 ** listCurrencies[i].decimals);
     });
     setCurrencies(listCurrencies);
   };

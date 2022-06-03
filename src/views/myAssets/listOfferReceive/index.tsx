@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import cx from 'classnames';
 import { Dropdown } from 'react-bootstrap';
 import { isMobile } from 'react-device-detect';
+import NftPawn from '@nftpawn-js/core';
 
 import { selectNftyLend } from 'src/store/nftyLend';
-import { getOffersByFilter } from 'src/modules/nftLend/api';
 import EmptyList from 'src/common/components/emptyList';
 import { OFFER_STATUS } from 'src/modules/nftLend/constant';
 import { useAppSelector } from 'src/store/hooks';
@@ -28,7 +28,7 @@ const ListOfferReceive = () => {
   const fetchOffers = async () => {
     if (!isConnected) return;
     try {
-      const res = await getOffersByFilter({ borrower: currentWallet.address, status, network: currentWallet.chain });
+      const res = await NftPawn.offers({ borrower: currentWallet.address, status, network: currentWallet.chain });
       setOffers(res.result.map(OfferToLoan.parseFromApi));
     } finally {
       setLoading(false);

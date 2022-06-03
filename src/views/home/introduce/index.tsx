@@ -1,13 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { motion, useAnimation } from 'framer-motion';
-import shuffle from 'lodash/shuffle';
+import NftPawn, { LoanData } from '@nftpawn-js/core';
 import { useDispatch } from 'react-redux';
 
 import { APP_URL } from 'src/common/constants/url';
 import { useEffect, useRef, useState } from 'react';
-import { getListingLoans } from 'src/modules/nftLend/api';
 import { getImageThumb } from 'src/modules/nftLend/utils';
-import { LoanData } from 'src/modules/nftLend/models/api';
 import { closeModal, openModal } from 'src/store/modal';
 import DialogGuideStart from 'src/views/apps/DialogGuideStart';
 
@@ -39,7 +37,7 @@ const Introduce = () => {
   const cardToChange = useRef(0);
 
   useEffect(() => {
-    getListingLoans({ page: 1, limit: NUM_PIC_POOL }).then(res => {
+    NftPawn.listingLoans({ page: 1, limit: NUM_PIC_POOL }).then(res => {
       setPictures(res.result.map((e: LoanData) => {
         return e.asset?.token_url;
       }))

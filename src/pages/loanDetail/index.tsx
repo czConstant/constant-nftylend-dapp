@@ -6,11 +6,10 @@ import { APP_URL } from "src/common/constants/url";
 import last from "lodash/last";
 import cx from "classnames";
 import { isMobile } from "react-device-detect";
+import NftPawn, { AssetData, ResponseResult } from '@nftpawn-js/core';
 
 import styles from "./styles.module.scss";
 import Loading from "src/common/components/loading";
-import { getAssetBySeo } from "src/modules/nftLend/api";
-import { LoanDataAsset, ResponseResult } from "src/modules/nftLend/models/api";
 import EmptyDetailLoan from "src/views/apps/emptyDetailLoan";
 import LoanDetailPawnInfo from "./pawnInfo";
 import LoanDetailActivity from "./LoanDetail.Activity";
@@ -54,8 +53,8 @@ const LoanDetail = () => {
   const getLoan = async () => {
     setLoading(true);
     try {
-      const response: ResponseResult = await getAssetBySeo(pathLoan);
-      const result: LoanDataAsset = response.result;
+      const response: ResponseResult = await NftPawn.loan({ seo: pathLoan });
+      const result: AssetData = response.result;
 
       if (result?.collection?.name) {
         defaultBreadCrumbs.current[1].label = result?.collection.name;

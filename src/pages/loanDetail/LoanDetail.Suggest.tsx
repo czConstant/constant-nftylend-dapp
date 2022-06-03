@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import NftPawn from '@nftpawn-js/core';
+
 import SectionCollapse from "src/common/components/sectionCollapse";
-import { getListingLoans } from "src/modules/nftLend/api";
 import CardNftLoan from "src/views/apps/CardNftLoan";
 import { LoanNft } from "src/modules/nftLend/models/loan";
 import styles from "./styles.module.scss";
@@ -22,9 +23,9 @@ const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
 
   const getData = async () => {
     try {
-      const response = await getListingLoans({
+      const response = await NftPawn.listingLoans({
         collection_id: collectionId,
-        exclude_ids: detailLoanId,
+        exclude_ids: String(detailLoanId),
       });
       setItems(response?.result.map(LoanNft.parseFromApi));
     } catch (error) {

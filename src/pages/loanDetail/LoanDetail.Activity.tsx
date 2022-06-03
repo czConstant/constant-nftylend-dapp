@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import cx from "classnames";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
+import NftPawn from '@nftpawn-js/core';
 
 import SectionCollapse from "src/common/components/sectionCollapse";
-import { getLoanTransactions } from "src/modules/nftLend/api";
 import {
   formatCurrencyByLocale,
   shortCryptoAddress,
@@ -12,7 +12,6 @@ import {
 import { LOAN_TRANSACTION_ACTIVITY } from "src/modules/nftLend/constant";
 import styles from "./styles.module.scss";
 import { AssetLoanHistory } from 'src/modules/nftLend/models/activity';
-import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 
 const TableHeader = () => (
@@ -136,7 +135,7 @@ const LoanDetailActivity: React.FC<LoanDetailActivityProps> = ({ asset }) => {
 
   const fetchLoanTransactions = async () => {
     try {
-      const res = await getLoanTransactions({ asset_id: String(asset.id) });
+      const res = await NftPawn.loanTransactions({ asset_id: String(asset.id) });
       const _activities: AssetLoanHistory[] = res.result?.map((e: any) => AssetLoanHistory.parseFromApi(e));
       setActivities(_activities);
     } catch (err) {
