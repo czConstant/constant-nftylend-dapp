@@ -37,15 +37,20 @@ export interface CollectionData {
   id: number;
   name: string;
   seo_url: string;
+  cover_url: string;
   description: string;
   total_listed: number;
   listing_total: number;
   avg24h_amount: number;
   total_volume: number;
+  volume_usd: number;
   listing_asset?: LoanDataAsset;
   rand_asset?: LoanDataAsset;
   network: string;
   verified: boolean;
+  creator_url: string;
+  discord_url: string;
+  twitter_id: string;
 }
 
 export interface LoanData {

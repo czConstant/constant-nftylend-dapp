@@ -1,0 +1,67 @@
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  background-image: url('./img/bg_ellipse.png'), linear-gradient(180deg, #1F1F1F 0%, #131518 100%);
+  background-repeat: no-repeat;
+  background-position-x: -30%;
+  background-position-y: 80%;
+  > div {
+    display: flex;
+    padding-top: 100px;
+    padding-bottom: 140px;
+  }
+  .left {
+    min-width: 500px;
+    max-width: 500px;
+    color: white;
+    padding-top: 80px;
+    h1 {
+      font-family: Poppins;
+      font-size: 50px;
+      line-height: 75px;
+      margin-bottom: 40px;
+    }
+    p {
+      font-family: Poppins;
+      font-weight: 300;
+      font-size: 20px;
+      line-height: 31px;
+      .nearLogo {
+        width: 80px;
+        height: 50px;
+        border-radius: 20px;
+        margin-bottom: 5px;
+      }
+    }
+    button {
+      width: 230px;
+      height: 70px;
+      font-size: 20px;
+      font-weight: 500;
+      color: white;
+      border-radius: 40px;
+      background-image: linear-gradient(136deg, #AE83FF 0%, #0019BD 100%);
+      border: none;
+      margin-top: 60px;
+    }
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: 60px;
+    .imageRow {
+      display: flex;
+      img {
+        width: 280px;
+        height: 280px;
+        margin: 15px 0 0 15px;
+        object-fit: cover;
+        border-radius: 16px;
+      }
+      &:nth-child(2) {
+        margin-right: -60px;
+      }
+    }
+  }
+}

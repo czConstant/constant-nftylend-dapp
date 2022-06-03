@@ -47,23 +47,23 @@ const HeaderMobile = ({}) => {
       </div>
       <ul className={cx(styles.menu)}>
         <li>
-          <Link onTouchEnd={onToggle} to={APP_URL.NFT_LENDING}>
+          <Link onTouchEnd={onToggle} to={APP_URL.DISCOVER}>
             Discover
           </Link>
         </li>
         <li>
-          <Link onTouchEnd={onToggle} to={APP_URL.NFT_LENDING_LIST_LOAN}>
+          <Link onTouchEnd={onToggle} to={APP_URL.LIST_LOAN}>
             Listing Loans
           </Link>
         </li>
         {/* <li>
-          <Link onTouchEnd={onToggle} to={APP_URL.NFT_LENDING_BLOG}>
+          <Link onTouchEnd={onToggle} to={APP_URL.NFT_PAWN_BLOG}>
             News
           </Link>
         </li> */}
         {publicKey && (
           <li>
-            <Link onTouchEnd={onToggle} to={APP_URL.NFT_LENDING_MY_NFT}>
+            <Link onTouchEnd={onToggle} to={APP_URL.MY_NFT}>
               My Assets
             </Link>
           </li>

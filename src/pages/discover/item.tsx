@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import ContentLoader from 'react-content-loader';
 
-import ItemNftMedia from 'src/modules/nftLend/components/itemNft/itemNftMedia';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
+import CardNftMedia from 'src/views/apps/CardNftMedia';
 import styles from './styles.module.scss';
 
 interface ItemBoardingProps {
@@ -32,7 +32,7 @@ const ItemBoarding = (props: ItemBoardingProps) => {
           >
             <rect x="0" y="0" rx="0" ry="0" height="200" width="100%" />
           </ContentLoader>
-        ) : <ItemNftMedia detail={itemAsset?.detail} name={item?.name} />
+        ) : <CardNftMedia detail={itemAsset?.detail} name={item?.name} />
         }
       </div>
       <div className={styles.body}>
