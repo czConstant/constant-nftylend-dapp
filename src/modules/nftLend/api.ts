@@ -93,8 +93,14 @@ export const getOffersByFilter = (
   return api.get(`${API_URL.NFT_LEND.GET_OFERS}`, { params });
 };
 
-export const verifyAsset = (mint: string): Promise<ResponseResult> => {
-  return api.get(`${API_URL.NFT_LEND.VERIFY_ASSET}`, { params: { mint } });
+interface VerifyAssetParams {
+  network: string;
+  contract_address?: string;
+  token_id?: string;
+}
+
+export const verifyAsset = (params: VerifyAssetParams): Promise<ResponseResult> => {
+  return api.get(`${API_URL.NFT_LEND.VERIFY_ASSET}`, { params });
 };
 
 export const getSystemConfigs = (): Promise<ResponseResult> => {
