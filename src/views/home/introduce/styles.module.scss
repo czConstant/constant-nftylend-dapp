@@ -5,13 +5,11 @@
   background-repeat: no-repeat;
   background-position-x: -30%;
   background-position-y: 80%;
-}
-
-.introduce {
-  max-width: 1366px;
-  margin: 0 auto;
-  display: flex;
-  padding: 100px 0 140px;
+  > div {
+    display: flex;
+    padding-top: 100px;
+    padding-bottom: 140px;
+  }
   .left {
     min-width: 500px;
     max-width: 500px;
