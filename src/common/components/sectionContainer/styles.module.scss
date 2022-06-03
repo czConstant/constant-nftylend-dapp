@@ -1,7 +1,8 @@
 .sectionContainer {
   background-color: black;
-  > div {
-    max-width: 1366px;
-    margin: 0 auto;
-  }
+}
+.inner {
+  max-width: 1366px;
+  margin: 0 auto;
+  padding: 0 40px;
 }

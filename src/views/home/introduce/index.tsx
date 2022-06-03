@@ -13,6 +13,7 @@ import DialogGuideStart from 'src/views/apps/DialogGuideStart';
 
 import LogoNear from './img/logo_near.svg';
 import styles from './styles.module.scss';
+import SectionContainer from 'src/common/components/sectionContainer';
 
 // const examples = [
 //   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/d5c12b4eb46e676d72569a2084345c94/6ef0628f',
@@ -93,31 +94,29 @@ const Introduce = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.introduce}>
-        <div className={styles.left}>
-          <h1>
-            The leading<br />of NFTs<br/>Lending platform
-          </h1>
-          <p>The first P2P NFTs Lending platform on<br /> <img className={styles.nearLogo} src={LogoNear} /> Protocol. A fast, secure and reliable solution you need.</p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onStart}
-          >
-              Create Loans
-          </motion.button>
+    <SectionContainer className={styles.wrapper}>
+      <div className={styles.left}>
+        <h1>
+          The leading<br />of NFTs<br/>Lending platform
+        </h1>
+        <p>The first P2P NFTs Lending platform on<br /> <img className={styles.nearLogo} src={LogoNear} /> Protocol. A fast, secure and reliable solution you need.</p>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={onStart}
+        >
+            Create Loans
+        </motion.button>
+      </div>
+      <div className={styles.right}>
+        <div className={styles.imageRow}>
+          {displayPictures.slice(0, 3).map((e, i) => animateImg(e, i))}
         </div>
-        <div className={styles.right}>
-          <div className={styles.imageRow}>
-            {displayPictures.slice(0, 3).map((e, i) => animateImg(e, i))}
-          </div>
-          <div className={styles.imageRow}>
-            {displayPictures.slice(3, 6).map((e, i) => animateImg(e, i))}
-          </div>
+        <div className={styles.imageRow}>
+          {displayPictures.slice(3, 6).map((e, i) => animateImg(e, i))}
         </div>
       </div>
-    </div>
+    </SectionContainer>
   )
 };
 

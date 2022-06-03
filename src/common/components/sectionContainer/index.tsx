@@ -12,8 +12,8 @@ const SectionContainer = (props: SectionContainerProps) => {
   const { className, children } = props;
 
   return (
-    <div className={cx(className, styles.sectionContainer)}>
-      <div>{children}</div>
+    <div className={cx(styles.sectionContainer, className)}>
+      <div className={styles.inner}>{children}</div>
     </div>
   );
 };
