@@ -87,7 +87,7 @@ const DATA = [
         Blockchain
         <br />
         <strong style={{ color: "white" }}>
-          Solana, Near, Polygon, Avalanche
+          Near Protocol
         </strong>
         Max Token Supply
         <br />
