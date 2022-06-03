@@ -83,13 +83,6 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
     navigate(`${APP_URL.NFT_LENDING_LIST_LOAN}/${loan?.seo_url}`);
   };
 
-  const onClickVerify = () => {
-    onClose();
-    const name = extraData?.collection?.name;
-    const author = extraData?.properties?.creators[0]?.address;
-    navigate(`${APP_URL.NFT_LENDING_SUBMIT_WHITELIST}?collection=${name}&creator=${author}`);
-  };
-
   const renderButton = () => {
     if (verifying) return <Loading />;
     if (loan?.isListing()) return (
@@ -104,7 +97,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
     );
     return (
       <div className={styles.notVerified}>
-        Assets on NFT Pawn are required verification by us to use as collateral. Please <a onClick={onClickVerify}>submit verification form</a> for this collection.
+        This NFT Collection is currently unavailable. We are working with the NFT community to whitelist quality projects to protect our investors.
       </div>
     );
   };
