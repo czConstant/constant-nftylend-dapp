@@ -50,8 +50,8 @@ const LatestLoans = () => {
 
   return (
     <SectionContainer className={styles.wrapper}>
-      <h2>Create loan offers using your NFTs</h2>
-      <p className={styles.subtitle}>The first marketplace for NFTs P2P Lending. The fastest way to liquid your NFTs.<br/>Lenders and Borrowers are connected by our smart contract.</p>
+      <h2>Create loans using your NFT as collateral</h2>
+      <p className={styles.subtitle}>We're the first marketplace for NFT P2P Lending and the fastest way to leverage the value of your NFTs.<br/>Connecting lenders to borrowers on our smart contract.</p>
       <div className={styles.featuredCollection}>
         <div className={styles.header}>
           <div className={styles.title}>Global Loans</div>

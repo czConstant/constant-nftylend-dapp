@@ -14,6 +14,7 @@ import DialogGuideStart from 'src/views/apps/DialogGuideStart';
 import LogoNear from './img/logo_near.svg';
 import styles from './styles.module.scss';
 import SectionContainer from 'src/common/components/sectionContainer';
+import ButtonCreateLoan from 'src/common/components/buttonCreateLoan';
 
 // const examples = [
 //   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/d5c12b4eb46e676d72569a2084345c94/6ef0628f',
@@ -97,16 +98,17 @@ const Introduce = () => {
     <SectionContainer className={styles.wrapper}>
       <div className={styles.left}>
         <h1>
-          The leading<br />of NFTs<br/>Lending platform
+          The leading NFT<br/>Lending Platform
         </h1>
-        <p>The first P2P NFTs Lending platform on<br /> <img className={styles.nearLogo} src={LogoNear} /> Protocol. A fast, secure and reliable solution you need.</p>
-        <motion.button
+        <p>The first P2P NFT Lending platform on<br /> <img className={styles.nearLogo} src={LogoNear} /> Protocol. The fast, secure and reliable solution you need.</p>
+        {/* <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={onStart}
         >
-            Create Loans
-        </motion.button>
+            Create a Loan
+        </motion.button> */}
+        <ButtonCreateLoan className={styles.createButton} title='Create a Loan' />
       </div>
       <div className={styles.right}>
         <div className={styles.imageRow}>
