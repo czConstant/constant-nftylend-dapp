@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { getAvailableAt } from 'src/modules/nftLend/utils';
+import { nearViewFunction } from '../utils';
 
 export default class MakeOfferNearTransaction extends NearTransaction {
   async run(
@@ -17,6 +18,26 @@ export default class MakeOfferNearTransaction extends NearTransaction {
   ): Promise<TransactionResult> {
     try {
       const gas = await this.calculateGasFee();
+      const transactions = [];
+
+      const storageBalance = await nearViewFunction(currencyContractAddress, 'storage_balance_of', { account_id: this.accountId });
+      if (!storageBalance) {
+        const bound = await nearViewFunction(currencyContractAddress, 'storage_balance_bounds');
+        transactions.push({
+          receiverId: currencyContractAddress,
+          actions: [
+            {
+              type: 'FunctionCall',
+              params: {
+                methodName: "storage_deposit",
+                args: { },
+                gas,
+                deposit: bound.min,
+              },
+            }
+          ]
+        });
+      }
 
       const msg = JSON.stringify({
         nft_contract_id: assetContractAddress,
@@ -29,27 +50,25 @@ export default class MakeOfferNearTransaction extends NearTransaction {
         available_at: getAvailableAt(availableIn),
       });
 
-      const transactions = [
-        {
-          receiverId: currencyContractAddress,
-          actions: [
-            {
-              type: 'FunctionCall',
-              params: {
-                methodName: "ft_transfer_call",
-                args: {
-                  receiver_id: this.lendingProgram,
-                  amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
-                  msg,
-                },
-                gas,
-                deposit: 1,
+      transactions.push({
+        receiverId: currencyContractAddress,
+        actions: [
+          {
+            type: 'FunctionCall',
+            params: {
+              methodName: "ft_transfer_call",
+              args: {
+                receiver_id: this.lendingProgram,
+                amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
+                msg,
               },
-            }
-          ]
-        },
-      ];
-      
+              gas,
+              deposit: 1,
+            },
+          }
+        ]
+      });
+
       this.saveStateBeforeRedirect({ contract_address: assetContractAddress, token_id: assetTokenId });
 
       const res = await window.nearSelector.signAndSendTransactions({ 
