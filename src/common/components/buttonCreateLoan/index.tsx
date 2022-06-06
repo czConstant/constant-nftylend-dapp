@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import cx from 'classnames';
 
 import { closeModal, openModal } from "src/store/modal";
 import { APP_URL } from "src/common/constants/url";
@@ -12,12 +13,14 @@ import lfCards from "./assets/lt_cards.json";
 import styles from "./styles.module.scss";
 
 interface ButtonCreateLoanProps {
+  className?: string;
   hiddenIcon?: boolean;
   title?: string;
   onCallBack?: () => void;
 }
 
 const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
+  className,
   hiddenIcon,
   title,
   onCallBack
@@ -40,7 +43,7 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
   if (location.pathname.includes(APP_URL.MY_NFT)) return null;
 
   return (
-    <Button onClick={onOpenModal} className={styles.container}>
+    <Button onClick={onOpenModal} className={cx(styles.container, className)}>
       {!hiddenIcon && (
         <Player
           autoplay
