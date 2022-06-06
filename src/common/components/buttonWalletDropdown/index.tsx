@@ -94,6 +94,9 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
         <img alt="" src={tokenIcons[currentWallet.chain.toLowerCase()]} />
       </Dropdown.Toggle>
       <Dropdown.Menu className={styles.dropdownMenu} align="end">
+        <Dropdown.Item eventKey="dashboard" onClick={() => navigate(APP_URL.DASHBOARD)}>
+          <div className={styles.item}><img src={IconMyAsset} />Dashboard</div>
+        </Dropdown.Item>
         <Dropdown.Item eventKey="myAssets" onClick={() => navigate(APP_URL.MY_NFT)}>
           <div className={styles.item}><img src={IconMyAsset} />My Assets</div>
         </Dropdown.Item>

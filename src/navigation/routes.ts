@@ -9,6 +9,7 @@ import MyAsset from 'src/pages/myAsset';
 import SubmitWhitelist from 'src/pages/submitWhitelist';
 import TermsOfService from "src/pages/termsOfService";
 import FAQs from 'src/pages/faqs';
+import Dashboard from 'src/pages/dashboard';
 
 export interface RouteProps {
   path: string;
@@ -51,6 +52,10 @@ const routes: Array<RouteProps> = [
   {
     path: APP_URL.FAQS,
     component: FAQs,
+  },
+  {
+    path: APP_URL.DASHBOARD,
+    component: Dashboard,
   },
 ];
 
