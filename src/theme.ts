@@ -16,9 +16,100 @@ const Text: ComponentStyleConfig = {
 }
 
 const Tabs: ComponentStyleConfig = {
+  variants: {
+    enclosed: {
+      tablist: {
+        borderColor: 'background.border',
+      },
+      tab: {
+        color: 'text.secondary',
+        _focus: {
+          boxShadow: 'none',
+        },
+        _selected: {
+          color: 'text.primary',
+          boxShadow: 'none',
+          borderColor: 'background.border',
+          borderBottomColor: 'black',
+        },
+      },
+    }
+  }
+}
+
+const Table: ComponentStyleConfig = {
+  sizes: {
+    md: {
+      th: {
+        pt: 6,
+        pb: 6,
+      },
+      td: {
+        fontSize: 'sm',
+      }
+    }
+  },
+  variants: {
+    striped: {
+      backgroundColor: 'background.default',
+      thead: {
+        th: {
+          color: 'text.primary',
+          fontWeight: 900,
+          backgroundColor: 'background.card',
+          border: 'none',
+        }
+      },
+      tbody: {
+        tr: {
+          _even: {
+            td: {
+              backgroundColor: 'background.card',
+              border: 'none',
+            },
+          },
+          _odd: {
+            td: {
+              backgroundColor: 'background.default',
+              border: 'none',
+            }
+          },
+        },
+      },
+    }
+  }
+}
+
+const Menu: ComponentStyleConfig = {
   defaultProps: {
-    variant: 'unstyled',
-    colorScheme: ''
+    variant: 'default',
+  },
+  variants: {
+    default: {
+      button: {
+        bgColor: 'background.card',
+        border: '2px solid',
+        borderColor: 'background.border',
+        fontSize: 'sm',
+      },
+      list: {
+        bgColor: 'background.card',
+        border: 'none',
+        boxShadow: '0 20px 20px 0 rgba(0,0,0,0.30)',
+      },
+      item: {
+        fontSize: 'sm',
+        bgColor: 'background.card',
+        pt: 3,
+        pb: 3,
+        _focus: {
+          bgColor: 'background.border',
+        },
+        _hover: {
+          bgColor: 'background.border',
+        },
+      }
+    }
   }
 }
 
@@ -28,21 +119,48 @@ const customTheme = extendTheme({
       primary: '#FCFCFD',
       secondary: '#777E90',
     },
-    primary: {
-      50: '#efe4ff',
-      100: '#cdb3ff',
-      200: '#ac80ff',
-      300: '#8a4dfe',
-      400: '#6a1cfd',
-      500: '#5103e4',
-      600: '#3e01b2',
-      700: '#2c0080',
-      800: '#1b004f',
-      900: '#0a001f',
+    brand: {
+      primary: {
+        50: '#efe4ff',
+        100: '#cdb3ff',
+        200: '#ac80ff',
+        300: '#8a4dfe',
+        400: '#6a1cfd',
+        500: '#5103e4',
+        600: '#3e01b2',
+        700: '#2c0080',
+        800: '#1b004f',
+        900: '#0a001f',
+      },
+      success: {
+        50: '#dcfffe',
+        100: '#affff5',
+        200: '#80ffea',
+        300: '#51ffdc',
+        400: '#2affc9',
+        500: '#1ae6a8',
+        600: '#0cb37d',
+        700: '#008055',
+        800: '#004d37',
+        900: '#001c13',
+      },
+      warning: {
+        50: '#fff0dd',
+        100: '#fed7b1',
+        200: '#fabd83',
+        300: '#f8a354',
+        400: '#f48924',
+        500: '#db6f0b',
+        600: '#ab5706',
+        700: '#7a3d03',
+        800: '#4b2400',
+        900: '#1e0900',
+      },
     },
     background: {
       default: '#1A1A1A',
       card: '#282828',
+      border: '#2E3136',
     }
   },
   styles: {
@@ -51,6 +169,7 @@ const customTheme = extendTheme({
       body: {
         bg: 'background.default',
         color: 'text.primary',
+        fontFamily: 'Poppins',
       },
       // styles for the `a`
       a: {
@@ -59,16 +178,13 @@ const customTheme = extendTheme({
           textDecoration: 'underline',
         },
       },
-      button: {
-        _focus: {
-          boxShadow: 'none',
-        }
-      }
     },
   },
   components: {
     Tabs,
     Text,
+    Table,
+    Menu,
   }
  });
 

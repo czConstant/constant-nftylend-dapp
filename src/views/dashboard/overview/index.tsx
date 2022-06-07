@@ -1,5 +1,6 @@
 import { Box, Divider, Flex, Grid, GridItem, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import { formatCurrency } from 'src/common/utils/format';
+import MyPwp from '../myPwp';
 
 const Overview = () => {
 
@@ -13,31 +14,30 @@ const Overview = () => {
   }
 
   return (
-    <Flex direction='column'>
-      <Grid w='100%' templateColumns='repeat(4,1fr)'>
+    <Flex direction='column' gap={12}>
+      <Grid w='100%' templateColumns='repeat(4, 1fr)' gap={4}>
         <GridItem>
-          <Flex direction='column' m={1} p={4} backgroundColor='background.card' borderRadius={16}>
+          <Flex direction='column' p={4} backgroundColor='background.card' borderRadius={16}>
             <BoxInfo label='Number of Loans' value={5} />
             <Divider mt={4} mb={4} />
             <BoxInfo label='Total Volume' value={34322} />
           </Flex>
         </GridItem>
         <GridItem>
-          <Flex direction='column' m={1} p={4} backgroundColor='background.card' borderRadius={16}>
+          <Flex direction='column' p={4} backgroundColor='background.card' borderRadius={16}>
             <BoxInfo label='Number of Lendings' value={8} />
             <Divider mt={4} mb={4} />
             <BoxInfo label='Total Volume' value={1211} />
           </Flex>
         </GridItem>
       </Grid>
-      <Tabs variant='enclosed' colorScheme='primary'>
-        <TabList p={4}>
-          <Tab>Overview</Tab>
-          <Tab>Settings</Tab>
+      <Tabs variant='enclosed' defaultIndex={0}>
+        <TabList>
+          <Tab>My PWP</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
-
+            <MyPwp />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -132,3 +132,11 @@ export const submitWhitelistCollection = (body: SubmitCollection): Promise<Respo
 export const getBorrowerStats = (address: string): Promise<ResponseResult> => {
   return api.get(`${API_URL.NFT_LEND.BORROWER_STATS}/${address}`);
 };
+
+export const getPwpBalance = (address: string, network: string): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.PWP_BALANCES, { params: { address, network } });
+};
+
+export const getBalanceTransactions = (address: string, network: string): Promise<ListResponse> => {
+  return api.get(API_URL.NFT_LEND.BALANCES_TRANSACTIONS, { params: { address, network } });
+};

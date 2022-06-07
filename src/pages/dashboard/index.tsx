@@ -12,7 +12,7 @@ const Dashboard = () => {
   return (
     <BodyContainer>
       <Box pt={20}>
-        <Tabs variant='solid-rounded' colorScheme='primary' orientation='vertical' onChange={index => setTab(tabs[index])}>
+        <Tabs variant='solid-rounded' colorScheme='brand.primary' orientation='vertical' onChange={index => setTab(tabs[index])}>
           <TabList p={4}>
             <Tab minW={200} justifyContent='left' borderRadius={8}>Overview</Tab>
             <Tab minW={200} justifyContent='left' borderRadius={8}>Settings</Tab>
