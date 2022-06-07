@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem, Table, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, GridItem, Table, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import Pagination from 'src/common/components/pagination';
 import { formatCurrency } from 'src/common/utils/format';
@@ -38,9 +38,12 @@ const MyPwp = () => {
         <GridItem>
           <Box backgroundColor='background.card' borderRadius={16} p={4}>
             <Text fontSize='sm' color='text.secondary'>Claimable Reward</Text>
-            <Text fontSize='2xl' fontWeight='bold'>
-              {formatCurrency(pwpBalance?.balance - pwpBalance?.locked_balance)} PWP
-            </Text>
+            <Flex justifyContent='space-between'>
+              <Text fontSize='2xl' fontWeight='bold'>
+                {formatCurrency(pwpBalance?.balance - pwpBalance?.locked_balance)} PWP
+              </Text>
+              <Button size='sm'>Claim</Button>
+            </Flex>
           </Box>
         </GridItem>
       </Grid>
@@ -54,13 +57,16 @@ const MyPwp = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {transactions.map(e => (
-              <Tr key={e.id}>
-                <Td>{e.created_at}</Td>
-                <Td>{e.amount} {e.currency.symbol}</Td>
-                <Td>{e.status}</Td>
-              </Tr>
-            ))}
+            {transactions.map((e, i) => {
+              const isLast = i === transactions.length - 1;
+              return (
+                <Tr key={e.id}>
+                  <Td borderBottomLeftRadius={isLast ? 16 : 0}>{e.created_at}</Td>
+                  <Td>{e.amount} {e.currency.symbol}</Td>
+                  <Td borderBottomRightRadius={isLast ? 16 : 0}>{e.status}</Td>
+                </Tr>
+              )
+            })}
           </Tbody>
         </Table>
         <Flex p={4} w='100%' justifyContent='flex-end'>

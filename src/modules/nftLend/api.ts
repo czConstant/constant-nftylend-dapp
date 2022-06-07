@@ -140,3 +140,18 @@ export const getPwpBalance = (address: string, network: string): Promise<Respons
 export const getBalanceTransactions = (address: string, network: string): Promise<ListResponse> => {
   return api.get(API_URL.NFT_LEND.BALANCES_TRANSACTIONS, { params: { address, network } });
 };
+
+export const getUserStats = (address: string, network: string): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.USER_STATS, { params: { address, network } });
+};
+
+interface ClaimPwpParams {
+  user_id: number;
+  currency_id: number;
+  to_address: string;
+  timestamp: number;
+  signature: string;
+}
+export const claimPwpBalance = (params: ClaimPwpParams): Promise<ResponseResult> => {
+  return api.post(API_URL.NFT_LEND.USER_STATS, params);
+};

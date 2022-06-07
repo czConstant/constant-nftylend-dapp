@@ -12,6 +12,26 @@ const Text: ComponentStyleConfig = {
     secondary: {
       color: 'text.secondary',
     },
+    attrLabel: {
+      fontWeight: 'normal',
+      color: 'text.secondary',
+      fontSize: 'xs',
+      textTransform: 'uppercase',
+    }
+  }
+}
+
+const Button: ComponentStyleConfig = {
+  variants: {
+    solid: {
+      bgColor: 'brand.primary.400',
+      _hover: {
+        bgColor: 'brand.primary.500',
+      },
+      _active: {
+        bgColor: 'brand.primary.500',
+      },
+    }
   }
 }
 
@@ -51,12 +71,12 @@ const Table: ComponentStyleConfig = {
   },
   variants: {
     striped: {
-      backgroundColor: 'background.default',
+      bgColor: 'background.default',
       thead: {
         th: {
           color: 'text.primary',
           fontWeight: 900,
-          backgroundColor: 'background.card',
+          bgColor: 'background.card',
           border: 'none',
         }
       },
@@ -64,13 +84,13 @@ const Table: ComponentStyleConfig = {
         tr: {
           _even: {
             td: {
-              backgroundColor: 'background.card',
+              bgColor: 'background.card',
               border: 'none',
             },
           },
           _odd: {
             td: {
-              backgroundColor: 'background.default',
+              bgColor: 'background.default',
               border: 'none',
             }
           },
@@ -111,6 +131,13 @@ const Menu: ComponentStyleConfig = {
       }
     }
   }
+}
+
+const Tooltip: ComponentStyleConfig = {
+  baseStyle: {
+    p: 4,
+    borderRadius: 8,
+  },
 }
 
 const customTheme = extendTheme({ 
@@ -159,6 +186,7 @@ const customTheme = extendTheme({
     },
     background: {
       default: '#1A1A1A',
+      darker: '#141416',
       card: '#282828',
       border: '#2E3136',
     }
@@ -183,8 +211,10 @@ const customTheme = extendTheme({
   components: {
     Tabs,
     Text,
+    Button,
     Table,
     Menu,
+    Tooltip,
   }
  });
 

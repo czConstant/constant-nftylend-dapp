@@ -1,12 +1,12 @@
 import { AssetNftAttribute } from './nft';
 
-export class ResponseResult {
-  error: any;
-  result!: any;
+export interface ResponseResult {
+  error?: any;
+  result: any;
 }
 
-export class ListResponse extends ResponseResult {
-  count: number | undefined;
+export interface ListResponse extends ResponseResult {
+  count: number;
 }
 
 export interface Currency {

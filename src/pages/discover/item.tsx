@@ -48,7 +48,7 @@ const ItemBoarding = (props: ItemBoardingProps) => {
           </ContentLoader>
         ) : (
           <>
-            <Text fontSize='2xl' color='text.primary' fontWeight={600}>{item?.name}</Text>
+            <Text fontSize='2xl' color='text.primary' fontWeight='semibold'>{item?.name}</Text>
             <Flex alignItems='center' justifyContent='space-between'>
               <div className={styles.totalItems}>
                 <span>

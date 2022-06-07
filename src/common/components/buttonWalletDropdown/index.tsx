@@ -74,7 +74,7 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
 
   return (
     <Menu autoSelect={false}>
-      <MenuButton h='40px' borderRadius={20} fontWeight={600}>
+      <MenuButton h='40px' borderRadius={20} fontWeight='semibold'>
         <Flex alignItems='center' p={4}>
           {/* {walletIcons[currentWallet.name] && <img alt="" src={walletIcons[currentWallet.name]} />} */}
           <Text className={styles.address} color='text.secondary'>

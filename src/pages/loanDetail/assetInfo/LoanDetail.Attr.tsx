@@ -1,7 +1,7 @@
 import React from "react";
-import cx from "classnames";
+import { Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 import { AssetNft, AssetNftAttribute } from 'src/modules/nftLend/models/nft';
-import styles from "../styles.module.scss";
+import BoxAttrValue from 'src/views/loanDetail/BoxAttrValue';
 
 interface LoanDetailAttrProps {
   asset: AssetNft;
@@ -11,18 +11,20 @@ const LoanDetailAttr: React.FC<LoanDetailAttrProps> = ({ asset }) => {
   const attrs: AssetNftAttribute[] = asset.detail?.attributes || [];
   
   return (
-    <div className={cx(styles.tabContentWrap, styles.tabContentAttrWrap)}>
+    <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={2}>
       {attrs?.length === 0 ? (
         <div>No Attributes</div>
       ) : (
-        attrs?.map((att, i) => (
-          <div className={styles.tabContentAttrItem} key={i}>
-            <label>{att?.trait_type}</label>
-            <div>{att?.value}</div>
-          </div>
+        attrs?.map((attr) => (
+          <GridItem>
+            <BoxAttrValue
+              label={attr?.trait_type}
+              value={attr?.value}
+            />
+          </GridItem>
         ))
       )}
-    </div>
+    </Grid>
   );
 };
 

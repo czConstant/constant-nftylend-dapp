@@ -1,5 +1,6 @@
 import BigNumber from "bignumber.js";
 import React from "react";
+import { MdInfoOutline } from 'react-icons/md';
 
 import icPriceTag from "../images/ic_price_tag.svg";
 import LoanDetailButtons from "./LoanDetail.Buttons";
@@ -13,6 +14,7 @@ import { formatCurrencyByLocale } from "src/common/utils/format";
 import pawnStyles from './pawnInfo.module.scss';
 import styles from "../styles.module.scss";
 import CountdownText from 'src/common/components/countdownText';
+import { Flex, Icon, Text, Tooltip } from '@chakra-ui/react';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -35,10 +37,10 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
     <div className={styles.infoPrice}>
       <div className={pawnStyles.head}> 
         <div>
-          <div className={styles.infoPriceTags}>
+          <Flex className={styles.infoPriceTags}>
             <label>Principal</label>
             <img src={icPriceTag} alt="item price" />
-          </div>
+          </Flex>
           <div className={styles.infoPriceValue}>
             <div>{`${formatCurrencyByLocale(
               loan.principal_amount,
@@ -47,7 +49,14 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
           </div>
         </div>
         <div className={pawnStyles.configs}>
-          <label>Negotiation</label>
+          <Flex gap={2} alignItems='center' color='text.secondary' >
+            <Text color='text.secondary' fontWeight='semibold' fontSize='sm'>
+              Negotiation Terms
+            </Text>
+            <Tooltip placement='top' label='The following terms are negotiable: Principal, duration, and interest rate. You can set your own terms here.'>
+              <span><Icon as={MdInfoOutline} /></span>
+            </Tooltip>
+          </Flex>
           <ul> 
             <li className={loan.isAllowChange('principal_amount') ? pawnStyles.allow : pawnStyles.notallow }>Principal</li>
             <li className={loan.isAllowChange('duration') ? pawnStyles.allow : pawnStyles.notallow }>Duration</li>
