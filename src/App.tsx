@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 // import { Scrollbars } from 'react-custom-scrollbars-2';
+import { ChakraProvider } from '@chakra-ui/react'
 
 // import ModalManager from 'src/common/components/modal';
 import ModalManager from 'src/common/components/modalCustom';
@@ -15,6 +16,7 @@ import { NearWalletProvider } from './modules/near/hooks/withNearWalletProvider'
 import { useAppDispatch } from './store/hooks';
 import { updateConfigs } from './store/nftyLend';
 import { useDetectConnectedWallet } from './modules/nftLend/hooks/useDetectWallet';
+import customTheme from './theme';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -27,18 +29,20 @@ export default function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <NearWalletProvider>
-        <SolanaWalletProvider>
-        {/* <Scrollbars  style={{ width: `100vw`, height: `100vh` }}> */}
-          <AppRouter />
-        {/* </Scrollbars> */}
-        <ModalManager />
-        <ToastContainer />
-        <MyLoadingOverlay />
+    <ChakraProvider theme={customTheme}>
+      <BrowserRouter>
+        <NearWalletProvider>
+          <SolanaWalletProvider>
+          {/* <Scrollbars  style={{ width: `100vw`, height: `100vh` }}> */}
+            <AppRouter />
+          {/* </Scrollbars> */}
+          <ModalManager />
+          <ToastContainer />
+          <MyLoadingOverlay />
 
-        </SolanaWalletProvider>
-      </NearWalletProvider>
-    </BrowserRouter>
+          </SolanaWalletProvider>
+        </NearWalletProvider>
+      </BrowserRouter>
+    </ChakraProvider>
   );
 }

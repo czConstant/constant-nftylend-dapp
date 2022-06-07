@@ -242,25 +242,17 @@
   }
 }
 
+.tabContentAttrItem {
+  background-color: #141416;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
 .tabContentAttrWrap {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
-  .tabContentAttrItem {
-    background-color: #141416;
-    border-radius: 8px;
-    padding: 1rem;
-    label {
-      font-size: 11px;
-      text-transform: uppercase;
-      color: #b4abba;
-    }
-    div {
-      font-size: 14px;
-      font-weight: bold;
-      color: #f8f7f8;
-    }
-  }
+  
 }
 
 .groupOfferButtonWrapper {

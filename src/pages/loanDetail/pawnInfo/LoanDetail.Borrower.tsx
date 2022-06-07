@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import cx from "classnames";
+import BigNumber from 'bignumber.js';
+import { Flex, Grid, GridItem, Icon, Text, Tooltip } from '@chakra-ui/react';
+import { MdInfoOutline } from 'react-icons/md';
+
 import { AssetNft } from 'src/modules/nftLend/models/nft';
-import styles from "../styles.module.scss";
 import { getBorrowerStats } from 'src/modules/nftLend/api';
 import { formatCurrency } from 'src/common/utils/format';
-import BigNumber from 'bignumber.js';
+import BoxAttrValue from 'src/views/loanDetail/BoxAttrValue';
 
 interface LoanDetailBorrowerProps {
   asset: AssetNft;
@@ -24,20 +27,29 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ asset, borrower
   const rate = new BigNumber(borrowerStats?.total_done_loans).dividedBy(borrowerStats?.total_loans).multipliedBy(100).toNumber();
 
   return (
-    <div className={cx(styles.tabContentWrap, styles.tabContentAttrWrap)}>
-      <div className={styles.tabContentAttrItem}>
-        <label>Repaid Rate</label>
-        <div>{rate ? `${formatCurrency(rate)}%` : 'Not Available'}</div>
-      </div>
-      <div className={styles.tabContentAttrItem}>
-        <label>Total Loans</label>
-        <div>{borrowerStats?.total_loans}</div>
-      </div>
-      <div className={styles.tabContentAttrItem}>
-        <label>Total Volume</label>
-        <div>${formatCurrency(borrowerStats?.total_volume)}</div>
-      </div>
-    </div>
+    <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={2}>
+      <GridItem>
+        <BoxAttrValue
+          label='Repayment rate'
+          value={rate ? `${formatCurrency(rate)}%` : 'Not Available'}
+          desc='The percentage of times a lender has been paid back on the total loans at the end of their terms.'
+        />
+      </GridItem>
+      <GridItem>
+        <BoxAttrValue
+          label='Total loans'
+          value={borrowerStats?.total_loans}
+          desc={`The total amount of the Loans outstanding to each Borrower, and 'Total Loans' means all such loans.`}
+        />
+      </GridItem>
+      <GridItem>
+        <BoxAttrValue
+          label='Total volume'
+          value={`$${formatCurrency(borrowerStats?.total_volume)}`}
+          desc={`Loan Volume refers to the total loan volume originated by an InGridItemidual Hire that has been funded and closed.`}
+        />
+      </GridItem>
+    </Grid>
   );
 };
 

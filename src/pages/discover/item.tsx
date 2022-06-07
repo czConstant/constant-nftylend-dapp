@@ -1,3 +1,4 @@
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { memo } from 'react';
 import ContentLoader from 'react-content-loader';
 
@@ -21,8 +22,8 @@ const ItemBoarding = (props: ItemBoardingProps) => {
   };
 
   return (
-    <div onClick={pressItem} className={styles.itemContainer}>
-      <div className={styles.image}>
+    <Flex p={4} gap={8} backgroundColor='background.card' overflow='hidden' borderRadius={16} direction='column' onClick={pressItem} className={styles.itemContainer}>
+      <Box w={300} h={300} >
         {loading ? (
           <ContentLoader
             speed={1}
@@ -34,8 +35,8 @@ const ItemBoarding = (props: ItemBoardingProps) => {
           </ContentLoader>
         ) : <CardNftMedia detail={itemAsset?.detail} name={item?.name} />
         }
-      </div>
-      <div className={styles.body}>
+      </Box>
+      <Flex maxW={300} w='100%' direction='column' gap={4} color='text.secondary'>
         {loading ? (
           <ContentLoader
             speed={1}
@@ -47,24 +48,20 @@ const ItemBoarding = (props: ItemBoardingProps) => {
           </ContentLoader>
         ) : (
           <>
-            <h4>{item?.name}</h4>
-            <div className={styles.info}>
+            <Text fontSize='2xl' color='text.primary' fontWeight='semibold'>{item?.name}</Text>
+            <Flex alignItems='center' justifyContent='space-between'>
               <div className={styles.totalItems}>
                 <span>
                   {item?.listing_total} item{item?.listing_total > 1 ? 's' : ''}
                 </span>
               </div>
               <div className={styles.chain}>{item.chain}</div>
-            </div>
-            <p>
-              {item?.description?.length > 115
-                ? `${item?.description?.slice(0, 115)}...`
-                : item?.description}
-            </p>
+            </Flex>
+            <Text color='text.secondary' noOfLines={2}>{item?.description}</Text>
           </>
         )}
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 
