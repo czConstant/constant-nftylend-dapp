@@ -97,3 +97,10 @@ export const nearViewFunction = async (accountId: string, methodName: string, ar
   })
   return JSON.parse(Buffer.from(res.result).toString());
 }
+
+export const nearSignText = async () => {
+  try {
+  } catch (error) {
+    throw error;
+  }
+}

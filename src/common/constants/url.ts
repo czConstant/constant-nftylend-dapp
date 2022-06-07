@@ -39,6 +39,8 @@ export const API_URL = {
     BORROWER_STATS: `${MCT_ROOT}${MCT_API_BASE}/loans/borrower-stats`,
     USER_SETTINGS: `${MCT_ROOT}${MCT_API_BASE}/users/settings`,
     GET_OWNED_NFTS: `${MCT_ROOT}${MCT_API_BASE}/moralis/{owner}/nft`,
+    VOTING_CURRENCIES: `${MCT_ROOT}${MCT_API_BASE}/currencies/pwp-token`,
+    VOTING_PROPOSAL: `${MCT_ROOT}${MCT_API_BASE}/proposals/create`,
   },
 }
 
