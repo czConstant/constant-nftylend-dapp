@@ -1,24 +1,31 @@
 import BigNumber from "bignumber.js";
 import cx from "classnames";
-import React, { useEffect, useRef, useState } from "react";
+import { clone, filter, map, mapKeys } from "lodash";
+import moment from "moment-timezone";
+import { useEffect, useRef, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { isMobile } from "react-device-detect";
 import { Field, Form } from "react-final-form";
 import BodyContainer from "src/common/components/bodyContainer";
 import BreadCrumb, { BreadCrumbItem } from "src/common/components/breadCrumb";
 import ButtonConnectWallet from "src/common/components/buttonConnectWallet";
+import FieldDateTimePicker from "src/common/components/form/fieldDateTimePicker";
 import FieldText from "src/common/components/form/fieldText";
 import InputWrapper from "src/common/components/form/inputWrapper";
 import Loading from "src/common/components/loading";
 import { APP_URL } from "src/common/constants/url";
 import { formatCurrencyByLocale } from "src/common/utils/format";
 import { required } from "src/common/utils/formValidate";
-import { getNftListCurrency } from "src/modules/nftLend/api";
+import { nearSignText } from "src/modules/near/utils";
 import { useCurrentWallet } from "src/modules/nftLend/hooks/useCurrentWallet";
 import { useToken } from "src/modules/nftLend/hooks/useToken";
 import styles from "../styles.module.scss";
 import VotingServices from "../Voting.Services";
-import { CurrencyPWPTokenData, ProposalData } from "../Voting.Services.Data";
+import {
+  CurrencyPWPTokenData,
+  ProposalData,
+  ProposalMessageData,
+} from "../Voting.Services.Data";
 
 const VotingMakeProposal = () => {
   const defaultBreadCrumbs = useRef<BreadCrumbItem[]>([
@@ -36,7 +43,7 @@ const VotingMakeProposal = () => {
   ]);
 
   const { currentWallet, isConnected, connectWallet } = useCurrentWallet();
-  const [initValues, setInitValues] = useState([]);
+  const [initValues, setInitValues] = useState({});
   const [loading, setLoading] = useState<boolean>(false);
   const [choices, setChoices] = useState<number>(2);
   const { getBalance } = useToken();
@@ -64,11 +71,44 @@ const VotingMakeProposal = () => {
 
   const onSubmit = async (values: any) => {
     try {
-      console.log("onSubmit");
-
       setLoading(true);
-      const body: ProposalData = {};
-      const response: any = await VotingServices.createProposal(body);
+      const choices = filter(Object.keys(values), (v) =>
+        v?.includes("choice_")
+      ).map((v) => values?.[v]);
+
+      const dataMessage: ProposalMessageData = {
+        timestamp: moment().unix(),
+        type: "proposal",
+        payload: {
+          name: values.name,
+          body: values.body,
+          snapshot: moment().unix(),
+          start: moment().add(1, "days").unix(),
+          end: moment().add(4, "days").unix(),
+          choices,
+          metadata: {
+            network: currency?.network?.toString(),
+            token: {
+              symbol: currency?.symbol,
+              address: currency?.contract_address?.toString(),
+              decimals: currency?.decimals,
+            },
+          },
+          type: "single-choice",
+        },
+      };
+      const dataMessageString = JSON.stringify(dataMessage);
+      const signature: string = await nearSignText(
+        currentWallet?.address,
+        dataMessageString
+      );
+      const body: ProposalData = {
+        message: dataMessageString,
+        signature,
+        network: currency?.network?.toString(),
+        address: currentWallet.address?.toString(),
+      };
+      await VotingServices.createProposal(body);
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -90,7 +130,7 @@ const VotingMakeProposal = () => {
               <Col>
                 <InputWrapper label="Title" theme="dark">
                   <Field
-                    name="title"
+                    name="name"
                     placeholder=""
                     children={FieldText}
                     validate={required}
@@ -98,7 +138,7 @@ const VotingMakeProposal = () => {
                 </InputWrapper>
                 <InputWrapper label="Content" theme="dark">
                   <Field
-                    name="content"
+                    name="body"
                     placeholder=""
                     children={FieldText}
                     validate={required}
@@ -143,7 +183,7 @@ const VotingMakeProposal = () => {
                       <Field
                         name="start_date"
                         placeholder="YYYY/MM/DD"
-                        children={FieldText}
+                        children={FieldDateTimePicker}
                         validate={required}
                       />
                     </InputWrapper>
@@ -151,7 +191,7 @@ const VotingMakeProposal = () => {
                       <Field
                         name="end_date"
                         placeholder="YYYY/MM/DD"
-                        children={FieldText}
+                        children={FieldDateTimePicker}
                         validate={required}
                       />
                     </InputWrapper>

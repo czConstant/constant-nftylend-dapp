@@ -22,6 +22,7 @@ class ProposalMessageData {
     start: number;
     end: number;
     choices: string[];
+    type: string;
     metadata: {
       network: string;
       token: {
@@ -32,16 +33,15 @@ class ProposalMessageData {
           decimals: number;
         };
       };
-      type: string;
     };
   };
-  sig!: string;
 }
 
 class ProposalData {
   network!: string;
   address!: string;
-  msg!: ProposalMessageData;
+  message!: string;
+  signature!: string;
 }
 
-export { CurrencyPWPTokenData, ProposalData };
+export { CurrencyPWPTokenData, ProposalData, ProposalMessageData };
