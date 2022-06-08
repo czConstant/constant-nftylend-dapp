@@ -33,21 +33,6 @@
         min-width: 100px;
       }
     }
-    .suggestWrap {
-      .suggestContainer {
-        > div {
-          width: calc(100vw - 40px);
-          margin-left: 0px;
-          > a {
-            width: calc(100vw - 40px);
-            > div {
-              &:first-child {
-              }
-            }
-          }
-        }
-      }
-    }
   }
 }
 
@@ -384,28 +369,6 @@
   }
 }
 
-.suggestWrap {
-  .suggestContainer {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    background-color: #19191c;
-    padding: 1rem;
-    border-radius: 20px;
-    > div {
-      width: 300px;
-      margin: 0px 15px;
-      > a {
-        > div {
-          &:first-child {
-            height: 300px;
-          }
-        }
-      }
-    }
-  }
-}
-
 .typeWrap {
   display: flex !important;
   flex-direction: row !important;
@@ -430,10 +393,4 @@
 .bodyClassName {
   background-color: transparent !important;
   padding: 0px !important;
-  .suggestContainer {
-    background-color: transparent !important;
-    padding: 0px;
-    .itemContainer {
-    }
-  }
 }

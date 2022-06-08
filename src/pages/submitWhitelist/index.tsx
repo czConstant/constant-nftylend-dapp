@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Field, Form } from 'react-final-form';
-import Switch from 'rc-switch';
 import queryString from "query-string";
+import { Switch } from '@chakra-ui/react';
 
 import FieldText from 'src/common/components/form/fieldText';
 import InputWrapper from 'src/common/components/form/inputWrapper';
@@ -128,7 +128,7 @@ const SubmitWhitelist = () => {
               </InputWrapper>
               <div className={styles.switchGroup}>
                 <span>Is verified?</span>
-                <Switch checked={isVerified} onChange={e => setIsVerified(e)} />
+                <Switch colorScheme='brand.primary' isChecked={isVerified} onChange={e => setIsVerified(e.target.checked)} />
               </div>
               {isVerified && (
                 <InputWrapper label="Verifier">

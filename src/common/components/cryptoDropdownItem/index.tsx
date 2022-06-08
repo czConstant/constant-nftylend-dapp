@@ -17,7 +17,7 @@ const CryptoDropdownItem = (props: CryptoDropdownItemProps) => {
 
   return (
     <Flex fontSize='sm' minW={balance ? 300 : 160} w='100%'  alignItems='center' justifyContent='space-between' className={className}>
-      <Flex>
+      <Flex alignItems='center'>
         <Image alt="" src={icon} width='18px' height='18px' mr={4} />
         <Text mr={2}>{name}</Text>
         <Text color='text.secondary'>{symbol}</Text>

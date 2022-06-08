@@ -11,8 +11,8 @@ import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { calculateMaxInterest, calculateMaxTotalPay } from 'src/modules/nftLend/utils';
 import { formatCurrency } from 'src/common/utils/format';
-import MyPopover from 'src/common/components/myPopover';
 import styles from "./makeOfferForm.module.scss";
+import InfoTooltip from 'src/common/components/infoTooltip';
 
 const HIGH_RISK_VALUE = 2.5; // 250%
 
@@ -79,7 +79,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           Max interest <strong>{formatCurrency(maxInterest, 4)} {loan.currency?.symbol}</strong>
         </div>
         <div>
-          <span>Platform fee <MyPopover desc="This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans." /></span>
+          <span>Platform fee <InfoTooltip label="This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans." /></span>
           <strong>{formatCurrency(matchingFee)} {loan.currency?.symbol}</strong>
         </div>
         <div>

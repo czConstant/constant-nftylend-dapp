@@ -24,6 +24,14 @@ const MyPwp = () => {
     });
   }, [])
 
+  const onClaim = async () => {
+    try {
+
+    } catch (err) {
+      
+    }
+  }
+
   return (
     <Flex direction='column' gap={12}>
       <Grid w='100%' templateColumns='repeat(4, 1fr)' gap={4}>
@@ -42,7 +50,7 @@ const MyPwp = () => {
               <Text fontSize='2xl' fontWeight='bold'>
                 {formatCurrency(pwpBalance?.balance - pwpBalance?.locked_balance)} PWP
               </Text>
-              <Button size='sm'>Claim</Button>
+              <Button size='sm' onClick={onClaim}>Claim</Button>
             </Flex>
           </Box>
         </GridItem>

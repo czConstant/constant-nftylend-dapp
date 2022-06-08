@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Box, Flex, Icon, Text, Tooltip } from '@chakra-ui/react';
-import { MdInfoOutline } from 'react-icons/md';
+import { Box, Flex, Text } from '@chakra-ui/react';
+import InfoTooltip from 'src/common/components/infoTooltip';
 
 interface BoxAttrValueProps {
   label: string;
@@ -15,11 +15,7 @@ const BoxAttrValue = (props: BoxAttrValueProps) => {
     <Box bgColor='background.darker' borderRadius={16} p={4}>
       <Flex gap={2} alignItems='center'>
         <Text variant='attrLabel'>{label}</Text>
-        {desc && (
-          <Tooltip placement='top' label={desc}>
-            <span><Icon as={MdInfoOutline} /></span>
-          </Tooltip>
-        )}
+        {desc && <InfoTooltip label={label} />}
       </Flex>
       <Text fontWeight='bold'>{value}</Text>
     </Box>

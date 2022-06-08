@@ -1,13 +1,14 @@
-import React, { memo } from "react";
+import React from 'react';
 import { isMobile } from "react-device-detect";
 import { Link } from "react-router-dom";
 import cx from "classnames";
+import { Icon, Tooltip } from '@chakra-ui/react';
+import { MdInfoOutline } from 'react-icons/md';
 
 import SocialLinks from 'src/views/apps/socialLinks';
 import { APP_URL } from "src/common/constants/url";
 
 import AppIcon from "../appIcon";
-import MyPopover from '../myPopover';
 import styles from "./styles.module.scss";
 
 const Footer = () => (
@@ -27,7 +28,12 @@ const Footer = () => (
       <div className={styles.right}>
         <SocialLinks />
         <div className={styles.copyright}>
-          <div>This project is in public beta <MyPopover desc="This project is in public beta. - NFTPawn's smart contract is not yet audited by well-known security organization or firm. Use at your own risk!" /></div>
+          <div>
+            This project is in public beta
+            <Tooltip placement='top' label="This project is in public beta. - NFTPawn's smart contract is not yet audited by well-known security organization or firm. Use at your own risk!">
+              <span><Icon as={MdInfoOutline} /></span>
+            </Tooltip>
+          </div>
           <div>Copyright © 2022 NFT Pawn. All rights reserved</div>
         </div>
       </div>
@@ -35,4 +41,4 @@ const Footer = () => (
   </div>
 );
 
-export default memo(Footer);
+export default React.memo(Footer);
