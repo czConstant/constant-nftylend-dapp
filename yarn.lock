@@ -831,7 +831,7 @@
     "@chakra-ui/form-control" "2.0.1"
     "@chakra-ui/utils" "2.0.1"
 
-"@chakra-ui/theme-tools@2.0.1", "@chakra-ui/theme-tools@^2.0.0", "@chakra-ui/theme-tools@^2.0.1":
+"@chakra-ui/theme-tools@2.0.1", "@chakra-ui/theme-tools@^2.0.0":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-2.0.1.tgz#9b33e35d6a3753c4f487226cc0c37fa9cf52e731"
   integrity sha512-CQn87uYxe3X8JmTAA52+jVS3A9FtioT4NDRUISN178yRnOly1Z6s01iYlbT37LemLSP2T3bCnHqFhdQKgS5yew==

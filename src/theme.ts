@@ -140,6 +140,13 @@ const Tooltip: ComponentStyleConfig = {
   },
 }
 
+const Divider: ComponentStyleConfig = {
+  baseStyle: {
+    color: 'text.secondary',
+    borderColor: 'background.border',
+  }
+}
+
 const customTheme = extendTheme({ 
   colors: {
     text: {
@@ -195,13 +202,12 @@ const customTheme = extendTheme({
     global: {
       // styles for the `body`
       body: {
-        bg: 'background.default',
-        color: 'text.primary',
         fontFamily: 'Poppins',
+        bgColor: 'background.default',
+        color: 'text.primary',
       },
       // styles for the `a`
       a: {
-        color: 'text.primary',
         _hover: {
           textDecoration: 'underline',
         },
@@ -215,7 +221,8 @@ const customTheme = extendTheme({
     Table,
     Menu,
     Tooltip,
-  }
+    Divider,
+  },
  });
 
 export default customTheme;
