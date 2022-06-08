@@ -12,6 +12,7 @@ import CardNftMedia from "../CardNftMedia";
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { LOAN_DURATION } from 'src/modules/nftLend/constant';
+import { Box } from '@chakra-ui/react';
 
 export const mediaTypes = {
   video: ["mov", "mp4", "video"],
@@ -58,7 +59,7 @@ const CardNftLoan = (props: CardNftLoanProps) => {
   const loanDuration = LOAN_DURATION.find(e => e.id === loan?.duration / 86400);
 
   return (
-    <div className={cx(className, styles.cardNftLoan)}>
+    <Box minW={250} className={cx(className, styles.cardNftLoan)}>
       <a onClick={onView}>
         <CardNftMedia
           name={asset.name}
@@ -121,7 +122,7 @@ const CardNftLoan = (props: CardNftLoanProps) => {
           )}
         </div>
       </a>
-    </div>
+    </Box>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Field, Form } from "react-final-form";
-import Switch from 'rc-switch';
 import { Button } from "react-bootstrap";
+import { Switch } from '@chakra-ui/react';
 
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import Loading from 'src/common/components/loading';
@@ -89,14 +89,14 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
                 <label>Newsletter</label>
                 <p>Get first notified for any NFTPawn info</p>
               </div>
-              <Switch checked={newsNotiEnabled} onChange={e => setNewsNotiEnabled(e)} />
+              <Switch colorScheme='brand.primary' isChecked={newsNotiEnabled} onChange={e => setNewsNotiEnabled(e.target.checked)} />
             </div>
             <div className={styles.switchRow}>
               <div>
                 <label>Loans activity</label>
                 <p>Get notified for your loans and offers on NFTPawn</p>
               </div>
-              <Switch checked={loanNotiEnabled} onChange={e => setLoanNotiEnabled(e)} />
+              <Switch colorScheme='brand.primary' isChecked={loanNotiEnabled} onChange={e => setLoanNotiEnabled(e.target.checked)} />
             </div>
             <Button
               disabled={submitting}
