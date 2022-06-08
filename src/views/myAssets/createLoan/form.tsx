@@ -158,7 +158,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             </InputWrapper>
           </Col>
           <Col xs={3}>
-          <Switch checked={!!values.allow_duration} onChange={e => change('allow_duration', e ? 1 : 0)} />
+            <Switch checked={!!values.allow_duration} onChange={e => change('allow_duration', e ? 1 : 0)} />
           </Col>
           <Col xs={9}>
             <InputWrapper label="Loan interest" theme="dark">
@@ -172,7 +172,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             </InputWrapper>
           </Col>
           <Col xs={3}>
-          <Switch checked={!!values.allow_rate} onChange={e => change('allow_rate', e ? 1 : 0)} />
+            <Switch checked={!!values.allow_rate} onChange={e => change('allow_rate', e ? 1 : 0)} />
           </Col>
           <Col xs={9}>
             <InputWrapper label="Loan available in" theme="dark">

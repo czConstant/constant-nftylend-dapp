@@ -35,6 +35,12 @@ const Button: ComponentStyleConfig = {
   }
 }
 
+const Image: ComponentStyleConfig = {
+  baseStyle: {
+    display: 'inline-block',
+  }
+}
+
 const Tabs: ComponentStyleConfig = {
   variants: {
     enclosed: {
@@ -218,6 +224,7 @@ const customTheme = extendTheme({
     Tabs,
     Text,
     Button,
+    Image,
     Table,
     Menu,
     Tooltip,
