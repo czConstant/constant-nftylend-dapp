@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useNavigate } from 'react-router-dom';
-import { Box, Flex, Image, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Box, Flex, Image, Menu, MenuButton, MenuItem, MenuList, Text, Icon } from '@chakra-ui/react';
 
 import { useAppDispatch } from 'src/store/hooks';
 import { formatCurrency, shortCryptoAddress } from 'src/common/utils/format';
@@ -23,6 +23,7 @@ import IconDisconnect from './images/ic_disconnect.svg'
 import styles from './styles.module.scss';
 import { APP_URL } from 'src/common/constants/url';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
+import { MdDashboard } from 'react-icons/md';
 
 interface ButtonWalletDropdownProps {
   className?: string;
@@ -89,7 +90,7 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
       </MenuButton>
       <MenuList>
         <MenuItem onClick={() => navigate(APP_URL.DASHBOARD)}>
-          <Image boxSize='20px' src={IconMyAsset} mr={2} />
+          <Icon mr={2} boxSize='20px' color='text.secondary' as={MdDashboard} />
           <Text>Dashboard</Text>
         </MenuItem>
         <MenuItem onClick={() => navigate(APP_URL.MY_NFT)}>

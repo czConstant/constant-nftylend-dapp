@@ -153,7 +153,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
         <div>Time until loan expires</div>
         <div className={styles.progress}>
           <ProgressBar now={loanDays * 100 / durationDays} />
-          <div>{loanDays}/{loanDuration?.label}</div>
+          <div>{loanDays}/{loanDuration?.label || loan.approved_offer?.duration}</div>
         </div>
       </div>
       <div className={styles.info}>
