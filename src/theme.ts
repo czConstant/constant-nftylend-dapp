@@ -153,6 +153,29 @@ const Divider: ComponentStyleConfig = {
   }
 }
 
+const Accordion: ComponentStyleConfig = {
+  baseStyle: {
+    panel: {
+      borderBottomLeftRadius: 16,
+      borderBottomRightRadius: 16,
+      bgColor: 'background.default',
+      p: 4,
+    },
+    button: {
+      bgColor: 'background.darker',
+      borderRadius: 16,
+      _hover: {
+        bgColor: 'background.darker',
+      },
+      _expanded: {
+        mb: 0.5,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+      },
+    },
+  }
+}
+
 const customTheme = extendTheme({ 
   colors: {
     text: {
@@ -215,6 +238,7 @@ const customTheme = extendTheme({
       // styles for the `a`
       a: {
         _hover: {
+          color: 'inherit',
           textDecoration: 'underline',
         },
       },
@@ -229,6 +253,7 @@ const customTheme = extendTheme({
     Menu,
     Tooltip,
     Divider,
+    Accordion,
   },
  });
 

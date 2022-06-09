@@ -20,6 +20,7 @@ import {
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import ButtonSearchLoans from 'src/views/apps/ButtonSearchLoans';
+import { Flex, Text } from '@chakra-ui/react';
 
 const Header = () => {
   const location = useLocation();
@@ -78,9 +79,9 @@ const Header = () => {
         </div>
       </div>
       {APP_CLUSTER !== 'mainnet' && (
-        <div className={styles.warningNetwork}>
-          You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;<a href="https://nftpawn.financial">https://nftpawn.financial</a>
-        </div>
+        <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(255, 192, 122, 0.2)'>
+          <Text fontWeight='medium' fontSize='sm' color='brand.warning.400'>You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;<a href="https://nftpawn.financial">https://nftpawn.financial</a></Text>
+        </Flex>
       )}
     </div>
   );
