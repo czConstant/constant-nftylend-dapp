@@ -4,8 +4,8 @@ import { ToastContainer } from 'react-toastify';
 // import { Scrollbars } from 'react-custom-scrollbars-2';
 import { ChakraProvider } from '@chakra-ui/react'
 
-// import ModalManager from 'src/common/components/modal';
-import ModalManager from 'src/common/components/modalCustom';
+import ModalManager from 'src/common/components/modal';
+// import ModalManager from 'src/common/components/modalCustom';
 import MyLoadingOverlay from 'src/common/components/myLoadingOverlay';
 
 import AppRouter from './navigation';

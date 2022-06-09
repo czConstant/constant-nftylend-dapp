@@ -12,6 +12,10 @@ const Text: ComponentStyleConfig = {
     secondary: {
       color: 'text.secondary',
     },
+    warning: {
+      color: 'brand.primary',
+      fontWeight: 'medium',
+    },
     attrLabel: {
       fontWeight: 'normal',
       color: 'text.secondary',
@@ -176,6 +180,29 @@ const Accordion: ComponentStyleConfig = {
   }
 }
 
+const Modal: ComponentStyleConfig = {
+  defaultProps: {
+    size: 'lg',
+  },
+  baseStyle: {
+    dialog: {
+      bgColor: 'background.default',
+      px: 4,
+      py: 8,
+      borderRadius: 16,
+    }
+  },
+  sizes: {
+    xl: {
+      dialog: {
+        w: 'fit-content',
+        maxW: 'unset',
+        minW: 500,
+      }
+    }
+  }
+}
+
 const customTheme = extendTheme({ 
   colors: {
     text: {
@@ -254,6 +281,7 @@ const customTheme = extendTheme({
     Tooltip,
     Divider,
     Accordion,
+    Modal,
   },
  });
 
