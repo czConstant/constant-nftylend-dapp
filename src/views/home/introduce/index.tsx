@@ -3,13 +3,10 @@ import { motion, useAnimation } from 'framer-motion';
 import shuffle from 'lodash/shuffle';
 import { useDispatch } from 'react-redux';
 
-import { APP_URL } from 'src/common/constants/url';
 import { useEffect, useRef, useState } from 'react';
 import { getListingLoans } from 'src/modules/nftLend/api';
 import { getImageThumb } from 'src/modules/nftLend/utils';
 import { LoanData } from 'src/modules/nftLend/models/api';
-import { closeModal, openModal } from 'src/store/modal';
-import DialogGuideStart from 'src/views/apps/DialogGuideStart';
 
 import LogoNear from './img/logo_near.svg';
 import styles from './styles.module.scss';
@@ -69,18 +66,6 @@ const Introduce = () => {
     displayPicturesRef.current = displayPictures;
   }, [displayPictures])
 
-  const onStart = () => {
-    const close = () => dispatch(closeModal({ id: "createLoanModal" }));
-    dispatch(
-      openModal({
-        id: "createLoanModal",
-        className: styles.modalContent,
-        render: () => <DialogGuideStart onClose={close} navigate={navigate} />,
-        theme: "dark",
-      })
-    );
-  }
-
   const animateImg = (url: string, i: number) => {
     return (
       <motion.img
@@ -101,13 +86,6 @@ const Introduce = () => {
           The leading NFT<br/>Lending Platform
         </h1>
         <p>The first P2P NFT Lending platform on<br /> <img className={styles.nearLogo} src={LogoNear} /> Protocol. The fast, secure and reliable solution you need.</p>
-        {/* <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={onStart}
-        >
-            Create a Loan
-        </motion.button> */}
         <ButtonCreateLoan className={styles.createButton} title='Create a Loan' />
       </div>
       <div className={styles.right}>

@@ -3,7 +3,7 @@ import type { ComponentStyleConfig } from '@chakra-ui/theme'
 
 const Text: ComponentStyleConfig = {
   baseStyle: {
-    color: 'text.primary',
+    color: 'inherit',
   },
   variants: {
     primary: {
@@ -26,17 +26,9 @@ const Text: ComponentStyleConfig = {
 }
 
 const Button: ComponentStyleConfig = {
-  variants: {
-    solid: {
-      bgColor: 'brand.primary.400',
-      _hover: {
-        bgColor: 'brand.primary.500',
-      },
-      _active: {
-        bgColor: 'brand.primary.500',
-      },
-    }
-  }
+  defaultProps: {
+    colorScheme: 'brand.primary',
+  },
 }
 
 const Image: ComponentStyleConfig = {

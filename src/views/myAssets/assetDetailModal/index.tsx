@@ -32,7 +32,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
 
   useEffect(() => {
     if (asset.needFetchDetail()) getExtraData();
-    // verifiedCollection();
+    verifiedCollection();
     checkLoanInfo();
   }, [asset]);
 
@@ -88,12 +88,12 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
   const renderButton = () => {
     if (verifying) return <Loading />;
     if (loan?.isListing()) return (
-      <Button onClick={onGoToLoan} className={styles.btnGoToLoan}>
+      <Button onClick={onGoToLoan} colorScheme='brand.warning'>
         Go to loan
       </Button>
     );
     if (listingDetail) return (
-      <Button onClick={onClickMakeLoan} className={styles.btnConnect}>
+      <Button w='100%' onClick={onClickMakeLoan}>
         Make a Loan
       </Button>
     );
@@ -135,9 +135,9 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
             </a>
           </div>
         )}
-        <div className={cx(styles.actions)}>
-          {renderButton()}
-          <Menu autoSelect={false}>
+        <Flex my={4}>
+          <Box flex={1}>{renderButton()}</Box>
+          <Menu autoSelect={false} placement='bottom-end'>
             <MenuButton border='none' bg='none' ml={4} w={8} h={8}>
               <Icon fontSize='4xl' as={MdMoreVert} />
             </MenuButton>
@@ -150,7 +150,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
               </MenuItem>
             </MenuList>
           </Menu>
-        </div>
+        </Flex>
         <Text fontSize='sm'>{extraData?.description}</Text>
         {extraData?.attributes?.length > 0 && (
           <Grid templateColumns='repeat(3, 1fr)' gap={2}>

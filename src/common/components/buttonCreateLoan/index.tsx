@@ -34,6 +34,7 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
     dispatch(
       openModal({
         id: "createLoanModal",
+        className: styles.dialog,
         render: () => <DialogGuideStart onClose={close} navigate={navigate} onGoToAsset={onCallBack} />,
         theme: "dark",
       })

@@ -31,7 +31,7 @@ const ModalComponent = (props: ModalComponentProps) => {
   return (
     <Modal isOpen onClose={handleClose} isCentered {...modalProps}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent className={className}>
         <ModalHeader>{title}</ModalHeader>
         <ModalCloseButton />
         <ModalBody className={cx(styles.modalBody)}>
