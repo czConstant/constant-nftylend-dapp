@@ -14,6 +14,7 @@ export const APP_URL = {
   NFT_LENDING_BLOG: `${BASE_PATH}/news/`,
   NFT_LENDING_VOTING: `${BASE_PATH}/voting/`,
   NFT_LENDING_VOTING_PROPOSAL_MAKE: `${BASE_PATH}/voting/proposal/make`,
+  NFT_LENDING_VOTING_DETAIL: `${BASE_PATH}/voting/proposal/detail/:id`,
 }
 
 export const API_URL = { 
@@ -41,6 +42,7 @@ export const API_URL = {
     GET_OWNED_NFTS: `${MCT_ROOT}${MCT_API_BASE}/moralis/{owner}/nft`,
     VOTING_CURRENCIES: `${MCT_ROOT}${MCT_API_BASE}/currencies/pwp-token`,
     VOTING_PROPOSAL: `${MCT_ROOT}${MCT_API_BASE}/proposals/create`,
+    VOTING_PROPOSAL_LIST: `${MCT_ROOT}${MCT_API_BASE}/proposals/list`,
   },
 }
 

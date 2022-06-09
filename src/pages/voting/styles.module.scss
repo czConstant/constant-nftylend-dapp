@@ -41,8 +41,9 @@
 
 .positionBubbleCircle {
   position: absolute;
-  top: -150px;
+  top: 0px;
   left: 0px;
+  height: calc(100vh - 66px);
 }
 
 .btnMakeProposal {
@@ -66,6 +67,8 @@
   border-radius: 10px;
   .choiceTitle {
     padding: 15px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
     background: linear-gradient(
       166.77deg,
       rgb(59, 65, 85) 0%,
@@ -110,5 +113,127 @@
   margin-bottom: 15px;
   div {
     color: #fcfcfd;
+  }
+}
+
+.btnRemoveChoose {
+  position: absolute;
+  right: 0;
+  top: 0px;
+  z-index: 30;
+  height: 46px;
+  width: 46px;
+  background: transparent;
+  border: none;
+  &:hover {
+    background: transparent;
+    opacity: 0.65;
+  }
+  img {
+    filter: invert(100%) sepia(94%) saturate(2723%) hue-rotate(180deg)
+      brightness(107%) contrast(106%);
+    max-width: 60%;
+  }
+}
+
+.body {
+  width: 100%;
+  max-width: var(--max-height-content-desktop);
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.listContainer {
+  margin-top: 2rem;
+  h1 {
+    color: #fcfcfd;
+    font-weight: bold;
+  }
+  .listRowsHeader {
+    background-color: rgb(55, 47, 71);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 20px 20px 0px 20px;
+    button {
+      display: inline-flex;
+      justify-content: center;
+      cursor: pointer;
+      border: 0px;
+      outline: 0px;
+      flex-grow: 1;
+      padding: 8px 16px;
+      border-radius: 16px 16px 0px 0px;
+      font-size: 16px;
+      font-weight: 600;
+      color: rgb(184, 173, 210);
+      background-color: rgb(55, 47, 71);
+      box-shadow: none !important;
+      align-items: center;
+      img {
+        filter: invert(75%) sepia(38%) saturate(185%) hue-rotate(217deg)
+          brightness(90%) contrast(86%);
+        margin-right: 5px;
+      }
+      &.created {
+        color: white;
+        img {
+          filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
+            brightness(102%) contrast(101%);
+        }
+      }
+      &.pending {
+        color: white;
+        img {
+          filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
+            brightness(102%) contrast(101%);
+        }
+      }
+      &.cancelled {
+        color: white;
+        img {
+          filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
+            brightness(102%) contrast(101%);
+        }
+      }
+    }
+  }
+  .loadingWrap {
+    padding-top: 32px;
+    padding-bottom: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h5 {
+      font-weight: 600;
+      line-height: 1.1;
+      color: rgb(244, 238, 255);
+    }
+  }
+  .itemVotingProposal {
+    border-bottom: 1px solid rgb(56, 50, 65);
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 24px;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(30, 29, 32, 0.2);
+    }
+    h6 {
+      color: rgb(244, 238, 255);
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    .date {
+      color: rgb(184, 173, 210);
+      font-weight: 400;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+    img {
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
+        brightness(102%) contrast(101%);
+    }
   }
 }

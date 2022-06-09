@@ -15,7 +15,7 @@ import InputWrapper from "src/common/components/form/inputWrapper";
 import Loading from "src/common/components/loading";
 import { APP_URL } from "src/common/constants/url";
 import { formatCurrencyByLocale } from "src/common/utils/format";
-import { required } from "src/common/utils/formValidate";
+import { composeValidators, required } from "src/common/utils/formValidate";
 import { nearSignText } from "src/modules/near/utils";
 import { useCurrentWallet } from "src/modules/nftLend/hooks/useCurrentWallet";
 import { useToken } from "src/modules/nftLend/hooks/useToken";
@@ -26,6 +26,37 @@ import {
   ProposalData,
   ProposalMessageData,
 } from "../Voting.Services.Data";
+import { toastError, toastSuccess } from "src/common/services/toaster";
+import icClose from "../images/ic_close.svg";
+
+const minDateCurrent = (value: any) => {
+  if (moment(value).isSameOrBefore(moment.now())) {
+    return `This is time invalid. Time should be AFTER ${moment().format(
+      "yyyy/MM/DD HH:mm A"
+    )}`;
+  }
+  return undefined;
+};
+
+const validateStartDate = (value, values) => {
+  const end = values?.end;
+  if (end && moment(value).isSameOrAfter(end)) {
+    return `This is time invalid. Time should be BEFORE ${moment(end).format(
+      "yyyy/MM/DD HH:mm A"
+    )}`;
+  }
+  return undefined;
+};
+
+const validateEndDate = (value, values) => {
+  const start = values?.start;
+  if (start && moment(value).isSameOrBefore(start)) {
+    return `This is time invalid. Time should be BEFORE ${moment(start).format(
+      "yyyy/MM/DD HH:mm A"
+    )}`;
+  }
+  return undefined;
+};
 
 const VotingMakeProposal = () => {
   const defaultBreadCrumbs = useRef<BreadCrumbItem[]>([
@@ -42,10 +73,19 @@ const VotingMakeProposal = () => {
     },
   ]);
 
+  const defaultChoices = [
+    {
+      id: 1,
+    },
+    {
+      id: 2,
+    },
+  ];
+
   const { currentWallet, isConnected, connectWallet } = useCurrentWallet();
   const [initValues, setInitValues] = useState({});
   const [loading, setLoading] = useState<boolean>(false);
-  const [choices, setChoices] = useState<number>(2);
+  const [choices, setChoices] = useState<any[]>(defaultChoices);
   const { getBalance } = useToken();
   const [balance, setBalance] = useState<number>(0);
   const [currency, setCurrency] = useState<CurrencyPWPTokenData | null>(null);
@@ -83,8 +123,8 @@ const VotingMakeProposal = () => {
           name: values.name,
           body: values.body,
           snapshot: moment().unix(),
-          start: moment().add(1, "days").unix(),
-          end: moment().add(4, "days").unix(),
+          start: moment(values?.start).unix(),
+          end: moment(values?.end).unix(),
           choices,
           metadata: {
             network: currency?.network?.toString(),
@@ -109,7 +149,12 @@ const VotingMakeProposal = () => {
         address: currentWallet.address?.toString(),
       };
       await VotingServices.createProposal(body);
+      toastSuccess("Proposal created successfully");
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 800);
     } catch (error) {
+      toastError(error?.message || err);
       console.log("error", error);
     } finally {
       setLoading(false);
@@ -117,7 +162,16 @@ const VotingMakeProposal = () => {
   };
 
   const onAddChoice = () => {
-    setChoices((value) => value + 1);
+    setChoices((value) => [
+      ...value,
+      {
+        id: value.length + 1,
+      },
+    ]);
+  };
+
+  const onRemoveChoose = (i: any) => {
+    setChoices((value: any[]) => value.filter((v) => v.id !== i.id));
   };
 
   return (
@@ -151,22 +205,28 @@ const VotingMakeProposal = () => {
                     <h5>Choices</h5>
                   </div>
                   <div className={styles.choiceFormWrap}>
-                    {Array(choices)
-                      .fill(0)
-                      .map((v, i) => (
-                        <InputWrapper
-                          key={i}
-                          label={`Choice ${i + 1}`}
-                          theme="dark"
-                        >
-                          <Field
-                            name={`choice_${i + 1}`}
-                            placeholder="Input choice text"
-                            children={FieldText}
-                            validate={required}
-                          />
-                        </InputWrapper>
-                      ))}
+                    {choices.map((v, i) => (
+                      <InputWrapper
+                        key={i}
+                        label={`Choice ${v.id}`}
+                        theme="dark"
+                      >
+                        <Field
+                          name={`choice_${v.id}`}
+                          placeholder="Input choice text"
+                          children={FieldText}
+                          validate={required}
+                        />
+                        {i > 1 && (
+                          <Button
+                            onClick={() => onRemoveChoose(v)}
+                            className={styles.btnRemoveChoose}
+                          >
+                            <img src={icClose} />
+                          </Button>
+                        )}
+                      </InputWrapper>
+                    ))}
                     <Button onClick={onAddChoice} className={styles.btnChoice}>
                       Add Choice
                     </Button>
@@ -181,18 +241,30 @@ const VotingMakeProposal = () => {
                   <div className={styles.choiceFormWrap}>
                     <InputWrapper label="Start Date" theme="dark">
                       <Field
-                        name="start_date"
-                        placeholder="YYYY/MM/DD"
+                        name="start"
+                        placeholder="YYYY/MM/DD HH:mm"
                         children={FieldDateTimePicker}
-                        validate={required}
+                        validate={composeValidators(
+                          required,
+                          minDateCurrent,
+                          validateStartDate
+                        )}
+                        showTimeInput={true}
+                        minDate={moment.now()}
                       />
                     </InputWrapper>
                     <InputWrapper label="End Date" theme="dark">
                       <Field
-                        name="end_date"
-                        placeholder="YYYY/MM/DD"
+                        name="end"
+                        placeholder="YYYY/MM/DD HH:mm"
                         children={FieldDateTimePicker}
-                        validate={required}
+                        validate={composeValidators(
+                          required,
+                          minDateCurrent,
+                          validateEndDate
+                        )}
+                        showTimeInput={true}
+                        minDate={moment.now()}
                       />
                     </InputWrapper>
 

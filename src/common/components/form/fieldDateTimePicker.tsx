@@ -1,5 +1,5 @@
 import React, { memo, useRef, useState } from "react";
-import { FormGroup, InputGroup } from "react-bootstrap";
+import { FormGroup, InputGroup, Overlay, Tooltip } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import cx from "classnames";
 import styles from "./styles.module.scss";
@@ -30,27 +30,38 @@ const FieldDateTimePicker = (props: FieldDateTimePickertProps) => {
   } = props;
   const { onChange, onBlur, onFocus, value } = input;
   const { error, touched } = meta;
+  const shouldShowError = !!(touched && error) || (error && value);
   const target = useRef(null);
 
-  const _value = value || new Date();
+  const _value = value || undefined;
 
   const isError = meta.error && meta.touched;
 
   return (
     <FormGroup ref={target} className={cx(styles.formGroup, "formGroup")}>
-      <InputGroup
-        className={cx(
-          styles.inputGroup,
-          "inputGroup",
-          (isError || errorMessage) && styles.borderDanger
-        )}
-      >
+      <div className={styles.formControl} ref={target}>
         <DatePicker
-          // className={styles.formControl}
+          className={cx(
+            shouldShowError && styles.borderDanger,
+            styles.inputDatePicker
+          )}
           onChange={(date: Date) => onChange(date)}
           selected={_value}
+          dateFormat="yyyy/MM/dd h:mm aa"
+          timeInputLabel="Time:"
+          placeholderText={placeholder}
+          {...restProps}
         />
-      </InputGroup>
+      </div>
+      {isError && (
+        <Overlay target={target.current} show={true} placement={errorPlacement}>
+          {(props) => (
+            <Tooltip className={styles.errorMessageWrap} id={error} {...props}>
+              {error}
+            </Tooltip>
+          )}
+        </Overlay>
+      )}
     </FormGroup>
   );
 };

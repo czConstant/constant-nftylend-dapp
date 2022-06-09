@@ -4,7 +4,8 @@
   color: #2d2d2d;
   &.inputWrapperDark {
     color: white;
-    input, textarea {
+    input,
+    textarea {
       background-color: #0d0d0d;
       color: white !important;
     }
@@ -27,7 +28,7 @@
         a {
           color: white !important;
           &:hover {
-            background-color: #188EEA;
+            background-color: #188eea;
           }
           span {
             color: var(--bs-gray-400);
@@ -79,11 +80,16 @@
   }
   .formControl {
     flex: 1;
-    input, textarea {
+    input,
+    textarea {
       width: 100%;
       border: none;
       outline: none;
       padding: 10px 20px;
+      &.inputDatePicker {
+        border: 1px solid #dedfe5;
+        border-radius: 10px;
+      }
     }
   }
   .dropdownWrapper {
@@ -196,6 +202,45 @@
     }
     &::before {
       border-bottom-color: #c22a32 !important;
+    }
+  }
+}
+
+:global .react-datepicker-popper {
+  z-index: 999 !important;
+  .react-datepicker {
+    background: rgb(39, 38, 44);
+    border-color: rgb(56, 50, 65);
+    color: rgb(244, 238, 255);
+    .react-datepicker__triangle {
+      &::before,
+      &::after {
+        border-bottom-color: rgb(56, 50, 65) !important;
+      }
+    }
+    .react-datepicker__header {
+      background: rgb(55, 47, 71);
+      border-color: rgb(56, 50, 65);
+    }
+    .react-datepicker__current-month,
+    .react-datepicker-time__header,
+    .react-datepicker-year-header,
+    .react-datepicker__day-name,
+    .react-datepicker__day,
+    .react-datepicker__time-name {
+      color: rgb(244, 238, 255);
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: rgb(56, 50, 65);
+      }
+    }
+    .react-datepicker-time__input {
+      background: #413e4b;
+      border-radius: 8px;
+    }
+    .react-datepicker__day--disabled {
+      color: #aaa !important;
     }
   }
 }
