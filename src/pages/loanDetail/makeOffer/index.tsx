@@ -40,6 +40,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
       openModal({
         id: "confirmAmountModal",
         theme: "dark",
+        title: 'Confirm Payment',
         render: () => (
           <ModalConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Pagination } from 'react-bootstrap';
 import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
+import { Button, Flex } from '@chakra-ui/react';
 
 import EmptyList from 'src/common/components/emptyList';
 import { closeModal, openModal } from 'src/store/modal';
@@ -15,6 +15,7 @@ import { useToken } from 'src/modules/nftLend/hooks/useToken';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import CreateLoan from 'src/views/myAssets/createLoan';
 import LoadingList from 'src/views/apps/loadingList';
+import Pagination from 'src/common/components/pagination';
 
 import styles from './styles.module.scss';
 
@@ -31,22 +32,16 @@ const ListAsset = () => {
   const [loading, setLoading] = useState(true);
   const [assets, setAssets] = useState<Array<CardNftLoanProps>>([]);
   const [displayAssets, setDisplayAssets] = useState<Array<CardNftLoanProps>>([]);
-  const [page, setPage] = useState(0);
-  const [listPage, setListPage] = useState<Array<number>>([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (isConnected) fetchNFTs();
   }, [currentWallet, needReload]);
 
   useEffect(() => {
-    const totalPage = Math.ceil(assets.length / PAGE_SIZE)
-    setListPage([...Array(totalPage).keys()])
-  }, [assets, page]);
-
-  useEffect(() => {
-    setDisplayAssets(assets.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE))
+    setDisplayAssets(assets.slice((page-1) * PAGE_SIZE, (page-1) * PAGE_SIZE + PAGE_SIZE))
     window.scrollTo(0, 0);
-  }, [listPage, page])
+  }, [page, assets])
 
   const onMakeLoan = async (nftToken?: AssetNft) => {
     const close = () => dispatch(closeModal({ id: 'createLoanModal' }));
@@ -84,8 +79,6 @@ const ListAsset = () => {
         onClickItem: onClickShowDetail,
         onMakeLoan: () => onMakeLoan(e),
       })));
-    } catch (e) {
-      console.log('🚀 ~ file: index.js ~ line 32 ~ fetchNFTs ~ e', e);
     } finally {
       setLoading(false);
     }
@@ -115,21 +108,9 @@ const ListAsset = () => {
           />
         ))}
       </div>
-      {listPage.length > 1 && (
-        <div className={styles.pagination}>
-          <Pagination>
-            {listPage.map(p => (
-              <Pagination.Item
-                key={p}
-                className={cx(p === page && styles.active)}
-                onClick={() => setPage(p)}
-              >
-                {p+1}
-              </Pagination.Item>
-            ))}
-          </Pagination>
-        </div>
-      )}
+      <Flex justifyContent='flex-end'>
+        <Pagination total={assets.length} page={page} pageSize={PAGE_SIZE} onChangePage={setPage} />
+      </Flex>
     </div>
   );
 };

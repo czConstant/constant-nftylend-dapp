@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
-import { Button } from 'react-bootstrap';
 import { isMobile } from 'react-device-detect';
+import { Button, Flex } from '@chakra-ui/react';
 
 import styles from './styles.module.scss';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
@@ -30,21 +30,20 @@ const ModalConfirmAmount = (props: ModalConfirmAmountProps) => {
           <i className="fas fa-times"></i>
         </a>
       )}
-      <h2>Confirm Payment</h2>
       <div>You are about to order <strong style={{ color: '#3772ff' }}>{asset.name}</strong></div>
       <div className={styles.amount}>
         <span>Total</span>
         <strong>{formatCurrency(amount)} {symbol}</strong>
       </div>
       <div className={styles.note}>You will be redirected to your wallet to confirm your transaction</div>
-      <div className={cx(styles.actions)}>
-        <Button onClick={onClose} variant="secondary">
+      <Flex alignItems='center' gap={4}>
+        <Button flex={1} onClick={onClose} colorScheme='whiteAlpha'>
           Cancel
         </Button>
-        <Button onClick={handleConfirm} className={styles.btnConnect}>
+        <Button flex={1}  onClick={handleConfirm}>
           Confirm
         </Button>
-      </div>
+      </Flex>
     </div>
   );
 };

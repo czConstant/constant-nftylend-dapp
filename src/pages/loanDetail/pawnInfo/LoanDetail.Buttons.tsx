@@ -77,6 +77,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
       openModal({
         id: "confirmAmountModal",
         theme: "dark",
+        title: 'Confirm Payment',
         render: () => (
           <ModalConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}

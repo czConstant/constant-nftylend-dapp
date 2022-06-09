@@ -17,8 +17,8 @@ const Pagination = (props: PaginationProps) => {
   return (
     <Flex alignItems='center' gap={4}>
       <Text>Showing {start} - {end} of {total}</Text>
-      <IconButton isRound variant='outline' onClick={() => onChangePage(page - 1)} disabled={page <= 1} aria-label='prev' icon={<Icon as={MdChevronLeft} />} />
-      <IconButton isRound variant='outline' onClick={() => onChangePage(page + 1)} disabled={page * pageSize >= total} aria-label='next' icon={<Icon as={MdChevronRight} />} />
+      <IconButton borderWidth={2} colorScheme='whiteAlpha' isRound variant='outline' onClick={() => onChangePage(page - 1)} disabled={page <= 1} aria-label='prev' icon={<Icon as={MdChevronLeft} />} />
+      <IconButton borderWidth={2} colorScheme='whiteAlpha' isRound variant='outline' onClick={() => onChangePage(page + 1)} disabled={page * pageSize >= total} aria-label='next' icon={<Icon as={MdChevronRight} />} />
     </Flex>
   )
 };

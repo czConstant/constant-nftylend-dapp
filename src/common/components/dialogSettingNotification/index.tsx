@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Field, Form } from "react-final-form";
-import { Box, Button, Flex, Heading, Switch, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Switch, Text } from '@chakra-ui/react';
 
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import Loading from 'src/common/components/loading';
