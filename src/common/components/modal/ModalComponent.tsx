@@ -1,5 +1,6 @@
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, ModalProps } from '@chakra-ui/react';
 import cx from "classnames";
-import { Modal, ModalProps } from "react-bootstrap";
+// import { Modal, ModalProps } from "react-bootstrap";
 
 import { useAppDispatch } from "src/store/hooks";
 import { closeModal } from "src/store/modal";
@@ -19,6 +20,7 @@ export interface ModalComponentProps {
 
 const ModalComponent = (props: ModalComponentProps) => {
   const { id, render, title, className, actions, modalProps, onClose, theme } = props;
+
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -26,30 +28,16 @@ const ModalComponent = (props: ModalComponentProps) => {
     if (onClose) onClose(props);
   };
 
-  const renderHeader = () => {
-    return title ? (
-      <Modal.Header closeButton>
-        <Modal.Title>{title}</Modal.Title>
-      </Modal.Header>
-    ) : null;
-  };
-
-  const { dialogClassName, contentClassName, ...rest } = modalProps || {};
-
   return (
-    <Modal
-      show
-      keyboard={false}
-      onHide={handleClose}
-      bsclass={className}
-      dialogClassName={dialogClassName}
-      contentClassName={cx(contentClassName, styles.modalContent, theme === 'dark' && styles.modalDark)}
-      {...rest}
-    >
-      {renderHeader()}
-      <Modal.Body className={cx(styles.modalBody)}>
-        {render(actions)}
-      </Modal.Body>
+    <Modal isOpen onClose={handleClose} isCentered {...modalProps}>
+      <ModalOverlay />
+      <ModalContent className={className}>
+        <ModalHeader>{title}</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody className={cx(styles.modalBody)}>
+          {render(actions)}
+        </ModalBody>
+      </ModalContent>
     </Modal>
   );
 };

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Field, Form } from "react-final-form";
-import { Button } from "react-bootstrap";
-import { Switch } from '@chakra-ui/react';
+import { Box, Button, Flex, Switch, Text } from '@chakra-ui/react';
 
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import Loading from 'src/common/components/loading';
@@ -9,7 +8,6 @@ import { required, isEmail, composeValidators } from "src/common/utils/formValid
 import InputWrapper from "src/common/components/form/inputWrapper";
 import FieldText from 'src/common/components/form/fieldText';
 
-import styles from './settingNotification.module.scss';
 import api from 'src/common/services/apiClient';
 import { API_URL } from 'src/common/constants/url';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -70,45 +68,40 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <Form onSubmit={onSubmit} initialValues={{ email }}>
-        {({ handleSubmit }) => (
-          <form className={styles.formEmail} onSubmit={handleSubmit}>
-            <h2>Setting</h2>
-            <InputWrapper label="Email" theme="dark">
-              <Field
-                name="email"
-                children={FieldText}
-                placeholder="example@nftpawn.financial"
-                validate={composeValidators(required, isEmail())}
-              />
-            </InputWrapper>
-            <h3>Notification Preference</h3>
-            <div className={styles.switchRow}>
-              <div>
-                <label>Newsletter</label>
-                <p>Get first notified for any NFTPawn info</p>
-              </div>
+    <Form onSubmit={onSubmit} initialValues={{ email }}>
+      {({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <InputWrapper label="Email" theme="dark">
+            <Field
+              name="email"
+              children={FieldText}
+              placeholder="example@nftpawn.financial"
+              validate={composeValidators(required, isEmail())}
+            />
+          </InputWrapper>
+          <Text fontSize='xl' fontWeight='semibold' mb={4}>Notification Preference</Text>
+          <Flex direction='column' gap={4}>
+            <Flex alignItems='center' justifyContent='space-between' gap={4}>
+              <Box>
+                <Text fontWeight='medium'>Newsletter</Text>
+                <Text fontSize='sm' color='text.secondary'>Get first notified for any NFTPawn info</Text>
+              </Box>
               <Switch colorScheme='brand.primary' isChecked={newsNotiEnabled} onChange={e => setNewsNotiEnabled(e.target.checked)} />
-            </div>
-            <div className={styles.switchRow}>
-              <div>
-                <label>Loans activity</label>
-                <p>Get notified for your loans and offers on NFTPawn</p>
-              </div>
+            </Flex>
+            <Flex alignItems='center' justifyContent='space-between' gap={4}>
+              <Box>
+                <Text fontWeight='medium'>Loans activity</Text>
+                <Text fontSize='sm' color='text.secondary'>Get notified for your loans and offers on NFTPawn</Text>
+              </Box>
               <Switch colorScheme='brand.primary' isChecked={loanNotiEnabled} onChange={e => setLoanNotiEnabled(e.target.checked)} />
-            </div>
-            <Button
-              disabled={submitting}
-              className={styles.saveButton}
-              type="submit"
-            >
-              {submitting ? <Loading dark /> : "Save"}
-            </Button>
-          </form>
-        )}
-      </Form>
-    </div>
+            </Flex>
+          </Flex>
+          <Button w='100%' mt={4} disabled={submitting} type="submit">
+            {submitting ? <Loading dark /> : "Save"}
+          </Button>
+        </form>
+      )}
+    </Form>
   );
 };
 

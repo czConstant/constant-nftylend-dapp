@@ -4,6 +4,21 @@
   min-height: var(--header-height);
 }
 
+.connectButton {
+  height: 40px;
+  background: #272727 !important;
+  border: 2px solid #2E3136;
+  color: #fcfcfd;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-radius: 20px !important;
+  box-shadow: none;
+  &::after {
+    display: none;
+  }
+}
+
 .content {
   max-width: 1440px;
   margin: 0 auto;

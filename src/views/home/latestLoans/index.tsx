@@ -57,7 +57,7 @@ const LatestLoans = () => {
           <div className={styles.title}>Global Loans</div>
           <div className={styles.stats}>
             <div>
-              <label>${formatCurrency(stats?.total_volume)}</label>
+              <label>${formatCurrency(stats?.total_volume, 0)}</label>
               <span>Loan Volume</span>
             </div>
             <div>

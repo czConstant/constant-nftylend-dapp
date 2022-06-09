@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import cx from 'classnames';
-import { Dropdown } from 'react-bootstrap';
 import { isMobile } from 'react-device-detect';
+import { Flex, Icon, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { FaCaretDown } from 'react-icons/fa';
 
 import { selectNftyLend } from 'src/store/nftyLend';
 import { getOffersByFilter } from 'src/modules/nftLend/api';
@@ -39,15 +40,21 @@ const ListOfferReceive = () => {
 
   return (
     <div className={cx(isMobile && listLoanStyles.mobileWrap, listLoanStyles.wrapper)}>
-      <Dropdown className={listLoanStyles.dropdown} onSelect={e => e && setStatus(e)}>
-        <Dropdown.Toggle><span>{status.toUpperCase() || 'ALL'}</span></Dropdown.Toggle>
-        <Dropdown.Menu className={listLoanStyles.dropdownMenu}>
-          <Dropdown.Item eventKey="">All</Dropdown.Item>
-          {
-            Object.values(OFFER_STATUS).map(v => <Dropdown.Item eventKey={v.id} key={v.id}>{v.name}</Dropdown.Item>)
-          }
-        </Dropdown.Menu>
-      </Dropdown>
+      <Menu>
+        <MenuButton mt={4} className={listLoanStyles.menuButton}>
+          <Flex alignItems='center' justifyContent='space-between' pl={4} pr={2}>
+            <Text>{status.toUpperCase() || 'ALL'}</Text>
+            <Icon fontSize='xl' as={FaCaretDown} />
+          </Flex>
+          
+        </MenuButton>
+        <MenuList>
+          <MenuItem onClick={() => setStatus('')}>All</MenuItem>
+          {Object.values(OFFER_STATUS).map(v => (
+            <MenuItem key={v.id} onClick={() => setStatus(v.id)}>{v.name}</MenuItem>
+          ))}
+        </MenuList>
+      </Menu>
       <div className={listLoanStyles.table}>
         <div className={cx(listLoanStyles.header, listLoanStyles.row)}>
           <div>AssetName</div>

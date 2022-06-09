@@ -23,7 +23,7 @@ import IconDisconnect from './images/ic_disconnect.svg'
 import styles from './styles.module.scss';
 import { APP_URL } from 'src/common/constants/url';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
-import { MdDashboard } from 'react-icons/md';
+import { MdDashboard, MdSettings } from 'react-icons/md';
 
 interface ButtonWalletDropdownProps {
   className?: string;
@@ -65,6 +65,7 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
     dispatch(openModal({
       id,
       theme: 'dark',
+      title: 'Settings',
       modalProps: {
         centered: true,
         contentClassName: styles.modalContent,
@@ -74,7 +75,7 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
   };
 
   return (
-    <Menu autoSelect={false}>
+    <Menu autoSelect={false} placement='bottom-end'>
       <MenuButton h='40px' borderRadius={20} fontWeight='semibold'>
         <Flex alignItems='center' p={4}>
           {/* {walletIcons[currentWallet.name] && <img alt="" src={walletIcons[currentWallet.name]} />} */}
@@ -109,7 +110,7 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
           </CopyToClipboard>
         </MenuItem>
         <MenuItem onClick={onEnableNotification}>
-          <Image boxSize='20px' src={IconMyAsset} mr={2} />
+          <Icon mr={2} boxSize='20px' color='text.secondary' as={MdSettings} />
           <Text>Settings</Text>
         </MenuItem>
         <MenuItem onClick={onChangeWallet}>

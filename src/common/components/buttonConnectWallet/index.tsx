@@ -1,25 +1,18 @@
 import { memo } from 'react';
-import { Button } from 'react-bootstrap';
-import cx from 'classnames';
+import { Button, ButtonProps } from '@chakra-ui/react';
 
 import { useAppDispatch } from 'src/store/hooks';
-import styles from './styles.module.scss';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { closeModal, openModal } from 'src/store/modal';
 import DialogConnectWallet from '../dialogConnectWallet';
-import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 
-interface ButtonConnectWalletProps {
-  className?: string;
-  onClick?: Function;
-}
-
-const ButtonConnectWallet = (props: ButtonConnectWalletProps) => {
-  const { className, onClick } = props;
+const ButtonConnectWallet = (props: ButtonProps) => {
+  const { className, onClick, ...rest } = props;
   const { connectNearWallet } = useCurrentWallet();
   const dispatch = useAppDispatch();
 
-  const handleClick = async () => {
-    if (onClick) onClick();
+  const handleClick = async (e) => {
+    if (onClick) onClick(e);
     await connectNearWallet();
     // const id = 'connectWalletModal';
     // const close = () => dispatch(closeModal({ id }))
@@ -35,7 +28,7 @@ const ButtonConnectWallet = (props: ButtonConnectWalletProps) => {
   };
 
   return (
-    <Button className={cx(styles.connectButton, className)} onClick={handleClick}>
+    <Button className={className} onClick={handleClick} {...rest}>
       Connect wallet
     </Button>
   );

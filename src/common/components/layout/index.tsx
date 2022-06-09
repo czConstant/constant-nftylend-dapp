@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from "framer-motion"
+import { Icon, IconButton } from '@chakra-ui/react';
+import { MdExpandLess } from 'react-icons/md';
 
 import Header from 'src/common/components/header';
 import Footer from 'src/common/components/footer';
@@ -13,10 +15,14 @@ interface LayoutProps {
 const Layout = (props: LayoutProps) => {
   const { children } = props;
   const [isScrollEnd, setIsScrollEnd] = useState(false)
+  const [isShowScrollTop, setIsShowScrollTop] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrollEnd(window.document.body.clientHeight - window.innerHeight - window.scrollY < 200);
+      setIsShowScrollTop(window.innerHeight < window.scrollY);
+      console.log("🚀 ~ file: index.tsx ~ line 24 ~ handleScroll ~ window.scrollY", window.scrollY)
+      console.log("🚀 ~ file: index.tsx ~ line 24 ~ handleScroll ~ window.innerHeight", window.innerHeight)
     }
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -33,6 +39,15 @@ const Layout = (props: LayoutProps) => {
         style={{ position: 'fixed', top: 300, right: 15 }}
       >
         <SocialLinks layout='vertical' iconSize={40} />
+      </motion.div>
+      <motion.div
+        animate={{ opacity: isShowScrollTop ? 1 : 0 }}
+        transition={{ ease: "easeOut", duration: 0.2 }}
+        style={{ position: 'fixed', bottom: 100, right: 15 }}
+      >
+        <IconButton aria-label='scroll top' borderRadius={40} onClick={() => window.scrollTo(0, 0)}>
+          <Icon fontSize='3xl' as={MdExpandLess} />
+        </IconButton>
       </motion.div>
     </div>
   );

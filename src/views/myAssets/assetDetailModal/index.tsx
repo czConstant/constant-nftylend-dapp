@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
-import { Button, Dropdown } from 'react-bootstrap';
-import { isMobile } from 'react-device-detect';
+import { useNavigate } from 'react-router-dom';
+import { MdMoreVert } from 'react-icons/md';
+import { Box, Button, Flex, Grid, GridItem, Icon, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 
 import CardNftMedia from 'src/views/apps/CardNftMedia';
 import { APP_URL } from 'src/common/constants/url';
@@ -19,10 +20,11 @@ interface AssetDetailModalProps {
 };
 
 const AssetDetailModal = (props: AssetDetailModalProps) => {
-  const { asset, navigate, onClose, onMakeLoan } = props;
+  const { asset, onClose, onMakeLoan } = props;
 
+  const navigate = useNavigate();
   const [extraData, setExtraData] = useState(asset.detail || {});
-  const [listingDetail, setListingDetail] = useState({} as any);
+  const [listingDetail, setListingDetail] = useState(true);
   const [loading, setLoading] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [loan, setLoan] = useState<LoanNft>();
@@ -78,58 +80,43 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
     if (onMakeLoan) onMakeLoan();
   }
 
-  const onGoTtoLoan = () => {
+  const onGoToLoan = () => {
     onClose();
-    navigate(`${APP_URL.LIST_LOAN}/${loan?.seo_url}`);
+    navigate(`${APP_URL.DETAIL_LOAN}/${loan?.seo_url}`);
   };
 
   const renderButton = () => {
     if (verifying) return <Loading />;
     if (loan?.isListing()) return (
-      <Button onClick={onGoTtoLoan} className={styles.btnGoToLoan}>
+      <Button onClick={onGoToLoan} colorScheme='brand.warning'>
         Go to loan
       </Button>
     );
     if (listingDetail) return (
-      <Button onClick={onClickMakeLoan} className={styles.btnConnect}>
+      <Button w='100%' onClick={onClickMakeLoan}>
         Make a Loan
       </Button>
     );
     return (
-      <div className={styles.notVerified}>
-        This NFT Collection is currently unavailable. We are working with the NFT community to whitelist quality projects to protect our investors.
-      </div>
+      <Box className={styles.notVerified}>
+        <Text variant='warning' fontSize='sm'>This NFT Collection is currently unavailable. We are working with the NFT community to whitelist quality projects to protect our investors.</Text>
+      </Box>
     );
   };
 
   return (
-    <div className={cx(isMobile && styles.moAssetDetailModal, styles.assetDetailModal)}>
-      {
-        isMobile &&
-          <a onClick={onClose} className={styles.btnClose} >
-            <i className="fas fa-times"></i>
-          </a>
-      }
-      <CardNftMedia
-        name={asset.name}
-        className={cx(extraData?.attributes?.length > 6 && styles.largeImage)}
-        detail={extraData}
-        loading={loading}
-      />
-      <div>
-        <h4>{asset.name}</h4>
-        <div>{collectionName}</div>
-        <div>
-          <a
-            className={styles.infoAuthor}
-            target="_blank"
-            href={`${
-              APP_URL.LIST_LOAN
-            }?collection=${extraData?.collection?.family?.toLowerCase()}`}
-          >
-            {extraData?.collection?.name}
-          </a>
-        </div>
+    <Flex w={800}>
+      <Box w='50%' maxW={400} mr={8}>
+        <CardNftMedia
+          name={asset.name}
+          className={cx(extraData?.attributes?.length > 6 && styles.largeImage)}
+          detail={extraData}
+          loading={loading}
+        />
+      </Box>
+      <Box flex={1}>
+        <Text fontWeight='bold' fontSize='2xl'>{asset.name}</Text>
+        <Text fontSize='sm'>{collectionName}</Text>
         {asset.creator && (
           <div>
             <a
@@ -148,41 +135,35 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
             </a>
           </div>
         )}
-        <div className={cx(styles.actions)}>
-          {renderButton()}
-          <Dropdown align={'end'} className={styles.dropdown}>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              <i className="far fa-ellipsis-v"></i>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item
-                target="_blank"
-                href={asset.getLinkExplorer()}
-              >
+        <Flex my={4}>
+          <Box flex={1}>{renderButton()}</Box>
+          <Menu autoSelect={false} placement='bottom-end'>
+            <MenuButton border='none' bg='none' ml={4} w={8} h={8}>
+              <Icon fontSize='4xl' as={MdMoreVert} />
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => window.open(asset.getLinkExplorer(), '_blank')}>
                 View in explorer
-              </Dropdown.Item>
-              <Dropdown.Item target="_blank" href={asset.detail_uri}>
+              </MenuItem>
+              <MenuItem onClick={() => window.open(asset.detail_uri, '_blank')}>
                 View raw JSON
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-        <div className={styles.description}>{extraData?.description}</div>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Flex>
+        <Text fontSize='sm'>{extraData?.description}</Text>
         {extraData?.attributes?.length > 0 && (
-          <div className={styles.attContainer}>
-            {/* <label>Attributes</label> */}
-            <div className={styles.attWrap}>
-              {extraData?.attributes?.map((att: any) => (
-                <div key={att?.trait_type}>
-                  <label>{att?.trait_type}</label>
-                  <div>{att?.value}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <Grid templateColumns='repeat(3, 1fr)' gap={2}>
+            {extraData?.attributes?.map((att: any) => (
+              <GridItem bgColor='background.darker' p={4} borderRadius={8} key={att?.trait_type}>
+                <Text variant='attrLabel' fontSize='10px'>{att?.trait_type}</Text>
+                <Text fontSize='xs'>{att?.value}</Text>
+              </GridItem>
+            ))}
+          </Grid>
         )}
-      </div>
-    </div>
+      </Box>
+    </Flex>
   );
 };
 

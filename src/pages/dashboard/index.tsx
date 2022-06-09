@@ -14,7 +14,7 @@ const Dashboard = () => {
         <Tabs variant='solid-rounded' colorScheme='brand.primary' orientation='vertical' defaultIndex={0}>
           <TabList p={4}>
             <Tab minW={200} justifyContent='left' borderRadius={8}>Overview</Tab>
-            <Tab minW={200} justifyContent='left' borderRadius={8}>Settings</Tab>
+            {/* <Tab minW={200} justifyContent='left' borderRadius={8}>Settings</Tab> */}
           </TabList>
           <TabPanels>
             <TabPanel>

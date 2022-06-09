@@ -3,7 +3,7 @@ import type { ComponentStyleConfig } from '@chakra-ui/theme'
 
 const Text: ComponentStyleConfig = {
   baseStyle: {
-    color: 'text.primary',
+    color: 'inherit',
   },
   variants: {
     primary: {
@@ -11,6 +11,10 @@ const Text: ComponentStyleConfig = {
     },
     secondary: {
       color: 'text.secondary',
+    },
+    warning: {
+      color: 'brand.primary',
+      fontWeight: 'medium',
     },
     attrLabel: {
       fontWeight: 'normal',
@@ -22,17 +26,9 @@ const Text: ComponentStyleConfig = {
 }
 
 const Button: ComponentStyleConfig = {
-  variants: {
-    solid: {
-      bgColor: 'brand.primary.400',
-      _hover: {
-        bgColor: 'brand.primary.500',
-      },
-      _active: {
-        bgColor: 'brand.primary.500',
-      },
-    }
-  }
+  defaultProps: {
+    colorScheme: 'brand.primary',
+  },
 }
 
 const Image: ComponentStyleConfig = {
@@ -176,6 +172,29 @@ const Accordion: ComponentStyleConfig = {
   }
 }
 
+const Modal: ComponentStyleConfig = {
+  defaultProps: {
+    size: 'lg',
+  },
+  baseStyle: {
+    dialog: {
+      bgColor: 'background.default',
+      px: 4,
+      py: 8,
+      borderRadius: 16,
+    }
+  },
+  sizes: {
+    xl: {
+      dialog: {
+        w: 'fit-content',
+        maxW: 'unset',
+        minW: 500,
+      }
+    }
+  }
+}
+
 const customTheme = extendTheme({ 
   colors: {
     text: {
@@ -254,6 +273,7 @@ const customTheme = extendTheme({
     Tooltip,
     Divider,
     Accordion,
+    Modal,
   },
  });
 

@@ -2,43 +2,41 @@ import React from 'react';
 import { isMobile } from "react-device-detect";
 import { Link } from "react-router-dom";
 import cx from "classnames";
-import { Icon, Tooltip } from '@chakra-ui/react';
+import { Box, Flex, Icon, Text, Tooltip } from '@chakra-ui/react';
 import { MdInfoOutline } from 'react-icons/md';
 
 import SocialLinks from 'src/views/apps/socialLinks';
 import { APP_URL } from "src/common/constants/url";
 
 import AppIcon from "../appIcon";
-import styles from "./styles.module.scss";
+import InfoTooltip from '../infoTooltip';
+import SectionContainer from '../sectionContainer';
 
 const Footer = () => (
-  <div className={cx(isMobile && styles.mobileFooter, styles.wrapper)}>
-    <div className={styles.content}>
-      <div className={styles.left}>
+  <SectionContainer>
+    <Flex pt={50} pb={30} justifyContent='space-between'>
+      <Box>
         <Link to={APP_URL.DISCOVER}>
           <AppIcon />
         </Link>
-        <div className={styles.company}>
-          <span className={styles.companyName}><i className="far fa-copyright" />2019-2022 Const LLC.</span>
-          <br />
-          <span>3500 S dupont hwy Dover 19901 Delaware</span>
-        </div>
-      </div>
-      <div className={styles.mid}>First NFTs Lending Solution On Near Protocol</div>
-      <div className={styles.right}>
+        <Flex mt={4} direction='column' color='text.primary' fontSize='sm'>
+          <Text fontWeight='medium'><i className="far fa-copyright" />2019-2022 Const LLC.</Text>
+          <Text>3500 S dupont hwy Dover 19901 Delaware</Text>
+        </Flex>
+      </Box>
+      <Text fontWeight='medium'>First NFTs Lending Solution On Near Protocol</Text>
+      <Flex direction='column' alignItems='flex-end'>
         <SocialLinks />
-        <div className={styles.copyright}>
-          <div>
-            This project is in public beta
-            <Tooltip placement='top' label="This project is in public beta. - NFTPawn's smart contract is not yet audited by well-known security organization or firm. Use at your own risk!">
-              <span><Icon as={MdInfoOutline} /></span>
-            </Tooltip>
-          </div>
+        <Box mt={4} color='text.secondary' fontSize='small'>
+          <Flex alignItems='center' justifyContent='flex-end'>
+            <Text mr={4}>This project is in public beta</Text>
+            <InfoTooltip iconSize='md' label="This project is in public beta. NFT Pawn's smart contract is not yet audited by a well-known security organization or firm. Use at your own risk!" />
+          </Flex>
           <div>Copyright © 2022 NFT Pawn. All rights reserved</div>
-        </div>
-      </div>
-    </div>
-  </div>
+        </Box>
+      </Flex>
+    </Flex>
+  </SectionContainer>
 );
 
 export default React.memo(Footer);

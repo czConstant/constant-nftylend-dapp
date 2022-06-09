@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import { APP_URL } from "src/common/constants/url";
@@ -13,6 +12,7 @@ import { getLinkExplorerWallet } from 'src/modules/nftLend/utils';
 import Loading from "../../../common/components/loading";
 import ButtonConnectWallet from '../../../common/components/buttonConnectWallet';
 import styles from "./styles.module.scss";
+import { Box, Button, Heading, Text } from '@chakra-ui/react';
 
 interface DialogGuideStartProps {
   navigate?: any;
@@ -52,29 +52,30 @@ const DialogGuideStart = (props: DialogGuideStartProps) => {
     } else if (!currentWallet.address) {
       return (
         <>
-          <h4>Connect Your Wallet</h4>
-          <div>
+          <Heading as='h4'>Connect Your Wallet</Heading>
+          <Text my={8}>
             Similar to other Dapp, the first thing is connecting your wallet to
             our Dapp to start and there are few options that you can manage to
             connect: Solflare, Sollet, Phantom, Sollet, Coin98 Wallet.
-          </div>
-          <ButtonConnectWallet onClick={onClose} className={styles.btnConnect} />
+          </Text>
+          <ButtonConnectWallet w='100%' h={50} onClick={() => onClose && onClose()} />
         </>
       );
     } else if (myNfts.length > 0) {
       return (
         <>
-          <div>
+          <Text>
             Your wallet has {myNfts.length} NFT assets, please select one of
             them to start creating a loan order!
-          </div>
+          </Text>
           <Button
+            w='100%'
+            mt={4}
             onClick={() => {
               if (onClose) onClose();
               if (onGoToAsset) onGoToAsset();
               navigate(APP_URL.MY_NFT);
             }}
-            className={styles.btnConnect}
           >
             Go to my asset
           </Button>
@@ -83,9 +84,9 @@ const DialogGuideStart = (props: DialogGuideStartProps) => {
     } else {
       return (
         <>
-          <div>
+          <Text>
             Your wallet has no NFT to create a loan. Please consider our <a>Whitelisted Collections</a> to buy or deposit NFTs into your wallet.
-          </div>
+          </Text>
           <div className={styles.addressWrap}>
             <a
               target="_blank"
@@ -105,7 +106,7 @@ const DialogGuideStart = (props: DialogGuideStartProps) => {
     }
   };
 
-  return <div className={styles.modalContent}>{renderContent()}</div>;
+  return <Box>{renderContent()}</Box>;
 };
 
 export default DialogGuideStart;

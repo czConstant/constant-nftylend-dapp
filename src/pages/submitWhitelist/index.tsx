@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Button } from 'react-bootstrap';
 import { Field, Form } from 'react-final-form';
 import queryString from "query-string";
-import { Switch } from '@chakra-ui/react';
+import { Button, Switch } from '@chakra-ui/react';
 
 import FieldText from 'src/common/components/form/fieldText';
 import InputWrapper from 'src/common/components/form/inputWrapper';
@@ -140,11 +139,7 @@ const SubmitWhitelist = () => {
                 </InputWrapper>
               )}
               <div className={styles.actions}>
-                <Button
-                  type="submit"
-                  className={styles.submitButton}
-                  disabled={submitting}
-                >
+                <Button w='100%' type="submit" disabled={submitting}>
                   {submitting ? <Loading /> : "Submit"}
                 </Button>
               </div>

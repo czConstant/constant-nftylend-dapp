@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from "react-bootstrap";
 import { Field, useForm, useFormState } from "react-final-form";
 
 import FieldAmount from "src/common/components/form/fieldAmount";
@@ -13,6 +12,7 @@ import { calculateMaxInterest, calculateMaxTotalPay } from 'src/modules/nftLend/
 import { formatCurrency } from 'src/common/utils/format';
 import styles from "./makeOfferForm.module.scss";
 import InfoTooltip from 'src/common/components/infoTooltip';
+import { Button } from '@chakra-ui/react';
 
 const HIGH_RISK_VALUE = 2.5; // 250%
 
@@ -139,11 +139,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
         />
       </InputWrapper>
       {renderEstimatedInfo()}
-      <Button
-        type="submit"
-        className={styles.submitButton}
-        disabled={submitting}
-      >
+      <Button type="submit" width='100%' mt={4} disabled={submitting}>
         {submitting ? <Loading dark /> : "Offer now"}
       </Button>
     </form>

@@ -27,6 +27,7 @@ const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
       const response = await getListingLoans({
         collection_id: collectionId,
         exclude_ids: detailLoanId,
+        limit: 10,
       });
       setItems(response?.result.map(LoanNft.parseFromApi));
     } catch (error) {
@@ -36,7 +37,7 @@ const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
 
   const renderSuggestContent = () => {
     return (
-      <Flex gap={4}>
+      <Flex gap={4} overflow='scroll'>
         {items.map((loan) => loan.asset && (
           <CardNftLoan key={loan.id} asset={loan.asset} loan={loan} />
         ))}
