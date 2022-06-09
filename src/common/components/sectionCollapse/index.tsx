@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import cx from "classnames";
-import styles from "./styles.module.scss";
-import { Accordion, Collapse, useAccordionButton } from "react-bootstrap";
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Flex, Image, Text } from '@chakra-ui/react';
 import expandIco from "./assets/expand-arrow.svg";
-import { isMobile } from "react-device-detect";
 
 interface SectionCollapseProps {
-  label: string;
+  label: ReactNode;
   id: string;
   selected?: boolean;
   content?: any;
@@ -27,31 +25,30 @@ const SectionCollapse: React.FC<SectionCollapseProps> = ({
   className
 }) => {
   const [active, setActive] = useState(selected);
-  const decoratedOnClick = useAccordionButton(id, () =>
-    setActive((_active) => !_active)
-  );
+
+  const onChange = (i: number) => {
+    setActive(!active);
+    onToggle && onToggle(i === 0)
+  }
+
   return (
     <Accordion
-      alwaysOpen={selected}
-      defaultActiveKey={selected && [id]}
-      className={cx(isMobile && styles.mbSectionWrap, styles.sectionWrap, className)}
-      onClick={decoratedOnClick}
+      allowMultiple
+      allowToggle
+      defaultIndex={selected ? 0 : undefined}
+      onChange={onChange}
+      className={className}
+      mb={1}
     >
-      <Accordion.Item eventKey={id}>
-        <Accordion.Header className={disabled && styles.btnDisabled}>
-          <div dangerouslySetInnerHTML={{ __html: label }} />
-          <img
-            src={expandIco}
-            className={cx(
-              active && styles.expandIconActive,
-              styles.expandIcon
-            )}
-          />
-        </Accordion.Header>
-        <Accordion.Body className={cx(bodyClassName, styles.tabContentWrap)}>
-          <div className={styles.content}>{content}</div>
-        </Accordion.Body>
-      </Accordion.Item>
+      <AccordionItem border='none'>
+        <AccordionButton p={4} pointerEvents={disabled ? 'none' : 'all'} alignItems='center' justifyContent='space-between'>
+          <Box>{label}</Box>
+          <Image src={expandIco} transition='all 0.2s' transform={`rotate(${active ? '-180' : '0'}deg)`} />
+        </AccordionButton>
+        <AccordionPanel bgColor='background.card'>
+          <Box>{content}</Box>
+        </AccordionPanel>
+      </AccordionItem>
     </Accordion>
   );
 };

@@ -64,23 +64,6 @@
   }
 }
 
-.warningNetwork {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 40px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #DE710B;
-  background-color: rgba(255, 192, 122, 0.2);
-  box-shadow: 0 10px 20px -10px rgba(18, 0, 123, 0.17);
-  > a {
-    font-weight: bold;
-    text-decoration: underline !important;
-  }
-}
-
 .hiddenSolButton {
   :global {
     .wallet-adapter-dropdown{

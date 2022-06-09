@@ -57,11 +57,11 @@ const LatestLoans = () => {
           <div className={styles.title}>Global Loans</div>
           <div className={styles.stats}>
             <div>
-              <label>${stats?.total_volume}</label>
+              <label>${formatCurrency(stats?.total_volume)}</label>
               <span>Loan Volume</span>
             </div>
             <div>
-              <label>{stats?.total_loans}</label>
+              <label>{formatCurrency(stats?.total_loans)}</label>
               <span>Number of Loans</span>
             </div>
             <div>
