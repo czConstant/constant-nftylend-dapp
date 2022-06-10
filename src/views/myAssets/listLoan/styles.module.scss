@@ -10,6 +10,19 @@
   font-size: 14px;
 }
 
+.statusWrap {
+  width: fit-content;
+  min-width: 80px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 10px;
+  letter-spacing: 0;
+  line-height: 24px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .wrapper {
   
   .table {
@@ -49,17 +62,6 @@
         padding: 20px 5px;
         display: flex;
         align-items: center;
-        .statusWrap {
-          padding: 5px 20px;
-          border-radius: 8px;
-          font-weight: 500;
-          font-size: 14px;
-          letter-spacing: 0;
-          line-height: 24px;
-          min-width: 100px;
-          text-align: center;
-          text-transform: capitalize;
-        }
       }
       button {
         font-size: 14px;

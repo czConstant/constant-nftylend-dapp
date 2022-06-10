@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 import BigNumber from 'bignumber.js';
-import { Button } from "react-bootstrap";
+import { Button, Center } from '@chakra-ui/react';
 
 import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
@@ -69,20 +69,12 @@ const OfferRow = (props: OfferRowProps) => {
       {offer?.isListing() && (
         <div className={styles.actions}>
           {isMyOffer && (
-            <Button
-              style={{ color: "#dc3545" }}
-              variant="link"
-              onClick={() => onCancel(offer)}
-            >
+            <Button variant="link" colorScheme='brand.danger' onClick={() => onCancel(offer)}>
               Cancel
             </Button>
           )}
           {isMyLoan && !offer?.isExpired() && (
-            <Button
-              style={{ color: "#0d6efd" }}
-              variant="link"
-              onClick={() => onAccept(offer)}
-            >
+            <Button variant="link" onClick={() => onAccept(offer)}>
               Accept
             </Button>
           )}
@@ -187,6 +179,7 @@ const LoanDetailOffers: React.FC<LoanDetailOffersProps> = ({ loan }) => {
   return (
     <>
       <OfferTableHeader />
+      {offers.length === 0 && <Center h={20}>No offer yet</Center>}
       {offers.map(offer => (
         <OfferRow
           key={offer.id}

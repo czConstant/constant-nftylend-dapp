@@ -21,8 +21,6 @@ const Layout = (props: LayoutProps) => {
     const handleScroll = () => {
       setIsScrollEnd(window.document.body.clientHeight - window.innerHeight - window.scrollY < 200);
       setIsShowScrollTop(window.innerHeight < window.scrollY);
-      console.log("🚀 ~ file: index.tsx ~ line 24 ~ handleScroll ~ window.scrollY", window.scrollY)
-      console.log("🚀 ~ file: index.tsx ~ line 24 ~ handleScroll ~ window.innerHeight", window.innerHeight)
     }
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);

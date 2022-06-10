@@ -82,13 +82,13 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
 
   const onGoToLoan = () => {
     onClose();
-    navigate(`${APP_URL.DETAIL_LOAN}/${loan?.seo_url}`);
+    navigate(APP_URL.DETAIL_LOAN.replace(':id', loan?.seo_url));
   };
 
   const renderButton = () => {
     if (verifying) return <Loading />;
     if (loan?.isListing()) return (
-      <Button onClick={onGoToLoan} colorScheme='brand.warning'>
+      <Button w='100%' onClick={onGoToLoan} colorScheme='brand.warning'>
         Go to loan
       </Button>
     );

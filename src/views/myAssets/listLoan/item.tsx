@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
-import cx from 'classnames';
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Button, Flex, Grid, GridItem, Link } from '@chakra-ui/react';
 
 import { useAppDispatch } from "src/store/hooks";
 import { toastError, toastSuccess } from "src/common/services/toaster";
@@ -19,18 +18,22 @@ import { calculateTotalPay } from 'src/modules/nftLend/utils';
 
 // import { STATUS } from '../../listLoan/leftSidebar';
 import styles from "./styles.module.scss";
+import LoanDetailOffers from 'src/pages/loanDetail/pawnInfo/LoanDetail.Offers';
+import { formatCurrency } from 'src/common/utils/format';
 
 interface ItemProps {
   loan: LoanNft;
+  templateColumns: string;
 }
 
 const Item = (props: ItemProps) => {
-  const { loan } = props;
+  const { loan, templateColumns } = props;
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { cancelLoan, payLoan } = useTransaction();
 
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onCancelLoan = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -177,35 +180,62 @@ const Item = (props: ItemProps) => {
   }
 
   return (
-    <div key={loan.id} onClick={() => setOpen(!open)} className={cx(styles.item, styles.row)}>
-      <div>
-        <a onClick={onViewLoan}>{loan.asset?.name}</a>
-      </div>
-      <div>
-        {principal} {loan.currency?.symbol}
-      </div>
-      <div>
-        {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
-        &nbsp;/&nbsp;
-        {new BigNumber(interest).multipliedBy(100).toNumber()}%
-      </div>
-      {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
-      <div>
-        <div className={styles.statusWrap} style={statusStyle}>
-          {LOAN_STATUS.find((v) => v.id === status)?.name || "Unknown"}
-        </div>
-      </div>
-      {/* <div>
-        <a target="_blank" href={loan.getLinkExplorerTx()}>
-          {shortCryptoAddress(loan.init_tx_hash, 8)}
-        </a>
-      </div> */}
-      <div>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</div>
-      <div className={styles.actions}>
-        {showCancel && <Button onClick={onCancelLoan}>Cancel</Button>}
-        {showPay && <Button onClick={onPayLoan}>Pay</Button>}
-      </div>
-    </div>
+    <Accordion allowToggle onChange={i => setOpen(i === 0)}>
+      <AccordionItem border='none'>
+        <AccordionButton borderRadius={0} p={0} bgColor='transparent'>
+          <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
+            <GridItem pl={8} py={4}>
+              <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan.asset?.name}</Link>
+            </GridItem>
+            <GridItem py={4}>
+              {formatCurrency(principal)} {loan.currency?.symbol}
+              &nbsp;/&nbsp;
+              {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
+              &nbsp;/&nbsp;
+              {new BigNumber(interest).multipliedBy(100).toNumber()}%
+            </GridItem>
+            <GridItem py={4}>
+              <Box className={styles.statusWrap} style={statusStyle}>
+                {LOAN_STATUS.find((v) => v.id === status)?.name || "Unknown"}
+              </Box>
+            </GridItem>
+            <GridItem py={4}>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</GridItem>
+            <GridItem pr={8} py={4}>
+              <Flex w='100%' justifyContent='flex-end'>
+                {showCancel && <Button size='sm' variant='link' textDecoration='underline' colorScheme='whiteAlpha' onClick={onCancelLoan}>Cancel</Button>}
+                {showPay && <Button size='sm' variant='link' textDecoration='underline' colorScheme='brand.warning' onClick={onPayLoan}>Pay</Button>}
+              </Flex>  
+            </GridItem>
+          </Grid>
+          {/* <div key={loan.id} onClick={() => setOpen(!open)} className={cx(styles.item, styles.row)}>
+            <div>
+              <a onClick={onViewLoan}>{loan.asset?.name}</a>
+            </div>
+            <div>
+              {principal} {loan.currency?.symbol}
+            </div>
+            <div>
+              {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
+              &nbsp;/&nbsp;
+              {new BigNumber(interest).multipliedBy(100).toNumber()}%
+            </div>
+            <div>
+              <div className={styles.statusWrap} style={statusStyle}>
+                {LOAN_STATUS.find((v) => v.id === status)?.name || "Unknown"}
+              </div>
+            </div>
+            <div>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</div>
+            <div className={styles.actions}>
+              {showCancel && <Button onClick={onCancelLoan}>Cancel</Button>}
+              {showPay && <Button onClick={onPayLoan}>Pay</Button>}
+            </div>
+          </div> */}
+        </AccordionButton>
+        <AccordionPanel borderWidth={1} borderColor='background.border' borderRadius={0} bgColor='black'>
+          <LoanDetailOffers loan={loan} />
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
   );
 };
 
