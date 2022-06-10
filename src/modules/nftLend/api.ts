@@ -65,6 +65,8 @@ export const getAssetInfo = (contractAddress: string, tokenId?: string): Promise
 interface LoanByOwnerParams {
   owner?: string;
   status?: "new" | "created" | "cancelled" | "done" | "liquidated";
+  page?: number,
+  limit?: number,
 }
 /* status=new,created,cancelled,done,liquidated */
 export const getLoansByOwner = (

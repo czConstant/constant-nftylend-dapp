@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 import BigNumber from 'bignumber.js';
-import { Button } from "react-bootstrap";
+import { Button, Center, Flex, Grid, GridItem, Link } from '@chakra-ui/react';
 
 import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
@@ -20,15 +20,17 @@ import styles from "../styles.module.scss";
 import pawnStyles from './pawnInfo.module.scss';
 import CountdownText from 'src/common/components/countdownText';
 
+const templateColumns = 'repeat(3, 1fr) 2fr repeat(2, 1fr)'
+
 export const OfferTableHeader = () => (
-  <div className={cx(styles.tbHeader, pawnStyles.offerTable)}>
-    <div style={{ flex: 1 }}>Principal</div>
-    <div style={{ flex: 1 }}>Duration</div>
-    <div style={{ flex: 1 }}>Interest</div>
-    <div style={{ flex: 2 }}>From</div>
-    <div style={{ flex: 1 }}>Ends in</div>
-    <div style={{ flex: 1 }} />
-  </div>
+  <Grid py={2} templateColumns={templateColumns} className={cx(styles.tbHeader)}>
+    <GridItem style={{ flex: 1 }}>Principal</GridItem>
+    <GridItem style={{ flex: 1 }}>Duration</GridItem>
+    <GridItem style={{ flex: 1 }}>Interest</GridItem>
+    <GridItem style={{ flex: 2 }}>From</GridItem>
+    <GridItem style={{ flex: 1 }}>Ends in</GridItem>
+    <GridItem style={{ flex: 1 }} />
+  </Grid>
 );
 
 interface OfferRowProps {
@@ -46,55 +48,49 @@ const OfferRow = (props: OfferRowProps) => {
   const isMyLoan = isSameAddress(loan.owner, walletAddress);
   const offerDuration = LOAN_DURATION.find(e => e.id === offer.duration / 86400);
   return (
-    <div className={cx(styles.tbHeader, styles.tbBody, pawnStyles.offerTable)} key={offer?.id}>
-      <div>
+    <Grid py={2} templateColumns={templateColumns} fontSize='sm' key={offer?.id}>
+      <GridItem>
         {`${formatCurrencyByLocale(offer.principal_amount, 2)} ${loan.currency?.symbol}`}
-      </div>
-      <div>
+      </GridItem>
+      <GridItem>
         {offerDuration ? offerDuration.label : `${Math.ceil(new BigNumber(offer.duration).dividedBy(86400).toNumber())} days`}
-      </div>
-      <div>{formatCurrencyByLocale(offer.interest_rate * 100)}%</div>
-      <div>
-        <a
-          className={styles.scanLink}
+      </GridItem>
+      <GridItem>{offer.interest_rate * 100}%</GridItem>
+      <GridItem>
+        <Link
+          textDecoration='underline'
           target="_blank"
           href={offer.getLinkExplorerAddr(offer.lender)}
         >
-          {shortCryptoAddress(offer?.lender, 18)}
-        </a>
-      </div>
-      <div>
+          {shortCryptoAddress(offer?.lender, 30)}
+        </Link>
+      </GridItem>
+      <GridItem>
         <CountdownText to={offer.valid_at} />
-      </div>
+      </GridItem>
       {offer?.isListing() && (
-        <div className={styles.actions}>
-          {isMyOffer && (
-            <Button
-              style={{ color: "#dc3545" }}
-              variant="link"
-              onClick={() => onCancel(offer)}
-            >
-              Cancel
-            </Button>
-          )}
-          {isMyLoan && !offer?.isExpired() && (
-            <Button
-              style={{ color: "#0d6efd" }}
-              variant="link"
-              onClick={() => onAccept(offer)}
-            >
-              Accept
-            </Button>
-          )}
-          {isMyLoan && offer?.isExpired() && (
-            <div>
-              Expired
-            </div>
-          )}
-          {offer?.status === 'cancelled' && <span>Cancelled</span>}
-        </div>
+        <GridItem>
+          <Flex justifyContent='flex-end'>
+            {isMyOffer && (
+              <Button size='sm' variant="link" colorScheme='brand.danger' onClick={() => onCancel(offer)}>
+                Cancel
+              </Button>
+            )}
+            {isMyLoan && !offer?.isExpired() && (
+              <Button size='sm' variant="link" onClick={() => onAccept(offer)}>
+                Accept
+              </Button>
+            )}
+            {isMyLoan && offer?.isExpired() && (
+              <div>
+                Expired
+              </div>
+            )}
+            {offer?.status === 'cancelled' && <span>Cancelled</span>}
+          </Flex>
+        </GridItem>
       )}
-    </div>
+    </Grid>
   );
 }
 
@@ -187,6 +183,7 @@ const LoanDetailOffers: React.FC<LoanDetailOffersProps> = ({ loan }) => {
   return (
     <>
       <OfferTableHeader />
+      {offers.length === 0 && <Center h={20}>No offer yet</Center>}
       {offers.map(offer => (
         <OfferRow
           key={offer.id}

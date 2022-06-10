@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
 import cx from 'classnames';
+import { Badge, Button, Flex, Grid, GridItem, Link } from '@chakra-ui/react';
 
 import { useAppDispatch } from "src/store/hooks";
 import {
@@ -14,19 +14,20 @@ import { requestReload } from "src/store/nftyLend";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { APP_URL } from "src/common/constants/url";
 
-import listLoanStyles from "../listLoan/styles.module.scss";
-import { shortCryptoAddress } from "src/common/utils/format";
 import { LOAN_DURATION, OFFER_STATUS } from "src/modules/nftLend/constant";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { isEvmChain } from 'src/modules/nftLend/utils';
+import { formatCurrency } from 'src/common/utils/format';
+import InfoTooltip from 'src/common/components/infoTooltip';
 
 interface ItemProps {
   offer: OfferToLoan;
+  templateColumns: string;
 }
 
 const Item = (props: ItemProps) => {
-  const { offer } = props;
+  const { offer, templateColumns } = props;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { cancelOffer, liquidateLoan, closeOffer } = useTransaction();
@@ -140,11 +141,7 @@ const Item = (props: ItemProps) => {
   const duration = offer.duration;
 
   let status = offer.status;
-
-  let statusStyle = {
-    backgroundColor: "#00875a33",
-    color: "#00875A",
-  };
+  let badgeVariant = 'success';
 
   if (showLiquidate) {
     status = 'overdue';
@@ -153,61 +150,48 @@ const Item = (props: ItemProps) => {
   }
 
   if (["overdue"].includes(status)) {
-    statusStyle = {
-      backgroundColor: "#e0720b33",
-      color: "#DE710B",
-    };
+    badgeVariant = 'warning';
   } else if (["cancelled", "expired"].includes(status)) {
-    statusStyle = {
-      backgroundColor: "#ff000033",
-      color: "#ff0000",
-    };
+    badgeVariant = 'danger';
   } else if (["repaid", "approved"].includes(status)) {
-    statusStyle = {
-      backgroundColor: "#0d6dfd33",
-      color: "#0d6efd",
-    };
+    badgeVariant = 'info';
   }
 
   return (
-    <div
-      key={offer.id}
-      onClick={() => setOpen(!open)}
-      className={cx(listLoanStyles.item, listLoanStyles.row)}
-    >
-      <div>
-          <a onClick={onViewLoan}>{loan?.asset?.name}</a>
-        </div>
-        <div>
-          {principal} {loan?.currency?.symbol}
-        </div>
-        <div>
-          {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
-          &nbsp;/&nbsp;
-          {new BigNumber(interest).multipliedBy(100).toNumber()}%
-        </div>
-        {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
-        <div>
-          <div className={listLoanStyles.statusWrap} style={statusStyle}>
-            {OFFER_STATUS?.[status]?.lender}
-          </div>
-        </div>
-        {/* <div>
-          <a target="_blank" href={loan?.getLinkExplorerTx()}>
-            {shortCryptoAddress(loan?.init_tx_hash, 8)}
-          </a>
-        </div> */}
-        <div>{moment(offer.updated_at).format("MM/DD/YYYY HH:mm A")}</div>
-        <div className={listLoanStyles.actions}>
+    <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
+      <GridItem pl={8} py={4}>
+        <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan.asset?.name}</Link>
+      </GridItem>
+      <GridItem py={4}>
+        {formatCurrency(principal)} {loan?.currency?.symbol}
+      </GridItem>
+      <GridItem py={4}>
+        {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
+        &nbsp;/&nbsp;
+        {new BigNumber(interest).multipliedBy(100).toNumber()}%
+      </GridItem>
+      <GridItem py={4}>
+        <Badge variant={badgeVariant}>
+          {OFFER_STATUS?.[status]?.lender}
+        </Badge>
+      </GridItem>
+      <GridItem py={4}>{moment(offer.updated_at).format("MM/DD/YYYY HH:mm A")}</GridItem>
+      <GridItem pr={8} py={4}>
+        <Flex w='100%' justifyContent='flex-end'>
           {showClaim && (
-            <Button title="Claim for Credit" onClick={onClaim}>
-              Claim (?)
+            <Button size='sm' variant='link' colorScheme='brand.warning' onClick={onClaim}>
+              Claim <InfoTooltip label='Claim for Credit' />
             </Button>
           )}
-          {showLiquidate && <Button title="Claim for NFT" onClick={onLiquidate}>Claim (?)</Button>}
-          {showCancel && <Button onClick={onCancel}>Cancel</Button>}
-        </div>
-    </div>
+          {showLiquidate && (
+            <Button size='sm' variant='link' colorScheme='brand.warning' onClick={onLiquidate}>
+              Claim <InfoTooltip label='Claim for NFT' />
+            </Button>
+          )}
+          {showCancel && <Button size='sm' variant='link' colorScheme='whiteAlpha' onClick={onCancel}>Cancel</Button>}
+        </Flex>  
+      </GridItem>
+    </Grid>
   );
 };
 

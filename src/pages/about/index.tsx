@@ -6,6 +6,7 @@ import Slide from "react-reveal/Slide";
 import Fade from "react-reveal/Fade";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
+import { Text } from '@chakra-ui/react';
 
 import imgTitle from "./assets/title.png";
 import imgTitle2 from "./assets/title2.png";
@@ -130,11 +131,11 @@ const PawwnProtocol = () => {
         <section className={cx(styles.section, styles.sectionBG)}>
           <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
           <h2>The leading of NFTs Lending platform</h2>
-          <p>
+          <Text my={4}>
             The first marketplace for NFTs P2P Lending. The fastest way to
             liquidate your NFTs. Lenders and Borrowers are connected by our smart
             contract.
-          </p>
+          </Text>
           <div className={styles.groupButton}>
             <ButtonCreateLoan hiddenIcon={true} title="Borrow" />
             {/* <Button>Borrow</Button> */}
