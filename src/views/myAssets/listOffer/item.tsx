@@ -4,6 +4,7 @@ import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
 import cx from 'classnames';
+import { Badge } from '@chakra-ui/react';
 
 import { useAppDispatch } from "src/store/hooks";
 import {
@@ -140,11 +141,7 @@ const Item = (props: ItemProps) => {
   const duration = offer.duration;
 
   let status = offer.status;
-
-  let statusStyle = {
-    backgroundColor: "#00875a33",
-    color: "#00875A",
-  };
+  let badgeVariant = 'success';
 
   if (showLiquidate) {
     status = 'overdue';
@@ -153,20 +150,11 @@ const Item = (props: ItemProps) => {
   }
 
   if (["overdue"].includes(status)) {
-    statusStyle = {
-      backgroundColor: "#e0720b33",
-      color: "#DE710B",
-    };
+    badgeVariant = 'warning';
   } else if (["cancelled", "expired"].includes(status)) {
-    statusStyle = {
-      backgroundColor: "#ff000033",
-      color: "#ff0000",
-    };
+    badgeVariant = 'danger';
   } else if (["repaid", "approved"].includes(status)) {
-    statusStyle = {
-      backgroundColor: "#0d6dfd33",
-      color: "#0d6efd",
-    };
+    badgeVariant = 'info';
   }
 
   return (
@@ -188,9 +176,9 @@ const Item = (props: ItemProps) => {
         </div>
         {/* <div>{new BigNumber(interest).multipliedBy(100).toNumber()}%</div> */}
         <div>
-          <div className={listLoanStyles.statusWrap} style={statusStyle}>
+          <Badge variant={badgeVariant}>
             {OFFER_STATUS?.[status]?.lender}
-          </div>
+          </Badge>
         </div>
         {/* <div>
           <a target="_blank" href={loan?.getLinkExplorerTx()}>

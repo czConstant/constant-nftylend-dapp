@@ -19,7 +19,8 @@ import Pagination from 'src/common/components/pagination';
 
 const columns = [
   { name: 'Asset Name', flex: 1.5 },
-  { name: 'Amount / Duration / Interest', flex: 1.5 },
+  { name: 'Amount', flex: 1 },
+  { name: 'Duration / Interest', flex: 1.5 },
   { name: 'Status', flex: 1 },
   { name: 'Created At', flex: 1 },
   { name: 'Action', flex: 1, align: 'right' },
@@ -79,8 +80,8 @@ const ListLoan = () => {
 
   return (
     <div className={cx(isMobile && styles.mobileWrap, styles.wrapper)}>
-      <Menu>
-        <MenuButton mt={4} className={styles.menuButton}>
+      <Menu variant='outline'>
+        <MenuButton mt={4} h='40px' minW='120px'>
           <Flex alignItems='center' justifyContent='space-between' pl={4} pr={2}>
             <Text>{status.toUpperCase() || 'ALL'}</Text>
             <Icon fontSize='xl' as={FaCaretDown} />

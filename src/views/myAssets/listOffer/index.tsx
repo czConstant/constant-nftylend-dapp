@@ -40,8 +40,8 @@ const ListOffer = () => {
 
   return (
     <div className={cx(isMobile && listLoanStyles.mobileWrap, listLoanStyles.wrapper)}>
-      <Menu>
-        <MenuButton mt={4} className={listLoanStyles.menuButton}>
+      <Menu variant='outline'>
+        <MenuButton mt={4} h='40px' minW='120px'>
           <Flex alignItems='center' justifyContent='space-between' pl={4} pr={2}>
             <Text>{status.toUpperCase() || 'ALL'}</Text>
             <Icon fontSize='xl' as={FaCaretDown} />

@@ -129,6 +129,16 @@ const Menu: ComponentStyleConfig = {
         bgColor: 'background.border',
       },
     }
+  },
+  variants: {
+    outline: {
+      button: {
+        bg: 'transparent',
+        borderWidth: 2,
+        borderColor: 'background.border',
+        borderRadius: 4,
+      }
+    }
   }
 }
 
@@ -192,6 +202,30 @@ const Modal: ComponentStyleConfig = {
   }
 }
 
+const Badge: ComponentStyleConfig = {
+  baseStyle: {
+    fontsize: 'xs',
+  },
+  variants: {
+    success: {
+      bgColor: '#00875a33',
+      color: '#00875a',
+    },
+    warning: {
+      bgColor: '#e0720b33',
+      color: '#DE710B',
+    },
+    danger: {
+      bgColor: '#ff000033',
+      color: '#ff0000',
+    },
+    info: {
+      bgColor: '#0d6dfd33',
+      color: '#0d6efd',
+    },
+  }
+}
+
 const customTheme = extendTheme({ 
   colors: {
     text: {
@@ -210,6 +244,18 @@ const customTheme = extendTheme({
         700: '#2c0080',
         800: '#1b004f',
         900: '#0a001f',
+      },
+      info: {
+        50: '#dff1ff',
+        100: '#afd2ff',
+        200: '#7eb3ff',
+        300: '#4c95ff',
+        400: '#1b77fd',
+        500: '#025de4',
+        600: '#0048b2',
+        700: '#003480',
+        800: '#001f50',
+        900: '#000a20',
       },
       success: {
         50: '#dcffee',
@@ -283,6 +329,7 @@ const customTheme = extendTheme({
     Divider,
     Accordion,
     Modal,
+    Badge,
   },
  });
 

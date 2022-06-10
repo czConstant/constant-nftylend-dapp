@@ -28,8 +28,6 @@ export const TABS = {
   owned: "my-assets",
   loan: "loans",
   offer: "offers-made",
-  offer_received: "offers-received",
-  history: "History",
 };
 
 const MyAsset = () => {
@@ -132,7 +130,11 @@ const MyAsset = () => {
                 <Tab
                   eventKey={TABS.loan}
                   tabClassName={styles.tab}
-                  title="Loans"
+                  title={
+                    <span>
+                      <i className="fas fa-arrow-down"></i> Loans
+                    </span>
+                  }
                 >
                   <ListLoan />
                 </Tab>
@@ -141,22 +143,11 @@ const MyAsset = () => {
                   tabClassName={styles.tab}
                   title={
                     <span>
-                      <i className="fas fa-arrow-up"></i> Offers made
+                      <i className="fas fa-arrow-up"></i> Lends
                     </span>
                   }
                 >
                   <ListOffer />
-                </Tab>
-                <Tab
-                  eventKey={TABS.offer_received}
-                  tabClassName={styles.tab}
-                  title={
-                    <span>
-                      <i className="fas fa-arrow-down"></i> Offers received
-                    </span>
-                  }
-                >
-                  <ListOfferReceive />
                 </Tab>
               </Tabs>
             </div>
