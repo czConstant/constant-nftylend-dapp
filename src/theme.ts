@@ -103,34 +103,31 @@ const Table: ComponentStyleConfig = {
 }
 
 const Menu: ComponentStyleConfig = {
-  defaultProps: {
-    variant: 'default',
-  },
-  variants: {
-    default: {
-      button: {
-        bgColor: 'background.card',
-        border: '2px solid',
-        borderColor: 'background.border',
-        fontSize: 'sm',
+  baseStyle: {
+    button: {
+      color: 'text.primary',
+      bgColor: 'background.card',
+      border: '2px solid',
+      borderColor: 'background.border',
+      fontSize: 'sm',
+    },
+    list: {
+      bgColor: 'background.card',
+      border: 'none',
+      boxShadow: '0 20px 20px 0 rgba(0,0,0,0.30)',
+    },
+    item: {
+      color: 'text.primary',
+      fontSize: 'sm',
+      bgColor: 'background.card',
+      pt: 3,
+      pb: 3,
+      _focus: {
+        bgColor: 'background.border',
       },
-      list: {
-        bgColor: 'background.card',
-        border: 'none',
-        boxShadow: '0 20px 20px 0 rgba(0,0,0,0.30)',
+      _hover: {
+        bgColor: 'background.border',
       },
-      item: {
-        fontSize: 'sm',
-        bgColor: 'background.card',
-        pt: 3,
-        pb: 3,
-        _focus: {
-          bgColor: 'background.border',
-        },
-        _hover: {
-          bgColor: 'background.border',
-        },
-      }
     }
   }
 }
