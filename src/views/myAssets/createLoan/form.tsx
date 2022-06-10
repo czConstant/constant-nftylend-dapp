@@ -5,6 +5,7 @@ import React, {
   useState,
 } from "react";
 import { Field, useForm } from "react-final-form";
+import { Box, Button, Flex, Grid, GridItem, Switch, Text } from '@chakra-ui/react';
 
 import Loading from "src/common/components/loading";
 import { required } from "src/common/utils/formValidate";
@@ -16,10 +17,9 @@ import FieldText from 'src/common/components/form/fieldText';
 import { Currency } from 'src/modules/nftLend/models/api';
 import { calculateMaxInterest, calculateMaxTotalPay } from 'src/modules/nftLend/utils';
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
+import InfoTooltip from 'src/common/components/infoTooltip';
 
 import styles from "./styles.module.scss";
-import { Box, Button, Flex, Grid, GridItem, Switch } from '@chakra-ui/react';
-import InfoTooltip from 'src/common/components/infoTooltip';
 
 interface CreateLoanFormProps {
   onSubmit: FormEventHandler;
@@ -70,7 +70,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
           Max interest <strong>{formatCurrency(maxInterest, 4)} {receiveToken?.symbol}</strong>
         </div>
         <div>
-          <span>Platform fee<InfoTooltip label='This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans.' /></span>
+          <Flex><Text mr={2}>Platform fee</Text><InfoTooltip label='This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans.' /></Flex>
           <strong>{formatCurrency(matchingFee)} {receiveToken?.symbol}</strong>
         </div>
         <div>
@@ -187,11 +187,9 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
           </GridItem>
         </Grid>
         {renderEstimatedInfo()}
-        <div className={styles.actions}>
-          <Button type="submit" w='100%' disabled={submitting}>
-            {submitting ? <Loading dark /> : "Make Loan"}
-          </Button>
-        </div>
+        <Button mt={4} type="submit" w='100%' disabled={submitting}>
+          {submitting ? <Loading dark /> : "Make Loan"}
+        </Button>
       </form>
     </div>
   );
