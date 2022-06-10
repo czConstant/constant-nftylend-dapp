@@ -10,6 +10,7 @@ const MyPwp = () => {
 
   const [pwpBalance, setPwpBalance] = useState<any>();
   const [transactions, setTransactions] = useState<any[]>([]);
+  const [displayTransactions, setDisplayTransactions] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -23,6 +24,10 @@ const MyPwp = () => {
       setTotal(res.count);
     });
   }, [])
+
+  useEffect(() => {
+    setDisplayTransactions(transactions.slice((page-1)*pageSize, page * pageSize));
+  }, [page, transactions])
 
   const onClaim = async () => {
     try {
@@ -61,17 +66,19 @@ const MyPwp = () => {
             <Tr>
               <Th>Date</Th>
               <Th>Amount</Th>
+              <Th>Type</Th>
               <Th>Status</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {transactions.map((e, i) => {
-              const isLast = i === transactions.length - 1;
+            {displayTransactions.map((e, i) => {
+              const isLast = i === displayTransactions.length - 1;
               return (
                 <Tr key={e.id}>
                   <Td borderBottomLeftRadius={isLast ? 16 : 0}>{e.created_at}</Td>
                   <Td>{e.amount} {e.currency.symbol}</Td>
-                  <Td borderBottomRightRadius={isLast ? 16 : 0}>{e.status}</Td>
+                  <Td>{e.incentive_transaction?.type}</Td>
+                  <Td borderBottomRightRadius={isLast ? 16 : 0}>{e.incentive_transaction?.status}</Td>
                 </Tr>
               )
             })}
