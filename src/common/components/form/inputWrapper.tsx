@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
-import { FormControl, FormLabel } from '@chakra-ui/react';
 
-import InfoTooltip from 'src/common/components/infoTooltip';
+import styles from './styles.module.scss';
+import InfoTooltip from '../infoTooltip';
 
 interface InputWrapperProps {
   label?: string | React.ReactNode;
@@ -13,17 +13,20 @@ interface InputWrapperProps {
 }
 
 const InputWrapper = (props: InputWrapperProps) => {
-  const { label, desc, children, theme } = props;
+  const { className, label, desc, children, theme } = props;
 
   return (
-    <FormControl>
+    <div className={cx([styles.inputWrapper, className, theme === 'dark' && styles.inputWrapperDark])}>
       {label && (
-        <FormLabel>
-          {label} {desc && <InfoTooltip label={desc} />}
-        </FormLabel>
+        <div className={cx(styles.labelWrapper, 'labelWrapper')}>
+          <label>
+            {label}
+            {desc && <InfoTooltip label={desc} />}
+          </label>
+        </div>
       )}
       {children}
-    </FormControl>
+    </div>
   );
 };
 
