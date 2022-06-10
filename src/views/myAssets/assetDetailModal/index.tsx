@@ -21,14 +21,16 @@ interface AssetDetailModalProps {
 
 const AssetDetailModal = (props: AssetDetailModalProps) => {
   const { asset, onClose, onMakeLoan } = props;
-
   const navigate = useNavigate();
+  
   const [extraData, setExtraData] = useState(asset.detail || {});
-  const [listingDetail, setListingDetail] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [verifying, setVerifying] = useState(false);
+  const [listingDetail, setListingDetail] = useState(null);
   const [loan, setLoan] = useState<LoanNft>();
   const [collectionName, setCollectionName] = useState('');
+
+  const [verifying, setVerifying] = useState(false);
+  const [gettingLoan, setGettingLoan] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (asset.needFetchDetail()) getExtraData();
@@ -53,14 +55,14 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
 
   const checkLoanInfo = async () => {
     try {
-      setVerifying(true);
+      setGettingLoan(true);
       const res = await getAssetInfo(asset.contract_address, asset.token_id);
       const loan = LoanNft.parseFromApiDetail(res.result);
       setLoan(loan);
       setCollectionName(res.result.collection?.name);
     } catch (error) {
     } finally {
-      setVerifying(false);
+      setGettingLoan(false);
     }
   };
 
