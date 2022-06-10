@@ -1,8 +1,8 @@
 import { VotingProposalItemStatus } from "./list/Voting.Proposal.Item";
 import { ProposalStatus } from "./Voting.Services.Data";
-import icStatusVoteNow from "./images/ic_status_vote_now.svg";
-import icStatusSoon from "./images/ic_status_soon.svg";
-import icStatusClosed from "./images/ic_status_closed.svg";
+import icStatusVoteNow from "src/pages/voting/images/ic_status_vote_now.svg";
+import icStatusSoon from "src/pages/voting/images/ic_status_soon.svg";
+import icStatusClosed from "src/pages/voting/images/ic_status_closed.svg";
 
 export const VOTING_STATUS = [
   {

@@ -155,58 +155,7 @@
     border-top-right-radius: 10px;
     padding: 20px 20px 0px 20px;
     button {
-      display: inline-flex;
-      justify-content: center;
-      cursor: pointer;
-      border: 0px;
-      outline: 0px;
-      flex-grow: 1;
-      padding: 8px 16px;
       border-radius: 16px 16px 0px 0px;
-      font-size: 16px;
-      font-weight: 600;
-      color: rgb(184, 173, 210);
-      background-color: rgb(55, 47, 71);
-      box-shadow: none !important;
-      align-items: center;
-      img {
-        filter: invert(75%) sepia(38%) saturate(185%) hue-rotate(217deg)
-          brightness(90%) contrast(86%);
-        margin-right: 5px;
-      }
-      &.created {
-        color: white;
-        img {
-          filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
-            brightness(102%) contrast(101%);
-        }
-      }
-      &.pending {
-        color: white;
-        img {
-          filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
-            brightness(102%) contrast(101%);
-        }
-      }
-      &.cancelled {
-        color: white;
-        img {
-          filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
-            brightness(102%) contrast(101%);
-        }
-      }
-    }
-  }
-  .loadingWrap {
-    padding-top: 32px;
-    padding-bottom: 17px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    h5 {
-      font-weight: 600;
-      line-height: 1.1;
-      color: rgb(244, 238, 255);
     }
   }
   .itemVotingProposal {
@@ -236,4 +185,174 @@
         brightness(102%) contrast(101%);
     }
   }
+}
+
+.loadingWrap {
+  padding-top: 32px;
+  padding-bottom: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  h5 {
+    font-weight: 600;
+    line-height: 1.1;
+    color: rgb(244, 238, 255);
+  }
+  a {
+    display: block;
+  }
+}
+
+.statusWrap {
+  border-radius: 16px;
+  display: inline-flex;
+  justify-content: center;
+  cursor: pointer;
+  border: 0px;
+  outline: 0px;
+  flex-grow: 1;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(184, 173, 210);
+  background-color: rgb(55, 47, 71);
+  box-shadow: none !important;
+  align-items: center;
+  img {
+    filter: invert(75%) sepia(38%) saturate(185%) hue-rotate(217deg)
+      brightness(90%) contrast(86%);
+    margin-right: 5px;
+  }
+  &:hover {
+    background-color: inherit;
+  }
+
+  &.created {
+    color: white;
+    img {
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
+        brightness(102%) contrast(101%);
+    }
+  }
+  &.pending {
+    color: white;
+    img {
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
+        brightness(102%) contrast(101%);
+    }
+  }
+  &.cancelled {
+    color: white;
+    img {
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
+        brightness(102%) contrast(101%);
+    }
+  }
+}
+
+.detailContainer {
+  padding: 2rem 0;
+  h1 {
+    color: rgb(244, 238, 255);
+    font-weight: 600;
+    line-height: 1.1;
+    margin-top: 15px;
+    margin-bottom: 16px;
+  }
+  .description {
+    color: rgb(244, 238, 255);
+    font-weight: 400;
+    line-height: 1.5;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    font-size: 16px;
+  }
+  .choiceItem {
+    align-items: center;
+    border: 1px solid rgb(56, 50, 65);
+    border-radius: 16px;
+    display: flex;
+    margin-bottom: 16px;
+    padding: 16px;
+    width: 100%;
+    background: transparent;
+    color: rgb(244, 238, 255);
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 16px;
+    .choiceItemCircle {
+      appearance: none;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      display: inline-block;
+      height: 24px;
+      width: 24px;
+      vertical-align: middle;
+      transition: background-color 0.2s ease-in-out 0s;
+      border: 0px;
+      border-radius: 50%;
+      background-color: rgb(55, 47, 71);
+      box-shadow: rgb(74 74 104 / 10%) 0px 2px 2px -1px inset;
+      margin-right: 10px;
+      .choiceItemCircleActive {
+        background-color: rgb(49, 208, 170);
+        &::after {
+          background-color: rgb(39, 38, 44);
+          border-radius: 50%;
+          content: "";
+          height: 12px;
+          left: 6px;
+          position: absolute;
+          top: 5px;
+          width: 12px;
+        }
+      }
+    }
+  }
+  .btnCastVote {
+    position: relative;
+    -webkit-box-align: center;
+    align-items: center;
+    border: 0px;
+    border-radius: 16px;
+    box-shadow: rgb(14 14 44 / 40%) 0px -1px 0px 0px inset;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    -webkit-box-pack: center;
+    justify-content: center;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    opacity: 1;
+    outline: 0px;
+    transition: background-color 0.2s ease 0s, opacity 0.2s ease 0s;
+    height: 48px;
+    padding: 0px 24px;
+    background-color: rgb(31, 199, 212);
+    color: white;
+    &:disabled {
+      background-color: rgb(60, 55, 66);
+      border-color: rgb(60, 55, 66);
+      box-shadow: none;
+      color: rgb(102, 97, 113);
+      cursor: not-allowed;
+    }
+  }
+}
+
+.blockWrapper {
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgb(39, 38, 44);
+  h5 {
+    margin-bottom: 0px;
+  }
+}
+
+.contentWrapper {
+  margin-top: 10px;
 }

@@ -5,7 +5,6 @@ import { ProposalListItemData, ProposalStatus } from "../Voting.Services.Data";
 import VotingProposalItem from "./Voting.Proposal.Item";
 import cx from "classnames";
 import { Button } from "react-bootstrap";
-import LoadingList from "src/modules/nftLend/components/loadingList";
 import Loading from "src/common/components/loading";
 import { VOTING_STATUS } from "../Voting.Constant";
 
@@ -65,7 +64,7 @@ const VotingList = () => {
         <div className={cx(styles.choiceHeader, styles.listRowsHeader)}>
           {refFilters.map((filter) => (
             <Button
-              className={cx(filter.key === status ? styles[`${filter.key}`] : "")}
+              className={cx(filter.key === status ? styles[`${filter.key}`] : "", styles.statusWrap)}
               style={
                 filter.key === status
                   ? { backgroundColor: filter.color }

@@ -31,15 +31,28 @@ const VotingServices = {
       throw error;
     }
   },
-  async getProposals(params: ProposalListRequest): Promise<ProposalListItemData[]> {
+  async getProposals(
+    params: ProposalListRequest
+  ): Promise<ProposalListItemData[]> {
     try {
       const response: ListResponse = await api.get(
         `${API_URL.NFT_LEND.VOTING_PROPOSAL_LIST}`,
         {
-          params
+          params,
         }
       );
       const result: ProposalListItemData[] = response.result;
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  async getProposal(id: string): Promise<ProposalListItemData> {
+    try {
+      const response: ListResponse = await api.get(
+        `${API_URL.NFT_LEND.VOTING_PROPOSAL_DETAIL}/${id}`
+      );
+      const result: ProposalListItemData = response.result;
       return result;
     } catch (error) {
       throw error;

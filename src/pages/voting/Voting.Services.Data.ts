@@ -56,6 +56,16 @@ interface ProposalUserData {
   seen_noti_id: number;
 }
 
+interface ProposalChoiceData {
+  id: number;
+  name: string;
+  network: string;
+  power_vote: string;
+  choice: string;
+  status: ProposalStatus;
+  proposal_id: number;
+}
+
 interface ProposalListItemData
   extends ProposalData,
     ProposalMessageData,
@@ -63,6 +73,8 @@ interface ProposalListItemData
   user: ProposalUserData;
   user_id: number;
   id: string;
+  status: ProposalStatus;
+  choices: ProposalChoiceData[];
 }
 
 enum ProposalStatus {
@@ -79,6 +91,22 @@ interface ProposalListRequest {
   status?: ProposalStatus;
 }
 
+interface ProposalVoteMessage {
+  version: string;
+  timestamp: string;
+  space: string;
+  type: string;
+  payload: {
+    proposal: string;
+    choice: number;
+  };
+}
+
+interface ProposalVoteRequest extends ProposalData {
+  version: string;
+  message: ProposalVoteMessage;
+}
+
 export { ProposalStatus };
 
 export type {
@@ -88,4 +116,6 @@ export type {
   ProposalUserData,
   ProposalListItemData,
   ProposalListRequest,
+  ProposalChoiceData,
+  ProposalVoteRequest,
 };

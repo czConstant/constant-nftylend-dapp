@@ -150,9 +150,9 @@ const VotingMakeProposal = () => {
       };
       await VotingServices.createProposal(body);
       toastSuccess("Proposal created successfully");
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 800);
+      setTimeout(() => {
+        window.location.reload();
+      }, 800);
     } catch (error) {
       toastError(error?.message || err);
       console.log("error", error);
