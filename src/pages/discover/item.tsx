@@ -14,7 +14,7 @@ interface ItemBoardingProps {
 
 const ItemBoarding = (props: ItemBoardingProps) => {
   const { loading, item, onPressItem } = props;
-  const itemAsset = item.listing_asset;
+  const itemAsset = item.new_loan?.asset;
 
   const pressItem = () => {
     if (!Boolean(onPressItem)) return null;
