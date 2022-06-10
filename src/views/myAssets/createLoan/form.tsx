@@ -187,11 +187,9 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
           </GridItem>
         </Grid>
         {renderEstimatedInfo()}
-        <div className={styles.actions}>
-          <Button type="submit" w='100%' disabled={submitting}>
-            {submitting ? <Loading dark /> : "Make Loan"}
-          </Button>
-        </div>
+        <Button mt={4} type="submit" w='100%' disabled={submitting}>
+          {submitting ? <Loading dark /> : "Make Loan"}
+        </Button>
       </form>
     </div>
   );

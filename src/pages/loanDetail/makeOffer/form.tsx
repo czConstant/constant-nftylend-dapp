@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Field, useForm, useFormState } from "react-final-form";
 
-import FieldAmount from "src/common/components/form/fieldAmount";
+import FieldAmount from "src/common/components/form/fieldNumber";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
 import InputWrapper from "src/common/components/form/inputWrapper";
 import Loading from "src/common/components/loading";

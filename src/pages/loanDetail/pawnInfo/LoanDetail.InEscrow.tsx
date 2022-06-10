@@ -1,9 +1,8 @@
 import React from "react";
 import BigNumber from "bignumber.js";
-import { Button, ProgressBar } from 'react-bootstrap';
 import moment from 'moment-timezone';
-import cx from 'classnames';
 import { useDispatch } from 'react-redux';
+import { Button, Progress } from '@chakra-ui/react';
 
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -153,7 +152,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       <div className={styles.expireProgress}>
         <div>Time until loan expires</div>
         <div className={styles.progress}>
-          <ProgressBar now={loanDays * 100 / durationDays} />
+          <Progress colorScheme='brand.warning' size='lg' borderRadius={16} hasStripe value={loanDays * 100 / durationDays} />
           <div>{loanDays}/{loanDuration?.label || loan.approved_offer?.duration}</div>
         </div>
       </div>
@@ -180,33 +179,21 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       </div>
       {!loan.isLiquidated() && currentWallet.address === loan.owner && (
         <div className={styles.groupOfferButtons}>
-          <Button
-            className={cx(styles.btnConnect)}
-            variant="danger"
-            onClick={onPayLoan}
-          >
+          <Button w='100%' onClick={onPayLoan}>
             Pay Loan
           </Button>
         </div>
       )}
       {loan.isLiquidated() && currentWallet.address === loan.owner && (
         <div className={styles.groupOfferButtons}>
-          <Button
-            className={cx(styles.btnConnect, styles.btnDisabled)}
-            variant="secondary"
-            disabled
-          >
+          <Button w='100%' colorScheme='whiteAlpha' disabled>
             Liquidated
           </Button>
         </div>
       )}
       {loan.isLiquidated() && currentWallet.address === loan.approved_offer?.lender && (
         <div className={styles.groupOfferButtons}>
-          <Button
-            className={cx(styles.btnConnect)}
-            variant="danger"
-            onClick={onLiquidate}
-          >
+          <Button w='100%' onClick={onLiquidate} colorScheme='brand.warning' >
             Claim NFT
           </Button>
         </div>
