@@ -44,7 +44,7 @@ export interface CollectionData {
   avg24h_amount: number;
   total_volume: number;
   volume_usd: number;
-  listing_asset?: LoanDataAsset;
+  new_loan?: LoanData;
   rand_asset?: LoanDataAsset;
   network: string;
   verified: boolean;
