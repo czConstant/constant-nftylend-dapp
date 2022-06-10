@@ -41,7 +41,7 @@ const LoansHeader: React.FC<LoansHeaderProps> = ({
       },
       {
         id: "total_listed",
-        label: "Total Listed Count",
+        label: "Total Matched Count",
       },
     ],
     []
