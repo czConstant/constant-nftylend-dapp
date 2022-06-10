@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
-import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Badge, Box, Button, Flex, Grid, GridItem, Link } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Badge, Button, Flex, Grid, GridItem, Icon, Link } from '@chakra-ui/react';
+import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 
 import { useAppDispatch } from "src/store/hooks";
 import { toastError, toastSuccess } from "src/common/services/toaster";
@@ -16,7 +17,6 @@ import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { calculateTotalPay } from 'src/modules/nftLend/utils';
 
-// import { STATUS } from '../../listLoan/leftSidebar';
 import LoanDetailOffers from 'src/pages/loanDetail/pawnInfo/LoanDetail.Offers';
 import { formatCurrency } from 'src/common/utils/format';
 
@@ -171,7 +171,8 @@ const Item = (props: ItemProps) => {
       <AccordionItem border='none'>
         <AccordionButton borderRadius={0} p={0} bgColor='transparent'>
           <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
-            <GridItem pl={8} py={4}>
+            <GridItem pl={4} py={4}>
+              <Icon as={open ? FaCaretUp : FaCaretDown} mr={4} />
               <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan.asset?.name}</Link>
             </GridItem>
             <GridItem py={4}>

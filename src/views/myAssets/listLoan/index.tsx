@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import cx from "classnames";
 import { isMobile } from "react-device-detect";
-import { Flex, Grid, GridItem, Icon, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Center, Flex, Grid, GridItem, Icon, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { FaCaretDown } from 'react-icons/fa';
 
 import { selectNftyLend } from "src/store/nftyLend";
@@ -40,18 +40,10 @@ const ListLoan = () => {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    if (isConnected) fetchNFTs(1);
-  }, [isConnected]);
-
-  useEffect(() => {
     if (!isConnected) return;
     setPage(1);
     fetchNFTs(1);
   }, [isConnected, needReload, status]);
-
-  useEffect(() => {
-    fetchNFTs(page);
-  }, [page]);
 
   const fetchNFTs = async (page: number) => {
     try {
@@ -112,14 +104,22 @@ const ListLoan = () => {
             </GridItem>
           ))}
         </Grid>
-        {loading && <Loading className={styles.loading} />}
+        {loading && <Center height={20}><Loading /></Center>}
         {!loading && loans?.length === 0 && (
           <EmptyList dark labelText="There is no loan" />
         )}
         {loans.map((e: LoanNft) => <Item key={e.id} templateColumns={templateColumns} loan={e} />)}
       </Flex>
       <Flex justifyContent='flex-end'>
-        <Pagination total={total} page={page} pageSize={pageSize} onChangePage={setPage} />
+        <Pagination
+          total={total}
+          page={page}
+          pageSize={pageSize}
+          onChangePage={(p: number) => {
+            setPage(p);
+            fetchNFTs(p);
+          }}
+        />
       </Flex>
     </div>
   );

@@ -29,6 +29,11 @@ const Button: ComponentStyleConfig = {
   defaultProps: {
     colorScheme: 'brand.primary',
   },
+  variants: {
+    link: {
+      textDecoration: 'underline',
+    }
+  }
 }
 
 const Image: ComponentStyleConfig = {
