@@ -22,7 +22,7 @@ export abstract class AssetNft {
   abstract needFetchDetail(): boolean;
   abstract getLinkExplorer(address?: string): string;
 
-  fetchDetail() { };
+  fetchDetail(): any { };
 
   isEmpty(): boolean { return this.id === -1; }
 }

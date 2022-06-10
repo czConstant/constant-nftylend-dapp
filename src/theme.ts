@@ -29,6 +29,11 @@ const Button: ComponentStyleConfig = {
   defaultProps: {
     colorScheme: 'brand.primary',
   },
+  variants: {
+    link: {
+      textDecoration: 'underline',
+    }
+  }
 }
 
 const Image: ComponentStyleConfig = {
@@ -103,33 +108,40 @@ const Table: ComponentStyleConfig = {
 }
 
 const Menu: ComponentStyleConfig = {
-  defaultProps: {
-    variant: 'default',
+  baseStyle: {
+    button: {
+      color: 'text.primary',
+      bgColor: 'background.card',
+      border: '2px solid',
+      borderColor: 'background.border',
+      fontSize: 'sm',
+    },
+    list: {
+      bgColor: 'background.card',
+      border: 'none',
+      boxShadow: '0 20px 20px 0 rgba(0,0,0,0.30)',
+    },
+    item: {
+      color: 'text.primary',
+      fontSize: 'sm',
+      bgColor: 'background.card',
+      pt: 3,
+      pb: 3,
+      _focus: {
+        bgColor: 'background.border',
+      },
+      _hover: {
+        bgColor: 'background.border',
+      },
+    }
   },
   variants: {
-    default: {
+    outline: {
       button: {
-        bgColor: 'background.card',
-        border: '2px solid',
+        bg: 'transparent',
+        borderWidth: 2,
         borderColor: 'background.border',
-        fontSize: 'sm',
-      },
-      list: {
-        bgColor: 'background.card',
-        border: 'none',
-        boxShadow: '0 20px 20px 0 rgba(0,0,0,0.30)',
-      },
-      item: {
-        fontSize: 'sm',
-        bgColor: 'background.card',
-        pt: 3,
-        pb: 3,
-        _focus: {
-          bgColor: 'background.border',
-        },
-        _hover: {
-          bgColor: 'background.border',
-        },
+        borderRadius: 4,
       }
     }
   }
@@ -195,6 +207,30 @@ const Modal: ComponentStyleConfig = {
   }
 }
 
+const Badge: ComponentStyleConfig = {
+  baseStyle: {
+    fontsize: 'xs',
+  },
+  variants: {
+    success: {
+      bgColor: '#00875a33',
+      color: '#00875a',
+    },
+    warning: {
+      bgColor: '#e0720b33',
+      color: '#DE710B',
+    },
+    danger: {
+      bgColor: '#ff000033',
+      color: '#ff0000',
+    },
+    info: {
+      bgColor: '#0d6dfd33',
+      color: '#0d6efd',
+    },
+  }
+}
+
 const activeLabelStyles = {
   transform: "scale(0.85) translateY(-24px)"
 };
@@ -250,17 +286,29 @@ const customTheme = extendTheme({
         800: '#1b004f',
         900: '#0a001f',
       },
+      info: {
+        50: '#dff1ff',
+        100: '#afd2ff',
+        200: '#7eb3ff',
+        300: '#4c95ff',
+        400: '#1b77fd',
+        500: '#025de4',
+        600: '#0048b2',
+        700: '#003480',
+        800: '#001f50',
+        900: '#000a20',
+      },
       success: {
-        50: '#dcfffe',
-        100: '#affff5',
-        200: '#80ffea',
-        300: '#51ffdc',
-        400: '#2affc9',
-        500: '#1ae6a8',
-        600: '#0cb37d',
+        50: '#dcffee',
+        100: '#afffd6',
+        200: '#80ffc0',
+        300: '#51ffad',
+        400: '#2aff9f',
+        500: '#1ae68c',
+        600: '#0cb372',
         700: '#008055',
-        800: '#004d37',
-        900: '#001c13',
+        800: '#004d2d',
+        900: '#001c0b',
       },
       warning: {
         50: '#fff0dd',
@@ -273,6 +321,18 @@ const customTheme = extendTheme({
         700: '#7a3d03',
         800: '#4b2400',
         900: '#1e0900',
+      },
+      danger: {
+        50: '#ffe5e9',
+        100: '#f9bcc2',
+        200: '#ee919a',
+        300: '#e66673',
+        400: '#dd3b4b',
+        500: '#c42231',
+        600: '#991826',
+        700: '#6e101a',
+        800: '#44070e',
+        900: '#1e0001',
       },
     },
     background: {
@@ -310,6 +370,7 @@ const customTheme = extendTheme({
     Divider,
     Accordion,
     Modal,
+    Badge,
     Form,
   },
  });

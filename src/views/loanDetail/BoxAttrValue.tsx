@@ -15,7 +15,7 @@ const BoxAttrValue = (props: BoxAttrValueProps) => {
     <Box bgColor='background.darker' borderRadius={16} p={4}>
       <Flex gap={2} alignItems='center'>
         <Text variant='attrLabel'>{label}</Text>
-        {desc && <InfoTooltip label={label} />}
+        {desc && <InfoTooltip label={desc} />}
       </Flex>
       <Text fontWeight='bold'>{value}</Text>
     </Box>

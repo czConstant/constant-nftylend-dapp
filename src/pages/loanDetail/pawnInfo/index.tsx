@@ -9,7 +9,6 @@ import { OfferData } from 'src/modules/nftLend/models/api';
 import LoanDetailPriceInfo from './LoanDetail.PriceInfo';
 import LoanDetailInEscrow from './LoanDetail.InEscrow';
 import LoanDetailBorrower from './LoanDetail.Borrower';
-import LoanDetailOffers from './LoanDetail.Offers';
 import LoanDetailPriceStatistic from './LoanDetail.PriceStatistic';
 import CountdownText from 'src/common/components/countdownText';
 import styles from "../styles.module.scss";
@@ -53,12 +52,6 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
         selected
         content={<LoanDetailBorrower asset={loan.asset} borrower={loan.owner} />}
       />
-      {/* <SectionCollapse
-        id="offers"
-        label="Offers"
-        selected
-        content={<LoanDetailOffers loan={loan} />}
-      /> */}
     </div>
   );
 };

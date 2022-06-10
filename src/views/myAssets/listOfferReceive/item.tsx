@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import BigNumber from "bignumber.js";
 import moment from "moment-timezone";
 import cx from 'classnames';
+import { Badge } from '@chakra-ui/react';
 
 import { useAppDispatch } from "src/store/hooks";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
@@ -13,7 +14,6 @@ import { APP_URL } from "src/common/constants/url";
 
 import listLoanStyled from "../listLoan/styles.module.scss";
 import { LOAN_DURATION, OFFER_STATUS } from "src/modules/nftLend/constant";
-import { shortCryptoAddress } from "src/common/utils/format";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 
@@ -87,11 +87,7 @@ const Item = (props: ItemProps) => {
   const loanDuration = LOAN_DURATION.find(e => e.id === duration / 86400);
 
   let status = offer.status;
-
-  let statusStyle = {
-    backgroundColor: "#00875a33",
-    color: "#00875A",
-  };
+  let badgeVariant = 'success';
 
   if (
     status === "approved" &&
@@ -103,20 +99,11 @@ const Item = (props: ItemProps) => {
   }
 
   if (["overdue"].includes(status)) {
-    statusStyle = {
-      backgroundColor: "#e0720b33",
-      color: "#DE710B",
-    };
+    badgeVariant = 'warning';
   } else if (["approved", "repaid", "new"].includes(status)) {
-    statusStyle = {
-      backgroundColor: "#0d6dfd33",
-      color: "#0d6efd",
-    };
+    badgeVariant = 'info';
   } else if (["cancelled", "expired"].includes(status)) {
-    statusStyle = {
-      backgroundColor: "#ff000033",
-      color: "#ff0000",
-    };
+    badgeVariant = 'info';
   }
 
   return (
@@ -137,9 +124,9 @@ const Item = (props: ItemProps) => {
           {new BigNumber(interest).multipliedBy(100).toNumber()}%
         </div>
         <div>
-          <div className={listLoanStyled.statusWrap} style={statusStyle}>
+          <Badge variant={badgeVariant}>
             {OFFER_STATUS[status]?.borrower}
-          </div>
+          </Badge>
         </div>
         {/* <div>
           <a target="_blank" href={loan?.getLinkExplorerTx()}>
