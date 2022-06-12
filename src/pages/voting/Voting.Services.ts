@@ -6,6 +6,7 @@ import {
   ProposalData,
   ProposalListItemData,
   ProposalListRequest,
+  ProposalVotesData,
 } from "./Voting.Services.Data";
 
 const VotingServices = {
@@ -53,6 +54,17 @@ const VotingServices = {
         `${API_URL.NFT_LEND.VOTING_PROPOSAL_DETAIL}/${id}`
       );
       const result: ProposalListItemData = response.result;
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  async getProposalVotes(id: string): Promise<ProposalVotesData[]> {
+    try {
+      const response: ListResponse = await api.get(
+        `${API_URL.NFT_LEND.VOTING_PROPOSAL_DETAIL_VOTES}/${id}`
+      );
+      const result: ProposalVotesData[] = response.result;
       return result;
     } catch (error) {
       throw error;

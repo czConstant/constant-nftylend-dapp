@@ -348,6 +348,7 @@
   border-radius: 10px;
   overflow: hidden;
   background: rgb(39, 38, 44);
+  margin-bottom: 15px;
   h5 {
     margin-bottom: 0px;
   }
@@ -355,4 +356,78 @@
 
 .contentWrapper {
   margin-top: 10px;
+}
+
+.votingDetailsTime {
+  background-color: rgb(8, 6, 11);
+  border: 1px solid rgb(56, 50, 65);
+  border-radius: 16px;
+  padding: 15px;
+  margin-top: 15px;
+  > div {
+    &:first-child {
+      margin-bottom: 10px;
+    }
+  }
+  .votingDetailsTimeInfo {
+    color: rgb(184, 173, 210);
+    font-weight: 400;
+    line-height: 1.5;
+    font-size: 14px;
+    span {
+      color: rgb(244, 238, 255);
+      font-weight: 400;
+      line-height: 1.5;
+      margin-left: 8px;
+      font-size: 16px;
+    }
+  }
+}
+
+.votingDetailsInfo {
+  color: rgb(184, 173, 210);
+  font-weight: 400;
+  line-height: 1.5;
+  font-size: 16px;
+  a {
+    color: rgb(31, 199, 212);
+    font-weight: 600;
+    line-height: 1.5;
+    margin-left: 8px;
+    font-size: 16px;
+  }
+}
+
+.choiceItemWrap {
+  margin-bottom: 10px;
+  .choiceItemTitle {
+    color: rgb(244, 238, 255);
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  .choiceItemInfoWrap {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    > div {
+      color: rgb(184, 173, 210);
+      font-weight: 400;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+  }
+  :global .progress {
+    position: relative;
+    background-color: rgb(55, 47, 71);
+    box-shadow: rgb(74 74 104 / 10%) 0px 2px 2px -1px inset;
+    overflow: hidden;
+    border-radius: 32px;
+    height: 8px;
+  }
+  :global .progress .progress-bar {
+    background: rgb(154, 106, 255);
+    transition: width 200ms ease 0s;
+  }
 }

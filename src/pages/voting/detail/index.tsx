@@ -15,6 +15,9 @@ import {
   ProposalChoiceData,
   ProposalListItemData,
 } from "../Voting.Services.Data";
+import VotingDetails from "./Voting.Details";
+import VotingResults from "./Voting.Results";
+import VotingVotes from "./Voting.Votes";
 
 const VotingDetail = ({}) => {
   const location = useLocation();
@@ -125,8 +128,12 @@ const VotingDetail = ({}) => {
                 </Button>
               </div>
             </div>
+            <VotingVotes proposal={proposal} />
           </Col>
-          <Col md={4}></Col>
+          <Col md={4}>
+            <VotingDetails proposal={proposal} />
+            <VotingResults proposal={proposal} />
+          </Col>
         </Row>
       </div>
     );

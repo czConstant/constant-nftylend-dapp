@@ -77,6 +77,10 @@ interface ProposalListItemData
   choices: ProposalChoiceData[];
 }
 
+interface ProposalVotesData {
+
+}
+
 enum ProposalStatus {
   ProposalStatusPending = "pending",
   ProposalStatusCreated = "created",
@@ -118,4 +122,5 @@ export type {
   ProposalListRequest,
   ProposalChoiceData,
   ProposalVoteRequest,
+  ProposalVotesData,
 };
