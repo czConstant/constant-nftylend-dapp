@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { Flex, Image, Text } from '@chakra-ui/react';
 
 import Loading from "src/common/components/loading";
 import Avatar from 'src/common/components/avatar';
-import { formatCurrency } from 'src/common/utils/format';
 import { getImageThumb } from 'src/modules/nftLend/utils';
 import { getCollection } from 'src/modules/nftLend/api';
 import SectionContainer from 'src/common/components/sectionContainer';
@@ -25,7 +24,6 @@ interface CollectionInfoProps {
 
 const CollectionInfo = (props: CollectionInfoProps) => {
   const { collection_seo } = props;
-  const navigate = useNavigate()
 
   const [data, setData] = useState<CollectionData>();
   const [loading, setLoading] = useState(true);
@@ -51,7 +49,10 @@ const CollectionInfo = (props: CollectionInfoProps) => {
     <SectionContainer className={styles.wrapper}>
       <div className={styles.collectionInfo}>
         <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={styles.viewContract} onClick={() => window.open(getLinkNearExplorer(data.rand_asset?.contract_address), '_blank')}>
-          View Contract <img src={IconViewContract} />
+          <Flex>
+            <Text mr={1}>View Contract</Text>
+            <Image src={IconViewContract} />
+          </Flex>
         </motion.button>
         <Avatar className={styles.image}
           img={getImageThumb({ url: data.rand_asset?.token_url || '', width: 200, height: 200 })}
