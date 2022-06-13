@@ -1,15 +1,12 @@
 import BodyContainer from "src/common/components/bodyContainer";
 import styles from "./styles.module.scss";
 import cx from "classnames";
-import { Button, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import Slide from "react-reveal/Slide";
 import Fade from "react-reveal/Fade";
-import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
-import { Text } from '@chakra-ui/react';
+import { Button, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 
-import imgTitle from "./assets/title.png";
-import imgTitle2 from "./assets/title2.png";
 import imgWhatNFTy from "./assets/what_nfty.png";
 import imgWhatNFTyMobile from "./assets/what_nfty_mobile.png";
 import imgHowItWork from "./assets/how_it_work.png";
@@ -45,37 +42,9 @@ import press10 from "./assets/partner/press/10.png";
 import press11 from "./assets/partner/press/11.png";
 import press12 from "./assets/partner/press/12.png";
 
-import { APP_URL, DISCORD_URL } from "src/common/constants/url";
-import ButtonCreateLoan from "src/common/components/buttonCreateLoan";
+import { DISCORD_URL, GITBOOK_URL } from "src/common/constants/url";
 
 const DURATION = 1000;
-
-const logoPress = [
-  press1,
-  press2,
-  press3,
-  press4,
-  press5,
-  press6,
-  press7,
-  press8,
-  press9,
-  press10,
-  press11,
-  press12,
-];
-
-const logoPartners = [
-  fantom,
-  cardano,
-  tomo,
-  chainlink,
-  vechain,
-  polygon,
-  fetchai,
-  nano,
-  band_protocol,
-];
 
 const DATA = [
   {
@@ -121,7 +90,6 @@ export const OnBoardingHeader = () => (
 );
 
 const PawwnProtocol = () => {
-  const navigate = useNavigate();
   return (
     <BodyContainer
       className={cx(isMobile && styles.mobileWrapper, styles.wrapper)}
@@ -129,31 +97,34 @@ const PawwnProtocol = () => {
       <div className={styles.bottomMask} />
       <Fade duration={DURATION}>
         <section className={cx(styles.section, styles.sectionBG)}>
-          <img alt="NFT Pawn" src={imgTitle} className={styles.imgLogo} />
-          <h2>The leading of NFTs Lending platform</h2>
-          <Text my={4}>
-            The first marketplace for NFTs P2P Lending. The fastest way to
-            liquid your NFTs. Lenders and Borrowers are connected by our smart
-            contract.
+          <div className={cx(styles.coloredText, styles.title)}>Pawn Protocol</div>
+          <Heading as='h1' fontSize='3xl' mt={12}>The leading NFTs Lending Protocol</Heading>
+          <Text my={4} className={styles.subtitle}>
+            The first NFTs P2P Lending Solution on Near Protocol. Collateralise your NFTs and create loan offers. Pawn Protocol’s open source NFT Collateral Service SDK can be integrated with ten lines of code to any serviced application holding user balances.
           </Text>
-          <div className={styles.groupButton}>
-            <ButtonCreateLoan hiddenIcon={true} title="Borrow" />
-            {/* <Button>Borrow</Button> */}
-            <Button onClick={() => navigate(APP_URL.LIST_LOAN)}>
-              Lend
+          <Flex mt={8} className={styles.groupButton} gap={4}>
+            <Button
+              w={200} h={55} variant='brand' borderRadius={50}
+              onClick={() => window.open(DISCORD_URL, '_blank')}
+            >
+              Join Discord
             </Button>
-          </div>
+            <Button
+              w={200} h={55} bgImage='linear-gradient(242deg, #0012ff 0%, #006ed0 100%)'
+              borderRadius={50} onClick={() => window.open(GITBOOK_URL, '_blank')}
+            >
+              Documents
+            </Button>
+          </Flex>
         </section>
       </Fade>
       <Fade bottom duration={DURATION}>
         <section className={cx(styles.section)}>
-          {/* <h4 className={styles.sectionTitle}>PAWN PROTOCOL</h4> */}
-          <img alt="NFT Pawn" src={imgTitle2} className={styles.imgLogo2} />
-          <h1>What is NFT Pawn?</h1>
-          <p>
-            NFT Pawn is an autonomous P2P lending marketplace powered by smart
-            contracts.
-          </p>
+          <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
+          <h2>What is Pawn Protocol?</h2>
+          <Text className={styles.subtitle}>
+            Pawn Protocol is a P2P Lending platform for NFT Market powered by Smart Contract Technology. Pawn Protocol doesn't need deposits, NFTs and crypto, freeze account transactions, require signup - you can use our protocol everywhere in the world with access to the internet. NFT Pawn is the first application we build that utilized the Pawn Protocol infrastructure.
+          </Text>
           <div className={styles.bgWhatNFTy}>
             <img
               alt="NFT Pawn"
@@ -164,13 +135,11 @@ const PawwnProtocol = () => {
       </Fade>
       <Fade bottom duration={DURATION}>
         <section className={cx(styles.section, styles.sectionHIW)}>
-          <img alt="NFT Pawn" src={imgTitle2} className={styles.imgLogo2} />
-          <h1>How it works?</h1>
-          <p>
-            Whether you want to invest or borrow, you choose to fulfill an
-            existing order on the marketplace or negotiate your rate and term.
-            Our smart contracts handle the rest.
-          </p>
+          <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
+          <h2>How Does It Work?</h2>
+          <Text className={styles.subtitle}>
+            Whether you want to borrow or invest, you choose to fulfil an existing order on the marketplace or negotiate your rate and term. Our smart contracts handle the rest.
+          </Text>
           <div className={styles.bgHowItWork}>
             <img
               alt="NFT Pawn"
@@ -179,46 +148,13 @@ const PawwnProtocol = () => {
           </div>
         </section>
       </Fade>
-      {/* <Fade duration={DURATION}>
-        <section className={cx(styles.section)}>
-          <img alt="NFT Pawn" src={imgTitle2} className={styles.imgLogo2} />
-          <h1>Press</h1>
-          <div className={styles.wrapPartner}>
-            {logoPress.map((v, i) => (
-              <Fade key={i} duration={DURATION + i * 100}>
-                <div>
-                  <img src={v} />
-                </div>
-              </Fade>
-            ))}
-          </div>
-        </section>
-      </Fade> */}
-
-      {/* <Fade duration={DURATION}>
-        <section className={cx(styles.section)}>
-          <div className={styles.sectionBgOurPartner}>
-            <img alt="NFT Pawn" src={imgTitle2} className={styles.imgLogo2} />
-            <h1>Partners</h1>
-            <div className={styles.wrapPartner}>
-              {logoPartners.map((v, i) => (
-                <Fade key={i} duration={DURATION + i * 100}>
-                  <div>
-                    <img src={v} />
-                  </div>
-                </Fade>
-              ))}
-            </div>
-          </div>
-        </section>
-      </Fade> */}
       <Fade>
         <section
           className={cx(styles.section)}
           style={{ position: "relative" }}
         >
-          <img alt="NFT Pawn" src={imgTitle2} className={styles.imgLogo2} />
-          <h1>Introduction</h1>
+          <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
+          <h2>What Is NFT Pawn?</h2>
           <div className={styles.textLeftWrap}>
             <div className={styles.textLeft}>
               <div className={styles.text}>
@@ -272,21 +208,21 @@ const PawwnProtocol = () => {
           </Col>
           <Col xs={{ span: 12, order: 1 }} md={{ span: 5, order: 2 }}>
             <div className={styles.titleSection}>
-              <img alt="NFT Pawn" src={imgTitle2} className={styles.imgLogo2} />
-              <div className={styles.title}>Tokenomics & Utilities</div>
-              <div className={styles.subtitle}>
+              <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
+              <Text fontSize='3xl' fontWeight='semibold'>Tokenomics & Utilities</Text>
+              <Text className={styles.subtitle}>
                 The Pawn Protocol token unlock exclusive rewards when staking,
                 use to pay transaction fees, either allow PWP holders to propose
                 and vote on changes to Pawn Protocol products, open-source
                 codebase, and to have a voice in key business decisions and the
                 overall direction of the project
-              </div>
+              </Text>
             </div>
             {/* <section
               className={cx(styles.section, styles.sectionToken)}
               style={{ position: "relative" }}
             >
-              <img alt="NFT Pawn" src={imgTitle2} className={styles.imgLogo2} />
+              <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
               <h1>Tokenomics & Utilities</h1>
               <p>
                 The Pawn Protocol token unlock exclusive rewards when staking,
@@ -299,50 +235,7 @@ const PawwnProtocol = () => {
           </Col>
         </Row>
       </Slide>
-      <Fade>
-        <section className={cx(styles.section)}>
-          <div className={styles.sectionBgJoin}>
-            <div className={styles.sectionBgJoinTop}>
-              <h1>Join our communities</h1>
-              <p>NFT Pawn redefines banking using decentralized thinking.</p>
-              <div className={styles.groupButton}>
-                <a target="_blank" href={DISCORD_URL}>
-                  <img src={icDiscord} /> Discord
-                </a>
-                <a target="_blank" href="https://twitter.com/pawnprotocol">
-                  <img src={icTwitter} />
-                </a>
-                {/* <a target="_blank" href="https://www.facebook.com/myconstantp2p">
-                <img src={icFacebook} />
-              </a>
-              <a
-                target="_blank"
-                href="https://www.youtube.com/channel/UCedaWJPf9sgsy5JajmqBAtg"
-              >
-                <img src={icYoutube} />
-              </a> */}
-              </div>
-            </div>
-            <div className={styles.sectionBgJoinBottom}>
-              <img
-                className={styles.joinCommunicateBG}
-                alt=""
-                src={imgMBCommunity2}
-              />
-              <img className={styles.imgToken} alt="" src={imgCommunityLogo} />
-            </div>
-            {/* {isMobile && (
-            <>
-              <img src={imgMBCommunity2} className={styles.joinCommunicateBG} />
-              <img
-                src={imgMBCommunity1}
-                className={styles.joinCommunicateLogo}
-              />
-            </>
-          )} */}
-          </div>
-        </section>
-      </Fade>
+      <Divider mt={32} />
     </BodyContainer>
   );
 };

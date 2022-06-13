@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
 import BodyContainer from 'src/common/components/bodyContainer';
 import Overview from 'src/views/dashboard/overview';
-
-const tabs = ['overview', 'settings'];
+import MyLoans from 'src/views/dashboard/myLoans';
+import MyOffers from 'src/views/dashboard/myOffers';
+import MyAssets from 'src/views/dashboard/myAssets';
 
 const Dashboard = () => {
 
@@ -14,11 +14,22 @@ const Dashboard = () => {
         <Tabs variant='solid-rounded' colorScheme='brand.primary' orientation='vertical' defaultIndex={0}>
           <TabList p={4}>
             <Tab minW={200} justifyContent='left' borderRadius={8}>Overview</Tab>
-            {/* <Tab minW={200} justifyContent='left' borderRadius={8}>Settings</Tab> */}
+            <Tab minW={200} justifyContent='left' borderRadius={8}>My NFTs</Tab>
+            <Tab minW={200} justifyContent='left' borderRadius={8}>Loans</Tab>
+            <Tab minW={200} justifyContent='left' borderRadius={8}>Lends</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
               <Overview />
+            </TabPanel>
+            <TabPanel>
+              <MyAssets />
+            </TabPanel>
+            <TabPanel>
+              <MyLoans />
+            </TabPanel>
+            <TabPanel>
+              <MyOffers />
             </TabPanel>
           </TabPanels>
         </Tabs>

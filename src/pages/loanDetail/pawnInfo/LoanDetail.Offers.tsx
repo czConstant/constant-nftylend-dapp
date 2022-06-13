@@ -46,6 +46,7 @@ const OfferRow = (props: OfferRowProps) => {
   const isMyOffer = isSameAddress(offer.lender,walletAddress);
   const isMyLoan = isSameAddress(loan.owner, walletAddress);
   const offerDuration = LOAN_DURATION.find(e => e.id === offer.duration / 86400);
+
   return (
     <Grid py={2} templateColumns={templateColumns} fontSize='sm' key={offer?.id}>
       <GridItem>
@@ -65,7 +66,7 @@ const OfferRow = (props: OfferRowProps) => {
         </Link>
       </GridItem>
       <GridItem>
-        <CountdownText to={offer.valid_at} />
+        {offer.isListing() && <CountdownText to={offer.valid_at} />}
       </GridItem>
       {offer?.isListing() && (
         <GridItem>

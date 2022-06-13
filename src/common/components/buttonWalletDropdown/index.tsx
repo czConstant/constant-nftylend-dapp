@@ -94,10 +94,6 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
           <Icon mr={2} boxSize='20px' color='text.secondary' as={MdDashboard} />
           <Text>Dashboard</Text>
         </MenuItem>
-        <MenuItem onClick={() => navigate(APP_URL.MY_NFT)}>
-          <Image boxSize='20px' src={IconMyAsset} mr={2} />
-          <Text>My Asset</Text>
-        </MenuItem>
         <MenuItem>
           <CopyToClipboard
             onCopy={() => toastSuccess("Copied address!")}

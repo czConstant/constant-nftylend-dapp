@@ -21,7 +21,7 @@ const Text: ComponentStyleConfig = {
       color: 'text.secondary',
       fontSize: 'xs',
       textTransform: 'uppercase',
-    }
+    },
   }
 }
 
@@ -32,7 +32,10 @@ const Button: ComponentStyleConfig = {
   variants: {
     link: {
       textDecoration: 'underline',
-    }
+    },
+    brand: {
+      backgroundImage: `linear-gradient(242deg, #246cf9 0%, #9a1ef6 0%, #3400d0 100%)`,
+    },
   }
 }
 

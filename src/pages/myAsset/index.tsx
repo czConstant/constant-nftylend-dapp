@@ -9,10 +9,9 @@ import { isMobile } from "react-device-detect";
 
 import BodyContainer from "src/common/components/bodyContainer";
 import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
-import ListAsset from "src/views/myAssets/listAsset";
-import ListLoan from "src/views/myAssets/listLoan";
-import ListOffer from "src/views/myAssets/listOffer";
-import ListOfferReceive from "src/views/myAssets/listOfferReceive";
+import ListAsset from "src/views/dashboard/myAssets";
+import ListLoan from "src/views/dashboard/myLoans";
+import ListOffer from "src/views/dashboard/myOffers";
 import { toastSuccess } from "src/common/services/toaster";
 import { getNftListCurrency } from "src/modules/nftLend/api";
 import { Currency } from "src/modules/nftLend/models/api";

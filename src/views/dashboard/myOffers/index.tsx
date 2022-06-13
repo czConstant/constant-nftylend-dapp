@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react";
-import cx from "classnames";
-import { isMobile } from "react-device-detect";
+import { useState, useEffect } from 'react';
+import cx from 'classnames';
+import { isMobile } from 'react-device-detect';
 import { Center, Flex, Grid, GridItem, Icon, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { FaCaretDown } from 'react-icons/fa';
 
-import { selectNftyLend } from "src/store/nftyLend";
-import { useAppSelector } from "src/store/hooks";
-import EmptyList from "src/common/components/emptyList";
-import Loading from "src/common/components/loading";
-import { getLoansByOwner } from "src/modules/nftLend/api";
-import { LoanNft } from 'src/modules/nftLend/models/loan';
-import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
-import { LOAN_STATUS } from 'src/modules/nftLend/constant';
+import { selectNftyLend } from 'src/store/nftyLend';
+import { useAppSelector } from 'src/store/hooks';
 
-import Item from "./item";
-import styles from "./styles.module.scss";
+import { getOffersByFilter } from 'src/modules/nftLend/api';
+import EmptyList from 'src/common/components/emptyList';
+import { OFFER_STATUS } from 'src/modules/nftLend/constant';
+import { OfferToLoan } from 'src/modules/nftLend/models/offer';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import Loading from 'src/common/components/loading';
 import Pagination from 'src/common/components/pagination';
+import Item from './item';
+import listLoanStyles from '../myLoans/styles.module.scss';
 
 const columns = [
   { name: 'Asset Name', flex: 1.5 },
@@ -28,13 +28,13 @@ const columns = [
 
 const PAGE_SIZE = 10;
 
-const ListLoan = () => {
-  const needReload = useAppSelector(selectNftyLend).needReload;
+const MyOffers = () => {
   const { currentWallet, isConnected } = useCurrentWallet();
+  const needReload = useAppSelector(selectNftyLend).needReload;
 
   const [loading, setLoading] = useState(false);
-  const [loans, setLoans] = useState<Array<LoanNft>>([]);
-  const [status, setStatus] = useState("");
+  const [offers, setOffers] = useState<Array<OfferToLoan>>([]);
+  const [status, setStatus] = useState('');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(PAGE_SIZE);
   const [total, setTotal] = useState(0);
@@ -42,36 +42,25 @@ const ListLoan = () => {
   useEffect(() => {
     if (!isConnected) return;
     setPage(1);
-    fetchNFTs(1);
-  }, [isConnected, needReload, status]);
+    fetchOffers(1);
+  }, [currentWallet, status, needReload]);
 
-  const fetchNFTs = async (page: number) => {
+  const fetchOffers = async (page: number) => {
     try {
-      setLoading(true);
-      const res = await getLoansByOwner({
-        owner: currentWallet.address.toString(),
-        network: currentWallet.chain.toString(),
-        status,
-        page,
-        limit: pageSize,
-      });
-      setLoans(res.result.map(LoanNft.parseFromApi));
-      setTotal(res.count);
+      const res = await getOffersByFilter({ lender: currentWallet.address, status, network: currentWallet.chain, page, limit: pageSize });
+      const list = res.result.map(e => OfferToLoan.parseFromApi(e, currentWallet.chain))
+      setOffers(list);
+      setTotal(res.count)
     } finally {
       setLoading(false);
     }
   };
 
-  if (!isConnected)
-    return (
-      <EmptyList dark labelText="Connect crypto wallet to view your assets" />
-    );
-
-  
+  if (!isConnected) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
   const templateColumns = columns.reduce((str, e) => str += `${e.flex}fr `, '');
 
   return (
-    <div className={cx(isMobile && styles.mobileWrap, styles.wrapper)}>
+    <div className={cx(isMobile && listLoanStyles.mobileWrap)}>
       <Menu variant='outline'>
         <MenuButton mt={4} h='40px' minW='120px'>
           <Flex alignItems='center' justifyContent='space-between' pl={4} pr={2}>
@@ -81,12 +70,12 @@ const ListLoan = () => {
         </MenuButton>
         <MenuList>
           <MenuItem onClick={() => setStatus('')}>All</MenuItem>
-          {Object.values(LOAN_STATUS).map(v => (
+          {Object.values(OFFER_STATUS).map(v => (
             <MenuItem key={v.id} onClick={() => setStatus(v.id)}>{v.name}</MenuItem>
           ))}
         </MenuList>
       </Menu>
-      <Flex direction='column' className={styles.table}>
+      <Flex direction='column' className={listLoanStyles.table}>
         <Grid templateColumns={templateColumns}>
           {columns.map((e, i) => (
             <GridItem
@@ -105,10 +94,10 @@ const ListLoan = () => {
           ))}
         </Grid>
         {loading && <Center height={20}><Loading /></Center>}
-        {!loading && loans?.length === 0 && (
+        {!loading && offers?.length === 0 && (
           <EmptyList dark labelText="There is no loan" />
         )}
-        {loans.map((e: LoanNft) => <Item key={e.id} templateColumns={templateColumns} loan={e} />)}
+        {offers.map((e: any) => <Item key={e.id} offer={e} templateColumns={templateColumns} />)}
       </Flex>
       <Flex justifyContent='flex-end'>
         <Pagination
@@ -117,7 +106,7 @@ const ListLoan = () => {
           pageSize={pageSize}
           onChangePage={(p: number) => {
             setPage(p);
-            fetchNFTs(p);
+            fetchOffers(p);
           }}
         />
       </Flex>
@@ -125,4 +114,4 @@ const ListLoan = () => {
   );
 };
 
-export default ListLoan;
+export default MyOffers;

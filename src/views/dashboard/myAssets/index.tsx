@@ -21,7 +21,7 @@ import styles from './styles.module.scss';
 
 const PAGE_SIZE = 12;
 
-const ListAsset = () => {
+const MyAssets = () => {
   const dispatch = useAppDispatch();
   const needReload = useAppSelector(selectNftyLend).needReload;
   const { currentWallet, isConnected } = useCurrentWallet();
@@ -115,4 +115,4 @@ const ListAsset = () => {
   );
 };
 
-export default ListAsset;
+export default MyAssets;
