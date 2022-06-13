@@ -75,10 +75,11 @@ interface ProposalListItemData
   id: string;
   status: ProposalStatus;
   choices: ProposalChoiceData[];
+  ipfs_hash: string;
 }
 
-interface ProposalVotesData {
-
+interface ProposalVotesData extends ProposalListItemData {
+  
 }
 
 enum ProposalStatus {
@@ -97,7 +98,7 @@ interface ProposalListRequest {
 
 interface ProposalVoteMessage {
   version: string;
-  timestamp: string;
+  timestamp: number;
   space: string;
   type: string;
   payload: {
@@ -108,7 +109,21 @@ interface ProposalVoteMessage {
 
 interface ProposalVoteRequest extends ProposalData {
   version: string;
-  message: ProposalVoteMessage;
+  message: string;
+}
+
+interface ProposalCheckVoteParams {
+  proposal_id: string;
+  network: string;
+  address: string;
+}
+
+interface ProposalVoteData {
+
+}
+
+interface ProposalVoteCheckData {
+
 }
 
 export { ProposalStatus };
@@ -123,4 +138,8 @@ export type {
   ProposalChoiceData,
   ProposalVoteRequest,
   ProposalVotesData,
+  ProposalVoteData,
+  ProposalVoteMessage,
+  ProposalCheckVoteParams,
+  ProposalVoteCheckData
 };

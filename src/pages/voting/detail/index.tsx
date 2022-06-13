@@ -1,22 +1,28 @@
+import BigNumber from "bignumber.js";
 import cx from "classnames";
 import queryString from "query-string";
 import { useEffect, useRef, useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { isMobile } from "react-device-detect";
 import { Link, useLocation } from "react-router-dom";
 import BodyContainer from "src/common/components/bodyContainer";
 import BreadCrumb, { BreadCrumbItem } from "src/common/components/breadCrumb";
 import Loading from "src/common/components/loading";
 import { APP_URL } from "src/common/constants/url";
+import { useCurrentWallet } from "src/modules/nftLend/hooks/useCurrentWallet";
+import { useToken } from "src/modules/nftLend/hooks/useToken";
 import { VotingProposalItemStatus } from "../list/Voting.Proposal.Item";
 import styles from "../styles.module.scss";
 import VotingServices from "../Voting.Services";
 import {
-  ProposalChoiceData,
+  CurrencyPWPTokenData,
+  ProposalCheckVoteParams,
   ProposalListItemData,
+  ProposalVoteCheckData,
 } from "../Voting.Services.Data";
 import VotingDetails from "./Voting.Details";
 import VotingResults from "./Voting.Results";
+import VotingVote from "./Voting.Vote";
 import VotingVotes from "./Voting.Votes";
 
 const VotingDetail = ({}) => {
@@ -37,13 +43,54 @@ const VotingDetail = ({}) => {
 
   const [breadCrumbs, setBreadCrumbs] =
     useState<BreadCrumbItem[]>(defaultBreadCrumbs);
+
+  const { currentWallet, isConnected } = useCurrentWallet();
   const [loading, setLoading] = useState(true);
   const [proposal, setProposal] = useState<ProposalListItemData>();
-  const [choice, setChoice] = useState<ProposalChoiceData>();
+  const { getBalance } = useToken();
+  const [balance, setBalance] = useState<number>(0);
+  const [currency, setCurrency] = useState<CurrencyPWPTokenData | null>(null);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
-    getDetail();
+    getData();
   }, [id]);
+
+  const fetchBalance = async () => {
+    const currencies = await VotingServices.getCurrenciesPWP();
+    const balance = await getBalance(currencies.contract_address);
+    setBalance(
+      new BigNumber(balance).dividedBy(10 ** currencies.decimals).toNumber()
+    );
+    setCurrency(currencies);
+  };
+
+  const getData = async () => {
+    try {
+      await Promise.all([fetchBalance(), getDetail(), checkVoteProposal()]);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+      setIsRefresh(false);
+    }
+  };
+
+  const checkVoteProposal = async () => {
+    try {
+      const params: ProposalCheckVoteParams = {
+        address: currentWallet.address,
+        proposal_id: id,
+        network: currentWallet?.chain,
+      };
+      const response: ProposalVoteCheckData =
+        await VotingServices.checkVoteProposal(params);
+    } catch (error) {}
+  };
+
+  const onRefreshData = () => {
+    setIsRefresh(true);
+    getData();
+  };
 
   const getDetail = async () => {
     try {
@@ -61,13 +108,7 @@ const VotingDetail = ({}) => {
       }
     } catch (error) {
     } finally {
-      setLoading(false);
     }
-  };
-
-  const onCastVote = async () => {
-    try {
-    } catch (error) {}
   };
 
   const renderDetail = () => {
@@ -95,40 +136,13 @@ const VotingDetail = ({}) => {
               className={styles.description}
               dangerouslySetInnerHTML={{ __html: proposal.body }}
             />
-            <div className={cx(styles.choiceWrapper, styles.blockWrapper)}>
-              <div className={styles.choiceTitle}>
-                <h5>Cast your vote</h5>
-              </div>
-              <div className={cx(styles.contentWrapper, styles.choiceFormWrap)}>
-                {proposal.choices.map((_choice, i) => (
-                  <Button
-                    onClick={() => setChoice(_choice)}
-                    className={styles.choiceItem}
-                    key={_choice.id}
-                  >
-                    <span className={styles.choiceItemCircle}>
-                      {choice?.id === _choice.id && (
-                        <span
-                          className={cx(
-                            styles.choiceItemCircle,
-                            styles.choiceItemCircleActive
-                          )}
-                        />
-                      )}
-                    </span>
-                    {_choice.name}
-                  </Button>
-                ))}
-                <Button
-                  onClick={onCastVote}
-                  className={styles.btnCastVote}
-                  disabled={!choice}
-                >
-                  Cast Vote
-                </Button>
-              </div>
-            </div>
-            <VotingVotes proposal={proposal} />
+            <VotingVote
+              proposal={proposal}
+              onRefreshData={onRefreshData}
+              balance={balance}
+              currency={currency}
+            />
+            <VotingVotes proposal={proposal} isRefresh={isRefresh} />
           </Col>
           <Col md={4}>
             <VotingDetails proposal={proposal} />

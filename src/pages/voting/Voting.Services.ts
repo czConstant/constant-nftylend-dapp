@@ -3,9 +3,13 @@ import api from "src/common/services/apiClient";
 import { ListResponse } from "src/modules/nftLend/models/api";
 import {
   CurrencyPWPTokenData,
+  ProposalCheckVoteParams,
   ProposalData,
   ProposalListItemData,
   ProposalListRequest,
+  ProposalVoteCheckData,
+  ProposalVoteData,
+  ProposalVoteRequest,
   ProposalVotesData,
 } from "./Voting.Services.Data";
 
@@ -65,6 +69,34 @@ const VotingServices = {
         `${API_URL.NFT_LEND.VOTING_PROPOSAL_DETAIL_VOTES}/${id}`
       );
       const result: ProposalVotesData[] = response.result;
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  async voteProposal(body: ProposalVoteRequest): Promise<ProposalVoteData> {
+    try {
+      const response: ListResponse = await api.post(
+        API_URL.NFT_LEND.VOTING_PROPOSAL_VOTE_CREATE,
+        body
+      );
+      const result: ProposalVoteData = response.result;
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  },
+  async checkVoteProposal(
+    params: ProposalCheckVoteParams
+  ): Promise<ProposalVoteCheckData> {
+    try {
+      const response: ListResponse = await api.get(
+        `${API_URL.NFT_LEND.VOTING_PROPOSAL_VOTE_CHECK}/${params.proposal_id}`,
+        {
+          params,
+        }
+      );
+      const result: ProposalVoteCheckData = response.result;
       return result;
     } catch (error) {
       throw error;

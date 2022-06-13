@@ -3,6 +3,7 @@ import cx from "classnames";
 import styles from "../styles.module.scss";
 import {
   ProposalListItemData,
+  ProposalStatus,
   ProposalVotesData,
 } from "../Voting.Services.Data";
 import Loading from "src/common/components/loading";
@@ -10,17 +11,18 @@ import VotingServices from "../Voting.Services";
 
 interface VotingVotesProps {
   proposal: ProposalListItemData;
+  isRefresh?: boolean;
 }
 
-const VotingVotes: React.FC<VotingVotesProps> = ({ proposal }) => {
+const VotingVotes: React.FC<VotingVotesProps> = ({ proposal, isRefresh }) => {
   const [votes, setVotes] = useState<ProposalVotesData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (proposal?.id) {
+    if (proposal?.id || isRefresh) {
       getVotes();
     }
-  }, [proposal?.id]);
+  }, [proposal?.id, isRefresh]);
 
   const getVotes = async () => {
     try {
@@ -53,7 +55,7 @@ const VotingVotes: React.FC<VotingVotesProps> = ({ proposal }) => {
   return (
     <div className={cx(styles.choiceWrapper, styles.blockWrapper)}>
       <div className={styles.choiceTitle}>
-        <h5>Votes (-)</h5>
+        <h5>Votes {votes.length > 0 ? `(${votes.length})` : "(-)"}</h5>
       </div>
       <div className={cx(styles.contentWrapper, styles.choiceFormWrap)}>
         {renderContentVotes()}

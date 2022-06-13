@@ -45,6 +45,8 @@ export const API_URL = {
     VOTING_PROPOSAL_LIST: `${MCT_ROOT}${MCT_API_BASE}/proposals/list`,
     VOTING_PROPOSAL_DETAIL: `${MCT_ROOT}${MCT_API_BASE}/proposals/detail`,
     VOTING_PROPOSAL_DETAIL_VOTES: `${MCT_ROOT}${MCT_API_BASE}/proposals/votes/list`,
+    VOTING_PROPOSAL_VOTE_CREATE: `${MCT_ROOT}${MCT_API_BASE}/proposals/votes/create`,
+    VOTING_PROPOSAL_VOTE_CHECK: `${MCT_ROOT}${MCT_API_BASE}/proposals/votes/vote`,
   },
 }
 

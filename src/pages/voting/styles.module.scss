@@ -431,3 +431,76 @@
     transition: width 200ms ease 0s;
   }
 }
+
+.confirmVote {
+  max-width: 500px;
+  .section {
+    margin-top: 10px;
+    h5 {
+      color: rgb(154, 106, 255);
+      font-weight: 600;
+      line-height: 1.5;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+    .choiceName {
+      color: rgb(244, 238, 255);
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 8px;
+      font-size: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .warningBalance0 {
+    margin-top: 10px;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid rgb(237, 75, 158);
+    margin-bottom: 12px;
+    background: rgba(237, 75, 158, 0.098);
+  }
+  button {
+    position: relative;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    -webkit-box-pack: center;
+    justify-content: center;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    opacity: 1;
+    outline: 0px;
+    transition: background-color 0.2s ease 0s, opacity 0.2s ease 0s;
+    height: 48px;
+    padding: 0px 24px;
+    background-color: transparent;
+    border: 2px solid rgb(31, 199, 212);
+    box-shadow: none;
+    color: rgb(31, 199, 212);
+    width: 100%;
+    margin-bottom: 5px;
+    &.btnConfirmVote {
+      background-color: rgb(31, 199, 212);
+      color: white;
+      border: 2px solid rgb(31, 199, 212);
+      margin-top: 20px;
+      &:disabled {
+        background-color: transparent;
+      }
+    }
+    &:hover {
+      opacity: 0.8;
+      background-color: inherit;
+      border: 2px solid rgba(31, 200, 212, 0.6);
+    }
+  }
+}
