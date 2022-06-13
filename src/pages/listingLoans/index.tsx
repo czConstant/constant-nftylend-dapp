@@ -19,7 +19,7 @@ import LoansSidebar from "./Loans.Sidebar";
 import LoansToolbar from "./Loans.Toolbar";
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import Loading from 'src/common/components/loading';
-import CollectionInfo from 'src/views/listLoans/collectionInfo';
+import CollectionInfo from 'src/views/listingLoans/collectionInfo';
 
 const chains = {
   all: {

@@ -30,7 +30,7 @@ const Footer = () => (
         <Box mt={4} color='text.secondary' fontSize='small'>
           <Flex alignItems='center' justifyContent='flex-end'>
             <Text mr={4}>This project is in public beta</Text>
-            <InfoTooltip iconSize='md' label="This project is in public beta. NFT Pawn's smart contract is not yet audited by a well-known security organization or firm. Use at your own risk!" />
+            <InfoTooltip label="This project is in public beta. NFT Pawn's smart contract is not yet audited by a well-known security organization or firm. Use at your own risk!" />
           </Flex>
           <div>Copyright © 2022 NFT Pawn. All rights reserved</div>
         </Box>

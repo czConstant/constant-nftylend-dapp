@@ -37,10 +37,10 @@ const routes: Array<RouteProps> = [
     path: APP_URL.DETAIL_LOAN,
     component: LoanDetail,
   },
-  {
-    path: APP_URL.MY_NFT,
-    component: MyAsset,
-  },
+  // {
+  //   path: APP_URL.MY_NFT,
+  //   component: MyAsset,
+  // },
   {
     path: APP_URL.SUBMIT_WHITELIST,
     component: SubmitWhitelist,

@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
-import InfoTooltip from 'src/common/components/infoTooltip';
 import styles from './styles.module.scss';
+import InfoTooltip from '../infoTooltip';
 
 interface InputWrapperProps {
   label?: string | React.ReactNode;

@@ -1,0 +1,34 @@
+.table {
+  margin: 20px 0 60px;
+  border-radius: 16px;
+  overflow: hidden;
+  > div:nth-child(odd) {
+    background-color: #19191C;
+  }
+  > div:nth-child(even) {
+    background-color: #141416;
+  }
+}
+
+.mobileWrap {
+  > div {
+    &:first-child {
+      padding: 0px 1rem;
+    }
+    &:last-child {
+      background-color: #19191C;
+      overflow: auto;
+      border-radius: 0px;
+      > div {
+        width: max-content;
+        > div {
+          justify-content: center;
+          width: 175px;
+          >div {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}

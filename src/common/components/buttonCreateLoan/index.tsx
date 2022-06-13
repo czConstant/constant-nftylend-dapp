@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import { Player } from "@lottiefiles/react-lottie-player";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import cx from 'classnames';
+import { Button } from '@chakra-ui/react';
 
 import { closeModal, openModal } from "src/store/modal";
 import { APP_URL } from "src/common/constants/url";

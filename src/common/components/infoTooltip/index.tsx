@@ -11,7 +11,7 @@ interface InfoTooltipProps {
 }
 
 const InfoTooltip = (props: InfoTooltipProps) => {
-  const { label, fontSize, iconSize, placement = 'top', children } = props;
+  const { label, fontSize, iconSize = 'md', placement = 'top', children } = props;
   return (
     <Tooltip fontSize={fontSize} placement={placement} closeOnClick={false} label={label}>
       {children || <Text><Icon fontSize={iconSize} as={MdInfoOutline} /></Text>}

@@ -3,7 +3,7 @@ import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
 import cx from 'classnames';
-import { Badge, Button, Flex, Grid, GridItem, Link } from '@chakra-ui/react';
+import { Badge, Button, Flex, Grid, GridItem, Link, Text } from '@chakra-ui/react';
 
 import { useAppDispatch } from "src/store/hooks";
 import {
@@ -31,8 +31,6 @@ const Item = (props: ItemProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { cancelOffer, liquidateLoan, closeOffer } = useTransaction();
-
-  const [open, setOpen] = useState(false);
 
   const loan = offer.loan;
   const loanDuration = LOAN_DURATION.find(e => e.id === offer.duration / 86400);
@@ -180,12 +178,12 @@ const Item = (props: ItemProps) => {
         <Flex w='100%' justifyContent='flex-end'>
           {showClaim && (
             <Button size='sm' variant='link' colorScheme='brand.warning' onClick={onClaim}>
-              Claim <InfoTooltip label='Claim for Credit' />
+              <Text mr={2}>Claim</Text> <InfoTooltip label='Claim for Credit' />
             </Button>
           )}
           {showLiquidate && (
             <Button size='sm' variant='link' colorScheme='brand.warning' onClick={onLiquidate}>
-              Claim <InfoTooltip label='Claim for NFT' />
+              <Text mr={2}>Claim</Text> <InfoTooltip label='Claim for NFT' />
             </Button>
           )}
           {showCancel && <Button size='sm' variant='link' colorScheme='whiteAlpha' onClick={onCancel}>Cancel</Button>}
