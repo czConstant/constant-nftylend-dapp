@@ -15,6 +15,7 @@ import icShare from "../images/ic_share.svg";
 interface VotingVotesProps {
   proposal: ProposalListItemData;
   isRefresh?: boolean;
+  currentWallet: any;
 }
 
 const VotingVotes: React.FC<VotingVotesProps> = ({

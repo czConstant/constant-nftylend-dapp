@@ -1,18 +1,30 @@
-import React, { memo, useEffect, useRef, useState } from "react";
-import styles from "../styles.module.scss";
-import VotingServices from "../Voting.Services";
-import { ProposalListItemData, ProposalStatus } from "../Voting.Services.Data";
-import VotingProposalItem from "./Voting.Proposal.Item";
+import { Heading } from "@chakra-ui/react";
 import cx from "classnames";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import Loading from "src/common/components/loading";
+import styles from "../styles.module.scss";
 import { VOTING_STATUS } from "../Voting.Constant";
-import { Heading } from '@chakra-ui/react';
+import VotingServices from "../Voting.Services";
+import {
+  ProposalListItemData,
+  ProposalStatus,
+  ProposalTypeData
+} from "../Voting.Services.Data";
+import VotingProposalItem from "./Voting.Proposal.Item";
 
 const VotingList = () => {
+  const configs = useSelector((state) => state?.nftyLend?.configs);
+  const proposalTypes: ProposalTypeData[] = configs?.proposals || [];
+
+  const defaultType: ProposalTypeData = proposalTypes.find((v) => v.active);
+
   const refFilters = useRef(VOTING_STATUS).current;
+  const refTypes = useRef(proposalTypes).current;
 
   const [rows, setRows] = useState<ProposalListItemData[]>([]);
+  const [type, setType] = useState<string>(defaultType?.key);
   const [status, setStatus] = useState<ProposalStatus>(
     ProposalStatus.ProposalStatusCreated
   );
@@ -20,7 +32,7 @@ const VotingList = () => {
 
   useEffect(() => {
     getData();
-  }, [status]);
+  }, [status, type]);
 
   const getData = async () => {
     try {
@@ -37,6 +49,7 @@ const VotingList = () => {
       const findStatus = VOTING_STATUS.find((v) => v.key === status);
       const _rows = await VotingServices.getProposals({
         status: findStatus?.filters || findStatus?.key,
+        type: type,
       });
       setRows(_rows);
     } catch (error) {}
@@ -63,9 +76,29 @@ const VotingList = () => {
 
   return (
     <div className={styles.listContainer}>
-      <Heading as='h1' mb={2}>Proposals</Heading>
+      <Heading as="h1" mb={2}>
+        Proposals
+      </Heading>
       <div className={cx(styles.choiceWrapper, styles.listRows)}>
         <div className={cx(styles.choiceHeader, styles.listRowsHeader)}>
+          {refTypes.map((filter) => (
+            <Button
+              className={cx(
+                filter.key === type ? styles.typeActive : "",
+                styles.statusWrap
+              )}
+              disabled={!filter.active}
+              key={filter.key}
+              onClick={() => setType(filter.key)}
+            >
+              {filter.name}
+              {!filter.active && (
+                <span className={styles.comingSoon}>Coming Soon</span>
+              )}
+            </Button>
+          ))}
+        </div>
+        <div className={styles.filterContainer}>
           {refFilters.map((filter) => (
             <Button
               className={cx(

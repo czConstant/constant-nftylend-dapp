@@ -1,6 +1,6 @@
 import { API_URL } from "src/common/constants/url";
 import api from "src/common/services/apiClient";
-import { ListResponse } from "src/modules/nftLend/models/api";
+import { ListResponse, ResponseResult } from "src/modules/nftLend/models/api";
 import {
   CurrencyPWPTokenData,
   ProposalCheckVoteParams,
@@ -28,11 +28,12 @@ const VotingServices = {
   },
   async createProposal(body: ProposalData): Promise<CurrencyPWPTokenData> {
     try {
-      const response: any = await api.post(
+      const response: ResponseResult = await api.post(
         `${API_URL.NFT_LEND.VOTING_PROPOSAL}`,
         body
       );
-      return response;
+      const result: ProposalListItemData = response.result;
+      return result;
     } catch (error) {
       throw error;
     }

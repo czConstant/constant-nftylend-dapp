@@ -1,7 +1,7 @@
 import icStatusClosed from "src/pages/voting/images/ic_status_closed.svg";
 import icStatusSoon from "src/pages/voting/images/ic_status_soon.svg";
 import icStatusVoteNow from "src/pages/voting/images/ic_status_vote_now.svg";
-import { ProposalStatus } from "./Voting.Services.Data";
+import { ProposalStatus, ProposalTypes } from "./Voting.Services.Data";
 
 export const VOTING_STATUS = [
   {

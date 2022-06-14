@@ -92,8 +92,20 @@ enum ProposalStatus {
   ProposalStatusExecuted = "executed",
 }
 
+enum ProposalTypes {
+  Gov = "government",
+  Community = "community",
+}
+
+interface ProposalTypeData {
+  active: boolean;
+  key: string;
+  name: string;
+}
+
 interface ProposalListRequest {
   status?: ProposalStatus;
+  type?: string;
 }
 
 interface ProposalVoteMessage {
@@ -126,7 +138,7 @@ interface ProposalVoteCheckData {
   proposal_choice_id: number;
 }
 
-export { ProposalStatus };
+export { ProposalStatus, ProposalTypes };
 
 export type {
   CurrencyPWPTokenData,
@@ -142,4 +154,5 @@ export type {
   ProposalVoteMessage,
   ProposalCheckVoteParams,
   ProposalVoteCheckData,
+  ProposalTypeData,
 };
