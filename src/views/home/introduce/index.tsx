@@ -46,6 +46,10 @@ const Introduce = () => {
 
   useEffect(() => {
     if (pictures.length === 0) return;
+    if (pictures.length < 6) {
+      setDisplayPictures(pictures);
+      return;
+    }
     setTimeout(() => controls.start({ translateX: 0 }), 1000);
     
     function changePic() {
