@@ -153,7 +153,8 @@ interface ClaimPwpParams {
   to_address: string;
   timestamp: number;
   signature: string;
+  amount: number;
 }
 export const claimPwpBalance = (params: ClaimPwpParams): Promise<ResponseResult> => {
-  return api.post(API_URL.NFT_LEND.USER_STATS, params);
+  return api.post(API_URL.NFT_LEND.PWP_CLAIM, params);
 };

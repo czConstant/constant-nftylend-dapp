@@ -11,7 +11,7 @@ const VotingMakeProposal: React.FC<VotingMakeProposalProps> = ({}) => {
 
   return (
     <Button
-      onClick={() => navigate(APP_URL.NFT_LENDING_VOTING_PROPOSAL_MAKE)}
+      onClick={() => navigate(APP_URL.VOTING_PROPOSAL_MAKE)}
       className={styles.btnMakeProposal}
     >
       Make a Proposals

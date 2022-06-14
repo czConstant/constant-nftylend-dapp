@@ -2,7 +2,7 @@ import React from "react";
 import BigNumber from "bignumber.js";
 import moment from 'moment-timezone';
 import { useDispatch } from 'react-redux';
-import { Button, Progress } from '@chakra-ui/react';
+import { Button, Progress, Text } from '@chakra-ui/react';
 
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -158,11 +158,11 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       </div>
       <div className={styles.info}>
         <div>
-          <label>Repayment Amount</label>
+        <Text color='text.secondary' fontWeight='medium' fontSize='xs'>Repayment Amount</Text>
           <div className={styles.value}>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</div>
         </div>
         <div>
-          <label>APR</label>
+          <Text color='text.secondary' fontWeight='medium' fontSize='xs'>APR</Text>
           <div className={styles.value}>
             {new BigNumber(loan.approved_offer?.interest_rate)
               .multipliedBy(100)
@@ -170,13 +170,13 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
           </div>
         </div>
       </div>
-      <div className={styles.desc}>
+      <Text fontSize='sm'>
         {loan.isLiquidated()
-          ? <>{loan.asset?.name} is currently held in escrow in an NFTPawn contract and pending your lender to claim.</>
-          : <>{loan.asset?.name} is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</strong> is made before {moment(loan.approved_offer.expired_at).toLocaleString()}.</>
+          ? <><strong>{loan.asset?.name}</strong> is currently held in escrow in an NFTPawn contract and pending your lender to claim.</>
+          : <><strong>{loan.asset?.name}</strong> is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</strong> is made before <strong>{moment(loan.approved_offer.expired_at).toLocaleString()}</strong>.</>
         }
         
-      </div>
+      </Text>
       {!loan.isLiquidated() && currentWallet.address === loan.owner && (
         <div className={styles.groupOfferButtons}>
           <Button w='100%' onClick={onPayLoan}>

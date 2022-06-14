@@ -4,13 +4,12 @@ import styles from "./styles.module.scss";
 import VotingList from "./list";
 import BreadCrumb, { BreadCrumbItem } from "src/common/components/breadCrumb";
 import { APP_URL } from "src/common/constants/url";
-import BodyContainer from "src/common/components/bodyContainer";
 
 const Voting = () => {
   const defaultBreadCrumbs = useRef<BreadCrumbItem[]>([
     {
       label: "Discover",
-      link: APP_URL.NFT_LENDING,
+      link: APP_URL.DISCOVER,
     },
     {
       label: "Voting",

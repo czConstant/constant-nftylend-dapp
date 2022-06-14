@@ -124,3 +124,25 @@ export interface AssetStatData {
   currency: Currency;
   floor_price: number;
 }
+
+export interface UserData {
+  id: number;
+  address: string;
+  created_at: string;
+  email: string;
+  network: string;
+  news_noti_enabled: boolean;
+  loan_noti_enabled: boolean;
+  seen_noti_id: number;
+}
+
+export interface PwpBalanceData {
+  balance: string;
+  claimed_balance: string;
+  locked_balance: string;
+  created_at: string;
+  updated_at: string;
+  currency: Currency;
+  network: string;
+  user: UserData;
+}

@@ -37,7 +37,7 @@ const VotingDetail = ({}) => {
     },
     {
       label: "Voting",
-      link: APP_URL.NFT_LENDING_VOTING,
+      link: APP_URL.VOTING,
     },
   ]).current;
 
@@ -124,7 +124,7 @@ const VotingDetail = ({}) => {
       return (
         <div className={styles.loadingWrap}>
           <h5>No proposals found</h5>
-          <Link to={APP_URL.NFT_LENDING_VOTING}>{`< Back to Proposals`}</Link>
+          <Link to={APP_URL.VOTING}>{`< Back to Proposals`}</Link>
         </div>
       );
     }

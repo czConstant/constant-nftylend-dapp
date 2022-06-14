@@ -1,11 +1,12 @@
 import BigNumber from "bignumber.js";
 import cx from "classnames";
-import { clone, filter, map, mapKeys } from "lodash";
+import filter from "lodash/filter";
 import moment from "moment-timezone";
 import { useEffect, useRef, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { isMobile } from "react-device-detect";
 import { Field, Form } from "react-final-form";
+
 import BodyContainer from "src/common/components/bodyContainer";
 import BreadCrumb, { BreadCrumbItem } from "src/common/components/breadCrumb";
 import ButtonConnectWallet from "src/common/components/buttonConnectWallet";
@@ -62,11 +63,11 @@ const VotingMakeProposal = () => {
   const defaultBreadCrumbs = useRef<BreadCrumbItem[]>([
     {
       label: "Discover",
-      link: APP_URL.NFT_LENDING,
+      link: APP_URL.DISCOVER,
     },
     {
       label: "Voting",
-      link: APP_URL.NFT_LENDING_VOTING,
+      link: APP_URL.VOTING,
     },
     {
       label: "Make a Proposal",

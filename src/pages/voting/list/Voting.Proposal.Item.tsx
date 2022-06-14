@@ -41,7 +41,7 @@ const VotingProposalItem: React.FC<VotingProposalItemProps> = ({
 }) => {
   return (
     <Link
-      to={`${APP_URL.NFT_LENDING_VOTING_DETAIL}/?id=${proposal?.id.toString()}`}
+      to={`${APP_URL.VOTING_DETAIL}/?id=${proposal?.id.toString()}`}
       className={styles.itemVotingProposal}
     >
       <div>
