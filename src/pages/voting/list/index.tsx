@@ -7,6 +7,7 @@ import cx from "classnames";
 import { Button } from "react-bootstrap";
 import Loading from "src/common/components/loading";
 import { VOTING_STATUS } from "../Voting.Constant";
+import { Heading } from '@chakra-ui/react';
 
 const VotingList = () => {
   const refFilters = useRef(VOTING_STATUS).current;
@@ -59,7 +60,7 @@ const VotingList = () => {
 
   return (
     <div className={styles.listContainer}>
-      <h1>Proposals</h1>
+      <Heading as='h1' mb={2}>Proposals</Heading>
       <div className={cx(styles.choiceWrapper, styles.listRows)}>
         <div className={cx(styles.choiceHeader, styles.listRowsHeader)}>
           {refFilters.map((filter) => (

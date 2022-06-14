@@ -1,19 +1,26 @@
-import { Box, Button, Flex, Grid, GridItem, Table, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import BigNumber from 'bignumber.js';
+import moment from 'moment-timezone';
+import { Box, Button, Flex, Grid, GridItem, Table, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
+
 import Pagination from 'src/common/components/pagination';
 import { formatCurrency } from 'src/common/utils/format';
-import { getBalanceTransactions, getPwpBalance } from 'src/modules/nftLend/api';
+import { nearSignText } from 'src/modules/near/utils';
+import { claimPwpBalance, getBalanceTransactions, getPwpBalance } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { PwpBalanceData } from 'src/modules/nftLend/models/api';
+import { toastError, toastSuccess } from 'src/common/services/toaster';
 
 const MyPwp = () => {
   const { currentWallet } = useCurrentWallet();
 
-  const [pwpBalance, setPwpBalance] = useState<any>();
+  const [pwpBalance, setPwpBalance] = useState<PwpBalanceData>();
   const [transactions, setTransactions] = useState<any[]>([]);
   const [displayTransactions, setDisplayTransactions] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     getPwpBalance(currentWallet.address, currentWallet.chain).then(res => {
@@ -30,12 +37,30 @@ const MyPwp = () => {
   }, [page, transactions])
 
   const onClaim = async () => {
+    if (!pwpBalance) return;
     try {
-
-    } catch (err) {
-      
+      setSubmitting(true)
+      const amount = new BigNumber(pwpBalance.balance).minus(pwpBalance.locked_balance)
+      const timestamp = moment(pwpBalance.updated_at).unix()
+      const message = `${currentWallet.address.toLowerCase()}-${pwpBalance.currency.contract_address}-${amount.toString(10)}-${timestamp}`
+      const signature = await nearSignText(currentWallet.address, message)
+      await claimPwpBalance({ 
+        user_id: pwpBalance.user.id,
+        currency_id: pwpBalance.currency.id,
+        to_address: currentWallet.address,
+        amount: amount.toNumber(),
+        timestamp,
+        signature,
+      })
+      toastSuccess('Claimed PWP successfully')
+    } catch (err: any) {
+      toastError(err?.message)
+    } finally {
+      setSubmitting(false)
     }
   }
+
+  const amount = new BigNumber(pwpBalance?.balance || 0).minus(pwpBalance?.locked_balance || 0).toNumber()
 
   return (
     <Flex direction='column' gap={12}>
@@ -53,9 +78,9 @@ const MyPwp = () => {
             <Text fontSize='sm' color='text.secondary'>Claimable Reward</Text>
             <Flex justifyContent='space-between'>
               <Text fontSize='2xl' fontWeight='bold'>
-                {formatCurrency(pwpBalance?.balance - pwpBalance?.locked_balance)} PWP
+                {formatCurrency(amount)} PWP
               </Text>
-              <Button size='sm' onClick={onClaim}>Claim</Button>
+              <Button isLoading={submitting} size='sm' onClick={onClaim}>Claim</Button>
             </Flex>
           </Box>
         </GridItem>
