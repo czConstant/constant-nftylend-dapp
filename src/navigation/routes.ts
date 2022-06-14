@@ -1,4 +1,4 @@
-import { APP_URL } from 'src/common/constants/url';
+import { APP_URL } from "src/common/constants/url";
 
 import About from 'src/pages/about';
 import Home from 'src/pages/home';
@@ -10,6 +10,9 @@ import SubmitWhitelist from 'src/pages/submitWhitelist';
 import TermsOfService from "src/pages/termsOfService";
 import FAQs from 'src/pages/faqs';
 import Dashboard from 'src/pages/dashboard';
+import Voting from "src/pages/voting";
+import MakeProposal from "src/pages/voting/makeProposal";
+import VotingDetail from "src/pages/voting/detail";
 
 export interface RouteProps {
   path: string;
@@ -56,6 +59,18 @@ const routes: Array<RouteProps> = [
   {
     path: APP_URL.DASHBOARD,
     component: Dashboard,
+  },
+  {
+    path: APP_URL.VOTING,
+    component: Voting,
+  },
+  {
+    path: APP_URL.VOTING_PROPOSAL_MAKE,
+    component: MakeProposal,
+  },
+  {
+    path: APP_URL.VOTING_DETAIL,
+    component: VotingDetail,
   },
 ];
 
