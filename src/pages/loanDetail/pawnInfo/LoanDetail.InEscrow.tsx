@@ -178,25 +178,19 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
         
       </Text>
       {!loan.isLiquidated() && currentWallet.address === loan.owner && (
-        <div className={styles.groupOfferButtons}>
-          <Button w='100%' onClick={onPayLoan}>
-            Pay Loan
-          </Button>
-        </div>
+        <Button w='100%' h={50} mt={4} onClick={onPayLoan}>
+          Pay Loan
+        </Button>
       )}
       {loan.isLiquidated() && currentWallet.address === loan.owner && (
-        <div className={styles.groupOfferButtons}>
-          <Button w='100%' colorScheme='whiteAlpha' disabled>
-            Liquidated
-          </Button>
-        </div>
+        <Button w='100%'h={50} mt={4}  colorScheme='whiteAlpha' disabled>
+          Liquidated
+        </Button>
       )}
       {loan.isLiquidated() && currentWallet.address === loan.approved_offer?.lender && (
-        <div className={styles.groupOfferButtons}>
-          <Button w='100%' onClick={onLiquidate} colorScheme='brand.warning' >
-            Claim NFT
-          </Button>
-        </div>
+        <Button w='100%' h={50} mt={4} onClick={onLiquidate}>
+          Claim NFT
+        </Button>
       )}
     </div>
   );
