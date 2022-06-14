@@ -31,13 +31,14 @@ const Introduce = () => {
 
   const [pictures, setPictures] = useState<string[]>([]);
   const [displayPictures, setDisplayPictures] = useState<string[]>([]);
+  console.log("🚀 ~ file: index.tsx ~ line 34 ~ Introduce ~ displayPictures", displayPictures)
 
   const displayPicturesRef = useRef<Array<string>>([]);
   const picToChange = useRef(6);
   const cardToChange = useRef(0);
 
   useEffect(() => {
-    getListingLoans({ page: 1, limit: NUM_PIC_POOL }).then(res => {
+    getListingLoans({ page: 1, limit: 2 }).then(res => {
       setPictures(res.result.map((e: LoanData) => {
         return e.asset?.token_url;
       }))
@@ -46,10 +47,7 @@ const Introduce = () => {
 
   useEffect(() => {
     if (pictures.length === 0) return;
-    if (pictures.length < 6) {
-      setDisplayPictures(pictures);
-      return;
-    }
+
     setTimeout(() => controls.start({ translateX: 0 }), 1000);
     
     function changePic() {
@@ -62,8 +60,13 @@ const Introduce = () => {
       setTimeout(changePic, 2000);
     }
 
-    setDisplayPictures(pictures.slice(0, 6));
-    setTimeout(changePic, 2000)
+    if (pictures.length < 6) {
+      setDisplayPictures([...pictures, ...(new Array(6))].slice(0, 6));
+      return;
+    } else {
+      setDisplayPictures(pictures.slice(0, 6));
+      setTimeout(changePic, 2000)
+    }
   }, [pictures])
 
   useEffect(() => {
@@ -71,6 +74,7 @@ const Introduce = () => {
   }, [displayPictures])
 
   const animateImg = (url: string, i: number) => {
+    if (!url) return null;
     return (
       <motion.img
         key={i}
