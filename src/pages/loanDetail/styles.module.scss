@@ -11,15 +11,6 @@
       > div {
         &:last-child {
           margin-top: 20px;
-          .infoPrice {
-            .feeInfoWrap {
-              grid-template-columns: repeat(2, 1fr);
-              grid-gap: 1rem;
-              > div {
-                padding: 0px;
-              }
-            }
-          }
         }
       }
     }
@@ -113,32 +104,6 @@
           color: #fcfcfd;
           letter-spacing: 0;
           line-height: 32px;
-        }
-        .feeInfoWrap {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          > div {
-            padding: 0px 15px;
-            &:first-child {
-              // display: flex;
-              // flex-direction: column;
-              // align-items: flex-end;
-            }
-          }
-          .feeInfoTitle {
-            font-weight: 500;
-            font-size: 14px;
-            color: #777e90;
-            letter-spacing: 0;
-            line-height: 24px;
-          }
-          .feeInfoValue {
-            font-weight: 500;
-            font-size: 14px;
-            color: #fcfcfd;
-            letter-spacing: 0;
-            line-height: 24px;
-          }
         }
       }
       .inEscrow {

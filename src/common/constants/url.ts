@@ -15,7 +15,7 @@ export const APP_URL = {
   TERM_OF_SERVICE: `${BASE_PATH}/terms-of-service`,
   FAQS: `${BASE_PATH}/help`,
   NFT_PAWN_BLOG: `${BASE_PATH}/news/`,
-  DASHBOARD: `${BASE_PATH}/dashboard`,
+  DASHBOARD: `${BASE_PATH}/my-assets`,
   VOTING: `${BASE_PATH}/voting/`,
   VOTING_PROPOSAL_MAKE: `${BASE_PATH}/voting/proposal/make`,
   VOTING_DETAIL: `${BASE_PATH}/voting/proposal/detail`,

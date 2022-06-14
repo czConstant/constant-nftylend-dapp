@@ -22,6 +22,7 @@ export interface Currency {
   symbol: string;
   updated_at: string;
   price: number;
+  claim_enabled: boolean;
 }
 
 export interface SubmitCollection {

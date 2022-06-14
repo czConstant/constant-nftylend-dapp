@@ -74,10 +74,10 @@ const DialogGuideStart = (props: DialogGuideStartProps) => {
             onClick={() => {
               if (onClose) onClose();
               if (onGoToAsset) onGoToAsset();
-              navigate(APP_URL.MY_NFT);
+              navigate(APP_URL.DASHBOARD);
             }}
           >
-            Go to my asset
+            Go to My Assets
           </Button>
         </>
       );

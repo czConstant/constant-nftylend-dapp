@@ -1,39 +1,50 @@
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Box, Button, Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import last from 'lodash/last';
 
 import BodyContainer from 'src/common/components/bodyContainer';
 import Overview from 'src/views/dashboard/overview';
 import MyLoans from 'src/views/dashboard/myLoans';
 import MyOffers from 'src/views/dashboard/myOffers';
 import MyAssets from 'src/views/dashboard/myAssets';
+import { APP_URL } from 'src/common/constants/url';
+
+const menus = [
+  { title: 'Overview', path: '', element: <Overview /> },
+  { title: 'My NFTs', path: 'nfts', element: <MyAssets /> },
+  { title: 'Loans', path: 'loans', element: <MyLoans /> },
+  { title: 'Lends', path: 'lends', element: <MyOffers /> },
+]
 
 const Dashboard = () => {
+  const location = useLocation();
 
   return (
     <BodyContainer>
-      <Box pt={20}>
-        <Tabs variant='solid-rounded' colorScheme='brand.primary' orientation='vertical' defaultIndex={0}>
-          <TabList p={4}>
-            <Tab minW={200} justifyContent='left' borderRadius={8}>Overview</Tab>
-            <Tab minW={200} justifyContent='left' borderRadius={8}>My NFTs</Tab>
-            <Tab minW={200} justifyContent='left' borderRadius={8}>Loans</Tab>
-            <Tab minW={200} justifyContent='left' borderRadius={8}>Lends</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <Overview />
-            </TabPanel>
-            <TabPanel>
-              <MyAssets />
-            </TabPanel>
-            <TabPanel>
-              <MyLoans />
-            </TabPanel>
-            <TabPanel>
-              <MyOffers />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Box>
+      <Flex pt={20} gap={8}>
+        <Flex direction='column' gap={2}>
+          {menus.map(e => {
+            const isOverview = e.path === '' && location.pathname === APP_URL.DASHBOARD
+            const active = isOverview || e.path === last(location.pathname.split('/'))
+            return (
+              <Link to={e.path} style={{ textDecoration: 'none' }}>
+                <Button minW={200} variant={active ? 'solid' : 'ghost'} justifyContent='left' borderRadius={8} _hover={{ textDecoration: 'none' }} color={active ? 'text.primary' : 'text.secondary'}>
+                  {e.title}
+                </Button>
+              </Link>
+            )
+          })}
+        </Flex>
+        <Box flex={1}>
+          <Routes>
+            {menus.map(e => {
+              return (
+                <Route path={e.path} element={e.element} />
+              )
+            })}
+          </Routes>
+        </Box>
+      </Flex>
     </BodyContainer>
   )
 };

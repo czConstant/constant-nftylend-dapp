@@ -78,7 +78,7 @@ const MyPwp = () => {
             <Text fontSize='sm' color='text.secondary'>Claimable Reward</Text>
             <Flex justifyContent='space-between'>
               <Text fontSize='2xl' fontWeight='bold'>
-                {formatCurrency(amount)} PWP
+                {pwpBalance?.currency?.claim_enabled ? formatCurrency(amount) : 0} PWP
               </Text>
               <Button isLoading={submitting} size='sm' onClick={onClaim}>Claim</Button>
             </Flex>
@@ -101,7 +101,7 @@ const MyPwp = () => {
               return (
                 <Tr key={e.id}>
                   <Td borderBottomLeftRadius={isLast ? 16 : 0}>{e.created_at}</Td>
-                  <Td>{e.amount} {e.currency.symbol}</Td>
+                  <Td>{e.amount} {e.currency?.symbol}</Td>
                   <Td>{e.incentive_transaction?.type}</Td>
                   <Td borderBottomRightRadius={isLast ? 16 : 0}>{e.incentive_transaction?.status}</Td>
                 </Tr>
