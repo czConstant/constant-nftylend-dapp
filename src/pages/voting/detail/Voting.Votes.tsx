@@ -8,6 +8,8 @@ import {
 } from "../Voting.Services.Data";
 import Loading from "src/common/components/loading";
 import VotingServices from "../Voting.Services";
+import { getLinkNearExplorer } from "src/modules/near/utils";
+import { formatCurrencyByLocale } from "src/common/utils/format";
 
 interface VotingVotesProps {
   proposal: ProposalListItemData;
@@ -49,7 +51,17 @@ const VotingVotes: React.FC<VotingVotesProps> = ({ proposal, isRefresh }) => {
         </div>
       );
     }
-    return null;
+    return votes.map((vote) => (
+      <div className={styles.votedListItem} key={vote.id}>
+        <div>
+          <a target={"_blank"} href={getLinkNearExplorer(vote.user.address)}>
+            {vote?.user.address}
+          </a>
+        </div>
+        <div>{vote.proposal_choice.name}</div>
+        <div>{formatCurrencyByLocale(vote?.power_vote, 0)} Votes</div>
+      </div>
+    ));
   };
 
   return (

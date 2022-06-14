@@ -51,6 +51,7 @@ const VotingDetail = ({}) => {
   const [balance, setBalance] = useState<number>(0);
   const [currency, setCurrency] = useState<CurrencyPWPTokenData | null>(null);
   const [isRefresh, setIsRefresh] = useState(false);
+  const [yourVote, setYourVote] = useState<ProposalVoteCheckData | null>();
 
   useEffect(() => {
     getData();
@@ -84,6 +85,7 @@ const VotingDetail = ({}) => {
       };
       const response: ProposalVoteCheckData =
         await VotingServices.checkVoteProposal(params);
+      setYourVote(response);
     } catch (error) {}
   };
 
@@ -141,12 +143,13 @@ const VotingDetail = ({}) => {
               onRefreshData={onRefreshData}
               balance={balance}
               currency={currency}
+              yourVote={yourVote}
             />
             <VotingVotes proposal={proposal} isRefresh={isRefresh} />
           </Col>
           <Col md={4}>
             <VotingDetails proposal={proposal} />
-            <VotingResults proposal={proposal} />
+            <VotingResults proposal={proposal} yourVote={yourVote} />
           </Col>
         </Row>
       </div>

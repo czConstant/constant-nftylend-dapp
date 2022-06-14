@@ -17,6 +17,7 @@ import {
   ProposalChoiceData,
   ProposalListItemData,
   ProposalStatus,
+  ProposalVoteCheckData,
   ProposalVoteData,
   ProposalVoteMessage,
   ProposalVoteRequest,
@@ -28,12 +29,14 @@ interface VotingVotesProps {
   onRefreshData: () => void;
   balance: number;
   currency?: CurrencyPWPTokenData;
+  yourVote?: ProposalVoteCheckData | null;
 }
 
 const VotingVote: React.FC<VotingVotesProps> = ({
   proposal,
   onRefreshData,
   balance,
+  yourVote,
 }) => {
   const dispatch = useDispatch();
 
@@ -96,7 +99,11 @@ const VotingVote: React.FC<VotingVotesProps> = ({
     );
   };
 
-  if (proposal.status !== ProposalStatus.ProposalStatusCreated) return null;
+  if (
+    proposal.status !== ProposalStatus.ProposalStatusCreated ||
+    Boolean(yourVote)
+  )
+    return null;
 
   let disabled = loading || !choice;
 
