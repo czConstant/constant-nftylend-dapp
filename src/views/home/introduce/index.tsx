@@ -31,14 +31,13 @@ const Introduce = () => {
 
   const [pictures, setPictures] = useState<string[]>([]);
   const [displayPictures, setDisplayPictures] = useState<string[]>([]);
-  console.log("🚀 ~ file: index.tsx ~ line 34 ~ Introduce ~ displayPictures", displayPictures)
 
   const displayPicturesRef = useRef<Array<string>>([]);
   const picToChange = useRef(6);
   const cardToChange = useRef(0);
 
   useEffect(() => {
-    getListingLoans({ page: 1, limit: 2 }).then(res => {
+    getListingLoans({ page: 1, limit: NUM_PIC_POOL }).then(res => {
       setPictures(res.result.map((e: LoanData) => {
         return e.asset?.token_url;
       }))

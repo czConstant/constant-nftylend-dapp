@@ -46,7 +46,6 @@ export interface CollectionData {
   total_volume: number;
   volume_usd: number;
   new_loan?: LoanData;
-  rand_asset?: LoanDataAsset;
   network: string;
   verified: boolean;
   creator_url: string;
