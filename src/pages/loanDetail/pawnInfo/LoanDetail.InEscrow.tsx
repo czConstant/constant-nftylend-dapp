@@ -1,9 +1,8 @@
 import React from "react";
 import BigNumber from "bignumber.js";
-import { Button, ProgressBar } from 'react-bootstrap';
 import moment from 'moment-timezone';
-import cx from 'classnames';
 import { useDispatch } from 'react-redux';
+import { Button, Progress, Text } from '@chakra-ui/react';
 
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -13,7 +12,7 @@ import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { requestReload } from 'src/store/nftyLend';
-import ModalConfirmAmount from 'src/modules/nftLend/components/confirmAmountModal';
+import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
 
 import styles from "../styles.module.scss";
 import { formatCurrency } from 'src/common/utils/format';
@@ -58,6 +57,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       openModal({
         id: "confirmAmountModal",
         theme: "dark",
+        title: 'Confirm Payment',
         render: () => (
           <ModalConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
@@ -152,17 +152,17 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       <div className={styles.expireProgress}>
         <div>Time until loan expires</div>
         <div className={styles.progress}>
-          <ProgressBar now={loanDays * 100 / durationDays} />
-          <div>{loanDays}/{loanDuration?.label}</div>
+          <Progress colorScheme='brand.warning' size='lg' borderRadius={16} hasStripe value={loanDays * 100 / durationDays} />
+          <div>{loanDays}/{loanDuration?.label || loan.approved_offer?.duration}</div>
         </div>
       </div>
       <div className={styles.info}>
         <div>
-          <label>Repayment Amount</label>
+        <Text color='text.secondary' fontWeight='medium' fontSize='xs'>Repayment Amount</Text>
           <div className={styles.value}>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</div>
         </div>
         <div>
-          <label>APR</label>
+          <Text color='text.secondary' fontWeight='medium' fontSize='xs'>APR</Text>
           <div className={styles.value}>
             {new BigNumber(loan.approved_offer?.interest_rate)
               .multipliedBy(100)
@@ -170,42 +170,30 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
           </div>
         </div>
       </div>
-      <div className={styles.desc}>
+      <Text fontSize='sm'>
         {loan.isLiquidated()
-          ? <>{loan.asset?.name} is currently held in escrow in an NFTPawn contract and pending your lender to claim.</>
-          : <>{loan.asset?.name} is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</strong> is made before {moment(loan.approved_offer.expired_at).toLocaleString()}.</>
+          ? <><strong>{loan.asset?.name}</strong> is currently held in escrow in an NFTPawn contract and pending your lender to claim.</>
+          : <><strong>{loan.asset?.name}</strong> is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</strong> is made before <strong>{moment(loan.approved_offer.expired_at).toLocaleString()}</strong>.</>
         }
         
-      </div>
+      </Text>
       {!loan.isLiquidated() && currentWallet.address === loan.owner && (
         <div className={styles.groupOfferButtons}>
-          <Button
-            className={cx(styles.btnConnect)}
-            variant="danger"
-            onClick={onPayLoan}
-          >
+          <Button w='100%' onClick={onPayLoan}>
             Pay Loan
           </Button>
         </div>
       )}
       {loan.isLiquidated() && currentWallet.address === loan.owner && (
         <div className={styles.groupOfferButtons}>
-          <Button
-            className={cx(styles.btnConnect, styles.btnDisabled)}
-            variant="secondary"
-            disabled
-          >
+          <Button w='100%' colorScheme='whiteAlpha' disabled>
             Liquidated
           </Button>
         </div>
       )}
       {loan.isLiquidated() && currentWallet.address === loan.approved_offer?.lender && (
         <div className={styles.groupOfferButtons}>
-          <Button
-            className={cx(styles.btnConnect)}
-            variant="danger"
-            onClick={onLiquidate}
-          >
+          <Button w='100%' onClick={onLiquidate} colorScheme='brand.warning' >
             Claim NFT
           </Button>
         </div>

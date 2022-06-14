@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from "react-bootstrap";
 import { Field, useForm, useFormState } from "react-final-form";
+import { Button, Flex, Text } from '@chakra-ui/react';
 
 import FieldAmount from "src/common/components/form/fieldAmount";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
@@ -11,7 +11,7 @@ import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { calculateMaxInterest, calculateMaxTotalPay } from 'src/modules/nftLend/utils';
 import { formatCurrency } from 'src/common/utils/format';
-import MyPopover from 'src/common/components/myPopover';
+import InfoTooltip from 'src/common/components/infoTooltip';
 import styles from "./makeOfferForm.module.scss";
 
 const HIGH_RISK_VALUE = 2.5; // 250%
@@ -79,7 +79,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           Max interest <strong>{formatCurrency(maxInterest, 4)} {loan.currency?.symbol}</strong>
         </div>
         <div>
-          <span>Platform fee <MyPopover desc="This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans." /></span>
+          <Flex><Text mr={2}>Platform fee</Text><InfoTooltip label="This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans." /></Flex>
           <strong>{formatCurrency(matchingFee)} {loan.currency?.symbol}</strong>
         </div>
         <div>
@@ -139,11 +139,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
         />
       </InputWrapper>
       {renderEstimatedInfo()}
-      <Button
-        type="submit"
-        className={styles.submitButton}
-        disabled={submitting}
-      >
+      <Button type="submit" width='100%' mt={4} disabled={submitting}>
         {submitting ? <Loading dark /> : "Offer now"}
       </Button>
     </form>

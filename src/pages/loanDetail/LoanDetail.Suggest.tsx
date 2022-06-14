@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { Flex } from '@chakra-ui/react';
+
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { getListingLoans } from "src/modules/nftLend/api";
-import ItemNFT from "src/modules/nftLend/components/itemNft";
+import CardNftLoan from "src/views/apps/CardNftLoan";
 import { LoanNft } from "src/modules/nftLend/models/loan";
 import styles from "./styles.module.scss";
 
@@ -25,6 +27,7 @@ const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
       const response = await getListingLoans({
         collection_id: collectionId,
         exclude_ids: detailLoanId,
+        limit: 10,
       });
       setItems(response?.result.map(LoanNft.parseFromApi));
     } catch (error) {
@@ -34,13 +37,11 @@ const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
 
   const renderSuggestContent = () => {
     return (
-      <div className={styles.suggestWrap}>
-        <div className={styles.suggestContainer}>
-          {items.map((loan) => loan.asset && (
-            <ItemNFT key={loan.id} asset={loan.asset} loan={loan} />
-          ))}
-        </div>
-      </div>
+      <Flex gap={4} overflow='scroll'>
+        {items.map((loan) => loan.asset && (
+          <CardNftLoan key={loan.id} asset={loan.asset} loan={loan} />
+        ))}
+      </Flex>
     );
   };
 

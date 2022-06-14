@@ -10,7 +10,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { requestReload } from "src/store/nftyLend";
 import { TABS } from "src/pages/myAsset";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
-import ModalConfirmAmount from 'src/modules/nftLend/components/confirmAmountModal';
+import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
 
 import MakeOfferForm from './form';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
@@ -40,6 +40,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
       openModal({
         id: "confirmAmountModal",
         theme: "dark",
+        title: 'Confirm Payment',
         render: () => (
           <ModalConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
@@ -84,7 +85,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
       );
       dispatch(requestReload());
       onClose();
-      return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=${TABS.offer}`);
+      return navigate(`${APP_URL.DASHBOARD}/lends&tab=${TABS.offer}`);
     } catch (error: any) {
       console.error(error)
       toastError(error?.message || error);

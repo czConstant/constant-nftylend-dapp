@@ -9,10 +9,9 @@ import { isMobile } from "react-device-detect";
 
 import BodyContainer from "src/common/components/bodyContainer";
 import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
-import ListAsset from "src/modules/nftLend/components/listAsset";
-import ListLoan from "src/modules/nftLend/components/listLoan";
-import ListOffer from "src/modules/nftLend/components/listOffer";
-import ListOfferReceive from "src/modules/nftLend/components/listOfferReceive";
+import ListAsset from "src/views/dashboard/myAssets";
+import ListLoan from "src/views/dashboard/myLoans";
+import ListOffer from "src/views/dashboard/myOffers";
 import { toastSuccess } from "src/common/services/toaster";
 import { getNftListCurrency } from "src/modules/nftLend/api";
 import { Currency } from "src/modules/nftLend/models/api";
@@ -28,8 +27,6 @@ export const TABS = {
   owned: "my-assets",
   loan: "loans",
   offer: "offers-made",
-  offer_received: "offers-received",
-  history: "History",
 };
 
 const MyAsset = () => {
@@ -63,7 +60,7 @@ const MyAsset = () => {
     setCurrencies(listCurrencies);
   };
 
-  // if (!walletAddress) return <Navigate to={APP_URL.NFT_LENDING} />
+  // if (!walletAddress) return <Navigate to={APP_URL.DISCOVER} />
 
   return (
     <>
@@ -132,7 +129,11 @@ const MyAsset = () => {
                 <Tab
                   eventKey={TABS.loan}
                   tabClassName={styles.tab}
-                  title="Loans"
+                  title={
+                    <span>
+                      <i className="fas fa-arrow-down"></i> Loans
+                    </span>
+                  }
                 >
                   <ListLoan />
                 </Tab>
@@ -141,30 +142,12 @@ const MyAsset = () => {
                   tabClassName={styles.tab}
                   title={
                     <span>
-                      <i className="fas fa-arrow-up"></i> Offers made
+                      <i className="fas fa-arrow-up"></i> Lends
                     </span>
                   }
                 >
                   <ListOffer />
                 </Tab>
-                <Tab
-                  eventKey={TABS.offer_received}
-                  tabClassName={styles.tab}
-                  title={
-                    <span>
-                      <i className="fas fa-arrow-down"></i> Offers received
-                    </span>
-                  }
-                >
-                  <ListOfferReceive />
-                </Tab>
-                {/* <Tab
-                  eventKey={TABS.history}
-                  tabClassName={styles.tab}
-                  title="History"
-                >
-                  <MyListHistory />
-                </Tab> */}
               </Tabs>
             </div>
           </div>

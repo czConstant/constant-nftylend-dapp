@@ -1,0 +1,37 @@
+.modalContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  color: #ffffff;
+  h4 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  div {
+    margin-bottom: 20px;
+    font-size: 13px;
+    text-align: center;
+    line-height: 19px;
+  }
+}
+
+.addressWrap {
+  background-color: var(--bs-gray-600);
+  padding: 10px 20px;
+  border-radius: 8px;
+  max-width: 80%;
+  display: flex;
+  align-items: center;
+  a {
+    flex-wrap: wrap;
+    display: block;
+    flex: 1;
+    word-break: break-word;
+    line-height: 1;
+    margin-right: 10px;
+    color: white;
+    font-weight: 500;
+  }
+}

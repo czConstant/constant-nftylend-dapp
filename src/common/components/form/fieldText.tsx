@@ -1,13 +1,13 @@
-import { useRef } from 'react';
-import cx from 'classnames';
-import FormGroup from 'react-bootstrap/FormGroup';
-import InputGroup from 'react-bootstrap/InputGroup';
+import { useRef } from "react";
+import cx from "classnames";
+import FormGroup from "react-bootstrap/FormGroup";
+import InputGroup from "react-bootstrap/InputGroup";
 
 // import ErrorOverlay from 'src/components/errorOverlay';
 // import { useTextWidth } from '@tag0/use-text-width';
 
-import styles from './styles.module.scss';
-import { Overlay, Tooltip } from 'react-bootstrap';
+import styles from "./styles.module.scss";
+import { Overlay, Tooltip } from "react-bootstrap";
 
 interface FieldTextProps {
   input?: any;
@@ -16,6 +16,7 @@ interface FieldTextProps {
   placeholder?: string;
   errorMessage?: any;
   errorPlacement?: string;
+  inputType?: "text" | "textarea";
 }
 
 const FieldText = (props: FieldTextProps) => {
@@ -25,7 +26,8 @@ const FieldText = (props: FieldTextProps) => {
     label,
     placeholder,
     errorMessage,
-    errorPlacement = 'bottom',
+    errorPlacement = "bottom",
+    inputType = "text",
     // disabledInput, errorPlacement, zIndex, anchorAppend,
     ...restProps
   } = props;
@@ -37,27 +39,42 @@ const FieldText = (props: FieldTextProps) => {
   const isError = meta.error && meta.touched;
 
   return (
-    <FormGroup ref={target} className={cx(styles.formGroup, 'formGroup')}>
+    <FormGroup ref={target} className={cx(styles.formGroup, "formGroup")}>
       <InputGroup
         className={cx(
           styles.inputGroup,
-          'inputGroup',
+          "inputGroup",
           (isError || errorMessage) && styles.borderDanger
         )}
       >
         <div className={styles.formControl} ref={target}>
-          <input
-            placeholder={placeholder}
-            value={value}
-            onFocus={() => onFocus()}
-            onBlur={(e) => {
-              onBlur();
-              e?.target?.blur();
-            }}
-            className={cx(shouldShowError && styles.borderDanger)}
-            onChange={onChange}
-            {...restProps}
-          />
+          {inputType === "text" ? (
+            <input
+              placeholder={placeholder}
+              value={value}
+              onFocus={() => onFocus()}
+              onBlur={(e) => {
+                onBlur();
+                e?.target?.blur();
+              }}
+              className={cx(shouldShowError && styles.borderDanger)}
+              onChange={onChange}
+              {...restProps}
+            />
+          ) : (
+            <textarea
+              placeholder={placeholder}
+              value={value}
+              onFocus={() => onFocus()}
+              onBlur={(e) => {
+                onBlur();
+                e?.target?.blur();
+              }}
+              className={cx(shouldShowError && styles.borderDanger)}
+              onChange={onChange}
+              {...restProps}
+            />
+          )}
         </div>
       </InputGroup>
       {isError && (

@@ -11,15 +11,6 @@
       > div {
         &:last-child {
           margin-top: 20px;
-          .infoPrice {
-            .feeInfoWrap {
-              grid-template-columns: repeat(2, 1fr);
-              grid-gap: 1rem;
-              > div {
-                padding: 0px;
-              }
-            }
-          }
         }
       }
     }
@@ -31,21 +22,6 @@
       grid-column-gap: 1rem;
       > div {
         min-width: 100px;
-      }
-    }
-    .suggestWrap {
-      .suggestContainer {
-        > div {
-          width: calc(100vw - 40px);
-          margin-left: 0px;
-          > a {
-            width: calc(100vw - 40px);
-            > div {
-              &:first-child {
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -101,17 +77,6 @@
         border-radius: 8px;
         margin-left: 10px;
       }
-      .infoAuthor {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 14px;
-        color: white;
-        letter-spacing: 0;
-        line-height: 16px;
-      }
       .infoPrice {
         margin: 14px 0px;
         background-color: #141416;
@@ -139,32 +104,6 @@
           color: #fcfcfd;
           letter-spacing: 0;
           line-height: 32px;
-        }
-        .feeInfoWrap {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          > div {
-            padding: 0px 15px;
-            &:first-child {
-              // display: flex;
-              // flex-direction: column;
-              // align-items: flex-end;
-            }
-          }
-          .feeInfoTitle {
-            font-weight: 500;
-            font-size: 14px;
-            color: #777e90;
-            letter-spacing: 0;
-            line-height: 24px;
-          }
-          .feeInfoValue {
-            font-weight: 500;
-            font-size: 14px;
-            color: #fcfcfd;
-            letter-spacing: 0;
-            line-height: 24px;
-          }
         }
       }
       .inEscrow {
@@ -209,9 +148,6 @@
             font-weight: bold;
           }
         }
-        .desc {
-          
-        }
       }
     }
   }
@@ -242,25 +178,17 @@
   }
 }
 
+.tabContentAttrItem {
+  background-color: #141416;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
 .tabContentAttrWrap {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
-  .tabContentAttrItem {
-    background-color: #141416;
-    border-radius: 8px;
-    padding: 1rem;
-    label {
-      font-size: 11px;
-      text-transform: uppercase;
-      color: #b4abba;
-    }
-    div {
-      font-size: 14px;
-      font-weight: bold;
-      color: #f8f7f8;
-    }
-  }
+  
 }
 
 .groupOfferButtonWrapper {
@@ -392,28 +320,6 @@
   }
 }
 
-.suggestWrap {
-  .suggestContainer {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    background-color: #19191c;
-    padding: 1rem;
-    border-radius: 20px;
-    > div {
-      width: 300px;
-      margin: 0px 15px;
-      > a {
-        > div {
-          &:first-child {
-            height: 300px;
-          }
-        }
-      }
-    }
-  }
-}
-
 .typeWrap {
   display: flex !important;
   flex-direction: row !important;
@@ -438,10 +344,4 @@
 .bodyClassName {
   background-color: transparent !important;
   padding: 0px !important;
-  .suggestContainer {
-    background-color: transparent !important;
-    padding: 0px;
-    .itemContainer {
-    }
-  }
 }

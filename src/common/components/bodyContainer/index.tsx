@@ -1,8 +1,9 @@
 import React from "react";
 import cx from "classnames";
+import { Box } from '@chakra-ui/react';
+import { isMobile } from "react-device-detect";
 
 import styles from "./styles.module.scss";
-import { isMobile } from "react-device-detect";
 
 interface BodyContainerProps {
   children: React.ReactNode;
@@ -13,9 +14,9 @@ const BodyContainer = (props: BodyContainerProps) => {
   const { className, children } = props;
 
   return (
-    <div className={cx(className, styles.bodyContainer)}>
+    <Box className={cx(className, styles.bodyContainer)} backgroundColor='black'>
       <div>{children}</div>
-    </div>
+    </Box>
   );
 };
 

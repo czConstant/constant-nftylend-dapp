@@ -16,7 +16,7 @@ import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import ModalConfirmAmount from 'src/modules/nftLend/components/confirmAmountModal';
+import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
 
 import { TABS } from "../../myAsset";
 import LoanDetailMakeOffer from '../makeOffer';
@@ -77,6 +77,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
       openModal({
         id: "confirmAmountModal",
         theme: "dark",
+        title: 'Confirm Payment',
         render: () => (
           <ModalConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
@@ -118,7 +119,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
           )}
         </>
       );
-      return navigate(`${APP_URL.NFT_LENDING_MY_NFT}?tab=${TABS.offer}`);
+      return navigate(`${APP_URL.DASHBOARD}/lends&tab=${TABS.offer}`);
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {
@@ -147,7 +148,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
           )}
         </>
       );
-      return navigate(`${APP_URL.NFT_LENDING_MY_NFT}`);
+      return navigate(`${APP_URL.DASHBOARD}/loans`);
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {
@@ -267,7 +268,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
       </div>
       <div className={styles.noteTerms}>
         By clicking "Make an offer", you agree to{" "}
-        <Link target={"_blank"} to={APP_URL.NFT_LENDING_TERM_OF_SERVICE}>
+        <Link target={"_blank"} to={APP_URL.TERM_OF_SERVICE}>
           Terms of Service
         </Link>
       </div>

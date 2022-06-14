@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
+import { isMobile } from 'react-device-detect';
+import { Box, Heading, Text } from '@chakra-ui/react';
 
-import { fetchCollections } from 'src/modules/nftLend/api';
+import { getCollections } from 'src/modules/nftLend/api';
 import { APP_URL } from 'src/common/constants/url';
 import BodyContainer from 'src/common/components/bodyContainer';
-
-import Item from './item';
-import styles from './styles.module.scss';
-import { isMobile } from 'react-device-detect';
 import { CollectionData } from 'src/modules/nftLend/models/api';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 
+import Item from './item';
+import styles from './styles.module.scss';
+
 export const OnBoardingHeader = () => (
-  <div className={cx(isMobile && styles.mbHeader, styles.headerWrapper)}>
-    <h5>Create, explore, & collect digital art NFTs</h5>
-    <h1>The new creative economy.</h1>
-  </div>
+  <Box textAlign='center' p={20}>
+    <Text fontSize='xs' color='text.secondary' fontWeight='bold' letterSpacing='wider'>UNLOCK THE NEW UTILITY FOR NFTS</Text>
+    <Heading as='h1' letterSpacing='wider' textTransform='uppercase'>The new creative economy</Heading>
+  </Box>
 );
 
-const Home = () => {
+const Discover = () => {
   const navigate = useNavigate();
   const [collections, setCollections] = useState<Array<CollectionNft>>(Array(3).fill(0));
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,7 @@ const Home = () => {
 
   const getData = async () => {
     try {
-      const response = await fetchCollections();
+      const response = await getCollections();
       const list = response.result.filter((v: any) => v?.listing_total > 0);
       setCollections(list.map((e: CollectionData) => {
         try {
@@ -40,8 +41,6 @@ const Home = () => {
           return null;
         }
       }).filter((e: any) => !!e));
-    } catch (err) {
-      console.log("🚀 ~ file: index.tsx ~ line 39 ~ getData ~ err", err)
     } finally {
       setLoading(false);
     }
@@ -59,7 +58,7 @@ const Home = () => {
               loading={loading}
               onPressItem={() =>
                 navigate(
-                  `${APP_URL.NFT_LENDING_LIST_LOAN}?collection=${collection?.seo_url}`,
+                  `${APP_URL.LIST_LOAN}?collection=${collection?.seo_url}`,
                 )
               }
             />
@@ -70,4 +69,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Discover;

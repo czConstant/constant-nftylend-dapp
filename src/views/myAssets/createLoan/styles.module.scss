@@ -1,0 +1,33 @@
+.createLoanForm {
+  display: flex;
+  flex-direction: column;
+  form {
+    width: 100%;
+  }
+  .titleOpenOffer {
+    text-align: right;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .info {
+    background-color: #141416;
+    padding: 10px 20px;
+    border-radius: 8px;
+    label {
+      color: #777E90;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      strong {
+        color: white;
+      }
+    }
+  }
+}

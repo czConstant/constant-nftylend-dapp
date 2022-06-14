@@ -48,7 +48,7 @@ const FieldAmount = (props: FieldAmountProps) => {
 
   // let width = 20;
   // if (__CLIENT__) {
-  //   width = useTextWidth({ text: displayValue || placeholder , font: '15px SFProDisplay' });
+  //   width = useTextWidth({ text: displayValue || placeholder });
   // }
   // const appendPosition = width + 15;
 
