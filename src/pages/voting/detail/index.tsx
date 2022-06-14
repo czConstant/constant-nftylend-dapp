@@ -145,11 +145,11 @@ const VotingDetail = ({}) => {
               currency={currency}
               yourVote={yourVote}
             />
-            <VotingVotes proposal={proposal} isRefresh={isRefresh} />
+            <VotingVotes proposal={proposal} isRefresh={isRefresh} currentWallet={currentWallet} />
           </Col>
           <Col md={4}>
             <VotingDetails proposal={proposal} />
-            <VotingResults proposal={proposal} yourVote={yourVote} />
+            <VotingResults proposal={proposal} yourVote={yourVote}  />
           </Col>
         </Row>
       </div>

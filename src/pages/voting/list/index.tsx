@@ -34,7 +34,10 @@ const VotingList = () => {
 
   const getRows = async () => {
     try {
-      const _rows = await VotingServices.getProposals({ status });
+      const findStatus = VOTING_STATUS.find((v) => v.key === status);
+      const _rows = await VotingServices.getProposals({
+        status: findStatus?.filters || findStatus?.key,
+      });
       setRows(_rows);
     } catch (error) {}
   };
@@ -65,7 +68,10 @@ const VotingList = () => {
         <div className={cx(styles.choiceHeader, styles.listRowsHeader)}>
           {refFilters.map((filter) => (
             <Button
-              className={cx(filter.key === status ? styles[`${filter.key}`] : "", styles.statusWrap)}
+              className={cx(
+                filter.key === status ? styles[`${filter.key}`] : "",
+                styles.statusWrap
+              )}
               style={
                 filter.key === status
                   ? { backgroundColor: filter.color }

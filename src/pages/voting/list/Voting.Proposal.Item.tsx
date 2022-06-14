@@ -19,7 +19,11 @@ interface VotingProposalItemStatusProps {
 export const VotingProposalItemStatus: React.FC<
   VotingProposalItemStatusProps
 > = ({ status }) => {
-  const findStatus = VOTING_STATUS.find((v) => v.key === status);
+  const findStatus = VOTING_STATUS.find((v) =>
+    (v.filters || v.key).includes(status)
+  );
+  console.log(findStatus, status);
+  
   if (!findStatus) return null;
   return (
     <div

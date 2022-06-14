@@ -7,6 +7,7 @@ import {
   ProposalData,
   ProposalListItemData,
   ProposalListRequest,
+  ProposalStatus,
   ProposalVoteCheckData,
   ProposalVoteData,
   ProposalVoteRequest,
@@ -66,7 +67,12 @@ const VotingServices = {
   async getProposalVotes(id: string): Promise<ProposalVotesData[]> {
     try {
       const response: ListResponse = await api.get(
-        `${API_URL.NFT_LEND.VOTING_PROPOSAL_DETAIL_VOTES}/${id}`
+        `${API_URL.NFT_LEND.VOTING_PROPOSAL_DETAIL_VOTES}/${id}`,
+        {
+          params: {
+            status: ProposalStatus.ProposalStatusCreated,
+          },
+        }
       );
       const result: ProposalVotesData[] = response.result;
       return result;
