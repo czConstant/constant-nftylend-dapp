@@ -5,7 +5,7 @@ import LatestLoans from 'src/views/home/latestLoans';
 const Discover = () => {
   return (<>
     <Introduce />
-    <News />
+    {/* <News /> */}
     <LatestLoans />
   </>
   );
