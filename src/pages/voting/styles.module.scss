@@ -2,6 +2,62 @@
   padding: 2rem 0px;
 }
 
+.votingMobileContainer {
+  .votingHeader {
+    margin-top: var(--header-height);
+  }
+  .listRowsHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .choiceWrapper {
+    overflow: hidden;
+    margin: 0 -2rem;
+  }
+  .filterContainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    width: 100%;
+    button {
+      margin-right: 0px !important;
+      margin: 0 2.5px;
+    }
+  }
+}
+
+.mbDetailWrapper {
+  margin-top: var(--header-height);
+  padding: 0px 1rem;
+  .votedListItem {
+    padding-left: 0px;
+    padding-right: 0px;
+    align-items: flex-start;
+    flex-direction: column;
+    > div {
+      &:last-child {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        width: 100%;
+        > div {
+          margin-left: 0px !important;
+          &:first-child {
+            flex: 2;
+            margin-right: 10px;
+            text-align: left;
+          }
+          &:last-child {
+            display: inline-flex;
+          }
+        }
+      }
+    }
+  }
+}
+
 .formWrapper {
   padding: 2rem 0px;
 }
@@ -676,7 +732,6 @@
 
 .tagTypeWrap {
   background-color: transparent;
-  border-ins
   &.government {
     border: 1px solid rgb(154, 106, 255);
     color: rgb(154, 106, 255);
