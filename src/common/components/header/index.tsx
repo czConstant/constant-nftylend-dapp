@@ -49,12 +49,12 @@ const Header = () => {
             >
               Listing Loans
             </Link>
-            {/* <Link
+            <Link
               to={APP_URL.VOTING}
               className={cx(location.pathname === APP_URL.LIST_LOAN && styles.active)}
             >
               Voting
-            </Link> */}
+            </Link>
             {/* <a
               target="_blank"
               href={APP_URL.NFT_PAWN_BLOG}

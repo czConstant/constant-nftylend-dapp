@@ -28,10 +28,17 @@ const Text: ComponentStyleConfig = {
 const Button: ComponentStyleConfig = {
   defaultProps: {
     colorScheme: 'brand.primary',
+    variant: 'brand',
   },
   variants: {
     link: {
       textDecoration: 'underline',
+    },
+    outline: {
+      borderWidth:2 ,
+      _hover: {
+        bgColor: 'rgba(255, 255, 255, 0.05)',
+      },
     },
     brand: {
       backgroundImage: `linear-gradient(242deg, #246cf9 0%, #9a1ef6 0%, #3400d0 100%)`,
