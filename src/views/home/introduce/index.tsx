@@ -13,14 +13,14 @@ import styles from './styles.module.scss';
 import SectionContainer from 'src/common/components/sectionContainer';
 import ButtonCreateLoan from 'src/common/components/buttonCreateLoan';
 
-// const examples = [
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/d5c12b4eb46e676d72569a2084345c94/6ef0628f',
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/dcs_pfp_1650520191170.png',
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://i.imgur.com/fO3tI1t.png',
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/smokeheads_pfp_1652898735936.png',
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/puppies_pfp_1653869027436.png',
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/483970a827af847e0b031c7d90d70baf/6cc644f1',
-// ]
+const examples = [
+  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/d5c12b4eb46e676d72569a2084345c94/6ef0628f',
+  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/dcs_pfp_1650520191170.png',
+  'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://arweave.net/NUDYySgehWNuXVGNJtZDP0g2SU8Tjq5NYUHBAhsr6qo',
+  'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://bafybeihro3da5jcrpfwlbjyeai2qafxjkadgju36l6qcw57b2spdk576gm.ipfs.dweb.link/?ext=gif',
+  'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://susanoo.mypinata.cloud/ipfs/QmdJXHKakL96mUNVcct6rd3UL5Nq2umac4NwibHPAtAuTA/388.png',
+  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/483970a827af847e0b031c7d90d70baf/6cc644f1',
+]
 
 const NUM_PIC_POOL = 30;
 
@@ -97,10 +97,10 @@ const Introduce = () => {
       </div>
       <div className={styles.right}>
         <div className={styles.imageRow}>
-          {displayPictures.slice(0, 3).map((e, i) => animateImg(e, i))}
+          {examples.slice(0, 3).map((e, i) => animateImg(e, i))}
         </div>
         <div className={styles.imageRow}>
-          {displayPictures.slice(3, 6).map((e, i) => animateImg(e, i))}
+          {examples.slice(3, 6).map((e, i) => animateImg(e, i))}
         </div>
       </div>
     </SectionContainer>
