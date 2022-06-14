@@ -29,9 +29,6 @@ const VotingVoteConfirm: React.FC<VotingVoteConfirmProps> = ({
 
   return (
     <div className={cx(styles.choiceWrapper, styles.confirmVote)}>
-      <div className={styles.choiceTitle}>
-        <h5>Confirm Vote</h5>
-      </div>
       <div className={cx(styles.contentWrapper, styles.choiceFormWrap)}>
         <div className={styles.section}>
           <h5>Voting for</h5>

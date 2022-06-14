@@ -78,8 +78,8 @@ interface ProposalListItemData
   ipfs_hash: string;
 }
 
-interface ProposalVotesData extends ProposalListItemData {
-  
+interface ProposalVotesData extends ProposalListItemData, ProposalChoiceData {
+  proposal_choice: ProposalChoiceData;
 }
 
 enum ProposalStatus {
@@ -92,8 +92,20 @@ enum ProposalStatus {
   ProposalStatusExecuted = "executed",
 }
 
+enum ProposalTypes {
+  Gov = "government",
+  Community = "community",
+}
+
+interface ProposalTypeData {
+  active: boolean;
+  key: string;
+  name: string;
+}
+
 interface ProposalListRequest {
   status?: ProposalStatus;
+  type?: string;
 }
 
 interface ProposalVoteMessage {
@@ -119,14 +131,14 @@ interface ProposalCheckVoteParams {
 }
 
 interface ProposalVoteData {
-
+  proposal_choice: ProposalVoteData;
 }
 
 interface ProposalVoteCheckData {
-
+  proposal_choice_id: number;
 }
 
-export { ProposalStatus };
+export { ProposalStatus, ProposalTypes };
 
 export type {
   CurrencyPWPTokenData,
@@ -141,5 +153,6 @@ export type {
   ProposalVoteData,
   ProposalVoteMessage,
   ProposalCheckVoteParams,
-  ProposalVoteCheckData
+  ProposalVoteCheckData,
+  ProposalTypeData,
 };

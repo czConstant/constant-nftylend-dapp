@@ -54,7 +54,13 @@ const VotingResults: React.FC<VotingVotesProps> = ({ proposal, yourVote }) => {
                 {formatCurrencyByLocale(choice.power_vote || 0, 0)} Power Vote
                 {parseFloat(choice.power_vote) > 1 ? "s" : ""}
               </div>
-              <div>{getPercent(parseFloat(choice.power_vote))}%</div>
+              <div>
+                {formatCurrencyByLocale(
+                  getPercent(parseFloat(choice.power_vote)),
+                  2
+                )}
+                %
+              </div>
             </div>
           </div>
         ))}

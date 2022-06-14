@@ -11,7 +11,10 @@ import Loading from "src/common/components/loading";
 import { APP_URL } from "src/common/constants/url";
 import { useCurrentWallet } from "src/modules/nftLend/hooks/useCurrentWallet";
 import { useToken } from "src/modules/nftLend/hooks/useToken";
-import { VotingProposalItemStatus } from "../list/Voting.Proposal.Item";
+import {
+  VotingProposalItemStatus,
+  VotingProposalItemType,
+} from "../list/Voting.Proposal.Item";
 import styles from "../styles.module.scss";
 import VotingServices from "../Voting.Services";
 import {
@@ -33,7 +36,7 @@ const VotingDetail = ({}) => {
   const defaultBreadCrumbs = useRef([
     {
       label: "Discover",
-      link: APP_URL.NFT_LENDING,
+      link: APP_URL.DISCOVER,
     },
     {
       label: "Voting",
@@ -130,9 +133,12 @@ const VotingDetail = ({}) => {
     }
     return (
       <div className={styles.detailContainer}>
-        <Row>
-          <Col md={8}>
-            <VotingProposalItemStatus status={proposal.status} />
+        <Row className="justify-content-md-space-between">
+          <Col md={7}>
+            <div className={styles.tagsWrap}>
+              <VotingProposalItemStatus status={proposal.status} />
+              <VotingProposalItemType type={proposal.type} />
+            </div>
             <h1>{proposal.name}</h1>
             <div
               className={styles.description}
@@ -145,7 +151,11 @@ const VotingDetail = ({}) => {
               currency={currency}
               yourVote={yourVote}
             />
-            <VotingVotes proposal={proposal} isRefresh={isRefresh} />
+            <VotingVotes
+              proposal={proposal}
+              isRefresh={isRefresh}
+              currentWallet={currentWallet}
+            />
           </Col>
           <Col md={4}>
             <VotingDetails proposal={proposal} />
@@ -157,7 +167,7 @@ const VotingDetail = ({}) => {
   };
 
   return (
-    <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
+    <BodyContainer className={cx(isMobile && styles.mbDetailWrapper, styles.wrapper)}>
       <BreadCrumb items={breadCrumbs} />
       <div>{renderDetail()}</div>
     </BodyContainer>

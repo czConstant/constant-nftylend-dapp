@@ -1,8 +1,7 @@
-import { VotingProposalItemStatus } from "./list/Voting.Proposal.Item";
-import { ProposalStatus } from "./Voting.Services.Data";
-import icStatusVoteNow from "src/pages/voting/images/ic_status_vote_now.svg";
-import icStatusSoon from "src/pages/voting/images/ic_status_soon.svg";
 import icStatusClosed from "src/pages/voting/images/ic_status_closed.svg";
+import icStatusSoon from "src/pages/voting/images/ic_status_soon.svg";
+import icStatusVoteNow from "src/pages/voting/images/ic_status_vote_now.svg";
+import { ProposalStatus, ProposalTypes } from "./Voting.Services.Data";
 
 export const VOTING_STATUS = [
   {
@@ -22,5 +21,11 @@ export const VOTING_STATUS = [
     name: "Closed",
     icon: icStatusClosed,
     color: "rgb(102, 97, 113)",
+    filters: [
+      ProposalStatus.ProposalStatusCancelled,
+      ProposalStatus.ProposalStatusDefeated,
+      ProposalStatus.ProposalStatusExecuted,
+      ProposalStatus.ProposalStatusSucceeded,
+    ].join(","),
   },
 ];

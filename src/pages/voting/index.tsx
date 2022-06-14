@@ -4,6 +4,8 @@ import styles from "./styles.module.scss";
 import VotingList from "./list";
 import BreadCrumb, { BreadCrumbItem } from "src/common/components/breadCrumb";
 import { APP_URL } from "src/common/constants/url";
+import cx from 'classnames';
+import { isMobile } from "react-device-detect";
 
 const Voting = () => {
   const defaultBreadCrumbs = useRef<BreadCrumbItem[]>([
@@ -16,7 +18,7 @@ const Voting = () => {
     },
   ]);
   return (
-    <div className={styles.votingContainer}>
+    <div className={cx(isMobile && styles.votingMobileContainer, styles.votingContainer)}>
       <VotingHeader />
       <div className={styles.body}>
         <BreadCrumb items={defaultBreadCrumbs.current} />

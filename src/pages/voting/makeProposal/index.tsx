@@ -25,10 +25,15 @@ import VotingServices from "../Voting.Services";
 import {
   CurrencyPWPTokenData,
   ProposalData,
+  ProposalListItemData,
   ProposalMessageData,
+  ProposalTypeData,
+  ProposalTypes,
 } from "../Voting.Services.Data";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import icClose from "../images/ic_close.svg";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const minDateCurrent = (value: any) => {
   if (moment(value).isSameOrBefore(moment.now())) {
@@ -83,6 +88,12 @@ const VotingMakeProposal = () => {
     },
   ];
 
+  const navigate = useNavigate();
+
+  const configs = useSelector((state) => state?.nftyLend?.configs);
+  const proposalTypes: ProposalTypeData[] = configs?.proposals || [];
+  const defaultType: ProposalTypeData = proposalTypes.find((v) => v.active);
+
   const { currentWallet, isConnected, connectWallet } = useCurrentWallet();
   const [initValues, setInitValues] = useState({});
   const [loading, setLoading] = useState<boolean>(false);
@@ -90,6 +101,7 @@ const VotingMakeProposal = () => {
   const { getBalance } = useToken();
   const [balance, setBalance] = useState<number>(0);
   const [currency, setCurrency] = useState<CurrencyPWPTokenData | null>(null);
+  const [type, setType] = useState<string>(defaultType.key);
 
   useEffect(() => {
     getData();
@@ -119,7 +131,7 @@ const VotingMakeProposal = () => {
 
       const dataMessage: ProposalMessageData = {
         timestamp: moment().unix(),
-        type: "proposal",
+        type: type,
         payload: {
           name: values.name,
           body: values.body,
@@ -149,14 +161,15 @@ const VotingMakeProposal = () => {
         network: currency?.network?.toString(),
         address: currentWallet.address?.toString(),
       };
-      await VotingServices.createProposal(body);
+      const response: ProposalListItemData =
+        await VotingServices.createProposal(body);
       toastSuccess("Proposal created successfully");
-      setTimeout(() => {
-        window.location.reload();
-      }, 800);
+
+      return navigate(
+        `${APP_URL.VOTING_DETAIL}/?id=${response?.id.toString()}`
+      );
     } catch (error) {
       toastError(error?.message || err);
-      console.log("error", error);
     } finally {
       setLoading(false);
     }
@@ -269,6 +282,21 @@ const VotingMakeProposal = () => {
                       />
                     </InputWrapper>
 
+                    <div className={styles.proposalTypesWrap}>
+                      {proposalTypes.map((v) => (
+                        <Button
+                          onClick={() => setType(v.key)}
+                          disabled={!v.active}
+                          key={v.key}
+                        >
+                          <span
+                            className={type === v.key ? styles.active : ""}
+                          />
+                          {v.name}
+                        </Button>
+                      ))}
+                    </div>
+
                     {isConnected ? (
                       <Button
                         className={cx(
@@ -289,21 +317,24 @@ const VotingMakeProposal = () => {
                         )}
                       />
                     )}
-                    <div className={styles.wrapBalance}>
-                      {isConnected && (
+                    {type === ProposalTypes.Gov && (
+                      <div className={styles.wrapBalance}>
+                        {isConnected && (
+                          <div>
+                            My Balance:{" "}
+                            <span>
+                              {formatCurrencyByLocale(balance)}{" "}
+                              {currency?.symbol}
+                            </span>
+                          </div>
+                        )}
                         <div>
-                          My Balance:{" "}
-                          <span>
-                            {formatCurrencyByLocale(balance)} {currency?.symbol}
-                          </span>
+                          You need at least{" "}
+                          {formatCurrencyByLocale(currency?.proposal_threshold)}{" "}
+                          {currency?.symbol} to publish a proposal.
                         </div>
-                      )}
-                      <div>
-                        You need at least{" "}
-                        {formatCurrencyByLocale(currency?.proposal_threshold)}{" "}
-                        {currency?.symbol} to publish a proposal.
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               </Col>
