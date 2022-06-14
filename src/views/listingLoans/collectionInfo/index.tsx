@@ -48,21 +48,21 @@ const CollectionInfo = (props: CollectionInfoProps) => {
     {data.cover_url ? <img className={styles.cover} alt='' src={data.cover_url} /> : <div className={styles.cover} />}
     <SectionContainer className={styles.wrapper}>
       <div className={styles.collectionInfo}>
-        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={styles.viewContract} onClick={() => window.open(getLinkNearExplorer(data.rand_asset?.contract_address), '_blank')}>
+        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={styles.viewContract} onClick={() => window.open(getLinkNearExplorer(data.new_loan?.asset?.contract_address), '_blank')}>
           <Flex>
             <Text mr={1}>View Contract</Text>
             <Image src={IconViewContract} />
           </Flex>
         </motion.button>
         <Avatar className={styles.image}
-          img={getImageThumb({ url: data.rand_asset?.token_url || '', width: 200, height: 200 })}
-          name={data.rand_asset?.name}
+          img={getImageThumb({ url: data.new_loan?.asset?.token_url || '', width: 200, height: 200 })}
+          name={data.new_loan?.asset?.name}
           size={isMobile ? 80 : 200}
         />
         {/* <RandomAvatar loans={dataLoan} size={isMobile ? 150 : 300} /> */}
         <div className={styles.name}>{data?.name} {data.verified && <img src={IcVerified} />}</div>
         <div className={styles.author}>
-          collection by <strong>{data.rand_asset?.contract_address}</strong>
+          collection by <strong>{data.new_loan?.asset?.contract_address}</strong>
         </div>
         <div className={styles.description}>{data.description}</div>
         <div className={styles.socials}>

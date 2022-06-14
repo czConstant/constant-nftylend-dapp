@@ -35,9 +35,6 @@ export class CollectionNft {
     if (item.new_loan) {
       collection.new_loan = LoanNft.parseFromApi(item.new_loan);
     }
-    if (item.rand_asset) {
-      collection.random_asset = parseNftFromLoanAsset(item.rand_asset, collection.chain);
-    }
     return collection;
   }
 }

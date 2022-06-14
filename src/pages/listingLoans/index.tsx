@@ -56,8 +56,7 @@ const PAGE_SIZE = 20;
 
 const ListingLoans = () => {
   const location = useLocation();
-  const pageQuery: GetListingLoanParams =
-    queryString.parse(location.search) || null;
+  const pageQuery: any = queryString.parse(location.search);
 
   const [loans, setLoans] = useState<LoanNft[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -103,13 +102,13 @@ const ListingLoans = () => {
     setLoading(true);
     try {
       const params: GetListingLoanParams = {
-        ...pageQuery,
         sort: '-created_at',
         network: selectedChain,
         page: page.current,
         limit: PAGE_SIZE,
+        search: pageQuery.search,
+        collection_seo_url: pageQuery.collection,
       };
-      if (pageQuery.collection) params.collection_seo_url = pageQuery.collection;
       const response: ListResponse = await getListingLoans(params);
       // Check for duplicate fetching when scroll to end of list
       if (params.page !== page.current) return;
