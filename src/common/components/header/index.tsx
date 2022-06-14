@@ -49,6 +49,15 @@ const Header = () => {
             >
               Listing Loans
             </Link>
+            <Link
+              to={APP_URL.NFT_LENDING_VOTING}
+              className={cx(
+                location.pathname === APP_URL.NFT_LENDING_VOTING &&
+                  styles.active
+              )}
+            >
+              Voting
+            </Link>
             {/* <a
               target="_blank"
               href={APP_URL.NFT_PAWN_BLOG}
@@ -79,12 +88,9 @@ const Header = () => {
         </div>
       </div>
       {APP_CLUSTER !== 'mainnet' && (
-        <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(255, 192, 122, 0.2)'>
-          <Text fontWeight='medium' fontSize='sm' color='brand.warning.400'>
-            You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;
-            <LinkText textDecoration='underline' fontWeight='semibold' href="https://nftpawn.financial">https://nftpawn.financial</LinkText>
-          </Text>
-        </Flex>
+        <div className={styles.warningNetwork}>
+          You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;<a href="https://nftpawn.financial">https://nftpawn.financial</a>
+        </div>
       )}
     </div>
   );
