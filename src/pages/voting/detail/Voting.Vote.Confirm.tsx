@@ -1,7 +1,11 @@
 import React, { memo } from "react";
 import cx from "classnames";
 import styles from "../styles.module.scss";
-import { ProposalChoiceData } from "../Voting.Services.Data";
+import {
+  ProposalChoiceData,
+  ProposalListItemData,
+  ProposalTypes,
+} from "../Voting.Services.Data";
 import { formatCurrencyByLocale } from "src/common/utils/format";
 import { Button } from "react-bootstrap";
 
@@ -10,6 +14,7 @@ interface VotingVoteConfirmProps {
   onConfirm?: () => void;
   choice: ProposalChoiceData;
   balance: number;
+  proposal: ProposalListItemData;
 }
 
 const VotingVoteConfirm: React.FC<VotingVoteConfirmProps> = ({
@@ -17,6 +22,7 @@ const VotingVoteConfirm: React.FC<VotingVoteConfirmProps> = ({
   choice,
   balance = 0,
   onConfirm,
+  proposal,
 }) => {
   const handleConfirm = () => {
     onClose();
@@ -25,7 +31,11 @@ const VotingVoteConfirm: React.FC<VotingVoteConfirmProps> = ({
 
   if (!choice) return null;
 
-  const disabled = balance === 0;
+  let disabled = false;
+
+  if (balance === 0 && proposal?.type === ProposalTypes.Gov) {
+    disabled = true;
+  }
 
   return (
     <div className={cx(styles.choiceWrapper, styles.confirmVote)}>
@@ -34,18 +44,23 @@ const VotingVoteConfirm: React.FC<VotingVoteConfirmProps> = ({
           <h5>Voting for</h5>
           <div className={styles.choiceName}>{choice.name}</div>
         </div>
-        <div className={styles.section}>
-          <h5>Your Voting Power</h5>
-          <div className={styles.choiceName}>
-            {formatCurrencyByLocale(balance)}
-          </div>
-        </div>
-        {balance === 0 && (
-          <div className={styles.warningBalance0}>
-            Hold some PWP in your wallet at the snapshot block to get voting
-            power for future proposals.
-          </div>
+        {proposal?.type === ProposalTypes.Gov && (
+          <React.Fragment>
+            <div className={styles.section}>
+              <h5>Your Voting Power</h5>
+              <div className={styles.choiceName}>
+                {formatCurrencyByLocale(balance)}
+              </div>
+            </div>
+            {balance === 0 && (
+              <div className={styles.warningBalance0}>
+                Hold some PWP in your wallet at the snapshot block to get voting
+                power for future proposals.
+              </div>
+            )}
+          </React.Fragment>
         )}
+
         <Button
           disabled={disabled}
           onClick={handleConfirm}
