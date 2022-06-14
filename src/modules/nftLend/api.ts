@@ -33,6 +33,7 @@ export interface GetListingLoanParams {
   page: number;
   limit: number;
   search?: string;
+  sort?: string;
 }
 export const getListingLoans = (
   params?: GetListingLoanParams

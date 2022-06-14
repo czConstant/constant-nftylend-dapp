@@ -108,6 +108,7 @@ const ListingLoans = () => {
     try {
       const params: GetListingLoanParams = {
         ...pageQuery,
+        sort: '-created_at',
         network: selectedChain,
         page: page.current,
         limit: PAGE_SIZE,

@@ -119,7 +119,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
           )}
         </>
       );
-      return navigate(`${APP_URL.MY_NFT}?tab=${TABS.offer}`);
+      return navigate(`${APP_URL.DASHBOARD}/lends&tab=${TABS.offer}`);
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {
@@ -148,7 +148,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
           )}
         </>
       );
-      return navigate(`${APP_URL.MY_NFT}`);
+      return navigate(`${APP_URL.DASHBOARD}/loans`);
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {

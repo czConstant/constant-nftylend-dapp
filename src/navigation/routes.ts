@@ -57,7 +57,7 @@ const routes: Array<RouteProps> = [
     component: FAQs,
   },
   {
-    path: APP_URL.DASHBOARD,
+    path: APP_URL.DASHBOARD + '/*',
     component: Dashboard,
   },
   {

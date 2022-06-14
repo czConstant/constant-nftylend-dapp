@@ -92,7 +92,7 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
       <MenuList>
         <MenuItem onClick={() => navigate(APP_URL.DASHBOARD)}>
           <Icon mr={2} boxSize='20px' color='text.secondary' as={MdDashboard} />
-          <Text>Dashboard</Text>
+          <Text>My Assets</Text>
         </MenuItem>
         <MenuItem>
           <CopyToClipboard

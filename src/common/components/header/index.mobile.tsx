@@ -63,8 +63,8 @@ const HeaderMobile = ({}) => {
         </li> */}
         {publicKey && (
           <li>
-            <Link onTouchEnd={onToggle} to={APP_URL.MY_NFT}>
-              My Assets
+            <Link onTouchEnd={onToggle} to={APP_URL.DASHBOARD}>
+              Dashboard
             </Link>
           </li>
         )}

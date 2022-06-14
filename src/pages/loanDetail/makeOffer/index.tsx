@@ -85,7 +85,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
       );
       dispatch(requestReload());
       onClose();
-      return navigate(`${APP_URL.MY_NFT}?tab=${TABS.offer}`);
+      return navigate(`${APP_URL.DASHBOARD}/lends&tab=${TABS.offer}`);
     } catch (error: any) {
       console.error(error)
       toastError(error?.message || error);
