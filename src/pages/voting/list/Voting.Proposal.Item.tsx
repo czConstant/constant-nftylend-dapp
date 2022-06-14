@@ -5,8 +5,14 @@ import { APP_URL } from "src/common/constants/url";
 import icArrowNext from "../images/ic_arrow_next.svg";
 import styles from "../styles.module.scss";
 import { VOTING_STATUS } from "../Voting.Constant";
-import { ProposalListItemData, ProposalStatus } from "../Voting.Services.Data";
+import {
+  ProposalListItemData,
+  ProposalStatus,
+  ProposalTypeData,
+  ProposalTypes,
+} from "../Voting.Services.Data";
 import cx from "classnames";
+import { useSelector } from "react-redux";
 
 interface VotingProposalItemProps {
   proposal?: ProposalListItemData;
@@ -22,8 +28,7 @@ export const VotingProposalItemStatus: React.FC<
   const findStatus = VOTING_STATUS.find((v) =>
     (v.filters || v.key).includes(status)
   );
-  console.log(findStatus, status);
-  
+
   if (!findStatus) return null;
   return (
     <div
@@ -32,6 +37,24 @@ export const VotingProposalItemStatus: React.FC<
     >
       <img src={findStatus.icon} />
       {findStatus.name}
+    </div>
+  );
+};
+
+interface VotingProposalItemTypeProps {
+  type: ProposalTypes;
+}
+
+export const VotingProposalItemType: React.FC<VotingProposalItemTypeProps> = ({
+  type,
+}) => {
+  const configs = useSelector((state) => state?.nftyLend?.configs);
+  const proposalTypes: ProposalTypeData[] = configs?.proposals || [];
+  const findProposalType = proposalTypes.find((v) => v.key === type);
+  if (!findProposalType) return null;
+  return (
+    <div className={cx(styles[type], styles.statusWrap, styles.tagTypeWrap)}>
+      {findProposalType?.name}
     </div>
   );
 };

@@ -84,6 +84,7 @@ const VotingVote: React.FC<VotingVotesProps> = ({
       openModal({
         id: "confirmVoteModal",
         theme: "dark",
+        title: 'Confirm Vote',
         modalProps: {
           centered: true,
         },
