@@ -552,7 +552,28 @@
     font-weight: 600;
     line-height: 1.5;
     font-size: 16px;
+    img {
+      filter: invert(64%) sepia(73%) saturate(424%) hue-rotate(115deg)
+        brightness(95%) contrast(83%);
+      margin-left: 5px;
+    }
   }
   > div {
+    flex: 1;
+    &:last-child {
+      text-align: right;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    &:first-child {
+      display: inline-flex;
+      align-items: center;
+      > div {
+        &:first-child {
+          margin-left: 5px;
+        }
+      }
+    }
   }
 }
