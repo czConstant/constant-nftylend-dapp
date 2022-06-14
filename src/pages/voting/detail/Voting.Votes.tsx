@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React, { memo, useEffect, useState } from "react";
 import Loading from "src/common/components/loading";
-import { formatCurrencyByLocale } from "src/common/utils/format";
+import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
 import { getLinkNearExplorer } from "src/modules/near/utils";
 import styles from "../styles.module.scss";
 import VotingServices from "../Voting.Services";
@@ -11,6 +11,7 @@ import {
 } from "../Voting.Services.Data";
 import { YourVoted } from "./Voting.Results";
 import icShare from "../images/ic_share.svg";
+import { isMobile } from "react-device-detect";
 
 interface VotingVotesProps {
   proposal: ProposalListItemData;
@@ -59,21 +60,51 @@ const VotingVotes: React.FC<VotingVotesProps> = ({
     }
     return votes.map((vote) => (
       <div className={styles.votedListItem} key={vote.id}>
-        <div>
-          <a target={"_blank"} href={getLinkNearExplorer(vote.user.address)}>
-            {vote?.user.address}
-          </a>
-          {vote.user.address === currentWallet.address && <YourVoted />}
-        </div>
-        <div>{vote.proposal_choice.name}</div>
-        <div>
-          <div>
-            {formatCurrencyByLocale(vote?.power_vote?.toString(), 0)} Votes
-          </div>
-          <a href={vote.ipfs_hash} target="_blank">
-            <img src={icShare} />
-          </a>
-        </div>
+        {isMobile ? (
+          <React.Fragment>
+            <div>
+              <a
+                target={"_blank"}
+                href={getLinkNearExplorer(vote.user.address)}
+              >
+                {vote?.user.address}
+              </a>
+              {vote.user.address === currentWallet.address && <YourVoted />}
+            </div>
+            <div>
+              <div>{vote.proposal_choice.name}</div>
+              <div>
+                <div>
+                  {formatCurrencyByLocale(vote?.power_vote?.toString(), 0)}
+                </div>
+                <a href={vote.ipfs_hash} target="_blank">
+                  <img src={icShare} />
+                </a>
+              </div>
+            </div>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <div>
+              <a
+                target={"_blank"}
+                href={getLinkNearExplorer(vote.user.address)}
+              >
+                {shortCryptoAddress(vote?.user.address, 8)}
+              </a>
+              {vote.user.address === currentWallet.address && <YourVoted />}
+            </div>
+            <div>{vote.proposal_choice.name}</div>
+            <div>
+              <div>
+                {formatCurrencyByLocale(vote?.power_vote?.toString(), 0)}
+              </div>
+              <a href={vote.ipfs_hash} target="_blank">
+                <img src={icShare} />
+              </a>
+            </div>
+          </React.Fragment>
+        )}
       </div>
     ));
   };

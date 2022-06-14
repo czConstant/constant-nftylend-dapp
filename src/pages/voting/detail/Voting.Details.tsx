@@ -5,6 +5,8 @@ import { ProposalListItemData, ProposalStatus } from "../Voting.Services.Data";
 import { VotingProposalItemStatus } from "../list/Voting.Proposal.Item";
 import moment from "moment-timezone";
 import { getLinkNearExplorer } from "src/modules/near/utils";
+import { last, truncate } from "lodash";
+import { shortCryptoAddress } from "src/common/utils/format";
 
 interface VotingDetailsProps {
   proposal: ProposalListItemData;
@@ -18,9 +20,15 @@ const VotingDetails: React.FC<VotingDetailsProps> = ({ proposal }) => {
       </div>
       <div className={cx(styles.contentWrapper, styles.choiceFormWrap)}>
         <div className={styles.votingDetailsInfo}>
+          Identifier{" "}
+          <a href={proposal.ipfs_hash} target="_blank">
+            {shortCryptoAddress(last(proposal.ipfs_hash?.split("/")), 8)}
+          </a>
+        </div>
+        <div className={styles.votingDetailsInfo}>
           Creator{" "}
           <a href={getLinkNearExplorer(proposal.user.address)} target="_blank">
-            {proposal.user.address}
+            {shortCryptoAddress(proposal.user.address, 8)}
           </a>
         </div>
         <div className={styles.votingDetailsTime}>

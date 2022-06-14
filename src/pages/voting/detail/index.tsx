@@ -167,7 +167,7 @@ const VotingDetail = ({}) => {
   };
 
   return (
-    <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
+    <BodyContainer className={cx(isMobile && styles.mbDetailWrapper, styles.wrapper)}>
       <BreadCrumb items={breadCrumbs} />
       <div>{renderDetail()}</div>
     </BodyContainer>
