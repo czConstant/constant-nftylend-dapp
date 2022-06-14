@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
 import cx from "classnames";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -24,6 +23,7 @@ import LoanDetailOffers from './LoanDetail.Offers';
 import styles from "../styles.module.scss";
 import pawnInfoStyles from "./pawnInfo.module.scss";
 import CountdownText from 'src/common/components/countdownText';
+import { Button, Flex, Text } from '@chakra-ui/react';
 
 interface LoanDetailButtonsProps {
   loan: LoanNft;
@@ -119,7 +119,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
           )}
         </>
       );
-      return navigate(`${APP_URL.DASHBOARD}/lends&tab=${TABS.offer}`);
+      return navigate(`${APP_URL.DASHBOARD}/lends?tab=${TABS.offer}`);
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {
@@ -191,88 +191,67 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
   
   if (!isConnected) {
     return (
-      <div className={styles.groupOfferButtons}>
+      <Flex my={4}>
         <ButtonConnectWallet className={styles.btnConnect} />
-      </div>
+      </Flex>
     );
   }
   
   if (currentWallet.chain !== loan.chain) {
     return (
-      <div className={styles.groupOfferButtons}>
-        <div className={styles.differentChain}>
-          Your connected wallet is different network from this loan's network ({loan.chain})  
-          <Button className={styles.btnSwitchChain} onClick={() => connectWallet(loan.chain, currentWallet.name)}>Switch to {loan.chain}</Button>
-        </div>
-      </div>
+      <Flex direction='column' className={styles.differentChain}>
+        Your connected wallet is different network from this loan's network ({loan.chain})  
+        <Button className={styles.btnSwitchChain} onClick={() => connectWallet(loan.chain, currentWallet.name)}>Switch to {loan.chain}</Button>
+      </Flex>
     );
   }
 
   if (isOwner)
     return (
-      <div className={styles.groupOfferButtons}>
-        <Button
-          className={cx(styles.btnConnect, styles.btnCancel)}
-          // variant="danger"
-          onClick={onCancelLoan}
-          disabled={submitting}
-        >
+      <Flex gap={4} my={4} w='100%' position='relative'>
+        <Button h={50} borderRadius={25} flex={1} variant='outline' colorScheme='brand.danger' onClick={onCancelLoan}disabled={submitting}>
           {canceling ? <Loading dark /> : "Cancel Loan"}
         </Button>
-        <Button
-          className={cx(styles.btnConnect)}
-          onClick={() => setShowOffer(!isShowOffer)}
-        >
+        <Button h={50} borderRadius={25} flex={1} onClick={() => setShowOffer(!isShowOffer)}>
           {isShowOffer ? 'Hide' : 'Show'} Offers ({loan.offers.length})
         </Button>
         <div className={cx(pawnInfoStyles.listOffer, isShowOffer && pawnInfoStyles.show)}>
           <LoanDetailOffers loan={loan} />
         </div>
-      </div>
+      </Flex>
     );
 
   if (userOffer)
     return (
-      <div className={styles.groupOfferButtons}>
-        <Button
-          className={cx(styles.btnConnect, styles.btnCancel)}
-          variant="danger"
-          onClick={() => onCancelOffer(userOffer)}
-          disabled={submitting}
-        >
+      <Flex my={4}>
+        <Button variant="outline" colorScheme='brand.danger' onClick={() => onCancelOffer(userOffer)} disabled={submitting}>
           {canceling && <Loading dark />}
           Cancel My Offer ({userOffer.isExpired() ? 'Expired' : <CountdownText hideWhenEnd label='Ends in ' to={userOffer.valid_at} />})
         </Button>
-      </div>
+      </Flex>
     );
 
   if (!loan.isListing() || loan.isExpired()) return null;
 
   return (
-    <div className={styles.groupOfferButtonWrapper}>
-      <div className={styles.groupOfferButtons}>
-        <Button
-          className={styles.btnConnect}
-          disabled={isOwner}
-          onClick={onOrderNow}
-        >
+    <Flex direction='column' my={4}>
+      <Flex gap={4} w='100%' mb={4}>
+        <Button h={50} borderRadius={25} flex={1} disabled={isOwner} onClick={onOrderNow}>
           Order now
         </Button>
-        <Button
-          className={cx(styles.btnConnect, styles.outline)}
-          disabled={isOwner}
-          onClick={onMakeOffer}
-        >
+        <Button h={50} borderRadius={25} flex={1} variant='outline' colorScheme='brand.primary' disabled={isOwner} onClick={onMakeOffer}>
           Make an offer
         </Button>
-      </div>
+      </Flex>
       <div className={styles.noteTerms}>
-        By clicking "Make an offer", you agree to{" "}
-        <Link target={"_blank"} to={APP_URL.TERM_OF_SERVICE}>
-          Terms of Service
-        </Link>
+        <Text fontSize='xs' color='text.secondary'>
+          By clicking "Make an offer", you agree to{" "}
+          <Link target={"_blank"} to={APP_URL.TERM_OF_SERVICE}>
+            Terms of Service
+          </Link>
+        </Text>
       </div>
-    </div>
+    </Flex>
   );
 };
 
