@@ -61,6 +61,7 @@ const MyPwp = () => {
   }
 
   const amount = new BigNumber(pwpBalance?.balance || 0).minus(pwpBalance?.locked_balance || 0).toNumber()
+  const canClaim = amount > 0 && pwpBalance?.currency?.claim_enabled
 
   return (
     <Flex direction='column' gap={12}>
@@ -80,7 +81,7 @@ const MyPwp = () => {
               <Text fontSize='2xl' fontWeight='bold'>
                 {pwpBalance?.currency?.claim_enabled ? formatCurrency(amount) : 0} PWP
               </Text>
-              <Button isLoading={submitting} size='sm' onClick={onClaim}>Claim</Button>
+              <Button disabled={!canClaim} isLoading={submitting} size='sm' onClick={onClaim}>Claim</Button>
             </Flex>
           </Box>
         </GridItem>

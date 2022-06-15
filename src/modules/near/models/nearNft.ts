@@ -3,7 +3,7 @@ import api from 'src/common/services/apiClient';
 import { LoanDataAsset } from 'src/modules/nftLend/models/api';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import { AssetNft, AssetNftDetail } from 'src/modules/nftLend/models/nft';
-import { getUrlWithBaseDefault, isUrl } from 'src/modules/nftLend/utils';
+import { convertIpfsToHttp, isUrl } from 'src/modules/nftLend/utils';
 import { getLinkNearExplorer } from '../utils';
 
 export class NearNft extends AssetNft {
@@ -20,11 +20,11 @@ export class NearNft extends AssetNft {
     nft.original_data = item;
     nft.owner = item.owner_id;
     nft.metadata = metadata
-    nft.detail_uri = getUrlWithBaseDefault(item.metadata.reference, metadata.base_uri);
+    nft.detail_uri = convertIpfsToHttp(item.metadata.reference, metadata.base_uri);
     nft.detail = {
       name: item.metadata.title,
       description: item.metadata.description,
-      image: getUrlWithBaseDefault(item.metadata.media, metadata.base_uri),
+      image: convertIpfsToHttp(item.metadata.media, metadata.base_uri),
     } as AssetNftDetail;
     return nft;
   }
