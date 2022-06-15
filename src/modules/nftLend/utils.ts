@@ -10,8 +10,8 @@ import { LoanDataAsset } from './models/api';
 import { NearNft } from '../near/models/nearNft';
 
 interface ImageThumb {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   url: string;
   showOriginal?: boolean;
 }
@@ -28,7 +28,7 @@ export const getImageThumb = (params: ImageThumb) => {
   )}`;
 };
 
-export const getUrlWithBaseDefault = (uri: string, base?: string): string => {
+export const convertIpfsToHttp = (uri: string, base?: string): string => {
   if (!uri) return '';
   if (isUrl(uri)) {
     return String(uri)

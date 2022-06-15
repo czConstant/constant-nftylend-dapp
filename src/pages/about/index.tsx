@@ -104,7 +104,7 @@ const PawwnProtocol = () => {
           </Text>
           <Flex mt={8} className={styles.groupButton} gap={4}>
             <Button
-              w={200} h={55} variant='brand' borderRadius={50}
+              w={200} h={55} borderRadius={50}
               onClick={() => window.open(DISCORD_URL, '_blank')}
             >
               Join Discord
@@ -164,10 +164,10 @@ const PawwnProtocol = () => {
                 <span>problem</span> with <span>the usability of NFTs</span> as
               </div>
               <div className={styles.text}>
-                <span>lending assets on multichain.</span> We will
+                <span>lending assets on multichain.</span> The pawnshop
               </div>
               <div className={styles.text}>
-                <span>decentralize the pawnshop model</span>.
+                paradigm will<span> become completely decentralized</span>.
               </div>
             </div>
           </div>

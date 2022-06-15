@@ -37,7 +37,7 @@ const ModalConfirmAmount = (props: ModalConfirmAmountProps) => {
       </div>
       <div className={styles.note}>You will be redirected to your wallet to confirm your transaction</div>
       <Flex alignItems='center' gap={4}>
-        <Button flex={1} onClick={onClose} colorScheme='whiteAlpha'>
+        <Button flex={1} onClick={onClose} variant='solid' colorScheme='whiteAlpha'>
           Cancel
         </Button>
         <Button flex={1}  onClick={handleConfirm}>

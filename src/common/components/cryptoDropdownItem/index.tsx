@@ -1,6 +1,4 @@
 import { memo } from 'react';
-import cx from 'classnames';
-import styles from './styles.module.scss';
 import { Flex, Image, Text } from '@chakra-ui/react';
 
 interface CryptoDropdownItemProps {

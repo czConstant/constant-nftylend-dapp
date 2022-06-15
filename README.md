@@ -1,7 +1,3 @@
-## About
-
-NFT Pawn is a decentralized lending platform powered by MyConstant.
-
 ## Prerequisites
 
 This project requires NodeJS (version 14 or later) and NPM.
