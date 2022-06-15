@@ -1036,7 +1036,7 @@ const TermsOfService = () => {
                   http://www.copyright.gov/
                 </a>
                 for details. Notices and counter-notices must be sent in writing
-                to Robert Masiello as follows: By mail to 3500 S dupont hwy Dover 19901 Delaware; or by e-mail to
+                to Zon Chu as follows: By mail to 3500 S dupont hwy Dover 19901 Delaware; or by e-mail to
                 <a href="mailto:hello@nftpawn.financial">hello@nftpawn.financial</a>.
               </ListItem>
               <ListItem>

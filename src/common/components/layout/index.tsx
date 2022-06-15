@@ -34,14 +34,14 @@ const Layout = (props: LayoutProps) => {
       <motion.div
         animate={{ opacity: isScrollEnd ? 0 : 1 }}
         transition={{ ease: "easeOut", duration: 0.2 }}
-        style={{ position: 'fixed', top: 300, right: 15 }}
+        style={{ position: 'fixed', top: 300, right: 30 }}
       >
         <SocialLinks layout='vertical' iconSize={40} />
       </motion.div>
       <motion.div
         animate={{ opacity: isShowScrollTop ? 1 : 0 }}
         transition={{ ease: "easeOut", duration: 0.2 }}
-        style={{ position: 'fixed', bottom: 100, right: 15 }}
+        style={{ position: 'fixed', bottom: 100, right: 30 }}
       >
         <IconButton aria-label='scroll top' borderRadius={40} onClick={() => window.scrollTo(0, 0)}>
           <Icon fontSize='3xl' as={MdExpandLess} />

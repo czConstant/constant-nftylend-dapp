@@ -196,6 +196,7 @@
 }
 
 .errorMessageWrap {
+  z-index: 1401;
   div {
     &:last-child {
       background-color: #c22a32;

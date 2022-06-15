@@ -35,24 +35,14 @@ const FieldAmount = (props: FieldAmountProps) => {
     // disabledInput, errorPlacement, zIndex, anchorAppend,
     ...restProps
   } = props;
-  const { onChange, onBlur, onFocus, value } = input;
+  const { onChange, onBlur, onFocus, value, name } = input;
   const { error, touched } = meta;
   const shouldShowError = !!(touched && error) || (error && value);
   const target = useRef(null);
   const hasAppend = appendComp || onClickMax;
-  // const [displayValue, setDisplayValue] = useState(placeholder);
-
-  // const onChangeDisplayValue = (text) => {
-  //   setDisplayValue(text);
-  // };
-
-  // let width = 20;
-  // if (__CLIENT__) {
-  //   width = useTextWidth({ text: displayValue || placeholder });
-  // }
-  // const appendPosition = width + 15;
 
   const isError = meta.error && meta.touched;
+  if (isError) console.log(error)
 
   return (
     <FormGroup ref={target} className={styles.formGroup}>
