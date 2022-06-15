@@ -324,8 +324,8 @@ const FAQs = () => {
                 </li>
                 <li>
                   Mail:{" "}
-                  <a href="mailto:hello@myconstant.com" target={"_blank"}>
-                    hello@myconstant.com
+                  <a href="mailto:hello@nftpawn.financial" target={"_blank"}>
+                    hello@nftpawn.financial
                   </a>
                 </li>
               </ul>

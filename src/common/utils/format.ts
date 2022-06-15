@@ -1,4 +1,10 @@
 import BigNumber from 'bignumber.js';
+import { isUrl } from './helper';
+
+export function formatUrl(url: string): string {
+  if (isUrl(url)) return url;
+  return `http://${url}`;
+}
 
 export function formatCurrency(value: any = 0,  decimalNumber = 2) {
   if (isNaN(Number(value))) return 0;
