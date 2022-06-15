@@ -202,7 +202,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
   if (!isConnected) {
     return (
       <Flex my={4}>
-        <ButtonConnectWallet className={styles.btnConnect} />
+        <ButtonConnectWallet className={pawnInfoStyles.btnConnect} />
       </Flex>
     );
   }
@@ -234,7 +234,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
   if (userOffer)
     return (
       <Flex my={4}>
-        <Button variant="outline" colorScheme='brand.danger' onClick={() => onCancelOffer(userOffer)} disabled={submitting}>
+        <Button h={50} w='100%' borderRadius={25} variant="outline" colorScheme='brand.danger' onClick={() => onCancelOffer(userOffer)} disabled={submitting}>
           {canceling && <Loading dark />}
           Cancel My Offer ({userOffer.isExpired() ? 'Expired' : <CountdownText hideWhenEnd label='Ends in ' to={userOffer.valid_at} />})
         </Button>
