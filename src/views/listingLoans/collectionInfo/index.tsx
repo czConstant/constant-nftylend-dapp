@@ -5,7 +5,7 @@ import { Flex, Image, Text } from '@chakra-ui/react';
 
 import Loading from "src/common/components/loading";
 import Avatar from 'src/common/components/avatar';
-import { getImageThumb } from 'src/modules/nftLend/utils';
+import { getImageThumb, convertIpfsToHttp } from 'src/modules/nftLend/utils';
 import { getCollection } from 'src/modules/nftLend/api';
 import SectionContainer from 'src/common/components/sectionContainer';
 import { CollectionData } from 'src/modules/nftLend/models/api';
@@ -45,7 +45,7 @@ const CollectionInfo = (props: CollectionInfoProps) => {
   if (!data) return null;
 
   return (<>
-    {data.cover_url ? <img className={styles.cover} alt='' src={data.cover_url} /> : <div className={styles.cover} />}
+    {data.cover_url ? <Image objectFit='cover' className={styles.cover} alt='' src={getImageThumb({ url: data.cover_url || '', showOriginal: true })} /> : <div className={styles.cover} />}
     <SectionContainer className={styles.wrapper}>
       <div className={styles.collectionInfo}>
         <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={styles.viewContract} onClick={() => window.open(getLinkNearExplorer(data.new_loan?.asset?.contract_address), '_blank')}>
