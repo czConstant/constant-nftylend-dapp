@@ -26,6 +26,7 @@ export const VOTING_STATUS = [
       ProposalStatus.ProposalStatusDefeated,
       ProposalStatus.ProposalStatusExecuted,
       ProposalStatus.ProposalStatusSucceeded,
+      ProposalStatus.ProposalStatusQueued,
     ].join(","),
   },
 ];
