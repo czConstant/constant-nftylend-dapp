@@ -1,4 +1,4 @@
-import { extendTheme } from '@chakra-ui/react'
+import { extendTheme, theme } from '@chakra-ui/react'
 import type { ComponentStyleConfig } from '@chakra-ui/theme'
 
 const Text: ComponentStyleConfig = {
@@ -40,14 +40,15 @@ const Button: ComponentStyleConfig = {
         bgColor: 'rgba(255, 255, 255, 0.05)',
       },
     },
-    brand: {
+    brand: (props) => ({
+      ...theme.components.Button.variants.solid(props),
       backgroundImage: `linear-gradient(242deg, #246cf9 0%, #9a1ef6 0%, #3400d0 100%)`,
       _hover: {
         _disabled: {
           background: 'inherited',
         }
       }
-    },
+    }),
   }
 }
 

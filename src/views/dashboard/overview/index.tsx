@@ -118,7 +118,7 @@ const Overview = () => {
       </Grid>
       <Tabs variant='enclosed' defaultIndex={0}>
         <TabList>
-          <Tab>My PWP</Tab>
+          <Tab>Reward</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>

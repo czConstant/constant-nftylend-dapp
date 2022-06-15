@@ -28,7 +28,8 @@
         a {
           color: white !important;
           &:hover {
-            background-color: #188eea;
+            background-color: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
           }
           span {
             color: var(--bs-gray-400);

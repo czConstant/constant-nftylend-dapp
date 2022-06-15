@@ -10,6 +10,7 @@ import { getCollection } from 'src/modules/nftLend/api';
 import SectionContainer from 'src/common/components/sectionContainer';
 import { CollectionData } from 'src/modules/nftLend/models/api';
 import { getLinkNearExplorer } from 'src/modules/near/utils';
+import { formatUrl } from 'src/common/utils/format';
 
 import IcVerified from './img/icon-verified.svg';
 import IconViewContract from './img/ic_view_contract.svg';
@@ -71,7 +72,7 @@ const CollectionInfo = (props: CollectionInfoProps) => {
         <div className={styles.socials}>
           {data.discord_url && <a href={data.discord_url} target='_blank'><img alt='' src={IconDiscord} /></a>}
           {data.twitter_id && <a href={`https://twitter.com/${data.twitter_id}`} target='_blank'><img alt='' src={IconTwitter} /></a>}
-          {data.creator_url && <a href={data.creator_url} target='_blank'><img alt='' src={IconWebsite} /></a>}
+          {data.creator_url && <a href={formatUrl(data.creator_url)} target='_blank'><img alt='' src={IconWebsite} /></a>}
         </div>
       </div>
       <hr />
