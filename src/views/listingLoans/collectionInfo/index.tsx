@@ -45,7 +45,7 @@ const CollectionInfo = (props: CollectionInfoProps) => {
   if (!data) return null;
 
   return (<>
-    {data.cover_url ? <Image objectFit='cover' className={styles.cover} alt='' src={getImageThumb({ url: data.cover_url || '', showOriginal: true })} /> : <div className={styles.cover} />}
+    {data.cover_url ? <Image objectFit='cover' className={styles.cover} alt='' src={getImageThumb({ url: convertIpfsToHttp(data.cover_url) || '', showOriginal: true })} /> : <div className={styles.cover} />}
     <SectionContainer className={styles.wrapper}>
       <div className={styles.collectionInfo}>
         <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={styles.viewContract} onClick={() => window.open(getLinkNearExplorer(data.new_loan?.asset?.contract_address), '_blank')}>
