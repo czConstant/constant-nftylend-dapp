@@ -60,7 +60,10 @@ const CollectionInfo = (props: CollectionInfoProps) => {
           size={isMobile ? 80 : 200}
         />
         {/* <RandomAvatar loans={dataLoan} size={isMobile ? 150 : 300} /> */}
-        <div className={styles.name}>{data?.name} {data.verified && <img src={IcVerified} />}</div>
+        <Flex alignItems='center' mt={8}>
+          <Text fontWeight='bold' fontSize='3xl'>{data?.name}</Text>
+          {data.verified && <Image w={30} h={30} ml={4} src={IcVerified} />}
+        </Flex>
         <div className={styles.author}>
           collection by <strong>{data.new_loan?.asset?.contract_address}</strong>
         </div>
