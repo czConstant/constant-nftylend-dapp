@@ -37,7 +37,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
   const dispatch = useAppDispatch();
   const { cancelLoan, cancelOffer, orderNow } = useTransaction();
   const { currentWallet, isConnected, connectWallet } = useCurrentWallet();
-  const { getBalance } = useToken()
+  const { getCurrencyBalance } = useToken()
 
   const [isShowOffer, setShowOffer] = useState(false);
   const [canceling, setCanceling] = useState(false);
@@ -77,9 +77,8 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
       return toastError('This loan has been expired. Please reload and select another one.');
     }
 
-    const res = await getBalance(loan.currency?.contract_address)
-    const balance = new BigNumber(res).dividedBy(10 ** loan.currency?.decimals)
-    if (balance.isLessThan(loan.principal_amount)) {
+    const balance = await getCurrencyBalance(loan.currency)
+    if (new BigNumber(balance).isLessThan(loan.principal_amount)) {
       return toastError(`Your balance (${balance} ${loan.currency?.symbol}) is not enough`)
     }
 

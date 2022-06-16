@@ -49,8 +49,8 @@ const isUrl = (url: string): boolean => {
   catch(e){ return false; }
 }
 
-export const isNativeToken = (currency: Currency): boolean => {
-  return currency.contract_address === currency.network.toLowerCase()
+export const isNativeToken = (contractAddress: string, chain: Chain | string): boolean => {
+  return contractAddress === chain.toLowerCase()
 }
 
 export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
@@ -111,7 +111,6 @@ export const calculateMaxTotalPay = (principal: number, interest: number, durati
 export const calculateTotalPay = (principal: number, decimals: number, interest: number, duration: number /* seconds */, startedAt: number /* timestamp seconds */) => {
   const DAY_SECS = 86400;
   const payAt = moment().unix();
-  const _decimal = new BigNumber(10).pow(decimals)
 
   let maxLoanDay = Math.floor(duration / DAY_SECS);
   if (maxLoanDay === 0) maxLoanDay = 1;
@@ -125,7 +124,7 @@ export const calculateTotalPay = (principal: number, decimals: number, interest:
   }
 
   const primaryInterest = new BigNumber(principal)
-    .multipliedBy(_decimal)
+    .shiftedBy(decimals)
     .multipliedBy(interest)
     .multipliedBy(loanDay)
     .dividedToIntegerBy(365);
@@ -133,7 +132,7 @@ export const calculateTotalPay = (principal: number, decimals: number, interest:
   if (maxLoanDay > loanDay) {
     // 50% interest remain day
     secondaryInterest = new BigNumber(principal)
-      .multipliedBy(_decimal)
+      .shiftedBy(decimals)
       .multipliedBy(interest)
       .multipliedBy(maxLoanDay - loanDay)
       .dividedToIntegerBy(365)
@@ -141,14 +140,14 @@ export const calculateTotalPay = (principal: number, decimals: number, interest:
   }
   // 1% fee (base on principal amount)
   const matchingFee = new BigNumber(principal)
-    .multipliedBy(_decimal)
+    .shiftedBy(decimals)
     .dividedToIntegerBy(100);
 
   return new BigNumber(principal)
-    .multipliedBy(_decimal)
+    .shiftedBy(decimals)
     .plus(primaryInterest)
     .plus(secondaryInterest)
     .plus(matchingFee)
-    .dividedBy(_decimal)
-    .toString(10);
+    .shiftedBy(-decimals)
+    .toString();
 };

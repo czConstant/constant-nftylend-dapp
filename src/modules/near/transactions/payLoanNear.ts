@@ -18,7 +18,7 @@ export default class PayLoanNearNativeTransaction extends NearTransaction {
     try {
       const gas = await this.calculateGasFee();
 
-      const amount =  new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10)
+      const amount =  new BigNumber(payAmount).multipliedBy(10 ** currencyDecimals).toString(10)
 
       const transactions = [
         {

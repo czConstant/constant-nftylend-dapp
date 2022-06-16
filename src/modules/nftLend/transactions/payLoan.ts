@@ -65,7 +65,7 @@ const evmTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
 
 const nearTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
   let transaction = new PayLoanNearTransaction();
-  if (isNativeToken({ contract_address: params.currency_contract_address, network: Chain.Near.toString() })) {
+  if (isNativeToken(params.currency_contract_address, Chain.Near)) {
     transaction = new PayLoanNearNativeTransaction()
   }
   const res = await transaction.run(
