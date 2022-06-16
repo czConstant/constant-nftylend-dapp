@@ -1,7 +1,7 @@
 import { Chain } from 'src/common/constants/network';
 import MakeOfferEvmTransaction from 'src/modules/evm/transactions/makeOffer';
 import MakeOfferNearTransaction from 'src/modules/near/transactions/makeOffer';
-import MakeOfferNearWithNativeTransaction from 'src/modules/near/transactions/makeOfferWithNative';
+import MakeOfferNearNativeTransaction from 'src/modules/near/transactions/makeOfferNative';
 import MakeOfferTransaction from 'src/modules/solana/transactions/makeOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { MakeOfferParams, TransactionOptions, TransactionResult } from '../models/transaction';
@@ -61,7 +61,7 @@ const evmTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
 const nearTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
   let transaction = new MakeOfferNearTransaction()
   if (isNativeToken({ contract_address: params.currency_contract_address, network: Chain.Near.toString() })) {
-    transaction = new MakeOfferNearWithNativeTransaction()
+    transaction = new MakeOfferNearNativeTransaction()
   }
   const res = await transaction.run(
     params.asset_token_id,

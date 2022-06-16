@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
-import * as nearAPI from "near-api-js";
 
 import NearTransaction from './index';
 import { TransactionResult } from 'src/modules/nftLend/models/transaction';
 import { getAvailableAt } from 'src/modules/nftLend/utils';
 
-export default class MakeOfferNearWithNativeTransaction extends NearTransaction {
+export default class OrderNowNearNativeTransaction extends NearTransaction {
   async run(
     assetTokenId: string,
     assetContractAddress: string,
@@ -14,7 +13,6 @@ export default class MakeOfferNearWithNativeTransaction extends NearTransaction 
     principal: number,
     rate: number,
     duration: number,
-    availableIn: number,
   ): Promise<TransactionResult> {
     try {
       const gas = await this.calculateGasFee();
@@ -25,14 +23,14 @@ export default class MakeOfferNearWithNativeTransaction extends NearTransaction 
       const msg = JSON.stringify({
         nft_contract_id: assetContractAddress,
         token_id: assetTokenId,
-        action: 'offer',
+        action: 'offer_now',
         loan_principal_amount: amount,
         loan_duration: duration,
         loan_currency: currencyContractAddress,
         loan_interest_rate: new BigNumber(rate).multipliedBy(10000).toNumber(),
-        available_at: getAvailableAt(availableIn),
+        available_at: getAvailableAt(0),
       });
-
+      
       transactions.push({
         receiverId: this.lendingProgram,
         actions: [
@@ -53,6 +51,7 @@ export default class MakeOfferNearWithNativeTransaction extends NearTransaction 
       });
 
       this.saveStateBeforeRedirect({ contract_address: assetContractAddress, token_id: assetTokenId });
+
       const res = await window.nearSelector.signAndSendTransactions({ 
         transactions,
         callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }),

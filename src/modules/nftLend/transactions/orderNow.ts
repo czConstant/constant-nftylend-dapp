@@ -1,10 +1,11 @@
 import { Chain } from 'src/common/constants/network';
 import OrderNowEvmTransaction from 'src/modules/evm/transactions/orderNow';
 import OrderNowNearTransaction from 'src/modules/near/transactions/orderNow';
+import OrderNowNearNativeTransaction from 'src/modules/near/transactions/orderNowNear';
 import OrderNowTransaction from 'src/modules/solana/transactions/orderNow';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { OrderNowParams, TransactionOptions, TransactionResult } from '../models/transaction';
-import { isEvmChain } from '../utils';
+import { isEvmChain, isNativeToken } from '../utils';
 
 interface OrderNowTxParams extends OrderNowParams {
   chain: Chain;
@@ -60,7 +61,10 @@ const evmTx = async (params: OrderNowTxParams): Promise<TransactionResult> => {
 }
 
 const nearTx = async (params: OrderNowTxParams): Promise<TransactionResult> => {
-  const transaction = new OrderNowNearTransaction();
+  let transaction = new OrderNowNearTransaction();
+  if (isNativeToken({ contract_address: params.currency_contract_address, network: Chain.Near.toString() })) {
+    transaction = new OrderNowNearNativeTransaction()
+  }
   const res = await transaction.run(
     params.asset_token_id,
     params.asset_contract_address,
