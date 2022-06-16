@@ -10,6 +10,7 @@ import { claimPwpBalance, getBalanceTransactions, getPwpBalance } from 'src/modu
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { PwpBalanceData } from 'src/modules/nftLend/models/api';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
+import { INCENTIVE_TX_TYPE } from 'src/modules/nftLend/constant';
 
 const MyPwp = () => {
   const { currentWallet } = useCurrentWallet();
@@ -99,11 +100,12 @@ const MyPwp = () => {
           <Tbody>
             {displayTransactions.map((e, i) => {
               const isLast = i === displayTransactions.length - 1;
+              const txType = INCENTIVE_TX_TYPE[e.incentive_transaction?.type]
               return (
                 <Tr key={e.id}>
                   <Td borderBottomLeftRadius={isLast ? 16 : 0}>{e.created_at}</Td>
                   <Td>{e.amount} {e.currency?.symbol}</Td>
-                  <Td>{e.incentive_transaction?.type}</Td>
+                  <Td>{txType?.name || e.incentive_transaction?.type}</Td>
                   <Td borderBottomRightRadius={isLast ? 16 : 0}>{e.incentive_transaction?.status}</Td>
                 </Tr>
               )

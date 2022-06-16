@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { motion } from 'framer-motion';
-import { Flex, Image, Text } from '@chakra-ui/react';
+import { Flex, Image, Link, Text } from '@chakra-ui/react';
 
 import Loading from "src/common/components/loading";
 import Avatar from 'src/common/components/avatar';
@@ -49,12 +49,6 @@ const CollectionInfo = (props: CollectionInfoProps) => {
     {data.cover_url ? <Image objectFit='cover' className={styles.cover} alt='' src={getImageThumb({ url: convertIpfsToHttp(data.cover_url) || '', showOriginal: true })} /> : <div className={styles.cover} />}
     <SectionContainer className={styles.wrapper}>
       <div className={styles.collectionInfo}>
-        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={styles.viewContract} onClick={() => window.open(getLinkNearExplorer(data.new_loan?.asset?.contract_address), '_blank')}>
-          <Flex>
-            <Text mr={1}>View Contract</Text>
-            <Image src={IconViewContract} />
-          </Flex>
-        </motion.button>
         <Avatar className={styles.image}
           img={getImageThumb({ url: data.new_loan?.asset?.token_url || '', width: 200, height: 200 })}
           name={data.new_loan?.asset?.name}
@@ -66,7 +60,8 @@ const CollectionInfo = (props: CollectionInfoProps) => {
           {data.verified && <Image w={30} h={30} ml={4} src={IcVerified} />}
         </Flex>
         <div className={styles.author}>
-          collection by <strong>{data.new_loan?.asset?.contract_address}</strong>
+          collection by&nbsp;
+          <Link color='text.primary' fontWeight='bold' href={getLinkNearExplorer(data.new_loan?.asset?.contract_address)} target='_blank'>{data.new_loan?.asset?.contract_address}</Link>
         </div>
         <div className={styles.description}>{data.description}</div>
         <div className={styles.socials}>
@@ -86,11 +81,11 @@ const CollectionInfo = (props: CollectionInfoProps) => {
           <div>Loan Volume</div>
         </div>
         <div>
-          <label>${data.total_listed}</label>
+          <label>${data.avg24h_amount}</label>
           <div>Average Loan</div>
         </div>
         <div>
-          <label>{data.total_listed}</label>
+          <label>{data.floor_price} {data.currency?.symbol}</label>
           <div>Minimum Loan</div>
         </div>
       </div>

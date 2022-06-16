@@ -1,10 +1,6 @@
 .wrapper {
   min-height: calc(100vh - var(--header-height) - var(--footer-height));
-  background-color: black;
-  > div {
-    width: 100%;
-    max-width: 100%;
-  }
+
   &.mbWrapper {
     padding-top: var(--header-height);
     .listContainerWrap {
@@ -44,10 +40,6 @@
         max-width: 100%;
         line-height: 19px;
       }
-    }
-    .contentWrapper {
-      padding-left: 0;
-      padding-right: 0;
     }
     .chainSelector {    
       max-width: calc(100vw - 2rem);
@@ -176,16 +168,6 @@
   }
 }
 
-.contentWrapper {
-  flex: 1;
-  display: flex;
-  padding: 3rem;
-}
-
-.listContainerWrapBorder {
-  border-top: 2px solid #2b2740;
-}
-
 .sideBarContainer {
   width: 300px;
   padding: 0px 15px;
@@ -269,13 +251,6 @@
       }
     }
   }
-}
-
-.listContainerWrap {
-  padding: 0px 20px 20px;
-  flex: 1;
-  max-width: 1366px;
-  margin: 0 auto;
 }
 
 .listContainer {
