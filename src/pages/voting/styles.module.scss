@@ -498,10 +498,10 @@
 }
 
 .votingDetailsTime {
-  background-color: rgb(8, 6, 11);
-  border: 1px solid rgb(56, 50, 65);
+  // background-color: rgb(8, 6, 11);
+  // border: 1px solid rgb(56, 50, 65);
   border-radius: 16px;
-  padding: 15px;
+  // padding: 15px;
   margin-top: 15px;
   > div {
     &:first-child {
@@ -732,6 +732,10 @@
 
 .tagTypeWrap {
   background-color: transparent;
+  &.proposal {
+    border: 1px solid rgb(0, 37, 248);
+    color: rgb(0, 37, 248);
+  }
   &.government {
     border: 1px solid rgb(154, 106, 255);
     color: rgb(154, 106, 255);
