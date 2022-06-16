@@ -6,7 +6,7 @@ import { EvmNft } from '../evm/models/evmNft';
 import { checkOwnerNft, getLinkEvmExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
 import { getLinkSolScanExplorer } from '../solana/utils';
-import { LoanDataAsset } from './models/api';
+import { Currency, LoanDataAsset } from './models/api';
 import { NearNft } from '../near/models/nearNft';
 
 interface ImageThumb {
@@ -47,6 +47,10 @@ const fixUrlMultiSlash = (str: string): string => {
 const isUrl = (url: string): boolean => {
   try { return Boolean(new URL(url)); }
   catch(e){ return false; }
+}
+
+export const isNativeToken = (currency: Currency): boolean => {
+  return currency.contract_address === currency.network.toLowerCase()
 }
 
 export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {

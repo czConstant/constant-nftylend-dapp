@@ -9,7 +9,7 @@ import Loading from "src/common/components/loading";
 import { composeValidators, maxValue, required } from "src/common/utils/formValidate";
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import { calculateMaxInterest, calculateMaxTotalPay } from 'src/modules/nftLend/utils';
+import { calculateMaxInterest, calculateMaxTotalPay, isNativeToken } from 'src/modules/nftLend/utils';
 import { formatCurrency } from 'src/common/utils/format';
 import InfoTooltip from 'src/common/components/infoTooltip';
 import styles from "./makeOfferForm.module.scss";
@@ -40,8 +40,7 @@ interface MakeOfferFormProps {
 
 const MakeOfferForm = (props: MakeOfferFormProps) => {
   const { onSubmit, loan, submitting } = props;
-  const { currentWallet } = useCurrentWallet()
-  const { getBalance } = useToken()
+  const { getBalance, getNativeBalance } = useToken()
   const { values } = useFormState()
   const { resetFieldState } = useForm()
 
@@ -79,8 +78,13 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
     if (!loan.currency) return
     try {
       setLoading(true)
-      const res = await getBalance(loan.currency.contract_address)
-      setBalance(new BigNumber(res).dividedBy(10 ** loan.currency?.decimals).toNumber());
+      if (isNativeToken(loan.currency)) {
+        const nativeBalance = await getNativeBalance();
+        setBalance(nativeBalance);
+      } else {
+        const res = await getBalance(loan.currency.contract_address)
+        setBalance(new BigNumber(res).dividedBy(10 ** loan.currency?.decimals).toNumber());
+      }
     } finally {
       setLoading(false)
     }
