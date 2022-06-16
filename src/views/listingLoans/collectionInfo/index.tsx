@@ -86,11 +86,11 @@ const CollectionInfo = (props: CollectionInfoProps) => {
           <div>Loan Volume</div>
         </div>
         <div>
-          <label>${data.total_listed}</label>
+          <label>${data.avg24h_amount}</label>
           <div>Average Loan</div>
         </div>
         <div>
-          <label>{data.total_listed}</label>
+          <label>{data.floor_price} {data.currency?.symbol}</label>
           <div>Minimum Loan</div>
         </div>
       </div>

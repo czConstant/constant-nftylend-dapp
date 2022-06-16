@@ -128,6 +128,29 @@ export const OFFER_STATUS = {
   },
 };
 
+export const INCENTIVE_TX_TYPE = {
+  borrower_loan_delisted: {
+    id: 'borrower_loan_delisted',
+    name: 'Delisted Loan',
+  },
+  borrower_loan_listed: {
+    id: 'borrower_loan_listed',
+    name: 'Listed Loan',
+  },
+  user_airdrop_reward: {
+    id: 'user_airdrop_reward',
+    name: 'AirDrop Reward',
+  },
+  user_ama_reward: {
+    id: 'user_ama_reward',
+    name: 'AMA Reward',
+  },
+  lender_loan_matched: {
+    id: 'lender_loan_matched',
+    name: 'Matched Loan',
+  },
+}
+
 export const LOAN_DURATION = [
   {
     id: 10 * 86400,

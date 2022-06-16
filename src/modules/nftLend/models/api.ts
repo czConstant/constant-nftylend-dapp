@@ -45,12 +45,14 @@ export interface CollectionData {
   avg24h_amount: number;
   total_volume: number;
   volume_usd: number;
+  floor_price: number;
   new_loan?: LoanData;
   network: string;
   verified: boolean;
   creator_url: string;
   discord_url: string;
   twitter_id: string;
+  currency: Currency;
 }
 
 export interface LoanData {
