@@ -2,7 +2,7 @@ import React from 'react';
 import { isMobile } from "react-device-detect";
 import { Link } from "react-router-dom";
 import cx from "classnames";
-import { Box, Flex, Icon, Text, Tooltip } from '@chakra-ui/react';
+import { Box, Divider, Flex, Icon, Text, Tooltip } from '@chakra-ui/react';
 import { MdInfoOutline } from 'react-icons/md';
 
 import SocialLinks from 'src/views/apps/socialLinks';
@@ -12,7 +12,8 @@ import AppIcon from "../appIcon";
 import InfoTooltip from '../infoTooltip';
 import SectionContainer from '../sectionContainer';
 
-const Footer = () => (
+const Footer = () => (<>
+  <Divider />
   <SectionContainer>
     <Flex pt={50} pb={30} justifyContent='space-between'>
       <Box>
@@ -37,6 +38,6 @@ const Footer = () => (
       </Flex>
     </Flex>
   </SectionContainer>
-);
+</>);
 
 export default React.memo(Footer);
