@@ -165,7 +165,7 @@ const ListingLoans = () => {
   };
 
   return (
-    <Flex direction='column'>
+    <Flex direction='column' bgColor='black'>
       {pageQuery.collection && <CollectionInfo collection_seo={pageQuery.collection} />}
       <SectionContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
         <Flex direction='column' gap={4}>
