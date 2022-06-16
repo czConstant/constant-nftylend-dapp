@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import cx from "classnames";
 import filter from "lodash/filter";
 import moment from "moment-timezone";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { isMobile } from "react-device-detect";
 import { Field, Form } from "react-final-form";
@@ -135,9 +135,11 @@ const VotingMakeProposal = () => {
         payload: {
           name: values.name,
           body: values.body,
+          contact: values.contact,
+          project_name: values.project_name,
           snapshot: moment().unix(),
-          start: moment(values?.start).unix(),
-          end: moment(values?.end).unix(),
+          start: values?.start ? moment(values?.start).unix() : undefined,
+          end: values?.end ? moment(values?.end).unix() : undefined,
           choices,
           metadata: {
             network: currency?.network?.toString(),
@@ -204,48 +206,69 @@ const VotingMakeProposal = () => {
                     validate={required}
                   />
                 </InputWrapper>
+                {type === ProposalTypes.Proposal && (
+                  <InputWrapper label="Project Name" theme="dark">
+                    <Field
+                      name="project_name"
+                      placeholder=""
+                      children={FieldText}
+                      validate={required}
+                    />
+                  </InputWrapper>
+                )}
+
                 <InputWrapper label="Content" theme="dark">
                   <Field
                     name="body"
                     placeholder=""
                     children={FieldText}
-                    validate={required}
                     rows={10}
                     inputType="textarea"
                   />
                 </InputWrapper>
-                <div className={styles.choiceWrapper}>
-                  <div className={styles.choiceTitle}>
-                    <h5>Choices</h5>
-                  </div>
-                  <div className={styles.choiceFormWrap}>
-                    {choices.map((v, i) => (
-                      <InputWrapper
-                        key={i}
-                        label={`Choice ${v.id}`}
-                        theme="dark"
+                {type === ProposalTypes.Proposal && (
+                  <InputWrapper label="Contact" theme="dark">
+                    <Field name="contact" placeholder="" children={FieldText} />
+                  </InputWrapper>
+                )}
+
+                {type !== ProposalTypes.Proposal && (
+                  <div className={styles.choiceWrapper}>
+                    <div className={styles.choiceTitle}>
+                      <h5>Choices</h5>
+                    </div>
+                    <div className={styles.choiceFormWrap}>
+                      {choices.map((v, i) => (
+                        <InputWrapper
+                          key={i}
+                          label={`Choice ${v.id}`}
+                          theme="dark"
+                        >
+                          <Field
+                            name={`choice_${v.id}`}
+                            placeholder="Input choice text"
+                            children={FieldText}
+                            validate={required}
+                          />
+                          {i > 1 && (
+                            <Button
+                              onClick={() => onRemoveChoose(v)}
+                              className={styles.btnRemoveChoose}
+                            >
+                              <img src={icClose} />
+                            </Button>
+                          )}
+                        </InputWrapper>
+                      ))}
+                      <Button
+                        onClick={onAddChoice}
+                        className={styles.btnChoice}
                       >
-                        <Field
-                          name={`choice_${v.id}`}
-                          placeholder="Input choice text"
-                          children={FieldText}
-                          validate={required}
-                        />
-                        {i > 1 && (
-                          <Button
-                            onClick={() => onRemoveChoose(v)}
-                            className={styles.btnRemoveChoose}
-                          >
-                            <img src={icClose} />
-                          </Button>
-                        )}
-                      </InputWrapper>
-                    ))}
-                    <Button onClick={onAddChoice} className={styles.btnChoice}>
-                      Add Choice
-                    </Button>
+                        Add Choice
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                )}
               </Col>
               <Col md={4}>
                 <div className={styles.choiceWrapper}>
@@ -253,49 +276,63 @@ const VotingMakeProposal = () => {
                     <h5>Actions</h5>
                   </div>
                   <div className={styles.choiceFormWrap}>
-                    <InputWrapper label="Start Date" theme="dark">
-                      <Field
-                        name="start"
-                        placeholder="YYYY/MM/DD HH:mm"
-                        children={FieldDateTimePicker}
-                        validate={composeValidators(
-                          required,
-                          minDateCurrent,
-                          validateStartDate
-                        )}
-                        showTimeInput={true}
-                        minDate={moment.now()}
-                      />
-                    </InputWrapper>
-                    <InputWrapper label="End Date" theme="dark">
-                      <Field
-                        name="end"
-                        placeholder="YYYY/MM/DD HH:mm"
-                        children={FieldDateTimePicker}
-                        validate={composeValidators(
-                          required,
-                          minDateCurrent,
-                          validateEndDate
-                        )}
-                        showTimeInput={true}
-                        minDate={moment.now()}
-                      />
-                    </InputWrapper>
-
-                    <div className={styles.proposalTypesWrap}>
-                      {proposalTypes.map((v) => (
-                        <Button
-                          onClick={() => setType(v.key)}
-                          disabled={!v.active}
-                          key={v.key}
-                        >
-                          <span
-                            className={type === v.key ? styles.active : ""}
+                    {type !== ProposalTypes.Proposal && (
+                      <React.Fragment>
+                        <InputWrapper label="Start Date" theme="dark">
+                          <Field
+                            name="start"
+                            placeholder="YYYY/MM/DD HH:mm"
+                            children={FieldDateTimePicker}
+                            validate={
+                              type !== ProposalTypes.Proposal
+                                ? composeValidators(
+                                    required,
+                                    minDateCurrent,
+                                    validateStartDate
+                                  )
+                                : undefined
+                            }
+                            showTimeInput={true}
+                            minDate={moment.now()}
                           />
-                          {v.name}
-                        </Button>
-                      ))}
-                    </div>
+                        </InputWrapper>
+                        <InputWrapper label="End Date" theme="dark">
+                          <Field
+                            name="end"
+                            placeholder="YYYY/MM/DD HH:mm"
+                            children={FieldDateTimePicker}
+                            validate={
+                              type !== ProposalTypes.Proposal
+                                ? composeValidators(
+                                    required,
+                                    minDateCurrent,
+                                    validateEndDate
+                                  )
+                                : undefined
+                            }
+                            showTimeInput={true}
+                            minDate={moment.now()}
+                          />
+                        </InputWrapper>
+                      </React.Fragment>
+                    )}
+
+                    {proposalTypes.length > 1 && (
+                      <div className={styles.proposalTypesWrap}>
+                        {proposalTypes.map((v) => (
+                          <Button
+                            onClick={() => setType(v.key)}
+                            disabled={!v.active}
+                            key={v.key}
+                          >
+                            <span
+                              className={type === v.key ? styles.active : ""}
+                            />
+                            {v.name}
+                          </Button>
+                        ))}
+                      </div>
+                    )}
 
                     {isConnected ? (
                       <Button

@@ -15,6 +15,8 @@ interface CurrencyPWPTokenData {
 interface ProposalMessagePayloadData {
   name: string;
   body: string;
+  project_name: string;
+  contact: string;
   snapshot: number;
   start: number;
   end: number;
@@ -95,6 +97,7 @@ enum ProposalStatus {
 enum ProposalTypes {
   Gov = "government",
   Community = "community",
+  Proposal = 'proposal'
 }
 
 interface ProposalTypeData {

@@ -21,6 +21,7 @@ import {
   CurrencyPWPTokenData,
   ProposalCheckVoteParams,
   ProposalListItemData,
+  ProposalTypes,
   ProposalVoteCheckData,
 } from "../Voting.Services.Data";
 import VotingDetails from "./Voting.Details";
@@ -151,15 +152,19 @@ const VotingDetail = ({}) => {
               currency={currency}
               yourVote={yourVote}
             />
-            <VotingVotes
-              proposal={proposal}
-              isRefresh={isRefresh}
-              currentWallet={currentWallet}
-            />
+            {proposal.type != ProposalTypes.Proposal && (
+              <VotingVotes
+                proposal={proposal}
+                isRefresh={isRefresh}
+                currentWallet={currentWallet}
+              />
+            )}
           </Col>
           <Col md={4}>
             <VotingDetails proposal={proposal} />
-            <VotingResults proposal={proposal} yourVote={yourVote} />
+            {proposal.type != ProposalTypes.Proposal && (
+              <VotingResults proposal={proposal} yourVote={yourVote} />
+            )}
           </Col>
         </Row>
       </div>
@@ -167,7 +172,9 @@ const VotingDetail = ({}) => {
   };
 
   return (
-    <BodyContainer className={cx(isMobile && styles.mbDetailWrapper, styles.wrapper)}>
+    <BodyContainer
+      className={cx(isMobile && styles.mbDetailWrapper, styles.wrapper)}
+    >
       <BreadCrumb items={breadCrumbs} />
       <div>{renderDetail()}</div>
     </BodyContainer>
