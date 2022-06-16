@@ -13,8 +13,6 @@ import { calculateMaxInterest, calculateMaxTotalPay, isNativeToken } from 'src/m
 import { formatCurrency } from 'src/common/utils/format';
 import InfoTooltip from 'src/common/components/infoTooltip';
 import styles from "./makeOfferForm.module.scss";
-import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
-import BigNumber from 'bignumber.js';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
 
 const HIGH_RISK_VALUE = 2.5; // 250%
@@ -40,7 +38,7 @@ interface MakeOfferFormProps {
 
 const MakeOfferForm = (props: MakeOfferFormProps) => {
   const { onSubmit, loan, submitting } = props;
-  const { getBalance, getNativeBalance } = useToken()
+  const { getCurrencyBalance } = useToken()
   const { values } = useFormState()
   const { resetFieldState } = useForm()
 
@@ -78,13 +76,8 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
     if (!loan.currency) return
     try {
       setLoading(true)
-      if (isNativeToken(loan.currency)) {
-        const nativeBalance = await getNativeBalance();
-        setBalance(nativeBalance);
-      } else {
-        const res = await getBalance(loan.currency.contract_address)
-        setBalance(new BigNumber(res).dividedBy(10 ** loan.currency?.decimals).toNumber());
-      }
+      const res = await getCurrencyBalance(loan.currency)
+      setBalance(res)
     } finally {
       setLoading(false)
     }

@@ -12,9 +12,10 @@ import { SolanaNft } from 'src/modules/solana/models/solanaNft';
 import { getEvmNftsByOwner } from 'src/modules/evm/api';
 import { getBalanceNearToken, getNearBalance, getNearNftsByOwner, nearViewFunction } from 'src/modules/near/utils';
 
-import { isEvmChain } from '../utils';
+import { isEvmChain, isNativeToken } from '../utils';
 import { AssetNft } from '../models/nft';
 import { useCurrentWallet } from './useCurrentWallet';
+import { Currency } from '../models/api';
 
 function useToken() {
   const { connection } = useConnection();
@@ -63,7 +64,19 @@ function useToken() {
     throw new Error(`Chain ${currentWallet.chain} is not supported`)
   };
 
-  return { getBalance, getNativeBalance, getNftsByOwner };
+  const getCurrencyBalance = async (currency?: Currency): Promise<number> => {
+    if (!currency) return 0
+    if (String(currency.network).toLowerCase() !== currentWallet.chain.toLowerCase()) {
+      return 0
+    }
+    if (isNativeToken(currency.contract_address, currency.contract_address)) {
+      return getNativeBalance()
+    }
+    const res = await getBalance(currency.contract_address)
+    return new BigNumber(res).dividedBy(10 ** currency?.decimals).toNumber()
+  }
+
+  return { getBalance, getNativeBalance, getCurrencyBalance, getNftsByOwner };
 };
 
 export { useToken };

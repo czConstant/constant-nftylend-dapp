@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 import BigNumber from 'bignumber.js';
-import { Button, Center, Flex, Grid, GridItem, Link } from '@chakra-ui/react';
+import { Badge, Button, Center, Flex, Grid, GridItem, Link } from '@chakra-ui/react';
 
 import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
@@ -18,6 +18,7 @@ import { LOAN_DURATION } from 'src/modules/nftLend/constant';
 
 import styles from "../styles.module.scss";
 import CountdownText from 'src/common/components/countdownText';
+import BadgeOfferStatus from 'src/views/dashboard/badgeOfferStatus';
 
 const templateColumns = 'repeat(3, 1fr) 2fr repeat(2, 1fr)'
 
@@ -66,7 +67,10 @@ const OfferRow = (props: OfferRowProps) => {
         </Link>
       </GridItem>
       <GridItem>
-        {offer.isListing() && <CountdownText to={offer.valid_at} />}
+        {offer.isListing()
+          ? <CountdownText to={offer.valid_at} />
+          : <BadgeOfferStatus offer={offer} loan={loan} />
+        }
       </GridItem>
       {offer?.isListing() && (
         <GridItem>

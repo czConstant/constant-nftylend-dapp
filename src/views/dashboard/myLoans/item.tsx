@@ -12,13 +12,15 @@ import { APP_URL } from "src/common/constants/url";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { closeModal, openModal } from 'src/store/modal';
 import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
-import { LOAN_DURATION, LOAN_STATUS } from "src/modules/nftLend/constant";
+import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { calculateTotalPay } from 'src/modules/nftLend/utils';
 
 import LoanDetailOffers from 'src/pages/loanDetail/pawnInfo/LoanDetail.Offers';
 import { formatCurrency } from 'src/common/utils/format';
+import { useToken } from 'src/modules/nftLend/hooks/useToken';
+import BadgeLoanStatus from '../badgeLoanStatus';
 
 interface ItemProps {
   loan: LoanNft;
@@ -30,6 +32,7 @@ const Item = (props: ItemProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { cancelLoan, payLoan } = useTransaction();
+  const { getCurrencyBalance } = useToken()
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -72,8 +75,13 @@ const Item = (props: ItemProps) => {
         loan.approved_offer?.interest_rate,
         loan.approved_offer?.duration,
         moment(loan.approved_offer?.started_at).unix()
-        )
-      : 0;
+      ) : 0;
+      
+    const balance = await getCurrencyBalance(loan.currency)
+    if (new BigNumber(balance).isLessThan(loan.principal_amount)) {
+      return toastError(`Your balance (${balance} ${loan.currency?.symbol}) is not enough`)
+    }
+
     dispatch(
       openModal({
         id: "confirmAmountModal",
@@ -137,65 +145,48 @@ const Item = (props: ItemProps) => {
     navigate(`${APP_URL.LIST_LOAN}/${loan?.seo_url}`);
   };
 
-  const showCancel = loan.isListing() || loan.isExpired();
-  const showPay = loan.isOngoing() && moment().isBefore(moment(loan.approved_offer?.expired_at));
+  const renderLoan = () => {
+    const showCancel = loan.isListing() || loan.isExpired();
+    const showPay = loan.isOngoing() && moment().isBefore(moment(loan.approved_offer?.expired_at));
 
-  const principal = loan.approved_offer
-    ? loan.approved_offer.principal_amount
-    : loan.principal_amount;
-  const interest = loan.approved_offer ? loan.approved_offer.interest_rate : loan.interest_rate;
-  const duration = loan.approved_offer ? loan.approved_offer.duration : loan.duration;
-  const loanDuration = LOAN_DURATION.find(e => e.id === duration);
+    const principal = loan.approved_offer
+      ? loan.approved_offer.principal_amount
+      : loan.principal_amount;
+    const interest = loan.approved_offer ? loan.approved_offer.interest_rate : loan.interest_rate;
+    const duration = loan.approved_offer ? loan.approved_offer.duration : loan.duration;
+    const loanDuration = LOAN_DURATION.find(e => e.id === duration);
 
-  let status = loan.status;
-  let badgeVariant = 'success';
-
-  if (loan.isLiquidated()) {
-    status = "liquidated";
-  } else if(showPay) {
-    status = 'approved';
-  } else if (loan.isExpired()) {
-    status = 'expired';
+    return (
+      <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
+        <GridItem pl={4} py={4}>
+          {!loan.isOngoing() && <Icon as={open ? FaCaretUp : FaCaretDown} mr={4} />}
+          <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan.asset?.name}</Link>
+        </GridItem>
+        <GridItem py={4}>
+          {formatCurrency(principal)} {loan.currency?.symbol}
+        </GridItem>
+        <GridItem py={4}>
+          {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
+          &nbsp;/&nbsp;
+          {new BigNumber(interest).multipliedBy(100).toNumber()}%
+        </GridItem>
+        <GridItem py={4}><BadgeLoanStatus loan={loan} /></GridItem>
+        <GridItem py={4}>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</GridItem>
+        <GridItem pr={8} py={4}>
+          <Flex w='100%' justifyContent='flex-end'>
+            {showCancel && <Button size='sm' variant='link' textDecoration='underline' colorScheme='whiteAlpha' onClick={onCancelLoan}>Cancel</Button>}
+            {showPay && <Button size='sm' variant='link' textDecoration='underline' colorScheme='brand.warning' onClick={onPayLoan}>Pay</Button>}
+          </Flex>  
+        </GridItem>
+      </Grid>
+    )
   }
 
-  if (["liquidated"].includes(status)) {
-    badgeVariant = 'warning';
-  } else if (["new", "repaid", "created", "approved"].includes(status)) {
-    badgeVariant = 'info';
-  } else if (["cancelled", "expired"].includes(status)) {
-    badgeVariant = 'danger';
-  }
-
-  return (
+  return loan.isOngoing() ? renderLoan() : (
     <Accordion allowToggle onChange={i => setOpen(i === 0)}>
       <AccordionItem border='none'>
         <AccordionButton borderRadius={0} p={0} bgColor='transparent'>
-          <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
-            <GridItem pl={4} py={4}>
-              <Icon as={open ? FaCaretUp : FaCaretDown} mr={4} />
-              <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan.asset?.name}</Link>
-            </GridItem>
-            <GridItem py={4}>
-              {formatCurrency(principal)} {loan.currency?.symbol}
-            </GridItem>
-            <GridItem py={4}>
-              {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
-              &nbsp;/&nbsp;
-              {new BigNumber(interest).multipliedBy(100).toNumber()}%
-            </GridItem>
-            <GridItem py={4}>
-              <Badge variant={badgeVariant}>
-                {LOAN_STATUS.find((v) => v.id === status)?.name || "Unknown"}
-              </Badge>
-            </GridItem>
-            <GridItem py={4}>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</GridItem>
-            <GridItem pr={8} py={4}>
-              <Flex w='100%' justifyContent='flex-end'>
-                {showCancel && <Button size='sm' variant='link' textDecoration='underline' colorScheme='whiteAlpha' onClick={onCancelLoan}>Cancel</Button>}
-                {showPay && <Button size='sm' variant='link' textDecoration='underline' colorScheme='brand.warning' onClick={onPayLoan}>Pay</Button>}
-              </Flex>  
-            </GridItem>
-          </Grid>
+          {renderLoan()}
         </AccordionButton>
         <AccordionPanel borderWidth={1} borderColor='background.border' borderRadius={0} bgColor='black'>
           <LoanDetailOffers loan={loan} />
