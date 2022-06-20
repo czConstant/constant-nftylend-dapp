@@ -16,7 +16,7 @@ const VotingHeader = () => {
       />
       <div className={styles.votingHeaderContent}>
         <div>
-          <h3>Voting</h3>
+          <h3>Proposal</h3>
           <p>Have your say in the future of the NFTPawn</p>
           <VotingMakeProposal />
         </div>

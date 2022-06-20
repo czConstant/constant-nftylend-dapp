@@ -16,9 +16,9 @@ export const APP_URL = {
   FAQS: `${BASE_PATH}/help`,
   NFT_PAWN_BLOG: `${BASE_PATH}/news/`,
   DASHBOARD: `${BASE_PATH}/my-assets`,
-  VOTING: `${BASE_PATH}/voting/`,
-  VOTING_PROPOSAL_MAKE: `${BASE_PATH}/voting/proposal/make`,
-  VOTING_DETAIL: `${BASE_PATH}/voting/proposal/detail`,
+  VOTING: `${BASE_PATH}/proposal/`,
+  VOTING_PROPOSAL_MAKE: `${BASE_PATH}/proposal/make`,
+  VOTING_DETAIL: `${BASE_PATH}/proposal/detail`,
 }
 
 export const API_URL = { 
