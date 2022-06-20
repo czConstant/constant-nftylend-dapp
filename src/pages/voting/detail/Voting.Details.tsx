@@ -1,16 +1,12 @@
-import React, { memo } from "react";
 import cx from "classnames";
-import styles from "../styles.module.scss";
-import {
-  ProposalListItemData,
-  ProposalStatus,
-  ProposalTypes,
-} from "../Voting.Services.Data";
-import { VotingProposalItemStatus } from "../list/Voting.Proposal.Item";
+import { last } from "lodash";
 import moment from "moment-timezone";
-import { getLinkNearExplorer } from "src/modules/near/utils";
-import { last, truncate } from "lodash";
+import React, { memo } from "react";
 import { shortCryptoAddress } from "src/common/utils/format";
+import { getLinkNearExplorer } from "src/modules/near/utils";
+import { VotingProposalItemHistoryStatus } from "../list/Voting.Proposal.Item";
+import styles from "../styles.module.scss";
+import { ProposalListItemData, ProposalTypes } from "../Voting.Services.Data";
 
 interface VotingDetailsProps {
   proposal: ProposalListItemData;
@@ -39,7 +35,7 @@ const VotingDetails: React.FC<VotingDetailsProps> = ({ proposal }) => {
           </a>
         </div>
         <div className={styles.votingDetailsTime}>
-          <VotingProposalItemStatus status={proposal.status} />
+          <VotingProposalItemHistoryStatus status={proposal.status} />
           {proposal.type !== ProposalTypes.Proposal && (
             <React.Fragment>
               <div className={styles.votingDetailsTimeInfo}>
