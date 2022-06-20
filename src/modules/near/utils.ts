@@ -1,12 +1,10 @@
-import BigNumber from "bignumber.js";
+import { WalletSelector } from '@near-wallet-selector/core';
 import * as nearAPI from "near-api-js";
 import { AccountView, CodeResult } from "near-api-js/lib/providers/provider";
 
 import { APP_CLUSTER } from "src/common/constants/config";
 import api from "src/common/services/apiClient";
-import localStore from "src/common/services/localStore";
 import { NearNft } from "src/modules/near/models/nearNft";
-import { ProposalData, ProposalMessageData } from "src/pages/voting/Voting.Services.Data";
 
 export const NEAR_DEFAULT_GAS =
   nearAPI.utils.format.parseNearAmount("0.0000000003");
@@ -104,7 +102,7 @@ export async function getNearNftsByOwner(owner: string): Promise<Array<any>> {
 }
 
 export const getNearProvider = () => {
-  const { nodeUrl } = window.nearSelector.network;
+  const { nodeUrl } = (window.nearSelector as WalletSelector).options.network;
   const provider = new nearAPI.providers.JsonRpcProvider({ url: nodeUrl });
 
   return provider;

@@ -1429,34 +1429,67 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@near-wallet-selector/core@3.1.0", "@near-wallet-selector/core@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@near-wallet-selector/core/-/core-3.1.0.tgz#6163c46099122db5630e9ed42f58773e758c252c"
-  integrity sha512-sN0rOf8zj6jjWQB54edPp9Y9DVSOpF8z08vcU7HlSrbVva+T7wiu92yXohiSj1Ilmlb2XiQA9dTXP/0HlAv3kA==
+"@near-wallet-selector/core@4.1.0", "@near-wallet-selector/core@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/core/-/core-4.1.0.tgz#a5556323808e7d8562db5c3623a971f4eb0d822c"
+  integrity sha512-wQhRmkBU0amqVruVIK46tHRbxcL/Gym/BNnAEktHlREq99QHGRmq3Ip6rPkGf9PhUyTerISoKLxbhEg1/gAtIw==
   dependencies:
-    bn.js "^5.2.0"
+    near-api-js "0.44.2"
+    rxjs "~7.4.0"
+
+"@near-wallet-selector/modal-ui@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/modal-ui/-/modal-ui-4.1.0.tgz#eabe81ae6c8f962d41dd0cfc5819e66dd75bd5a5"
+  integrity sha512-GGLxpfeiGA1hbxXWnoF4Fyl1mXknTOHsPa0MDET0mmau3Leh02lo31jjxQYTzdSrPU0z9UDmgBVpS7asFjadEg==
+  dependencies:
+    "@near-wallet-selector/core" "4.1.0"
     near-api-js "0.44.2"
     react "^17.0.2"
     react-dom "^17.0.2"
+    rxjs "~7.4.0"
 
-"@near-wallet-selector/near-wallet@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@near-wallet-selector/near-wallet/-/near-wallet-3.1.0.tgz#d6c150d2375643bb6ae15723df3e3ebd49f5c93d"
-  integrity sha512-nIjRzi8ZbhrwlOJW8Z6dBiXM+RZAyFIqnFIjztHktJSFwDtkdnN4SvIPF9dfyapB5HLoKB2mzp/TbjZ3XCoBjQ==
+"@near-wallet-selector/my-near-wallet@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/my-near-wallet/-/my-near-wallet-4.1.0.tgz#f1ba717e22150c3eabc431e0c51168b8dcf2d476"
+  integrity sha512-+Qag0J/18zLYEaqRQYoGUwl+2eGi4zzyQ52nAGX/hr+HmNPNykumRkASzrr2ViD8uTznhp0J/NbjfoHK2wDczQ==
   dependencies:
-    "@near-wallet-selector/core" "3.1.0"
+    "@near-wallet-selector/core" "4.1.0"
+    "@near-wallet-selector/wallet-utils" "4.1.0"
     bn.js "^5.2.0"
     near-api-js "0.44.2"
-    react "^17.0.2"
-    react-dom "^17.0.2"
+    rxjs "~7.4.0"
 
-"@near-wallet-selector/sender@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@near-wallet-selector/sender/-/sender-3.1.0.tgz#553db3142e114a98571fa98cf5d1d8d8e86ce96d"
-  integrity sha512-79IL27QBeh3wzfdzqG5rJLvGBKbdxt+CKa6oqvtx8bscD8dWPQAZYpuj0/mUCiscTHtHfYRldFCXk0zxbxHdgw==
+"@near-wallet-selector/near-wallet@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/near-wallet/-/near-wallet-4.1.0.tgz#af9f83d97224901c7adeec249c6c1536a7c94ca5"
+  integrity sha512-SQCYewn+O9rOWPtdsD1IbbVm+8MDgBaknWc4nfmPy5tsgaxTuFY3Y77ioHnprNIupch/1OTMPdJkPX2gwxLgOg==
   dependencies:
+    "@near-wallet-selector/core" "4.1.0"
+    "@near-wallet-selector/my-near-wallet" "4.1.0"
+    "@near-wallet-selector/wallet-utils" "4.1.0"
+    bn.js "^5.2.0"
+    near-api-js "0.44.2"
+    rxjs "~7.4.0"
+
+"@near-wallet-selector/sender@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/sender/-/sender-4.1.0.tgz#835680168f06c0eb48f6d650d812ab32efb69243"
+  integrity sha512-/Xt7oz8P+1a/35Gm9L80+CWqBn4OaKRTi92I4gzpwDAwLhP0akBpf/uRQNJMruUVaLE0nC6IpeqYZTI1buOQ0A==
+  dependencies:
+    "@near-wallet-selector/core" "4.1.0"
     is-mobile "^3.0.0"
     near-api-js "0.44.2"
+    rxjs "~7.4.0"
+
+"@near-wallet-selector/wallet-utils@4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@near-wallet-selector/wallet-utils/-/wallet-utils-4.1.0.tgz#945f0e3d6f7968718fb177d48676e6b7e0e7f091"
+  integrity sha512-siaAaoh/hw3jTHFf+7gNdMyA8v1BoRein3yFFCZF+AZk3vbR4279dTrBVKLPuH3mvRjQtPgjY1/OpJEDskNOyQ==
+  dependencies:
+    "@near-wallet-selector/core" "4.1.0"
+    bn.js "^5.2.0"
+    near-api-js "0.44.2"
+    rxjs "~7.4.0"
 
 "@nfteyez/sol-rayz@^0.10.2":
   version "0.10.2"
@@ -1881,12 +1914,12 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@^17.0.10":
-  version "17.0.17"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.17.tgz#2e3743277a793a96a99f1bf87614598289da68a1"
-  integrity sha512-VjnqEmqGnasQKV0CWLevqMTXBYG9GbwuE6x3VetERLh0cq2LTptFE73MrQi2S7GkKXCf2GgwItB/melLnxfnsg==
+"@types/react-dom@^18.0.5":
+  version "18.0.5"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.5.tgz#330b2d472c22f796e5531446939eacef8378444a"
+  integrity sha512-OWPWTUrY/NIrjsAPkAk1wW9LZeIjSvkXRhclsFO8CZcZGCOg2G0YZy4ft+rOyYxy8B7ui5iZzi9OkDebZ7/QSA==
   dependencies:
-    "@types/react" "^17"
+    "@types/react" "*"
 
 "@types/react-loading-overlay@^1.0.1":
   version "1.0.1"
@@ -1921,7 +1954,7 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^17", "@types/react@^17.0.33":
+"@types/react@^17.0.33":
   version "17.0.45"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.45.tgz#9b3d5b661fd26365fefef0e766a1c6c30ccf7b3f"
   integrity sha512-YfhQ22Lah2e3CHPsb93tRwIGNiSwkuz1/blk4e6QrWS0jQzCSNbGLtOEYhPg02W0yGTTmpajp7dCTbBAMN3qsg==
@@ -6066,6 +6099,13 @@ rxjs@^7.1.0:
   dependencies:
     tslib "^2.1.0"
 
+rxjs@~7.4.0:
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.4.0.tgz#a12a44d7eebf016f5ff2441b87f28c9a51cebc68"
+  integrity sha512-7SQDi7xeTMCJpqViXh8gL/lebcwlp3d831F05+9B44A4B0WfsEwUQHR64gsH1kvJ+Ep/J9K2+n1hVl1CsGN23w==
+  dependencies:
+    tslib "~2.1.0"
+
 safe-buffer@*, safe-buffer@5.2.1, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@^5.2.0, safe-buffer@^5.2.1, safe-buffer@~5.2.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
@@ -6565,6 +6605,11 @@ tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
+
+tslib@~2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
+  integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

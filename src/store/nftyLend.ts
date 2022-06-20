@@ -1,3 +1,4 @@
+import { WalletSelector } from '@near-wallet-selector/core';
 import { createSlice } from '@reduxjs/toolkit';
 
 import { Chain } from 'src/common/constants/network';
@@ -73,7 +74,9 @@ const slice = createSlice({
       window.evmProvider = null;
 
       if (window.nearSelector) {
-        window.nearSelector.signOut();
+        (window.nearSelector as WalletSelector).wallet().then(wallet => {
+          wallet.signOut()
+        })
       }
     }
   },

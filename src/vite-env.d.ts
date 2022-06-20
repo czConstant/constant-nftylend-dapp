@@ -8,8 +8,6 @@ interface Window {
   BinanceChain: any,
   evmProvider: any,
   coin98: any,
-  near: any;
   nearSelector: any;
-  nearInitPromise: any;
-  nearAccount: any;
+  nearWalletModal: any;
 }

@@ -56,7 +56,8 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
     //   },
     //   render: () => <DialogConnectWallet onClose={close} />,
     // }))
-    window.nearSelector?.show();
+    
+    window.nearWalletModal?.show();
   };
 
   const onEnableNotification = () => {
