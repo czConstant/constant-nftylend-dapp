@@ -12,6 +12,7 @@ import { APP_URL } from "src/common/constants/url";
 import { useCurrentWallet } from "src/modules/nftLend/hooks/useCurrentWallet";
 import { useToken } from "src/modules/nftLend/hooks/useToken";
 import {
+  VotingProposalItemHistoryStatus,
   VotingProposalItemStatus,
   VotingProposalItemType,
 } from "../list/Voting.Proposal.Item";
@@ -137,7 +138,7 @@ const VotingDetail = ({}) => {
         <Row className="justify-content-md-space-between">
           <Col md={7}>
             <div className={styles.tagsWrap}>
-              <VotingProposalItemStatus status={proposal.status} />
+              <VotingProposalItemHistoryStatus status={proposal.status} />
               <VotingProposalItemType type={proposal.type} />
             </div>
             <h1>{proposal.name}</h1>
