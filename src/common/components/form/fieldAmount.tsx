@@ -76,7 +76,7 @@ const FieldAmount = (props: FieldAmountProps) => {
               numeral: true,
               numeralThousandsGroupStyle: "thousand",
               numeralPositiveOnly: true,
-              numeralDecimalScale: 0,
+              numeralDecimalScale: decimals,
             }}
             {...restProps}
           />
