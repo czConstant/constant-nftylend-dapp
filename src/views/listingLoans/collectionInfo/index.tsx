@@ -10,7 +10,7 @@ import { getCollection } from 'src/modules/nftLend/api';
 import SectionContainer from 'src/common/components/sectionContainer';
 import { CollectionData } from 'src/modules/nftLend/models/api';
 import { getLinkNearExplorer } from 'src/modules/near/utils';
-import { formatUrl } from 'src/common/utils/format';
+import { formatCurrency, formatUrl } from 'src/common/utils/format';
 
 import IcVerified from './img/icon-verified.svg';
 import IconViewContract from './img/ic_view_contract.svg';
@@ -73,19 +73,19 @@ const CollectionInfo = (props: CollectionInfoProps) => {
       <hr />
       <div className={styles.collectionStats}>
         <div>
-          <label>{data.total_listed}</label>
+          <label>{formatCurrency(data.total_listed)}</label>
           <div>Listed Loans</div>
         </div>
         <div>
-          <label>${data.volume_usd}</label>
+          <label>${formatCurrency(data.total_volume)}</label>
           <div>Loan Volume</div>
         </div>
         <div>
-          <label>${data.avg24h_amount}</label>
+          <label>${formatCurrency(data.avg24h_amount)}</label>
           <div>Average Loan</div>
         </div>
         <div>
-          <label>{data.floor_price} {data.currency?.symbol}</label>
+          <label>{formatCurrency(data.floor_price)} {data.currency?.symbol}</label>
           <div>Minimum Loan</div>
         </div>
       </div>
