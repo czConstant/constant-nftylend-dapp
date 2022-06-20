@@ -30,6 +30,10 @@ a {
 }
 
 :global {
+  .modal {
+    display: block;
+    top: unset;
+  }
   .no-scroll-bar {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */

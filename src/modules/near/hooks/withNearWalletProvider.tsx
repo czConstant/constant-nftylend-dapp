@@ -43,10 +43,11 @@ export const NearWalletProvider: React.FC = ({ children }) => {
     currentAccountId: string | null,
     newAccounts: Array<Account>
   ) => {
-    const isBackFromNear = !!queryString.parse(location.search).account_id;
-    const savedChain= localStore.get(localStore.KEY_WALLET_CHAIN);
+    const savedChain= localStore.get(localStore.KEY_WALLET_CHAIN)
+    const isRedirectAfterLogin = !!queryString.parse(location.search).account_id
+    const isAfterLoggedIn = newAccounts.length > 0 && !savedChain || isRedirectAfterLogin
 
-    if (savedChain !== Chain.Near && !isBackFromNear) return;
+    if (savedChain !== Chain.Near && !isAfterLoggedIn) return;
     if (!newAccounts.length) {
       dispatch(clearWallet());
       setAccountId(null);
@@ -65,7 +66,7 @@ export const NearWalletProvider: React.FC = ({ children }) => {
     }));
   };
 
-  const initSelector = useCallback(async () => {
+  const initSelector = async () => {
     try {
       const instance = await setupWalletSelector({
         network: getNearConfig().networkId as NetworkId,
@@ -84,7 +85,7 @@ export const NearWalletProvider: React.FC = ({ children }) => {
     } catch (err) {
       toastError(String(err))
     }
-  }, [])
+  }
 
   const checkSync = async (token_id: string, contract_address: string ) => {
     let count = 0;
@@ -133,8 +134,10 @@ export const NearWalletProvider: React.FC = ({ children }) => {
     if (!selector) return;
 
     const subscription = selector.store.observable
-      .pipe( map((state) => state.accounts), distinctUntilChanged())
-      .subscribe((nextAccounts) => {
+      .pipe(map((state) => state.accounts), distinctUntilChanged())
+      .subscribe((nextAccounts, ...rest) => {
+        console.log("🚀 ~ file: withNearWalletProvider.tsx ~ line 138 ~ .subscribe ~ nextAccounts", nextAccounts)
+        console.log("🚀 ~ file: withNearWalletProvider.tsx ~ line 141 ~ .subscribe ~ rest", rest)
         syncAccountState(accountId, nextAccounts);
       });
 
