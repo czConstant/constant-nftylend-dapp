@@ -114,6 +114,8 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
     )
   };
 
+  const TextNotAllow = () => <Text fontSize='xs' mt={2} fontWeight='semibold' color="brand.warning.500">Borrower do not willing to receive offer with changes in this term</Text>
+
   return (
     <form onSubmit={onSubmit}>
       <InputWrapper label="Loan Amount" theme="dark">
@@ -125,7 +127,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           placeholder="0.0"
           appendComp={loan.currency?.symbol}
         />
-        {!loan.isAllowChange('principal_amount') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
+        {!loan.isAllowChange('principal_amount') && <TextNotAllow />}
         <Flex fontSize='xs' mt={2}>
           <Text mr={2}>Balance:</Text>
           {loading ? <Spinner size='xs' /> : <Text fontWeight='medium'>{formatCurrency(balance)}</Text>}
@@ -144,7 +146,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           alignMenu="right"
           validate={required}
         />
-        {!loan.isAllowChange('duration') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
+        {!loan.isAllowChange('duration') && <TextNotAllow />}
       </InputWrapper>
       <InputWrapper label="Loan interest" theme="dark">
         <Field
@@ -155,7 +157,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           placeholder="0.0"
           appendComp="% APY"
         />
-        {!loan.isAllowChange('interest_rate') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
+        {!loan.isAllowChange('interest_rate') && <TextNotAllow />}
         <div className={styles.errorMessage}>{warnings.rate}</div>
       </InputWrapper>
       <InputWrapper label="Offer available in" theme="dark">
