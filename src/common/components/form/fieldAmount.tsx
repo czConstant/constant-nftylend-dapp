@@ -20,6 +20,7 @@ interface FieldAmountProps {
   appendComp?: React.ReactNode;
   onClickMax?: React.MouseEventHandler;
   placeholder?: string;
+  decimals?: number;
 }
 
 const FieldAmount = (props: FieldAmountProps) => {
@@ -38,7 +39,6 @@ const FieldAmount = (props: FieldAmountProps) => {
     ...restProps
   } = props;
   const { onChange, onBlur, onFocus, value } = input;
-  console.log("🚀 ~ file: fieldAmount.tsx ~ line 40 ~ FieldAmount ~ decimals", decimals)
   const { error, touched } = meta;
   const shouldShowError = !!(touched && error) || (error && value);
   const target = useRef(null);
@@ -80,19 +80,6 @@ const FieldAmount = (props: FieldAmountProps) => {
             }}
             {...restProps}
           />
-          {/* <input
-            placeholder={placeholder}
-            value={Number.parseFloat(value) || ""}
-            maxLength={12}
-            onFocus={() => onFocus()}
-            onBlur={(e) => {
-              onBlur();
-              e?.target?.blur();
-            }}
-            className={cx(shouldShowError && styles.borderDanger)}
-            onChange={onChange}
-            {...restProps}
-          /> */}
         </div>
         {hasAppend && (
           <div className={cx(styles.groupAppend)}>
