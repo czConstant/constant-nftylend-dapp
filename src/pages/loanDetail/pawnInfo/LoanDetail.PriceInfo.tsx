@@ -1,6 +1,7 @@
 import BigNumber from "bignumber.js";
 import React from "react";
 import { MdInfoOutline } from 'react-icons/md';
+import { Flex, Grid, GridItem, Icon, Text, Tooltip } from '@chakra-ui/react';
 
 import icPriceTag from "../images/ic_price_tag.svg";
 import LoanDetailButtons from "./LoanDetail.Buttons";
@@ -9,12 +10,10 @@ import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { isSameAddress } from 'src/common/utils/helper';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { LOAN_DURATION } from 'src/modules/nftLend/constant';
-import { formatCurrencyByLocale } from "src/common/utils/format";
+import { formatCurrency } from "src/common/utils/format";
 
 import pawnStyles from './pawnInfo.module.scss';
 import styles from "../styles.module.scss";
-import CountdownText from 'src/common/components/countdownText';
-import { Flex, Grid, GridItem, Icon, Text, Tooltip } from '@chakra-ui/react';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -42,7 +41,7 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
             <img src={icPriceTag} alt="item price" />
           </Flex>
           <div className={styles.infoPriceValue}>
-            <div>{`${formatCurrencyByLocale(
+            <div>{`${formatCurrency(
               loan.principal_amount,
               2
             )} ${loan.currency?.symbol}`}</div>
