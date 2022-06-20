@@ -363,21 +363,13 @@
     background-color: inherit;
   }
 
-  &.created {
-    color: white;
-    img {
-      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
-        brightness(102%) contrast(101%);
-    }
-  }
-  &.pending {
-    color: white;
-    img {
-      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
-        brightness(102%) contrast(101%);
-    }
-  }
-  &.cancelled {
+  &.succeeded,
+  &.created,
+  &.pending,
+  &.cancelled,
+  &.defeated,
+  &.queued,
+  &.executed {
     color: white;
     img {
       filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
@@ -736,6 +728,10 @@
     border: 1px solid rgb(0, 37, 248);
     color: rgb(0, 37, 248);
   }
+  &.executed {
+    border: 1px solid rgb(0, 37, 248);
+    color: rgb(255, 255, 255);
+  }
   &.government {
     border: 1px solid rgb(154, 106, 255);
     color: rgb(154, 106, 255);
@@ -743,5 +739,22 @@
   &.community {
     border: 1px solid rgb(237, 75, 158);
     color: rgb(237, 75, 158);
+  }
+}
+
+.requiredInfo {
+  ol {
+    padding-left: 2rem;
+    a {
+      color: #ae83ff;
+    }
+  }
+}
+
+.itemHistoryRightWrap {
+  display: inline-flex;
+  align-items: center;
+  img {
+    margin-left: 10px;
   }
 }

@@ -14,7 +14,7 @@ const VotingMakeProposal: React.FC<VotingMakeProposalProps> = ({}) => {
       onClick={() => navigate(APP_URL.VOTING_PROPOSAL_MAKE)}
       className={styles.btnMakeProposal}
     >
-      Make a Proposals
+      Submit a Proposal
     </Button>
   );
 };
