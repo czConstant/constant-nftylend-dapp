@@ -41,7 +41,7 @@ const VotingDetail = ({}) => {
       link: APP_URL.DISCOVER,
     },
     {
-      label: "Voting",
+      label: "Proposal",
       link: APP_URL.VOTING,
     },
   ]).current;

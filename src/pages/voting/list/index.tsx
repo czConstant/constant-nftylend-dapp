@@ -51,7 +51,7 @@ const VotingList = () => {
       const _rows = await VotingServices.getProposals({
         status:
           type === ProposalTypes.Proposal
-            ? ProposalStatus.ProposalStatusExecuted
+            ? ""
             : findStatus?.filters || findStatus?.key,
         type: type,
       });

@@ -53,7 +53,7 @@ const Header = () => {
               to={APP_URL.VOTING}
               className={cx(location.pathname === APP_URL.LIST_LOAN && styles.active)}
             >
-              Voting
+              Proposal
             </Link>
             {/* <a
               target="_blank"
