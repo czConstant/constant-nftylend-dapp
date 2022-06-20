@@ -65,7 +65,7 @@ const FieldAmount = (props: FieldAmountProps) => {
             placeholder={placeholder}
             value={value}
             maxLength={12}
-            onChange={onChange}
+            onChange={e => onChange(e.target.rawValue)}
             onFocus={onFocus}
             onBlur={(e) => {
               onBlur();
