@@ -34,6 +34,7 @@ import { toastError, toastSuccess } from "src/common/services/toaster";
 import icClose from "../images/ic_close.svg";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getPwpBalance } from "src/modules/nftLend/api";
 
 const minDateCurrent = (value: any) => {
   if (moment(value).isSameOrBefore(moment.now())) {
@@ -115,10 +116,14 @@ const VotingMakeProposal = () => {
 
   const fetchBalance = async () => {
     const currencies = await VotingServices.getCurrenciesPWP();
-    const balance = await getBalance(currencies.contract_address);
-    setBalance(
-      new BigNumber(balance).dividedBy(10 ** currencies.decimals).toNumber()
+    const pwpBalance = await getPwpBalance(
+      currentWallet.address,
+      currencies.network
     );
+    const amount = new BigNumber(pwpBalance.result.balance).minus(
+      pwpBalance.result.locked_balance
+    );
+    setBalance(amount.toNumber());
     setCurrency(currencies);
   };
 
@@ -273,7 +278,7 @@ const VotingMakeProposal = () => {
               <Col md={4}>
                 <div className={styles.choiceWrapper}>
                   <div className={styles.choiceTitle}>
-                    <h5>Actions</h5>
+                    {/* <h5>Actions</h5> */}
                   </div>
                   <div className={styles.choiceFormWrap}>
                     {type !== ProposalTypes.Proposal && (
@@ -341,9 +346,13 @@ const VotingMakeProposal = () => {
                           styles.btnSubmitAProposal
                         )}
                         type="submit"
-                        disabled={loading}
+                        disabled={
+                          loading ||
+                          parseFloat(balance) <
+                            parseFloat(currency?.proposal_pwp_required)
+                        }
                       >
-                        {loading ? <Loading dark /> : "Publish"}
+                        {loading ? <Loading dark /> : "Submit"}
                       </Button>
                     ) : (
                       <ButtonConnectWallet
@@ -354,7 +363,8 @@ const VotingMakeProposal = () => {
                         )}
                       />
                     )}
-                    {type === ProposalTypes.Gov && (
+                    {parseFloat(balance) <
+                      parseFloat(currency?.proposal_pwp_required) && (
                       <div className={styles.wrapBalance}>
                         {isConnected && (
                           <div>
@@ -365,10 +375,29 @@ const VotingMakeProposal = () => {
                             </span>
                           </div>
                         )}
-                        <div>
-                          You need at least{" "}
-                          {formatCurrencyByLocale(currency?.proposal_threshold)}{" "}
-                          {currency?.symbol} to publish a proposal.
+                        <div className={styles.requiredInfo}>
+                          You must have at least{" "}
+                          {formatCurrencyByLocale(
+                            currency?.proposal_pwp_required
+                          )}{" "}
+                          {currency?.symbol} in your reward history to submit a
+                          proposal. There are just a few methods to get your PWP
+                          reward:
+                          <ol>
+                            <li>
+                              Participate in our AMA and Airdrop activities.
+                            </li>
+                            <li>
+                              Using NFT to place a loan order is one of these
+                              whitelisted NFT collections.{" "}
+                              <a
+                                href="http://docs.nftpawn.financial/overview/assetment-list-nft-collections-supported"
+                                target="_blank"
+                              >
+                                Read more
+                              </a>
+                            </li>
+                          </ol>
                         </div>
                       </div>
                     )}

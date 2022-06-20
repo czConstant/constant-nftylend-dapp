@@ -30,3 +30,44 @@ export const VOTING_STATUS = [
     ].join(","),
   },
 ];
+
+export const VOTING_HISTORY_STATUS = [
+  {
+    key: ProposalStatus.ProposalStatusCreated,
+    name: "New",
+    icon: icStatusVoteNow,
+    color: "rgb(34 20 230)",
+  },
+  {
+    key: ProposalStatus.ProposalStatusPending,
+    name: "Soon",
+    icon: icStatusSoon,
+    color: "rgb(240, 185, 11)",
+  },
+  {
+    key: ProposalStatus.ProposalStatusSucceeded,
+    name: "Approve",
+    icon: icStatusSoon,
+    color: "rgb(49, 208, 170)",
+    filters: [
+      ProposalStatus.ProposalStatusExecuted,
+      ProposalStatus.ProposalStatusSucceeded,
+    ].join(","),
+  },
+  {
+    key: ProposalStatus.ProposalStatusCancelled,
+    name: "UnApprove",
+    icon: icStatusSoon,
+    color: "rgb(237, 75, 158)",
+    filters: [
+      ProposalStatus.ProposalStatusDefeated,
+      ProposalStatus.ProposalStatusCancelled,
+    ].join(","),
+  },
+  {
+    key: ProposalStatus.ProposalStatusQueued,
+    name: "Processing",
+    icon: icStatusSoon,
+    color: "rgb(255, 178, 55)",
+  },
+];
