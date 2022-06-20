@@ -120,9 +120,7 @@ const VotingMakeProposal = () => {
       currentWallet.address,
       currencies.network
     );
-    const amount = new BigNumber(pwpBalance.result.balance).minus(
-      pwpBalance.result.locked_balance
-    );
+    const amount = new BigNumber(pwpBalance.result.balance);
     setBalance(amount.toNumber());
     setCurrency(currencies);
   };
