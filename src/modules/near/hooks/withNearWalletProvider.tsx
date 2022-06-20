@@ -6,7 +6,7 @@ import NearWalletSelector, { AccountInfo, NetworkId } from '@near-wallet-selecto
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
 import nearWalletIconUrl from "@near-wallet-selector/near-wallet/assets/near-wallet-icon.png";
-import senderIconUrl from "@near-wallet-selector/sender/assets/sender-icon.png";
+import IconSender from 'src/assets/images/wallet/sender-wallet.png'
 
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { clearWallet, requestReload, selectNftyLend, updateWallet } from 'src/store/nftyLend';
@@ -70,7 +70,7 @@ export const NearWalletProvider: React.FC = ({ children }) => {
         contractId: near_nftypawn_address,
         wallets: [
           setupNearWallet({ iconUrl: nearWalletIconUrl }),
-          setupSender({ iconUrl: senderIconUrl }),
+          setupSender({ iconUrl: IconSender }),
         ],
       });
 
