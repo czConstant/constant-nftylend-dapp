@@ -168,6 +168,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           children={FieldAmount}
           placeholder="0.0"
           appendComp="days"
+          decimals={0}
         />
       </InputWrapper>
       {renderEstimatedInfo()}
