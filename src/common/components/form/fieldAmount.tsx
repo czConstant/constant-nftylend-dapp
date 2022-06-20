@@ -1,7 +1,8 @@
-import React, { ReactEventHandler, useRef, useState } from "react";
+import React, { useRef } from "react";
 import cx from "classnames";
 import FormGroup from "react-bootstrap/FormGroup";
 import InputGroup from "react-bootstrap/InputGroup";
+import Cleave from 'cleave.js/react';
 
 // import ErrorOverlay from 'src/components/errorOverlay';
 // import { useTextWidth } from '@tag0/use-text-width';
@@ -32,10 +33,12 @@ const FieldAmount = (props: FieldAmountProps) => {
     placeholder = "0.0",
     errorMessage,
     errorPlacement = "bottom",
+    decimals = 2,
     // disabledInput, errorPlacement, zIndex, anchorAppend,
     ...restProps
   } = props;
-  const { onChange, onBlur, onFocus, value, name } = input;
+  const { onChange, onBlur, onFocus, value } = input;
+  console.log("🚀 ~ file: fieldAmount.tsx ~ line 40 ~ FieldAmount ~ decimals", decimals)
   const { error, touched } = meta;
   const shouldShowError = !!(touched && error) || (error && value);
   const target = useRef(null);
@@ -57,7 +60,26 @@ const FieldAmount = (props: FieldAmountProps) => {
           </div>
         )}
         <div className={styles.formControl} ref={target}>
-          <input
+          <Cleave
+            placeholder={placeholder}
+            value={value}
+            maxLength={12}
+            onChange={onChange}
+            onFocus={onFocus}
+            onBlur={(e) => {
+              onBlur();
+              e?.target?.blur();
+            }}
+            className={cx(shouldShowError && styles.borderDanger)}
+            options={{
+              numeral: true,
+              numeralThousandsGroupStyle: "thousand",
+              numeralPositiveOnly: true,
+              numeralDecimalScale: decimals,
+            }}
+            {...restProps}
+          />
+          {/* <input
             placeholder={placeholder}
             value={Number.parseFloat(value) || ""}
             maxLength={12}
@@ -69,7 +91,7 @@ const FieldAmount = (props: FieldAmountProps) => {
             className={cx(shouldShowError && styles.borderDanger)}
             onChange={onChange}
             {...restProps}
-          />
+          /> */}
         </div>
         {hasAppend && (
           <div className={cx(styles.groupAppend)}>

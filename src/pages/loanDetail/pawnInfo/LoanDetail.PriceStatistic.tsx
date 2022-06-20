@@ -11,10 +11,14 @@ interface LoanDetailPriceStatisticProps {
 };
 
 const LoanDetailPriceStatistic: React.FC<LoanDetailPriceStatisticProps> = ({ loan }) => {
-  const usdValue = new BigNumber(loan.asset?.stats?.avg_price).multipliedBy(loan.asset?.stats?.currency?.price);
-  const ltv = !usdValue.isEqualTo(0)
-    ? new BigNumber(loan.principal_amount).multipliedBy(loan.currency?.price).dividedBy(usdValue).multipliedBy(100).toNumber()
-    : 0;
+  const principalUsdValue = new BigNumber(loan.principal_amount).multipliedBy(loan.currency?.price);
+  const avgUsdValue = new BigNumber(loan.asset?.stats?.avg_price).multipliedBy(loan.asset?.stats?.currency?.price);
+  const floorUsdValue = new BigNumber(loan.asset?.stats?.floor_price).multipliedBy(loan.asset?.stats?.currency?.price);
+  const ltv = avgUsdValue.isGreaterThan(0)
+    ? principalUsdValue.dividedBy(avgUsdValue).multipliedBy(100).toNumber()
+    : floorUsdValue.isGreaterThan(0)
+      ? principalUsdValue.dividedBy(floorUsdValue).multipliedBy(100).toNumber()
+      : 0
 
   return (
     <Grid templateColumns={{ md: 'repeat(3, 1fr)' }} gap={2}>
