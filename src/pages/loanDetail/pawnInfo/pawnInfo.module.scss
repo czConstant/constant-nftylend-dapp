@@ -13,11 +13,19 @@
         margin: 5px;
         padding: 5px 15px;
         border-radius: 20px;
-        color: #00875A;
-        background-color: #00875a33,
+        color: #0cb37d;
+        background-color: #0cb37d33;
       }
       .notallow {
-        opacity: 0.5;
+        color: #777E90;
+        background-color: #777E9033;
+        background: repeating-linear-gradient(
+          45deg,
+          #777E9033 0px,
+          #777E9033 10px,
+          #141416 10px,
+          #141416 14px
+        );
       }
     }
   }

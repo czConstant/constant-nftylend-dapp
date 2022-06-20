@@ -20,6 +20,7 @@ import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import InfoTooltip from 'src/common/components/infoTooltip';
 
 import styles from "./styles.module.scss";
+import BigNumber from 'bignumber.js';
 
 interface CreateLoanFormProps {
   onSubmit: FormEventHandler;
@@ -33,7 +34,7 @@ interface CreateLoanFormProps {
 
 const CreateLoanForm = (props: CreateLoanFormProps) => {
   const { listToken, defaultTokenMint, onSubmit, values, submitting, isManual } = props;
-  const { change } = useForm();
+  const { change, getState } = useForm();
 
   const [receiveToken, setReceiveToken] = useState<Currency>();
 
@@ -57,7 +58,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
       values.rate / 100,
       duration,
     );
-    const matchingFee = values.amount / 100;
+    const matchingFee = new BigNumber(values.amount).dividedBy(100).toNumber();
     const totalRepay = calculateMaxTotalPay(
       values.amount,
       values.rate / 100,
@@ -181,6 +182,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
                 children={FieldAmount}
                 placeholder="0.0"
                 appendComp="days"
+                decimals={0}
                 validate={required}
               />
             </InputWrapper>
