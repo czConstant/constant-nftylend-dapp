@@ -9,12 +9,10 @@ import Loading from "src/common/components/loading";
 import { composeValidators, maxValue, required } from "src/common/utils/formValidate";
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import { calculateMaxInterest, calculateMaxTotalPay } from 'src/modules/nftLend/utils';
+import { calculateMaxInterest, calculateMaxTotalPay, isNativeToken } from 'src/modules/nftLend/utils';
 import { formatCurrency } from 'src/common/utils/format';
 import InfoTooltip from 'src/common/components/infoTooltip';
 import styles from "./makeOfferForm.module.scss";
-import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
-import BigNumber from 'bignumber.js';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
 
 const HIGH_RISK_VALUE = 2.5; // 250%
@@ -40,8 +38,7 @@ interface MakeOfferFormProps {
 
 const MakeOfferForm = (props: MakeOfferFormProps) => {
   const { onSubmit, loan, submitting } = props;
-  const { currentWallet } = useCurrentWallet()
-  const { getBalance } = useToken()
+  const { getCurrencyBalance } = useToken()
   const { values } = useFormState()
   const { resetFieldState } = useForm()
 
@@ -79,8 +76,8 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
     if (!loan.currency) return
     try {
       setLoading(true)
-      const res = await getBalance(loan.currency.contract_address)
-      setBalance(new BigNumber(res).dividedBy(10 ** loan.currency?.decimals).toNumber());
+      const res = await getCurrencyBalance(loan.currency)
+      setBalance(res)
     } finally {
       setLoading(false)
     }
@@ -117,6 +114,8 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
     )
   };
 
+  const TextNotAllow = () => <Text fontSize='xs' mt={2} fontWeight='semibold' color="brand.warning.500">Borrower do not willing to receive offer with changes in this term</Text>
+
   return (
     <form onSubmit={onSubmit}>
       <InputWrapper label="Loan Amount" theme="dark">
@@ -128,7 +127,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           placeholder="0.0"
           appendComp={loan.currency?.symbol}
         />
-        {!loan.isAllowChange('principal_amount') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
+        {!loan.isAllowChange('principal_amount') && <TextNotAllow />}
         <Flex fontSize='xs' mt={2}>
           <Text mr={2}>Balance:</Text>
           {loading ? <Spinner size='xs' /> : <Text fontWeight='medium'>{formatCurrency(balance)}</Text>}
@@ -147,7 +146,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           alignMenu="right"
           validate={required}
         />
-        {!loan.isAllowChange('duration') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
+        {!loan.isAllowChange('duration') && <TextNotAllow />}
       </InputWrapper>
       <InputWrapper label="Loan interest" theme="dark">
         <Field
@@ -158,7 +157,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           placeholder="0.0"
           appendComp="% APY"
         />
-        {!loan.isAllowChange('interest_rate') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
+        {!loan.isAllowChange('interest_rate') && <TextNotAllow />}
         <div className={styles.errorMessage}>{warnings.rate}</div>
       </InputWrapper>
       <InputWrapper label="Offer available in" theme="dark">

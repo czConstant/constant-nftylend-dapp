@@ -3,10 +3,11 @@ import { Connection } from '@solana/web3.js';
 import { Chain } from 'src/common/constants/network';
 import PayLoanEvmTransaction from 'src/modules/evm/transactions/payLoan';
 import PayLoanNearTransaction from 'src/modules/near/transactions/payLoan';
+import PayLoanNearNativeTransaction from 'src/modules/near/transactions/payLoanNear';
 import PayLoanTransaction from 'src/modules/solana/transactions/payLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
 import { PayLoanParams, TransactionOptions, TransactionResult } from '../models/transaction';
-import { isEvmChain } from '../utils';
+import { isEvmChain, isNativeToken } from '../utils';
 
 interface PayLoanTxParams extends PayLoanParams {
   chain: Chain;
@@ -63,7 +64,10 @@ const evmTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
 }
 
 const nearTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
-  const transaction = new PayLoanNearTransaction();
+  let transaction = new PayLoanNearTransaction();
+  if (isNativeToken(params.currency_contract_address, Chain.Near)) {
+    transaction = new PayLoanNearNativeTransaction()
+  }
   const res = await transaction.run(
     params.pay_amount,
     params.asset_token_id,

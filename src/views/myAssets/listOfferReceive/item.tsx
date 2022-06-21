@@ -4,7 +4,6 @@ import { Button } from "react-bootstrap";
 import BigNumber from "bignumber.js";
 import moment from "moment-timezone";
 import cx from 'classnames';
-import { Badge } from '@chakra-ui/react';
 
 import { useAppDispatch } from "src/store/hooks";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
@@ -13,10 +12,11 @@ import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
 
 import listLoanStyled from "../listLoan/styles.module.scss";
-import { LOAN_DURATION, OFFER_STATUS } from "src/modules/nftLend/constant";
+import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { formatDateTime } from 'src/common/utils/format';
+import BadgeOfferStatus from 'src/views/dashboard/badgeOfferStatus';
 
 interface ItemProps {
   offer: OfferToLoan;
@@ -124,11 +124,7 @@ const Item = (props: ItemProps) => {
           &nbsp;/&nbsp;
           {new BigNumber(interest).multipliedBy(100).toNumber()}%
         </div>
-        <div>
-          <Badge variant={badgeVariant}>
-            {OFFER_STATUS[status]?.borrower}
-          </Badge>
-        </div>
+        <div><BadgeOfferStatus offer={offer} loan={offer.loan} /></div>
         {/* <div>
           <a target="_blank" href={loan?.getLinkExplorerTx()}>
             {shortCryptoAddress(loan?.init_tx_hash, 8)}

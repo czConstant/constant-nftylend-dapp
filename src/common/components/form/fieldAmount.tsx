@@ -35,7 +35,6 @@ const FieldAmount = (props: FieldAmountProps) => {
   const hasAppend = appendComp || onClickMax;
 
   const isError = meta.error && meta.touched;
-  if (isError) console.log(error)
 
   return (
     <FormControl isInvalid={isError}>
