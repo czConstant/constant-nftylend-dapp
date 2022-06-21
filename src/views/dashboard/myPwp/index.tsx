@@ -82,7 +82,7 @@ const MyPwp = () => {
               <Text fontSize='2xl' fontWeight='bold'>
                 {pwpBalance?.currency?.claim_enabled ? formatCurrency(amount) : 0} PWP
               </Text>
-              <Button disabled={!canClaim} isLoading={submitting} size='sm' onClick={onClaim}>Claim</Button>
+              <Button /* disabled={!canClaim} */ disabled isLoading={submitting} size='sm' onClick={onClaim}>Claim</Button>
             </Flex>
           </Box>
         </GridItem>
