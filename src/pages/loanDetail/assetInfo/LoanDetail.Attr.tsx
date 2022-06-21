@@ -16,7 +16,7 @@ const LoanDetailAttr: React.FC<LoanDetailAttrProps> = ({ asset }) => {
         <div>No Attributes</div>
       ) : (
         attrs?.map((attr) => (
-          <GridItem>
+          <GridItem key={attr?.trait_type}>
             <BoxAttrValue
               label={attr?.trait_type}
               value={attr?.value}
