@@ -21,6 +21,11 @@ const LoanDetailPriceStatistic: React.FC<LoanDetailPriceStatisticProps> = ({ loa
       ? principalUsdValue.dividedBy(floorUsdValue).multipliedBy(100).toNumber()
       : 0
 
+  let color = 'brand.success.600'
+  if (ltv > 50) color = '#ddc014'
+  if (ltv > 75) color = 'brand.warning.600'
+  if (ltv > 99) color = 'brand.danger.600'
+
   return (
     <Grid templateColumns={{ md: '1.5fr 1fr' }} gap={2}>
       <GridItem>
@@ -29,7 +34,7 @@ const LoanDetailPriceStatistic: React.FC<LoanDetailPriceStatisticProps> = ({ loa
             <Text color='text.secondary' fontSize='xl' fontWeight='semibold'>Loan to value</Text>
             <InfoTooltip label={`Lenders use the loan-to-value (LTV) ratio to determine how much risk they're taking on with a secured loan. Any NFTPawn valuation metric is based on estimates and metrics that do not represent financial advice or the actual expected LTV of an NFT listing. Please conduct your own research.`} />
           </Flex>
-          <Text fontWeight='bold' fontSize='3xl'>{ltv ? `${formatCurrency(ltv)}%` : 'Not Available'}</Text>
+          <Text fontWeight='bold' fontSize='3xl' color={color}>{ltv ? `${formatCurrency(ltv)}%` : 'Not Available'}</Text>
         </Flex>
       </GridItem>
       <GridItem>
