@@ -1,15 +1,9 @@
-import { useState } from "react";
-import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
-import cx from 'classnames';
-import { Badge, Button, Flex, Grid, GridItem, Link, Text } from '@chakra-ui/react';
+import { Button, Flex, Grid, GridItem, Link, Text } from '@chakra-ui/react';
 
 import { useAppDispatch } from "src/store/hooks";
-import {
-  hideLoadingOverlay,
-  showLoadingOverlay,
-} from "src/store/loadingOverlay";
+import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { requestReload } from "src/store/nftyLend";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { APP_URL } from "src/common/constants/url";
@@ -18,7 +12,7 @@ import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { isEvmChain } from 'src/modules/nftLend/utils';
-import { formatCurrency } from 'src/common/utils/format';
+import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import InfoTooltip from 'src/common/components/infoTooltip';
 import BadgeOfferStatus from '../badgeOfferStatus';
 
@@ -153,7 +147,7 @@ const Item = (props: ItemProps) => {
         {new BigNumber(interest).multipliedBy(100).toNumber()}%
       </GridItem>
       <GridItem py={4}><BadgeOfferStatus offer={offer} loan={offer.loan} /></GridItem>
-      <GridItem py={4}>{moment(offer.updated_at).format("MM/DD/YYYY HH:mm A")}</GridItem>
+      <GridItem py={4}>{formatDateTime(offer.updated_at)}</GridItem>
       <GridItem pr={8} py={4}>
         <Flex w='100%' justifyContent='flex-end'>
           {showClaim && (

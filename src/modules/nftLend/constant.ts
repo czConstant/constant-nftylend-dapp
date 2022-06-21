@@ -139,7 +139,7 @@ export const LOAN_DURATION = [
   },
 ];
 
-if (APP_CLUSTER === "testnet") {
+if (APP_CLUSTER !== "mainnet") {
   LOAN_DURATION.unshift({
     id: 60,
     label: "60 seconds",

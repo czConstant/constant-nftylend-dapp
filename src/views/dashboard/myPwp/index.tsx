@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { Box, Button, Flex, Grid, GridItem, Table, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
 
 import Pagination from 'src/common/components/pagination';
-import { formatCurrency } from 'src/common/utils/format';
+import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import { nearSignText } from 'src/modules/near/utils';
 import { claimPwpBalance, getBalanceTransactions, getPwpBalance } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -77,7 +77,7 @@ const MyPwp = () => {
         </GridItem>
         <GridItem>
           <Box backgroundColor='background.card' borderRadius={16} p={4}>
-            <Text fontSize='sm' color='text.secondary'>Claimable Reward</Text>
+            <Text fontSize='sm' color='text.secondary'>Available Reward</Text>
             <Flex justifyContent='space-between'>
               <Text fontSize='2xl' fontWeight='bold'>
                 {pwpBalance?.currency?.claim_enabled ? formatCurrency(amount) : 0} PWP
@@ -103,7 +103,7 @@ const MyPwp = () => {
               const txType = INCENTIVE_TX_TYPE[e.incentive_transaction?.type]
               return (
                 <Tr key={e.id}>
-                  <Td borderBottomLeftRadius={isLast ? 16 : 0}>{e.created_at}</Td>
+                  <Td borderBottomLeftRadius={isLast ? 16 : 0}>{formatDateTime(e.created_at)}</Td>
                   <Td>{e.amount} {e.currency?.symbol}</Td>
                   <Td>{txType?.name || e.incentive_transaction?.type}</Td>
                   <Td borderBottomRightRadius={isLast ? 16 : 0}>{e.incentive_transaction?.status}</Td>

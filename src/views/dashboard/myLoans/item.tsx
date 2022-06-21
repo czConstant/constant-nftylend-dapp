@@ -3,7 +3,7 @@ import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
 import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Badge, Button, Flex, Grid, GridItem, Icon, Link } from '@chakra-ui/react';
-import { FaCaretDown, FaCaretUp, FaCheck, FaCheckCircle } from 'react-icons/fa';
+import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 
 import { useAppDispatch } from "src/store/hooks";
 import { toastError, toastSuccess } from "src/common/services/toaster";
@@ -18,7 +18,7 @@ import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { calculateTotalPay } from 'src/modules/nftLend/utils';
 
 import LoanDetailOffers from 'src/pages/loanDetail/pawnInfo/LoanDetail.Offers';
-import { formatCurrency } from 'src/common/utils/format';
+import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
 import BadgeLoanStatus from '../badgeLoanStatus';
 
@@ -171,7 +171,7 @@ const Item = (props: ItemProps) => {
           {new BigNumber(interest).multipliedBy(100).toNumber()}%
         </GridItem>
         <GridItem py={4}><BadgeLoanStatus loan={loan} /></GridItem>
-        <GridItem py={4}>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</GridItem>
+        <GridItem py={4}>{formatDateTime(loan?.updated_at)}</GridItem>
         <GridItem pr={8} py={4}>
           <Flex w='100%' justifyContent='flex-end'>
             {showCancel && <Button size='sm' variant='link' textDecoration='underline' colorScheme='whiteAlpha' onClick={onCancelLoan}>Cancel</Button>}
