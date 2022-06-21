@@ -16,6 +16,7 @@ import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import BadgeOfferStatus from 'src/views/dashboard/badgeOfferStatus';
+import { formatDateTime } from 'src/common/utils/format';
 
 interface ItemProps {
   offer: OfferToLoan;
@@ -129,7 +130,7 @@ const Item = (props: ItemProps) => {
             {shortCryptoAddress(loan?.init_tx_hash, 8)}
           </a>
         </div> */}
-        <div>{moment(loan?.created_at).format("MM/DD/YYYY HH:mm A")}</div>
+        <div>{formatDateTime(loan?.created_at)}</div>
         <div className={listLoanStyled.actions}>
           {showAccept && <Button onClick={onAccept}>Accept</Button>}
         </div>
