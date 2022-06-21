@@ -18,7 +18,7 @@ import { LOAN_DURATION, OFFER_STATUS } from "src/modules/nftLend/constant";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { isEvmChain } from 'src/modules/nftLend/utils';
-import { formatCurrency } from 'src/common/utils/format';
+import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import InfoTooltip from 'src/common/components/infoTooltip';
 
 interface ItemProps {
@@ -173,7 +173,7 @@ const Item = (props: ItemProps) => {
           {OFFER_STATUS?.[status]?.lender}
         </Badge>
       </GridItem>
-      <GridItem py={4}>{moment(offer.updated_at).format("MM/DD/YYYY HH:mm A")}</GridItem>
+      <GridItem py={4}>{formatDateTime(offer.updated_at)}</GridItem>
       <GridItem pr={8} py={4}>
         <Flex w='100%' justifyContent='flex-end'>
           {showClaim && (

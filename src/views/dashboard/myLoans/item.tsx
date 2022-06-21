@@ -18,7 +18,7 @@ import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { calculateTotalPay } from 'src/modules/nftLend/utils';
 
 import LoanDetailOffers from 'src/pages/loanDetail/pawnInfo/LoanDetail.Offers';
-import { formatCurrency } from 'src/common/utils/format';
+import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 
 interface ItemProps {
   loan: LoanNft;
@@ -188,7 +188,7 @@ const Item = (props: ItemProps) => {
                 {LOAN_STATUS.find((v) => v.id === status)?.name || "Unknown"}
               </Badge>
             </GridItem>
-            <GridItem py={4}>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</GridItem>
+            <GridItem py={4}>{formatDateTime(loan?.updated_at)}</GridItem>
             <GridItem pr={8} py={4}>
               <Flex w='100%' justifyContent='flex-end'>
                 {showCancel && <Button size='sm' variant='link' textDecoration='underline' colorScheme='whiteAlpha' onClick={onCancelLoan}>Cancel</Button>}

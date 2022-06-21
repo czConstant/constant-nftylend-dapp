@@ -41,13 +41,13 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
       {(loan.isEmpty() || loan.isDone()) ? null : loan.isOngoing() ? <LoanDetailInEscrow loan={loan} /> : <LoanDetailPriceInfo loan={loan} />}
       <SectionCollapse
         id="priceStats"
-        label="Price Statistic"
+        label="Price Info"
         selected
         content={<LoanDetailPriceStatistic loan={loan} />}
       />
       <SectionCollapse
         id="borrowerStats"
-        label="About This Borrower"
+        label="Borrower Info"
         selected
         content={<LoanDetailBorrower asset={loan.asset} borrower={loan.owner} />}
       />
