@@ -1448,7 +1448,7 @@
     react-dom "^17.0.2"
     rxjs "~7.4.0"
 
-"@near-wallet-selector/my-near-wallet@4.1.0":
+"@near-wallet-selector/my-near-wallet@4.1.0", "@near-wallet-selector/my-near-wallet@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@near-wallet-selector/my-near-wallet/-/my-near-wallet-4.1.0.tgz#f1ba717e22150c3eabc431e0c51168b8dcf2d476"
   integrity sha512-+Qag0J/18zLYEaqRQYoGUwl+2eGi4zzyQ52nAGX/hr+HmNPNykumRkASzrr2ViD8uTznhp0J/NbjfoHK2wDczQ==

@@ -1,10 +1,13 @@
+import PawnProtocolNear from '@nftpawn-js/near';
+import { CreateLoanParams, TransactionResult } from '@nftpawn-js/core';
+
 import { Chain } from 'src/common/constants/network';
 import CreateLoanEvmTransaction from 'src/modules/evm/transactions/createLoan';
-import CreateLoanNearTransaction from 'src/modules/near/transactions/createLoan';
 import CreateLoanSolTransaction from 'src/modules/solana/transactions/createLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
-import { CreateLoanParams, TransactionOptions, TransactionResult } from '../models/transaction';
+
 import { isEvmChain } from '../utils';
+import { TransactionOptions } from '../models/transaction';
 
 interface CreateLoanTxParams extends CreateLoanParams {
   chain: Chain;
@@ -69,19 +72,8 @@ const evmTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => 
 }
 
 const nearTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => {
-  const transaction = new CreateLoanNearTransaction();
-  const res = await transaction.run(
-    params.asset_token_id,
-    params.asset_contract_address,
-    params.principal,
-    params.rate,
-    params.duration,
-    params.currency_contract_address,
-    params.currency_decimal,
-    params.available_in,
-    params.loan_config,
-  );
-  return res;
+  const protocol = new PawnProtocolNear(window.nearSelector, params.walletAddress);
+  return protocol.createLoan(params)
 }
 
 const createLoanTx = async (params: CreateLoanTxParams): Promise<TransactionResult> => {

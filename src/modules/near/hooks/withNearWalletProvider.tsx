@@ -7,7 +7,9 @@ import { WalletSelector, Account, NetworkId, setupWalletSelector } from '@near-w
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
+import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 import nearWalletIconUrl from "@near-wallet-selector/near-wallet/assets/near-wallet-icon.png";
+import myNearWalletIconUrl from "@near-wallet-selector/my-near-wallet/assets/my-near-wallet-icon.png";
 import IconSender from 'src/assets/images/wallet/sender-wallet.png'
 
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -49,6 +51,7 @@ export const NearWalletProvider: React.FC = ({ children }) => {
 
     if (savedChain !== Chain.Near && !isAfterLoggedIn) return;
     if (!newAccounts.length) {
+      console.log('sign out')
       dispatch(clearWallet());
       setAccountId(null);
       return;
@@ -73,6 +76,7 @@ export const NearWalletProvider: React.FC = ({ children }) => {
         modules: [
           setupNearWallet({ iconUrl: nearWalletIconUrl }),
           setupSender({ iconUrl: IconSender }),
+          setupMyNearWallet({ iconUrl: myNearWalletIconUrl }),
         ],
       });
       window.nearWalletModal = setupModal(

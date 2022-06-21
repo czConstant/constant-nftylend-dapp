@@ -21,7 +21,7 @@ const Dashboard = () => {
   const location = useLocation()
   const { isConnected } = useCurrentWallet()
 
-  if (!isConnected) return <Navigate to={APP_URL.HOME} />
+  // if (!isConnected) return <Navigate to={APP_URL.HOME} />
 
   return (
     <BodyContainer>
