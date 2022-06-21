@@ -1,34 +1,6 @@
 .wrapper {
   padding: 2rem;
-  &.mbWrapper {
-    padding-top: var(--header-height);
-    > div {
-      > div {
-        max-width: 100%;
-        ol, ul {
-          padding-left: 15px;
-        }
-      }
-    }
-  }
-  > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    > div {
-      max-width: 70%;
-      color: var(--bs-white);
-      h3 {
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 2rem;
-      }
-      ol {
-        > li {
-          margin-bottom: 1rem;
-        }
-      }
-    }
+  li {
+    margin-bottom: 1rem;
   }
 }

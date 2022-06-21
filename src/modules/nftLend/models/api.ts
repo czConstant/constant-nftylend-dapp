@@ -1,12 +1,12 @@
 import { AssetNftAttribute } from './nft';
 
-export class ResponseResult {
-  error: any;
-  result!: any;
+export interface ResponseResult {
+  error?: any;
+  result: any;
 }
 
-export class ListResponse extends ResponseResult {
-  count: number | undefined;
+export interface ListResponse extends ResponseResult {
+  count: number;
 }
 
 export interface Currency {
@@ -22,6 +22,7 @@ export interface Currency {
   symbol: string;
   updated_at: string;
   price: number;
+  claim_enabled: boolean;
 }
 
 export interface SubmitCollection {
@@ -44,13 +45,14 @@ export interface CollectionData {
   avg24h_amount: number;
   total_volume: number;
   volume_usd: number;
-  listing_asset?: LoanDataAsset;
-  rand_asset?: LoanDataAsset;
+  floor_price: number;
+  new_loan?: LoanData;
   network: string;
   verified: boolean;
   creator_url: string;
   discord_url: string;
   twitter_id: string;
+  currency: Currency;
 }
 
 export interface LoanData {
@@ -123,4 +125,26 @@ export interface AssetStatData {
   avg_price: number;
   currency: Currency;
   floor_price: number;
+}
+
+export interface UserData {
+  id: number;
+  address: string;
+  created_at: string;
+  email: string;
+  network: string;
+  news_noti_enabled: boolean;
+  loan_noti_enabled: boolean;
+  seen_noti_id: number;
+}
+
+export interface PwpBalanceData {
+  balance: string;
+  claimed_balance: string;
+  locked_balance: string;
+  created_at: string;
+  updated_at: string;
+  currency: Currency;
+  network: string;
+  user: UserData;
 }

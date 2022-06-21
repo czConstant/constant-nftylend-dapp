@@ -1,3 +1,10 @@
+.dialog {
+  background-image: url("../../../views/apps/DialogGuideStart/img/bg_modal.png") !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+  background-position: center !important;
+}
+
 .container {
   padding: 0px;
   border-radius: 20px;
@@ -16,13 +23,11 @@
     #008cff,
     #0065ff,
     #6942ef
-  );
-  background-size: 400%;
+  ) !important;
+  background-size: 400% !important;
   background-position: 0% 0%;
   span {
-    font-weight: 400;
     margin-left: 5px;
-    font-size: 13px;
   }
   &:hover {
     animation: gradientRotate 2s infinite;

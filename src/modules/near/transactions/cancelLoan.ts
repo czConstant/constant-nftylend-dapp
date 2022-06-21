@@ -31,7 +31,7 @@ export default class CancelLoanNearTransaction extends NearTransaction {
 
       const res = await window.nearSelector.signAndSendTransactions({ 
         transactions: [transaction],
-        callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }, `${window.location.origin}${APP_URL.MY_NFT}`),
+        callbackUrl: this.generateCallbackUrl({ token_id: assetTokenId, contract_address: assetContractAddress }, `${window.location.origin}${APP_URL.DASHBOARD}/loans`),
       });
 
       return this.handleSuccess(

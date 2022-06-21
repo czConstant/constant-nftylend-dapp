@@ -4,10 +4,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { Button, Row, Col } from "react-bootstrap";
 import { Field, useForm } from "react-final-form";
-import Switch from 'rc-switch';
 import { calculateMaxInterest, calculateMaxTotalPay } from '@nftpawn-js/core';
+import { Box, Button, Flex, Grid, GridItem, Switch, Text } from '@chakra-ui/react';
 
 import Loading from "src/common/components/loading";
 import { required } from "src/common/utils/formValidate";
@@ -15,12 +14,13 @@ import InputWrapper from "src/common/components/form/inputWrapper";
 import FieldAmount from "src/common/components/form/fieldAmount";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
 import { formatCurrency } from 'src/common/utils/format';
-import MyPopover from 'src/common/components/myPopover';
 import FieldText from 'src/common/components/form/fieldText';
 import { Currency } from 'src/modules/nftLend/models/api';
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
+import InfoTooltip from 'src/common/components/infoTooltip';
 
 import styles from "./styles.module.scss";
+import BigNumber from 'bignumber.js';
 
 interface CreateLoanFormProps {
   onSubmit: FormEventHandler;
@@ -34,7 +34,7 @@ interface CreateLoanFormProps {
 
 const CreateLoanForm = (props: CreateLoanFormProps) => {
   const { listToken, defaultTokenMint, onSubmit, values, submitting, isManual } = props;
-  const { change } = useForm();
+  const { change, getState } = useForm();
 
   const [receiveToken, setReceiveToken] = useState<Currency>();
 
@@ -58,7 +58,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
       values.rate / 100,
       duration,
     );
-    const matchingFee = values.amount / 100;
+    const matchingFee = new BigNumber(values.amount).dividedBy(100).toNumber();
     const totalRepay = calculateMaxTotalPay(
       values.amount,
       values.rate / 100,
@@ -71,7 +71,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
           Max interest <strong>{formatCurrency(maxInterest, 4)} {receiveToken?.symbol}</strong>
         </div>
         <div>
-          <span>Platform fee <MyPopover desc="This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans." /></span>
+          <Flex><Text mr={2}>Platform fee</Text><InfoTooltip label='This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans.' /></Flex>
           <strong>{formatCurrency(matchingFee)} {receiveToken?.symbol}</strong>
         </div>
         <div>
@@ -84,9 +84,9 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
   return (
     <div className={styles.createLoanForm}>
       <form onSubmit={onSubmit}>
-        <Row>
+        <Grid gridTemplateColumns='repeat(12, 1fr)'>
         {isManual && (<>
-          <Col xs={9}>
+          <GridItem colSpan={9}>
             <InputWrapper label="Contract Address" theme="dark">
               <Field
                 name="asset_contract_address"
@@ -95,8 +95,8 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
                 validate={required}
               />
             </InputWrapper>
-          </Col>
-          <Col xs={9}>
+          </GridItem>
+          <GridItem colSpan={9}>
             <InputWrapper label="Token ID" theme="dark">
               <Field
                 name="token_id"
@@ -105,9 +105,9 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
                 validate={required}
               />
             </InputWrapper>
-          </Col>
+          </GridItem>
         </>)}
-          <Col xs={9}>
+          <GridItem colSpan={9}>
             <InputWrapper label="Receive Token" theme="dark">
               <Field
                 name="receiveTokenMint"
@@ -122,13 +122,14 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
                 validate={required}
               />
             </InputWrapper>
-          </Col>
-          <Col xs={3}>
-            <div className={styles.titleOpenOffer}>
-              Open to offers<MyPopover desc="Allow others to offer different variables" />
-            </div>
-          </Col>
-          <Col xs={9}>
+          </GridItem>
+          <GridItem colSpan={3}>
+            <Flex alignItems='center' justifyContent='flex-end' gap={4}>
+              <Box fontSize='sm' textAlign='right'>Open to<br /> offers</Box>
+              <InfoTooltip label="Allow others to offer different variables" iconSize='xl' />
+            </Flex>
+          </GridItem>
+          <GridItem colSpan={9}>
             <InputWrapper label="Receive Amount" theme="dark">
               <Field
                 name="amount"
@@ -138,11 +139,11 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
                 validate={required}
               />
             </InputWrapper>
-          </Col>
-          <Col xs={3}>
-            <Switch checked={!!values.allow_amount} onChange={e => change('allow_amount', e ? 1 : 0)} />
-          </Col>
-          <Col xs={9}>
+          </GridItem>
+          <GridItem colSpan={3} textAlign='right'>
+            <Switch colorScheme='brand.primary' mt={4} isChecked={!!values.allow_amount} onChange={e => change('allow_amount', e.target.checked ? 1 : 0)} />
+          </GridItem>
+          <GridItem colSpan={9}>
             <InputWrapper label="Loan duration" theme="dark">
               <Field
                 name="duration"
@@ -156,11 +157,11 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
                 validate={required}
               />
             </InputWrapper>
-          </Col>
-          <Col xs={3}>
-          <Switch checked={!!values.allow_duration} onChange={e => change('allow_duration', e ? 1 : 0)} />
-          </Col>
-          <Col xs={9}>
+          </GridItem>
+          <GridItem colSpan={3} textAlign='right'>
+            <Switch colorScheme='brand.primary' mt={4} isChecked={!!values.allow_duration} onChange={e => change('allow_duration', e.target.checked ? 1 : 0)} />
+          </GridItem>
+          <GridItem colSpan={9}>
             <InputWrapper label="Loan interest" theme="dark">
               <Field
                 name="rate"
@@ -170,32 +171,27 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
                 validate={required}
               />
             </InputWrapper>
-          </Col>
-          <Col xs={3}>
-          <Switch checked={!!values.allow_rate} onChange={e => change('allow_rate', e ? 1 : 0)} />
-          </Col>
-          <Col xs={9}>
+          </GridItem>
+          <GridItem colSpan={3} textAlign='right'>
+            <Switch colorScheme='brand.primary' mt={4} isChecked={!!values.allow_rate} onChange={e => change('allow_rate', e.target.checked ? 1 : 0)} />
+          </GridItem>
+          <GridItem colSpan={9}>
             <InputWrapper label="Loan available in" theme="dark">
               <Field
                 name="available_in"
                 children={FieldAmount}
                 placeholder="0.0"
                 appendComp="days"
+                decimals={0}
                 validate={required}
               />
             </InputWrapper>
-          </Col>
-        </Row>
+          </GridItem>
+        </Grid>
         {renderEstimatedInfo()}
-        <div className={styles.actions}>
-          <Button
-            type="submit"
-            className={styles.submitButton}
-            disabled={submitting}
-          >
-            {submitting ? <Loading dark /> : "Make Loan"}
-          </Button>
-        </div>
+        <Button mt={4} type="submit" w='100%' disabled={submitting}>
+          {submitting ? <Loading dark /> : "Make Loan"}
+        </Button>
       </form>
     </div>
   );

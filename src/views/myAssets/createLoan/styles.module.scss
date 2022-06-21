@@ -1,28 +1,8 @@
 .createLoanForm {
   display: flex;
   flex-direction: column;
-  padding: 40px 30px;
-  width: 600px;
   form {
     width: 100%;
-  }
-  .submitButton {
-    margin-top: 20px;
-    font-size: 14px;
-    height: 40px;
-    width: 100%;
-    background-color: #3772ff;
-    filter: none;
-    font-weight: bold;
-  }
-  .actions {
-    display: flex;
-    button {
-      border-radius: 8px;
-      &:not(:first-child) {
-        margin-left: 5px;
-      }
-    }
   }
   .titleOpenOffer {
     text-align: right;
@@ -36,7 +16,6 @@
     border-radius: 8px;
     label {
       color: #777E90;
-      font-family: Poppins;
       font-weight: 500;
       letter-spacing: 1px;
       text-transform: uppercase;
@@ -50,9 +29,5 @@
         color: white;
       }
     }
-  }
-  :global .rc-switch {
-    margin-top: 10px;
-    float: right;
   }
 }

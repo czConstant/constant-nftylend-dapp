@@ -10,10 +10,9 @@ import NftPawn, { CurrencyData } from '@nftpawn-js/core';
 
 import BodyContainer from "src/common/components/bodyContainer";
 import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
-import ListAsset from "src/views/myAssets/listAsset";
-import ListLoan from "src/views/myAssets/listLoan";
-import ListOffer from "src/views/myAssets/listOffer";
-import ListOfferReceive from "src/views/myAssets/listOfferReceive";
+import ListAsset from "src/views/dashboard/myAssets";
+import ListLoan from "src/views/dashboard/myLoans";
+import ListOffer from "src/views/dashboard/myOffers";
 import { toastSuccess } from "src/common/services/toaster";
 import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
 import { getLinkExplorerWallet } from 'src/modules/nftLend/utils';
@@ -27,8 +26,6 @@ export const TABS = {
   owned: "my-assets",
   loan: "loans",
   offer: "offers-made",
-  offer_received: "offers-received",
-  history: "History",
 };
 
 const MyAsset = () => {
@@ -132,7 +129,11 @@ const MyAsset = () => {
                 <Tab
                   eventKey={TABS.loan}
                   tabClassName={styles.tab}
-                  title="Loans"
+                  title={
+                    <span>
+                      <i className="fas fa-arrow-down"></i> Loans
+                    </span>
+                  }
                 >
                   <ListLoan />
                 </Tab>
@@ -141,22 +142,11 @@ const MyAsset = () => {
                   tabClassName={styles.tab}
                   title={
                     <span>
-                      <i className="fas fa-arrow-up"></i> Offers made
+                      <i className="fas fa-arrow-up"></i> Lends
                     </span>
                   }
                 >
                   <ListOffer />
-                </Tab>
-                <Tab
-                  eventKey={TABS.offer_received}
-                  tabClassName={styles.tab}
-                  title={
-                    <span>
-                      <i className="fas fa-arrow-down"></i> Offers received
-                    </span>
-                  }
-                >
-                  <ListOfferReceive />
                 </Tab>
               </Tabs>
             </div>

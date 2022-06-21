@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from "react-bootstrap";
-import { Field, useFormState } from "react-final-form";
 import { calculateMaxInterest, calculateMaxTotalPay } from '@nftpawn-js/core';
+import { Field, useForm, useFormState } from "react-final-form";
+import { Button, Flex, Spinner, Text } from '@chakra-ui/react';
 
 import FieldAmount from "src/common/components/form/fieldAmount";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
 import InputWrapper from "src/common/components/form/inputWrapper";
 import Loading from "src/common/components/loading";
-import { required } from "src/common/utils/formValidate";
+import { composeValidators, maxValue, required } from "src/common/utils/formValidate";
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { formatCurrency } from 'src/common/utils/format';
-import MyPopover from 'src/common/components/myPopover';
+import InfoTooltip from 'src/common/components/infoTooltip';
 import styles from "./makeOfferForm.module.scss";
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import BigNumber from 'bignumber.js';
+import { useToken } from 'src/modules/nftLend/hooks/useToken';
 
 const HIGH_RISK_VALUE = 2.5; // 250%
 
@@ -37,8 +40,18 @@ interface MakeOfferFormProps {
 
 const MakeOfferForm = (props: MakeOfferFormProps) => {
   const { onSubmit, loan, submitting } = props;
-  const [warnings, setWarnings] = useState({ amount: '', rate: '' })
+  const { currentWallet } = useCurrentWallet()
+  const { getBalance } = useToken()
   const { values } = useFormState()
+  const { resetFieldState } = useForm()
+
+  const [warnings, setWarnings] = useState({ amount: '', rate: '' })
+  const [balance, setBalance] = useState(0)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    fetchBalance()
+  }, [loan])
 
   useEffect(() => {
     const amountValidate = validateHighRisk({
@@ -57,6 +70,21 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
 
     setWarnings({ amount: amountValidate, rate: interestValidate });
   }, [values])
+
+  useEffect(() => {
+    resetFieldState('amount')
+  }, [balance])
+
+  const fetchBalance = async() => {
+    if (!loan.currency) return
+    try {
+      setLoading(true)
+      const res = await getBalance(loan.currency.contract_address)
+      setBalance(new BigNumber(res).dividedBy(10 ** loan.currency?.decimals).toNumber());
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const renderEstimatedInfo = () => {
     if (!values.amount || !values.rate || !values.duration) return null;
@@ -79,7 +107,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           Max interest <strong>{formatCurrency(maxInterest, 4)} {loan.currency?.symbol}</strong>
         </div>
         <div>
-          <span>Platform fee <MyPopover desc="This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans." /></span>
+          <Flex><Text mr={2}>Platform fee</Text><InfoTooltip label="This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans." /></Flex>
           <strong>{formatCurrency(matchingFee)} {loan.currency?.symbol}</strong>
         </div>
         <div>
@@ -94,13 +122,17 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
       <InputWrapper label="Loan Amount" theme="dark">
         <Field
           disabled={!loan.isAllowChange('principal_amount')}
-          validate={required}
+          validate={composeValidators(required, maxValue(balance, `Your balance is not enough`))}
           name="amount"
           children={FieldAmount}
           placeholder="0.0"
           appendComp={loan.currency?.symbol}
         />
         {!loan.isAllowChange('principal_amount') &&<div className={styles.errorMessage}>Borrower do not willing to receive offer with changes in this term</div>}
+        <Flex fontSize='xs' mt={2}>
+          <Text mr={2}>Balance:</Text>
+          {loading ? <Spinner size='xs' /> : <Text fontWeight='medium'>{formatCurrency(balance)}</Text>}
+        </Flex>
         <div className={styles.errorMessage}>{warnings.amount}</div>
       </InputWrapper>
       <InputWrapper label="Loan duration" theme="dark">
@@ -136,14 +168,11 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           children={FieldAmount}
           placeholder="0.0"
           appendComp="days"
+          decimals={0}
         />
       </InputWrapper>
       {renderEstimatedInfo()}
-      <Button
-        type="submit"
-        className={styles.submitButton}
-        disabled={submitting}
-      >
+      <Button type="submit" w='100%' mt={4} disabled={submitting}>
         {submitting ? <Loading dark /> : "Offer now"}
       </Button>
     </form>

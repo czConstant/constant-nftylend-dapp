@@ -16,7 +16,7 @@ export const getAvatarName = (name: string) => {
 
 export const isUrl = (str: string) => {
   const regex = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-  return regex .test(str);
+  return regex.test(str);
 };
 
 export const isSameAddress = (a: string, b: string): boolean => {

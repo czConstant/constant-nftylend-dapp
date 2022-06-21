@@ -1,3 +1,5 @@
+import { WalletSelector } from '@near-wallet-selector/core';
+
 import { AvalancheChainConfig, BobaNetworkConfig, BscChainConfig, Chain, ChainConfigs, PolygonChainConfig } from 'src/common/constants/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { clearWallet, selectCurrentWallet, updateWallet } from 'src/store/nftyLend';
@@ -14,17 +16,19 @@ function useCurrentWallet() {
   };
 
   const connectNearWallet = async () => {
-    const nearAccounts =  await window.nearSelector?.getAccounts();
-    const isSignedIn = await window.nearSelector?.isSignedIn();
-    if (isSignedIn && nearAccounts.length > 0) {
-      dispatch(updateWallet({
-        address: nearAccounts[0]?.accountId,
-        chain: Chain.Near,
-        name: 'near',
-      }));
-    } else {
-      window.nearSelector?.show();
-    }
+    // const isSignedIn = (window.nearSelector as WalletSelector).isSignedIn();
+    // if (isSignedIn) {
+    //   const wallet = await (window.nearSelector as WalletSelector).wallet()
+    //   const nearAccounts = await wallet.getAccounts();
+    //   if (nearAccounts.length > 0) {
+    //     return dispatch(updateWallet({
+    //       address: nearAccounts[0]?.accountId,
+    //       chain: Chain.Near,
+    //       name: 'near',
+    //     }));
+    //   }
+    // }
+    return window.nearWalletModal?.show();
   };
 
   const connectEvmWallet = async (chain: Chain, wallet?: CryptoWallet) => {

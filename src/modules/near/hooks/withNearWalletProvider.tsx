@@ -1,12 +1,14 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import queryString from "query-string";
 import { useLocation } from 'react-router-dom';
+import { map, distinctUntilChanged } from "rxjs";
 
-import NearWalletSelector, { AccountInfo, NetworkId } from '@near-wallet-selector/core';
+import { WalletSelector, Account, NetworkId, setupWalletSelector } from '@near-wallet-selector/core';
+import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
 import nearWalletIconUrl from "@near-wallet-selector/near-wallet/assets/near-wallet-icon.png";
-import senderIconUrl from "@near-wallet-selector/sender/assets/sender-icon.png";
+import IconSender from 'src/assets/images/wallet/sender-wallet.png'
 
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { clearWallet, requestReload, selectNftyLend, updateWallet } from 'src/store/nftyLend';
@@ -14,13 +16,13 @@ import { Chain } from 'src/common/constants/network';
 import localStore from 'src/common/services/localStore';
 import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
-import { toastSuccess } from 'src/common/services/toaster';
+import { toastError, toastSuccess } from 'src/common/services/toaster';
 
 import { getLinkNearExplorer, getNearConfig } from '../utils';
 
 interface WalletSelectorContextValue {
-  selector: NearWalletSelector;
-  accounts: Array<AccountInfo>;
+  selector: WalletSelector;
+  accounts: Array<Account>;
   accountId: string | null;
   setAccountId: (accountId: string) => void;
 }
@@ -32,19 +34,20 @@ export const NearWalletProvider: React.FC = ({ children }) => {
   const near_nftypawn_address = useAppSelector(selectNftyLend).configs.near_nftypawn_address;
   const location = useLocation();
 
-  const [selector, setSelector] = useState<NearWalletSelector | null>(null);
+  const [selector, setSelector] = useState<WalletSelector | null>(null);
   const [accountId, setAccountId] = useState<string | null>(null);
 
   const savedAddress = useMemo(() => localStore.get(localStore.KEY_WALLET_ADDRESS), []);
 
   const syncAccountState = (
     currentAccountId: string | null,
-    newAccounts: Array<AccountInfo>
+    newAccounts: Array<Account>
   ) => {
-    const isBackFromNear = !!queryString.parse(location.search).account_id;
-    const savedChain= localStore.get(localStore.KEY_WALLET_CHAIN);
+    const savedChain= localStore.get(localStore.KEY_WALLET_CHAIN)
+    const isRedirectAfterLogin = !!queryString.parse(location.search).account_id
+    const isAfterLoggedIn = newAccounts.length > 0 && !savedChain || isRedirectAfterLogin
 
-    if (savedChain !== Chain.Near && !isBackFromNear) return;
+    if (savedChain !== Chain.Near && !isAfterLoggedIn) return;
     if (!newAccounts.length) {
       dispatch(clearWallet());
       setAccountId(null);
@@ -65,22 +68,22 @@ export const NearWalletProvider: React.FC = ({ children }) => {
 
   const initSelector = async () => {
     try {
-      const instance = await NearWalletSelector.init({
+      const instance = await setupWalletSelector({
         network: getNearConfig().networkId as NetworkId,
-        contractId: near_nftypawn_address,
-        wallets: [
+        modules: [
           setupNearWallet({ iconUrl: nearWalletIconUrl }),
-          setupSender({ iconUrl: senderIconUrl }),
+          setupSender({ iconUrl: IconSender }),
         ],
       });
-
+      window.nearWalletModal = setupModal(
+        instance,
+        { contractId: near_nftypawn_address }
+      );
       window.nearSelector = instance;
-      const newAccounts =  await instance.getAccounts();
 
-      syncAccountState('', newAccounts);
       setSelector(instance);
-    } catch (er) {
-      alert("Failed to initialise wallet selector");
+    } catch (err) {
+      toastError(String(err))
     }
   }
 
@@ -129,20 +132,28 @@ export const NearWalletProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (!selector) return;
+
+    const subscription = selector.store.observable
+      .pipe(map((state) => state.accounts), distinctUntilChanged())
+      .subscribe((nextAccounts, ...rest) => {
+        syncAccountState(accountId, nextAccounts);
+      });
+
+    return () => subscription.unsubscribe();
     
-    const changedListener = selector.on("accountsChanged", (e) => {
-      syncAccountState(accountId, e.accounts);
-    });
+    // const changedListener = selector.on("accountsChanged", (e) => {
+    //   syncAccountState(accountId, e.accounts);
+    // });
 
-    const signInListender = selector.on("signIn", (e) => {
-      localStore.save(localStore.KEY_WALLET_CHAIN, Chain.Near);
-      syncAccountState(accountId, e.accounts);
-    });
+    // const signInListender = selector.on("signIn", (e) => {
+    //   localStore.save(localStore.KEY_WALLET_CHAIN, Chain.Near);
+    //   syncAccountState(accountId, e.accounts);
+    // });
 
-    return () => {
-      changedListener.remove();
-      signInListender.remove();
-    }
+    // return () => {
+    //   changedListener.remove();
+    //   signInListender.remove();
+    // }
   }, [selector, accountId]);
 
   if (!selector) {

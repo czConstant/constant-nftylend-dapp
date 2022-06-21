@@ -2,6 +2,7 @@ import { memo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import cx from "classnames";
 import { isMobile } from "react-device-detect";
+import { Flex, Text, Link as LinkText } from '@chakra-ui/react';
 
 import AppIcon from "src/common/components/appIcon";
 import { APP_URL } from "src/common/constants/url";
@@ -48,6 +49,12 @@ const Header = () => {
             >
               Listing Loans
             </Link>
+            {/* <Link
+              to={APP_URL.VOTING}
+              className={cx(location.pathname === APP_URL.LIST_LOAN && styles.active)}
+            >
+              Voting
+            </Link> */}
             {/* <a
               target="_blank"
               href={APP_URL.NFT_PAWN_BLOG}
@@ -74,13 +81,16 @@ const Header = () => {
             </WalletModalProvider>
           </div>
           <ButtonSearchLoans className={styles.search} />
-          {isConnected ? <ButtonWalletDropdown /> : <ButtonConnectWallet />}
+          {isConnected ? <ButtonWalletDropdown /> : <ButtonConnectWallet className={styles.connectButton} fontSize='sm' color='text.secondary' />}
         </div>
       </div>
       {APP_CLUSTER !== 'mainnet' && (
-        <div className={styles.warningNetwork}>
-          You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;<a href="https://nftpawn.financial">https://nftpawn.financial</a>
-        </div>
+        <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(255, 192, 122, 0.2)'>
+          <Text fontWeight='medium' fontSize='sm' color='brand.warning.400'>
+            You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;
+            <LinkText textDecoration='underline' fontWeight='semibold' href="https://nftpawn.financial">https://nftpawn.financial</LinkText>
+          </Text>
+        </Flex>
       )}
     </div>
   );

@@ -72,16 +72,16 @@ const TableBody = ({ results = [] }) => {
             `}
           </div>
           <div style={{ flex: 1 }}>
-            {result.duration &&
-              `${Math.ceil(
-                new BigNumber(result.duration).dividedBy(86400).toNumber()
-              )} days`}
-          </div>
-          <div style={{ flex: 1 }}>
             {result.interest &&
               `${new BigNumber(result.interest)
                 .multipliedBy(100)
                 .toNumber()} %APY`}
+          </div>
+          <div style={{ flex: 1 }}>
+            {result.duration &&
+              `${Math.ceil(
+                new BigNumber(result.duration).dividedBy(86400).toNumber()
+              )} days`}
           </div>
           <div style={{ flex: 1 }}>
             <a

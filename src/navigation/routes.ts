@@ -1,4 +1,4 @@
-import { APP_URL } from 'src/common/constants/url';
+import { APP_URL } from "src/common/constants/url";
 
 import About from 'src/pages/about';
 import Home from 'src/pages/home';
@@ -8,6 +8,10 @@ import ListingLoans from 'src/pages/listingLoans';
 import MyAsset from 'src/pages/myAsset';
 import TermsOfService from "src/pages/termsOfService";
 import FAQs from 'src/pages/faqs';
+import Dashboard from 'src/pages/dashboard';
+import Voting from "src/pages/voting";
+import MakeProposal from "src/pages/voting/makeProposal";
+import VotingDetail from "src/pages/voting/detail";
 
 export interface RouteProps {
   path: string;
@@ -35,10 +39,10 @@ const routes: Array<RouteProps> = [
     path: APP_URL.DETAIL_LOAN,
     component: LoanDetail,
   },
-  {
-    path: APP_URL.MY_NFT,
-    component: MyAsset,
-  },
+  // {
+  //   path: APP_URL.MY_NFT,
+  //   component: MyAsset,
+  // },
   {
     path: APP_URL.TERM_OF_SERVICE,
     component: TermsOfService,
@@ -46,6 +50,22 @@ const routes: Array<RouteProps> = [
   {
     path: APP_URL.FAQS,
     component: FAQs,
+  },
+  {
+    path: APP_URL.DASHBOARD + '/*',
+    component: Dashboard,
+  },
+  {
+    path: APP_URL.VOTING,
+    component: Voting,
+  },
+  {
+    path: APP_URL.VOTING_PROPOSAL_MAKE,
+    component: MakeProposal,
+  },
+  {
+    path: APP_URL.VOTING_DETAIL,
+    component: VotingDetail,
   },
 ];
 

@@ -5,21 +5,22 @@ import queryString from "query-string";
 import { useLocation } from "react-router-dom";
 import debounce from 'lodash/debounce';
 import NftPawn from '@nftpawn-js/core';
+import { Flex } from '@chakra-ui/react';
 
-import BodyContainer from "src/common/components/bodyContainer";
 import { ListResponse, LoanData } from "src/modules/nftLend/models/api";
 import { LoanNft } from "src/modules/nftLend/models/loan";
 import CardNftLoan from "src/views/apps/CardNftLoan";
 import LoadingList from "src/views/apps/loadingList";
 import EmptyDetailLoan from "src/views/apps/emptyDetailLoan";
 import { Chain } from 'src/common/constants/network';
-
-import styles from "./styles.module.scss";
-import LoansSidebar from "./Loans.Sidebar";
-import LoansToolbar from "./Loans.Toolbar";
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import Loading from 'src/common/components/loading';
-import CollectionInfo from 'src/views/listLoans/collectionInfo';
+import CollectionInfo from 'src/views/listingLoans/collectionInfo';
+import useSessionStorage from 'src/modules/nftLend/hooks/useSessionStorage';
+
+import styles from "./styles.module.scss";
+import SelectSortBy from 'src/views/listingLoans/selectSortBy';
+import SectionContainer from 'src/common/components/sectionContainer';
 
 const chains = {
   all: {
@@ -56,13 +57,13 @@ const PAGE_SIZE = 20;
 
 const ListingLoans = () => {
   const location = useLocation();
-  const pageQuery: GetListingLoanParams =
-    queryString.parse(location.search) || null;
+  const pageQuery: any = queryString.parse(location.search);
 
   const [loans, setLoans] = useState<LoanNft[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [collection, setCollection] = useState<CollectionNft>();
+  const [sortBy, setSortBy] = useSessionStorage('listing_loan_sort', '-created_at');
 
   const loansRef = useRef<LoanNft[]>([]);
   const page = useRef(1);
@@ -95,18 +96,19 @@ const ListingLoans = () => {
   useEffect(() => {
     loansRef.current = [];
     page.current = 1;
-    fetchLoans();
-  }, [JSON.stringify(pageQuery), selectedChain]);
+    debounceFetchLoans();
+  }, [JSON.stringify(pageQuery), selectedChain, sortBy]);
 
   const fetchLoans = async () => {
-    if (loading) return;
     setLoading(true);
     try {
-      const params = {
-        ...pageQuery,
+      const params: GetListingLoanParams = {
+        sort: sortBy,
         network: selectedChain,
         page: page.current,
         limit: PAGE_SIZE,
+        search: pageQuery.search,
+        collection_seo_url: pageQuery.collection,
       };
       if (pageQuery.collection) params.collection_seo_url = pageQuery.collection;
       const response: ListResponse = await NftPawn.listingLoans(params);
@@ -130,7 +132,7 @@ const ListingLoans = () => {
     }
   };
 
-  const debounceFetchLoans = useMemo(() => debounce(fetchLoans, 100), []);
+  const debounceFetchLoans = useMemo(() => debounce(fetchLoans, 500), []);
 
   // const renderChainSelect = () => {
   //   return (
@@ -159,17 +161,14 @@ const ListingLoans = () => {
   };
 
   return (
-    <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
+    <Flex direction='column' bgColor='black'>
       {pageQuery.collection && <CollectionInfo collection_seo={pageQuery.collection} />}
-      <div
-        className={cx([
-          styles.contentWrapper,
-          collection && styles.listContainerWrapBorder,
-        ])}
-      >
-        <div className={cx([styles.listContainerWrap])}>
+      <SectionContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
+        <Flex direction='column' gap={4}>
           {/* {!collection && renderChainSelect()} */}
-          <LoansToolbar />
+          <Flex justifyContent='flex-end' mt={12}>
+            <SelectSortBy defaultValue={sortBy} onChange={setSortBy} />
+          </Flex>
           <div
             className={cx(
               !loading && loans?.length === 0 && styles.wrapContentEmpty,
@@ -180,9 +179,9 @@ const ListingLoans = () => {
             {(loading) && <LoadingList num_items={4} />}
           </div>
           {hasMore && <div id="loading" style={{ margin: 20 }}><Loading /></div>}
-        </div>
-      </div>
-    </BodyContainer>
+        </Flex>
+      </SectionContainer>
+    </Flex>
   );
 };
 

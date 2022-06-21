@@ -1,7 +1,13 @@
 import BigNumber from 'bignumber.js';
+import { isUrl } from './helper';
 
-export function formatCurrency(value = 0,  decimalNumber = 2) {
-  if (isNaN(value)) return 0;
+export function formatUrl(url: string): string {
+  if (isUrl(url)) return url;
+  return `http://${url}`;
+}
+
+export function formatCurrency(value: any = 0,  decimalNumber = 2) {
+  if (isNaN(Number(value))) return 0;
   return new BigNumber(value).decimalPlaces(decimalNumber).toFormat(decimalNumber).replace(/(\.[0-9]*[1-9])0+$|\.0*$/,'$1');
 }
 

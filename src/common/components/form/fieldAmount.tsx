@@ -1,7 +1,8 @@
-import React, { ReactEventHandler, useRef, useState } from "react";
+import React, { useRef } from "react";
 import cx from "classnames";
 import FormGroup from "react-bootstrap/FormGroup";
 import InputGroup from "react-bootstrap/InputGroup";
+import Cleave from 'cleave.js/react';
 
 // import ErrorOverlay from 'src/components/errorOverlay';
 // import { useTextWidth } from '@tag0/use-text-width';
@@ -19,6 +20,7 @@ interface FieldAmountProps {
   appendComp?: React.ReactNode;
   onClickMax?: React.MouseEventHandler;
   placeholder?: string;
+  decimals?: number;
 }
 
 const FieldAmount = (props: FieldAmountProps) => {
@@ -32,6 +34,7 @@ const FieldAmount = (props: FieldAmountProps) => {
     placeholder = "0.0",
     errorMessage,
     errorPlacement = "bottom",
+    decimals = 2,
     // disabledInput, errorPlacement, zIndex, anchorAppend,
     ...restProps
   } = props;
@@ -40,19 +43,9 @@ const FieldAmount = (props: FieldAmountProps) => {
   const shouldShowError = !!(touched && error) || (error && value);
   const target = useRef(null);
   const hasAppend = appendComp || onClickMax;
-  // const [displayValue, setDisplayValue] = useState(placeholder);
-
-  // const onChangeDisplayValue = (text) => {
-  //   setDisplayValue(text);
-  // };
-
-  // let width = 20;
-  // if (__CLIENT__) {
-  //   width = useTextWidth({ text: displayValue || placeholder });
-  // }
-  // const appendPosition = width + 15;
 
   const isError = meta.error && meta.touched;
+  if (isError) console.log(error)
 
   return (
     <FormGroup ref={target} className={styles.formGroup}>
@@ -68,17 +61,23 @@ const FieldAmount = (props: FieldAmountProps) => {
           </div>
         )}
         <div className={styles.formControl} ref={target}>
-          <input
+          <Cleave
             placeholder={placeholder}
-            value={Number.parseFloat(value) || ""}
+            value={value}
             maxLength={12}
-            onFocus={() => onFocus()}
+            onChange={e => onChange(e.target.rawValue)}
+            onFocus={onFocus}
             onBlur={(e) => {
               onBlur();
               e?.target?.blur();
             }}
             className={cx(shouldShowError && styles.borderDanger)}
-            onChange={onChange}
+            options={{
+              numeral: true,
+              numeralThousandsGroupStyle: "thousand",
+              numeralPositiveOnly: true,
+              numeralDecimalScale: decimals,
+            }}
             {...restProps}
           />
         </div>

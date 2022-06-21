@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import NftPawn from '@nftpawn-js/core';
+import { Flex } from '@chakra-ui/react';
 
 import SectionCollapse from "src/common/components/sectionCollapse";
 import CardNftLoan from "src/views/apps/CardNftLoan";
@@ -26,6 +27,7 @@ const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
       const response = await NftPawn.listingLoans({
         collection_id: collectionId,
         exclude_ids: String(detailLoanId),
+        limit: 10,
       });
       setItems(response?.result.map(LoanNft.parseFromApi));
     } catch (error) {
@@ -35,13 +37,11 @@ const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
 
   const renderSuggestContent = () => {
     return (
-      <div className={styles.suggestWrap}>
-        <div className={styles.suggestContainer}>
-          {items.map((loan) => loan.asset && (
-            <CardNftLoan key={loan.id} asset={loan.asset} loan={loan} />
-          ))}
-        </div>
-      </div>
+      <Flex gap={4} overflow='scroll'>
+        {items.map((loan) => loan.asset && (
+          <CardNftLoan key={loan.id} asset={loan.asset} loan={loan} />
+        ))}
+      </Flex>
     );
   };
 

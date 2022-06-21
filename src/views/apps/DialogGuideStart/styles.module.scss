@@ -1,20 +1,10 @@
 .modalContent {
   position: relative;
-  width: 500px;
-  min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   color: #ffffff;
-
-  background-image: url("./img/bg_modal.png");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center;
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 30px;
   h4 {
     text-align: center;
     margin-bottom: 20px;
@@ -24,30 +14,6 @@
     font-size: 13px;
     text-align: center;
     line-height: 19px;
-  }
-}
-
-.btnConnect {
-  background: #3772ff !important;
-  font-weight: bold;
-  font-size: 16px;
-  color: #fcfcfd;
-  letter-spacing: 0;
-  text-align: center;
-  line-height: 16px;
-  border-radius: 25px !important;
-  border: none;
-  height: 50px;
-  width: 100%;
-  &:nth-child(2) {
-    background: transparent;
-    border: 1px solid #3772ff;
-    color: #ffffff;
-  }
-  &:hover {
-    background-color: #3772ff !important;
-    opacity: 0.8;
-    border: 1px solid #3772ff;
   }
 }
 

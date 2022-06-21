@@ -10,4 +10,5 @@ interface Window {
   evmProvider: any,
   coin98: any,
   nearSelector: any;
+  nearWalletModal: any;
 }

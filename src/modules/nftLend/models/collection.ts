@@ -1,6 +1,7 @@
 import { Chain } from 'src/common/constants/network';
 import { parseNftFromLoanAsset } from '../utils';
 import { CollectionData } from './api';
+import { LoanNft } from './loan';
 import { AssetNft } from './nft';
 
 export class CollectionNft {
@@ -13,7 +14,7 @@ export class CollectionNft {
   total_listed: number = 0;
   avg24h_amount: number = 0;
   total_volume: number = 0;
-  listing_asset?: AssetNft;
+  new_loan?: LoanNft;
   chain: Chain = Chain.None;
   random_asset?: AssetNft;
   verified: boolean = false;
@@ -31,11 +32,8 @@ export class CollectionNft {
     collection.verified = item.verified;
     const chainValue = Object.keys(Chain).find(e => Chain[e] === item.network);
     collection.chain = Chain[chainValue];
-    if (item.listing_asset) {
-      collection.listing_asset = parseNftFromLoanAsset(item.listing_asset, collection.chain);
-    }
-    if (item.rand_asset) {
-      collection.random_asset = parseNftFromLoanAsset(item.rand_asset, collection.chain);
+    if (item.new_loan) {
+      collection.new_loan = LoanNft.parseFromApi(item.new_loan);
     }
     return collection;
   }

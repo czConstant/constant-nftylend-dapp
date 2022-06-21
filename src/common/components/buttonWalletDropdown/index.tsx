@@ -1,9 +1,9 @@
 import { memo, useEffect, useState } from 'react';
-import { Dropdown } from 'react-bootstrap';
 import cx from 'classnames';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useNavigate } from 'react-router-dom';
+import { Box, Flex, Image, Menu, MenuButton, MenuItem, MenuList, Text, Icon } from '@chakra-ui/react';
 
 import { useAppDispatch } from 'src/store/hooks';
 import { formatCurrency, shortCryptoAddress } from 'src/common/utils/format';
@@ -23,6 +23,7 @@ import IconDisconnect from './images/ic_disconnect.svg'
 import styles from './styles.module.scss';
 import { APP_URL } from 'src/common/constants/url';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
+import { MdDashboard, MdSettings } from 'react-icons/md';
 
 interface ButtonWalletDropdownProps {
   className?: string;
@@ -55,7 +56,8 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
     //   },
     //   render: () => <DialogConnectWallet onClose={close} />,
     // }))
-    window.nearSelector?.show();
+    
+    window.nearWalletModal?.show();
   };
 
   const onEnableNotification = () => {
@@ -64,6 +66,7 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
     dispatch(openModal({
       id,
       theme: 'dark',
+      title: 'Settings',
       modalProps: {
         centered: true,
         contentClassName: styles.modalContent,
@@ -72,50 +75,51 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
     }))
   };
 
-  if (currentWallet.chain === Chain.Solana) {
-    return (
-      <WalletModalProvider className={styles.modalContainer}>
-        <WalletMultiButton className={cx(styles.disconnectButton, className)} />
-      </WalletModalProvider>
-    );
-  }
-
   return (
-    <Dropdown className={cx(styles.wrapper, className)}>
-      <Dropdown.Toggle className={styles.disconnectButton}>
-        {/* {walletIcons[currentWallet.name] && <img alt="" src={walletIcons[currentWallet.name]} />} */}
-        <div className={styles.address}>
-          {shortCryptoAddress(currentWallet.address, 10)}
-          &nbsp;
-        </div>
-        <div className={styles.balance}>
-          | {formatCurrency(balance)} {currentWallet.chain.toString()}
-        </div>
-        <img alt="" src={tokenIcons[currentWallet.chain.toLowerCase()]} />
-      </Dropdown.Toggle>
-      <Dropdown.Menu className={styles.dropdownMenu} align="end">
-        <Dropdown.Item eventKey="myAssets" onClick={() => navigate(APP_URL.MY_NFT)}>
-          <div className={styles.item}><img src={IconMyAsset} />My Assets</div>
-        </Dropdown.Item>
-        <Dropdown.Item eventKey="copy">
+    <Menu autoSelect={false} placement='bottom-end'>
+      <MenuButton h='40px' borderRadius={20} fontWeight='semibold'>
+        <Flex alignItems='center' p={4}>
+          {/* {walletIcons[currentWallet.name] && <img alt="" src={walletIcons[currentWallet.name]} />} */}
+          <Text className={styles.address} color='text.secondary'>
+            {shortCryptoAddress(currentWallet.address, 10)} |
+            &nbsp;
+          </Text>
+          <Text mr={4}>
+            {formatCurrency(balance)} {currentWallet.chain.toString()}
+          </Text>
+          <Image alt="" src={tokenIcons[currentWallet.chain.toLowerCase()]} w='36px' h='36px' borderRadius={20} mr={-4} />
+        </Flex>
+      </MenuButton>
+      <MenuList>
+        <MenuItem onClick={() => navigate(APP_URL.DASHBOARD)}>
+          <Icon mr={2} boxSize='20px' color='text.secondary' as={MdDashboard} />
+          <Text>My Assets</Text>
+        </MenuItem>
+        <MenuItem>
           <CopyToClipboard
             onCopy={() => toastSuccess("Copied address!")}
             text={currentWallet.address}
           >
-            <div className={styles.item}><img src={IconCopy} />Copy address</div>
+            <Flex>
+              <Image boxSize='20px' src={IconCopy} mr={2} />
+              <Text>Copy Address</Text>
+            </Flex>
           </CopyToClipboard>
-        </Dropdown.Item>
-        <Dropdown.Item eventKey="setting" onClick={onEnableNotification}>
-          <div className={styles.item}><img src={IconMyAsset} />Settings</div>
-        </Dropdown.Item>
-        <Dropdown.Item eventKey="changeWallet" onClick={onChangeWallet}>
-          <div className={styles.item}><img src={IconChange} />Change wallet</div>
-        </Dropdown.Item>
-        <Dropdown.Item eventKey="disconnect" onClick={disconnectWallet}>
-          <div className={styles.item}><img src={IconDisconnect} />Disconnect</div>
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+        </MenuItem>
+        <MenuItem onClick={onEnableNotification}>
+          <Icon mr={2} boxSize='20px' color='text.secondary' as={MdSettings} />
+          <Text>Settings</Text>
+        </MenuItem>
+        <MenuItem onClick={onChangeWallet}>
+          <Image boxSize='20px' src={IconChange} mr={2} />
+          <Text>Change Wallet</Text>
+        </MenuItem>
+        <MenuItem onClick={disconnectWallet}>
+          <Image boxSize='20px' src={IconDisconnect} mr={2} />
+          <Text>Disconnect</Text>
+        </MenuItem>
+      </MenuList>
+    </Menu>
   );
 };
 

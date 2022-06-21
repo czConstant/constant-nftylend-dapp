@@ -1,18 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
+import { createRoot } from 'react-dom/client';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import '@near-wallet-selector/modal-ui/styles.css'
 
 import store from 'src/store';
 import 'src/common/styles/index.module.scss';
 import App from './App';
 
-ReactDOM.render(
-  <React.StrictMode>
+const container = document.getElementById('root');
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(
+  // <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  // </React.StrictMode>,
 );

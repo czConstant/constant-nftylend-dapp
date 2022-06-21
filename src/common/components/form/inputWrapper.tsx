@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import styles from './styles.module.scss';
-import MyPopover from '../myPopover';
+import InfoTooltip from '../infoTooltip';
 
 interface InputWrapperProps {
   label?: string | React.ReactNode;
@@ -21,7 +21,7 @@ const InputWrapper = (props: InputWrapperProps) => {
         <div className={cx(styles.labelWrapper, 'labelWrapper')}>
           <label>
             {label}
-            {desc && <MyPopover desc={desc} />}
+            {desc && <InfoTooltip label={desc} />}
           </label>
         </div>
       )}

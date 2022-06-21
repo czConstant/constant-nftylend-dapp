@@ -16,32 +16,29 @@
     color: white;
     padding-top: 80px;
     h1 {
-      font-family: Poppins;
       font-size: 50px;
       line-height: 75px;
       margin-bottom: 40px;
     }
     p {
-      font-family: Poppins;
       font-weight: 300;
       font-size: 20px;
       line-height: 31px;
       .nearLogo {
+        display: inline-block;
         width: 80px;
         height: 50px;
         border-radius: 20px;
         margin-bottom: 5px;
       }
     }
-    button {
+    .createButton {
       width: 230px;
       height: 70px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 500;
       color: white;
       border-radius: 40px;
-      background-image: linear-gradient(136deg, #AE83FF 0%, #0019BD 100%);
-      border: none;
       margin-top: 60px;
     }
   }
@@ -60,7 +57,7 @@
         border-radius: 16px;
       }
       &:nth-child(2) {
-        margin-right: -60px;
+        margin-left: 80px;
       }
     }
   }

@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { shortCryptoAddress } from "src/common/utils/format";
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { getLinkETHScanAddress, getLinkETHScanTokenId } from "src/modules/solana/utils";
-import styles from "../styles.module.scss";
 
 interface LoanDetailAssetInfoProps {
   asset: AssetNft;
@@ -56,14 +56,14 @@ const LoanDetailInfo: React.FC<LoanDetailAssetInfoProps> = ({ asset, borrower })
   }, [asset]);
 
   return (
-    <div className={styles.tabContentWrap}>
+    <Flex direction='column' gap={2}>
       {details.map((v) => (
-        <div className={styles.tabContentDetailItem} key={v.label}>
-          <div>{v.label}</div>
-          <div dangerouslySetInnerHTML={{ __html: v.value }} />
-        </div>
+        <Flex key={v.label} fontSize='sm' alignItems='center' justifyContent='space-between'>
+          <Text color='text.secondary'>{v.label}</Text>
+          <Box fontWeight='semibold' dangerouslySetInnerHTML={{ __html: v.value }} />
+        </Flex>
       ))}
-    </div>
+    </Flex>
   );
 };
 

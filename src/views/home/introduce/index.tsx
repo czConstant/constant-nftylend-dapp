@@ -3,24 +3,22 @@ import { motion, useAnimation } from 'framer-motion';
 import NftPawn, { LoanData } from '@nftpawn-js/core';
 import { useDispatch } from 'react-redux';
 
-import { APP_URL } from 'src/common/constants/url';
 import { useEffect, useRef, useState } from 'react';
 import { getImageThumb } from 'src/modules/nftLend/utils';
-import { closeModal, openModal } from 'src/store/modal';
-import DialogGuideStart from 'src/views/apps/DialogGuideStart';
 
 import LogoNear from './img/logo_near.svg';
 import styles from './styles.module.scss';
 import SectionContainer from 'src/common/components/sectionContainer';
+import ButtonCreateLoan from 'src/common/components/buttonCreateLoan';
 
-// const examples = [
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/d5c12b4eb46e676d72569a2084345c94/6ef0628f',
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/dcs_pfp_1650520191170.png',
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://i.imgur.com/fO3tI1t.png',
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/smokeheads_pfp_1652898735936.png',
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/puppies_pfp_1653869027436.png',
-//   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/483970a827af847e0b031c7d90d70baf/6cc644f1',
-// ]
+const examples = [
+  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/d5c12b4eb46e676d72569a2084345c94/6ef0628f',
+  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://creator-hub-prod.s3.us-east-2.amazonaws.com/dcs_pfp_1650520191170.png',
+  'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://arweave.net/NUDYySgehWNuXVGNJtZDP0g2SU8Tjq5NYUHBAhsr6qo',
+  'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://bafybeihro3da5jcrpfwlbjyeai2qafxjkadgju36l6qcw57b2spdk576gm.ipfs.dweb.link/?ext=gif',
+  'https://img-cdn.magiceden.dev/rs:fill:400:400:0:0/plain/https://susanoo.mypinata.cloud/ipfs/QmdJXHKakL96mUNVcct6rd3UL5Nq2umac4NwibHPAtAuTA/388.png',
+  'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/483970a827af847e0b031c7d90d70baf/6cc644f1',
+]
 
 const NUM_PIC_POOL = 30;
 
@@ -46,6 +44,7 @@ const Introduce = () => {
 
   useEffect(() => {
     if (pictures.length === 0) return;
+
     setTimeout(() => controls.start({ translateX: 0 }), 1000);
     
     function changePic() {
@@ -58,27 +57,21 @@ const Introduce = () => {
       setTimeout(changePic, 2000);
     }
 
-    setDisplayPictures(pictures.slice(0, 6));
-    setTimeout(changePic, 2000)
+    if (pictures.length < 6) {
+      setDisplayPictures([...pictures, ...(new Array(6))].slice(0, 6));
+      return;
+    } else {
+      setDisplayPictures(pictures.slice(0, 6));
+      setTimeout(changePic, 2000)
+    }
   }, [pictures])
 
   useEffect(() => {
     displayPicturesRef.current = displayPictures;
   }, [displayPictures])
 
-  const onStart = () => {
-    const close = () => dispatch(closeModal({ id: "createLoanModal" }));
-    dispatch(
-      openModal({
-        id: "createLoanModal",
-        className: styles.modalContent,
-        render: () => <DialogGuideStart onClose={close} navigate={navigate} />,
-        theme: "dark",
-      })
-    );
-  }
-
   const animateImg = (url: string, i: number) => {
+    if (!url) return null;
     return (
       <motion.img
         key={i}
@@ -95,23 +88,17 @@ const Introduce = () => {
     <SectionContainer className={styles.wrapper}>
       <div className={styles.left}>
         <h1>
-          The leading<br />of NFTs<br/>Lending platform
+          The leading NFT<br/>Lending Platform
         </h1>
-        <p>The first P2P NFTs Lending platform on<br /> <img className={styles.nearLogo} src={LogoNear} /> Protocol. A fast, secure and reliable solution you need.</p>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={onStart}
-        >
-            Create Loans
-        </motion.button>
+        <p>The first P2P NFT Lending platform on<br /> <img className={styles.nearLogo} src={LogoNear} /> Protocol. The fast, secure and reliable solution you need.</p>
+        <ButtonCreateLoan className={styles.createButton} title='Create a Loan' />
       </div>
       <div className={styles.right}>
         <div className={styles.imageRow}>
-          {displayPictures.slice(0, 3).map((e, i) => animateImg(e, i))}
+          {examples.slice(0, 3).map((e, i) => animateImg(e, i))}
         </div>
         <div className={styles.imageRow}>
-          {displayPictures.slice(3, 6).map((e, i) => animateImg(e, i))}
+          {examples.slice(3, 6).map((e, i) => animateImg(e, i))}
         </div>
       </div>
     </SectionContainer>

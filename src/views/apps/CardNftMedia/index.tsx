@@ -1,6 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import last from 'lodash/last';
 import cx from 'classnames';
+import { Box, Center, Icon } from '@chakra-ui/react';
+import { FiAlertTriangle } from 'react-icons/fi';
 
 import Loading from 'src/common/components/loading';
 import { getImageThumb } from "src/modules/nftLend/utils";
@@ -35,6 +37,8 @@ const CardNftMedia = (props: CardNftMediaProps) => {
     loading,
   } = props;
 
+  const [srcLoading, setSrcLoading] = useState(true)
+  const [srcError, setSrcError] = useState(false)
   const refVideo = useRef();
 
   const isVideo = () => {
@@ -78,26 +82,43 @@ const CardNftMedia = (props: CardNftMediaProps) => {
           // onMouseLeave={() => refVideo.current?.pause()}
           {...config?.video}
         >
-          <source src={detail?.image} type={detail?.mime_type || `video/${extension}`} />
+          <source
+            src={detail?.image}
+            type={detail?.mime_type || `video/${extension}`}
+            onLoad={() => setSrcLoading(false)}
+            onError={() => setSrcError(true)}
+          />
         </video>
       );
     } else {
-      media = <img src={getImageThumb({ width, height, url: detail?.image, showOriginal })} alt={name} />
+      media = (
+        <img
+          src={getImageThumb({ width, height, url: detail?.image, showOriginal })}
+          alt={name}
+          onLoad={() => setSrcLoading(false)}
+          onError={() => setSrcError(true)}
+        />
+      )
     }
 
-    return (
-      <div className={cx(styles.cardNftMedia, className)}>{media}</div>
-    );
+    return media
   };
 
-  if (loading) {
-    return (
-      <div className={cx(styles.cardNftMedia, className)}>
-        <Loading />
-      </div>
-    );
-  }
-  return renderMedia();
+  return (
+    <Box position='relative' minW={width} minH={height} className={cx(styles.cardNftMedia, className)}>
+      {loading
+        ? <Loading />
+        : (<>
+            {srcLoading && (
+              <Center position='absolute' w='100%' h='100%'>
+              {srcError ? <Icon color='text.secondary' fontSize='4xl' as={FiAlertTriangle} /> : <Loading />}
+              </Center>
+            )}
+          {renderMedia()}
+        </>)
+      }
+    </Box>
+  )
 };
 
 export default CardNftMedia;

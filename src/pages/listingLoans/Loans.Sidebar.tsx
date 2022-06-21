@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { Button } from "react-bootstrap";
 import queryString from "query-string";
 import { Field, Form } from "react-final-form";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,6 +8,7 @@ import styles from "./styles.module.scss";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { APP_URL } from "src/common/constants/url";
+import { Button } from '@chakra-ui/react';
 
 const FilterAmount = ({ onSubmit }) => {
   return (
@@ -78,7 +78,7 @@ const FilterAmount = ({ onSubmit }) => {
           />
         </InputWrapper>
       </div>
-      <Button type="submit" className={styles.btnApplyNow}>
+      <Button w='100%' type="submit">
         Apply Now
       </Button>
     </form>

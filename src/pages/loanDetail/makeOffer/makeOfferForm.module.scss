@@ -1,18 +1,8 @@
 .makeOfferForm {
   display: flex;
   flex-direction: column;
-  padding: 40px 30px;
   form {
     width: 100%;
-  }
-  .submitButton {
-    margin-top: 20px;
-    font-size: 14px;
-    height: 40px;
-    width: 100%;
-    background-color: #3772ff;
-    filter: none;
-    font-weight: bold;
   }
   .info {
     background-color: #141416;
@@ -20,7 +10,6 @@
     border-radius: 8px;
     label {
       color: #777E90;
-      font-family: Poppins;
       font-weight: 500;
       letter-spacing: 1px;
       text-transform: uppercase;

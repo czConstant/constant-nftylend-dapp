@@ -9,10 +9,10 @@ import { OfferData } from 'src/modules/nftLend/models/api';
 import LoanDetailPriceInfo from './LoanDetail.PriceInfo';
 import LoanDetailInEscrow from './LoanDetail.InEscrow';
 import LoanDetailBorrower from './LoanDetail.Borrower';
-import LoanDetailOffers from './LoanDetail.Offers';
 import LoanDetailPriceStatistic from './LoanDetail.PriceStatistic';
 import CountdownText from 'src/common/components/countdownText';
 import styles from "../styles.module.scss";
+import { Flex, Text } from '@chakra-ui/react';
 
 export interface LoanDetailPawnInfoProps {
   loan: LoanNft;
@@ -28,18 +28,16 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
         {loan.asset.name}
         <div className={styles.chain}>{loan.asset.chain}</div>
       </h4>
-      <div className={styles.infoAuthor}>
-        <Link
-          to={`${APP_URL.LIST_LOAN}?collection=${loan.asset.collection?.seo_url}`}
-        >
-          {loan.asset.collection?.name}
+      <Flex alignItems='center' justifyContent='space-between' mb={2}>
+        <Link to={`${APP_URL.LIST_LOAN}?collection=${loan.asset.collection?.seo_url}`}>
+          <Text fontSize='xs' fontWeight='medium'>{loan.asset.collection?.name}</Text>
         </Link>
         {loan.isListing() && (
           <div>
             <CountdownText label='Ends in' to={loan.valid_at} />
           </div>
         )}
-      </div>
+      </Flex>
       {(loan.isEmpty() || loan.isDone()) ? null : loan.isOngoing() ? <LoanDetailInEscrow loan={loan} /> : <LoanDetailPriceInfo loan={loan} />}
       <SectionCollapse
         id="priceStats"
@@ -53,12 +51,6 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
         selected
         content={<LoanDetailBorrower asset={loan.asset} borrower={loan.owner} />}
       />
-      {/* <SectionCollapse
-        id="offers"
-        label="Offers"
-        selected
-        content={<LoanDetailOffers loan={loan} />}
-      /> */}
     </div>
   );
 };
