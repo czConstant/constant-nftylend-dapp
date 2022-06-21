@@ -79,7 +79,6 @@
     justify-content: space-evenly;
     max-width: var(--max-height-content-desktop);
     margin: 0 auto;
-    padding: 2rem;
     h3 {
       font-size: 50px;
       color: #ffffff;
@@ -95,6 +94,16 @@
     button {
       margin-top: 20px;
     }
+    .wrapImgIdeals {
+      height: 300px;
+      width: 400px;
+      position: relative;
+      overflow: hidden;
+      :global .lf-player-container {
+        position: absolute;
+        bottom: -10px;
+      }
+    } 
   }
 }
 

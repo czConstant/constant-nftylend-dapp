@@ -5,6 +5,8 @@ import cx from "classnames";
 import bgCircle from "./images/bgBubble.webp";
 import imgPresent from "./images/imgPresents.png";
 import VotingMakeProposal from "./Voting.Make.Proposal";
+import { Player } from "@lottiefiles/react-lottie-player";
+import ideals from "./images/ideals.json";
 
 const VotingHeader = () => {
   return (
@@ -16,12 +18,18 @@ const VotingHeader = () => {
       />
       <div className={styles.votingHeaderContent}>
         <div>
-          <h3>Proposal</h3>
-          <p>Have your say in the future of the NFTPawn</p>
+          <h3>Shape NFTPawn</h3>
+          <p>Have a say on the future of NFTPawn with your own proposal</p>
           <VotingMakeProposal />
         </div>
-        <div>
-          <img src={imgPresent} />
+        <div className={styles.wrapImgIdeals} >
+          <Player
+            autoplay
+            loop
+            src={ideals}
+            style={{ height: "100%", width: "400px" }}
+            className={styles.imgIdeals}
+          />
         </div>
       </div>
     </div>
