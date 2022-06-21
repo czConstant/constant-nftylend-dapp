@@ -31,7 +31,7 @@ export default class CreateLoanNearTransaction extends NearTransaction {
         throw new Error('This asset is in a processing loan');
       }
       const requiredAmount = await nearViewFunction(this.lendingProgram, 'storage_minimum_balance');
-
+      
       const msg = JSON.stringify({
         loan_principal_amount: new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10),
         loan_config: loanConfig,

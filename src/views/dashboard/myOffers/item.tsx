@@ -14,12 +14,13 @@ import { requestReload } from "src/store/nftyLend";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { APP_URL } from "src/common/constants/url";
 
-import { LOAN_DURATION, OFFER_STATUS } from "src/modules/nftLend/constant";
+import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
 import { isEvmChain } from 'src/modules/nftLend/utils';
 import { formatCurrency } from 'src/common/utils/format';
 import InfoTooltip from 'src/common/components/infoTooltip';
+import BadgeOfferStatus from '../badgeOfferStatus';
 
 interface ItemProps {
   offer: OfferToLoan;
@@ -138,23 +139,6 @@ const Item = (props: ItemProps) => {
   const interest = offer.interest_rate;
   const duration = offer.duration;
 
-  let status = offer.status;
-  let badgeVariant = 'success';
-
-  if (showLiquidate) {
-    status = 'overdue';
-  } else if (loan?.isExpired()) {
-    status = 'expired';
-  }
-
-  if (["overdue"].includes(status)) {
-    badgeVariant = 'warning';
-  } else if (["cancelled", "expired"].includes(status)) {
-    badgeVariant = 'danger';
-  } else if (["repaid", "approved"].includes(status)) {
-    badgeVariant = 'info';
-  }
-
   return (
     <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
       <GridItem pl={8} py={4}>
@@ -168,11 +152,7 @@ const Item = (props: ItemProps) => {
         &nbsp;/&nbsp;
         {new BigNumber(interest).multipliedBy(100).toNumber()}%
       </GridItem>
-      <GridItem py={4}>
-        <Badge variant={badgeVariant}>
-          {OFFER_STATUS?.[status]?.lender}
-        </Badge>
-      </GridItem>
+      <GridItem py={4}><BadgeOfferStatus offer={offer} loan={offer.loan} /></GridItem>
       <GridItem py={4}>{moment(offer.updated_at).format("MM/DD/YYYY HH:mm A")}</GridItem>
       <GridItem pr={8} py={4}>
         <Flex w='100%' justifyContent='flex-end'>

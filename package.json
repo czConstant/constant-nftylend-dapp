@@ -20,6 +20,7 @@
     "@near-wallet-selector/sender": "^4.1.0",
     "@nfteyez/sol-rayz": "^0.10.2",
     "@nftpawn-js/core": "../nftpawn-js/dist/packages/core",
+    "@nftpawn-js/near": "../nftpawn-js/dist/packages/near",
     "@reduxjs/toolkit": "^1.8.0",
     "@solana/buffer-layout-utils": "^0.2.0",
     "@solana/spl-token": "^0.2.0",

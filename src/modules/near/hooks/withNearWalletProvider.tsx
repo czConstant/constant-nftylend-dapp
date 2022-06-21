@@ -140,20 +140,6 @@ export const NearWalletProvider: React.FC = ({ children }) => {
       });
 
     return () => subscription.unsubscribe();
-    
-    // const changedListener = selector.on("accountsChanged", (e) => {
-    //   syncAccountState(accountId, e.accounts);
-    // });
-
-    // const signInListender = selector.on("signIn", (e) => {
-    //   localStore.save(localStore.KEY_WALLET_CHAIN, Chain.Near);
-    //   syncAccountState(accountId, e.accounts);
-    // });
-
-    // return () => {
-    //   changedListener.remove();
-    //   signInListender.remove();
-    // }
   }, [selector, accountId]);
 
   if (!selector) {

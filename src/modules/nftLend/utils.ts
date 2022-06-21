@@ -6,7 +6,7 @@ import { EvmNft } from '../evm/models/evmNft';
 import { checkOwnerNft, getLinkEvmExplorer } from '../evm/utils';
 import { SolanaNft } from '../solana/models/solanaNft';
 import { getLinkSolScanExplorer } from '../solana/utils';
-import { LoanDataAsset } from './models/api';
+import { Currency, LoanDataAsset } from './models/api';
 import { NearNft } from '../near/models/nearNft';
 
 interface ImageThumb {
@@ -49,6 +49,10 @@ const isUrl = (url: string): boolean => {
   catch(e){ return false; }
 }
 
+export const isNativeToken = (contractAddress: string, chain: Chain | string): boolean => {
+  return contractAddress === chain.toLowerCase()
+}
+
 export function parseNftFromLoanAsset(asset: LoanDataAsset, chain: Chain) {
   if (!asset) throw new Error('Loan has no asset');
   if (chain === Chain.Solana)
@@ -78,7 +82,6 @@ export async function isAssetOwner(owner: string, chain: Chain, contractAddress:
 export const calculateTotalPay = (principal: number, interest: number, duration: number /* seconds */, decimals: number, startedAt: number /* timestamp seconds */) => {
   const DAY_SECS = 86400;
   const payAt = moment().unix();
-  const _decimal = new BigNumber(10).pow(decimals)
 
   let maxLoanDay = Math.floor(duration / DAY_SECS);
   if (maxLoanDay === 0) maxLoanDay = 1;
@@ -92,7 +95,7 @@ export const calculateTotalPay = (principal: number, interest: number, duration:
   }
 
   const primaryInterest = new BigNumber(principal)
-    .multipliedBy(_decimal)
+    .shiftedBy(decimals)
     .multipliedBy(interest)
     .multipliedBy(loanDay)
     .dividedToIntegerBy(365);
@@ -100,7 +103,7 @@ export const calculateTotalPay = (principal: number, interest: number, duration:
   if (maxLoanDay > loanDay) {
     // 50% interest remain day
     secondaryInterest = new BigNumber(principal)
-      .multipliedBy(_decimal)
+      .shiftedBy(decimals)
       .multipliedBy(interest)
       .multipliedBy(maxLoanDay - loanDay)
       .dividedToIntegerBy(365)
@@ -108,14 +111,14 @@ export const calculateTotalPay = (principal: number, interest: number, duration:
   }
   // 1% fee (base on principal amount)
   const matchingFee = new BigNumber(principal)
-    .multipliedBy(_decimal)
+    .shiftedBy(decimals)
     .dividedToIntegerBy(100);
 
   return new BigNumber(principal)
-    .multipliedBy(_decimal)
+    .shiftedBy(decimals)
     .plus(primaryInterest)
     .plus(secondaryInterest)
     .plus(matchingFee)
-    .dividedBy(_decimal)
-    .toString(10);
+    .shiftedBy(-decimals)
+    .toString();
 };

@@ -1,5 +1,5 @@
-import { Box, Button, Flex, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Box, Button, Flex } from '@chakra-ui/react';
+import { Link, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import last from 'lodash/last';
 
 import BodyContainer from 'src/common/components/bodyContainer';
@@ -8,6 +8,7 @@ import MyLoans from 'src/views/dashboard/myLoans';
 import MyOffers from 'src/views/dashboard/myOffers';
 import MyAssets from 'src/views/dashboard/myAssets';
 import { APP_URL } from 'src/common/constants/url';
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 
 const menus = [
   { title: 'Overview', path: '', element: <Overview /> },
@@ -17,7 +18,10 @@ const menus = [
 ]
 
 const Dashboard = () => {
-  const location = useLocation();
+  const location = useLocation()
+  const { isConnected } = useCurrentWallet()
+
+  if (!isConnected) return <Navigate to={APP_URL.HOME} />
 
   return (
     <BodyContainer>
@@ -27,7 +31,7 @@ const Dashboard = () => {
             const isOverview = e.path === '' && location.pathname === APP_URL.DASHBOARD
             const active = isOverview || e.path === last(location.pathname.split('/'))
             return (
-              <Link to={e.path} style={{ textDecoration: 'none' }}>
+              <Link key={e.title} to={e.path} style={{ textDecoration: 'none' }}>
                 <Button minW={200} variant={active ? 'solid' : 'ghost'} justifyContent='left' borderRadius={8} _hover={{ textDecoration: 'none' }} color={active ? 'text.primary' : 'text.secondary'}>
                   {e.title}
                 </Button>
@@ -39,7 +43,7 @@ const Dashboard = () => {
           <Routes>
             {menus.map(e => {
               return (
-                <Route path={e.path} element={e.element} />
+                <Route key={e.path} path={e.path} element={e.element} />
               )
             })}
           </Routes>

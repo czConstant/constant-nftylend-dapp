@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js";
 import moment from 'moment-timezone';
 import { useDispatch } from 'react-redux';
 import { Button, Progress, Text } from '@chakra-ui/react';
+import { calculateTotalPay } from '@nftpawn-js/core';
 
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -16,7 +17,7 @@ import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
 import styles from "../styles.module.scss";
 import { formatCurrency } from 'src/common/utils/format';
 import { closeModal, openModal } from 'src/store/modal';
-import { calculateTotalPay } from '@nftpawn-js/core';
+import { useToken } from 'src/modules/nftLend/hooks/useToken';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -28,6 +29,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
   const { currentWallet } = useCurrentWallet();
   const dispatch = useDispatch();
   const { payLoan, liquidateLoan } = useTransaction();
+  const { getCurrencyBalance } = useToken()
 
   if (!loan.approved_offer) return null;
   const loanDuration = LOAN_DURATION.find(e => e.id === loan.approved_offer?.duration);
@@ -53,6 +55,12 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
           moment(loan.approved_offer?.started_at).unix()
         )
       : 0;
+
+    const balance = await getCurrencyBalance(loan.currency)
+    if (new BigNumber(balance).isLessThan(loan.principal_amount)) {
+      return toastError(`Your balance (${balance} ${loan.currency?.symbol}) is not enough`)
+    }
+
     dispatch(
       openModal({
         id: "confirmAmountModal",

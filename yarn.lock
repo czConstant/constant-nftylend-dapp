@@ -1509,6 +1509,9 @@
     dayjs "^1.11.2"
     tslib "^2.3.0"
 
+"@nftpawn-js/near@../nftpawn-js/dist/packages/near":
+  version "0.0.1"
+
 "@popperjs/core@^2.10.1", "@popperjs/core@^2.9.2", "@popperjs/core@^2.9.3":
   version "2.11.5"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.5.tgz#db5a11bf66bdab39569719555b0f76e138d7bd64"
