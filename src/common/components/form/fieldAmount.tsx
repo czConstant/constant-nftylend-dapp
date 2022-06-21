@@ -1,16 +1,9 @@
 import React, { useRef } from "react";
-import cx from "classnames";
-import FormGroup from "react-bootstrap/FormGroup";
-import InputGroup from "react-bootstrap/InputGroup";
 import Cleave from 'cleave.js/react';
-
-// import ErrorOverlay from 'src/components/errorOverlay';
-// import { useTextWidth } from '@tag0/use-text-width';
+import { Box, FormControl, FormErrorMessage, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/react';
 
 import IconInfinity from "./images/infinity.svg";
 import styles from "./styles.module.scss";
-import ErrorOverlay from "../errorOverlay";
-import { Overlay, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 interface FieldAmountProps {
   input?: any;
@@ -32,8 +25,6 @@ const FieldAmount = (props: FieldAmountProps) => {
     appendComp,
     onClickMax,
     placeholder = "0.0",
-    errorMessage,
-    errorPlacement = "bottom",
     decimals = 2,
     // disabledInput, errorPlacement, zIndex, anchorAppend,
     ...restProps
@@ -41,26 +32,24 @@ const FieldAmount = (props: FieldAmountProps) => {
   const { onChange, onBlur, onFocus, value } = input;
   const { error, touched } = meta;
   const shouldShowError = !!(touched && error) || (error && value);
-  const target = useRef(null);
   const hasAppend = appendComp || onClickMax;
 
   const isError = meta.error && meta.touched;
   if (isError) console.log(error)
 
   return (
-    <FormGroup ref={target} className={styles.formGroup}>
+    <FormControl isInvalid={isError}>
       <InputGroup
-        className={cx(
-          styles.inputGroup,
-          (isError || errorMessage) && styles.borderDanger
-        )}
+        borderWidth={1}
+        borderColor={shouldShowError ? 'brand.danger.400' : '#dedfe5'}
+        borderRadius={8}
+        bgColor='background.default'
+        overflow='hidden'
       >
         {prependComp && (
-          <div className={cx(styles.groupPrepend)}>
-            <InputGroup.Text>{prependComp}</InputGroup.Text>
-          </div>
+          <InputLeftElement children={prependComp} />
         )}
-        <div className={styles.formControl} ref={target}>
+        <Box className={styles.formControl}>
           <Cleave
             placeholder={placeholder}
             value={value}
@@ -71,7 +60,6 @@ const FieldAmount = (props: FieldAmountProps) => {
               onBlur();
               e?.target?.blur();
             }}
-            className={cx(shouldShowError && styles.borderDanger)}
             options={{
               numeral: true,
               numeralThousandsGroupStyle: "thousand",
@@ -80,28 +68,11 @@ const FieldAmount = (props: FieldAmountProps) => {
             }}
             {...restProps}
           />
-        </div>
-        {hasAppend && (
-          <div className={cx(styles.groupAppend)}>
-            {onClickMax && (
-              <div className={styles.maxText} onClick={onClickMax}>
-                <img src={IconInfinity} alt="" />
-              </div>
-            )}
-            {appendComp && <InputGroup.Text>{appendComp}</InputGroup.Text>}
-          </div>
-        )}
+        </Box>
+        {hasAppend && <InputRightElement w='fit-content' pr={2} children={appendComp} />}
       </InputGroup>
-      {isError && (
-        <Overlay target={target.current} show={true} placement={errorPlacement}>
-          {(props) => (
-            <Tooltip className={styles.errorMessageWrap} id={error} {...props}>
-              {error}
-            </Tooltip>
-          )}
-        </Overlay>
-      )}
-    </FormGroup>
+      <FormErrorMessage fontSize='sm' color='brand.danger.400'>{error}</FormErrorMessage>
+    </FormControl>
   );
 };
 

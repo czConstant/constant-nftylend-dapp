@@ -77,7 +77,7 @@ const MyPwp = () => {
         </GridItem>
         <GridItem>
           <Box backgroundColor='background.card' borderRadius={16} p={4}>
-            <Text fontSize='sm' color='text.secondary'>Claimable Reward</Text>
+            <Text fontSize='sm' color='text.secondary'>Available Reward</Text>
             <Flex justifyContent='space-between'>
               <Text fontSize='2xl' fontWeight='bold'>
                 {pwpBalance?.currency?.claim_enabled ? formatCurrency(amount) : 0} PWP
