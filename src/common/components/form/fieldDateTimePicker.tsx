@@ -1,7 +1,7 @@
-import React, { memo, useRef, useState } from "react";
-import { FormGroup, InputGroup, Overlay, Tooltip } from "react-bootstrap";
 import DatePicker from "react-datepicker";
+import { FormControl, FormErrorMessage } from '@chakra-ui/react';
 import cx from "classnames";
+
 import styles from "./styles.module.scss";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -28,18 +28,17 @@ const FieldDateTimePicker = (props: FieldDateTimePickertProps) => {
     // disabledInput, errorPlacement, zIndex, anchorAppend,
     ...restProps
   } = props;
-  const { onChange, onBlur, onFocus, value } = input;
+  const { onChange, value } = input;
   const { error, touched } = meta;
   const shouldShowError = !!(touched && error) || (error && value);
-  const target = useRef(null);
 
   const _value = value || undefined;
 
   const isError = meta.error && meta.touched;
 
   return (
-    <FormGroup ref={target} className={cx(styles.formGroup, "formGroup")}>
-      <div className={styles.formControl} ref={target}>
+    <FormControl isInvalid={isError}>
+      <div className={styles.formControl}>
         <DatePicker
           className={cx(
             shouldShowError && styles.borderDanger,
@@ -53,16 +52,8 @@ const FieldDateTimePicker = (props: FieldDateTimePickertProps) => {
           {...restProps}
         />
       </div>
-      {isError && (
-        <Overlay target={target.current} show={true} placement={errorPlacement}>
-          {(props) => (
-            <Tooltip className={styles.errorMessageWrap} id={error} {...props}>
-              {error}
-            </Tooltip>
-          )}
-        </Overlay>
-      )}
-    </FormGroup>
+      <FormErrorMessage>{error}</FormErrorMessage>
+    </FormControl>
   );
 };
 

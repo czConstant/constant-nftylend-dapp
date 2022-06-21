@@ -1,5 +1,6 @@
 import { extendTheme, theme } from '@chakra-ui/react'
 import type { ComponentStyleConfig } from '@chakra-ui/theme'
+import { FaAssistiveListeningSystems } from 'react-icons/fa'
 
 const Text: ComponentStyleConfig = {
   baseStyle: {
@@ -124,6 +125,9 @@ const Table: ComponentStyleConfig = {
 }
 
 const Menu: ComponentStyleConfig = {
+  defaultProps: {
+    autoSelect: FaAssistiveListeningSystems,
+  },
   baseStyle: {
     button: {
       color: 'text.primary',
