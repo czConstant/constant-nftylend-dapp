@@ -14,7 +14,7 @@ const Voting = () => {
       link: APP_URL.DISCOVER,
     },
     {
-      label: "Voting",
+      label: "Proposal",
     },
   ]);
   return (

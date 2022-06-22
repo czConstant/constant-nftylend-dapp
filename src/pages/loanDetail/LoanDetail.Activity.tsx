@@ -76,7 +76,7 @@ const TableBody = ({ results = [] }) => {
             {result.interest &&
               `${new BigNumber(result.interest)
                 .multipliedBy(100)
-                .toNumber()} %APY`}
+                .toNumber()} %APR`}
           </div>
           <div style={{ flex: 1 }}>
             {result.duration &&

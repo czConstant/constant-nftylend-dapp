@@ -80,9 +80,9 @@ const MyPwp = () => {
             <Text fontSize='sm' color='text.secondary'>Available Reward</Text>
             <Flex justifyContent='space-between'>
               <Text fontSize='2xl' fontWeight='bold'>
-                {pwpBalance?.currency?.claim_enabled ? formatCurrency(amount) : 0} PWP
+                {formatCurrency(amount)} PWP
               </Text>
-              <Button /* disabled={!canClaim} */ disabled isLoading={submitting} size='sm' onClick={onClaim}>Claim</Button>
+              <Button disabled={!canClaim} isLoading={submitting} size='sm' onClick={onClaim}>Claim</Button>
             </Flex>
           </Box>
         </GridItem>

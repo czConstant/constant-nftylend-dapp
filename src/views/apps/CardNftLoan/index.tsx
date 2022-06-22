@@ -108,7 +108,7 @@ const CardNftLoan = (props: CardNftLoanProps) => {
               <div>
                 <label>Interest</label>
                 <div>
-                  {formatCurrency(new BigNumber(loan.interest_rate).multipliedBy(100).toNumber(), 2)} %APY
+                  {formatCurrency(new BigNumber(loan.interest_rate).multipliedBy(100).toNumber(), 2)} %APR
                 </div>
               </div>
               <div />

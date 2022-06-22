@@ -27,7 +27,7 @@ export function getNearConfig(): nearAPI.ConnectConfig {
       networkId: 'mainnet',
       nodeUrl: 'https://rpc.mainnet.near.org',
       walletUrl: 'https://wallet.near.org',
-      helperUrl: 'https://helper.mainnet.near.org',
+      helperUrl: 'https://api.kitwallet.app',
       explorerUrl: 'https://explorer.mainnet.near.org',
     };
   default:

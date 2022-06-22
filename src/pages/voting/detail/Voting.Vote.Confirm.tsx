@@ -41,20 +41,20 @@ const VotingVoteConfirm: React.FC<VotingVoteConfirmProps> = ({
     <div className={cx(styles.choiceWrapper, styles.confirmVote)}>
       <div className={cx(styles.contentWrapper, styles.choiceFormWrap)}>
         <div className={styles.section}>
-          <h5>Voting for</h5>
+          <h5>Proposal for</h5>
           <div className={styles.choiceName}>{choice.name}</div>
         </div>
         {proposal?.type === ProposalTypes.Gov && (
           <React.Fragment>
             <div className={styles.section}>
-              <h5>Your Voting Power</h5>
+              <h5>Your Proposal Power</h5>
               <div className={styles.choiceName}>
                 {formatCurrencyByLocale(balance)}
               </div>
             </div>
             {balance === 0 && (
               <div className={styles.warningBalance0}>
-                Hold some PWP in your wallet at the snapshot block to get voting
+                Hold some PWP in your wallet at the snapshot block to get proposal
                 power for future proposals.
               </div>
             )}

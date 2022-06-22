@@ -53,7 +53,7 @@ const FilterAmount = ({ onSubmit }) => {
           />
         </InputWrapper>
       </div>
-      <label className={styles.filterLabel}>Term Rate (% APY)</label>
+      <label className={styles.filterLabel}>Term Rate (% APR)</label>
       <div className={styles.filterGroup}>
         <InputWrapper
           className={styles.filterInputLabel}

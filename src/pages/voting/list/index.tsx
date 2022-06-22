@@ -10,7 +10,8 @@ import VotingServices from "../Voting.Services";
 import {
   ProposalListItemData,
   ProposalStatus,
-  ProposalTypeData
+  ProposalTypeData,
+  ProposalTypes,
 } from "../Voting.Services.Data";
 import VotingProposalItem from "./Voting.Proposal.Item";
 
@@ -48,7 +49,10 @@ const VotingList = () => {
     try {
       const findStatus = VOTING_STATUS.find((v) => v.key === status);
       const _rows = await VotingServices.getProposals({
-        status: findStatus?.filters || findStatus?.key,
+        status:
+          type === ProposalTypes.Proposal
+            ? ""
+            : findStatus?.filters || findStatus?.key,
         type: type,
       });
       setRows(_rows);
@@ -98,26 +102,28 @@ const VotingList = () => {
             </Button>
           ))}
         </div>
-        <div className={styles.filterContainer}>
-          {refFilters.map((filter) => (
-            <Button
-              className={cx(
-                filter.key === status ? styles[`${filter.key}`] : "",
-                styles.statusWrap
-              )}
-              style={
-                filter.key === status
-                  ? { backgroundColor: filter.color }
-                  : undefined
-              }
-              key={filter.key}
-              onClick={() => setStatus(filter.key)}
-            >
-              <img src={filter.icon} />
-              {filter.name}
-            </Button>
-          ))}
-        </div>
+        {type !== ProposalTypes.Proposal && (
+          <div className={styles.filterContainer}>
+            {refFilters.map((filter) => (
+              <Button
+                className={cx(
+                  filter.key === status ? styles[`${filter.key}`] : "",
+                  styles.statusWrap
+                )}
+                style={
+                  filter.key === status
+                    ? { backgroundColor: filter.color }
+                    : undefined
+                }
+                key={filter.key}
+                onClick={() => setStatus(filter.key)}
+              >
+                <img src={filter.icon} />
+                {filter.name}
+              </Button>
+            ))}
+          </div>
+        )}
 
         {renderList()}
       </div>
