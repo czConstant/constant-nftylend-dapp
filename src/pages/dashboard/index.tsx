@@ -1,4 +1,4 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex, Icon } from '@chakra-ui/react';
 import { Link, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import last from 'lodash/last';
 
@@ -7,14 +7,19 @@ import Overview from 'src/views/dashboard/overview';
 import MyLoans from 'src/views/dashboard/myLoans';
 import MyOffers from 'src/views/dashboard/myOffers';
 import MyAssets from 'src/views/dashboard/myAssets';
+import Affiliates from 'src/views/dashboard/affiliates';
 import { APP_URL } from 'src/common/constants/url';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { MdAccountBalance, MdDashboard } from 'react-icons/md';
+import { GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
+import { FaHandshake } from 'react-icons/fa';
 
 const menus = [
-  { title: 'Overview', path: '', element: <Overview /> },
-  { title: 'My NFTs', path: 'nfts', element: <MyAssets /> },
-  { title: 'Loans', path: 'loans', element: <MyLoans /> },
-  { title: 'Lends', path: 'lends', element: <MyOffers /> },
+  { title: 'Overview', path: '', element: <Overview />, icon: MdDashboard },
+  { title: 'My NFTs', path: 'nfts', element: <MyAssets />, icon: MdAccountBalance },
+  { title: 'Loans', path: 'loans', element: <MyLoans />, icon: GiReceiveMoney },
+  { title: 'Lends', path: 'lends', element: <MyOffers />, icon: GiPayMoney },
+  { title: 'Affiliates', path: 'affiliates', element: <Affiliates />, icon: FaHandshake },
 ]
 
 const Dashboard = () => {
@@ -33,7 +38,7 @@ const Dashboard = () => {
             return (
               <Link key={e.title} to={e.path} style={{ textDecoration: 'none' }}>
                 <Button minW={200} variant={active ? 'solid' : 'ghost'} justifyContent='left' borderRadius={8} _hover={{ textDecoration: 'none' }} color={active ? 'text.primary' : 'text.secondary'}>
-                  {e.title}
+                  <Icon as={e.icon} fontSize={20} mr={2} /> {e.title}
                 </Button>
               </Link>
             )
