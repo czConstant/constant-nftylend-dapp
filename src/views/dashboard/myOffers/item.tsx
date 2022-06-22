@@ -1,15 +1,9 @@
-import { useState } from "react";
-import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
-import cx from 'classnames';
-import { Badge, Button, Flex, Grid, GridItem, Link, Text } from '@chakra-ui/react';
+import { Button, Flex, Grid, GridItem, Link, Text } from '@chakra-ui/react';
 
 import { useAppDispatch } from "src/store/hooks";
-import {
-  hideLoadingOverlay,
-  showLoadingOverlay,
-} from "src/store/loadingOverlay";
+import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { requestReload } from "src/store/nftyLend";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { APP_URL } from "src/common/constants/url";

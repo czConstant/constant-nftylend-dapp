@@ -159,7 +159,7 @@ const Item = (props: ItemProps) => {
     return (
       <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
         <GridItem pl={4} py={4}>
-          {!loan.isOngoing() && <Icon as={open ? FaCaretUp : FaCaretDown} mr={4} />}
+          <Icon opacity={loan.isOngoing() ? 0 : 1} as={open ? FaCaretUp : FaCaretDown} mr={4} />
           <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan.asset?.name}</Link>
         </GridItem>
         <GridItem py={4}>
