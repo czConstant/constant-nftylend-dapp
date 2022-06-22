@@ -241,8 +241,8 @@ const Badge: ComponentStyleConfig = {
       color: '#DE710B',
     },
     danger: {
-      bgColor: '#ff000033',
-      color: '#ff0000',
+      bgColor: '#c4223133',
+      color: '#c42231',
     },
     info: {
       bgColor: '#0d6dfd33',
