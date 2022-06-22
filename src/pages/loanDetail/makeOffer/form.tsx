@@ -62,7 +62,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
       value: values.rate,
       maxValue: loan.interest_rate * 100,
       message:
-        "Loan Interest %APY offer higher 250% of the original loan order, want review? ",
+        "Loan Interest %APR offer higher 250% of the original loan order, want review? ",
     });
 
     setWarnings({ amount: amountValidate, rate: interestValidate });
@@ -155,7 +155,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           name="rate"
           children={FieldAmount}
           placeholder="0.0"
-          appendComp="% APY"
+          appendComp="% APR"
         />
         {!loan.isAllowChange('interest_rate') && <TextNotAllow />}
         <div className={styles.errorMessage}>{warnings.rate}</div>
