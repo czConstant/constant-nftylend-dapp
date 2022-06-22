@@ -13,6 +13,7 @@ import {
 } from "../Voting.Services.Data";
 import cx from "classnames";
 import { useSelector } from "react-redux";
+import { truncate } from "lodash";
 
 interface VotingProposalItemProps {
   proposal?: ProposalListItemData;
@@ -88,9 +89,13 @@ const VotingProposalItem: React.FC<VotingProposalItemProps> = ({
       <div>
         <h6>{proposal?.name}</h6>
         <span className={styles.date}>
-          {proposal?.status === ProposalStatus.ProposalStatusPending
+          {truncate(proposal?.body, {
+            length: 100,
+            separator: "...",
+          })}
+          {/* {proposal?.status === ProposalStatus.ProposalStatusPending
             ? `Starts ${moment(proposal?.start).format(`DD MMM, YYYY HH:mm A`)}`
-            : `Ends ${moment(proposal?.end).format(`DD MMM, YYYY HH:mm A`)}`}
+            : `Ends ${moment(proposal?.end).format(`DD MMM, YYYY HH:mm A`)}`} */}
         </span>
       </div>
       <div className={styles.itemHistoryRightWrap}>
