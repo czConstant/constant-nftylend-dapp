@@ -5,8 +5,8 @@
   background-position: center top, center center;
   padding: 80px 40px 100px;
   margin: 0 auto;
-  margin-bottom: 2rem;
   max-width: 1280px;
+  margin-top: 2rem;
   &.mbSection {
     background-image: url("./assets/bg_partner_mb.png");
     padding: 70px 0px;
@@ -27,11 +27,6 @@
     }
   }
   :global .top-title {
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.8px;
-    text-align: center;
-    line-height: 30px;
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
@@ -46,15 +41,14 @@
     );
     -webkit-background-clip: text;
   }
-  h1 {
-    font-weight: 600;
-    font-size: 32px;
-    color: rgb(243, 244, 248);
+  h2 {
+    font-size: 25px;
+    color: #ffffff;
+    letter-spacing: 0;
     text-align: center;
-    line-height: 44px;
-    max-width: 55%;
-    margin-left: auto;
-    margin-right: auto;
+    line-height: 29px;
+    font-weight: bold;
+    margin-top: 5px;
   }
   .wrapPartner {
     display: flex;
