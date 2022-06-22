@@ -25,6 +25,7 @@ const LoanDetailPriceStatistic: React.FC<LoanDetailPriceStatisticProps> = ({ loa
   if (ltv > 50) color = '#ddc014'
   if (ltv > 75) color = 'brand.warning.600'
   if (ltv > 99) color = 'brand.danger.600'
+  if (!ltv) color ='text.secondary'
 
   return (
     <Grid templateColumns={{ md: '1.5fr 1fr' }} gap={2}>

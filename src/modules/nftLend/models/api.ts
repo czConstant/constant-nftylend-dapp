@@ -46,6 +46,7 @@ export interface CollectionData {
   total_volume: number;
   volume_usd: number;
   floor_price: number;
+  min_amount: number;
   new_loan?: LoanData;
   network: string;
   verified: boolean;
