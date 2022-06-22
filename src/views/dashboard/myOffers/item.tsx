@@ -136,7 +136,7 @@ const Item = (props: ItemProps) => {
   return (
     <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
       <GridItem pl={8} py={4}>
-        <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan.asset?.name}</Link>
+        <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan?.asset?.name}</Link>
       </GridItem>
       <GridItem py={4}>
         {formatCurrency(principal)} {loan?.currency?.symbol}
