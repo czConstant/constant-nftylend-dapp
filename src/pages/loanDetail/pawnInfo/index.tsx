@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Flex, Text } from '@chakra-ui/react';
 
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { APP_URL } from "src/common/constants/url";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { OfferData } from 'src/modules/nftLend/models/api';
+import CountdownText from 'src/common/components/countdownText';
+import { getBorrowerStats } from 'src/modules/nftLend/api';
 
 import LoanDetailPriceInfo from './LoanDetail.PriceInfo';
 import LoanDetailInEscrow from './LoanDetail.InEscrow';
 import LoanDetailBorrower from './LoanDetail.Borrower';
 import LoanDetailPriceStatistic from './LoanDetail.PriceStatistic';
-import CountdownText from 'src/common/components/countdownText';
 import styles from "../styles.module.scss";
-import { Flex, Text } from '@chakra-ui/react';
 
 export interface LoanDetailPawnInfoProps {
   loan: LoanNft;
@@ -20,6 +21,16 @@ export interface LoanDetailPawnInfoProps {
 }
 
 const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
+
+  const [borrowerStats, setBorrowerStats] = useState<any>(null);
+    
+  useEffect(() => {
+    if (!loan.owner) return;
+    getBorrowerStats(loan.owner).then(res => {
+      setBorrowerStats(res.result)
+    });
+  }, [loan])
+
   if (!loan.asset) return null;
 
   return (
@@ -45,12 +56,14 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
         selected
         content={<LoanDetailPriceStatistic loan={loan} />}
       />
-      <SectionCollapse
-        id="borrowerStats"
-        label="Borrower Info"
-        selected
-        content={<LoanDetailBorrower asset={loan.asset} borrower={loan.owner} />}
-      />
+      {borrowerStats?.total_loans > 0 && (
+        <SectionCollapse
+          id="borrowerStats"
+          label="Borrower Info"
+          selected
+          content={<LoanDetailBorrower data={borrowerStats} />}
+        />
+      )}
     </div>
   );
 };

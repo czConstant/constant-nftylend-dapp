@@ -73,7 +73,7 @@ const MyAssets = () => {
 
   const fetchNFTs = async () => {
     try {
-      const assets = await getNftsByOwner(currentWallet.address, currentWallet.chain);
+      const assets = await getNftsByOwner();
       setAssets(assets.map(e => ({
         asset: e,
         onClickItem: onClickShowDetail,
@@ -96,6 +96,9 @@ const MyAssets = () => {
 
   return (
     <div className={cx(isMobile && styles.listAssetsMobile, styles.wrapper)}>
+      <Flex justifyContent='flex-end'>
+        <Pagination total={assets.length} page={page} pageSize={PAGE_SIZE} onChangePage={setPage} />
+      </Flex>
       <div className={cx(isMobile && styles.wrapMobile, styles.list)}>
         {displayAssets.map(e => (
           <CardNftLoan

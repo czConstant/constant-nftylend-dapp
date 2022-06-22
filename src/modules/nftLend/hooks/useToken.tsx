@@ -21,18 +21,18 @@ function useToken() {
   const { connection } = useConnection();
   const { currentWallet } = useCurrentWallet();
 
-  const getNftsByOwner = async(address: string, chain: Chain): Promise<Array<AssetNft>> => {
+  const getNftsByOwner = async(): Promise<Array<AssetNft>> => {
     let assets = [];
-    if (chain === Chain.Solana) {
-      const res = await getParsedNftAccountsByOwner({ publicAddress: address, connection });
+    if (currentWallet.chain === Chain.Solana) {
+      const res = await getParsedNftAccountsByOwner({ publicAddress: currentWallet.address, connection });
       assets = res.map(e => {
         const nft = SolanaNft.parse(e);
         return nft;
       });
-    } else if (chain === Chain.Near) {
+    } else if (currentWallet.chain === Chain.Near) {
       assets = await getNearNftsByOwner(currentWallet.address);
     } else {
-      assets = await getEvmNftsByOwner(address, chain);
+      assets = await getEvmNftsByOwner(currentWallet.address, currentWallet.chain);
     }
     return assets;
   }
