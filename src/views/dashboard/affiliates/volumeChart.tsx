@@ -14,9 +14,8 @@ const VolumeChart = () => {
   }]
 
   const options = {
-    chart: {
-      type: 'bar',
-      height: 350
+    grid: {
+      show: false,
     },
     plotOptions: {
       bar: {
@@ -26,7 +25,7 @@ const VolumeChart = () => {
       },
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     stroke: {
       show: true,
@@ -35,16 +34,27 @@ const VolumeChart = () => {
     },
     xaxis: {
       categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+      labels: {
+        style: {
+          colors: '#FCFCFD'
+        }
+      }
     },
     yaxis: {
       title: {
         text: '$ (thousands)'
+      },
+      labels: {
+        style: {
+          colors: '#FCFCFD'
+        }
       }
     },
     fill: {
       opacity: 1
     },
     tooltip: {
+      theme: 'dark',
       y: {
         formatter: function (val) {
           return "$ " + val + " thousands"
@@ -55,7 +65,7 @@ const VolumeChart = () => {
 
   return (
     <Box id='chart'>
-      <ReactApexChart options={options} series={series} type="bar" height={400} />
+      <ReactApexChart options={options} series={series} type='bar' height={400} />
     </Box>
   )
 }
