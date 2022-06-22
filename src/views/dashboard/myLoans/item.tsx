@@ -78,7 +78,7 @@ const Item = (props: ItemProps) => {
       ) : 0;
       
     const balance = await getCurrencyBalance(loan.currency)
-    if (new BigNumber(balance).isLessThan(loan.principal_amount)) {
+    if (new BigNumber(balance).isLessThan(payAmount)) {
       return toastError(`Your balance (${balance} ${loan.currency?.symbol}) is not enough`)
     }
 

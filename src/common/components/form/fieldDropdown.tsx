@@ -95,6 +95,7 @@ const FieldDropdown = (props: FieldDropdownProps) => {
           bgColor='background.default'
           px={4}
           textAlign='left'
+          type='button'
           onFocus={onFocus}
           onBlur={onBlur}
           disabled={disabled}

@@ -57,7 +57,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       : 0;
 
     const balance = await getCurrencyBalance(loan.currency)
-    if (new BigNumber(balance).isLessThan(loan.principal_amount)) {
+    if (new BigNumber(balance).isLessThan(payAmount)) {
       return toastError(`Your balance (${balance} ${loan.currency?.symbol}) is not enough`)
     }
 
@@ -167,7 +167,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       <div className={styles.info}>
         <div>
         <Text color='text.secondary' fontWeight='medium' fontSize='xs'>Repayment Amount</Text>
-          <div className={styles.value}>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</div>
+          <div className={styles.value}>{formatCurrency(payAmount)} {loan.currency?.symbol}</div>
         </div>
         <div>
           <Text color='text.secondary' fontWeight='medium' fontSize='xs'>APR</Text>
