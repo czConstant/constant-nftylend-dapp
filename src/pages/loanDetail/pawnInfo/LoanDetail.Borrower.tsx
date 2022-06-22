@@ -26,7 +26,12 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ asset, borrower
   }, [borrower])
 
   const rate = new BigNumber(borrowerStats?.total_done_loans).dividedBy(borrowerStats?.total_loans).multipliedBy(100).toNumber();
-
+  let color = 'brand.danger.600'
+  if (rate > 50) color = 'brand.warning.600'
+  if (rate > 75) color = '#ddc014'
+  if (rate > 95) color = 'brand.success.600'
+  if (!rate) color ='text.secondary'
+  
   return (
     <Grid templateColumns={{ md: '1.5fr 1fr' }} gap={2}>
       <GridItem>
@@ -35,7 +40,7 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ asset, borrower
             <Text color='text.secondary' fontSize='xl' fontWeight='semibold'>Repayment rate</Text>
             <InfoTooltip label={`The percentage of times a lender has been paid back on the total loans at the end of their terms.`} />
           </Flex>
-          <Text fontWeight='bold' fontSize='3xl'>{rate ? `${formatCurrency(rate)}%` : 'Not Available'}</Text>
+          <Text fontWeight='bold' fontSize='3xl' color={color}>{rate ? `${formatCurrency(rate)}%` : 'Not Available'}</Text>
         </Flex>
       </GridItem>
       <GridItem>
