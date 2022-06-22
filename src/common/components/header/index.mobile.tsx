@@ -56,6 +56,11 @@ const HeaderMobile = ({}) => {
             Listing Loans
           </Link>
         </li>
+        <li>
+          <Link onTouchEnd={onToggle} to={APP_URL.VOTING}>
+            Proposal
+          </Link>
+        </li>
         {/* <li>
           <Link onTouchEnd={onToggle} to={APP_URL.NFT_PAWN_BLOG}>
             News
