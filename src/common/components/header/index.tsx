@@ -21,12 +21,35 @@ import { APP_CLUSTER } from "src/common/constants/config";
 
 // import "@solana/wallet-adapter-react-ui/styles.css";
 import ButtonSearchLoans from 'src/views/apps/ButtonSearchLoans';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectUserSettings } from 'src/store/nftyLend';
+import { closeModal, openModal } from 'src/store/modal';
+import DialogSettingNotification from '../dialogSettingNotification';
 
 const Header = () => {
-  const location = useLocation();
-  const { isConnected } = useCurrentWallet();
+  const location = useLocation()
+  const dispatch = useAppDispatch()
+  const { isConnected } = useCurrentWallet()
+  const { email } = useAppSelector(selectUserSettings)
+
+  const onUpdateEmail = async () => {
+    const id = 'addEmailModal';
+    const close = () => dispatch(closeModal({ id }))
+    dispatch(openModal({
+      id,
+      theme: 'dark',
+      title: 'Settings',
+      modalProps: {
+        centered: true,
+        contentClassName: styles.modalContent,
+      },
+      render: () => <DialogSettingNotification onClose={close} />,
+    }))
+  }
 
   if (isMobile) return <HeaderMobile />;
+
+  const isHome = location.pathname === '/'
 
   return (
     <div className={styles.wrapper}>
@@ -95,6 +118,21 @@ const Header = () => {
           <Text fontWeight='medium' fontSize='sm' color='brand.warning.400'>
             You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;
             <LinkText textDecoration='underline' fontWeight='semibold' href="https://nftpawn.financial">https://nftpawn.financial</LinkText>
+          </Text>
+        </Flex>
+      )}
+      {isConnected && !email && (
+        <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
+          <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
+            Please update email <LinkText textDecoration='underline' fontWeight='bold' onClick={onUpdateEmail}>here</LinkText> to receive notifications.
+          </Text>
+        </Flex>
+      )}
+      {isHome && (
+        <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(56, 115, 250, 0.2)'>
+          <Text fontWeight='medium' fontSize='sm' color='brand.info.400'>
+            Our incentive program is live. Check out full details
+            <LinkText textDecoration='underline' fontWeight='semibold' href="https://medium.com/@nftpawnprotocol/nft-pawn-tutorial-how-to-liquidate-your-nfts-and-get-free-pwp-tokens-1248f8e73b81"> here</LinkText>
           </Text>
         </Flex>
       )}

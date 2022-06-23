@@ -159,3 +159,7 @@ interface ClaimPwpParams {
 export const claimPwpBalance = (params: ClaimPwpParams): Promise<ResponseResult> => {
   return api.post(API_URL.NFT_LEND.PWP_CLAIM, params);
 };
+
+export const getUserSettings = async (address: string, network: string) => {
+  return api.get(API_URL.NFT_LEND.USER_SETTINGS, { params: { network, address }});
+}
