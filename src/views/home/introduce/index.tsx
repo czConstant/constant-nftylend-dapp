@@ -25,9 +25,7 @@ const examples = [
 const NUM_PIC_POOL = 30;
 
 const Introduce = () => {
-  const navigate = useNavigate();
   const controls = useAnimation();
-  const dispatch = useDispatch();
 
   const [pictures, setPictures] = useState<string[]>([]);
   const [displayPictures, setDisplayPictures] = useState<string[]>([]);

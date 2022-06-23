@@ -43,7 +43,7 @@ const ButtonSearchLoans = (props: ButtonSearchLoansProps) => {
       <motion.input
         value={value}
         animate={{ width: isExpand ? 300 : 0, marginLeft: isExpand ? 15 :0 }}
-        placeholder='Search here...'
+        placeholder='Search listing loans here...'
         onChange={e => setValue(e.target.value)}
         onKeyDown={(e) => e.keyCode === 13 && onSearch()}
       />
