@@ -149,3 +149,19 @@ export interface PwpBalanceData {
   network: string;
   user: UserData;
 }
+
+export interface WhitelistCollectionData {
+  contact_info: string;
+  contract_address: string;
+  created_at: string;
+  creator: string;
+  description: string;
+  id: number;
+  name: string;
+  network: string;
+  status: string;
+  token_series_id: string;
+  updated_at: string;
+  verified: true
+  who_verified: string;
+}

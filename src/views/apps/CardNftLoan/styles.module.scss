@@ -14,6 +14,7 @@
     background-color: #0f0e0e;
     border-radius: 16px;
     overflow: hidden;
+    position: relative;
     .itemContent {
       padding: 24px 20px;
       display: flex;
@@ -90,6 +91,13 @@
         font-weight: normal;
       }
     }
+  }
+  .whitelistTag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+    background-image: linear-gradient(242deg, #246cf9 0%, #9a1ef6 0%, #3400d0 100%);
   }
 }
 

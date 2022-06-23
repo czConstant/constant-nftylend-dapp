@@ -1,5 +1,4 @@
 import BodyContainer from "src/common/components/bodyContainer";
-import styles from "./styles.module.scss";
 import cx from "classnames";
 import { Col, Row } from "react-bootstrap";
 import Slide from "react-reveal/Slide";
@@ -43,6 +42,7 @@ import press11 from "./assets/partner/press/11.png";
 import press12 from "./assets/partner/press/12.png";
 
 import { DISCORD_URL, GITBOOK_URL } from "src/common/constants/url";
+import styles from "./styles.module.scss";
 
 const DURATION = 1000;
 

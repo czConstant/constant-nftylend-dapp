@@ -121,14 +121,14 @@ const Header = () => {
           </Text>
         </Flex>
       )}
-      {isConnected && !email && (
+      {APP_CLUSTER !== 'testnet' && isConnected && !email && (
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
             Please update email <LinkText textDecoration='underline' fontWeight='bold' onClick={onUpdateEmail}>here</LinkText> to receive notifications.
           </Text>
         </Flex>
       )}
-      {isHome && (
+      {APP_CLUSTER !== 'testnet' && isHome && (
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(56, 115, 250, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.info.400'>
             Our incentive program is live. Check out full details

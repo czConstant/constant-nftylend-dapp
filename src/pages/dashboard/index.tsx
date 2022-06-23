@@ -9,6 +9,7 @@ import MyOffers from 'src/views/dashboard/myOffers';
 import MyAssets from 'src/views/dashboard/myAssets';
 import { APP_URL } from 'src/common/constants/url';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import styles from "./styles.module.scss";
 
 const menus = [
   { title: 'Overview', path: '', element: <Overview /> },
@@ -26,19 +27,21 @@ const Dashboard = () => {
   return (
     <BodyContainer>
       <Flex pt={20} gap={8}>
-        <Flex direction='column' gap={2}>
-          {menus.map(e => {
-            const isOverview = e.path === '' && location.pathname === APP_URL.DASHBOARD
-            const active = isOverview || e.path === last(location.pathname.split('/'))
-            return (
-              <Link key={e.title} to={e.path} style={{ textDecoration: 'none' }}>
-                <Button minW={200} variant={active ? 'solid' : 'ghost'} justifyContent='left' borderRadius={8} _hover={{ textDecoration: 'none' }} color={active ? 'text.primary' : 'text.secondary'}>
-                  {e.title}
-                </Button>
-              </Link>
-            )
-          })}
-        </Flex>
+        <Box className={styles.menuWrapper}>
+          <Flex direction='column' gap={2} className={styles.menu}>
+            {menus.map(e => {
+              const isOverview = e.path === '' && location.pathname === APP_URL.DASHBOARD
+              const active = isOverview || e.path === last(location.pathname.split('/'))
+              return (
+                <Link key={e.title} to={e.path} style={{ textDecoration: 'none' }}>
+                  <Button minW={200} variant={active ? 'solid' : 'ghost'} justifyContent='left' borderRadius={8} _hover={{ textDecoration: 'none' }} color={active ? 'text.primary' : 'text.secondary'}>
+                    {e.title}
+                  </Button>
+                </Link>
+              )
+            })}
+          </Flex>
+        </Box>
         <Box flex={1}>
           <Routes>
             {menus.map(e => {

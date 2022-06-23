@@ -287,6 +287,12 @@ const Form: ComponentStyleConfig = {
   }
 }
 
+const Switch: ComponentStyleConfig = {
+  defaultProps: {
+    colorScheme: 'brand.primary'
+  }
+}
+
 const customTheme = extendTheme({ 
   colors: {
     text: {
@@ -392,6 +398,7 @@ const customTheme = extendTheme({
     Modal,
     Badge,
     Form,
+    Switch,
   },
  });
 
