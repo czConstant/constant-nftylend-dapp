@@ -37,7 +37,7 @@ const DialogGuideStart = (props: DialogGuideStartProps) => {
     if (!currentWallet.address) return;
     try {
       setLoading(true);
-      const nfts = await getNftsByOwner(currentWallet.address, currentWallet.chain);
+      const nfts = await getNftsByOwner();
       setMyNfts(nfts);
     } catch (error) {
       setMyNfts([]);

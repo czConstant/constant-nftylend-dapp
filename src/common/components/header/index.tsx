@@ -14,12 +14,12 @@ import ButtonConnectWallet from "../buttonConnectWallet";
 import ButtonWalletDropdown from "../buttonWalletDropdown";
 import { useCurrentWallet } from "src/modules/nftLend/hooks/useCurrentWallet";
 import { APP_CLUSTER } from "src/common/constants/config";
-import {
-  WalletModalProvider,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
+// import {
+//   WalletModalProvider,
+//   WalletMultiButton,
+// } from "@solana/wallet-adapter-react-ui";
 
-import "@solana/wallet-adapter-react-ui/styles.css";
+// import "@solana/wallet-adapter-react-ui/styles.css";
 import ButtonSearchLoans from 'src/views/apps/ButtonSearchLoans';
 
 const Header = () => {
@@ -79,13 +79,13 @@ const Header = () => {
           </div>
         </div>
         <div className={styles.right}>
-          <div className={styles.hiddenSolButton}>
+          {/* <div className={styles.hiddenSolButton}>
             <WalletModalProvider className={styles.solModal}>
               <WalletMultiButton className={styles.solButton}>
                 <div id="solButton" />
               </WalletMultiButton>
             </WalletModalProvider>
-          </div>
+          </div> */}
           <ButtonSearchLoans className={styles.search} />
           {isConnected ? <ButtonWalletDropdown /> : <ButtonConnectWallet className={styles.connectButton} fontSize='sm' color='text.secondary' />}
         </div>

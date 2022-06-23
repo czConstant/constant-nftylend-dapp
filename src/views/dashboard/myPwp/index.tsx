@@ -27,11 +27,15 @@ const MyPwp = () => {
     getPwpBalance(currentWallet.address, currentWallet.chain).then(res => {
       setPwpBalance(res.result);
     });
-    getBalanceTransactions(currentWallet.address, currentWallet.chain).then(res => {
+  }, [])
+
+  useEffect(() => {
+    if (!pwpBalance?.currency) return
+    getBalanceTransactions(currentWallet.address, currentWallet.chain, pwpBalance.currency.id).then(res => {
       setTransactions(res.result);
       setTotal(res.count);
     });
-  }, [])
+  }, [pwpBalance])
 
   useEffect(() => {
     setDisplayTransactions(transactions.slice((page-1)*pageSize, page * pageSize));
