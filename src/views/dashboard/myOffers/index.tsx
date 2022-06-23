@@ -47,6 +47,7 @@ const MyOffers = () => {
 
   const fetchOffers = async (page: number) => {
     try {
+      setLoading(true)
       const res = await getOffersByFilter({ lender: currentWallet.address, status, network: currentWallet.chain, page, limit: pageSize });
       const list = res.result.map(e => OfferToLoan.parseFromApi(e, currentWallet.chain))
       setOffers(list);

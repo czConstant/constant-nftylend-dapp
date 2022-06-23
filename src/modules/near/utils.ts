@@ -9,7 +9,7 @@ import { NearNft } from "src/modules/near/models/nearNft";
 export const NEAR_DEFAULT_GAS =
   nearAPI.utils.format.parseNearAmount("0.0000000003")
 export const NEAR_STORATE_AMOUNT_PER_BYTE = "10000000000000000000"
-
+export const NEAR_PARAS_CREATOR = 'x.paras.near'
 
 export enum NEAR_LOAN_STATUS {
   Open = 0,

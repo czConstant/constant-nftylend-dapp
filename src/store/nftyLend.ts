@@ -12,6 +12,11 @@ interface NftyLendState {
     chain: Chain;
     name: CryptoWallet;
   },
+  userSettings: {
+    email: string;
+    news_noti_enabled: boolean;
+    loan_noti_enabled: boolean;
+  },
   configs: {
     program_id: string,
     matic_nftypawn_address: string,
@@ -29,6 +34,11 @@ const initialState: NftyLendState = {
     address: '',
     chain: Chain.None,
     name: CryptoWallet.None,
+  },
+  userSettings: {
+    email: '',
+    news_noti_enabled: true,
+    loan_noti_enabled: true,
   },
   configs: {
     program_id: '',
@@ -50,6 +60,16 @@ const slice = createSlice({
     },
     updateConfigs: (state, action) => {
       state.configs = action.payload;
+    },
+    updateUserSettings: (state, action) => {
+      state.userSettings = {
+        email: action.payload.email,
+        news_noti_enabled: action.payload.news_noti_enabled,
+        loan_noti_enabled: action.payload.loan_noti_enabled,
+      }
+    },
+    clearUserSettings: (state) => {
+      state.userSettings = initialState.userSettings
     },
     updateWallet: (state, action) => {
       if (action.payload.address) {
@@ -81,9 +101,10 @@ const slice = createSlice({
   },
 });
 
-export const { requestReload, updateConfigs, updateWallet, clearWallet } = slice.actions;
+export const { requestReload, updateConfigs, updateWallet, clearWallet, updateUserSettings, clearUserSettings } = slice.actions;
 
 export const selectNftyLend = (state: RootState) => state.nftyLend;
 export const selectCurrentWallet = (state: RootState) => state.nftyLend.wallet;
+export const selectUserSettings = (state: RootState) => state.nftyLend.userSettings;
 
 export default slice.reducer;

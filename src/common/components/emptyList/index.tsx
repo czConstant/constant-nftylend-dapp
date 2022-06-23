@@ -1,10 +1,9 @@
 import React from 'react';
-import cx from 'classnames';
 
-import noRecord from './img_list_empty.svg';
-import noRecordDark from './img_list_empty_dark.svg';
+import noRecordWhite from './img_list_empty_white.svg';
+import noRecordGray from './img_list_empty_gray.svg';
 
-import styles from './styles.module.scss';
+import { Center, Flex, Image, Text } from '@chakra-ui/react';
 
 interface EmptyListProps {
   className?: string;
@@ -16,13 +15,13 @@ interface EmptyListProps {
 };
 
 const EmptyList = (props: EmptyListProps) => {
-  const { className, labelText = 'There is no data', dark = false } = props;
+  const { className, labelText = 'No result found', dark = false } = props;
 
   return (
-    <div className={cx(className, styles.emptyList)}>
-      <img alt="" src={dark ? noRecordDark : noRecord} />
-      {labelText}
-    </div>
+    <Center flexDirection='column' className={className} p={8}>
+      <Image w={40} src={noRecordGray} />
+      <Text fontSize='lg' color='text.secondary' fontWeight='semibold'>{labelText}</Text>
+    </Center>
   );
 };
 

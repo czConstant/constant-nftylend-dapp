@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import { useEffect, useState } from "react";
 import cx from 'classnames'
+import { Box, Flex, Text } from '@chakra-ui/react';
+import { AnimatePresence, motion, useAnimation } from 'framer-motion'
 
 import { formatCurrency } from "src/common/utils/format";
 import { APP_URL } from "src/common/constants/url";
@@ -12,7 +14,6 @@ import CardNftMedia from "../CardNftMedia";
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { LOAN_DURATION } from 'src/modules/nftLend/constant';
-import { Box } from '@chakra-ui/react';
 
 export const mediaTypes = {
   video: ["mov", "mp4", "video"],
@@ -22,6 +23,7 @@ export const mediaTypes = {
 export interface CardNftLoanProps {
   loan?: LoanNft;
   asset: AssetNft;
+  isWhitelist?: boolean;
   onClickItem?: Function;
   onViewLoan?: Function;
   onCancelLoan?: Function;
@@ -29,12 +31,17 @@ export interface CardNftLoanProps {
 }
 
 const CardNftLoan = (props: CardNftLoanProps) => {
-  const { loan, asset, onClickItem, onViewLoan, onCancelLoan, className } = props;
+  const { loan, isWhitelist, asset, onClickItem, onViewLoan, onCancelLoan, className } = props;
   const navigate = useNavigate();
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [detail, setDetail] = useState(asset?.detail);
+  const controls = useAnimation()
 
   if (!asset) return <div className={styles.itemContainer} />;
+
+  useEffect(() => {
+    controls.start({ opacity: 1 }, { duration: 0.2 })
+  }, [])
 
   useEffect(() => {
     if (asset.needFetchDetail()) getExtraData();
@@ -59,7 +66,7 @@ const CardNftLoan = (props: CardNftLoanProps) => {
   const loanDuration = LOAN_DURATION.find(e => e.id === loan?.duration / 86400);
 
   return (
-    <Box minW={250} className={cx(className, styles.cardNftLoan)}>
+    <Box minW={250} className={cx(className, styles.cardNftLoan)} as={motion.div} initial={{ opacity: 0 }} animate={controls}>
       <a onClick={onView}>
         <CardNftMedia
           name={asset.name}
@@ -75,6 +82,11 @@ const CardNftLoan = (props: CardNftLoanProps) => {
             </div>
             <div className={styles.chain}>{asset.chain}</div>
           </div>
+          {!loan && isWhitelist && (
+            <Flex alignItems='center' className={styles.whitelistTag} px={4} py={1} borderBottomRightRadius={12}>
+              <Text fontSize='sm' fontWeight='bold'>Whitelisted</Text>
+            </Flex>
+          )}
           {loan?.principal_amount && (
             <div className={styles.infoPrice}>
               {formatCurrency(loan.principal_amount)} {loan?.currency?.symbol}
