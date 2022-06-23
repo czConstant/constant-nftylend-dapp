@@ -17,12 +17,18 @@ const Text: ComponentStyleConfig = {
       color: 'brand.primary',
       fontWeight: 'medium',
     },
-    attrLabel: {
+    label: {
       fontWeight: 'normal',
       color: 'text.secondary',
       fontSize: 'xs',
       textTransform: 'uppercase',
     },
+  }
+}
+
+const Heading: ComponentStyleConfig = {
+  baseStyle: {
+    fontFamily: 'Poppins'
   }
 }
 
@@ -388,6 +394,7 @@ const customTheme = extendTheme({
   components: {
     Tabs,
     Text,
+    Heading,
     Button,
     Image,
     Table,

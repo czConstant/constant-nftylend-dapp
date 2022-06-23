@@ -14,6 +14,8 @@ interface NftyLendState {
   },
   userSettings: {
     email: string;
+    is_verified: boolean;
+    username: string;
     news_noti_enabled: boolean;
     loan_noti_enabled: boolean;
   },
@@ -37,6 +39,8 @@ const initialState: NftyLendState = {
   },
   userSettings: {
     email: '',
+    username: '',
+    is_verified: false,
     news_noti_enabled: true,
     loan_noti_enabled: true,
   },
@@ -64,6 +68,8 @@ const slice = createSlice({
     updateUserSettings: (state, action) => {
       state.userSettings = {
         email: action.payload.email,
+        is_verified: action.payload.is_verified,
+        username: action.payload.username,
         news_noti_enabled: action.payload.news_noti_enabled,
         loan_noti_enabled: action.payload.loan_noti_enabled,
       }

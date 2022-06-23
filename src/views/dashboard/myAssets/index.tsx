@@ -131,9 +131,8 @@ const MyAssets = () => {
   }
 
   if (!isConnected) return <EmptyList dark labelText="Connect crypto wallet to view your assets" />;
-  if (loading) return <div className={styles.listAssets}><LoadingList /></div>
 
-  if (assets.length === 0) return (
+  if (!loading && assets.length === 0) return (
     <div className={styles.noAssets}>
       <div>We can not detect your assets, but you can still manually create a loan</div>
       <Button className={styles.createButton} onClick={() => onMakeLoan(undefined)}>Create loan</Button>
@@ -157,7 +156,8 @@ const MyAssets = () => {
         </Flex>
         <Pagination total={filterAssets.length} page={page} pageSize={PAGE_SIZE} onChangePage={setPage} />
       </Flex>
-      {displayAssets.length === 0 && <Center h={400}><EmptyList /></Center>}
+      {loading && <div className={styles.listAssets}><LoadingList /></div>}
+      {!loading && displayAssets.length === 0 && <Center h={400}><EmptyList /></Center>}
       <div className={cx(isMobile && styles.wrapMobile, styles.list)}>
         {displayAssets.map(e => (
           <CardNftLoan
