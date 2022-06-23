@@ -51,6 +51,9 @@ export const API_URL = {
     PWP_CLAIM: `${MCT_ROOT}${MCT_API_BASE}/users/balances/claim`,
     BALANCES_TRANSACTIONS: `${MCT_ROOT}${MCT_API_BASE}/users/balances/transactions`,
 
+    VERIFY_EMAIL: `${MCT_ROOT}${MCT_API_BASE}/verifications/verify-email`,
+    VERIFY_TOKEN: `${MCT_ROOT}${MCT_API_BASE}/verifications/verify-token`,
+
     VOTING_CURRENCIES: `${MCT_ROOT}${MCT_API_BASE}/currencies/pwp-token`,
     VOTING_PROPOSAL: `${MCT_ROOT}${MCT_API_BASE}/proposals/create`,
     VOTING_PROPOSAL_LIST: `${MCT_ROOT}${MCT_API_BASE}/proposals/list`,

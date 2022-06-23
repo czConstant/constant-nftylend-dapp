@@ -164,7 +164,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
           <Grid templateColumns='repeat(3, 1fr)' gap={2}>
             {extraData?.attributes?.map((att: any) => (
               <GridItem bgColor='background.darker' p={4} borderRadius={8} key={att?.trait_type}>
-                <Text variant='attrLabel' fontSize='10px'>{att?.trait_type}</Text>
+                <Text variant='label' fontSize='10px'>{att?.trait_type}</Text>
                 <Text fontSize='xs'>{att?.value}</Text>
               </GridItem>
             ))}
