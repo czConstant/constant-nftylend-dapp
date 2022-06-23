@@ -12,6 +12,7 @@ import { formatCurrency } from 'src/common/utils/format';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import CardNftLoan from 'src/views/apps/CardNftLoan';
 import { APP_URL } from 'src/common/constants/url';
+import { Flex, Grid, Heading, Text } from '@chakra-ui/react';
 
 const LatestLoans = () => {
   const navigate = useNavigate();
@@ -50,11 +51,11 @@ const LatestLoans = () => {
 
   return (
     <SectionContainer className={styles.wrapper}>
-      <h2>Create loans using your NFT as collateral</h2>
-      <p className={styles.subtitle}>We're the first marketplace for NFT P2P Lending and the fastest way to leverage the value of your NFTs.<br/>Connecting lenders to borrowers on our smart contract.</p>
+      <Heading mb={4} as='h2' textAlign='center'>Create loans using your NFT as collateral</Heading>
+      <Text mb={16} textAlign='center' color='text.secondary'>We're the first marketplace for NFT P2P Lending and the fastest way to leverage the value of your NFTs.<br/>Connecting lenders to borrowers on our smart contract.</Text>
       <div className={styles.featuredCollection}>
-        <div className={styles.header}>
-          <div className={styles.title}>Global Loans</div>
+        <Flex direction={['column', 'row']} alignItems='center' justifyContent='space-between' mb={8}>
+          <Text fontSize='4xl'>Global Loans</Text>
           <div className={styles.stats}>
             <div>
               <label>${formatCurrency(stats?.total_volume, 0)}</label>
@@ -69,8 +70,8 @@ const LatestLoans = () => {
               <span>Default Rate</span>
             </div>
           </div>
-        </div>
-        <div className={styles.list}>
+        </Flex>
+        <Grid templateColumns={['1fr', 'repeat(4, 1fr)']} gap={4} className={styles.list}>
           {loans.map((item, index) => item.asset && (
             <CardNftLoan
               key={item?.id}
@@ -79,7 +80,7 @@ const LatestLoans = () => {
               className={styles.item}
             />
           ))}
-        </div>
+        </Grid>
         <div className={styles.viewMore}>
           <button onClick={() => {
             window.scrollTo(0, 0);

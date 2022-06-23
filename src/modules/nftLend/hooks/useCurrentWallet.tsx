@@ -15,7 +15,7 @@ function useCurrentWallet() {
   useEffect(() => {
     if (!currentWallet.address) return
     getUserSettings(currentWallet.address, currentWallet.chain).then(res => {
-      dispatch(updateUserSettings(res))
+      dispatch(updateUserSettings(res.result))
     })
   }, [currentWallet])
 

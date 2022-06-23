@@ -16,7 +16,7 @@ const Footer = () => (
   <Box bgColor='black'>
     <Divider color='background.darker' />
     <SectionContainer>
-      <Flex pt={50} pb={30} justifyContent='space-between'>
+      <Flex direction={['column', 'row']} pt={50} pb={30} justifyContent='space-between'>
         <Box>
           <Link to={APP_URL.DISCOVER}>
             <AppIcon />
@@ -26,7 +26,7 @@ const Footer = () => (
             <Text>3500 S dupont hwy Dover 19901 Delaware</Text>
           </Flex>
         </Box>
-        <Text fontWeight='medium'>First NFTs Lending Solution On Near Protocol</Text>
+        <Text py={4} fontWeight='medium'>First NFTs Lending Solution On Near Protocol</Text>
         <Flex direction='column' alignItems='flex-end'>
           <SocialLinks />
           <Box mt={4} color='text.secondary' fontSize='small'>
