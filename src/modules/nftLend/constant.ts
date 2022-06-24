@@ -123,7 +123,7 @@ if (APP_CLUSTER !== "mainnet") {
   });
 }
 
-export const PWP_TX_TYPE = {
+export const PAWN_BALANCE_TX_TYPE = {
   incentive: {
     id: 'incentive',
     name: 'Incentive',
@@ -132,16 +132,24 @@ export const PWP_TX_TYPE = {
     id: 'claim',
     name: 'Claim',
   },
+  affiliate_lender_loan_done: {
+    id: 'affiliate_lender_loan_done',
+    name: 'Lender Done',
+  },
+  affiliate_borrower_loan_done: {
+    id: 'affiliate_borrower_loan_done',
+    name: 'Borrower Done',
+  },
 }
 
 export const INCENTIVE_TX_TYPE = {
   borrower_loan_delisted: {
     id: 'borrower_loan_delisted',
-    name: 'Delisted Loan',
+    name: 'Delist Loan',
   },
   borrower_loan_listed: {
     id: 'borrower_loan_listed',
-    name: 'Listed Loan',
+    name: 'List Loan',
   },
   user_airdrop_reward: {
     id: 'user_airdrop_reward',

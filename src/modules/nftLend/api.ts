@@ -7,6 +7,13 @@ interface ListParams {
   limit?: number;
 }
 
+interface SignatureParams {
+  address: string;
+  network: string;
+  timestamp: number;
+  signature: string;
+}
+
 export const getPlatformStats = async (): Promise<ResponseResult> => {
   return api.get(API_URL.NFT_LEND.PLATFORM_STATS);
 };
@@ -152,15 +159,11 @@ export const getUserStats = (address: string, network: string): Promise<Response
   return api.get(API_URL.NFT_LEND.USER_STATS, { params: { address, network } });
 };
 
-interface ClaimPwpParams {
-  user_id: number;
+interface ClaimCurrencyParams extends SignatureParams {
   currency_id: number;
-  to_address: string;
-  timestamp: number;
-  signature: string;
   amount: number;
 }
-export const claimPwpBalance = (params: ClaimPwpParams): Promise<ResponseResult> => {
+export const claimCurrencyBalance = (params: ClaimCurrencyParams): Promise<ResponseResult> => {
   return api.post(API_URL.NFT_LEND.PWP_CLAIM, params);
 };
 
@@ -172,14 +175,18 @@ export const getUserSettings = async (address: string, network: string): Promise
   return api.get(API_URL.NFT_LEND.USER_SETTINGS, { params: { network, address }});
 }
 
-interface UserSettingsParams {
+
+interface ConnectUserFromReferParams extends SignatureParams {
+  referrer_code: string;
+}
+export const connectUserFromRefer = async (params: ConnectUserFromReferParams): Promise<ResponseResult> => {
+  return api.post(API_URL.NFT_LEND.USER_CONNECTED, params);
+}
+
+interface UserSettingsParams extends SignatureParams {
   news_noti_enabled?: boolean;
   loan_noti_enabled?: boolean;
   email?: string;
-  network: string;
-  address: string;
-  timestamp:number;
-  signature: string;
 }
 
 export const changeUserSettings = async (params: UserSettingsParams): Promise<ResponseResult> => {

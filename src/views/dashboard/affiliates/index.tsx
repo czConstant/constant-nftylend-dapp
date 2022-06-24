@@ -1,19 +1,24 @@
 import { Box, Button, Flex, Grid, GridItem, Icon, Text } from '@chakra-ui/react'
 import BigNumber from 'bignumber.js';
+import moment from 'moment-timezone';
 import { useEffect, useState } from 'react'
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { MdContentCopy } from 'react-icons/md';
 
-import { toastSuccess } from 'src/common/services/toaster';
+import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { formatCurrency } from 'src/common/utils/format';
-import { getAffiliateStats, getUserNearBalance } from 'src/modules/nftLend/api';
+import { nearSignText } from 'src/modules/near/utils';
+import { claimCurrencyBalance, getAffiliateStats, getUserNearBalance } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet'
 import { AffiliateStatsData, UserBalanceData } from 'src/modules/nftLend/models/api';
+import { useAppSelector } from 'src/store/hooks';
+import { selectUserSettings } from 'src/store/nftyLend';
 import AffiliateHistory from './history';
 import VolumeChart from './volumeChart';
 
 const Affiliates = () => {
   const { currentWallet } = useCurrentWallet()
+  const { username } = useAppSelector(selectUserSettings)
 
   const [claiming, setClaiming] = useState(false)
   const [stats, setStats] = useState<AffiliateStatsData>()
@@ -28,7 +33,30 @@ const Affiliates = () => {
     })
   }, [])
 
-  const affiliateUrl = `https://nftpawn.financial?r=${currentWallet.address}`
+  const onClaim = async () => {
+    if (!nearBalance) return;
+    try {
+      (true)
+      const amount = new BigNumber(nearBalance.balance).minus(nearBalance.locked_balance)
+      const timestamp = moment(nearBalance.updated_at).unix()
+      const signature = await nearSignText(currentWallet.address, String(timestamp))
+      await claimCurrencyBalance({ 
+        address: currentWallet.address,
+        network: currentWallet.chain,
+        timestamp,
+        signature,
+        currency_id: nearBalance.currency.id,
+        amount: amount.toNumber(),
+      })
+      toastSuccess('Claimed PWP successfully')
+    } catch (err: any) {
+      toastError(err?.message)
+    } finally {
+      setClaiming(false)
+    }
+  }
+
+  const affiliateUrl = `https://nftpawn.financial?r=${username}`
   const amount = new BigNumber(nearBalance?.balance || 0).minus(nearBalance?.locked_balance || 0).toNumber()
   const canClaim = amount > 0 && nearBalance?.currency?.claim_enabled
 
@@ -54,7 +82,7 @@ const Affiliates = () => {
             <Text fontSize='sm' color='text.secondary'>Commission Amount</Text>
             <Flex justifyContent='space-between'>
               <Text fontSize='2xl' fontWeight='bold'>{formatCurrency(amount)} {nearBalance?.currency?.symbol}</Text>
-              <Button disabled={!canClaim} isLoading={claiming} size='sm'>Redeem</Button>
+              <Button disabled={!canClaim} isLoading={claiming} size='sm' onClick={onClaim}>Redeem</Button>
             </Flex>
           </Flex>
         </GridItem>

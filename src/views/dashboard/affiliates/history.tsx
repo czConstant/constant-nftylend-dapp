@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import BigNumber from 'bignumber.js';
-import moment from 'moment-timezone';
-import { Box, Button, Flex, Grid, GridItem, Table, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
+import { Flex, Table, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
 
 import Pagination from 'src/common/components/pagination';
 import { formatCurrency, formatDateTime, formatDuration, shortCryptoAddress } from 'src/common/utils/format';
 import { getAffiliateTransactions } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
-import { AFFILIATE_TX_TYPE, LOAN_DURATION } from 'src/modules/nftLend/constant';
+import { PAWN_BALANCE_TX_TYPE } from 'src/modules/nftLend/constant';
 
 const DEFAULT_LIMIT = 10
 
@@ -21,7 +19,7 @@ const AffiliateHistory = () => {
 
   useEffect(() => {
     getAffiliateTransactions({
-      address: currentWallet.address,
+      address: 'hieuq.testnet',
       network: currentWallet.chain,
       page,
       limit: pageSize,
@@ -49,7 +47,7 @@ const AffiliateHistory = () => {
           <Tbody>
             {transactions.map((e, i) => {
               const isLast = i === transactions.length - 1;
-              const txType = AFFILIATE_TX_TYPE[e.type]
+              const txType = PAWN_BALANCE_TX_TYPE[e.type]
               const type = txType?.name || e.type
               const duration = e.loan?.approved_offer ? e.loan?.approved_offer.duration : e.loan?.duration;
               
