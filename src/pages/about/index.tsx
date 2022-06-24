@@ -1,11 +1,10 @@
 import BodyContainer from "src/common/components/bodyContainer";
-import styles from "./styles.module.scss";
 import cx from "classnames";
 import { Col, Row } from "react-bootstrap";
 import Slide from "react-reveal/Slide";
 import Fade from "react-reveal/Fade";
 import { isMobile } from "react-device-detect";
-import { Button, Divider, Flex, Heading, Text } from '@chakra-ui/react';
+import { Button, Divider, Flex, Heading, Text } from "@chakra-ui/react";
 
 import imgWhatNFTy from "./assets/what_nfty.png";
 import imgWhatNFTyMobile from "./assets/what_nfty_mobile.png";
@@ -43,6 +42,8 @@ import press11 from "./assets/partner/press/11.png";
 import press12 from "./assets/partner/press/12.png";
 
 import { DISCORD_URL, GITBOOK_URL } from "src/common/constants/url";
+import Partners from "src/common/components/partners";
+import styles from "./styles.module.scss";
 
 const DURATION = 1000;
 
@@ -56,9 +57,7 @@ const DATA = [
         <strong style={{ color: "white" }}>PWP (Pawn Protocol Token)</strong>
         Blockchain
         <br />
-        <strong style={{ color: "white" }}>
-          Near Protocol
-        </strong>
+        <strong style={{ color: "white" }}>Near Protocol</strong>
         Max Token Supply
         <br />
         <strong style={{ color: "white" }}>9,000,000,000 PWP</strong>
@@ -97,21 +96,33 @@ const PawwnProtocol = () => {
       <div className={styles.bottomMask} />
       <Fade duration={DURATION}>
         <section className={cx(styles.section, styles.sectionBG)}>
-          <div className={cx(styles.coloredText, styles.title)}>Pawn Protocol</div>
-          <Heading as='h1' fontSize='3xl' mt={12}>The leading NFTs Lending Protocol</Heading>
+          <div className={cx(styles.coloredText, styles.title)}>
+            Pawn Protocol
+          </div>
+          <Heading as="h1" fontSize="3xl" mt={12}>
+            The leading NFTs Lending Protocol
+          </Heading>
           <Text my={4} className={styles.subtitle}>
-            The first NFTs P2P Lending Solution on Near Protocol. Collateralise your NFTs and create loan offers. Pawn Protocol’s open source NFT Collateral Service SDK can be integrated with ten lines of code to any serviced application holding user balances.
+            The first NFTs P2P Lending Solution on Near Protocol. Collateralise
+            your NFTs and create loan offers. Pawn Protocol’s open source NFT
+            Collateral Service SDK can be integrated with ten lines of code to
+            any serviced application holding user balances.
           </Text>
           <Flex mt={8} className={styles.groupButton} gap={4}>
             <Button
-              w={200} h={55} borderRadius={50}
-              onClick={() => window.open(DISCORD_URL, '_blank')}
+              w={200}
+              h={55}
+              borderRadius={50}
+              onClick={() => window.open(DISCORD_URL, "_blank")}
             >
               Join Discord
             </Button>
             <Button
-              w={200} h={55} bgImage='linear-gradient(242deg, #0012ff 0%, #006ed0 100%)'
-              borderRadius={50} onClick={() => window.open(GITBOOK_URL, '_blank')}
+              w={200}
+              h={55}
+              bgImage="linear-gradient(242deg, #0012ff 0%, #006ed0 100%)"
+              borderRadius={50}
+              onClick={() => window.open(GITBOOK_URL, "_blank")}
             >
               Documents
             </Button>
@@ -123,7 +134,12 @@ const PawwnProtocol = () => {
           <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
           <h2>What is Pawn Protocol?</h2>
           <Text className={styles.subtitle}>
-            Pawn Protocol is a P2P Lending platform for NFT Market powered by Smart Contract Technology. Pawn Protocol doesn't need deposits, NFTs and crypto, freeze account transactions, require signup - you can use our protocol everywhere in the world with access to the internet. NFT Pawn is the first application we build that utilized the Pawn Protocol infrastructure.
+            Pawn Protocol is a P2P Lending platform for NFT Market powered by
+            Smart Contract Technology. Pawn Protocol doesn't need deposits, NFTs
+            and crypto, freeze account transactions, require signup - you can
+            use our protocol everywhere in the world with access to the
+            internet. NFT Pawn is the first application we build that utilized
+            the Pawn Protocol infrastructure.
           </Text>
           <div className={styles.bgWhatNFTy}>
             <img
@@ -138,7 +154,9 @@ const PawwnProtocol = () => {
           <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
           <h2>How Does It Work?</h2>
           <Text className={styles.subtitle}>
-            Whether you want to borrow or invest, you choose to fulfil an existing order on the marketplace or negotiate your rate and term. Our smart contracts handle the rest.
+            Whether you want to borrow or invest, you choose to fulfil an
+            existing order on the marketplace or negotiate your rate and term.
+            Our smart contracts handle the rest.
           </Text>
           <div className={styles.bgHowItWork}>
             <img
@@ -209,7 +227,9 @@ const PawwnProtocol = () => {
           <Col xs={{ span: 12, order: 1 }} md={{ span: 5, order: 2 }}>
             <div className={styles.titleSection}>
               <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
-              <Text fontSize='3xl' fontWeight='semibold'>Tokenomics & Utilities</Text>
+              <Text fontSize="3xl" fontWeight="semibold">
+                Tokenomics & Utilities
+              </Text>
               <Text className={styles.subtitle}>
                 The Pawn Protocol token unlock exclusive rewards when staking,
                 use to pay transaction fees, either allow PWP holders to propose
@@ -234,6 +254,9 @@ const PawwnProtocol = () => {
             </section> */}
           </Col>
         </Row>
+      </Slide>
+      <Slide duration={DURATION}>
+        <Partners className={styles} />
       </Slide>
       <Divider mt={32} />
     </BodyContainer>

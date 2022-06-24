@@ -12,6 +12,8 @@ import LogoNear from './img/logo_near.svg';
 import styles from './styles.module.scss';
 import SectionContainer from 'src/common/components/sectionContainer';
 import ButtonCreateLoan from 'src/common/components/buttonCreateLoan';
+import { isMobile } from 'react-device-detect';
+import { Box, Heading } from '@chakra-ui/react';
 
 const examples = [
   'https://img-cdn.magiceden.dev/rs:fill:320:320:0:0/plain/https://dl.airtable.com/.attachmentThumbnails/d5c12b4eb46e676d72569a2084345c94/6ef0628f',
@@ -25,9 +27,7 @@ const examples = [
 const NUM_PIC_POOL = 30;
 
 const Introduce = () => {
-  const navigate = useNavigate();
   const controls = useAnimation();
-  const dispatch = useDispatch();
 
   const [pictures, setPictures] = useState<string[]>([]);
   const [displayPictures, setDisplayPictures] = useState<string[]>([]);
@@ -88,21 +88,23 @@ const Introduce = () => {
 
   return (
     <SectionContainer className={styles.wrapper}>
-      <div className={styles.left}>
-        <h1>
+      <Box className={styles.left} minW={['unset', '500px']}>
+        <Heading as='h1' fontSize={['4xl','5xl']} lineHeight={['50px','75px']} fontWeight='normal' mb={[8, 16]} minW={['unset', '500px']}>
           The leading NFT<br/>Lending Platform
-        </h1>
+        </Heading>
         <p>The first P2P NFT Lending platform on<br /> <img className={styles.nearLogo} src={LogoNear} /> Protocol. The fast, secure and reliable solution you need.</p>
         <ButtonCreateLoan className={styles.createButton} title='Create a Loan' />
-      </div>
-      <div className={styles.right}>
-        <div className={styles.imageRow}>
-          {examples.slice(0, 3).map((e, i) => animateImg(e, i))}
+      </Box>
+      {!isMobile && (
+        <div className={styles.right}>
+          <div className={styles.imageRow}>
+            {examples.slice(0, 3).map((e, i) => animateImg(e, i))}
+          </div>
+          <div className={styles.imageRow}>
+            {examples.slice(3, 6).map((e, i) => animateImg(e, i))}
+          </div>
         </div>
-        <div className={styles.imageRow}>
-          {examples.slice(3, 6).map((e, i) => animateImg(e, i))}
-        </div>
-      </div>
+      )}
     </SectionContainer>
   )
 };

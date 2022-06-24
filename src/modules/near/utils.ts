@@ -4,12 +4,12 @@ import { AccountView, CodeResult } from "near-api-js/lib/providers/provider";
 
 import { APP_CLUSTER } from "src/common/constants/config";
 import api from "src/common/services/apiClient";
-import localStore from "src/common/services/localStore";
 import { NearNft } from "src/modules/near/models/nearNft";
-import { ProposalData, ProposalMessageData } from "src/pages/voting/Voting.Services.Data";
 
 export const NEAR_DEFAULT_GAS =
-  nearAPI.utils.format.parseNearAmount("0.0000000003");
+  nearAPI.utils.format.parseNearAmount("0.0000000003")
+export const NEAR_STORATE_AMOUNT_PER_BYTE = "10000000000000000000"
+export const NEAR_PARAS_CREATOR = 'x.paras.near'
 
 export enum NEAR_LOAN_STATUS {
   Open = 0,
@@ -61,7 +61,10 @@ export async function getNearBalance(
     account_id: address,
     finality: "final",
   });
-  return nearAPI.utils.format.formatNearAmount(res.amount);
+  const storageAmount = new BigNumber(NEAR_STORATE_AMOUNT_PER_BYTE).multipliedBy(res.storage_usage)
+  const lockedAmount = new BigNumber(res.locked)
+
+  return nearAPI.utils.format.formatNearAmount(new BigNumber(res.amount).minus(storageAmount).minus(lockedAmount).toString(10));
 }
 
 export async function getBalanceNearToken(

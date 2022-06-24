@@ -17,12 +17,18 @@ const Text: ComponentStyleConfig = {
       color: 'brand.primary',
       fontWeight: 'medium',
     },
-    attrLabel: {
+    label: {
       fontWeight: 'normal',
       color: 'text.secondary',
       fontSize: 'xs',
       textTransform: 'uppercase',
     },
+  }
+}
+
+const Heading: ComponentStyleConfig = {
+  baseStyle: {
+    fontFamily: 'Poppins'
   }
 }
 
@@ -287,6 +293,12 @@ const Form: ComponentStyleConfig = {
   }
 }
 
+const Switch: ComponentStyleConfig = {
+  defaultProps: {
+    colorScheme: 'brand.primary'
+  }
+}
+
 const customTheme = extendTheme({ 
   colors: {
     text: {
@@ -382,6 +394,7 @@ const customTheme = extendTheme({
   components: {
     Tabs,
     Text,
+    Heading,
     Button,
     Image,
     Table,
@@ -392,6 +405,7 @@ const customTheme = extendTheme({
     Modal,
     Badge,
     Form,
+    Switch,
   },
  });
 

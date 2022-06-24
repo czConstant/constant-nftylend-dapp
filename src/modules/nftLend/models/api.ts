@@ -46,6 +46,7 @@ export interface CollectionData {
   total_volume: number;
   volume_usd: number;
   floor_price: number;
+  min_amount: number;
   new_loan?: LoanData;
   network: string;
   verified: boolean;
@@ -147,4 +148,20 @@ export interface PwpBalanceData {
   currency: Currency;
   network: string;
   user: UserData;
+}
+
+export interface WhitelistCollectionData {
+  contact_info: string;
+  contract_address: string;
+  created_at: string;
+  creator: string;
+  description: string;
+  id: number;
+  name: string;
+  network: string;
+  status: string;
+  token_series_id: string;
+  updated_at: string;
+  verified: true
+  who_verified: string;
 }

@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { isMobile } from "react-device-detect";
-import cx from 'classnames';
+import cx from "classnames";
 
 import styles from "./styles.module.scss";
 import imgPartner1 from "./assets/partner_1.png";
@@ -25,12 +25,14 @@ const logoPartners = [
   imgPartner8,
 ];
 
-const HomePartner = () => {
+const HomePartner = ({ className }) => {
   return (
     <section className={cx(isMobile && styles.mbSection, styles.section)}>
       <div className={styles.sectionBgOurPartner}>
-        <div className="top-title">NFT Pawn</div>
-        <h1>Partners</h1>
+        <div className={cx(className.coloredText, "top-title")}>
+          PAWN PROTOCOL
+        </div>
+        <h2>Partners</h2>
         <div className={styles.wrapPartner}>
           {logoPartners.map((v) => (
             <div key={v}>

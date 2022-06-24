@@ -140,8 +140,8 @@ export const getPwpBalance = (address: string, network: string): Promise<Respons
   return api.get(API_URL.NFT_LEND.PWP_BALANCES, { params: { address, network } });
 };
 
-export const getBalanceTransactions = (address: string, network: string): Promise<ListResponse> => {
-  return api.get(API_URL.NFT_LEND.BALANCES_TRANSACTIONS, { params: { address, network } });
+export const getBalanceTransactions = (address: string, network: string, currencyId: number): Promise<ListResponse> => {
+  return api.get(API_URL.NFT_LEND.BALANCES_TRANSACTIONS, { params: { address, network, currency_id: currencyId } });
 };
 
 export const getUserStats = (address: string, network: string): Promise<ResponseResult> => {
@@ -159,3 +159,40 @@ interface ClaimPwpParams {
 export const claimPwpBalance = (params: ClaimPwpParams): Promise<ResponseResult> => {
   return api.post(API_URL.NFT_LEND.PWP_CLAIM, params);
 };
+
+export const getNearWhitelistCollections = async (): Promise<ListResponse> => {
+  return api.get(API_URL.NFT_LEND.NEAR_WHITELIST_COLLECTIONS)
+}
+
+export const getUserSettings = async (address: string, network: string): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.USER_SETTINGS, { params: { network, address }});
+}
+
+interface UserSettingsParams {
+  news_noti_enabled?: boolean;
+  loan_noti_enabled?: boolean;
+  email?: string;
+  network: string;
+  address: string;
+  timestamp:number;
+  signature: string;
+}
+
+export const changeUserSettings = async (params: UserSettingsParams): Promise<ResponseResult> => {
+  return api.post(API_URL.NFT_LEND.USER_SETTINGS, params);
+}
+
+interface VerfiyEmailParams {
+  email: boolean;
+  network: string;
+  address: string;
+  timestamp:number;
+  signature: string;
+}
+export const verifyUserEmail = async (params: VerfiyEmailParams): Promise<ResponseResult> => {
+  return api.post(API_URL.NFT_LEND.VERIFY_EMAIL, params);
+}
+
+export const verifyEmailToken = async (email: string, token: string): Promise<ResponseResult> => {
+  return api.post(API_URL.NFT_LEND.VERIFY_TOKEN, { email, token });
+}

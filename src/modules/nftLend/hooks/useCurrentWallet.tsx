@@ -1,12 +1,23 @@
+import { useEffect } from 'react';
+
 import { AvalancheChainConfig, BobaNetworkConfig, BscChainConfig, Chain, ChainConfigs, PolygonChainConfig } from 'src/common/constants/network';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { clearWallet, selectCurrentWallet, updateWallet } from 'src/store/nftyLend';
-import { isEvmChain } from '../utils';
+import { clearWallet, selectCurrentWallet, updateUserSettings, updateWallet } from 'src/store/nftyLend';
 import { CryptoWallet, getEvmProvider } from 'src/common/constants/wallet';
+
+import { isEvmChain } from '../utils';
+import { getUserSettings } from '../api';
 
 function useCurrentWallet() {
   const dispatch = useAppDispatch();
   const currentWallet = useAppSelector(selectCurrentWallet);
+
+  useEffect(() => {
+    if (!currentWallet.address) return
+    getUserSettings(currentWallet.address, currentWallet.chain).then(res => {
+      dispatch(updateUserSettings(res.result))
+    })
+  }, [currentWallet])
 
   const connectSolanaWallet = async () => {
     const el = document.getElementById('solButton');

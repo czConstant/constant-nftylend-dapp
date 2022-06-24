@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import cx from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import { MdMoreVert } from 'react-icons/md';
-import { Box, Button, Flex, Grid, GridItem, Icon, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, GridItem, Icon, Link, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 
 import CardNftMedia from 'src/views/apps/CardNftMedia';
 import { APP_URL } from 'src/common/constants/url';
@@ -101,7 +101,13 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
     );
     return (
       <Box className={styles.notVerified}>
-        <Text variant='warning' fontSize='sm'>This NFT Collection is currently unavailable. We are working with the NFT community to whitelist quality projects to protect our investors.</Text>
+        <Text variant='warning' fontSize='sm'>
+          This NFT Collection has not yet been whitelisted. Please examine
+          <Link target='_blank' href='http://docs.nftpawn.financial/overview/assetment-list-nft-collections-supported/'> the Eligibility Whitelist Requirements </Link>
+          and
+          <Link target='_blank' href={APP_URL.VOTING}> submit a proposal </Link>
+          if you feel it is useful to support on NFT Pawn.
+        </Text>
       </Box>
     );
   };
@@ -158,7 +164,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
           <Grid templateColumns='repeat(3, 1fr)' gap={2}>
             {extraData?.attributes?.map((att: any) => (
               <GridItem bgColor='background.darker' p={4} borderRadius={8} key={att?.trait_type}>
-                <Text variant='attrLabel' fontSize='10px'>{att?.trait_type}</Text>
+                <Text variant='label' fontSize='10px'>{att?.trait_type}</Text>
                 <Text fontSize='xs'>{att?.value}</Text>
               </GridItem>
             ))}

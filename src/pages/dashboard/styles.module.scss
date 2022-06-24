@@ -1,0 +1,9 @@
+.menuWrapper {
+  position: relative;
+  transform: translateX(0);
+  .menu {
+    position: sticky;
+    top: 40px;
+    left: 0;
+  }
+}

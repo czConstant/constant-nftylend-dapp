@@ -1,6 +1,6 @@
 import { BASE_PATH, MCT_API_BASE, MCT_ROOT } from './config'
 
-export const DISCORD_URL = 'https://discord.gg/dyMrkSXyq7';
+export const DISCORD_URL = 'https://discord.nftpawn.financial/';
 export const TWITTER_URL = 'https://twitter.com/pawnprotocol';
 export const GITBOOK_URL = 'https://docs.nftpawn.financial/';
 
@@ -35,6 +35,7 @@ export const API_URL = {
     LIST_CURRENCY: `${MCT_ROOT}${MCT_API_BASE}/currencies/list`,
     UPDATE_BLOCK_SOL: `${MCT_ROOT}${MCT_API_BASE}/blockchain/update-block`,
     VERIFY_ASSET: `${MCT_ROOT}${MCT_API_BASE}/collections/verified`,
+    NEAR_WHITELIST_COLLECTIONS: `${MCT_ROOT}${MCT_API_BASE}/collections/near-whitelist-collections`,
     LOAN_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/loans/transactions`,
     SALE_TRANSACTION: `${MCT_ROOT}${MCT_API_BASE}/assets/transactions`,
     SUBMIT_COLLECTION: `${MCT_ROOT}${MCT_API_BASE}/collections/submitted`,
@@ -49,6 +50,9 @@ export const API_URL = {
     PWP_BALANCES: `${MCT_ROOT}${MCT_API_BASE}/users/balances/pwp`,
     PWP_CLAIM: `${MCT_ROOT}${MCT_API_BASE}/users/balances/claim`,
     BALANCES_TRANSACTIONS: `${MCT_ROOT}${MCT_API_BASE}/users/balances/transactions`,
+
+    VERIFY_EMAIL: `${MCT_ROOT}${MCT_API_BASE}/verifications/verify-email`,
+    VERIFY_TOKEN: `${MCT_ROOT}${MCT_API_BASE}/verifications/verify-token`,
 
     VOTING_CURRENCIES: `${MCT_ROOT}${MCT_API_BASE}/currencies/pwp-token`,
     VOTING_PROPOSAL: `${MCT_ROOT}${MCT_API_BASE}/proposals/create`,

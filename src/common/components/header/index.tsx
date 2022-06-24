@@ -14,19 +14,42 @@ import ButtonConnectWallet from "../buttonConnectWallet";
 import ButtonWalletDropdown from "../buttonWalletDropdown";
 import { useCurrentWallet } from "src/modules/nftLend/hooks/useCurrentWallet";
 import { APP_CLUSTER } from "src/common/constants/config";
-import {
-  WalletModalProvider,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
+// import {
+//   WalletModalProvider,
+//   WalletMultiButton,
+// } from "@solana/wallet-adapter-react-ui";
 
-import "@solana/wallet-adapter-react-ui/styles.css";
+// import "@solana/wallet-adapter-react-ui/styles.css";
 import ButtonSearchLoans from 'src/views/apps/ButtonSearchLoans';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { selectUserSettings } from 'src/store/nftyLend';
+import { closeModal, openModal } from 'src/store/modal';
+import DialogSettingNotification from '../dialogSettingNotification';
 
 const Header = () => {
-  const location = useLocation();
-  const { isConnected } = useCurrentWallet();
+  const location = useLocation()
+  const dispatch = useAppDispatch()
+  const { isConnected } = useCurrentWallet()
+  const { is_verified } = useAppSelector(selectUserSettings)
+
+  const onUpdateEmail = async () => {
+    const id = 'addEmailModal';
+    const close = () => dispatch(closeModal({ id }))
+    dispatch(openModal({
+      id,
+      theme: 'dark',
+      title: 'Settings',
+      modalProps: {
+        centered: true,
+        contentClassName: styles.modalContent,
+      },
+      render: () => <DialogSettingNotification onClose={close} />,
+    }))
+  }
 
   if (isMobile) return <HeaderMobile />;
+
+  const isHome = location.pathname === '/'
 
   return (
     <div className={styles.wrapper}>
@@ -79,13 +102,13 @@ const Header = () => {
           </div>
         </div>
         <div className={styles.right}>
-          <div className={styles.hiddenSolButton}>
+          {/* <div className={styles.hiddenSolButton}>
             <WalletModalProvider className={styles.solModal}>
               <WalletMultiButton className={styles.solButton}>
                 <div id="solButton" />
               </WalletMultiButton>
             </WalletModalProvider>
-          </div>
+          </div> */}
           <ButtonSearchLoans className={styles.search} />
           {isConnected ? <ButtonWalletDropdown /> : <ButtonConnectWallet className={styles.connectButton} fontSize='sm' color='text.secondary' />}
         </div>
@@ -95,6 +118,21 @@ const Header = () => {
           <Text fontWeight='medium' fontSize='sm' color='brand.warning.400'>
             You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;
             <LinkText textDecoration='underline' fontWeight='semibold' href="https://nftpawn.financial">https://nftpawn.financial</LinkText>
+          </Text>
+        </Flex>
+      )}
+      {APP_CLUSTER !== 'testnet' && isConnected && !is_verified && (
+        <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
+          <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
+            Please update email <LinkText textDecoration='underline' fontWeight='bold' onClick={onUpdateEmail}>here</LinkText> to receive notifications.
+          </Text>
+        </Flex>
+      )}
+      {APP_CLUSTER !== 'testnet' && isHome && (
+        <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(56, 115, 250, 0.2)'>
+          <Text fontWeight='medium' fontSize='sm' color='brand.info.400'>
+            Our incentive program is live. Check out full details
+            <LinkText textDecoration='underline' fontWeight='semibold' href="https://medium.com/@nftpawnprotocol/nft-pawn-tutorial-how-to-liquidate-your-nfts-and-get-free-pwp-tokens-1248f8e73b81"> here</LinkText>
           </Text>
         </Flex>
       )}

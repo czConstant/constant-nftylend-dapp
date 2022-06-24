@@ -11,21 +11,13 @@ import BoxAttrValue from 'src/views/loanDetail/BoxAttrValue';
 import InfoTooltip from 'src/common/components/infoTooltip';
 
 interface LoanDetailBorrowerProps {
-  asset: AssetNft;
-  borrower: string;
+  data: any;
 };
 
-const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ asset, borrower }) => {
-  const [borrowerStats, setBorrowerStats] = useState<any>(null);
-    
-  useEffect(() => {
-    if (!borrower) return;
-    getBorrowerStats(borrower).then(res => {
-      setBorrowerStats(res.result)
-    });
-  }, [borrower])
-
-  const rate = new BigNumber(borrowerStats?.total_done_loans).dividedBy(borrowerStats?.total_loans).multipliedBy(100).toNumber();
+const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ data }) => {
+  if (!data) return null
+  
+  const rate = new BigNumber(data?.total_done_loans).dividedBy(data?.total_loans).multipliedBy(100).toNumber();
   let color = 'brand.danger.600'
   if (rate > 50) color = 'brand.warning.600'
   if (rate > 75) color = '#ddc014'
@@ -48,14 +40,14 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ asset, borrower
           <GridItem>
             <BoxAttrValue
               label='Total loans'
-              value={borrowerStats?.total_loans}
+              value={data?.total_loans}
               desc={`The total amount of the Loans outstanding to each Borrower, and 'Total Loans' means all such loans.`}
             />
           </GridItem>
           <GridItem>
             <BoxAttrValue
               label='Total volume'
-              value={`$${formatCurrency(borrowerStats?.total_volume)}`}
+              value={`$${formatCurrency(data?.total_volume)}`}
               desc={`Loan Volume refers to the total loan volume originated by an InGridItemidual Hire that has been funded and closed.`}
             />
           </GridItem>
