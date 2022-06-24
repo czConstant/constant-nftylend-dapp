@@ -100,10 +100,7 @@ export async function getNearNftsByOwner(owner: string): Promise<Array<any>> {
         })
       );
     } catch (err) {
-      console.log(
-        "🚀 ~ file: utils.ts ~ line 64 ~ getNearNftsByOwner ~ err",
-        err
-      );
+      console.log("🚀 ~ file: utils.ts ~ line 64 ~ getNearNftsByOwner ~ err", err);
     }
   }
   return list;

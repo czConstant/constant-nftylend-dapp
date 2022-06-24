@@ -9,6 +9,7 @@ import { formatCurrency } from 'src/common/utils/format';
 import { getAffiliateStats, getUserNearBalance } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet'
 import { AffiliateStatsData, UserBalanceData } from 'src/modules/nftLend/models/api';
+import AffiliateHistory from './history';
 import VolumeChart from './volumeChart';
 
 const Affiliates = () => {
@@ -19,10 +20,10 @@ const Affiliates = () => {
   const [nearBalance, setNearBalance] = useState<UserBalanceData>()
 
   useEffect(() => {
-    getAffiliateStats('hieuq.testnet', currentWallet.chain).then(res => {
+    getAffiliateStats(currentWallet.address, currentWallet.chain).then(res => {
       setStats(res.result)
     })
-    getUserNearBalance('hieuq.testnet', currentWallet.chain).then(res => {
+    getUserNearBalance(currentWallet.address, currentWallet.chain).then(res => {
       setNearBalance(res.result)
     })
   }, [])
@@ -85,6 +86,7 @@ const Affiliates = () => {
           </Flex>
         </GridItem>
       </Grid>
+      <AffiliateHistory />
     </Flex>
   )
 }

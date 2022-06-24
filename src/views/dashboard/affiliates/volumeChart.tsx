@@ -13,7 +13,7 @@ const VolumeChart = () => {
 
   useEffect(() => {
     getAffiliateVolumes({
-      address: 'hieuq.testnet',
+      address: currentWallet.address,
       network: currentWallet.chain,
       limit: 12,
       rpt_by: 'week',

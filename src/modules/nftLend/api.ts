@@ -3,7 +3,7 @@ import api from "src/common/services/apiClient";
 import { ListResponse, ResponseResult, SubmitCollection } from "./models/api";
 
 interface ListParams {
-  offset?: number;
+  page?: number;
   limit?: number;
 }
 
@@ -215,6 +215,10 @@ export const getAffiliateVolumes = (params: AffiliateVolumeOptions): Promise<Res
   return api.get(API_URL.NFT_LEND.AFFILIATE_VOLUMES, { params })
 }
 
-export const getAffiliateTransactions = (address: string, network: string): Promise<ResponseResult> => {
-  return api.get(API_URL.NFT_LEND.AFFILIATE_TRANSACTIONS, { params: { address, network }})
+interface AffiliateTransactionsParams extends ListParams {
+  address: string;
+  network: string;
+}
+export const getAffiliateTransactions = (params: AffiliateTransactionsParams): Promise<ListResponse> => {
+  return api.get(API_URL.NFT_LEND.AFFILIATE_TRANSACTIONS, { params })
 }

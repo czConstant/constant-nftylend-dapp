@@ -101,6 +101,28 @@ export const OFFER_STATUS = {
   },
 };
 
+export const LOAN_DURATION = [
+  {
+    id: 10 * 86400,
+    label: "10 days",
+  },
+  {
+    id: 30 * 86400,
+    label: "30 days",
+  },
+  {
+    id: 60 * 86400,
+    label: "60 days",
+  },
+];
+
+if (APP_CLUSTER !== "mainnet") {
+  LOAN_DURATION.unshift({
+    id: 60,
+    label: "60 seconds",
+  });
+}
+
 export const PWP_TX_TYPE = {
   incentive: {
     id: 'incentive',
@@ -139,24 +161,13 @@ export const INCENTIVE_TX_TYPE = {
   },
 }
 
-export const LOAN_DURATION = [
-  {
-    id: 10 * 86400,
-    label: "10 days",
+export const AFFILIATE_TX_TYPE = {
+  affiliate_lender_loan_done: {
+    id: 'affiliate_lender_loan_done',
+    name: 'Lender Done',
   },
-  {
-    id: 30 * 86400,
-    label: "30 days",
+  affiliate_borrower_loan_done: {
+    id: 'affiliate_borrower_loan_done',
+    name: 'Borrower Done',
   },
-  {
-    id: 60 * 86400,
-    label: "60 days",
-  },
-];
-
-if (APP_CLUSTER !== "mainnet") {
-  LOAN_DURATION.unshift({
-    id: 60,
-    label: "60 seconds",
-  });
 }
