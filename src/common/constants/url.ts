@@ -44,10 +44,14 @@ export const API_URL = {
     UPDATE_BLOCK_EVM: `${MCT_ROOT}${MCT_API_BASE}/blockchain/{network}/scan-block`,
     SYNC_NEAR: `${MCT_ROOT}${MCT_API_BASE}/loans/near/sync`,
     BORROWER_STATS: `${MCT_ROOT}${MCT_API_BASE}/loans/borrower-stats`,
+    
     USER_SETTINGS: `${MCT_ROOT}${MCT_API_BASE}/users/settings`,
     USER_STATS: `${MCT_ROOT}${MCT_API_BASE}/users/stats`,
+    USER_CONNECTED: `${MCT_ROOT}${MCT_API_BASE}/users/connected`,
+
     GET_OWNED_NFTS: `${MCT_ROOT}${MCT_API_BASE}/moralis/{owner}/nft`,
     PWP_BALANCES: `${MCT_ROOT}${MCT_API_BASE}/users/balances/pwp`,
+    NEAR_BALANCES: `${MCT_ROOT}${MCT_API_BASE}/users/balances/near`,
     PWP_CLAIM: `${MCT_ROOT}${MCT_API_BASE}/users/balances/claim`,
     BALANCES_TRANSACTIONS: `${MCT_ROOT}${MCT_API_BASE}/users/balances/transactions`,
 
@@ -61,5 +65,9 @@ export const API_URL = {
     VOTING_PROPOSAL_DETAIL_VOTES: `${MCT_ROOT}${MCT_API_BASE}/proposals/votes/list`,
     VOTING_PROPOSAL_VOTE_CREATE: `${MCT_ROOT}${MCT_API_BASE}/proposals/votes/create`,
     VOTING_PROPOSAL_VOTE_CHECK: `${MCT_ROOT}${MCT_API_BASE}/proposals/votes/vote`,
+
+    AFFILIATE_STATS: `${MCT_ROOT}${MCT_API_BASE}/affiliates/stats`,
+    AFFILIATE_VOLUMES: `${MCT_ROOT}${MCT_API_BASE}/affiliates/volumes`,
+    AFFILIATE_TRANSACTIONS: `${MCT_ROOT}${MCT_API_BASE}/affiliates/transactions`,
   },
 }

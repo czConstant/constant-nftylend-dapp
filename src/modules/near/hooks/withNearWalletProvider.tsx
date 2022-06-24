@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import queryString from "query-string";
 import { useLocation } from 'react-router-dom';
+import { useCookies } from 'react-cookie'
 
 import NearWalletSelector, { AccountInfo, NetworkId } from '@near-wallet-selector/core';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
@@ -16,7 +17,9 @@ import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 import { toastSuccess } from 'src/common/services/toaster';
 
-import { getLinkNearExplorer, getNearConfig } from '../utils';
+import { getLinkNearExplorer, getNearConfig, nearSignText } from '../utils';
+import { connectUserFromRefer } from 'src/modules/nftLend/api';
+import moment from 'moment-timezone';
 
 interface WalletSelectorContextValue {
   selector: NearWalletSelector;
@@ -31,6 +34,7 @@ export const NearWalletProvider: React.FC = ({ children }) => {
   const dispatch = useAppDispatch();
   const near_nftypawn_address = useAppSelector(selectNftyLend).configs.near_nftypawn_address;
   const location = useLocation();
+  const [cookie, setCookkie, removeCookie] = useCookies(['referral_code'])
 
   const [selector, setSelector] = useState<NearWalletSelector | null>(null);
   const [accountId, setAccountId] = useState<string | null>(null);
@@ -41,7 +45,8 @@ export const NearWalletProvider: React.FC = ({ children }) => {
     currentAccountId: string | null,
     newAccounts: Array<AccountInfo>
   ) => {
-    const isBackFromNear = !!queryString.parse(location.search).account_id;
+    const query = queryString.parse(location.search)
+    const isBackFromNear = !!query.account_id;
     const savedChain= localStore.get(localStore.KEY_WALLET_CHAIN);
 
     if (savedChain !== Chain.Near && !isBackFromNear) return;
@@ -61,6 +66,13 @@ export const NearWalletProvider: React.FC = ({ children }) => {
       chain: Chain.Near,
       name: 'near',
     }));
+
+    if (cookie.referral_code) {
+      const timestamp = moment().unix()
+      nearSignText(newAccountId, String(timestamp)).then(signature => {
+        connectUserFromRefer({ address: newAccountId, network: Chain.Near, timestamp, signature, referrer_code: cookie.referral_code })
+      }).catch(err => null)
+    }
   };
 
   const initSelector = async () => {

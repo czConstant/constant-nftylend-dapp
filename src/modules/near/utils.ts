@@ -100,10 +100,7 @@ export async function getNearNftsByOwner(owner: string): Promise<Array<any>> {
         })
       );
     } catch (err) {
-      console.log(
-        "🚀 ~ file: utils.ts ~ line 64 ~ getNearNftsByOwner ~ err",
-        err
-      );
+      console.log("🚀 ~ file: utils.ts ~ line 64 ~ getNearNftsByOwner ~ err", err);
     }
   }
   return list;
@@ -149,6 +146,7 @@ export const nearSignText = async (accountId: string, data: string): Promise<str
     if (keyPair) {
       signature = keyPair.sign(msg).signature;
     } else if (window.near?.isSender) {
+      if (!window.near.account().connection.signer.signMessage) throw Error('Please unlock your Sender wallet and reload again')
       const res = await window.near.account().connection.signer.signMessage(data, accountId, getNearConfig().networkId)
       signature = res.signature
     }
