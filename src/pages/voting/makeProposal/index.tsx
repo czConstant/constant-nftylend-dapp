@@ -34,7 +34,7 @@ import { toastError, toastSuccess } from "src/common/services/toaster";
 import icClose from "../images/ic_close.svg";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getPwpBalance } from "src/modules/nftLend/api";
+import { getUserPwpBalance } from "src/modules/nftLend/api";
 
 const minDateCurrent = (value: any) => {
   if (moment(value).isSameOrBefore(moment.now())) {
@@ -116,7 +116,7 @@ const VotingMakeProposal = () => {
 
   const fetchBalance = async () => {
     const currencies = await VotingServices.getCurrenciesPWP();
-    const pwpBalance = await getPwpBalance(
+    const pwpBalance = await getUserPwpBalance(
       currentWallet.address,
       currencies.network
     );

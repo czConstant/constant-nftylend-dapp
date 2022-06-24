@@ -6,16 +6,16 @@ import { Box, Button, Flex, Grid, GridItem, Table, TableContainer, Tbody, Td, Te
 import Pagination from 'src/common/components/pagination';
 import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import { nearSignText } from 'src/modules/near/utils';
-import { claimPwpBalance, getBalanceTransactions, getPwpBalance } from 'src/modules/nftLend/api';
+import { claimPwpBalance, getBalanceTransactions, getUserPwpBalance } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
-import { PwpBalanceData } from 'src/modules/nftLend/models/api';
+import { UserBalanceData } from 'src/modules/nftLend/models/api';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { INCENTIVE_TX_TYPE, PWP_TX_TYPE } from 'src/modules/nftLend/constant';
 
 const MyPwp = () => {
   const { currentWallet } = useCurrentWallet();
 
-  const [pwpBalance, setPwpBalance] = useState<PwpBalanceData>();
+  const [pwpBalance, setPwpBalance] = useState<UserBalanceData>();
   const [transactions, setTransactions] = useState<any[]>([]);
   const [displayTransactions, setDisplayTransactions] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
@@ -24,7 +24,7 @@ const MyPwp = () => {
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    getPwpBalance(currentWallet.address, currentWallet.chain).then(res => {
+    getUserPwpBalance(currentWallet.address, currentWallet.chain).then(res => {
       setPwpBalance(res.result);
     });
   }, [])

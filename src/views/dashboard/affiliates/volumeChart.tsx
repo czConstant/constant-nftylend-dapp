@@ -1,19 +1,36 @@
 import { Box } from '@chakra-ui/react'
+import moment from 'moment-timezone'
+import { useEffect, useMemo, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 
-const VolumeChart = () => {
-  const series = [{
-    name: 'Net Profit',
-    data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-  }, {
-    name: 'Revenue',
-    data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-  }, {
-    name: 'Free Cash Flow',
-    data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-  }]
+import { getAffiliateVolumes } from 'src/modules/nftLend/api'
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet'
 
-  const options = {
+const VolumeChart = () => {
+  const { currentWallet } = useCurrentWallet()
+
+  const [volume, setVolume] = useState<Array<any>>([])
+
+  useEffect(() => {
+    getAffiliateVolumes({
+      address: 'hieuq.testnet',
+      network: currentWallet.chain,
+      limit: 12,
+      rpt_by: 'week',
+    }).then(res => {
+      setVolume(res.result.reverse())
+    })
+  }, [currentWallet])
+
+  const series = useMemo(() => [{
+    name: 'NEAR Volume',
+    data: volume.map(e => Number(e.total_commissions)),
+  }], [volume])
+
+  const options = useMemo(() => ({
+    chart: {
+      toolbar: { show: false },
+    },
     grid: {
       show: false,
     },
@@ -33,17 +50,15 @@ const VolumeChart = () => {
       colors: ['transparent']
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+      categories: volume.map(e => moment(e.rpt_date).format('DD-MM')),
       labels: {
         style: {
           colors: '#FCFCFD'
         }
       }
     },
+    colors: ['#6a1cfd'],
     yaxis: {
-      title: {
-        text: '$ (thousands)'
-      },
       labels: {
         style: {
           colors: '#FCFCFD'
@@ -57,11 +72,11 @@ const VolumeChart = () => {
       theme: 'dark',
       y: {
         formatter: function (val) {
-          return "$ " + val + " thousands"
+          return `${val} NEAR`
         }
       }
     }
-  }
+  }), [volume]);
 
   return (
     <Box id='chart'>

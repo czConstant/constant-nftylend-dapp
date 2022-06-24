@@ -136,8 +136,12 @@ export const getBorrowerStats = (address: string): Promise<ResponseResult> => {
   return api.get(`${API_URL.NFT_LEND.BORROWER_STATS}/${address}`);
 };
 
-export const getPwpBalance = (address: string, network: string): Promise<ResponseResult> => {
+export const getUserPwpBalance = (address: string, network: string): Promise<ResponseResult> => {
   return api.get(API_URL.NFT_LEND.PWP_BALANCES, { params: { address, network } });
+};
+
+export const getUserNearBalance = (address: string, network: string): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.NEAR_BALANCES, { params: { address, network } });
 };
 
 export const getBalanceTransactions = (address: string, network: string, currencyId: number): Promise<ListResponse> => {
@@ -195,4 +199,22 @@ export const verifyUserEmail = async (params: VerfiyEmailParams): Promise<Respon
 
 export const verifyEmailToken = async (email: string, token: string): Promise<ResponseResult> => {
   return api.post(API_URL.NFT_LEND.VERIFY_TOKEN, { email, token });
+}
+
+export const getAffiliateStats = (address: string, network: string): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.AFFILIATE_STATS, { params: { address, network }})
+}
+
+interface AffiliateVolumeOptions {
+  address: string;
+  network: string;
+  rpt_by: string;
+  limit: number;
+}
+export const getAffiliateVolumes = (params: AffiliateVolumeOptions): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.AFFILIATE_VOLUMES, { params })
+}
+
+export const getAffiliateTransactions = (address: string, network: string): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.AFFILIATE_TRANSACTIONS, { params: { address, network }})
 }
