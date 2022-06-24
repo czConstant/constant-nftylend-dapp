@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Field, Form } from "react-final-form";
 import { Box, Button, Flex, Icon, IconButton, Input, InputGroup, Switch, Text } from '@chakra-ui/react';
 import { MdCheck, MdClose } from 'react-icons/md';
 import { BsPencilSquare } from 'react-icons/bs';
+import moment from 'moment-timezone';
 
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import Loading from 'src/common/components/loading';
-import { required, isEmail, composeValidators } from "src/common/utils/formValidate";
-import InputWrapper from "src/common/components/form/inputWrapper";
-import FieldText from 'src/common/components/form/fieldText';
 
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { getUserSettings, changeUserSettings, verifyUserEmail } from 'src/modules/nftLend/api';
 import { nearSignText } from 'src/modules/near/utils';
-import moment from 'moment-timezone';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectUserSettings, updateUserSettings } from 'src/store/nftyLend';
 
@@ -25,7 +21,6 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
   const { onClose } = props
   const { currentWallet } = useCurrentWallet()
   const settings = useAppSelector(selectUserSettings)
-  console.log("🚀 ~ file: index.tsx ~ line 27 ~ DialogSettingNotification ~ settings", settings)
   const dispatch = useAppDispatch()
 
   const [submitting, setSubmitting] = useState(false)
@@ -103,10 +98,10 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
         <Input value={email} onChange={e => setEmail(e.target.value)} />
         {settings.email
           ? (<>
-            <IconButton aria-label='save' icon={<MdCheck />} disabled={!canSave} onClick={onSave} />
+            <IconButton aria-label='save' icon={submitting ? <Loading /> : <MdCheck />} disabled={!canSave || submitting} onClick={onSave} />
             <IconButton aria-label='cancel' variant='solid' colorScheme='whiteAlpha' icon={<MdClose />} onClick={() => setEditingEmail(false)} />
           </>) : (
-            <Button mt={1} ml={4} w='80px' fontSize='sm' disabled={submitting} type="submit">
+            <Button mt={1} ml={4} w='80px' fontSize='sm' disabled={submitting} onClick={onSave}>
               {submitting ? <Loading dark /> : "Save"}
             </Button>
           )}
