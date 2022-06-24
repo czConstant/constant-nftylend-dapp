@@ -8,7 +8,10 @@ import { NearNft } from "src/modules/near/models/nearNft";
 
 export const NEAR_DEFAULT_GAS =
   nearAPI.utils.format.parseNearAmount("0.0000000003")
-export const NEAR_STORATE_AMOUNT_PER_BYTE = "10000000000000000000"
+export const NEAR_TX_REVERSE =
+  nearAPI.utils.format.parseNearAmount("0.05")
+export const NEAR_STORATE_AMOUNT_PER_BYTE =
+  nearAPI.utils.format.parseNearAmount("0.00001")
 export const NEAR_PARAS_CREATOR = 'x.paras.near'
 
 export enum NEAR_LOAN_STATUS {
@@ -61,10 +64,10 @@ export async function getNearBalance(
     account_id: address,
     finality: "final",
   });
-  const storageAmount = new BigNumber(NEAR_STORATE_AMOUNT_PER_BYTE).multipliedBy(res.storage_usage)
+  const storageAmount = new BigNumber(Number(NEAR_STORATE_AMOUNT_PER_BYTE)).multipliedBy(res.storage_usage)
   const lockedAmount = new BigNumber(res.locked)
-
-  return nearAPI.utils.format.formatNearAmount(new BigNumber(res.amount).minus(storageAmount).minus(lockedAmount).toString(10));
+  const available = new BigNumber(res.amount).minus(storageAmount).minus(Number(NEAR_TX_REVERSE)).minus(lockedAmount).toString(10)
+  return nearAPI.utils.format.formatNearAmount(available);
 }
 
 export async function getBalanceNearToken(
@@ -138,12 +141,18 @@ function toHexString(byteArray: any) {
 
 export const nearSignText = async (accountId: string, data: string): Promise<string> => {
   try {
-    const keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
-    const keyPair = await keyStore.getKey(getNearConfig().networkId, accountId);
-
     const msg = Buffer.from(data);
-    const { signature } = keyPair.sign(msg);
+    let signature: any;
+    let keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
+    let keyPair = await keyStore.getKey(getNearConfig().networkId, accountId);
 
+    if (keyPair) {
+      signature = keyPair.sign(msg).signature;
+    } else if (window.near?.isSender) {
+      if (!window.near.account().connection.signer.signMessage) throw Error('Please unlock your Sender wallet and reload again')
+      const res = await window.near.account().connection.signer.signMessage(data, accountId, getNearConfig().networkId)
+      signature = res.signature
+    }
     const signatureToHex = toHexString(signature);
     return signatureToHex;
   } catch (error) {
