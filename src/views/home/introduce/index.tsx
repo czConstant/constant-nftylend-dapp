@@ -37,11 +37,12 @@ const Introduce = () => {
   const cardToChange = useRef(0);
 
   useEffect(() => {
-    getListingLoans({ page: 1, limit: NUM_PIC_POOL }).then(res => {
-      setPictures(res.result.map((e: LoanData) => {
-        return e.asset?.token_url;
-      }))
-    })
+    setTimeout(() => controls.start({ translateX: 0 }), 1000);
+    // getListingLoans({ page: 1, limit: NUM_PIC_POOL }).then(res => {
+    //   setPictures(res.result.map((e: LoanData) => {
+    //     return e.asset?.token_url;
+    //   }))
+    // })
   }, [])
 
   useEffect(() => {
