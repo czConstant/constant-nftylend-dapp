@@ -8,14 +8,14 @@ import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import { nearSignText } from 'src/modules/near/utils';
 import { claimPwpBalance, getBalanceTransactions, getPwpBalance } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
-import { PwpBalanceData } from 'src/modules/nftLend/models/api';
+import { UserBalanceData } from 'src/modules/nftLend/models/api';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { INCENTIVE_TX_TYPE, PWP_TX_TYPE } from 'src/modules/nftLend/constant';
 
 const MyPwp = () => {
   const { currentWallet } = useCurrentWallet();
 
-  const [pwpBalance, setPwpBalance] = useState<PwpBalanceData>();
+  const [pwpBalance, setPwpBalance] = useState<UserBalanceData>();
   const [transactions, setTransactions] = useState<any[]>([]);
   const [displayTransactions, setDisplayTransactions] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
@@ -48,14 +48,14 @@ const MyPwp = () => {
       const amount = new BigNumber(pwpBalance.balance).minus(pwpBalance.locked_balance)
       const timestamp = moment(pwpBalance.updated_at).unix()
       const message = `${currentWallet.address.toLowerCase()}-${pwpBalance.currency.contract_address}-${amount.toString(10)}-${timestamp}`
-      // const signature = await nearSignText(currentWallet.address, message)
+      const signature = await nearSignText(currentWallet.address, message)
       await claimPwpBalance({ 
         user_id: pwpBalance.user.id,
         currency_id: pwpBalance.currency.id,
         to_address: currentWallet.address,
         amount: amount.toNumber(),
         timestamp,
-        // signature,
+        signature,
       })
       toastSuccess('Claimed PWP successfully')
     } catch (err: any) {

@@ -47,11 +47,11 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
   const changeNotiSetting = async (key: string, value: any) => {
     try {
       const timestamp = moment().unix()
-      // const signature = await nearSignText(currentWallet.address, String(timestamp))
+      const signature = await nearSignText(currentWallet.address, String(timestamp))
       await changeUserSettings({
         address: currentWallet.address,
         network: currentWallet.chain,
-        // signature,
+        signature,
         timestamp,
         [key]: value,
       })
@@ -66,12 +66,12 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
     try {
       setSubmitting(true)
       const timestamp = moment().unix()
-      // const signature = await nearSignText(currentWallet.address, String(timestamp))
+      const signature = await nearSignText(currentWallet.address, String(timestamp))
       await changeUserSettings({
         email: email,
         address: currentWallet.address,
         network: currentWallet.chain,
-        // signature,
+        signature,
         timestamp,
       })
       fetchSetting();
@@ -122,14 +122,14 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
             <Text fontWeight='medium'>Newsletter</Text>
             <Text fontSize='sm' color='text.secondary'>Get first notified for any NFTPawn info</Text>
           </Box>
-          <Switch colorScheme='brand.primary' isChecked={newsNotiEnabled} onChange={e => changeNotiSetting('news_noti_enabled', newsNotiEnabled)} />
+          <Switch colorScheme='brand.primary' isChecked={newsNotiEnabled} onChange={e => changeNotiSetting('news_noti_enabled', e.target.checked)} />
         </Flex>
         <Flex alignItems='center' justifyContent='space-between' gap={4}>
           <Box>
             <Text fontWeight='medium'>Loans activity</Text>
             <Text fontSize='sm' color='text.secondary'>Get notified for your loans and offers on NFTPawn</Text>
           </Box>
-          <Switch colorScheme='brand.primary' isChecked={loanNotiEnabled} onChange={e => changeNotiSetting('loan_noti_enabled', loanNotiEnabled)} />
+          <Switch colorScheme='brand.primary' isChecked={loanNotiEnabled} onChange={e => changeNotiSetting('loan_noti_enabled', e.target.checked)} />
         </Flex>
       </Flex>
     </Flex>

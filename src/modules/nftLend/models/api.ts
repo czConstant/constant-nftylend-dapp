@@ -139,7 +139,7 @@ export interface UserData {
   seen_noti_id: number;
 }
 
-export interface PwpBalanceData {
+export interface UserBalanceData {
   balance: string;
   claimed_balance: string;
   locked_balance: string;
