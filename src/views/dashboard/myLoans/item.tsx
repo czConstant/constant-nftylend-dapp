@@ -147,7 +147,7 @@ const Item = (props: ItemProps) => {
 
   const renderLoan = () => {
     const showCancel = loan.isListing() || loan.isExpired();
-    const showPay = loan.isOngoing() && moment().isBefore(moment(loan.approved_offer?.expired_at));
+    const showPay = loan.isOngoing();
 
     const principal = loan.approved_offer
       ? loan.approved_offer.principal_amount

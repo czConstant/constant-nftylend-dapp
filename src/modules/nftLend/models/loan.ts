@@ -65,6 +65,7 @@ export class LoanNft {
       loan.approved_offer = OfferToLoan.parseFromApi(data.approved_offer, chain);
       loan.approved_offer.started_at = data.offer_started_at;
       loan.approved_offer.expired_at = data.offer_expired_at;
+      loan.approved_offer.overdue_at = data.offer_overdue_at;
     }
     return loan;
   }
@@ -101,6 +102,7 @@ export class LoanNft {
         loan.approved_offer = OfferToLoan.parseFromApi(data.new_loan.approved_offer, chain);
         loan.approved_offer.started_at = data.new_loan.offer_started_at;
         loan.approved_offer.expired_at = data.new_loan.offer_expired_at;
+        loan.approved_offer.overdue_at = data.new_loan.offer_overdue_at;
       }
     }
     return loan;
@@ -129,11 +131,11 @@ export class LoanNft {
   }
 
   isOngoing(): boolean {
-    return this.status === 'created';
+    return this.status === 'created' && moment().isBefore(moment(this.approved_offer?.overdue_at));
   }
 
   isLiquidated(): boolean {
-    return this.status === 'created' && moment().isAfter(moment(this.approved_offer?.expired_at));
+    return this.status === 'created' && moment().isAfter(moment(this.approved_offer?.overdue_at));
   }
 
   isDone(): boolean {

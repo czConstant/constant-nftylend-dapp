@@ -13,7 +13,7 @@ const BadgeLoanStatus = (props: BadgeLoanStatusProps) => {
 
   let status = loan.status;
   let badgeVariant = 'success';
-  const showPay = loan.isOngoing() && moment().isBefore(moment(loan.approved_offer?.expired_at));
+  const showPay = loan.isOngoing();
 
   if (loan.isLiquidated()) {
     status = "liquidated";
