@@ -30,7 +30,7 @@ const Header = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const { isConnected } = useCurrentWallet()
-  const { is_verified } = useAppSelector(selectUserSettings)
+  const { email } = useAppSelector(selectUserSettings)
 
   const onUpdateEmail = async () => {
     const id = 'addEmailModal';
@@ -121,7 +121,7 @@ const Header = () => {
           </Text>
         </Flex>
       )}
-      {APP_CLUSTER !== 'testnet' && isConnected && !is_verified && (
+      {APP_CLUSTER !== 'testnet' && isConnected && !email && (
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
             Please update email <LinkText textDecoration='underline' fontWeight='bold' onClick={onUpdateEmail}>here</LinkText> to receive notifications.
