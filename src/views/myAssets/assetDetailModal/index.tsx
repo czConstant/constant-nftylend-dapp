@@ -34,7 +34,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
 
   useEffect(() => {
     if (asset.needFetchDetail()) getExtraData();
-    // verifiedCollection();
+    verifiedCollection();
     checkLoanInfo();
   }, [asset]);
 
