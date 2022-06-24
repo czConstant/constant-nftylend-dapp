@@ -101,6 +101,17 @@ export const OFFER_STATUS = {
   },
 };
 
+export const PWP_TX_TYPE = {
+  incentive: {
+    id: 'incentive',
+    name: 'Incentive',
+  },
+  claim: {
+    id: 'claim',
+    name: 'Claim',
+  },
+}
+
 export const INCENTIVE_TX_TYPE = {
   borrower_loan_delisted: {
     id: 'borrower_loan_delisted',
@@ -121,6 +132,10 @@ export const INCENTIVE_TX_TYPE = {
   lender_loan_matched: {
     id: 'lender_loan_matched',
     name: 'Matched Loan',
+  },
+  claim: {
+    id: 'claim',
+    name: 'Claim Reward',
   },
 }
 

@@ -94,7 +94,7 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
         Go to loan
       </Button>
     );
-    if (true) return (
+    if (listingDetail) return (
       <Button w='100%' onClick={onClickMakeLoan}>
         Make a Loan
       </Button>
