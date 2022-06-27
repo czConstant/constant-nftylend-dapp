@@ -126,7 +126,7 @@ const Item = (props: ItemProps) => {
   };
 
   const showClaim = !isEvmChain(offer.chain) && offer.status === "repaid";
-  const showLiquidate = offer.isLiquidated();
+  const showLiquidate = offer.isOverdue();
   const showCancel = offer.isListing() || offer.isExpired();
 
   const principal = offer.principal_amount;

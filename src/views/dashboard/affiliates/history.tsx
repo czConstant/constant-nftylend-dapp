@@ -50,14 +50,15 @@ const AffiliateHistory = () => {
               const isLast = i === transactions.length - 1;
               const txType = PAWN_BALANCE_TX_TYPE[e.type]
               const type = txType?.name || e.type
-              const duration = e.loan?.approved_offer ? e.loan?.approved_offer.duration : e.loan?.duration;
-              
+              const duration = e.loan?.offer_duration || e.loan?.duration;
+              const principal = e.loan?.offer_principal_amount || e.loan?.principal_amount;
+
               return (
                 <Tr key={e.id}>
                   <Td borderBottomLeftRadius={isLast ? 16 : 0}>{shortCryptoAddress(e.ref_user?.address)}</Td>
                   <Td>{type}</Td>
                   <Td>{formatDateTime(e.created_at)}</Td>
-                  <Td>{formatCurrency(e.loan?.principal_amount)} {e.currency?.symbol}</Td>
+                  <Td>{formatCurrency(principal)} {e.currency?.symbol}</Td>
                   <Td>{formatCurrency(e.loan?.interest_rate * 100)}%</Td>
                   <Td>{formatDuration(duration)}</Td>
                   <Td borderBottomRightRadius={isLast ? 16 : 0}>{formatCurrency(e.amount)} {e.currency?.symbol}</Td>
