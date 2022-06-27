@@ -44,7 +44,7 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
   if (location.pathname.includes(APP_URL.DASHBOARD)) return null;
 
   return (
-    <Button onClick={onOpenModal} className={cx(styles.container, className)}>
+    <Button h='50px' borderRadius={30} onClick={onOpenModal} className={cx(styles.container, className)}>
       {!hiddenIcon && (
         <Player
           autoplay

@@ -26,7 +26,7 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
     
   useEffect(() => {
     if (!loan.owner) return;
-    getBorrowerStats(loan.owner).then(res => {
+    getBorrowerStats(loan.owner, loan.chain).then(res => {
       setBorrowerStats(res.result)
     });
   }, [loan])

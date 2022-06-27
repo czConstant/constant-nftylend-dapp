@@ -182,8 +182,10 @@ const Item = (props: ItemProps) => {
     )
   }
 
+  const defaultOpen = loan.isListing() && loan.offers.length > 0
+
   return loan.isOngoing() ? renderLoan() : (
-    <Accordion allowToggle onChange={i => setOpen(i === 0)}>
+    <Accordion allowToggle defaultIndex={defaultOpen ? 0 : -1} onChange={i => setOpen(i === 0)}>
       <AccordionItem border='none'>
         <AccordionButton borderRadius={0} p={0} bgColor='transparent'>
           {renderLoan()}
