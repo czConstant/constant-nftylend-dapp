@@ -51,7 +51,7 @@ const VolumeChart = () => {
       colors: ['transparent']
     },
     xaxis: {
-      categories: volume.map(e => moment(e.rpt_date).format('DD-MM')),
+      categories: volume.map(e => moment(e.rpt_date).format(filter === 'week' ? 'DD-MM' : 'MM-YYYY')),
       labels: {
         style: {
           colors: '#FCFCFD'

@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import cx from "classnames";
 import BigNumber from 'bignumber.js';
 import { Flex, Grid, GridItem, Icon, Text, Tooltip } from '@chakra-ui/react';
-import { MdInfoOutline } from 'react-icons/md';
 
-import { AssetNft } from 'src/modules/nftLend/models/nft';
-import { getBorrowerStats } from 'src/modules/nftLend/api';
 import { formatCurrency } from 'src/common/utils/format';
 import BoxAttrValue from 'src/views/loanDetail/BoxAttrValue';
 import InfoTooltip from 'src/common/components/infoTooltip';
