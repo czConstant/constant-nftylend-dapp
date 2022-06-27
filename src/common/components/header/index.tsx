@@ -2,13 +2,12 @@ import { memo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import cx from "classnames";
 import { isMobile } from "react-device-detect";
-import { Flex, Text, Link as LinkText } from '@chakra-ui/react';
+import { Flex, Text, Link as LinkText, Icon } from '@chakra-ui/react';
 
 import AppIcon from "src/common/components/appIcon";
 import { APP_URL } from "src/common/constants/url";
 
 import styles from "./styles.module.scss";
-import ButtonCreateLoan from "../buttonCreateLoan";
 import HeaderMobile from "./index.mobile";
 import ButtonConnectWallet from "../buttonConnectWallet";
 import ButtonWalletDropdown from "../buttonWalletDropdown";
@@ -25,6 +24,7 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectUserSettings } from 'src/store/nftyLend';
 import { closeModal, openModal } from 'src/store/modal';
 import DialogSettingNotification from '../dialogSettingNotification';
+import { RiShareBoxLine } from 'react-icons/ri';
 
 const Header = () => {
   const location = useLocation()
@@ -117,14 +117,14 @@ const Header = () => {
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(255, 192, 122, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.warning.400'>
             You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;
-            <LinkText textDecoration='underline' fontWeight='semibold' href="https://nftpawn.financial">https://nftpawn.financial</LinkText>
+            <LinkText fontWeight='semibold' href="https://nftpawn.financial">https://nftpawn.financial <Icon as={RiShareBoxLine} /></LinkText>
           </Text>
         </Flex>
       )}
       {APP_CLUSTER !== 'testnet' && isConnected && !email && (
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
-            Please update email <LinkText textDecoration='underline' fontWeight='bold' onClick={onUpdateEmail}>here</LinkText> to receive notifications.
+            Please update email <LinkText fontWeight='bold' onClick={onUpdateEmail}>here <Icon as={RiShareBoxLine} /></LinkText> to receive notifications.
           </Text>
         </Flex>
       )}
@@ -132,7 +132,7 @@ const Header = () => {
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(56, 115, 250, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.info.400'>
             Our incentive program is live. Check out full details
-            <LinkText textDecoration='underline' fontWeight='semibold' href="https://medium.com/@nftpawnprotocol/nft-pawn-tutorial-how-to-liquidate-your-nfts-and-get-free-pwp-tokens-1248f8e73b81"> here</LinkText>
+            <LinkText fontWeight='semibold' href="https://medium.com/@nftpawnprotocol/nft-pawn-tutorial-how-to-liquidate-your-nfts-and-get-free-pwp-tokens-1248f8e73b81"> here <Icon as={RiShareBoxLine} /></LinkText>
           </Text>
         </Flex>
       )}
