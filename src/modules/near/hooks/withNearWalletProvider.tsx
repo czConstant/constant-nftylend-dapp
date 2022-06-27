@@ -77,6 +77,7 @@ export const NearWalletProvider: React.FC = ({ children }) => {
 
   const initSelector = async () => {
     try {
+      console.log("🚀 ~ file: withNearWalletProvider.tsx ~ line 76 ~ initSelector ~ near_nftypawn_address", near_nftypawn_address)
       const instance = await NearWalletSelector.init({
         network: getNearConfig().networkId as NetworkId,
         contractId: near_nftypawn_address,
