@@ -54,7 +54,7 @@ const AffiliateHistory = () => {
               
               return (
                 <Tr key={e.id}>
-                  <Td borderBottomLeftRadius={isLast ? 16 : 0}>{shortCryptoAddress(e.loan?.owner)}</Td>
+                  <Td borderBottomLeftRadius={isLast ? 16 : 0}>{shortCryptoAddress(e.ref_user?.address)}</Td>
                   <Td>{type}</Td>
                   <Td>{formatDateTime(e.created_at)}</Td>
                   <Td>{formatCurrency(e.loan?.principal_amount)} {e.currency?.symbol}</Td>

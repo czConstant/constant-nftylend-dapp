@@ -134,11 +134,11 @@ export const PAWN_BALANCE_TX_TYPE = {
   },
   affiliate_lender_loan_done: {
     id: 'affiliate_lender_loan_done',
-    name: 'Lender Done',
+    name: 'Lender',
   },
   affiliate_borrower_loan_done: {
     id: 'affiliate_borrower_loan_done',
-    name: 'Borrower Done',
+    name: 'Borrower',
   },
 }
 

@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react'
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { MdContentCopy } from 'react-icons/md';
+import InfoTooltip from 'src/common/components/infoTooltip';
 
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { formatCurrency } from 'src/common/utils/format';
@@ -65,7 +66,7 @@ const Affiliates = () => {
       <Grid templateColumns='1.5fr repeat(2, 1fr)' gap={4}>
         <GridItem>
           <Flex h='100%' direction='column' justifyContent='space-between' backgroundColor='background.card' borderRadius={16} p={4}>
-            <Text fontSize='sm' color='text.secondary'>Affiliate URL</Text>
+            <Flex gap={2} alignItems='flex-end'><Text fontSize='sm' color='text.secondary'>Affiliate URL</Text><InfoTooltip label="Affiliates who reach NFTPawn using this URL link and execute orders within 60 days will be considered for the affiliate program by Affliliater; otherwise, it will be calculated as organic traffic." /></Flex>
             <Flex alignItems='center' justifyContent='space-between'>
               <Text fontSize='md' fontWeight='semibold'>{affiliateUrl}</Text>
               <CopyToClipboard
@@ -101,7 +102,7 @@ const Affiliates = () => {
           <Flex direction='column' flex={1} gap={2}>
             <Flex direction='column' backgroundColor='background.card' borderRadius={16} p={4}>
               <Text fontSize='sm' color='text.secondary'>Total Revenue</Text>
-              <Text fontSize='2xl' fontWeight='bold'>${formatCurrency(stats?.total_commissions)}</Text>
+              <Text fontSize='2xl' fontWeight='bold'>{formatCurrency(stats?.total_commissions)} {nearBalance?.currency?.symbol}</Text>
             </Flex>
             <Flex direction='column' backgroundColor='background.card' borderRadius={16} p={4}>
               <Text fontSize='sm' color='text.secondary'>Total Users</Text>
