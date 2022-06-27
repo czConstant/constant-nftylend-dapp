@@ -39,7 +39,7 @@ const Affiliates = () => {
     try {
       (true)
       const amount = new BigNumber(nearBalance.balance).minus(nearBalance.locked_balance)
-      const timestamp = moment(nearBalance.updated_at).unix()
+      const timestamp = moment().unix()
       const signature = await nearSignText(currentWallet.address, String(timestamp))
       await claimCurrencyBalance({ 
         address: currentWallet.address,
