@@ -9,7 +9,7 @@ import { isEvmChain } from '../utils';
 
 // ** Defaults
 const defaultProvider = {
-  currentWallet: {},
+  currentWallet: { address: '', chain: Chain.None},
   isConnected:false,
   connectSolanaWallet: () => null,
   connectEvmWallet: () => null,

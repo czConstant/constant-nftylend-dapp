@@ -1,9 +1,7 @@
-.loading {
-  font-weight: bold;
+.dotLoading {
   display:inline-block;
-  font-family: monospace;
-  font-size: 30px;
-  clip-path: inset(0 3ch 0 0);
+  font-family: monospace !important;
+  clip-path: inset(0 4ch 0 0);
   animation: l 1s steps(4) infinite;
 }
 

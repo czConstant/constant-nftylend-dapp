@@ -129,13 +129,6 @@ const Header = () => {
             </Text>
           </Flex>
         )}
-        {email && !is_verified && (
-        <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
-          <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
-            Please check your mailbox and verify <strong>{email}</strong>
-          </Text>
-        </Flex>
-      )}
       </>}
       {APP_CLUSTER !== 'testnet' && isHome && (
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(56, 115, 250, 0.2)'>
