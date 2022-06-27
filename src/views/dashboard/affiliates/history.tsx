@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Flex, Table, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
+import { Center, Flex, Table, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
 
 import Pagination from 'src/common/components/pagination';
 import { formatCurrency, formatDateTime, formatDuration, shortCryptoAddress } from 'src/common/utils/format';
 import { getAffiliateTransactions } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { PAWN_BALANCE_TX_TYPE } from 'src/modules/nftLend/constant';
+import EmptyList from 'src/common/components/emptyList';
 
 const DEFAULT_LIMIT = 10
 
@@ -19,7 +20,7 @@ const AffiliateHistory = () => {
 
   useEffect(() => {
     getAffiliateTransactions({
-      address: 'hieuq.testnet',
+      address: currentWallet.address,
       network: currentWallet.chain,
       page,
       limit: pageSize,
@@ -65,6 +66,7 @@ const AffiliateHistory = () => {
             })}
           </Tbody>
         </Table>
+        {transactions.length === 0 && <Center><EmptyList labelText="There is no transaction yet" /></Center>}
         <Flex p={4} w='100%' justifyContent='flex-end'>
           <Pagination total={total} page={page} pageSize={pageSize} onChangePage={(p: number) => setPage(p)} />
         </Flex>

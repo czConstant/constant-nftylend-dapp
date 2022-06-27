@@ -48,7 +48,7 @@ const Affiliates = () => {
         currency_id: nearBalance.currency.id,
         amount: amount.toNumber(),
       })
-      toastSuccess('Claimed PWP successfully')
+      toastSuccess('Claimed successfully')
     } catch (err: any) {
       toastError(err?.message)
     } finally {
