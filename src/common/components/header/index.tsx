@@ -30,7 +30,7 @@ const Header = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const { isConnected } = useCurrentWallet()
-  const { email } = useAppSelector(selectUserSettings)
+  const { email, is_verified } = useAppSelector(selectUserSettings)
 
   const onUpdateEmail = async () => {
     const id = 'addEmailModal';
@@ -121,13 +121,22 @@ const Header = () => {
           </Text>
         </Flex>
       )}
-      {APP_CLUSTER !== 'testnet' && isConnected && !email && (
+      {APP_CLUSTER !== 'testnet' && isConnected && <>
+        {!email && (
+          <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
+            <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
+              Please update email <LinkText fontWeight='bold' onClick={onUpdateEmail}>here <Icon as={RiShareBoxLine} /></LinkText> to receive notifications.
+            </Text>
+          </Flex>
+        )}
+        {email && !is_verified && (
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
-            Please update email <LinkText fontWeight='bold' onClick={onUpdateEmail}>here <Icon as={RiShareBoxLine} /></LinkText> to receive notifications.
+            Please check your mailbox and verify <strong>{email}</strong>
           </Text>
         </Flex>
       )}
+      </>}
       {APP_CLUSTER !== 'testnet' && isHome && (
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(56, 115, 250, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.info.400'>
