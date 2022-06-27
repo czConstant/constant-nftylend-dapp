@@ -60,7 +60,7 @@ const AffiliateHistory = () => {
                   <Td>{formatCurrency(e.loan?.principal_amount)} {e.currency?.symbol}</Td>
                   <Td>{formatCurrency(e.loan?.interest_rate * 100)}%</Td>
                   <Td>{formatDuration(duration)}</Td>
-                  <Td borderBottomRightRadius={isLast ? 16 : 0}>{formatCurrency(e.loan?.amount)} {e.currency?.symbol}</Td>
+                  <Td borderBottomRightRadius={isLast ? 16 : 0}>{formatCurrency(e.amount)} {e.currency?.symbol}</Td>
                 </Tr>
               )
             })}
