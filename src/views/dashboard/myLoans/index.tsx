@@ -49,7 +49,7 @@ const MyLoans = () => {
     try {
       setLoading(true);
       const res = await getLoansByOwner({
-        owner: currentWallet.address
+        owner: currentWallet.address,
         network: currentWallet.chain,
         status,
         page,
