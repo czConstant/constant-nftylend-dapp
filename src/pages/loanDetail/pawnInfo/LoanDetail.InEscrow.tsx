@@ -179,23 +179,22 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
         </div>
       </div>
       <Text fontSize='sm'>
-        {loan.isLiquidated()
+        {loan.isOverdue()
           ? <><strong>{loan.asset?.name}</strong> is currently held in escrow in an NFTPawn contract and pending your lender to claim.</>
           : <><strong>{loan.asset?.name}</strong> is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount))} {loan.currency?.symbol}</strong> is made before <strong>{formatDateTime(loan.approved_offer.overdue_at)}</strong>.</>
         }
-        
       </Text>
-      {!loan.isLiquidated() && currentWallet.address === loan.owner && (
+      {!loan.isOverdue() && currentWallet.address === loan.owner && (
         <Button w='100%' h={50} mt={4} onClick={onPayLoan}>
           Pay Loan
         </Button>
       )}
-      {loan.isLiquidated() && currentWallet.address === loan.owner && (
+      {loan.isOverdue() && currentWallet.address === loan.owner && (
         <Button w='100%'h={50} mt={4}  colorScheme='whiteAlpha' disabled>
           Liquidated
         </Button>
       )}
-      {loan.isLiquidated() && currentWallet.address === loan.approved_offer?.lender && (
+      {loan.isOverdue() && currentWallet.address === loan.approved_offer?.lender && (
         <Button w='100%' h={50} mt={4} onClick={onLiquidate}>
           Claim NFT
         </Button>

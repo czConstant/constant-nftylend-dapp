@@ -14,11 +14,13 @@ const BadgeLoanStatus = (props: BadgeLoanStatusProps) => {
   let badgeVariant = 'success';
   let statusText = LOAN_STATUS[status]?.name || "Unknown"
 
-  if (loan.isLiquidated()) {
+  if (loan.isOverdue()) {
     statusText = "Liquidated";
+  } else if (loan.isExpired()) {
+    statusText = "Expired";
   }
 
-  if (loan.isLiquidated()) {
+  if (loan.isOverdue() || status === LOAN_STATUS.liquidated.id) {
     badgeVariant = 'warning';
   } else if (["new", "repaid", "created"].includes(status)) {
     badgeVariant = 'info';
