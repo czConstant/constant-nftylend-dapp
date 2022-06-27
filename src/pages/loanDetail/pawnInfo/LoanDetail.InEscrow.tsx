@@ -168,7 +168,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
           </Flex>
           {protectedDays > 0 && (
             <Flex gap={4} direction='column' alignItems='flex-end'>
-              <Flex fontSize='xs'>2-days Protection<InfoTooltip label='Your loan is protected from liquidation in 2 days' /></Flex>
+              <Flex fontSize='xs'>2-day Protection<InfoTooltip label='There is a 2-day protection period (with no penalty fee) to ensure that borrowers retain ownership and have a second chance to repay.' /></Flex>
               <Progress w='100%' colorScheme='brand.danger' size='lg' borderRadius={16} hasStripe value={protectedDays * 100 / 2} />
             </Flex>
           )}
