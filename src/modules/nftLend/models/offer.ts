@@ -79,7 +79,7 @@ export class OfferToLoan {
     throw new Error(`Chain ${this.chain} is not supported`);
   }
 
-  isLiquidated(): boolean {
+  isOverdue(): boolean {
     return this.status === 'approved' && moment().isAfter(moment(this.expired_at));
   }
 
