@@ -149,6 +149,7 @@ export const nearSignText = async (accountId: string, data: string): Promise<str
     if (keyPair) {
       signature = keyPair.sign(msg).signature;
     } else if (window.near?.isSender) {
+      if (!window.near.account().connection.signer.signMessage) throw Error('Please unlock your Sender wallet and reload again')
       const res = await window.near.account().connection.signer.signMessage(data, accountId, getNearConfig().networkId)
       signature = res.signature
     }

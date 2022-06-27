@@ -1,43 +1,32 @@
-import BigNumber from 'bignumber.js';
 import { APP_CLUSTER } from 'src/common/constants/config';
 
-export const LOAN_STATUS = [
-  {
+export const LOAN_STATUS = {
+  new: {
     id: "new",
     name: "New",
     seo_url: "new",
   },
-  {
+  created: {
     id: "created",
     name: "Created",
     seo_url: "created",
   },
-  {
-    id: "approved",
-    name: "Approved",
-    seo_url: "approved",
-  },
-  {
+  done: {
     id: "done",
     name: "Done",
     seo_url: "done",
   },
-  {
+  cancelled: {
     id: "cancelled",
     name: "Cancelled",
     seo_url: "cancelled",
   },
-  {
+  liquidated: {
     id: "liquidated",
     name: "Liquidated",
     seo_url: "liquidated",
   },
-  {
-    id: "expired",
-    name: "Expired",
-    seo_url: "expired",
-  },
-];
+};
 
 export const LOAN_TRANSACTION_ACTIVITY = [
   {
