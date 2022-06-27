@@ -23,7 +23,7 @@ export const LOAN_STATUS = {
   },
   liquidated: {
     id: "liquidated",
-    name: "Liquidated",
+    name: "Defaulted",
     seo_url: "liquidated",
   },
 };
