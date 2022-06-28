@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Flex, Icon, IconButton, Input, InputGroup, Switch, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Icon, IconButton, Input, Switch, Text } from '@chakra-ui/react';
+import moment from 'moment-timezone';
 import { MdCheck, MdClose } from 'react-icons/md';
 import { BsPencilSquare } from 'react-icons/bs';
-import moment from 'moment-timezone';
+import { FaCheckCircle } from 'react-icons/fa';
 
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import Loading from 'src/common/components/loading';
@@ -86,7 +87,10 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
   const renderEmailSection = () => {
     if (settings.email && !editingEmail) return (
       <Flex alignItems='center' justifyContent='space-between'>
-        <Text py={2}>{settings.email}</Text>
+        <Flex alignItems='center' gap={2}>
+          <Text py={2}>{settings.email}</Text>
+          {settings.is_verified && <Icon color='brand.success.600' as={FaCheckCircle} />}
+        </Flex>
         <IconButton variant='link' color='text.primary' aria-label='edit-email' icon={<Icon as={BsPencilSquare} />} onClick={() => setEditingEmail(true)} />
       </Flex>
     )
