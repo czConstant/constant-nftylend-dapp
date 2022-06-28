@@ -9,6 +9,7 @@ interface FieldTextProps {
   input?: any;
   meta?: any;
   label?: string;
+  floatingLabel?: string;
   placeholder?: string;
   errorMessage?: any;
   errorPlacement?: string;
@@ -19,7 +20,7 @@ const FieldText = (props: FieldTextProps) => {
   const {
     input,
     meta,
-    label,
+    floatingLabel,
     placeholder,
     errorMessage,
     errorPlacement = "bottom",
@@ -35,7 +36,7 @@ const FieldText = (props: FieldTextProps) => {
 
   return (
     <FormControl variant='floating' isInvalid={isError}>
-      <FormLabel>{label}</FormLabel>
+      {floatingLabel && <FormLabel>{floatingLabel}</FormLabel>}
       <InputGroup
         borderWidth={1}
         borderColor={shouldShowError ? 'brand.danger.400' : '#dedfe5'}

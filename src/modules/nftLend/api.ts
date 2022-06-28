@@ -209,19 +209,32 @@ export const getAffiliateStats = (address: string, network: string): Promise<Res
 }
 
 interface AffiliateVolumeOptions {
-  address: string;
-  network: string;
-  rpt_by: string;
-  limit: number;
+  address: string
+  network: string
+  rpt_by: string
+  limit: number
 }
 export const getAffiliateVolumes = (params: AffiliateVolumeOptions): Promise<ResponseResult> => {
   return api.get(API_URL.NFT_LEND.AFFILIATE_VOLUMES, { params })
 }
 
 interface AffiliateTransactionsParams extends ListParams {
-  address: string;
-  network: string;
+  address: string
+  network: string
 }
+
 export const getAffiliateTransactions = (params: AffiliateTransactionsParams): Promise<ListResponse> => {
   return api.get(API_URL.NFT_LEND.AFFILIATE_TRANSACTIONS, { params })
+}
+
+interface ApplyAffiliate {
+  address: string
+  network: string
+  contact: string
+  full_name: string
+  website: string
+  description: string
+}
+export const applyAffiliate = (params: ApplyAffiliate): Promise<ResponseResult> => {
+  return api.post(API_URL.NFT_LEND.APPLY_AFFILIATE, params)
 }
