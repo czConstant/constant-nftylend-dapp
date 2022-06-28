@@ -16,6 +16,8 @@ const BadgeLoanStatus = (props: BadgeLoanStatusProps) => {
 
   if (loan.isOverdue()) {
     statusText = "Liquidated";
+  } else if (loan.isExpired()) {
+    statusText = "Expired";
   }
 
   if (loan.isOverdue() || status === LOAN_STATUS.liquidated.id) {

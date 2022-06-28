@@ -135,7 +135,7 @@ export class LoanNft {
   }
 
   isOverdue(): boolean {
-    return this.status === 'created' && moment().isAfter(moment(this.approved_offer?.expired_at));
+    return this.status === 'created' && moment().isAfter(moment(this.approved_offer?.overdue_at));
   }
 
   isDone(): boolean {

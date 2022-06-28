@@ -82,7 +82,7 @@ export class OfferToLoan {
   }
 
   isOverdue(): boolean {
-    return this.status === 'approved' && moment().isAfter(moment(this.expired_at));
+    return this.status === 'approved' && moment().isAfter(moment(this.overdue_at));
   }
 
   isListing(): boolean {
