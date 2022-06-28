@@ -20,6 +20,7 @@ export const APP_URL = {
   VOTING_PROPOSAL_MAKE: `${BASE_PATH}/proposal/make`,
   VOTING_DETAIL: `${BASE_PATH}/proposal/detail`,
   VERIFY_EMAIL: `${BASE_PATH}/verify-email`,
+  APPLY_AFFILIATE: `${BASE_PATH}/apply-affiliate`,
 }
 
 export const API_URL = { 

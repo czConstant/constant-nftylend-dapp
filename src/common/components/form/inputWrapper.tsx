@@ -13,18 +13,18 @@ interface InputWrapperProps {
 }
 
 const InputWrapper = (props: InputWrapperProps) => {
-  const { className, label, desc, children, theme } = props;
+  const { className, label, desc, children, theme = 'dark' } = props;
 
   return (
     <div className={cx([styles.inputWrapper, className, theme === 'dark' && styles.inputWrapperDark])}>
-      {label && (
+      {/* {label && (
         <div className={cx(styles.labelWrapper, 'labelWrapper')}>
           <label>
             {label}
             {desc && <InfoTooltip label={desc} />}
           </label>
         </div>
-      )}
+      )} */}
       {children}
     </div>
   );

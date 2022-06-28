@@ -172,7 +172,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
       </InputWrapper>
       {renderEstimatedInfo()}
       <Button type="submit" width='100%' mt={4} disabled={submitting}>
-        {submitting ? <Loading dark /> : "Offer now"}
+        {submitting ? <Loading /> : "Offer now"}
       </Button>
     </form>
   );
