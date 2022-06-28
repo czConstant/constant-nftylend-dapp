@@ -6,9 +6,10 @@ import FieldText from 'src/common/components/form/fieldText';
 import InputWrapper from 'src/common/components/form/inputWrapper';
 import Loading from 'src/common/components/loading';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
-import { submitWhitelistCollection } from 'src/modules/nftLend/api';
+import { applyAffiliate } from 'src/modules/nftLend/api';
 import { required } from 'src/common/utils/formValidate';
 import BodyContainer from 'src/common/components/bodyContainer';
+import { Chain } from 'src/common/constants/network';
 
 import BgImage from './img_left.png'
 import styles from './styles.module.scss';
@@ -20,15 +21,15 @@ const ApplyAffiliate = () => {
     if (submitting) return;
     try {
       setSubmitting(true);
-      const res = await submitWhitelistCollection({
-        network: values.network,
-        name: values.name,
+      await applyAffiliate({
+        address: values.address,
+        network: Chain.Near,
+        full_name: values.name,
         description: values.description,
-        creator: values.creator,
-        contract_address: values.contract_address,
-        contact_info: values.contact_info,
+        contact: values.contact,
+        website: values.website,
       });
-      toastSuccess('Submit collection successfully! Stay tuned for our approval');
+      toastSuccess('Apply affiliate successfully! Stay tuned for our approval');
     } catch (err: any) {
       toastError(err.message || err);
     } finally {
@@ -49,34 +50,39 @@ const ApplyAffiliate = () => {
           <Form onSubmit={onSubmit}>
             {({ handleSubmit }) => (
               <form onSubmit={handleSubmit}>
-                <InputWrapper>
+                <InputWrapper label="Contact" desc="Your Email/Telegram/Discord">
                   <Field
-                    name="email"
-                    label="Email"
+                    name="contact"
+                    label="Contact"
+                    desc="Your Email/Telegram/Discord"
                     children={FieldText}
                     validate={required}
                   />
                 </InputWrapper>
-                <InputWrapper>
+                <InputWrapper label="Full name" desc="Your full name">
                   <Field
                     name="name"
-                    label="Full name"
                     children={FieldText}
                     validate={required}
                   />
                 </InputWrapper>
-                <InputWrapper>
+                <InputWrapper label="Social/Website" desc="Social Media or Website link (links are separated by semicolons)">
                   <Field
-                    name="social_url"
-                    label="Social link"
+                    name="website"
                     children={FieldText}
                     validate={required}
                   />
                 </InputWrapper>
-                <InputWrapper>
+                <InputWrapper label="Content" desc='How will you want to advertise us?'>
                   <Field
-                    name="content"
-                    label="Content"
+                    name="description"
+                    children={FieldText}
+                    validate={required}
+                  />
+                </InputWrapper>
+                <InputWrapper label="Wallet ID">
+                  <Field
+                    name="address"
                     children={FieldText}
                     validate={required}
                   />
