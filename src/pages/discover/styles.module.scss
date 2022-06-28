@@ -1,89 +1,31 @@
 .wrapper {
   min-height: calc(100vh - 66px);
   background-color: black;
-  .mbHeader {
-    margin-top: var(--header-height);
-    padding-left: 2rem;
-    padding-right: 2rem;
-    h5 {
-      line-height: 17px;
-    }
-    h1 {
-      font-size: 30px;
-      color: #fcfcfd;
-      text-align: center;
-      text-transform: uppercase;
-      font-weight: bold;
-      margin: 5px;
-      font-weight: 400;
-      letter-spacing: -0.3px;
-      line-height: 35px;
-    }
-  }
 }
 
-.contentWrapper {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  &.mbContentWrapper {
-    .contentContainer {
-      .itemContainer {
-        max-width: 100%;
-        margin: 0px;
-        .image {
-          width: 90vw;
-          height: 90vw;
-          max-height: 90vw;
-          > div {
-            width: 90vw;
-            height: 90vw;
-            img {
-              height: 90vw;
-            }
-          }
-        }
-        .body {
-          width: 90vw;
-          max-width: 90vw;
-        }
-      }
-    }
+.itemContainer {
+  cursor: pointer;
+  .chain {
+    width: fit-content;
+    height: fit-content;
+    padding: 0 10px;
+    background-color: rgba(255, 192, 122, 0.2);
+    color: #de710b;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
   }
-  .contentContainer {
+  .totalItems {
+    border-radius: 8px;
+    border: solid 2px #45b36b;
+    align-self: flex-start;
     display: flex;
-    flex-wrap: wrap;
-    max-width: 990px;
-    .itemContainer {
-      flex: 1;
-      cursor: pointer;
-      margin: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .chain {
-        width: fit-content;
-        height: fit-content;
-        padding: 0 10px;
-        background-color: rgba(255, 192, 122, 0.2);
-        color: #de710b;
-        font-weight: 600;
-        font-size: 14px;
-        border-radius: 8px;
-      }
-      .totalItems {
-        border-radius: 8px;
-        border: solid 2px #45b36b;
-        align-self: flex-start;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 5px 15px;
-        color: #45b36b;
-        text-transform: uppercase;
-        font-size: 12px;
-        font-weight: bold;
-      }
-    }
+    justify-content: center;
+    align-items: center;
+    padding: 5px 15px;
+    color: #45b36b;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
   }
 }

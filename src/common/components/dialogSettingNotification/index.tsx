@@ -32,7 +32,7 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
 
   useEffect(() => {
     if (!settings) return;
-    setEmail(settings.email);
+    if (!email) setEmail(settings.email);
     setNewsNotiEnabled(settings.news_noti_enabled);
     setLoanNotiEnabled(settings.loan_noti_enabled);
   }, [settings])
@@ -62,12 +62,12 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
     }
   }
 
-  const onSave = async () => {
+  const onSaveEmail = async () => {
     try {
       setSubmitting(true)
       const timestamp = moment().unix()
       const signature = await nearSignText(currentWallet.address, String(timestamp))
-      await changeUserSettings({
+      await verifyUserEmail({
         email: email,
         address: currentWallet.address,
         network: currentWallet.chain,
@@ -75,7 +75,7 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
         timestamp,
       })
       fetchSetting();
-      toastSuccess('Save email succesfully!')
+      toastSuccess('We have sent an verification email to your mailbox!')
     } catch (err: any) {
       toastError(err?.message || err);
     } finally {
@@ -98,10 +98,10 @@ const DialogSettingNotification = (props: DialogSettingNotificationProps) => {
         <Input value={email} onChange={e => setEmail(e.target.value)} />
         {settings.email
           ? (<>
-            <IconButton aria-label='save' icon={submitting ? <Loading /> : <MdCheck />} disabled={!canSave || submitting} onClick={onSave} />
+            <IconButton aria-label='save' icon={submitting ? <Loading /> : <MdCheck />} disabled={!canSave || submitting} onClick={onSaveEmail} />
             <IconButton aria-label='cancel' variant='solid' colorScheme='whiteAlpha' icon={<MdClose />} onClick={() => setEditingEmail(false)} />
           </>) : (
-            <Button mt={1} ml={4} w='80px' fontSize='sm' disabled={submitting} onClick={onSave}>
+            <Button mt={1} ml={4} w='80px' fontSize='sm' disabled={submitting} onClick={onSaveEmail}>
               {submitting ? <Loading dark /> : "Save"}
             </Button>
           )}

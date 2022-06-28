@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import cx from 'classnames';
 import { isMobile } from 'react-device-detect';
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid, GridItem, Heading, Text } from '@chakra-ui/react';
 
 import { getCollections } from 'src/modules/nftLend/api';
 import { APP_URL } from 'src/common/constants/url';
@@ -14,7 +14,7 @@ import Item from './item';
 import styles from './styles.module.scss';
 
 export const OnBoardingHeader = () => (
-  <Box textAlign='center' p={20}>
+  <Box textAlign={['left', 'center']} pt={24} px={[8, 20]}>
     <Text fontSize='xs' color='text.secondary' fontWeight='bold' letterSpacing='wider'>UNLOCK THE NEW UTILITY FOR NFTS</Text>
     <Heading as='h1' letterSpacing='wider' textTransform='uppercase'>The new creative economy</Heading>
   </Box>
@@ -49,22 +49,20 @@ const Discover = () => {
   return (
     <BodyContainer className={styles.wrapper}>
       <OnBoardingHeader />
-      <div className={cx(isMobile && styles.mbContentWrapper, styles.contentWrapper)}>
-        <div className={styles.contentContainer}>
-          {collections.map((collection, index) => (
-            <Item
-              key={collection?.id || index}
-              item={collection}
-              loading={loading}
-              onPressItem={() =>
-                navigate(
-                  `${APP_URL.LIST_LOAN}?collection=${collection?.seo_url}`,
-                )
-              }
-            />
-          ))}
-        </div>
-      </div>
+      <Flex px={8} py={[8, 16]} gap={8} flexWrap='wrap' justifyContent='center'>
+        {collections.map((collection, index) => (
+          <Item
+            key={collection?.id || index}
+            item={collection}
+            loading={loading}
+            onPressItem={() =>
+              navigate(
+                `${APP_URL.LIST_LOAN}?collection=${collection?.seo_url}`,
+              )
+            }
+          />
+        ))}
+      </Flex>
     </BodyContainer>
   );
 };

@@ -139,8 +139,8 @@ export const submitWhitelistCollection = (body: SubmitCollection): Promise<Respo
   return api.post(`${API_URL.NFT_LEND.SUBMIT_COLLECTION}`, body);
 };
 
-export const getBorrowerStats = (address: string): Promise<ResponseResult> => {
-  return api.get(`${API_URL.NFT_LEND.BORROWER_STATS}/${address}`);
+export const getBorrowerStats = (address: string, network: string): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.BORROWER_STATS, { params: { address, network }});
 };
 
 export const getUserPwpBalance = (address: string, network: string): Promise<ResponseResult> => {
@@ -193,12 +193,8 @@ export const changeUserSettings = async (params: UserSettingsParams): Promise<Re
   return api.post(API_URL.NFT_LEND.USER_SETTINGS, params);
 }
 
-interface VerfiyEmailParams {
-  email: boolean;
-  network: string;
-  address: string;
-  timestamp:number;
-  signature: string;
+interface VerfiyEmailParams extends SignatureParams {
+  email: string;
 }
 export const verifyUserEmail = async (params: VerfiyEmailParams): Promise<ResponseResult> => {
   return api.post(API_URL.NFT_LEND.VERIFY_EMAIL, params);
