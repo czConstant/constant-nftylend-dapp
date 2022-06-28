@@ -34,7 +34,7 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
 
   return (
     <div className={styles.infoPrice}>
-      <Flex direction={['column', 'row']} gap={4}> 
+      <Flex direction={['column', 'row']} justifyContent='space-between' gap={4}> 
         <div>
           <Flex className={styles.infoPriceTags}>
             <label>Principal</label>
@@ -48,7 +48,7 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
           </div>
         </div>
         <div className={pawnStyles.configs}>
-          <Flex gap={2} alignItems='center' color='text.secondary' >
+          <Flex gap={2} alignItems='center' justifyContent={['flex-start','flex-end']} color='text.secondary' >
             <Text color='text.secondary' fontWeight='semibold' fontSize='sm'>
               Negotiation Terms
             </Text>
