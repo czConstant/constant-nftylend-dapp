@@ -21,7 +21,7 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ data }) => {
   if (!rate) color ='text.secondary'
   
   return (
-    <Grid templateColumns={{ md: '1.5fr 1fr' }} gap={2}>
+    <Grid templateColumns={{ md: '1.5fr 1.5fr 1fr' }} gap={2}>
       <GridItem>
         <Flex direction='column' justifyContent='space-between' h='100%' bgColor='background.darker' borderRadius={16} p={4}>
           <Flex gap={2} alignItems='center'>
@@ -29,6 +29,15 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ data }) => {
             <InfoTooltip label={`The percentage of times a lender has been paid back on the total loans at the end of their terms.`} />
           </Flex>
           <Text fontWeight='bold' fontSize='3xl' color={color}>{rate ? `${formatCurrency(rate)}%` : 'Not Available'}</Text>
+        </Flex>
+      </GridItem>
+      <GridItem>
+        <Flex direction='column' justifyContent='space-between' h='100%' bgColor='background.darker' borderRadius={16} p={4}>
+          <Flex gap={2} alignItems='center'>
+            <Text color='text.secondary' fontSize='xl' fontWeight='semibold'>Credit score</Text>
+            <InfoTooltip label={`The percentage of times a lender has been paid back on the total loans at the end of their terms.`} />
+          </Flex>
+          <Text fontWeight='bold' fontSize='3xl' color={color}>{data?.credit_score ? formatCurrency(data?.credit_score) : 'Not Available'}</Text>
         </Flex>
       </GridItem>
       <GridItem>
