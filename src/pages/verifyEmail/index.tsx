@@ -4,14 +4,19 @@ import { Flex, Heading, Icon, Text } from '@chakra-ui/react'
 import { BsShieldCheck } from 'react-icons/bs'
 import queryString from 'query-string'
 
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet'
 import { APP_URL } from 'src/common/constants/url'
 import BodyContainer from 'src/common/components/bodyContainer'
-import { verifyEmailToken } from 'src/modules/nftLend/api'
+import { getUserSettings, verifyEmailToken } from 'src/modules/nftLend/api'
 import styles from './styles.module.scss'
+import { useAppDispatch } from 'src/store/hooks'
+import { updateUserSettings } from 'src/store/nftyLend'
 
 const VerifyEmail = () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const { isConnected, currentWallet } = useCurrentWallet()
+  const dispatch = useAppDispatch()
 
   const [loading, setLoading] = useState(true)
   const [count, setCount] = useState(-1)
@@ -20,6 +25,9 @@ const VerifyEmail = () => {
     const pageQuery: any = queryString.parse(location.search);
     if (pageQuery.email && pageQuery.token) {
       verifyEmailToken(pageQuery.email, pageQuery.token).then(() => {
+        if (isConnected) getUserSettings(currentWallet.address, currentWallet.chain).then(res => {
+          dispatch(updateUserSettings(res.result))
+        })
         setTimeout(() => {
           setLoading(false)
           setCount(3)
