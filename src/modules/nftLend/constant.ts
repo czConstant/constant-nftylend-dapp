@@ -1,43 +1,32 @@
-import BigNumber from 'bignumber.js';
 import { APP_CLUSTER } from 'src/common/constants/config';
 
-export const LOAN_STATUS = [
-  {
+export const LOAN_STATUS = {
+  new: {
     id: "new",
     name: "New",
     seo_url: "new",
   },
-  {
+  created: {
     id: "created",
     name: "Created",
     seo_url: "created",
   },
-  {
-    id: "approved",
-    name: "Approved",
-    seo_url: "approved",
-  },
-  {
+  done: {
     id: "done",
     name: "Done",
     seo_url: "done",
   },
-  {
+  cancelled: {
     id: "cancelled",
     name: "Cancelled",
     seo_url: "cancelled",
   },
-  {
+  liquidated: {
     id: "liquidated",
-    name: "Liquidated",
+    name: "Defaulted",
     seo_url: "liquidated",
   },
-  {
-    id: "expired",
-    name: "Expired",
-    seo_url: "expired",
-  },
-];
+};
 
 export const LOAN_TRANSACTION_ACTIVITY = [
   {
@@ -101,44 +90,6 @@ export const OFFER_STATUS = {
   },
 };
 
-export const PWP_TX_TYPE = {
-  incentive: {
-    id: 'incentive',
-    name: 'Incentive',
-  },
-  claim: {
-    id: 'claim',
-    name: 'Claim',
-  },
-}
-
-export const INCENTIVE_TX_TYPE = {
-  borrower_loan_delisted: {
-    id: 'borrower_loan_delisted',
-    name: 'Delisted Loan',
-  },
-  borrower_loan_listed: {
-    id: 'borrower_loan_listed',
-    name: 'Listed Loan',
-  },
-  user_airdrop_reward: {
-    id: 'user_airdrop_reward',
-    name: 'AirDrop Reward',
-  },
-  user_ama_reward: {
-    id: 'user_ama_reward',
-    name: 'AMA Reward',
-  },
-  lender_loan_matched: {
-    id: 'lender_loan_matched',
-    name: 'Matched Loan',
-  },
-  claim: {
-    id: 'claim',
-    name: 'Claim Reward',
-  },
-}
-
 export const LOAN_DURATION = [
   {
     id: 10 * 86400,
@@ -159,4 +110,61 @@ if (APP_CLUSTER !== "mainnet") {
     id: 60,
     label: "60 seconds",
   });
+}
+
+export const PAWN_BALANCE_TX_TYPE = {
+  incentive: {
+    id: 'incentive',
+    name: 'Incentive',
+  },
+  claim: {
+    id: 'claim',
+    name: 'Claim',
+  },
+  affiliate_lender_loan_done: {
+    id: 'affiliate_lender_loan_done',
+    name: 'Lender',
+  },
+  affiliate_borrower_loan_done: {
+    id: 'affiliate_borrower_loan_done',
+    name: 'Borrower',
+  },
+}
+
+export const INCENTIVE_TX_TYPE = {
+  borrower_loan_delisted: {
+    id: 'borrower_loan_delisted',
+    name: 'Delist Loan',
+  },
+  borrower_loan_listed: {
+    id: 'borrower_loan_listed',
+    name: 'List Loan',
+  },
+  user_airdrop_reward: {
+    id: 'user_airdrop_reward',
+    name: 'AirDrop Reward',
+  },
+  user_ama_reward: {
+    id: 'user_ama_reward',
+    name: 'AMA Reward',
+  },
+  lender_loan_matched: {
+    id: 'lender_loan_matched',
+    name: 'Matched Loan',
+  },
+  claim: {
+    id: 'claim',
+    name: 'Claim Reward',
+  },
+}
+
+export const AFFILIATE_TX_TYPE = {
+  affiliate_lender_loan_done: {
+    id: 'affiliate_lender_loan_done',
+    name: 'Lender Done',
+  },
+  affiliate_borrower_loan_done: {
+    id: 'affiliate_borrower_loan_done',
+    name: 'Borrower Done',
+  },
 }
