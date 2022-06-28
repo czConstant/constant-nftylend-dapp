@@ -6,14 +6,6 @@
   padding: 2rem 1rem;
   &.mbWrapper {
     padding-top: var(--header-height);
-    .headerContainer {
-      grid-template-columns: 1fr;
-      > div {
-        &:last-child {
-          margin-top: 20px;
-        }
-      }
-    }
     .tabContentAttrWrap {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -36,10 +28,6 @@
 }
 
 .headerContainer {
-  display: grid;
-  padding: 2rem 0px;
-  grid-template-columns: 1fr 1.2fr;
-  column-gap: 2rem;
   > div {
     &:first-child {
       > div {
