@@ -1,13 +1,9 @@
-import { useRef } from "react";
-import cx from "classnames";
-import FormGroup from "react-bootstrap/FormGroup";
-import InputGroup from "react-bootstrap/InputGroup";
+import { Box, FormControl, FormErrorMessage, FormLabel, InputGroup } from '@chakra-ui/react';
 
 // import ErrorOverlay from 'src/components/errorOverlay';
 // import { useTextWidth } from '@tag0/use-text-width';
 
 import styles from "./styles.module.scss";
-import { Overlay, Tooltip } from "react-bootstrap";
 
 interface FieldTextProps {
   input?: any;
@@ -34,30 +30,26 @@ const FieldText = (props: FieldTextProps) => {
   const { onChange, onBlur, onFocus, value } = input;
   const { error, touched } = meta;
   const shouldShowError = !!(touched && error) || (error && value);
-  const target = useRef(null);
 
   const isError = meta.error && meta.touched;
 
   return (
-    <FormGroup ref={target} className={cx(styles.formGroup, "formGroup")}>
+    <FormControl variant='floating' isInvalid={isError}>
+      <FormLabel>{label}</FormLabel>
       <InputGroup
-        className={cx(
-          styles.inputGroup,
-          "inputGroup",
-          (isError || errorMessage) && styles.borderDanger
-        )}
+        borderWidth={1}
+        borderColor={shouldShowError ? 'brand.danger.400' : '#dedfe5'}
+        borderRadius={8}
+        bgColor='background.default'
+        overflow='hidden'
       >
-        <div className={styles.formControl} ref={target}>
+        <Box className={styles.formControl}>
           {inputType === "text" ? (
             <input
               placeholder={placeholder}
               value={value}
               onFocus={() => onFocus()}
-              onBlur={(e) => {
-                onBlur();
-                e?.target?.blur();
-              }}
-              className={cx(shouldShowError && styles.borderDanger)}
+              onBlur={onBlur}
               onChange={onChange}
               {...restProps}
             />
@@ -66,27 +58,15 @@ const FieldText = (props: FieldTextProps) => {
               placeholder={placeholder}
               value={value}
               onFocus={() => onFocus()}
-              onBlur={(e) => {
-                onBlur();
-                e?.target?.blur();
-              }}
-              className={cx(shouldShowError && styles.borderDanger)}
+              onBlur={onBlur}
               onChange={onChange}
               {...restProps}
             />
           )}
-        </div>
+        </Box>
       </InputGroup>
-      {isError && (
-        <Overlay target={target.current} show={true} placement={errorPlacement}>
-          {(props) => (
-            <Tooltip className={styles.errorMessageWrap} id={error} {...props}>
-              {error}
-            </Tooltip>
-          )}
-        </Overlay>
-      )}
-    </FormGroup>
+      <FormErrorMessage fontSize='sm' color='brand.danger.400'>{error}</FormErrorMessage>
+    </FormControl>
   );
 };
 

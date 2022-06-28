@@ -266,7 +266,7 @@ const Form: ComponentStyleConfig = {
   },
   variants: {
     floating: {
-      bgColor: 'background.default',
+      bgColor: 'black',
       container: {
         _focusWithin: {
           label: {
@@ -277,6 +277,7 @@ const Form: ComponentStyleConfig = {
           ...activeLabelStyles
         },
         label: {
+          color: 'text.secondary',
           top: 0,
           left: 0,
           zIndex: 2,
