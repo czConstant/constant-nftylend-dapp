@@ -1,4 +1,5 @@
 import { WalletSelector } from '@near-wallet-selector/core';
+import BigNumber from 'bignumber.js';
 import * as nearAPI from "near-api-js";
 import { AccountView, CodeResult } from "near-api-js/lib/providers/provider";
 

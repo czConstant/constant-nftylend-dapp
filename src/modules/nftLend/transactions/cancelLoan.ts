@@ -1,9 +1,11 @@
+import { CancelLoanParams, TransactionResult } from '@nftpawn-js/core';
+import PawnProtocolNear from '@nftpawn-js/near';
+
 import { Chain } from 'src/common/constants/network';
 import CancelLoanEvmTransaction from 'src/modules/evm/transactions/cancelLoan';
-import CancelLoanNearTransaction from 'src/modules/near/transactions/cancelLoan';
 import CancelLoanTransaction from 'src/modules/solana/transactions/cancelLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
-import { CancelLoanParams, TransactionOptions, TransactionResult } from '../models/transaction';
+import { TransactionOptions } from '../models/transaction';
 import { isEvmChain } from '../utils';
 
 interface CancelLoanTxParams extends CancelLoanParams {
@@ -42,9 +44,8 @@ const evmTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => 
 }
 
 const nearTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {
-  const transaction = new CancelLoanNearTransaction();
-  const res = await transaction.run(params.asset_token_id, params.asset_contract_address);
-  return res;
+  const protocol = new PawnProtocolNear(window.nearSelector, params.walletAddress);
+  return protocol.cancelLoan(params);
 }
 
 const cancelLoanTx = async (params: CancelLoanTxParams): Promise<TransactionResult> => {

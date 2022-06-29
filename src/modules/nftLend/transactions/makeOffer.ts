@@ -1,10 +1,11 @@
+import { MakeOfferParams, TransactionResult } from '@nftpawn-js/core';
+import PawnProtocolNear from '@nftpawn-js/near';
+
 import { Chain } from 'src/common/constants/network';
 import MakeOfferEvmTransaction from 'src/modules/evm/transactions/makeOffer';
-import MakeOfferNearTransaction from 'src/modules/near/transactions/makeOffer';
-import MakeOfferNearNativeTransaction from 'src/modules/near/transactions/makeOfferNative';
 import MakeOfferTransaction from 'src/modules/solana/transactions/makeOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
-import { MakeOfferParams, TransactionOptions, TransactionResult } from '../models/transaction';
+import { TransactionOptions } from '../models/transaction';
 import { isEvmChain, isNativeToken } from '../utils';
 
 interface MakeOfferTxParams extends MakeOfferParams {
@@ -59,21 +60,11 @@ const evmTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
 }
 
 const nearTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
-  let transaction = new MakeOfferNearTransaction()
+  const protocol = new PawnProtocolNear(window.nearSelector, params.walletAddress);
   if (isNativeToken(params.currency_contract_address, Chain.Near)) {
-    transaction = new MakeOfferNearNativeTransaction()
+    return protocol.makeOfferNear(params)
   }
-  const res = await transaction.run(
-    params.asset_token_id,
-    params.asset_contract_address,
-    params.currency_contract_address,
-    params.currency_decimal,
-    params.principal,
-    params.rate,
-    params.duration,
-    params.available_in,
-  );
-  return res;
+  return protocol.makeOffer(params)
 }
 
 const makeOfferTx = async (params: MakeOfferTxParams): Promise<TransactionResult> => {
