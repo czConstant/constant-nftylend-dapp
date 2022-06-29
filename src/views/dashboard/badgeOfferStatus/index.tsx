@@ -21,7 +21,7 @@ const BadgeOfferStatus = (props: BadgeOfferStatusProps) => {
     status = 'expired';
   }
 
-  if (["overdue"].includes(status)) {
+  if (["overdue", 'liquidated'].includes(status)) {
     badgeVariant = 'warning';
   } else if (["cancelled", "expired"].includes(status)) {
     badgeVariant = 'danger';

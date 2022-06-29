@@ -193,12 +193,8 @@ export const changeUserSettings = async (params: UserSettingsParams): Promise<Re
   return api.post(API_URL.NFT_LEND.USER_SETTINGS, params);
 }
 
-interface VerfiyEmailParams {
-  email: boolean;
-  network: string;
-  address: string;
-  timestamp:number;
-  signature: string;
+interface VerfiyEmailParams extends SignatureParams {
+  email: string;
 }
 export const verifyUserEmail = async (params: VerfiyEmailParams): Promise<ResponseResult> => {
   return api.post(API_URL.NFT_LEND.VERIFY_EMAIL, params);

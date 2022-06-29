@@ -79,7 +79,7 @@ const LoanDetail = () => {
     return (
       <>
         <BreadCrumb items={breadCrumbs} />
-        <Grid gap={8} templateColumns={['1fr','1fr 1.2fr']} className={styles.headerContainer}>
+        <Grid mt={[4, 8]} gap={8} templateColumns={['1fr','1fr 1.2fr']} className={styles.headerContainer}>
           <GridItem mt={[8, 0]}>
             <CardNftMedia
               detail={loan.asset.detail}
