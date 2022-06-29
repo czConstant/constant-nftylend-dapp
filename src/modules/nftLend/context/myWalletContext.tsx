@@ -1,11 +1,16 @@
+import moment from 'moment-timezone';
 import { createContext, useEffect, useState } from 'react'
+import { useCookies } from 'react-cookie'
+
 import { AvalancheChainConfig, BobaNetworkConfig, BscChainConfig, Chain, ChainConfigs, PolygonChainConfig } from 'src/common/constants/network';
 import { CryptoWallet, getEvmProvider } from 'src/common/constants/wallet';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { clearWallet, selectCurrentWallet, updateUserSettings, updateWallet } from 'src/store/nftyLend';
+import { connectUserFromRefer } from 'src/modules/nftLend/api';
 
 import { getUserSettings } from '../api';
 import { isEvmChain } from '../utils';
+import { nearSignText } from 'src/modules/near/utils';
 
 // ** Defaults
 const defaultProvider = {
@@ -24,11 +29,18 @@ const MyWalletContext = createContext(defaultProvider)
 const MyWalletProvider = ({ children }) => {
   const dispatch = useAppDispatch();
   const currentWallet = useAppSelector(selectCurrentWallet);
+  const [cookie, setCookkie, removeCookie] = useCookies(['referral_code'])
 
   useEffect(() => {
     if (!currentWallet.address) return
     getUserSettings(currentWallet.address, currentWallet.chain).then(res => {
       dispatch(updateUserSettings(res.result))
+      if (!res.result.is_connected && currentWallet.chain === Chain.Near) {
+        const timestamp = moment().unix()
+        nearSignText(currentWallet.address, String(timestamp)).then(signature => {
+          connectUserFromRefer({ address: currentWallet.address, network: Chain.Near, timestamp, signature, referrer_code: cookie.referral_code })
+        }).catch(err => null)
+      }
     })
   }, [currentWallet])
 
