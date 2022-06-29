@@ -19,6 +19,7 @@ export const APP_URL = {
   VOTING: `${BASE_PATH}/proposal/`,
   VOTING_PROPOSAL_MAKE: `${BASE_PATH}/proposal/make`,
   VOTING_DETAIL: `${BASE_PATH}/proposal/detail`,
+  APPLY_AFFILIATE: `${BASE_PATH}/apply-affiliate`,
   VERIFY_EMAIL: `${BASE_PATH}/verify-email`,
 }
 
@@ -70,5 +71,6 @@ export const API_URL = {
     AFFILIATE_STATS: `${MCT_ROOT}${MCT_API_BASE}/affiliates/stats`,
     AFFILIATE_VOLUMES: `${MCT_ROOT}${MCT_API_BASE}/affiliates/volumes`,
     AFFILIATE_TRANSACTIONS: `${MCT_ROOT}${MCT_API_BASE}/affiliates/transactions`,
+    APPLY_AFFILIATE: `${MCT_ROOT}${MCT_API_BASE}/affiliates/submitted`,
   },
 }

@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 import styles from './styles.module.scss';
 import InfoTooltip from '../infoTooltip';
+import { Flex } from '@chakra-ui/react';
 
 interface InputWrapperProps {
   label?: string | React.ReactNode;
@@ -13,16 +14,16 @@ interface InputWrapperProps {
 }
 
 const InputWrapper = (props: InputWrapperProps) => {
-  const { className, label, desc, children, theme } = props;
+  const { className, label, desc, children, theme = 'dark' } = props;
 
   return (
     <div className={cx([styles.inputWrapper, className, theme === 'dark' && styles.inputWrapperDark])}>
       {label && (
         <div className={cx(styles.labelWrapper, 'labelWrapper')}>
-          <label>
-            {label}
-            {desc && <InfoTooltip label={desc} />}
-          </label>
+          <Flex alignItems='flex-end' gap={1}>
+            <label>{label}</label>
+            {desc && <InfoTooltip iconSize='sm' label={desc} />}
+          </Flex>
         </div>
       )}
       {children}
