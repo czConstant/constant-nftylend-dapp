@@ -1,12 +1,6 @@
 import React, { useState, useRef, ChangeEvent } from 'react';
-import { Dropdown } from 'react-bootstrap';
-import cx from 'classnames';
-import FormGroup from 'react-bootstrap/FormGroup';
-
-// import ErrorOverlay from 'src/components/errorOverlay';
-// import EmptyList from 'src/components/emptyList';
-
-import styles from './styles.module.scss';
+import { Box, Flex, FormControl, FormErrorMessage, Icon, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { FaCaretDown, FaSearch } from 'react-icons/fa';
 import EmptyList from '../emptyList';
 
 interface FieldDropdownProps {
@@ -40,7 +34,7 @@ const FieldDropdown = (props: FieldDropdownProps) => {
     disabled, valueField, labelField, handleSearch, searchable, searchFields = [],
     value = null, onChangeValue = () => null, onChange = () => null
   } = props;
-  const target = useRef(null);
+  const target = useRef();
   const [search, setSearch] = useState('');
 
   const { onChange: onReduxChange, onBlur, onFocus, value: reduxValue, name } = input || {};
@@ -80,11 +74,10 @@ const FieldDropdown = (props: FieldDropdownProps) => {
   const filteredList = filterList(_list);
 
   return (
-    <FormGroup className={cx(styles.formGroup)}>
-      <Dropdown
-        ref={target}
-        className={cx(styles.dropdownWrapper, className, shouldShowError && styles.borderDanger)}
-        onToggle={()=> {
+    <FormControl isInvalid={shouldShowError}>
+      <Menu
+        autoSelect={false}
+        onOpen={()=> {
           setSearch('');
           setTimeout(() => {
             const el = document.getElementById(`dropdown-search-${name}`);
@@ -92,30 +85,36 @@ const FieldDropdown = (props: FieldDropdownProps) => {
           }, 0);
         }}
       >
-        <Dropdown.Toggle
-          name={name}
-          className={styles.dropdownToggle}
-          variant="basic"
-          onFocus={() => onFocus ? onFocus(): null}
-          onBlur={() => onBlur ? onBlur(): null}
+        <MenuButton
+          ref={target}
+          w='100%'
+          h='45px'
+          borderWidth={1}
+          borderColor={shouldShowError ? 'brand.danger.400' : '#dedfe5'}
+          borderRadius={8}
+          bgColor='background.default'
+          px={4}
+          textAlign='left'
+          type='button'
+          onFocus={onFocus}
+          onBlur={onBlur}
           disabled={disabled}
         >
-          {selectedItem.activeLabel || selectedItem[_labelField] || placeholder}
-        </Dropdown.Toggle>
-        <Dropdown.Menu
-          className={cx(dropdownClassName, styles.menu, styles[alignMenu || ''])}
-          style={{ minWidth: menuMinWidth || '100%' }}
-        >
-          {typeof searchable !== 'undefined' && (<>
-            <div className={styles.searchBox}>
-              <input placeholder="Search" value={search} id={`dropdown-search-${name}`} onChange={onSearchChange} autoFocus />
-              <i className="far fa-search" />
-            </div>
-            <div className={styles.divider} />
-          </>)}
+          <Flex alignItems='center'>
+            <Box flex={1}>{selectedItem.activeLabel || selectedItem[_labelField] || placeholder}</Box>
+            <Icon fontSize='sm' color='text.secondary' as={FaCaretDown} />
+          </Flex>
+        </MenuButton>
+        <MenuList w={`${target.current && target.current.getBoundingClientRect().width}px`} zIndex={2000}>
+          {typeof searchable !== 'undefined' && (
+            <InputGroup mb={2} px={2}>
+              <Input border='none' bgColor='black' flex={1} placeholder="Search" value={search} id={`dropdown-search-${name}`} onChange={onSearchChange} autoFocus />
+              <InputRightElement children={<Icon as={FaSearch} color='text.secondary' fontSize='sm' />} />
+            </InputGroup>
+          )}
           {filteredList.length > 0
             ? filteredList.map((item: any, index: number) => (item && (
-              <Dropdown.Item
+              <MenuItem
                 name={item[_valueField]}
                 disabled={item?.disabled}
                 key={name + index + item.id}
@@ -140,14 +139,14 @@ const FieldDropdown = (props: FieldDropdownProps) => {
                 value={item[_valueField]}
               >
                 {item[_labelField]}
-              </Dropdown.Item>
+              </MenuItem>
             )))
             : <EmptyList labelText="No result" />
           }
-        </Dropdown.Menu>
-      </Dropdown>
-      {/* <ErrorOverlay placement="bottom" target={target} shouldShowError={shouldShowError} error={error} zIndex={zIndex} /> */}
-    </FormGroup>
+        </MenuList>
+      </Menu>
+      <FormErrorMessage>{error}</FormErrorMessage>
+    </FormControl>
   );
 };
 

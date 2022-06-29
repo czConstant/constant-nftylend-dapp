@@ -47,6 +47,7 @@ const MyOffers = () => {
 
   const fetchOffers = async (page: number) => {
     try {
+      setLoading(true)
       const res = await NftPawn.offers({ lender: currentWallet.address, status, network: currentWallet.chain, page, limit: pageSize });
       const list = res.result.map(e => OfferToLoan.parseFromApi(e, currentWallet.chain))
       setOffers(list);
@@ -64,7 +65,7 @@ const MyOffers = () => {
       <Menu variant='outline'>
         <MenuButton mt={4} h='40px' minW='120px'>
           <Flex alignItems='center' justifyContent='space-between' pl={4} pr={2}>
-            <Text>{status.toUpperCase() || 'ALL'}</Text>
+            <Text>{OFFER_STATUS[status]?.name || 'All'}</Text>
             <Icon fontSize='xl' as={FaCaretDown} />
           </Flex>
         </MenuButton>

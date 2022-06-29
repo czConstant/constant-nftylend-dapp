@@ -1,5 +1,4 @@
 import { Badge } from '@chakra-ui/react';
-import moment from 'moment-timezone';
 
 import { LOAN_STATUS } from "src/modules/nftLend/constant";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
@@ -13,27 +12,25 @@ const BadgeLoanStatus = (props: BadgeLoanStatusProps) => {
 
   let status = loan.status;
   let badgeVariant = 'success';
-  const showPay = loan.isOngoing() && moment().isBefore(moment(loan.approved_offer?.expired_at));
+  let statusText = LOAN_STATUS[status]?.name || "Unknown"
 
-  if (loan.isLiquidated()) {
-    status = "liquidated";
-  } else if (showPay) {
-    status = 'approved';
+  if (loan.isOverdue()) {
+    statusText = "Liquidated";
   } else if (loan.isExpired()) {
-    status = 'expired';
+    statusText = "Expired";
   }
 
-  if (["liquidated"].includes(status)) {
+  if (loan.isOverdue() || status === LOAN_STATUS.liquidated.id) {
     badgeVariant = 'warning';
-  } else if (["new", "repaid", "created", "approved"].includes(status)) {
+  } else if (["new", "repaid", "created"].includes(status)) {
     badgeVariant = 'info';
-  } else if (["cancelled", "expired"].includes(status)) {
+  } else if (loan.isExpired() || ["cancelled"].includes(status)) {
     badgeVariant = 'danger';
   }
 
   return (
     <Badge variant={badgeVariant}>
-      {LOAN_STATUS.find((v) => v.id === status)?.name || "Unknown"}
+      {statusText}
     </Badge>
   )
 };

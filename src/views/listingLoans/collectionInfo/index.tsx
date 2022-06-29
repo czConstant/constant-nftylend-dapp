@@ -83,7 +83,7 @@ const CollectionInfo = (props: CollectionInfoProps) => {
           <div>Average Loan</div>
         </div>
         <div>
-          <label>{formatCurrency(data.floor_price)} {data.currency?.symbol}</label>
+          <label>${formatCurrency(data.min_amount)}</label>
           <div>Minimum Loan</div>
         </div>
       </div>

@@ -49,8 +49,8 @@ const MyLoans = () => {
     try {
       setLoading(true);
       const res = await NftPawn.loans({
-        owner: currentWallet.address.toString(),
-        network: currentWallet.chain.toString(),
+        owner: currentWallet.address,
+        network: currentWallet.chain,
         status,
         page,
         limit: pageSize,
@@ -75,7 +75,7 @@ const MyLoans = () => {
       <Menu variant='outline'>
         <MenuButton mt={4} h='40px' minW='120px'>
           <Flex alignItems='center' justifyContent='space-between' pl={4} pr={2}>
-            <Text>{status.toUpperCase() || 'ALL'}</Text>
+            <Text>{LOAN_STATUS[status]?.name || 'All'}</Text>
             <Icon fontSize='xl' as={FaCaretDown} />
           </Flex>
         </MenuButton>

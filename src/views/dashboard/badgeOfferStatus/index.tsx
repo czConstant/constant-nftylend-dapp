@@ -15,13 +15,13 @@ const BadgeOfferStatus = (props: BadgeOfferStatusProps) => {
   let status = offer.status;
   let badgeVariant = 'success';
 
-  if (offer.isLiquidated()) {
+  if (offer.isOverdue()) {
     status = 'overdue';
   } else if (loan?.isExpired()) {
     status = 'expired';
   }
 
-  if (["overdue"].includes(status)) {
+  if (["overdue", 'liquidated'].includes(status)) {
     badgeVariant = 'warning';
   } else if (["cancelled", "expired"].includes(status)) {
     badgeVariant = 'danger';

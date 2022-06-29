@@ -4,18 +4,18 @@ import moment from 'moment-timezone';
 import { Box, Button, Flex, Grid, GridItem, Table, TableContainer, Tbody, Td, Text, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
 
 import Pagination from 'src/common/components/pagination';
-import { formatCurrency } from 'src/common/utils/format';
+import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import { nearSignText } from 'src/modules/near/utils';
-import { claimPwpBalance, getBalanceTransactions, getPwpBalance } from 'src/modules/nftLend/api';
+import { claimCurrencyBalance, getBalanceTransactions, getUserPwpBalance } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
-import { PwpBalanceData } from 'src/modules/nftLend/models/api';
+import { UserBalanceData } from 'src/modules/nftLend/models/api';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
-import { INCENTIVE_TX_TYPE } from 'src/modules/nftLend/constant';
+import { INCENTIVE_TX_TYPE, PAWN_BALANCE_TX_TYPE } from 'src/modules/nftLend/constant';
 
 const MyPwp = () => {
   const { currentWallet } = useCurrentWallet();
 
-  const [pwpBalance, setPwpBalance] = useState<PwpBalanceData>();
+  const [pwpBalance, setPwpBalance] = useState<UserBalanceData>();
   const [transactions, setTransactions] = useState<any[]>([]);
   const [displayTransactions, setDisplayTransactions] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
@@ -24,14 +24,18 @@ const MyPwp = () => {
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    getPwpBalance(currentWallet.address, currentWallet.chain).then(res => {
+    getUserPwpBalance(currentWallet.address, currentWallet.chain).then(res => {
       setPwpBalance(res.result);
     });
-    getBalanceTransactions(currentWallet.address, currentWallet.chain).then(res => {
+  }, [])
+
+  useEffect(() => {
+    if (!pwpBalance?.currency) return
+    getBalanceTransactions(currentWallet.address, currentWallet.chain, pwpBalance.currency.id).then(res => {
       setTransactions(res.result);
       setTotal(res.count);
     });
-  }, [])
+  }, [pwpBalance])
 
   useEffect(() => {
     setDisplayTransactions(transactions.slice((page-1)*pageSize, page * pageSize));
@@ -42,16 +46,15 @@ const MyPwp = () => {
     try {
       setSubmitting(true)
       const amount = new BigNumber(pwpBalance.balance).minus(pwpBalance.locked_balance)
-      const timestamp = moment(pwpBalance.updated_at).unix()
-      const message = `${currentWallet.address.toLowerCase()}-${pwpBalance.currency.contract_address}-${amount.toString(10)}-${timestamp}`
-      const signature = await nearSignText(currentWallet.address, message)
-      await claimPwpBalance({ 
-        user_id: pwpBalance.user.id,
-        currency_id: pwpBalance.currency.id,
-        to_address: currentWallet.address,
-        amount: amount.toNumber(),
+      const timestamp = moment().unix()
+      const signature = await nearSignText(currentWallet.address, String(timestamp))
+      await claimCurrencyBalance({ 
+        address: currentWallet.address,
+        network: currentWallet.chain,
         timestamp,
         signature,
+        currency_id: pwpBalance.currency.id,
+        amount: amount.toNumber(),
       })
       toastSuccess('Claimed PWP successfully')
     } catch (err: any) {
@@ -77,10 +80,10 @@ const MyPwp = () => {
         </GridItem>
         <GridItem>
           <Box backgroundColor='background.card' borderRadius={16} p={4}>
-            <Text fontSize='sm' color='text.secondary'>Claimable Reward</Text>
+            <Text fontSize='sm' color='text.secondary'>Available Reward</Text>
             <Flex justifyContent='space-between'>
               <Text fontSize='2xl' fontWeight='bold'>
-                {pwpBalance?.currency?.claim_enabled ? formatCurrency(amount) : 0} PWP
+                {formatCurrency(amount)} PWP
               </Text>
               <Button disabled={!canClaim} isLoading={submitting} size='sm' onClick={onClaim}>Claim</Button>
             </Flex>
@@ -100,13 +103,19 @@ const MyPwp = () => {
           <Tbody>
             {displayTransactions.map((e, i) => {
               const isLast = i === displayTransactions.length - 1;
-              const txType = INCENTIVE_TX_TYPE[e.incentive_transaction?.type]
+              let type = PAWN_BALANCE_TX_TYPE[e.type]?.name
+              let status = e.status
+              if (e.type === PAWN_BALANCE_TX_TYPE.incentive.id) {
+                const txType = INCENTIVE_TX_TYPE[e.incentive_transaction?.type]
+                type = txType?.name || e.incentive_transaction?.type
+                status = e.incentive_transaction?.status
+              }
               return (
                 <Tr key={e.id}>
-                  <Td borderBottomLeftRadius={isLast ? 16 : 0}>{e.created_at}</Td>
+                  <Td borderBottomLeftRadius={isLast ? 16 : 0}>{formatDateTime(e.created_at)}</Td>
                   <Td>{e.amount} {e.currency?.symbol}</Td>
-                  <Td>{txType?.name || e.incentive_transaction?.type}</Td>
-                  <Td borderBottomRightRadius={isLast ? 16 : 0}>{e.incentive_transaction?.status}</Td>
+                  <Td>{type}</Td>
+                  <Td borderBottomRightRadius={isLast ? 16 : 0}>{status}</Td>
                 </Tr>
               )
             })}

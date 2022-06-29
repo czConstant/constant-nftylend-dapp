@@ -20,7 +20,7 @@ import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 
-import { getLinkNearExplorer, getNearConfig } from '../utils';
+import { getLinkNearExplorer, getNearConfig, nearSignText } from '../utils';
 
 interface WalletSelectorContextValue {
   selector: WalletSelector;

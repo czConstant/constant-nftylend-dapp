@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import moment from 'moment-timezone';
 import { isUrl } from './helper';
 
 export function formatUrl(url: string): string {
@@ -24,4 +25,17 @@ export const shortCryptoAddress = (address: string = '', toLength?: number) => {
 export function formatCurrencyByLocale(value = 0,  decimalNumber = 2, roundingMode = BigNumber.ROUND_DOWN) {
   if (isNaN(value)) return 0;
   return new BigNumber(value).decimalPlaces(decimalNumber, roundingMode).toFormat(decimalNumber);
+}
+
+export function formatDateTime(date: string | Date): string {
+  return moment(date).format('DD-MMM-yyyy hh:mm A')
+}
+
+export function formatDuration(duration: number): string {
+  if (isNaN(duration)) return String(duration)
+  const sec = new BigNumber(duration)
+  if (sec.isLessThan(60)) return `${sec} seconds`
+  if (sec.isLessThan(3600)) return `${sec.dividedToIntegerBy(60).toNumber()} minutes`
+  if (sec.isLessThan(86400)) return `${sec.dividedToIntegerBy(3600).toNumber()} hours`
+  return `${sec.dividedToIntegerBy(86400).toNumber()} days`
 }

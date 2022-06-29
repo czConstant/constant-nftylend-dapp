@@ -167,7 +167,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
                 name="rate"
                 children={FieldAmount}
                 placeholder="0.0"
-                appendComp="% APY"
+                appendComp="% APR"
                 validate={required}
               />
             </InputWrapper>

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import cx from "classnames";
-import moment from "moment-timezone";
 import NftPawn from '@nftpawn-js/core';
 
 import SectionCollapse from "src/common/components/sectionCollapse";
-import { formatCurrency, shortCryptoAddress } from "src/common/utils/format";
+import { formatCurrency, formatDateTime, shortCryptoAddress } from "src/common/utils/format";
 import { AssetSaleHistory } from 'src/modules/nftLend/models/activity';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import styles from "./styles.module.scss";
@@ -37,7 +36,7 @@ const TableBody = ({ results = [] }) => {
               {shortCryptoAddress(result.tx_hash)}
             </a>
           </div>
-          <div style={{ flex: 1 }}>{moment(result.transaction_at).format('YYYY-MM-DD HH:mm')}</div>
+          <div style={{ flex: 1 }}>{formatDateTime(result.transaction_at)}</div>
           <div style={{ flex: 1 }}>{formatCurrency(result.amount)} {result.currency?.symbol}</div>
           <div style={{ flex: 1 }}>
             <a

@@ -4,8 +4,8 @@ import { isMobile } from "react-device-detect";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
 import debounce from 'lodash/debounce';
-import NftPawn from '@nftpawn-js/core';
-import { Flex } from '@chakra-ui/react';
+import NftPawn, { GetListingLoanParams } from '@nftpawn-js/core';
+import { Flex, Grid, GridItem } from '@chakra-ui/react';
 
 import { ListResponse, LoanData } from "src/modules/nftLend/models/api";
 import { LoanNft } from "src/modules/nftLend/models/loan";
@@ -150,34 +150,24 @@ const ListingLoans = () => {
   //   )
   // };
 
-  const renderContentList = () => {
-    if (!loading && loans?.length === 0) {
-      return <EmptyDetailLoan message="There is no loans yet" />;
-    }
-
-    return loans.map((loan) => loan.asset && (
-      <CardNftLoan key={loan?.id} loan={loan} asset={loan.asset} className={styles.loanItemContainer} />
-    ));
-  };
-
   return (
     <Flex direction='column' bgColor='black'>
       {pageQuery.collection && <CollectionInfo collection_seo={pageQuery.collection} />}
       <SectionContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
-        <Flex direction='column' gap={4}>
+        <Flex direction='column' gap={4} pb={8}>
           {/* {!collection && renderChainSelect()} */}
           <Flex justifyContent='flex-end' mt={12}>
             <SelectSortBy defaultValue={sortBy} onChange={setSortBy} />
           </Flex>
-          <div
-            className={cx(
-              !loading && loans?.length === 0 && styles.wrapContentEmpty,
-              styles.listContainer
-            )}
-          >
-            {renderContentList()}
+          {!loading && loans?.length === 0 && <EmptyDetailLoan message="There is no loans yet" />}
+          <Grid templateColumns={['1fr', 'repeat(auto-fill, minmax(250px, 1fr))']} gap={8}>
+            {loans.map((loan) => loan.asset && (
+              <GridItem key={loan?.id}>
+                <CardNftLoan loan={loan} asset={loan.asset} className={styles.loanItemContainer} />
+              </GridItem>
+            ))}
             {(loading) && <LoadingList num_items={4} />}
-          </div>
+          </Grid>
           {hasMore && <div id="loading" style={{ margin: 20 }}><Loading /></div>}
         </Flex>
       </SectionContainer>

@@ -18,7 +18,7 @@ import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 
 import LoanDetailOffers from 'src/pages/loanDetail/pawnInfo/LoanDetail.Offers';
-import { formatCurrency } from 'src/common/utils/format';
+import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
 import BadgeLoanStatus from '../badgeLoanStatus';
 
@@ -78,7 +78,7 @@ const Item = (props: ItemProps) => {
       ) : 0;
       
     const balance = await getCurrencyBalance(loan.currency)
-    if (new BigNumber(balance).isLessThan(loan.principal_amount)) {
+    if (new BigNumber(balance).isLessThan(payAmount)) {
       return toastError(`Your balance (${balance} ${loan.currency?.symbol}) is not enough`)
     }
 
@@ -147,7 +147,7 @@ const Item = (props: ItemProps) => {
 
   const renderLoan = () => {
     const showCancel = loan.isListing() || loan.isExpired();
-    const showPay = loan.isOngoing() && moment().isBefore(moment(loan.approved_offer?.expired_at));
+    const showPay = loan.isOngoing();
 
     const principal = loan.approved_offer
       ? loan.approved_offer.principal_amount
@@ -159,7 +159,7 @@ const Item = (props: ItemProps) => {
     return (
       <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
         <GridItem pl={4} py={4}>
-          {!loan.isOngoing() && <Icon as={open ? FaCaretUp : FaCaretDown} mr={4} />}
+          <Icon opacity={loan.isOngoing() ? 0 : 1} as={open ? FaCaretUp : FaCaretDown} mr={4} />
           <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan.asset?.name}</Link>
         </GridItem>
         <GridItem py={4}>
@@ -171,7 +171,7 @@ const Item = (props: ItemProps) => {
           {new BigNumber(interest).multipliedBy(100).toNumber()}%
         </GridItem>
         <GridItem py={4}><BadgeLoanStatus loan={loan} /></GridItem>
-        <GridItem py={4}>{moment(loan?.updated_at).format("MM/DD/YYYY HH:mm A")}</GridItem>
+        <GridItem py={4}>{formatDateTime(loan?.updated_at)}</GridItem>
         <GridItem pr={8} py={4}>
           <Flex w='100%' justifyContent='flex-end'>
             {showCancel && <Button size='sm' variant='link' textDecoration='underline' colorScheme='whiteAlpha' onClick={onCancelLoan}>Cancel</Button>}
@@ -182,8 +182,10 @@ const Item = (props: ItemProps) => {
     )
   }
 
+  const defaultOpen = loan.isListing() && loan.offers.length > 0
+
   return loan.isOngoing() ? renderLoan() : (
-    <Accordion allowToggle onChange={i => setOpen(i === 0)}>
+    <Accordion allowToggle defaultIndex={defaultOpen ? 0 : -1} onChange={i => setOpen(i === 0)}>
       <AccordionItem border='none'>
         <AccordionButton borderRadius={0} p={0} bgColor='transparent'>
           {renderLoan()}

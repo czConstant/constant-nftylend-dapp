@@ -1,5 +1,6 @@
 import { extendTheme, theme } from '@chakra-ui/react'
 import type { ComponentStyleConfig } from '@chakra-ui/theme'
+import { FaAssistiveListeningSystems } from 'react-icons/fa'
 
 const Text: ComponentStyleConfig = {
   baseStyle: {
@@ -16,12 +17,18 @@ const Text: ComponentStyleConfig = {
       color: 'brand.primary',
       fontWeight: 'medium',
     },
-    attrLabel: {
+    label: {
       fontWeight: 'normal',
       color: 'text.secondary',
       fontSize: 'xs',
       textTransform: 'uppercase',
     },
+  }
+}
+
+const Heading: ComponentStyleConfig = {
+  baseStyle: {
+    fontFamily: 'Poppins'
   }
 }
 
@@ -124,6 +131,9 @@ const Table: ComponentStyleConfig = {
 }
 
 const Menu: ComponentStyleConfig = {
+  defaultProps: {
+    autoSelect: FaAssistiveListeningSystems,
+  },
   baseStyle: {
     button: {
       color: 'text.primary',
@@ -237,8 +247,8 @@ const Badge: ComponentStyleConfig = {
       color: '#DE710B',
     },
     danger: {
-      bgColor: '#ff000033',
-      color: '#ff0000',
+      bgColor: '#c4223133',
+      color: '#c42231',
     },
     info: {
       bgColor: '#0d6dfd33',
@@ -256,7 +266,7 @@ const Form: ComponentStyleConfig = {
   },
   variants: {
     floating: {
-      bgColor: 'background.default',
+      bgColor: 'black',
       container: {
         _focusWithin: {
           label: {
@@ -267,6 +277,7 @@ const Form: ComponentStyleConfig = {
           ...activeLabelStyles
         },
         label: {
+          color: 'text.secondary',
           top: 0,
           left: 0,
           zIndex: 2,
@@ -280,6 +291,12 @@ const Form: ComponentStyleConfig = {
         }
       }
     }
+  }
+}
+
+const Switch: ComponentStyleConfig = {
+  defaultProps: {
+    colorScheme: 'brand.primary'
   }
 }
 
@@ -378,6 +395,7 @@ const customTheme = extendTheme({
   components: {
     Tabs,
     Text,
+    Heading,
     Button,
     Image,
     Table,
@@ -388,6 +406,7 @@ const customTheme = extendTheme({
     Modal,
     Badge,
     Form,
+    Switch,
   },
  });
 

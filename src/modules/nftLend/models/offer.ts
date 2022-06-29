@@ -28,6 +28,7 @@ export class OfferToLoan {
   signature: string = '';
   expired_at: string = '';
   started_at: string = '';
+  overdue_at: string = '';
   valid_at: string = '';
 
   constructor(chain: Chain) {
@@ -54,6 +55,7 @@ export class OfferToLoan {
       offer.loan = LoanNft.parseFromApi(data.loan);
       offer.expired_at = data.loan.offer_expired_at;
       offer.started_at = data.loan.offer_started_at;
+      offer.overdue_at = data.loan.offer_overdue_at;
     }
     offer.nonce = data.nonce_hex;
     offer.signature = data.signature;
@@ -79,8 +81,8 @@ export class OfferToLoan {
     throw new Error(`Chain ${this.chain} is not supported`);
   }
 
-  isLiquidated(): boolean {
-    return this.status === 'approved' && moment().isAfter(moment(this.expired_at));
+  isOverdue(): boolean {
+    return this.status === 'approved' && moment().isAfter(moment(this.overdue_at));
   }
 
   isListing(): boolean {

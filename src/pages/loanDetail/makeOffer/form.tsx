@@ -10,7 +10,6 @@ import Loading from "src/common/components/loading";
 import { composeValidators, maxValue, required } from "src/common/utils/formValidate";
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import { isNativeToken } from 'src/modules/nftLend/utils';
 import { formatCurrency } from 'src/common/utils/format';
 import InfoTooltip from 'src/common/components/infoTooltip';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
@@ -64,7 +63,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
       value: values.rate,
       maxValue: loan.interest_rate * 100,
       message:
-        "Loan Interest %APY offer higher 250% of the original loan order, want review? ",
+        "Loan Interest %APR offer higher 250% of the original loan order, want review? ",
     });
 
     setWarnings({ amount: amountValidate, rate: interestValidate });
@@ -157,7 +156,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           name="rate"
           children={FieldAmount}
           placeholder="0.0"
-          appendComp="% APY"
+          appendComp="% APR"
         />
         {!loan.isAllowChange('interest_rate') && <TextNotAllow />}
         <div className={styles.errorMessage}>{warnings.rate}</div>
@@ -174,7 +173,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
       </InputWrapper>
       {renderEstimatedInfo()}
       <Button type="submit" w='100%' mt={4} disabled={submitting}>
-        {submitting ? <Loading dark /> : "Offer now"}
+        {submitting ? <Loading /> : "Offer now"}
       </Button>
     </form>
   );

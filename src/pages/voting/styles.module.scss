@@ -79,7 +79,6 @@
     justify-content: space-evenly;
     max-width: var(--max-height-content-desktop);
     margin: 0 auto;
-    padding: 2rem;
     h3 {
       font-size: 50px;
       color: #ffffff;
@@ -95,6 +94,16 @@
     button {
       margin-top: 20px;
     }
+    .wrapImgIdeals {
+      height: 300px;
+      width: 400px;
+      position: relative;
+      overflow: hidden;
+      :global .lf-player-container {
+        position: absolute;
+        bottom: -10px;
+      }
+    } 
   }
 }
 
@@ -363,21 +372,13 @@
     background-color: inherit;
   }
 
-  &.created {
-    color: white;
-    img {
-      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
-        brightness(102%) contrast(101%);
-    }
-  }
-  &.pending {
-    color: white;
-    img {
-      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
-        brightness(102%) contrast(101%);
-    }
-  }
-  &.cancelled {
+  &.succeeded,
+  &.created,
+  &.pending,
+  &.cancelled,
+  &.defeated,
+  &.queued,
+  &.executed {
     color: white;
     img {
       filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(87deg)
@@ -498,10 +499,10 @@
 }
 
 .votingDetailsTime {
-  background-color: rgb(8, 6, 11);
-  border: 1px solid rgb(56, 50, 65);
+  // background-color: rgb(8, 6, 11);
+  // border: 1px solid rgb(56, 50, 65);
   border-radius: 16px;
-  padding: 15px;
+  // padding: 15px;
   margin-top: 15px;
   > div {
     &:first-child {
@@ -732,6 +733,14 @@
 
 .tagTypeWrap {
   background-color: transparent;
+  &.proposal {
+    border: 1px solid rgb(0, 37, 248);
+    color: rgb(0, 37, 248);
+  }
+  &.executed {
+    border: 1px solid rgb(0, 37, 248);
+    color: rgb(255, 255, 255);
+  }
   &.government {
     border: 1px solid rgb(154, 106, 255);
     color: rgb(154, 106, 255);
@@ -739,5 +748,22 @@
   &.community {
     border: 1px solid rgb(237, 75, 158);
     color: rgb(237, 75, 158);
+  }
+}
+
+.requiredInfo {
+  ol {
+    padding-left: 2rem;
+    a {
+      color: #ae83ff;
+    }
+  }
+}
+
+.itemHistoryRightWrap {
+  display: inline-flex;
+  align-items: center;
+  img {
+    margin-left: 10px;
   }
 }

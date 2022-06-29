@@ -7,7 +7,12 @@ import api from "src/common/services/apiClient";
 import { NearNft } from "src/modules/near/models/nearNft";
 
 export const NEAR_DEFAULT_GAS =
-  nearAPI.utils.format.parseNearAmount("0.0000000003");
+  nearAPI.utils.format.parseNearAmount("0.0000000003")
+export const NEAR_TX_REVERSE =
+  nearAPI.utils.format.parseNearAmount("0.05")
+export const NEAR_STORATE_AMOUNT_PER_BYTE =
+  nearAPI.utils.format.parseNearAmount("0.00001")
+export const NEAR_PARAS_CREATOR = 'x.paras.near'
 
 export enum NEAR_LOAN_STATUS {
   Open = 0,
@@ -25,7 +30,7 @@ export function getNearConfig(): nearAPI.ConnectConfig {
       networkId: 'mainnet',
       nodeUrl: 'https://rpc.mainnet.near.org',
       walletUrl: 'https://wallet.near.org',
-      helperUrl: 'https://helper.mainnet.near.org',
+      helperUrl: 'https://api.kitwallet.app',
       explorerUrl: 'https://explorer.mainnet.near.org',
     };
   default:
@@ -59,7 +64,10 @@ export async function getNearBalance(
     account_id: address,
     finality: "final",
   });
-  return nearAPI.utils.format.formatNearAmount(res.amount);
+  const storageAmount = new BigNumber(Number(NEAR_STORATE_AMOUNT_PER_BYTE)).multipliedBy(res.storage_usage)
+  const lockedAmount = new BigNumber(res.locked)
+  const available = new BigNumber(res.amount).minus(storageAmount).minus(Number(NEAR_TX_REVERSE)).minus(lockedAmount).toString(10)
+  return nearAPI.utils.format.formatNearAmount(available);
 }
 
 export async function getBalanceNearToken(
@@ -92,10 +100,7 @@ export async function getNearNftsByOwner(owner: string): Promise<Array<any>> {
         })
       );
     } catch (err) {
-      console.log(
-        "🚀 ~ file: utils.ts ~ line 64 ~ getNearNftsByOwner ~ err",
-        err
-      );
+      console.log("🚀 ~ file: utils.ts ~ line 64 ~ getNearNftsByOwner ~ err", err);
     }
   }
   return list;
@@ -133,12 +138,18 @@ function toHexString(byteArray: any) {
 
 export const nearSignText = async (accountId: string, data: string): Promise<string> => {
   try {
-    const keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
-    const keyPair = await keyStore.getKey(getNearConfig().networkId, accountId);
-
     const msg = Buffer.from(data);
-    const { signature } = keyPair.sign(msg);
+    let signature: any;
+    let keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
+    let keyPair = await keyStore.getKey(getNearConfig().networkId, accountId);
 
+    if (keyPair) {
+      signature = keyPair.sign(msg).signature;
+    } else if (window.near?.isSender) {
+      if (!window.near.account().connection.signer.signMessage) throw Error('Please unlock your Sender wallet and reload again')
+      const res = await window.near.account().connection.signer.signMessage(data, accountId, getNearConfig().networkId)
+      signature = res.signature
+    }
     const signatureToHex = toHexString(signature);
     return signatureToHex;
   } catch (error) {

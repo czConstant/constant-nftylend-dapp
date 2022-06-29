@@ -1,20 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import cx from "classnames";
+import { Link } from "react-router-dom";
 
-import styles from "./styles.module.scss";
-import AppIcon from "../appIcon";
-import ButtonCreateLoan from "../buttonCreateLoan";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { APP_URL } from "src/common/constants/url";
-import ButtonSolWallet from "../buttonSolWallet";
-import { useWallet } from "@solana/wallet-adapter-react";
+
+import ButtonCreateLoan from "../buttonCreateLoan";
+import AppIcon from "../appIcon";
+import styles from "./styles.module.scss";
+import { Box, Flex } from '@chakra-ui/react';
 
 const HeaderMobile = ({}) => {
-  const location = useLocation();
-  const { publicKey } = useWallet();
-  const isFirst = useRef(true);
+  const { isConnected } = useCurrentWallet()
 
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(false)
 
   const onToggle = () => {
     setToggle((v) => {
@@ -33,8 +32,8 @@ const HeaderMobile = ({}) => {
   };
 
   return (
-    <div className={cx(styles.mobileContainer, toggle && styles.toggle)}>
-      <div className={styles.headerWrap}>
+    <Flex direction='column' bgColor='black' className={cx(styles.mobileContainer, toggle && styles.toggle)}>
+      <Flex alignItems='center' justifyContent='space-between' px={4}>
         <Link onTouchEnd={onCloseToggle} to={APP_URL.HOME}>
           <AppIcon dark />
         </Link>
@@ -44,40 +43,40 @@ const HeaderMobile = ({}) => {
             <div className={styles.bottomBar} />
           </div>
         </div>
-      </div>
-      <ul className={cx(styles.menu)}>
-        <li>
-          <Link onTouchEnd={onToggle} to={APP_URL.DISCOVER}>
-            Discover
-          </Link>
-        </li>
-        <li>
-          <Link onTouchEnd={onToggle} to={APP_URL.LIST_LOAN}>
-            Listing Loans
-          </Link>
-        </li>
-        {/* <li>
-          <Link onTouchEnd={onToggle} to={APP_URL.NFT_PAWN_BLOG}>
-            News
-          </Link>
-        </li> */}
-        {publicKey && (
+      </Flex>
+      <Flex flex={1} direction='column' px={4} py={8} gap={4} justifyContent='space-between'>
+        <ul className={cx(styles.menu)}>
           <li>
-            <Link onTouchEnd={onToggle} to={APP_URL.DASHBOARD}>
-              Dashboard
+            <Link onTouchEnd={onToggle} to={APP_URL.DISCOVER}>
+              Discover
             </Link>
           </li>
-        )}
-
-        <div className={styles.bottom}>
-          <ButtonCreateLoan />
-          <ButtonSolWallet
-            classNameDisconnect={styles.disconnectButton}
-            showBtnDisConnect={true}
-          />
-        </div>
-      </ul>
-    </div>
+          <li>
+            <Link onTouchEnd={onToggle} to={APP_URL.LIST_LOAN}>
+              Listing Loans
+            </Link>
+          </li>
+          <li>
+            <Link onTouchEnd={onToggle} to={APP_URL.VOTING}>
+              Proposal
+            </Link>
+          </li>
+          {/* <li>
+            <Link onTouchEnd={onToggle} to={APP_URL.NFT_PAWN_BLOG}>
+              News
+            </Link>
+          </li> */}
+          {isConnected && (
+            <li>
+              <Link onTouchEnd={onToggle} to={APP_URL.DASHBOARD}>
+                Dashboard
+              </Link>
+            </li>
+          )}
+        </ul>
+        <ButtonCreateLoan />
+      </Flex>
+    </Flex>
   );
 };
 
