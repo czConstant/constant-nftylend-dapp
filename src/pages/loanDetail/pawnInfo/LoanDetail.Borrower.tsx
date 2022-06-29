@@ -35,7 +35,7 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ data }) => {
         <Flex direction='column' justifyContent='space-between' h='100%' bgColor='background.darker' borderRadius={16} p={4}>
           <Flex gap={2} alignItems='center'>
             <Text color='text.secondary' fontSize='xl' fontWeight='semibold'>Credit score</Text>
-            <InfoTooltip label={`A credit score's main purpose is to distinguish between borrowers who return their debts ("good" borrowers) and consumers who do not ("bad" borrowers). The total number of points is used to calculate the credit score. Customers with high scores are often low-risk, and vice versa. More detail in NFTPawn Documents.`} />
+            <InfoTooltip label={`The primary objective of a credit score is to distinguish between borrowers who repay their loans as "good borrowers" and those who do not as "bad borrowers." The credit score is calculated using the total number of points (0-100). Borrowers  with high scores are frequently low-risk, and vice versa. More information may be found in the NFTPawn Documents.`} />
           </Flex>
           <Text fontWeight='bold' fontSize='3xl' color={color}>{data?.credit_score ? formatCurrency(data?.credit_score) : 'Not Available'}</Text>
         </Flex>
