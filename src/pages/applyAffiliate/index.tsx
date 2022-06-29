@@ -29,7 +29,7 @@ const ApplyAffiliate = () => {
         contact: values.contact,
         website: values.website,
       });
-      toastSuccess('Apply affiliate successfully! Stay tuned for our approval');
+      toastSuccess('Apply affiliate successfully! We would contact you as soon as possible!');
     } catch (err: any) {
       toastError(err.message || err);
     } finally {
