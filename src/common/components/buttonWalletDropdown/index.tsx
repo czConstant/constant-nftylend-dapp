@@ -89,7 +89,7 @@ const ButtonWalletDropdown = (props: ButtonWalletDropdownProps) => {
           <Image alt="" src={tokenIcons[currentWallet.chain.toLowerCase()]} w='36px' h='36px' borderRadius={20} mr={-4} />
         </Flex>
       </MenuButton>
-      <MenuList>
+      <MenuList zIndex={2}>
         <MenuItem onClick={() => navigate(APP_URL.DASHBOARD)}>
           <Icon mr={2} boxSize='20px' color='text.secondary' as={MdDashboard} />
           <Text>My Assets</Text>

@@ -36,9 +36,9 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
   const loanDuration = LOAN_DURATION.find(e => e.id === loan.approved_offer?.duration);
   const payAmount = calculateTotalPay(
     Number(loan.approved_offer?.principal_amount),
-    Number(loan.currency?.decimals),
     loan.approved_offer?.interest_rate,
     loan.approved_offer?.duration,
+    Number(loan.currency?.decimals),
     moment(loan.approved_offer?.started_at).unix()
   );
 
@@ -51,12 +51,11 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
     const payAmount = loan?.status === "created"
       ? calculateTotalPay(
         Number(loan.approved_offer?.principal_amount),
-          Number(loan.currency.decimals),
-          loan.approved_offer?.interest_rate,
-          loan.approved_offer?.duration,
-          moment(loan.approved_offer?.started_at).unix()
-        )
-      : 0;
+        loan.approved_offer?.interest_rate,
+        loan.approved_offer?.duration,
+        Number(loan.currency.decimals),
+        moment(loan.approved_offer?.started_at).unix()
+      ) : 0;
 
     const balance = await getCurrencyBalance(loan.currency)
     if (new BigNumber(balance).isLessThan(payAmount)) {
