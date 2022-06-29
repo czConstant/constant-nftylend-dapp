@@ -166,3 +166,10 @@ export interface WhitelistCollectionData {
   verified: true
   who_verified: string;
 }
+
+export interface AffiliateStatsData {
+  commissions_rate: number;
+  total_commissions: string;
+  total_transactions: number;
+  total_users: number;
+}

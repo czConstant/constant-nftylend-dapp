@@ -34,7 +34,7 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
 
   return (
     <div className={styles.infoPrice}>
-      <div className={pawnStyles.head}> 
+      <Flex direction={['column', 'row']} justifyContent='space-between' gap={4}> 
         <div>
           <Flex className={styles.infoPriceTags}>
             <label>Principal</label>
@@ -48,7 +48,7 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
           </div>
         </div>
         <div className={pawnStyles.configs}>
-          <Flex gap={2} alignItems='center' color='text.secondary' >
+          <Flex gap={2} alignItems='center' justifyContent={['flex-start','flex-end']} color='text.secondary' >
             <Text color='text.secondary' fontWeight='semibold' fontSize='sm'>
               Negotiation Terms
             </Text>
@@ -56,13 +56,13 @@ const LoanDetailPriceInfo: React.FC<LoanDetailPriceInfoProps> = ({ loan }) => {
               <span><Icon as={MdInfoOutline} /></span>
             </Tooltip>
           </Flex>
-          <ul> 
+          <Flex gap={2} py={2}>
             <li className={loan.isAllowChange('principal_amount') ? pawnStyles.allow : pawnStyles.notallow }>Principal</li>
             <li className={loan.isAllowChange('duration') ? pawnStyles.allow : pawnStyles.notallow }>Duration</li>
             <li className={loan.isAllowChange('interest_rate') ? pawnStyles.allow : pawnStyles.notallow }>Interest rate</li>
-          </ul>
+          </Flex>
         </div>
-      </div>
+      </Flex>
       <LoanDetailButtons loan={loan} userOffer={userOffer} />
       <Grid templateColumns='repeat(5, 1fr)'>
         <GridItem>

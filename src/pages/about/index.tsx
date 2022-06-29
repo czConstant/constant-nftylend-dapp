@@ -5,6 +5,7 @@ import Slide from "react-reveal/Slide";
 import Fade from "react-reveal/Fade";
 import { isMobile } from "react-device-detect";
 import { Button, Divider, Flex, Heading, Text } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
 
 import imgWhatNFTy from "./assets/what_nfty.png";
 import imgWhatNFTyMobile from "./assets/what_nfty_mobile.png";
@@ -41,7 +42,7 @@ import press10 from "./assets/partner/press/10.png";
 import press11 from "./assets/partner/press/11.png";
 import press12 from "./assets/partner/press/12.png";
 
-import { DISCORD_URL, GITBOOK_URL } from "src/common/constants/url";
+import { APP_URL, DISCORD_URL, GITBOOK_URL } from "src/common/constants/url";
 import Partners from "src/common/components/partners";
 import styles from "./styles.module.scss";
 
@@ -89,6 +90,8 @@ export const OnBoardingHeader = () => (
 );
 
 const PawwnProtocol = () => {
+  const navigate = useNavigate()
+
   return (
     <BodyContainer
       className={cx(isMobile && styles.mobileWrapper, styles.wrapper)}
@@ -125,6 +128,15 @@ const PawwnProtocol = () => {
               onClick={() => window.open(GITBOOK_URL, "_blank")}
             >
               Documents
+            </Button>
+            <Button
+              w={200}
+              h={55}
+              bgImage="linear-gradient(242deg, #813900 0%, #ff831a 100%)"
+              borderRadius={50}
+              onClick={() => navigate(APP_URL.APPLY_AFFILIATE)}
+            >
+              Apply Affiliate
             </Button>
           </Flex>
         </section>

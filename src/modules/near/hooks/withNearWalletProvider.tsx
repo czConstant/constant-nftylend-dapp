@@ -16,7 +16,7 @@ import { API_URL } from 'src/common/constants/url';
 import api from 'src/common/services/apiClient';
 import { toastSuccess } from 'src/common/services/toaster';
 
-import { getLinkNearExplorer, getNearConfig } from '../utils';
+import { getLinkNearExplorer, getNearConfig, nearSignText } from '../utils';
 
 interface WalletSelectorContextValue {
   selector: NearWalletSelector;
@@ -41,7 +41,8 @@ export const NearWalletProvider: React.FC = ({ children }) => {
     currentAccountId: string | null,
     newAccounts: Array<AccountInfo>
   ) => {
-    const isBackFromNear = !!queryString.parse(location.search).account_id;
+    const query = queryString.parse(location.search)
+    const isBackFromNear = !!query.account_id;
     const savedChain= localStore.get(localStore.KEY_WALLET_CHAIN);
 
     if (savedChain !== Chain.Near && !isBackFromNear) return;
@@ -65,7 +66,6 @@ export const NearWalletProvider: React.FC = ({ children }) => {
 
   const initSelector = async () => {
     try {
-      console.log("🚀 ~ file: withNearWalletProvider.tsx ~ line 76 ~ initSelector ~ near_nftypawn_address", near_nftypawn_address)
       const instance = await NearWalletSelector.init({
         network: getNearConfig().networkId as NetworkId,
         contractId: near_nftypawn_address,

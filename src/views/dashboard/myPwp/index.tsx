@@ -6,11 +6,11 @@ import { Box, Button, Flex, Grid, GridItem, Table, TableContainer, Tbody, Td, Te
 import Pagination from 'src/common/components/pagination';
 import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import { nearSignText } from 'src/modules/near/utils';
-import { claimPwpBalance, getBalanceTransactions, getPwpBalance } from 'src/modules/nftLend/api';
+import { claimCurrencyBalance, getBalanceTransactions, getUserPwpBalance } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { UserBalanceData } from 'src/modules/nftLend/models/api';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
-import { INCENTIVE_TX_TYPE, PWP_TX_TYPE } from 'src/modules/nftLend/constant';
+import { INCENTIVE_TX_TYPE, PAWN_BALANCE_TX_TYPE } from 'src/modules/nftLend/constant';
 
 const MyPwp = () => {
   const { currentWallet } = useCurrentWallet();
@@ -24,7 +24,7 @@ const MyPwp = () => {
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    getPwpBalance(currentWallet.address, currentWallet.chain).then(res => {
+    getUserPwpBalance(currentWallet.address, currentWallet.chain).then(res => {
       setPwpBalance(res.result);
     });
   }, [])
@@ -46,16 +46,15 @@ const MyPwp = () => {
     try {
       setSubmitting(true)
       const amount = new BigNumber(pwpBalance.balance).minus(pwpBalance.locked_balance)
-      const timestamp = moment(pwpBalance.updated_at).unix()
-      const message = `${currentWallet.address.toLowerCase()}-${pwpBalance.currency.contract_address}-${amount.toString(10)}-${timestamp}`
-      const signature = await nearSignText(currentWallet.address, message)
-      await claimPwpBalance({ 
-        user_id: pwpBalance.user.id,
-        currency_id: pwpBalance.currency.id,
-        to_address: currentWallet.address,
-        amount: amount.toNumber(),
+      const timestamp = moment().unix()
+      const signature = await nearSignText(currentWallet.address, String(timestamp))
+      await claimCurrencyBalance({ 
+        address: currentWallet.address,
+        network: currentWallet.chain,
         timestamp,
         signature,
+        currency_id: pwpBalance.currency.id,
+        amount: amount.toNumber(),
       })
       toastSuccess('Claimed PWP successfully')
     } catch (err: any) {
@@ -104,9 +103,9 @@ const MyPwp = () => {
           <Tbody>
             {displayTransactions.map((e, i) => {
               const isLast = i === displayTransactions.length - 1;
-              let type = PWP_TX_TYPE[e.type]?.name
+              let type = PAWN_BALANCE_TX_TYPE[e.type]?.name
               let status = e.status
-              if (e.type === PWP_TX_TYPE.incentive.id) {
+              if (e.type === PAWN_BALANCE_TX_TYPE.incentive.id) {
                 const txType = INCENTIVE_TX_TYPE[e.incentive_transaction?.type]
                 type = txType?.name || e.incentive_transaction?.type
                 status = e.incentive_transaction?.status
