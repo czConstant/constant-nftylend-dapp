@@ -108,7 +108,7 @@ export const calculateMaxTotalPay = (principal: number, interest: number, durati
     .toNumber();
 }
 
-export const calculateTotalPay = (principal: number, decimals: number, interest: number, duration: number /* seconds */, startedAt: number /* timestamp seconds */) => {
+export const calculateTotalPay = (principal: number, interest: number, duration: number /* seconds */, decimals: number, startedAt: number /* timestamp seconds */) => {
   const DAY_SECS = 86400;
   const payAt = moment().unix();
 
