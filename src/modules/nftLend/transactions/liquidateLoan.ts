@@ -1,9 +1,10 @@
+import { LiquidateLoanParams, TransactionResult } from '@nftpawn-js/core';
+import PawnProtocolNear from '@nftpawn-js/near';
 import { Chain } from 'src/common/constants/network';
 import LiquidateLoanEvmTransaction from 'src/modules/evm/transactions/liquidateLoan';
-import LiquidateLoanNearTransaction from 'src/modules/near/transactions/liquidateLoan';
 import LiquidateLoanTransaction from 'src/modules/solana/transactions/liquidateLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
-import { LiquidateLoanParams, TransactionOptions, TransactionResult } from '../models/transaction';
+import { TransactionOptions } from '../models/transaction';
 import { isEvmChain } from '../utils';
 
 interface LiquidateLoanTxParams extends LiquidateLoanParams {
@@ -45,9 +46,8 @@ const evmTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> 
 }
 
 const nearTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {
-  const transaction = new LiquidateLoanNearTransaction();
-  const res = await transaction.run(params.asset_token_id, params.asset_contract_address);
-  return res;
+  const protocol = new PawnProtocolNear(window.nearSelector, params.walletAddress);
+  return protocol.liquidateLoan(params)
 }
 
 const liquidateLoanTx = async (params: LiquidateLoanTxParams): Promise<TransactionResult> => {

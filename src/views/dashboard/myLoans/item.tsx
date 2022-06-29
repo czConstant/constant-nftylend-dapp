@@ -71,12 +71,12 @@ const Item = (props: ItemProps) => {
     const payAmount = loan?.status === "created"
       ? calculateTotalPay(
         Number(loan.approved_offer?.principal_amount),
-        loan.currency.decimals,
         loan.approved_offer?.interest_rate,
         loan.approved_offer?.duration,
+        loan.currency.decimals,
         moment(loan.approved_offer?.started_at).unix()
       ) : 0;
-      
+
     const balance = await getCurrencyBalance(loan.currency)
     if (new BigNumber(balance).isLessThan(payAmount)) {
       return toastError(`Your balance (${balance} ${loan.currency?.symbol}) is not enough`)

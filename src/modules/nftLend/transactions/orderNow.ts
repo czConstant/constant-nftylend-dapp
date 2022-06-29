@@ -1,10 +1,11 @@
+import { OrderNowParams, TransactionResult } from '@nftpawn-js/core';
+import PawnProtocolNear from '@nftpawn-js/near';
+
 import { Chain } from 'src/common/constants/network';
 import OrderNowEvmTransaction from 'src/modules/evm/transactions/orderNow';
-import OrderNowNearTransaction from 'src/modules/near/transactions/orderNow';
-import OrderNowNearNativeTransaction from 'src/modules/near/transactions/orderNowNear';
 import OrderNowTransaction from 'src/modules/solana/transactions/orderNow';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
-import { OrderNowParams, TransactionOptions, TransactionResult } from '../models/transaction';
+import { TransactionOptions } from '../models/transaction';
 import { isEvmChain, isNativeToken } from '../utils';
 
 interface OrderNowTxParams extends OrderNowParams {
@@ -61,20 +62,11 @@ const evmTx = async (params: OrderNowTxParams): Promise<TransactionResult> => {
 }
 
 const nearTx = async (params: OrderNowTxParams): Promise<TransactionResult> => {
-  let transaction = new OrderNowNearTransaction();
+  const protocol = new PawnProtocolNear(window.nearSelector, params.walletAddress);
   if (isNativeToken(params.currency_contract_address, Chain.Near)) {
-    transaction = new OrderNowNearNativeTransaction()
+    return protocol.orderNowNear(params)
   }
-  const res = await transaction.run(
-    params.asset_token_id,
-    params.asset_contract_address,
-    params.currency_contract_address,
-    params.currency_decimals,
-    params.principal,
-    params.rate,
-    params.duration,
-  );
-  return res;
+  return protocol.orderNow(params)
 }
 
 const orderNowTx = async (params: OrderNowTxParams): Promise<TransactionResult> => {

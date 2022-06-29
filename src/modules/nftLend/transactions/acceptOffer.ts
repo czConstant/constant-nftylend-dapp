@@ -1,9 +1,10 @@
+import { AcceptOfferParams, TransactionResult } from '@nftpawn-js/core';
+import PawnProtocolNear from '@nftpawn-js/near';
 import { Chain } from 'src/common/constants/network';
 import AcceptOfferEvmTransaction from 'src/modules/evm/transactions/acceptOffer';
-import AcceptOfferNearTransaction from 'src/modules/near/transactions/acceptOffer';
 import AcceptOfferTransaction from 'src/modules/solana/transactions/acceptOffer';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
-import { AcceptOfferParams, TransactionResult, TransactionOptions } from '../models/transaction';
+import { TransactionOptions } from '../models/transaction';
 import { isEvmChain } from '../utils';
 
 interface AcceptOfferTxParams extends AcceptOfferParams {
@@ -61,13 +62,8 @@ const evmTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> =>
 }
 
 const nearTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {
-  const transaction = new AcceptOfferNearTransaction();
-  const res = await transaction.run(
-    params.asset_token_id,
-    params.asset_contract_address,
-    Number(params.lender_nonce),
-  );
-  return res;
+  const protocol = new PawnProtocolNear(window.nearSelector, params.walletAddress);
+  return protocol.acceptOffer(params)
 }
 
 const acceptOfferTx = async (params: AcceptOfferTxParams): Promise<TransactionResult> => {

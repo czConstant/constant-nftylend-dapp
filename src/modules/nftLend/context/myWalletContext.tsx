@@ -50,17 +50,7 @@ const MyWalletProvider = ({ children }) => {
   };
 
   const connectNearWallet = async () => {
-    const nearAccounts =  await window.nearSelector?.getAccounts();
-    const isSignedIn = await window.nearSelector?.isSignedIn();
-    if (isSignedIn && nearAccounts.length > 0) {
-      dispatch(updateWallet({
-        address: nearAccounts[0]?.accountId,
-        chain: Chain.Near,
-        name: 'near',
-      }));
-    } else {
-      window.nearSelector?.show();
-    }
+    return window.nearWalletModal?.show();
   };
 
   const connectEvmWallet = async (chain: Chain, wallet?: CryptoWallet) => {

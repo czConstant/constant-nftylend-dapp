@@ -1,12 +1,13 @@
+import { PayLoanParams, TransactionResult } from '@nftpawn-js/core';
+import PawnProtocolNear from '@nftpawn-js/near';
 import { WalletContextState } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
+
 import { Chain } from 'src/common/constants/network';
 import PayLoanEvmTransaction from 'src/modules/evm/transactions/payLoan';
-import PayLoanNearTransaction from 'src/modules/near/transactions/payLoan';
-import PayLoanNearNativeTransaction from 'src/modules/near/transactions/payLoanNear';
 import PayLoanTransaction from 'src/modules/solana/transactions/payLoan';
 import { getAssociatedAccount } from 'src/modules/solana/utils';
-import { PayLoanParams, TransactionOptions, TransactionResult } from '../models/transaction';
+import { TransactionOptions } from '../models/transaction';
 import { isEvmChain, isNativeToken } from '../utils';
 
 interface PayLoanTxParams extends PayLoanParams {
@@ -64,21 +65,11 @@ const evmTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
 }
 
 const nearTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
-  let transaction = new PayLoanNearTransaction();
+  const protocol = new PawnProtocolNear(window.nearSelector, params.walletAddress);
   if (isNativeToken(params.currency_contract_address, Chain.Near)) {
-    transaction = new PayLoanNearNativeTransaction()
+    return protocol.payLoanNear(params)
   }
-  const res = await transaction.run(
-    params.pay_amount,
-    params.asset_token_id,
-    params.asset_contract_address,
-    params.currency_contract_address,
-    params.currency_decimal,
-    params.principal,
-    params.rate,
-    params.duration,
-  );
-  return res;
+  return protocol.payLoan(params)
 }
 
 const payLoanTx = async (params: PayLoanTxParams): Promise<TransactionResult> => {
