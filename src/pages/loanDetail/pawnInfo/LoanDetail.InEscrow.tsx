@@ -2,7 +2,7 @@ import React from "react";
 import BigNumber from "bignumber.js";
 import moment from 'moment-timezone';
 import { useDispatch } from 'react-redux';
-import { Button, Progress, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Progress, Text } from '@chakra-ui/react';
 
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -18,6 +18,7 @@ import styles from "../styles.module.scss";
 import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import { closeModal, openModal } from 'src/store/modal';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
+import InfoTooltip from 'src/common/components/infoTooltip';
 
 export interface LoanDetailProps {
   loan: LoanNft;
@@ -43,6 +44,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
 
   const durationDays = Math.ceil(loan.approved_offer?.duration / 86400);
   const loanDays = moment().diff(moment(loan.approved_offer?.started_at), 'd')
+  const protectedDays = Math.min(Math.max(loanDays - durationDays, 0), 2)
 
   const onPayLoan = async (e) => {
     e.stopPropagation();
@@ -158,11 +160,19 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
     <div className={styles.inEscrow}>
       <div className={styles.title}>In Escrow</div>
       <div className={styles.expireProgress}>
-        <div>Time until loan expires</div>
-        <div className={styles.progress}>
-          <Progress colorScheme='brand.warning' size='lg' borderRadius={16} hasStripe value={loanDays * 100 / durationDays} />
-          <div>{loanDays}/{loanDuration?.label || loan.approved_offer?.duration}</div>
-        </div>
+        <Text fontWeight='medium'>Loan Duration</Text>
+        <Flex gap={4}>
+          <Flex gap={4} flex={1} direction='column' alignItems='flex-end'>
+            <Text fontSize='xs'>{loanDays}/{loanDuration?.label || loan.approved_offer?.duration}</Text>
+            <Progress w='100%' colorScheme='brand.warning' size='lg' borderRadius={16} hasStripe value={loanDays * 100 / durationDays} />
+          </Flex>
+          {protectedDays > 0 && (
+            <Flex gap={4} direction='column' alignItems='flex-end'>
+              <Flex fontSize='xs'>2-day Protection<InfoTooltip label='There is a 2-day protection period (with no penalty fee) to ensure that borrowers retain ownership and have a second chance to repay.' /></Flex>
+              <Progress w='100%' colorScheme='brand.danger' size='lg' borderRadius={16} hasStripe value={protectedDays * 100 / 2} />
+            </Flex>
+          )}
+        </Flex>
       </div>
       <div className={styles.info}>
         <div>
@@ -181,7 +191,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       <Text fontSize='sm'>
         {loan.isOverdue()
           ? <><strong>{loan.asset?.name}</strong> is currently held in escrow in an NFTPawn contract and pending your lender to claim.</>
-          : <><strong>{loan.asset?.name}</strong> is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount), 8)} {loan.currency?.symbol}</strong> is made before <strong>{formatDateTime(loan.approved_offer.expired_at)}</strong>.</>
+          : <><strong>{loan.asset?.name}</strong> is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount))} {loan.currency?.symbol}</strong> is made before <strong>{formatDateTime(loan.approved_offer.overdue_at)}</strong>.</>
         }
       </Text>
       {!loan.isOverdue() && currentWallet.address === loan.owner && (
