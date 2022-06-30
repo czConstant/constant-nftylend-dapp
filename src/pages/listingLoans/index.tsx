@@ -131,7 +131,7 @@ const ListingLoans = () => {
     }
   };
 
-  const debounceFetchLoans = useMemo(() => debounce(fetchLoans, 500), []);
+  const debounceFetchLoans = useMemo(() => debounce(fetchLoans, 500), [sortBy, selectedChain, pageQuery]);
 
   // const renderChainSelect = () => {
   //   return (
