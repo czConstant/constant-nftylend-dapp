@@ -77,6 +77,7 @@ export interface LoanData {
   approved_offer: OfferData;
   offer_started_at: string;
   offer_expired_at: string;
+  offer_overdue_at: string;
   valid_at: string;
   config: number;
 }

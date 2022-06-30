@@ -1,4 +1,4 @@
-import { Icon, PlacementWithLogical, ResponsiveValue, Text, Tooltip } from '@chakra-ui/react';
+import { Icon, PlacementWithLogical, Text, Tooltip } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { MdInfoOutline } from 'react-icons/md';
 
