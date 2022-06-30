@@ -33,6 +33,9 @@ const Heading: ComponentStyleConfig = {
 }
 
 const Button: ComponentStyleConfig = {
+  baseStyle: {
+    borderRadius: 50,
+  },
   defaultProps: {
     colorScheme: 'brand.primary',
     variant: 'brand',

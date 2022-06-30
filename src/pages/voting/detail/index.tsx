@@ -1,8 +1,8 @@
+import { Grid, GridItem } from '@chakra-ui/react';
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 import queryString from "query-string";
 import { useEffect, useRef, useState } from "react";
-import { Col, Row } from "react-bootstrap";
 import { isMobile } from "react-device-detect";
 import { Link, useLocation } from "react-router-dom";
 import BodyContainer from "src/common/components/bodyContainer";
@@ -133,10 +133,11 @@ const VotingDetail = ({}) => {
         </div>
       );
     }
+
     return (
       <div className={styles.detailContainer}>
-        <Row className="justify-content-md-space-between">
-          <Col md={7}>
+        <Grid templateColumns={['1fr', '1.5fr 1fr']} columnGap={32}>
+          <GridItem>
             <div className={styles.tagsWrap}>
               <VotingProposalItemHistoryStatus status={proposal.status} />
               <VotingProposalItemType type={proposal.type} />
@@ -160,14 +161,14 @@ const VotingDetail = ({}) => {
                 currentWallet={currentWallet}
               />
             )}
-          </Col>
-          <Col md={4}>
+          </GridItem>
+          <GridItem justifyContent='flex-end'>
             <VotingDetails proposal={proposal} />
             {proposal.type != ProposalTypes.Proposal && (
               <VotingResults proposal={proposal} yourVote={yourVote} />
             )}
-          </Col>
-        </Row>
+          </GridItem>
+        </Grid>
       </div>
     );
   };

@@ -1,6 +1,5 @@
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, ModalProps } from '@chakra-ui/react';
 import cx from "classnames";
-// import { Modal, ModalProps } from "react-bootstrap";
 
 import { useAppDispatch } from "src/store/hooks";
 import { closeModal } from "src/store/modal";

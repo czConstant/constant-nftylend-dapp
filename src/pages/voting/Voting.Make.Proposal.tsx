@@ -1,5 +1,5 @@
+import { Button } from '@chakra-ui/react';
 import React, { memo } from "react";
-import { Button } from "react-bootstrap";
 import { useLocation, useNavigate, useRoutes } from "react-router-dom";
 import { APP_URL } from "src/common/constants/url";
 import styles from "./styles.module.scss";

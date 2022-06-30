@@ -1,8 +1,5 @@
 import { Box, FormControl, FormErrorMessage, FormLabel, InputGroup } from '@chakra-ui/react';
 
-// import ErrorOverlay from 'src/components/errorOverlay';
-// import { useTextWidth } from '@tag0/use-text-width';
-
 import styles from "./styles.module.scss";
 
 interface FieldTextProps {
