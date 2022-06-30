@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
 import BigNumber from "bignumber.js";
 import moment from "moment-timezone";
 import cx from 'classnames';
+import { Button } from '@chakra-ui/react';
 
 import { useAppDispatch } from "src/store/hooks";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
@@ -132,7 +132,7 @@ const Item = (props: ItemProps) => {
         </div> */}
         <div>{formatDateTime(loan?.created_at)}</div>
         <div className={listLoanStyled.actions}>
-          {showAccept && <Button onClick={onAccept}>Accept</Button>}
+          {showAccept && <Button size='sm' variant='link' textDecoration='underline' onClick={onAccept}>Accept</Button>}
         </div>
     </div>
   );

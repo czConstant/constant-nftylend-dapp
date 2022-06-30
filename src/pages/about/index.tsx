@@ -1,10 +1,9 @@
 import BodyContainer from "src/common/components/bodyContainer";
 import cx from "classnames";
-import { Col, Row } from "react-bootstrap";
 import Slide from "react-reveal/Slide";
 import Fade from "react-reveal/Fade";
 import { isMobile } from "react-device-detect";
-import { Button, Divider, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Divider, Flex, Grid, GridItem, Heading, Image, Text } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
 
 import imgWhatNFTy from "./assets/what_nfty.png";
@@ -98,11 +97,11 @@ const PawwnProtocol = () => {
     >
       <div className={styles.bottomMask} />
       <Fade duration={DURATION}>
-        <section className={cx(styles.section, styles.sectionBG)}>
-          <div className={cx(styles.coloredText, styles.title)}>
+        <Flex h={['unset', '600px']} as='section' py={16} px={[4, 0]} className={cx(styles.section, styles.sectionBG)}>
+          <Box fontSize={['5xl', '7xl']} fontWeight='medium' className={cx(styles.coloredText)}>
             Pawn Protocol
-          </div>
-          <Heading as="h1" fontSize="3xl" mt={12}>
+          </Box>
+          <Heading as="h1" fontSize="3xl" textAlign='center' mt={[4, 12]}>
             The leading NFTs Lending Protocol
           </Heading>
           <Text my={4} className={styles.subtitle}>
@@ -113,16 +112,18 @@ const PawwnProtocol = () => {
           </Text>
           <Flex mt={8} className={styles.groupButton} gap={4}>
             <Button
-              w={200}
-              h={55}
+              w={[120, 200]}
+              h={50}
+              fontSize={['sm', 'md']}
               borderRadius={50}
               onClick={() => window.open(DISCORD_URL, "_blank")}
             >
               Join Discord
             </Button>
             <Button
-              w={200}
-              h={55}
+              w={[120, 200]}
+              h={50}
+              fontSize={['sm', 'md']}
               bgImage="linear-gradient(242deg, #0012ff 0%, #006ed0 100%)"
               borderRadius={50}
               onClick={() => window.open(GITBOOK_URL, "_blank")}
@@ -130,8 +131,9 @@ const PawwnProtocol = () => {
               Documents
             </Button>
             <Button
-              w={200}
-              h={55}
+              w={[120, 200]}
+              h={50}
+              fontSize={['sm', 'md']}
               bgImage="linear-gradient(242deg, #813900 0%, #ff831a 100%)"
               borderRadius={50}
               onClick={() => navigate(APP_URL.APPLY_AFFILIATE)}
@@ -139,10 +141,10 @@ const PawwnProtocol = () => {
               Apply Affiliate
             </Button>
           </Flex>
-        </section>
+        </Flex>
       </Fade>
       <Fade bottom duration={DURATION}>
-        <section className={cx(styles.section)}>
+        <Flex as='section' py={[8, 16]} className={cx(styles.section)}>
           <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
           <h2>What is Pawn Protocol?</h2>
           <Text className={styles.subtitle}>
@@ -153,16 +155,17 @@ const PawwnProtocol = () => {
             internet. NFT Pawn is the first application we build that utilized
             the Pawn Protocol infrastructure.
           </Text>
-          <div className={styles.bgWhatNFTy}>
-            <img
+          <Center className={styles.bgWhatNFTy}>
+            <Image
+              w={['80%', '100%']}
               alt="NFT Pawn"
               src={isMobile ? imgWhatNFTyMobile : imgWhatNFTy}
             />
-          </div>
-        </section>
+          </Center>
+        </Flex>
       </Fade>
       <Fade bottom duration={DURATION}>
-        <section className={cx(styles.section, styles.sectionHIW)}>
+        <Flex as='section' py={[8, 16]} className={cx(styles.section, styles.sectionHIW)}>
           <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
           <h2>How Does It Work?</h2>
           <Text className={styles.subtitle}>
@@ -176,13 +179,10 @@ const PawwnProtocol = () => {
               src={isMobile ? imgHowItWorkMobile : imgHowItWork}
             />
           </div>
-        </section>
+        </Flex>
       </Fade>
       <Fade>
-        <section
-          className={cx(styles.section)}
-          style={{ position: "relative" }}
-        >
+        <Flex as='section' py={[8, 16]} className={cx(styles.section)} position='relative'>
           <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
           <h2>What Is NFT Pawn?</h2>
           <div className={styles.textLeftWrap}>
@@ -202,20 +202,11 @@ const PawwnProtocol = () => {
             </div>
           </div>
           {!isMobile && <img src={imgIntro} className={styles.imgIntro} />}
-        </section>
+        </Flex>
       </Fade>
       <Slide duration={DURATION}>
-        <Row
-          style={{
-            marginLeft: 0,
-            marginRight: 0,
-          }}
-        >
-          <Col
-            xs={{ span: 12, order: 2 }}
-            md={{ span: 7, order: 1 }}
-            className={cx(styles.tokenomics, "no-scroll-bar")}
-          >
+        <Grid templateColumns='repeat(12, 1fr)'>
+          <GridItem colSpan={[12, 7]} order={[2, 1]} className={cx(styles.tokenomics, "no-scroll-bar")}>
             <div className={styles.bgImage}>
               {!isMobile && (
                 <img className={styles.bgLine} alt="" src={BgLine} />
@@ -235,8 +226,8 @@ const PawwnProtocol = () => {
                 );
               })}
             </div>
-          </Col>
-          <Col xs={{ span: 12, order: 1 }} md={{ span: 5, order: 2 }}>
+          </GridItem>
+          <GridItem colSpan={[12, 5]} order={[1, 2]}>
             <div className={styles.titleSection}>
               <div className={cx(styles.coloredText)}>PAWN PROTOCOL</div>
               <Text fontSize="3xl" fontWeight="semibold">
@@ -264,8 +255,8 @@ const PawwnProtocol = () => {
                 overall direction of the project
               </p>
             </section> */}
-          </Col>
-        </Row>
+          </GridItem>
+        </Grid>
       </Slide>
       <Slide duration={DURATION}>
         <Partners className={styles} />

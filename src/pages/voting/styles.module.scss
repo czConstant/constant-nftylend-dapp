@@ -389,9 +389,6 @@
 
 .detailContainer {
   padding: 2rem 0;
-  :global .justify-content-md-space-between {
-    justify-content: space-between;
-  }
   h1 {
     color: rgb(244, 238, 255);
     font-weight: 600;
