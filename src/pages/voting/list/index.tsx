@@ -1,7 +1,6 @@
-import { Heading } from "@chakra-ui/react";
+import { Button, Heading } from "@chakra-ui/react";
 import cx from "classnames";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Loading from "src/common/components/loading";
 import styles from "../styles.module.scss";
@@ -87,6 +86,7 @@ const VotingList = () => {
         <div className={cx(styles.choiceHeader, styles.listRowsHeader)}>
           {refTypes.map((filter) => (
             <Button
+              variant='solid'
               className={cx(
                 filter.key === type ? styles.typeActive : "",
                 styles.statusWrap
