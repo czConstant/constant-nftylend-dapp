@@ -10,17 +10,18 @@ import moment from 'moment-timezone';
 import ModalManager from 'src/common/components/modal';
 // import ModalManager from 'src/common/components/modalCustom';
 import MyLoadingOverlay from 'src/common/components/myLoadingOverlay';
+import { initRecaptchaV3 } from 'src/common/services/recaptchaV3';
+import { useDetectConnectedWallet } from 'src/modules/nftLend/hooks/useDetectWallet';
+import { MyWalletProvider } from 'src/modules/nftLend/context/myWalletContext';
+import { getSystemConfigs } from 'src/modules/nftLend/api';
 
 import AppRouter from './navigation';
-import { getSystemConfigs } from './modules/nftLend/api';
 // import { SolanaWalletProvider } from './modules/solana/hooks/withWalletProvider';
 import { NearWalletProvider } from './modules/near/hooks/withNearWalletProvider';
 
 import { useAppDispatch } from './store/hooks';
 import { updateConfigs } from './store/nftyLend';
-import { useDetectConnectedWallet } from './modules/nftLend/hooks/useDetectWallet';
 import customTheme from './theme';
-import { MyWalletProvider } from './modules/nftLend/context/myWalletContext';
 
 export default function App() {
   const dispatch = useAppDispatch();
@@ -29,6 +30,8 @@ export default function App() {
   useDetectConnectedWallet();
 
   useEffect(() => {
+    initRecaptchaV3()
+
     getSystemConfigs().then(res =>{ 
       if (res.result) dispatch(updateConfigs(res.result));
     });
