@@ -15,13 +15,14 @@ import { nearSignText } from 'src/modules/near/utils';
 // ** Defaults
 const defaultProvider = {
   currentWallet: { address: '', chain: Chain.None },
-  isConnected:false,
+  isConnected: false,
   connectSolanaWallet: () => null,
   connectEvmWallet: () => null,
   connectNearWallet: () => null,
   connectWallet: () => null,
   disconnectWallet: () => null,
   switchChain: () => null,
+  syncUserSettings: () => null,
 }
 
 const MyWalletContext = createContext(defaultProvider)
@@ -33,16 +34,23 @@ const MyWalletProvider = ({ children }) => {
 
   useEffect(() => {
     if (!currentWallet.address) return
-    getUserSettings(currentWallet.address, currentWallet.chain).then(res => {
-      dispatch(updateUserSettings(res.result))
+    syncUserSettings().then(res => {
       if (!res.result.is_connected && currentWallet.chain === Chain.Near) {
         const timestamp = moment().unix()
         nearSignText(currentWallet.address, String(timestamp)).then(signature => {
           connectUserFromRefer({ address: currentWallet.address, network: Chain.Near, timestamp, signature, referrer_code: cookie.referral_code })
-        }).catch(err => null)
+        })
       }
     })
   }, [currentWallet])
+
+  const syncUserSettings = async () => {
+    try {
+      const res = await getUserSettings(currentWallet.address, currentWallet.chain)
+      dispatch(updateUserSettings(res.result))
+      return res
+    } catch (err) { }
+  }
 
   const connectSolanaWallet = async () => {
     const el = document.getElementById('solButton');
@@ -126,6 +134,7 @@ const MyWalletProvider = ({ children }) => {
     connectWallet,
     disconnectWallet,
     switchChain,
+    syncUserSettings,
   }
 
   return <MyWalletContext.Provider value={values}>{children}</MyWalletContext.Provider>

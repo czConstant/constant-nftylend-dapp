@@ -244,3 +244,15 @@ export const applyAffiliate = async (params: ApplyAffiliate): Promise<ResponseRe
   const recaptcha = await getRecaptcha('applyAffiliate');
   return api.post(API_URL.NFT_LEND.APPLY_AFFILIATE, params, { headers: { recaptcha }})
 }
+
+interface GetNotificationsParams extends ListParams {
+  address: string
+  network: string
+}
+export const getNotifications = async (params: GetNotificationsParams): Promise<ListResponse> => {
+  return api.get(API_URL.NFT_LEND.NOTIFICATION_LIST, { params })
+}
+
+export const seenNotification = async (address: string, network: string, seenId: number): Promise<ListResponse> => {
+  return api.post(API_URL.NFT_LEND.NOTIFICATION_SEEN, { address, network, seen_noti_id: seenId })
+}

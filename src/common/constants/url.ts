@@ -72,5 +72,8 @@ export const API_URL = {
     AFFILIATE_VOLUMES: `${MCT_ROOT}${MCT_API_BASE}/affiliates/volumes`,
     AFFILIATE_TRANSACTIONS: `${MCT_ROOT}${MCT_API_BASE}/affiliates/transactions`,
     APPLY_AFFILIATE: `${MCT_ROOT}${MCT_API_BASE}/affiliates/submitted`,
+
+    NOTIFICATION_LIST: `${MCT_ROOT}${MCT_API_BASE}/notifications/list`,
+    NOTIFICATION_SEEN: `${MCT_ROOT}${MCT_API_BASE}/notifications/seen`,
   },
 }
