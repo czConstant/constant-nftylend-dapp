@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import NftPawn from '@nftpawn-js/core';
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 
 import SectionCollapse from "src/common/components/sectionCollapse";
 import CardNftLoan from "src/views/apps/CardNftLoan";
@@ -39,7 +39,9 @@ const LoanDetailSuggest: React.FC<LoanDetailSuggestProps> = ({ loan }) => {
     return (
       <Flex gap={4} overflow='scroll'>
         {items.map((loan) => loan.asset && (
-          <CardNftLoan key={loan.id} asset={loan.asset} loan={loan} />
+          <Box w={300}>
+            <CardNftLoan key={loan.id} asset={loan.asset} loan={loan} />
+          </Box>
         ))}
       </Flex>
     );

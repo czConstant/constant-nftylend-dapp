@@ -32,7 +32,7 @@ const LoanDetailPriceStatistic: React.FC<LoanDetailPriceStatisticProps> = ({ loa
       <GridItem>
         <Flex direction='column' justifyContent='space-between' h='100%' bgColor='background.darker' borderRadius={16} p={4}>
           <Flex gap={2} alignItems='center'>
-            <Text color='text.secondary' fontSize='xl' fontWeight='semibold'>Loan to value</Text>
+            <Text color='text.secondary' fontSize='xl' fontWeight='semibold'>Loan to {avgUsdValue.isGreaterThan(0) ? 'AVG Price' : 'Floor Price'}</Text>
             <InfoTooltip label={`Lenders use the loan-to-value (LTV) ratio to determine how much risk they're taking on with a secured loan. Any NFTPawn valuation metric is based on estimates and metrics that do not represent financial advice or the actual expected LTV of an NFT listing. Please conduct your own research.`} />
           </Flex>
           <Text fontWeight='bold' fontSize='3xl' color={color}>{ltv ? `${formatCurrency(ltv)}%` : 'Not Available'}</Text>
