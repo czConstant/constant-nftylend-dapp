@@ -29,9 +29,11 @@ const VotingServices = {
   },
   async createProposal(body: ProposalData): Promise<CurrencyPWPTokenData> {
     try {
+      const recaptcha = await getRecaptcha('createProposal');
       const response: ResponseResult = await api.post(
         `${API_URL.NFT_LEND.VOTING_PROPOSAL}`,
-        body
+        body,
+        { headers: { recaptcha }}
       );
       const result: ProposalListItemData = response.result;
       return result;
