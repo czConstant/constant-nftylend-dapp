@@ -25,6 +25,7 @@ import { selectUserSettings } from 'src/store/nftyLend';
 import { closeModal, openModal } from 'src/store/modal';
 import DialogSettingNotification from '../dialogSettingNotification';
 import { RiShareBoxLine } from 'react-icons/ri';
+import ButtonUserNoti from 'src/views/apps/ButtonUserNoti';
 
 const Header = () => {
   const location = useLocation()
@@ -101,7 +102,7 @@ const Header = () => {
             </Link>
           </div>
         </div>
-        <div className={styles.right}>
+        <Flex alignItems='center' gap={2}>
           {/* <div className={styles.hiddenSolButton}>
             <WalletModalProvider className={styles.solModal}>
               <WalletMultiButton className={styles.solButton}>
@@ -110,8 +111,9 @@ const Header = () => {
             </WalletModalProvider>
           </div> */}
           <ButtonSearchLoans className={styles.search} />
+          {isConnected && <ButtonUserNoti />}
           {isConnected ? <ButtonWalletDropdown /> : <ButtonConnectWallet className={styles.connectButton} fontSize='sm' color='text.secondary' />}
-        </div>
+        </Flex>
       </div>
       {APP_CLUSTER !== 'mainnet' && (
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(255, 192, 122, 0.2)'>

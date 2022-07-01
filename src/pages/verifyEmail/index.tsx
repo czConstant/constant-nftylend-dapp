@@ -41,6 +41,8 @@ const VerifyEmail = () => {
           setError('Your email verification link is expired')
         } else if (err.code === -2003) {
           setError('Your email verification is invalid')
+        } else if (err.code === -2004) {
+          setError('Your email verification is limited 5 requests in 24 hours')
         } else setError(err.message)
       })
     }

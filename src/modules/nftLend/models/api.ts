@@ -173,3 +173,15 @@ export interface AffiliateStatsData {
   total_transactions: number;
   total_users: number;
 }
+
+export interface NotificationData {
+  id: number
+  content: string
+  image_url: string
+  network: string
+  redirect_url: string
+  title: string
+  type: string
+  created_at: string
+  updated_at: string
+}
