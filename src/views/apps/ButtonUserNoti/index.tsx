@@ -10,6 +10,7 @@ import { NotificationData } from 'src/modules/nftLend/models/api';
 import Loading from 'src/common/components/loading';
 import { useAppSelector } from 'src/store/hooks';
 import { selectUserSettings } from 'src/store/nftyLend';
+import { getImageThumb } from 'src/modules/nftLend/utils';
 
 const DEFAULT_PAGE_SIZE = 5
 
@@ -68,7 +69,7 @@ const ButtonUserNoti = () => {
           return (
             <MenuItem onClick={() => e.redirect_url && navigate(e.redirect_url)}>
               <Flex gap={4}>
-                <Avatar  src={e.image_url} />
+                <Avatar src={getImageThumb({ url: e.image_url, width: 50, height: 50 })} />
                 <Flex direction='column'>
                   <Text fontSize='xs' fontWeight='medium'>{e.title}</Text>
                   <Text fontSize='xs' color='text.secondary' noOfLines={2}>{e.content}</Text>
