@@ -33,7 +33,7 @@ const ButtonUserNoti = () => {
   }
   
   const onOpen = async () => {
-    debounceFetchList(1)
+    fetchNotifications(1)
   }
 
   const fetchNotifications = async (page: number) => {
@@ -53,8 +53,6 @@ const ButtonUserNoti = () => {
     await seenNotification(currentWallet.address, currentWallet.chain, seenId)
     syncUserSettings()
   }
-
-  const debounceFetchList = useMemo(() => debounce(fetchNotifications, 500), [page, currentWallet]);
 
   return (
     <Menu autoSelect={false} placement='bottom-end' onOpen={onOpen} onClose={resetList}>
@@ -83,7 +81,7 @@ const ButtonUserNoti = () => {
           : <Button
               w='100%'
               variant='link'
-              onClick={() => debounceFetchList(page+1)}
+              onClick={() => fetchNotifications(page+1)}
             >
               View more
             </Button>
