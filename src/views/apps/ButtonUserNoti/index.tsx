@@ -71,7 +71,7 @@ const ButtonUserNoti = () => {
               <Flex gap={4}>
                 <Avatar src={getImageThumb({ url: e.image_url, width: 50, height: 50 })} />
                 <Flex direction='column'>
-                  <Text fontSize='xs' fontWeight='medium'>{e.title}</Text>
+                  <Text fontSize='sm' fontWeight='medium'>{e.title}</Text>
                   <Text fontSize='xs' color='text.secondary' noOfLines={2}>{e.content}</Text>
                 </Flex>
               </Flex>
