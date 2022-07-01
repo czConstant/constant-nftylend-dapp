@@ -1,5 +1,6 @@
 import { API_URL } from "src/common/constants/url";
 import api from "src/common/services/apiClient";
+import { getRecaptcha } from 'src/common/services/recaptchaV3';
 import { ListResponse, ResponseResult, SubmitCollection } from "./models/api";
 
 interface ListParams {
@@ -135,8 +136,9 @@ export const getSaleTransactions = (
   return api.get(`${API_URL.NFT_LEND.SALE_TRANSACTION}`, { params });
 };
 
-export const submitWhitelistCollection = (body: SubmitCollection): Promise<ResponseResult> => {
-  return api.post(`${API_URL.NFT_LEND.SUBMIT_COLLECTION}`, body);
+export const submitWhitelistCollection = async (body: SubmitCollection): Promise<ResponseResult> => {
+  const recaptcha = await getRecaptcha('submitWhitelistCollection');
+  return api.post(`${API_URL.NFT_LEND.SUBMIT_COLLECTION}`, body, { headers: { recaptcha }});
 };
 
 export const getBorrowerStats = (address: string, network: string): Promise<ResponseResult> => {
@@ -163,8 +165,9 @@ interface ClaimCurrencyParams extends SignatureParams {
   currency_id: number;
   amount: number;
 }
-export const claimCurrencyBalance = (params: ClaimCurrencyParams): Promise<ResponseResult> => {
-  return api.post(API_URL.NFT_LEND.PWP_CLAIM, params);
+export const claimCurrencyBalance = async (params: ClaimCurrencyParams): Promise<ResponseResult> => {
+  const recaptcha = await getRecaptcha('claimBalance');
+  return api.post(API_URL.NFT_LEND.PWP_CLAIM, params, { headers: { recaptcha }});
 };
 
 export const getNearWhitelistCollections = async (): Promise<ListResponse> => {
@@ -190,14 +193,16 @@ interface UserSettingsParams extends SignatureParams {
 }
 
 export const changeUserSettings = async (params: UserSettingsParams): Promise<ResponseResult> => {
-  return api.post(API_URL.NFT_LEND.USER_SETTINGS, params);
+  const recaptcha = await getRecaptcha('changeUserSettings');
+  return api.post(API_URL.NFT_LEND.USER_SETTINGS, params, { headers: { recaptcha } });
 }
 
 interface VerfiyEmailParams extends SignatureParams {
   email: string;
 }
 export const verifyUserEmail = async (params: VerfiyEmailParams): Promise<ResponseResult> => {
-  return api.post(API_URL.NFT_LEND.VERIFY_EMAIL, params);
+  const recaptcha = await getRecaptcha('verifyEmail');
+  return api.post(API_URL.NFT_LEND.VERIFY_EMAIL, params, { headers: { recaptcha }});
 }
 
 export const verifyEmailToken = async (email: string, token: string): Promise<ResponseResult> => {
@@ -235,6 +240,7 @@ interface ApplyAffiliate {
   website: string
   description: string
 }
-export const applyAffiliate = (params: ApplyAffiliate): Promise<ResponseResult> => {
-  return api.post(API_URL.NFT_LEND.APPLY_AFFILIATE, params)
+export const applyAffiliate = async (params: ApplyAffiliate): Promise<ResponseResult> => {
+  const recaptcha = await getRecaptcha('applyAffiliate');
+  return api.post(API_URL.NFT_LEND.APPLY_AFFILIATE, params, { headers: { recaptcha }})
 }

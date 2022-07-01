@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Flex, Heading, Icon, Text } from '@chakra-ui/react'
-import { BsShieldCheck } from 'react-icons/bs'
+import { BsShieldCheck, BsShieldX } from 'react-icons/bs'
 import queryString from 'query-string'
 
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet'
@@ -20,6 +20,7 @@ const VerifyEmail = () => {
 
   const [loading, setLoading] = useState(true)
   const [count, setCount] = useState(-1)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const pageQuery: any = queryString.parse(location.search);
@@ -32,6 +33,15 @@ const VerifyEmail = () => {
           setLoading(false)
           setCount(3)
         }, 3000)
+      }).catch(err => {
+        setLoading(false)
+        if (err.code === -2001) {
+          setError('Your email verification is limited in 10 minutes')
+        } else if (err.code === -2002) {
+          setError('Your email verification link is expired')
+        } else if (err.code === -2003) {
+          setError('Your email verification is invalid')
+        } else setError(err.message)
       })
     }
   }, []);
@@ -45,19 +55,26 @@ const VerifyEmail = () => {
   return (
     <BodyContainer>
       <Flex mt={40} direction='column' alignItems='center' gap={8}>
-        {loading
+        {error
           ? (
             <Flex alignItems='center' gap={4}>
-              <Icon fontSize='6xl' color='brand.warning.600' as={BsShieldCheck} />
-              <Heading as='h1' className={styles.dotLoading}>Verifying email ...</Heading>
+              <Icon fontSize='6xl' color='brand.danger.600' as={BsShieldX} />
+              <Heading as='h1'>{error}</Heading>
             </Flex>
-          ) : <>
-            <Flex alignItems='center' gap={4}>
-              <Icon fontSize='6xl' color='brand.success.600' as={BsShieldCheck} />
-              <Heading as='h1' color='brand.success.600'>Your email has been verified</Heading>
-            </Flex>
-            <Text fontSize='xl'>Proceed to NFT Pawn after {count}</Text>
-          </>}
+          ) : loading
+            ? (
+              <Flex alignItems='center' gap={4}>
+                <Icon fontSize='6xl' color='brand.warning.600' as={BsShieldCheck} />
+                <Heading as='h1' className={styles.dotLoading}>Verifying email ...</Heading>
+              </Flex>
+            ) : <>
+              <Flex alignItems='center' gap={4}>
+                <Icon fontSize='6xl' color='brand.success.600' as={BsShieldCheck} />
+                <Heading as='h1' color='brand.success.600'>Your email has been verified</Heading>
+              </Flex>
+              <Text fontSize='xl'>Proceed to NFT Pawn after {count}</Text>
+            </>
+        }
       </Flex>
     </BodyContainer>
   );

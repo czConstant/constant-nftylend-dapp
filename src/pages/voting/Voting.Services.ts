@@ -1,5 +1,6 @@
 import { API_URL } from "src/common/constants/url";
 import api from "src/common/services/apiClient";
+import { getRecaptcha } from 'src/common/services/recaptchaV3';
 import { ListResponse, ResponseResult } from "src/modules/nftLend/models/api";
 import {
   CurrencyPWPTokenData,
@@ -83,9 +84,11 @@ const VotingServices = {
   },
   async voteProposal(body: ProposalVoteRequest): Promise<ProposalVoteData> {
     try {
+      const recaptcha = await getRecaptcha('voteProposal');
       const response: ListResponse = await api.post(
         API_URL.NFT_LEND.VOTING_PROPOSAL_VOTE_CREATE,
-        body
+        body,
+        { headers: { recaptcha } }
       );
       const result: ProposalVoteData = response.result;
       return result;

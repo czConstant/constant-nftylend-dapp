@@ -17,7 +17,7 @@ api.interceptors.response.use(function (response) {
     return response.data;
   }, function (error) {
     // Do something with response error
-    return Promise.reject(error);
+    return Promise.reject({ status: error.status, ...error?.response?.data?.error });
   });
 
 export default api;
