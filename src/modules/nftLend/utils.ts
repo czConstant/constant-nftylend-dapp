@@ -86,7 +86,6 @@ export function getAvailableAt(availableInSec: number): number {
 export const calculateMaxInterest = (principal: number, interest: number, duration: number): number => {
   const DAY_SECS = 86400;
   const loanDay = duration / DAY_SECS;
-  
   const primaryInterest = new BigNumber(principal)
     .multipliedBy(interest)
     .multipliedBy(loanDay)

@@ -1,7 +1,7 @@
 import cx from "classnames";
 import React, { memo, useEffect, useState } from "react";
 import Loading from "src/common/components/loading";
-import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
+import { formatCurrency, shortCryptoAddress } from "src/common/utils/format";
 import { getLinkNearExplorer } from "src/modules/near/utils";
 import styles from "../styles.module.scss";
 import VotingServices from "../Voting.Services";
@@ -75,7 +75,7 @@ const VotingVotes: React.FC<VotingVotesProps> = ({
               <div>{vote.proposal_choice.name}</div>
               <div>
                 <div>
-                  {formatCurrencyByLocale(vote?.power_vote?.toString(), 0)}
+                  {formatCurrency(vote?.power_vote?.toString(), 0)}
                 </div>
                 <a href={vote.ipfs_hash} target="_blank">
                   <img src={icShare} />
@@ -97,7 +97,7 @@ const VotingVotes: React.FC<VotingVotesProps> = ({
             <div>{vote.proposal_choice.name}</div>
             <div>
               <div>
-                {formatCurrencyByLocale(vote?.power_vote?.toString(), 0)}
+                {formatCurrency(vote?.power_vote?.toString(), 0)}
               </div>
               <a href={vote.ipfs_hash} target="_blank">
                 <img src={icShare} />

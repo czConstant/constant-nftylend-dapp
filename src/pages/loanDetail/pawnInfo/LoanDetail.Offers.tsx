@@ -3,7 +3,7 @@ import cx from "classnames";
 import BigNumber from 'bignumber.js';
 import { Badge, Button, Center, Flex, Grid, GridItem, Link } from '@chakra-ui/react';
 
-import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
+import { formatCurrency, shortCryptoAddress } from "src/common/utils/format";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { toastError, toastSuccess } from "src/common/services/toaster";
 import { requestReload } from "src/store/nftyLend";
@@ -51,7 +51,7 @@ const OfferRow = (props: OfferRowProps) => {
   return (
     <Grid py={2} templateColumns={templateColumns} fontSize='sm' key={offer?.id}>
       <GridItem>
-        {`${formatCurrencyByLocale(offer.principal_amount, 2)} ${loan.currency?.symbol}`}
+        {`${formatCurrency(offer.principal_amount, 2)} ${loan.currency?.symbol}`}
       </GridItem>
       <GridItem>
         {offerDuration ? offerDuration.label : `${Math.ceil(new BigNumber(offer.duration).dividedBy(86400).toNumber())} days`}

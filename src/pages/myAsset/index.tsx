@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 
 import BodyContainer from "src/common/components/bodyContainer";
-import { formatCurrencyByLocale, shortCryptoAddress } from "src/common/utils/format";
+import { formatCurrency, shortCryptoAddress } from "src/common/utils/format";
 import ListAsset from "src/views/dashboard/myAssets";
 import ListLoan from "src/views/dashboard/myLoans";
 import ListOffer from "src/views/dashboard/myOffers";
@@ -95,12 +95,12 @@ const MyAsset = () => {
                 <div className={styles.priceWrap}>
                   <label>Balance</label>
                   <div className={styles.balance}>
-                    <span>{formatCurrencyByLocale(balance, 8)}</span>
+                    <span>{formatCurrency(balance, 8)}</span>
                     {currentWallet.chain.toString()}
                   </div>
                   {currencies.map((e: Currency) => (
                     <div key={e.symbol} className={styles.balance}>
-                      <span>{formatCurrencyByLocale(e.balance, 2)}</span>{" "}
+                      <span>{formatCurrency(e.balance, 2)}</span>{" "}
                       {e.symbol}
                     </div>
                   ))}

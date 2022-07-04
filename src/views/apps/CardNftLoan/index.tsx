@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import { useEffect, useState } from "react";
 import cx from 'classnames'
-import { Box, Flex, Text } from '@chakra-ui/react';
-import { AnimatePresence, motion, useAnimation } from 'framer-motion'
+import { Box, Flex, Icon, Image, Text } from '@chakra-ui/react';
+import { motion, useAnimation } from 'framer-motion'
 
 import { formatCurrency } from "src/common/utils/format";
 import { APP_URL } from "src/common/constants/url";
@@ -14,6 +14,7 @@ import CardNftMedia from "../CardNftMedia";
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { LOAN_DURATION } from 'src/modules/nftLend/constant';
+import { calculateMaxInterest } from 'src/modules/nftLend/utils';
 
 export const mediaTypes = {
   video: ["mov", "mp4", "video"],
@@ -65,6 +66,8 @@ const CardNftLoan = (props: CardNftLoanProps) => {
 
   const loanDuration = LOAN_DURATION.find(e => e.id === loan?.duration / 86400);
 
+  const maxInterestAmount = calculateMaxInterest(loan?.principal_amount, loan?.interest_rate, loan?.duration)
+
   return (
     <Box minW={250} className={cx(className, styles.cardNftLoan)} as={motion.div} initial={{ opacity: 0 }} animate={controls}>
       <a onClick={onView}>
@@ -74,23 +77,18 @@ const CardNftLoan = (props: CardNftLoanProps) => {
           loading={loadingDetail}
           detail={detail}
         />
-        <div className={styles.itemContent}>
-          <div className={styles.infoWrap}>
-            <div>
-              <h5>{asset.name}</h5>
-              <div>{asset.collection?.name}</div>
-            </div>
-            <div className={styles.chain}>{asset.chain}</div>
-          </div>
+        <Flex direction='column' p={4}>
+          <Flex alignItems='flex-start' justifyContent='space-between'>
+            <Box>
+              <Text fontWeight='medium' noOfLines={2}>{asset.name}</Text>
+              <Text color='text.secondary' fontSize='xs'>{asset.collection?.name}</Text>
+            </Box>
+            {/* <div className={styles.chain}>{asset.chain}</div> */}
+          </Flex>
           {!loan && isWhitelist && (
             <Flex alignItems='center' className={styles.whitelistTag} px={4} py={1} borderBottomRightRadius={12}>
               <Text fontSize='sm' fontWeight='bold'>Whitelisted</Text>
             </Flex>
-          )}
-          {loan?.principal_amount && (
-            <div className={styles.infoPrice}>
-              {formatCurrency(loan.principal_amount)} {loan?.currency?.symbol}
-            </div>
           )}
           <div className={styles.actions}>
             {onViewLoan && (
@@ -116,23 +114,25 @@ const CardNftLoan = (props: CardNftLoanProps) => {
             )}
           </div>
           {loan?.interest_rate && loan?.duration && (
-            <div className={styles.footer}>
-              <div>
-                <label>Interest</label>
-                <div>
-                  {formatCurrency(new BigNumber(loan.interest_rate).multipliedBy(100).toNumber(), 2)} %APR
-                </div>
-              </div>
-              <div />
-              <div>
-                <label>Duration</label>
-                <div>
+            <Flex alignItems='center' bgColor='background.gray' py={4} mx={-4} mb={-4}>
+              <Flex direction='column' alignItems='center' flex={2} gap={1} px={2}>
+                <Text variant='label' fontSize='9px'>Principal + Max Profit</Text>
+                <Flex alignItems='center' gap={1} lineHeight='18px'>
+                  <Image h='14px' borderRadius='20px' src={loan?.currency?.icon_url} />
+                  <Text fontSize='md' fontWeight='medium'>{formatCurrency(loan.principal_amount)}</Text>
+                  <Text fontSize='md' fontWeight='medium' color='brand.success.600'>+{formatCurrency(maxInterestAmount, 4)}</Text>
+                  <Text fontSize='xs'>({formatCurrency(loan.interest_rate * 100)}% APR)</Text>
+                </Flex>
+              </Flex>
+              <Flex direction='column' alignItems='center' flex={1} gap={1} px={2} borderLeftColor='background.border' borderLeftWidth={2}>
+                <Text variant='label' fontSize='9px'>Duration</Text>
+                <Text fontSize='sm' fontWeight='medium' lineHeight='18px'>
                   {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(loan?.duration).dividedBy(86400).toNumber())} days`}
-                </div>
-              </div>
-            </div>
+                </Text>
+              </Flex>
+            </Flex>
           )}
-        </div>
+        </Flex>
       </a>
     </Box>
   );

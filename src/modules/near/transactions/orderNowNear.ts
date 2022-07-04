@@ -19,7 +19,6 @@ export default class OrderNowNearNativeTransaction extends NearTransaction {
       const transactions = [];
 
       const amount = new BigNumber(principal).multipliedBy(10 ** currencyDecimals).toString(10)
-      console.log("🚀 ~ file: orderNowNear.ts ~ line 22 ~ OrderNowNearNativeTransaction ~ amount", amount)
 
       const msg = JSON.stringify({
         nft_contract_id: assetContractAddress,

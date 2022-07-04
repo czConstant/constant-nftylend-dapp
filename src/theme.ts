@@ -18,9 +18,10 @@ const Text: ComponentStyleConfig = {
       fontWeight: 'medium',
     },
     label: {
-      fontWeight: 'normal',
+      fontWeight: 'medium',
       color: 'text.secondary',
       fontSize: 'xs',
+      letterSpacing: '1px',
       textTransform: 'uppercase',
     },
   }
@@ -375,7 +376,8 @@ const customTheme = extendTheme({
       default: '#1A1A1A',
       darker: '#141416',
       card: '#282828',
-      border: '#2E3136',
+      border: '#343a40',
+      gray: '#212529',
     }
   },
   styles: {
