@@ -6,7 +6,7 @@ import {
   ProposalListItemData,
   ProposalTypes,
 } from "../Voting.Services.Data";
-import { formatCurrencyByLocale } from "src/common/utils/format";
+import { formatCurrency } from "src/common/utils/format";
 import { Button } from "react-bootstrap";
 
 interface VotingVoteConfirmProps {
@@ -49,7 +49,7 @@ const VotingVoteConfirm: React.FC<VotingVoteConfirmProps> = ({
             <div className={styles.section}>
               <h5>Your Proposal Power</h5>
               <div className={styles.choiceName}>
-                {formatCurrencyByLocale(balance)}
+                {formatCurrency(balance)}
               </div>
             </div>
             {balance === 0 && (
