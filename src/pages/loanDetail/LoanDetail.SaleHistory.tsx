@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import cx from "classnames";
-import moment from "moment-timezone";
+import { Box } from '@chakra-ui/react';
 
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { getSaleTransactions } from "src/modules/nftLend/api";
@@ -89,10 +89,10 @@ const LoanDetailSaleHistory: React.FC<LoanDetailSaleHistoryProps> = ({ asset }) 
 
   const renderActivityContent = () => {
     return (
-      <>
+      <Box maxH={500} overflow='scroll'>
         <TableHeader />
         <TableBody results={activities} />
-      </>
+      </Box>
     );
   };
 

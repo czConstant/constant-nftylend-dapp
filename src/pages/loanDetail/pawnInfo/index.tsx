@@ -49,7 +49,9 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
           </div>
         )}
       </Flex>
-      {(loan.isEmpty() || loan.isDone()) ? null : loan.isOngoing() ? <LoanDetailInEscrow loan={loan} /> : <LoanDetailPriceInfo loan={loan} />}
+      {loan.isOngoing()
+        ? <LoanDetailInEscrow loan={loan} />
+        : loan.isListing() ? <LoanDetailPriceInfo loan={loan} /> : null}
       <SectionCollapse
         id="priceStats"
         label="Price Info"

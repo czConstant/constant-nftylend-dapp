@@ -18,9 +18,10 @@ const Text: ComponentStyleConfig = {
       fontWeight: 'medium',
     },
     label: {
-      fontWeight: 'normal',
+      fontWeight: 'medium',
       color: 'text.secondary',
-      fontSize: 'xs',
+      fontSize: '10px',
+      letterSpacing: '1px',
       textTransform: 'uppercase',
     },
   }

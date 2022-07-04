@@ -2,7 +2,7 @@ import React from "react";
 import BigNumber from "bignumber.js";
 import moment from 'moment-timezone';
 import { useDispatch } from 'react-redux';
-import { Box, Button, Flex, Progress, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Progress, Text } from '@chakra-ui/react';
 
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -46,6 +46,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
     Number(loan.currency?.decimals),
     moment(loan.approved_offer?.started_at).unix()
   );
+  const saveRate = new BigNumber(maxPayAmount).minus(payAmount).dividedBy(maxPayAmount).toNumber()
 
   const durationDays = Math.ceil(loan.approved_offer?.duration / 86400);
   const loanDays = moment().diff(moment(loan.approved_offer?.started_at), 'd')
@@ -180,8 +181,11 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       </div>
       <div className={styles.info}>
         <div>
-        <Text color='text.secondary' fontWeight='medium' fontSize='xs'>Max Repayment Amount</Text>
-          <div className={styles.value}>{formatCurrency(maxPayAmount)} {loan.currency?.symbol}</div>
+          <Text color='text.secondary' fontWeight='medium' fontSize='xs'>Max Repayment Amount</Text>
+          <Flex alignItems='center' gap={2}>
+            <Image h='20px' borderRadius='20px' src={loan.currency?.icon_url} />
+            <Text>{formatCurrency(maxPayAmount)}</Text>
+          </Flex>
         </div>
         <div>
           <Text color='text.secondary' fontWeight='medium' fontSize='xs'>APR</Text>
@@ -195,16 +199,18 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
       <Text fontSize='sm'>
         {loan.isOverdue()
           ? <><strong>{loan.asset?.name}</strong> is currently held in escrow in an NFTPawn contract and pending your lender to claim.</>
-          : <><strong>{loan.asset?.name}</strong> is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment amount of <strong>{formatCurrency(Number(payAmount))} {loan.currency?.symbol}</strong> is made before <strong>{formatDateTime(loan.approved_offer.overdue_at)}</strong>.</>
+          : <><strong>{loan.asset?.name}</strong> is currently held in escrow in a NFTPawn contract and will be released back to its borrower if a repayment is made before <strong>{formatDateTime(loan.approved_offer.overdue_at)}</strong>.</>
         }
       </Text>
       {!loan.isOverdue() && currentWallet.address === loan.owner && (
         <Button w='100%' h={50} mt={4} onClick={onPayLoan}>
           <Flex gap={2}>
             <Text>Pay</Text>
-            <Text>{formatCurrency(payAmount)}</Text>
-            <Text textDecoration='line-through'>{formatCurrency(maxPayAmount)}</Text>
-            <Text>Now</Text>
+            <Text>now</Text>
+            <Image h='20px' borderRadius='20px' src={loan.currency?.icon_url} />
+            <Text color='text.secondary' textDecoration='line-through'>{formatCurrency(maxPayAmount)}</Text>
+            <Text color='brand.success.600' fontWeight='bold'>{formatCurrency(payAmount)}</Text>
+            <Text>(save {formatCurrency(saveRate * 100)}%)</Text>
           </Flex>
         </Button>
       )}
