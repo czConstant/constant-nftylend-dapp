@@ -104,10 +104,6 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
           Max interest <strong>{formatCurrency(maxInterest, 4)} {loan.currency?.symbol}</strong>
         </div>
         <div>
-          <Flex><Text mr={2}>Platform fee</Text><InfoTooltip label="This fee is charged by the Pawn Protocol, it’s applied to the borrower when repaying the loans." /></Flex>
-          <strong>{formatCurrency(matchingFee)} {loan.currency?.symbol}</strong>
-        </div>
-        <div>
           Max repayment <strong>{formatCurrency(totalRepay)} {loan.currency?.symbol}</strong>
         </div>
       </div>

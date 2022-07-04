@@ -5,14 +5,14 @@ import React, {
   useState,
 } from "react";
 import { Field, useForm } from "react-final-form";
-import { Box, Button, Flex, Grid, GridItem, Switch, Text } from '@chakra-ui/react';
+import { Box, Button, Checkbox, Flex, Grid, GridItem, Switch, Text } from '@chakra-ui/react';
 
 import Loading from "src/common/components/loading";
 import { required } from "src/common/utils/formValidate";
 import InputWrapper from "src/common/components/form/inputWrapper";
 import FieldAmount from "src/common/components/form/fieldAmount";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
-import { formatCurrency } from 'src/common/utils/format';
+import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import FieldText from 'src/common/components/form/fieldText';
 import { Currency } from 'src/modules/nftLend/models/api';
 import { calculateMaxInterest, calculateMaxTotalPay } from 'src/modules/nftLend/utils';
@@ -21,22 +21,24 @@ import InfoTooltip from 'src/common/components/infoTooltip';
 
 import styles from "./styles.module.scss";
 import BigNumber from 'bignumber.js';
+import moment from 'moment-timezone';
 
 interface CreateLoanFormProps {
-  onSubmit: FormEventHandler;
-  onClose: ReactEventHandler;
-  listToken: Array<any>;
-  defaultTokenMint?: string;
-  submitting: boolean;
-  values: any;
-  isManual: boolean;
+  onSubmit: FormEventHandler
+  onClose: ReactEventHandler
+  listToken: Array<any>
+  defaultTokenMint?: string
+  submitting: boolean
+  values: any
+  isManual: boolean
 }
 
 const CreateLoanForm = (props: CreateLoanFormProps) => {
-  const { listToken, defaultTokenMint, onSubmit, values, submitting, isManual } = props;
-  const { change, getState } = useForm();
+  const { listToken, defaultTokenMint, onSubmit, values, submitting, isManual } = props
+  const { change, getState } = useForm()
 
-  const [receiveToken, setReceiveToken] = useState<Currency>();
+  const [receiveToken, setReceiveToken] = useState<Currency>()
+  const [isAgree, setIsAgree] = useState(false)
 
   useEffect(() => {
     change("receiveTokenMint", defaultTokenMint);
@@ -64,7 +66,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
       values.rate / 100,
       duration,
     );
-    return (
+    return (<>
       <div className={styles.info}>
         <label>Estimated</label>
         <div>
@@ -78,11 +80,20 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
           Max repayment <strong>{formatCurrency(totalRepay)} {receiveToken?.symbol}</strong>
         </div>
       </div>
-    )
+      <Checkbox mt={4} wordBreak='break-word' onChange={e => setIsAgree(e.target.checked)}>
+        <Text fontSize='xs' maxW='100%'>
+          I understand that if I do not repay
+          &nbsp;<Text as='strong' color='brand.warning.400'>{formatCurrency(totalRepay)} {receiveToken?.symbol}</Text>
+          &nbsp;before 
+          &nbsp;<Text as='strong' color='brand.warning.400'>{formatDateTime(moment().add(duration, 's').add(2, 'd').toDate())}</Text>
+          &nbsp;from the time the loan is funded, I will lose ownership of the NFT.
+        </Text>
+      </Checkbox>
+    </>)
   };
 
   return (
-    <div className={styles.createLoanForm}>
+    <Box w='450px' className={styles.createLoanForm}>
       <form onSubmit={onSubmit}>
         <Grid gridTemplateColumns='repeat(12, 1fr)'>
         {isManual && (<>
@@ -189,11 +200,11 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
           </GridItem>
         </Grid>
         {renderEstimatedInfo()}
-        <Button mt={4} type="submit" w='100%' disabled={submitting}>
+        <Button h={50} mt={4} type="submit" w='100%' disabled={!isAgree || submitting}>
           {submitting ? <Loading dark /> : "Make Loan"}
         </Button>
       </form>
-    </div>
+    </Box>
   );
 };
 

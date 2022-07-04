@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import cx from "classnames";
 import { Link, useNavigate } from "react-router-dom";
+import { Button, Flex, Text } from '@chakra-ui/react';
+import BigNumber from 'bignumber.js';
 
 import Loading from "src/common/components/loading";
 import { toastError, toastSuccess } from "src/common/services/toaster";
@@ -23,9 +25,7 @@ import LoanDetailOffers from './LoanDetail.Offers';
 import styles from "../styles.module.scss";
 import pawnInfoStyles from "./pawnInfo.module.scss";
 import CountdownText from 'src/common/components/countdownText';
-import { Button, Flex, Text } from '@chakra-ui/react';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
-import BigNumber from 'bignumber.js';
 
 interface LoanDetailButtonsProps {
   loan: LoanNft;

@@ -304,6 +304,12 @@ const Switch: ComponentStyleConfig = {
   }
 }
 
+const Checkbox: ComponentStyleConfig = {
+  defaultProps: {
+    colorScheme: 'brand.primary'
+  }
+}
+
 const customTheme = extendTheme({ 
   colors: {
     text: {
@@ -412,6 +418,7 @@ const customTheme = extendTheme({
     Badge,
     Form,
     Switch,
+    Checkbox,
   },
  });
 
