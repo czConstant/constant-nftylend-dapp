@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import cx from 'classnames'
 import { Box, Flex, Icon, Image, Text } from '@chakra-ui/react';
 import { motion, useAnimation } from 'framer-motion'
-import { AiOutlineClockCircle } from 'react-icons/ai';
 
 import { formatCurrency } from "src/common/utils/format";
 import { APP_URL } from "src/common/constants/url";
@@ -85,14 +84,6 @@ const CardNftLoan = (props: CardNftLoanProps) => {
               <Text color='text.secondary' fontSize='xs'>{asset.collection?.name}</Text>
             </Box>
             {/* <div className={styles.chain}>{asset.chain}</div> */}
-            {/* {loan?.duration && (
-              <Flex alignItems='center' color='text.secondary' gap={2}>
-                <Icon as={AiOutlineClockCircle} />
-                <Text fontSize='sm' fontWeight='medium'>
-                  {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(loan?.duration).dividedBy(86400).toNumber())} days`}
-                </Text>
-              </Flex>
-            )} */}
           </Flex>
           {!loan && isWhitelist && (
             <Flex alignItems='center' className={styles.whitelistTag} px={4} py={1} borderBottomRightRadius={12}>
@@ -129,7 +120,7 @@ const CardNftLoan = (props: CardNftLoanProps) => {
                 <Flex alignItems='center' gap={1} lineHeight='18px'>
                   <Image h='14px' borderRadius='20px' src={loan?.currency?.icon_url} />
                   <Text fontSize='md' fontWeight='medium'>{formatCurrency(loan.principal_amount)}</Text>
-                  <Text fontSize='md' fontWeight='medium' color='brand.success.600'>+{formatCurrency(maxInterestAmount)}</Text>
+                  <Text fontSize='md' fontWeight='medium' color='brand.success.600'>+{formatCurrency(maxInterestAmount, 4)}</Text>
                   <Text fontSize='xs'>({formatCurrency(loan.interest_rate * 100)}% APR)</Text>
                 </Flex>
               </Flex>
@@ -139,14 +130,6 @@ const CardNftLoan = (props: CardNftLoanProps) => {
                   {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(loan?.duration).dividedBy(86400).toNumber())} days`}
                 </Text>
               </Flex>
-              {/* <Flex direction='column' alignItems='center' flex={1} gap={1} p={2} borderLeftColor='background.border' borderLeftWidth={2}>
-                <Text variant='label' fontSize='9px'>Max Profit</Text>
-                <Flex alignItems='center' gap={2} lineHeight='18px'>
-                  <Image h='14px' borderRadius='20px' src={loan?.currency?.icon_url} />
-                  <Text fontSize='md' fontWeight='medium'>{formatCurrency(maxInterestAmount)}</Text>
-                  <Text fontSize='xs' color='text.secondary'>({formatCurrency(loan.interest_rate * 100)}%)</Text>
-                </Flex>
-              </Flex> */}
             </Flex>
           )}
         </Flex>
