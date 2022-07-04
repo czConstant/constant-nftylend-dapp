@@ -6,14 +6,10 @@ import { Box } from '@chakra-ui/react';
 
 import SectionCollapse from "src/common/components/sectionCollapse";
 import { getLoanTransactions } from "src/modules/nftLend/api";
-import {
-  formatCurrencyByLocale,
-  shortCryptoAddress,
-} from "src/common/utils/format";
+import { formatCurrency, shortCryptoAddress } from "src/common/utils/format";
 import { LOAN_TRANSACTION_ACTIVITY } from "src/modules/nftLend/constant";
 import styles from "./styles.module.scss";
 import { AssetLoanHistory } from 'src/modules/nftLend/models/activity';
-import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 
 const TableHeader = () => (
@@ -68,7 +64,7 @@ const TableBody = ({ results = [] }) => {
           <div style={{ flex: 1 }}>{moment(result.created_at).fromNow()}</div>
           <div style={{ flex: 1 }}>
             {result?.principal && `
-              ${formatCurrencyByLocale(result.principal)}
+              ${formatCurrency(result.principal)}
               ${' '}
               ${result.loan?.currency?.symbol}
             `}

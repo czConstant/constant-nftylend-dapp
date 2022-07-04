@@ -15,7 +15,7 @@ import FieldText from "src/common/components/form/fieldText";
 import InputWrapper from "src/common/components/form/inputWrapper";
 import Loading from "src/common/components/loading";
 import { APP_URL } from "src/common/constants/url";
-import { formatCurrencyByLocale } from "src/common/utils/format";
+import { formatCurrency } from "src/common/utils/format";
 import { composeValidators, required } from "src/common/utils/formValidate";
 import { nearSignText } from "src/modules/near/utils";
 import { useCurrentWallet } from "src/modules/nftLend/hooks/useCurrentWallet";
@@ -368,14 +368,14 @@ const VotingMakeProposal = () => {
                           <div>
                             My Balance:{" "}
                             <span>
-                              {formatCurrencyByLocale(balance)}{" "}
+                              {formatCurrency(balance)}{" "}
                               {currency?.symbol}
                             </span>
                           </div>
                         )}
                         <div className={styles.requiredInfo}>
                           You must have at least{" "}
-                          {formatCurrencyByLocale(
+                          {formatCurrency(
                             currency?.proposal_pwp_required
                           )}{" "}
                           {currency?.symbol} in your reward history to submit a

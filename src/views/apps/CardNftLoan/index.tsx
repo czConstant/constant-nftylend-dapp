@@ -67,8 +67,7 @@ const CardNftLoan = (props: CardNftLoanProps) => {
 
   const loanDuration = LOAN_DURATION.find(e => e.id === loan?.duration / 86400);
 
-  const maxInterestRate = calculateMaxInterest(loan?.principal_amount, loan?.interest_rate, loan?.duration)
-  const maxInterestAmount = new BigNumber(loan?.principal_amount).multipliedBy(maxInterestRate).toNumber()
+  const maxInterestAmount = calculateMaxInterest(loan?.principal_amount, loan?.interest_rate, loan?.duration)
 
   return (
     <Box minW={250} className={cx(className, styles.cardNftLoan)} as={motion.div} initial={{ opacity: 0 }} animate={controls}>
@@ -86,14 +85,14 @@ const CardNftLoan = (props: CardNftLoanProps) => {
               <Text color='text.secondary' fontSize='xs'>{asset.collection?.name}</Text>
             </Box>
             {/* <div className={styles.chain}>{asset.chain}</div> */}
-            {loan?.duration && (
+            {/* {loan?.duration && (
               <Flex alignItems='center' color='text.secondary' gap={2}>
                 <Icon as={AiOutlineClockCircle} />
                 <Text fontSize='sm' fontWeight='medium'>
                   {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(loan?.duration).dividedBy(86400).toNumber())} days`}
                 </Text>
               </Flex>
-            )}
+            )} */}
           </Flex>
           {!loan && isWhitelist && (
             <Flex alignItems='center' className={styles.whitelistTag} px={4} py={1} borderBottomRightRadius={12}>
@@ -124,21 +123,30 @@ const CardNftLoan = (props: CardNftLoanProps) => {
             )}
           </div>
           {loan?.interest_rate && loan?.duration && (
-            <Flex alignItems='center' bgColor='background.card' mx={-4} mb={-4}>
-              <Flex direction='column' alignItems='center' flex={1} gap={1} p={2}>
-                <Text variant='label'>Principal</Text>
-                <Flex alignItems='center' gap={2}>
-                  <Image h='16px' borderRadius='20px' src={loan?.currency?.icon_url} />
-                  <Text fontSize='sm' fontWeight='bold'>{formatCurrency(loan.principal_amount)}</Text>
+            <Flex alignItems='center' bgColor='background.gray' py={4} mx={-4} mb={-4}>
+              <Flex direction='column' alignItems='center' flex={2} gap={1} px={2}>
+                <Text variant='label' fontSize='9px'>Principal + Max Profit</Text>
+                <Flex alignItems='center' gap={1} lineHeight='18px'>
+                  <Image h='14px' borderRadius='20px' src={loan?.currency?.icon_url} />
+                  <Text fontSize='md' fontWeight='medium'>{formatCurrency(loan.principal_amount)}</Text>
+                  <Text fontSize='md' fontWeight='medium' color='brand.success.600'>+{formatCurrency(maxInterestAmount)}</Text>
+                  <Text fontSize='xs'>({formatCurrency(loan.interest_rate * 100)}% APR)</Text>
                 </Flex>
               </Flex>
-              <Flex direction='column' alignItems='center' flex={1} gap={1} p={2} borderLeftColor='background.border' borderLeftWidth={2}>
-                <Text variant='label'>Interest</Text>
-                <Flex alignItems='center' gap={2}>
-                  <Image h='16px' borderRadius='20px' src={loan?.currency?.icon_url} />
-                  <Text fontSize='sm' fontWeight='bold'>{formatCurrency(maxInterestAmount)}</Text>
-                </Flex>
+              <Flex direction='column' alignItems='center' flex={1} gap={1} px={2} borderLeftColor='background.border' borderLeftWidth={2}>
+                <Text variant='label' fontSize='9px'>Duration</Text>
+                <Text fontSize='sm' fontWeight='medium' lineHeight='18px'>
+                  {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(loan?.duration).dividedBy(86400).toNumber())} days`}
+                </Text>
               </Flex>
+              {/* <Flex direction='column' alignItems='center' flex={1} gap={1} p={2} borderLeftColor='background.border' borderLeftWidth={2}>
+                <Text variant='label' fontSize='9px'>Max Profit</Text>
+                <Flex alignItems='center' gap={2} lineHeight='18px'>
+                  <Image h='14px' borderRadius='20px' src={loan?.currency?.icon_url} />
+                  <Text fontSize='md' fontWeight='medium'>{formatCurrency(maxInterestAmount)}</Text>
+                  <Text fontSize='xs' color='text.secondary'>({formatCurrency(loan.interest_rate * 100)}%)</Text>
+                </Flex>
+              </Flex> */}
             </Flex>
           )}
         </Flex>

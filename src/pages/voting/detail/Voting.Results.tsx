@@ -9,7 +9,7 @@ import {
 import { ProgressBar } from "react-bootstrap";
 import { VotingProposalItemStatus } from "../list/Voting.Proposal.Item";
 import icVoted from "../images/ic_voted.svg";
-import { formatCurrencyByLocale } from "src/common/utils/format";
+import { formatCurrency } from "src/common/utils/format";
 
 interface VotingVotesProps {
   proposal: ProposalListItemData;
@@ -51,11 +51,11 @@ const VotingResults: React.FC<VotingVotesProps> = ({ proposal, yourVote }) => {
             <ProgressBar now={getPercent(parseFloat(choice.power_vote))} />
             <div className={styles.choiceItemInfoWrap}>
               <div>
-                {formatCurrencyByLocale(choice.power_vote || 0, 0)} Power Vote
+                {formatCurrency(choice.power_vote || 0, 0)} Power Vote
                 {parseFloat(choice.power_vote) > 1 ? "s" : ""}
               </div>
               <div>
-                {formatCurrencyByLocale(
+                {formatCurrency(
                   getPercent(parseFloat(choice.power_vote)),
                   2
                 )}
