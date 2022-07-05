@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import cx from 'classnames';
-import { isMobile } from 'react-device-detect';
-import { Box, Button, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
+import React from 'react';
+import { Button, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { formatCurrency } from 'src/common/utils/format';

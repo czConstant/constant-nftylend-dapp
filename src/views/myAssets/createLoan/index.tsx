@@ -6,7 +6,7 @@ import { toastError, toastSuccess } from "src/common/services/toaster";
 import { useAppDispatch } from "src/store/hooks";
 
 import CreateLoanForm from "./form";
-import { getNftListCurrency } from "src/modules/nftLend/api";
+import { getAssetInfo, getNftListCurrency } from "src/modules/nftLend/api";
 import { requestReload } from "src/store/nftyLend";
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { useTransaction} from 'src/modules/nftLend/hooks/useTransaction';
@@ -113,6 +113,7 @@ const CreateLoan = (props: CreateLoanProps) => {
     <Form onSubmit={onSubmit} initialValues={initValues}>
       {({ values, handleSubmit }) => (
         <CreateLoanForm
+          asset={asset}
           isManual={!asset}
           listToken={listToken}
           onSubmit={handleSubmit}

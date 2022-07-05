@@ -34,12 +34,12 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
   if (!loan.asset) return null;
 
   return (
-    <div>
+    <Flex direction='column' gap={2}>
       <h4>
         {loan.asset.name}
         <div className={styles.chain}>{loan.asset.chain}</div>
       </h4>
-      <Flex alignItems='center' justifyContent='space-between' mb={2}>
+      <Flex alignItems='center' justifyContent='space-between'>
         <Link to={`${APP_URL.LIST_LOAN}?collection=${loan.asset.collection?.seo_url}`}>
           <Text fontSize='xs' fontWeight='medium'>{loan.asset.collection?.name}</Text>
         </Link>
@@ -66,7 +66,7 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
           content={<LoanDetailBorrower data={borrowerStats} />}
         />
       )}
-    </div>
+    </Flex>
   );
 };
 
