@@ -70,6 +70,6 @@ export class NearNft extends AssetNft {
   }
   
   getLinkExplorer(address?: string): string {
-    return getLinkNearExplorer(address || String(this.id));
+    return getLinkNearExplorer(address || String(this.contract_address), 'address');
   }
 }

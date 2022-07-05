@@ -153,9 +153,11 @@ const AssetDetailModal = (props: AssetDetailModalProps) => {
               <MenuItem onClick={() => window.open(asset.getLinkExplorer(), '_blank')}>
                 View in explorer
               </MenuItem>
-              <MenuItem onClick={() => window.open(asset.detail_uri, '_blank')}>
-                View raw JSON
-              </MenuItem>
+              {asset.detail_uri && (
+                <MenuItem onClick={() => window.open(asset.detail_uri, '_blank')}>
+                  View raw JSON
+                </MenuItem>
+              )}
             </MenuList>
           </Menu>
         </Flex>
