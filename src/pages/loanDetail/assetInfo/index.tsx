@@ -1,8 +1,9 @@
 import React from "react";
+import { Flex } from '@chakra-ui/react';
 
 import SectionCollapse from "src/common/components/sectionCollapse";
-
 import { AssetNft } from 'src/modules/nftLend/models/nft';
+
 import LoanDetailInfo from './LoanDetail.Info';
 import LoanDetailAttr from './LoanDetail.Attr';
 
@@ -13,7 +14,7 @@ export interface LoanDetailAssetInfoProps {
 
 const LoanDetailAssetInfo: React.FC<LoanDetailAssetInfoProps> = ({ asset, owner }) => {
   return (
-    <div>
+    <Flex direction='column' gap={2}>
       <SectionCollapse
         id="description"
         label="Description"
@@ -30,7 +31,7 @@ const LoanDetailAssetInfo: React.FC<LoanDetailAssetInfoProps> = ({ asset, owner 
         label="Detail"
         content={<LoanDetailInfo asset={asset} borrower={owner} />}
       />
-    </div>
+    </Flex>
   );
 };
 

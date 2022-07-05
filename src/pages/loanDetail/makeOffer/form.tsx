@@ -11,9 +11,8 @@ import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { LoanNft } from 'src/modules/nftLend/models/loan';
 import { calculateMaxInterest, calculateMaxTotalPay, isNativeToken } from 'src/modules/nftLend/utils';
 import { formatCurrency } from 'src/common/utils/format';
-import InfoTooltip from 'src/common/components/infoTooltip';
-import styles from "./makeOfferForm.module.scss";
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
+import styles from "./makeOfferForm.module.scss";
 
 const HIGH_RISK_VALUE = 2.5; // 250%
 
@@ -91,7 +90,6 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
       values.rate / 100,
       duration,
     );
-    const matchingFee = values.amount / 100;
     const totalRepay = calculateMaxTotalPay(
       values.amount,
       values.rate / 100,

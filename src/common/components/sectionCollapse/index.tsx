@@ -38,7 +38,6 @@ const SectionCollapse: React.FC<SectionCollapseProps> = ({
       defaultIndex={selected ? 0 : undefined}
       onChange={onChange}
       className={className}
-      mb={1}
     >
       <AccordionItem border='none'>
         <AccordionButton p={4} pointerEvents={disabled ? 'none' : 'all'} alignItems='center' justifyContent='space-between'>

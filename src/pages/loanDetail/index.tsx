@@ -21,7 +21,7 @@ import { LoanNft } from 'src/modules/nftLend/models/loan';
 import CardNftMedia from 'src/views/apps/CardNftMedia';
 import AssetInfo from './assetInfo';
 import LoanDetailSaleHistory from './LoanDetail.SaleHistory';
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Flex, Grid, GridItem } from '@chakra-ui/react';
 
 const LoanDetail = () => {
   const location = useLocation();
@@ -77,9 +77,9 @@ const LoanDetail = () => {
     if (loading) return <Loading />;
     if (!loan || !loan.asset) return <EmptyDetailLoan />;
     return (
-      <>
+      <Flex direction='column' gap={2}>
         <BreadCrumb items={breadCrumbs} />
-        <Grid mt={[4, 8]} gap={8} templateColumns={['1fr','1fr 1.2fr']} className={styles.headerContainer}>
+        <Grid gap={8} templateColumns={['1fr','1fr 1.2fr']} className={styles.headerContainer}>
           <GridItem mt={[8, 0]}>
             <CardNftMedia
               detail={loan.asset.detail}
@@ -107,7 +107,7 @@ const LoanDetail = () => {
         <LoanDetailActivity asset={loan?.asset} />
         <LoanDetailSaleHistory asset={loan?.asset} />
         <LoanDetailSuggest loan={loan} />
-      </>
+      </Flex>
     );
   };
 

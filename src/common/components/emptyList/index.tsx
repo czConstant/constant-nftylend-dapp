@@ -11,15 +11,16 @@ interface EmptyListProps {
   label?: string;
   labelText?: React.ReactNode;
   type?: string;
+  imageSize?: number;
   dark?: boolean;
 };
 
 const EmptyList = (props: EmptyListProps) => {
-  const { className, labelText = 'No result found', dark = false } = props;
+  const { className, labelText = 'No result found', imageSize = 40, dark = false } = props;
 
   return (
     <Center flexDirection='column' className={className} p={8}>
-      <Image w={40} src={noRecordGray} />
+      <Image w={imageSize} src={noRecordGray} />
       <Text fontSize='lg' color='text.secondary' fontWeight='semibold'>{labelText}</Text>
     </Center>
   );

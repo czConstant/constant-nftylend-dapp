@@ -6,6 +6,8 @@ import React, {
 } from "react";
 import { Field, useForm } from "react-final-form";
 import { Box, Button, Checkbox, Flex, Grid, GridItem, Switch, Text } from '@chakra-ui/react';
+import BigNumber from 'bignumber.js';
+import moment from 'moment-timezone';
 
 import Loading from "src/common/components/loading";
 import { required } from "src/common/utils/formValidate";
@@ -18,10 +20,9 @@ import { Currency } from 'src/modules/nftLend/models/api';
 import { calculateMaxInterest, calculateMaxTotalPay } from 'src/modules/nftLend/utils';
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import InfoTooltip from 'src/common/components/infoTooltip';
+import { AssetNft } from 'src/modules/nftLend/models/nft';
 
 import styles from "./styles.module.scss";
-import BigNumber from 'bignumber.js';
-import moment from 'moment-timezone';
 
 interface CreateLoanFormProps {
   onSubmit: FormEventHandler
@@ -31,10 +32,11 @@ interface CreateLoanFormProps {
   submitting: boolean
   values: any
   isManual: boolean
+  asset?: AssetNft
 }
 
 const CreateLoanForm = (props: CreateLoanFormProps) => {
-  const { listToken, defaultTokenMint, onSubmit, values, submitting, isManual } = props
+  const { listToken, defaultTokenMint, onSubmit, values, submitting, isManual, asset } = props
   const { change, getState } = useForm()
 
   const [receiveToken, setReceiveToken] = useState<Currency>()

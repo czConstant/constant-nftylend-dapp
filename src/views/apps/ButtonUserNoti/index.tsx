@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { Menu, MenuButton, MenuItem, MenuList, Text, Icon, Center, Avatar, Flex, Button, Box } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineNotificationsNone } from 'react-icons/md';
-import debounce from 'lodash/debounce';
 
 import { getNotifications, seenNotification } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
@@ -11,6 +10,7 @@ import Loading from 'src/common/components/loading';
 import { useAppSelector } from 'src/store/hooks';
 import { selectUserSettings } from 'src/store/nftyLend';
 import { getImageThumb } from 'src/modules/nftLend/utils';
+import EmptyList from 'src/common/components/emptyList';
 
 const DEFAULT_PAGE_SIZE = 5
 
@@ -20,13 +20,21 @@ const ButtonUserNoti = () => {
   const settings = useAppSelector(selectUserSettings)
 
   const [notifications, setNotifications] = useState<NotificationData[]>([])
+  const [displayList, setDisplayList] = useState<NotificationData[]>([])
 
   const [loading, setLoading] = useState(true)
   const [hasMore, setHasMore] = useState(true)
+  const [unreadOnly, setUnreadOnly] = useState(true)
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
 
-  const resetList = () => {
+  useEffect(() => {
+    if (unreadOnly) setDisplayList(notifications.filter(e => e.id > settings.seen_noti_id))
+    else setDisplayList([...notifications])
+  }, [notifications, unreadOnly])
+
+  const onClose = () => {
+    if (notifications.length > 0 && notifications[0].id > settings.seen_noti_id) updateSeenNoti(notifications[0].id)
     setHasMore(true)
     setNotifications([])
     setPage(1)
@@ -41,7 +49,6 @@ const ButtonUserNoti = () => {
       setLoading(true)
       const res = await getNotifications({ address: currentWallet.address, network: currentWallet.chain, page, limit: pageSize })
       if (res.result.length < DEFAULT_PAGE_SIZE) setHasMore(false)
-      if (page === 1 && res.result.length > 0 && res.result[0].id > settings.seen_noti_id) updateSeenNoti(res.result[0].id)
       setPage(page)
       setNotifications([...notifications, ...res.result])
     } finally {
@@ -54,16 +61,22 @@ const ButtonUserNoti = () => {
     syncUserSettings()
   }
 
+  const renderEmpty = () => (
+    <EmptyList labelText={unreadOnly ? 'No unread notifications' : 'No notifications'} imageSize={20} />
+  )
+
   return (
-    <Menu autoSelect={false} placement='bottom-end' onOpen={onOpen} onClose={resetList}>
+    <Menu autoSelect={false} placement='bottom-end' onOpen={onOpen} onClose={onClose}>
       <MenuButton position='relative' h='40px' borderRadius={20} fontWeight='semibold'>
         <Center w='40px' h='40px'>
           <Icon fontSize='xl' as={MdOutlineNotificationsNone} />
         </Center>
         {settings.new_noti_num > 0 && <Center position='absolute' fontWeight='bold' fontSize='10px' bottom={0} right={-2} w={4} h={4} borderRadius={50} bgColor='brand.danger.600'>{settings.new_noti_num}</Center>}
       </MenuButton>
-      <MenuList zIndex={2} maxW={300} maxH={600} overflowY='scroll'>
-        {notifications.map(e => {
+      <MenuList zIndex={2} w={300} maxH={600} overflowY='scroll'>
+        <Text m={4} cursor='pointer' fontSize='xs' fontWeight='semibold' textDecoration='underline' onClick={() => setUnreadOnly(!unreadOnly)}>{unreadOnly ? 'View all' : 'Filter by unread'}</Text>
+        {!loading && displayList.length === 0 && renderEmpty()}
+        {displayList.map(e => {
           return (
             <MenuItem onClick={() => e.redirect_url && navigate(e.redirect_url)}>
               <Flex gap={4}>
@@ -76,15 +89,15 @@ const ButtonUserNoti = () => {
             </MenuItem>
           )
         })}
-        {hasMore && (loading
-          ? <Loading />
-          : <Button
-              w='100%'
-              variant='link'
-              onClick={() => fetchNotifications(page+1)}
-            >
-              View more
-            </Button>
+        {loading && <Loading />}
+        {!unreadOnly && hasMore && !loading && (
+          <Button
+            w='100%'
+            variant='link'
+            onClick={() => fetchNotifications(page+1)}
+          >
+            View more
+          </Button>
         )}
       </MenuList>
     </Menu>
