@@ -12,7 +12,7 @@ import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { requestReload } from 'src/store/nftyLend';
-import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
+import DialogConfirmAmount from 'src/views/apps/dialogConfirmAmount';
 
 import styles from "../styles.module.scss";
 import { formatCurrency, formatDateTime } from 'src/common/utils/format';
@@ -74,7 +74,7 @@ const LoanDetailInEscrow: React.FC<LoanDetailInEscrowProps> = ({ loan }) => {
         theme: "dark",
         title: 'Confirm Payment',
         render: () => (
-          <ModalConfirmAmount
+          <DialogConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
             onConfirm={() => processPayLoan(payAmount)}
             asset={loan.asset}

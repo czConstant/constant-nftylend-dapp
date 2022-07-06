@@ -11,7 +11,7 @@ import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { closeModal, openModal } from 'src/store/modal';
-import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
+import DialogConfirmAmount from 'src/views/apps/dialogConfirmAmount';
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
@@ -21,6 +21,7 @@ import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import LoanDetailOffers from 'src/pages/loanDetail/pawnInfo/LoanDetail.Offers';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
 import BadgeLoanStatus from '../badgeLoanStatus';
+import DialogConfirmCancelLoan from 'src/views/apps/dialogConfirmCancelLoan';
 
 interface ItemProps {
   loan: LoanNft;
@@ -39,6 +40,22 @@ const Item = (props: ItemProps) => {
 
   const onCancelLoan = async (e: React.MouseEvent) => {
     e.stopPropagation();
+    dispatch(
+      openModal({
+        id: "confirmCancel",
+        theme: "dark",
+        title: 'Cancel Loan',
+        render: () => (
+          <DialogConfirmCancelLoan
+            onClose={() => dispatch(closeModal({ id: 'confirmCancel' }))}
+            onConfirm={processCancelLoan}
+          />
+        ),
+      })
+    );
+  }
+
+  const processCancelLoan = async() => {
     try {
       if (!loan.asset) throw new Error('Loan has no asset');
       dispatch(showLoadingOverlay());
@@ -64,7 +81,7 @@ const Item = (props: ItemProps) => {
     } finally {
       dispatch(hideLoadingOverlay());
     }
-  };
+  }
 
   const onPayLoan = async (e) => {
     e.stopPropagation();
@@ -88,7 +105,7 @@ const Item = (props: ItemProps) => {
         theme: "dark",
         title: 'Confirm Payment',
         render: () => (
-          <ModalConfirmAmount
+          <DialogConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
             onConfirm={() => processPayLoan(payAmount)}
             asset={loan.asset}

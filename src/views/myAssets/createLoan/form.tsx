@@ -2,6 +2,7 @@ import React, {
   FormEventHandler,
   ReactEventHandler,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { Field, useForm } from "react-final-form";
@@ -10,7 +11,7 @@ import BigNumber from 'bignumber.js';
 import moment from 'moment-timezone';
 
 import Loading from "src/common/components/loading";
-import { required } from "src/common/utils/formValidate";
+import { composeValidators, maxValue, required } from "src/common/utils/formValidate";
 import InputWrapper from "src/common/components/form/inputWrapper";
 import FieldAmount from "src/common/components/form/fieldAmount";
 import FieldDropdown from "src/common/components/form/fieldDropdown";
@@ -40,6 +41,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
   const { change, getState } = useForm()
 
   const [receiveToken, setReceiveToken] = useState<Currency>()
+  const [maxAmount, setMaxAmount] = useState(0)
   const [isAgree, setIsAgree] = useState(false)
 
   useEffect(() => {
@@ -49,6 +51,16 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
     );
     if (token) setReceiveToken(token);
   }, [defaultTokenMint]);
+
+  useEffect(() => {
+    if (!receiveToken || !asset) return
+    const max = new BigNumber(asset?.stats?.avg_price || asset?.stats?.floor_price)
+      .multipliedBy(asset?.stats?.currency?.price)
+      .multipliedBy(1.5)
+      .dividedBy(receiveToken?.price)
+      .toNumber()
+    setMaxAmount(max || 0)
+  }, [receiveToken, asset])
 
   const onChangeReceiveToken = (value: any) => {
     setReceiveToken(value);
@@ -94,13 +106,18 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
     </>)
   };
 
+  const amountNote = useMemo(() => asset?.stats?.avg_price
+    ? `The NFT's AVG Price is ${asset?.stats?.avg_price}, you should consider an amount smaller than ${maxAmount} (150%)`
+    : `The NFT Collection Floor price is ${asset?.stats?.floor_price || 0}, you should consider an amount smaller than ${maxAmount} (150%)`
+  , [maxAmount, asset])
+
   return (
     <Box w='450px' className={styles.createLoanForm}>
       <form onSubmit={onSubmit}>
         <Grid gridTemplateColumns='repeat(12, 1fr)'>
         {isManual && (<>
           <GridItem colSpan={9}>
-            <InputWrapper label="Contract Address" theme="dark">
+            <InputWrapper label="Contract Address">
               <Field
                 name="asset_contract_address"
                 placeholder="0x0000000000000000"
@@ -110,7 +127,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             </InputWrapper>
           </GridItem>
           <GridItem colSpan={9}>
-            <InputWrapper label="Token ID" theme="dark">
+            <InputWrapper label="Token ID">
               <Field
                 name="token_id"
                 placeholder="0"
@@ -121,7 +138,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
           </GridItem>
         </>)}
           <GridItem colSpan={9}>
-            <InputWrapper label="Receive Token" theme="dark">
+            <InputWrapper label="Receive Token">
               <Field
                 name="receiveTokenMint"
                 children={FieldDropdown}
@@ -143,13 +160,13 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             </Flex>
           </GridItem>
           <GridItem colSpan={9}>
-            <InputWrapper label="Receive Amount" theme="dark">
+            <InputWrapper label="Receive Amount">
               <Field
                 name="amount"
                 children={FieldAmount}
                 placeholder="0.0"
                 appendComp={receiveToken?.symbol}
-                validate={required}
+                validate={composeValidators(required, maxValue(maxAmount || Number.MAX_SAFE_INTEGER, amountNote))}
               />
             </InputWrapper>
           </GridItem>
@@ -157,7 +174,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             <Switch colorScheme='brand.primary' mt={4} isChecked={!!values.allow_amount} onChange={e => change('allow_amount', e.target.checked ? 1 : 0)} />
           </GridItem>
           <GridItem colSpan={9}>
-            <InputWrapper label="Loan duration" theme="dark">
+            <InputWrapper label="Loan duration">
               <Field
                 name="duration"
                 placeholder="0"
@@ -175,7 +192,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             <Switch colorScheme='brand.primary' mt={4} isChecked={!!values.allow_duration} onChange={e => change('allow_duration', e.target.checked ? 1 : 0)} />
           </GridItem>
           <GridItem colSpan={9}>
-            <InputWrapper label="Loan interest" theme="dark">
+            <InputWrapper label="Loan interest">
               <Field
                 name="rate"
                 children={FieldAmount}
@@ -189,7 +206,7 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             <Switch colorScheme='brand.primary' mt={4} isChecked={!!values.allow_rate} onChange={e => change('allow_rate', e.target.checked ? 1 : 0)} />
           </GridItem>
           <GridItem colSpan={9}>
-            <InputWrapper label="Loan available in" theme="dark">
+            <InputWrapper label="Loan available in">
               <Field
                 name="available_in"
                 children={FieldAmount}

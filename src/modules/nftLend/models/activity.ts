@@ -26,8 +26,8 @@ export abstract class AssetActivity {
   tx_hash: string = ''
 
   getLinkExplorerAddr(address?: string): string {
-    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.tx_hash, 'tx');
-    if (this.chain === Chain.Near) return getLinkNearExplorer(address || this.tx_hash, 'tx');
+    if (this.chain === Chain.Solana) return getLinkSolScanExplorer(address || this.tx_hash, 'address');
+    if (this.chain === Chain.Near) return getLinkNearExplorer(address || this.tx_hash, 'address');
     if (isEvmChain(this.chain)) return getLinkEvmExplorer(address || '', this.chain, 'address');
     throw new Error(`Chain ${this.chain} is not supported`);
   }
