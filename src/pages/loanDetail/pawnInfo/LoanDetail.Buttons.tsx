@@ -26,6 +26,7 @@ import styles from "../styles.module.scss";
 import pawnInfoStyles from "./pawnInfo.module.scss";
 import CountdownText from 'src/common/components/countdownText';
 import { useToken } from 'src/modules/nftLend/hooks/useToken';
+import DialogConfirmCancelLoan from 'src/views/apps/dialogConfirmCancelLoan';
 
 interface LoanDetailButtonsProps {
   loan: LoanNft;
@@ -137,6 +138,22 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
   }
 
   const onCancelLoan = async () => {
+    dispatch(
+      openModal({
+        id: "confirmCancel",
+        theme: "dark",
+        title: 'Cancel Loan',
+        render: () => (
+          <DialogConfirmCancelLoan
+            onClose={() => dispatch(closeModal({ id: 'confirmCancel' }))}
+            onConfirm={processCancelLoan}
+          />
+        ),
+      })
+    );
+  }
+
+  const processCancelLoan = async () => {
     try {
       if (!loan.asset) throw new Error('Loan has no asset');
       setSubmitting(true);

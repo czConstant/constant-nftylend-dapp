@@ -160,14 +160,13 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
             </Flex>
           </GridItem>
           <GridItem colSpan={9}>
-            <Text color='brand.warning.400' mb={4} fontSize='xs'>{amountNote}</Text>
             <InputWrapper label="Receive Amount">
               <Field
                 name="amount"
                 children={FieldAmount}
                 placeholder="0.0"
                 appendComp={receiveToken?.symbol}
-                validate={composeValidators(required, maxValue(maxAmount || Number.MAX_SAFE_INTEGER, `The amount can not be bigger than 150% NFT's AVG Price / NFT Collection Floor Price, please consider another amount lower than that`))}
+                validate={composeValidators(required, maxValue(maxAmount || Number.MAX_SAFE_INTEGER, amountNote))}
               />
             </InputWrapper>
           </GridItem>
