@@ -4,7 +4,7 @@ import { Button, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { formatCurrency } from 'src/common/utils/format';
 
-interface ModalConfirmAmountProps {
+interface DialogConfirmAmountProps {
   asset: AssetNft;
   amount: number;
   symbol: string;
@@ -12,7 +12,7 @@ interface ModalConfirmAmountProps {
   onClose: Function;
 };
 
-const ModalConfirmAmount = (props: ModalConfirmAmountProps) => {
+const DialogConfirmAmount = (props: DialogConfirmAmountProps) => {
   const { asset, amount, symbol, onClose, onConfirm } = props;
 
   const handleConfirm = () => {
@@ -49,4 +49,4 @@ const ModalConfirmAmount = (props: ModalConfirmAmountProps) => {
   );
 };
 
-export default React.memo(ModalConfirmAmount);
+export default React.memo(DialogConfirmAmount);

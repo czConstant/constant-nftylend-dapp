@@ -17,7 +17,7 @@ import ButtonConnectWallet from 'src/common/components/buttonConnectWallet';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { hideLoadingOverlay, showLoadingOverlay } from 'src/store/loadingOverlay';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
-import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
+import DialogConfirmAmount from 'src/views/apps/dialogConfirmAmount';
 
 import { TABS } from "../../myAsset";
 import LoanDetailMakeOffer from '../makeOffer';
@@ -88,7 +88,7 @@ const LoanDetailButtons: React.FC<LoanDetailButtonsProps> = ({ loan, userOffer }
         theme: "dark",
         title: 'Confirm Payment',
         render: () => (
-          <ModalConfirmAmount
+          <DialogConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
             onConfirm={processOrderNow}
             asset={loan.asset}

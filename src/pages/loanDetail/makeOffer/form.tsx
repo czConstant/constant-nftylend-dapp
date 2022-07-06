@@ -112,7 +112,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <InputWrapper label="Loan Amount" theme="dark">
+      <InputWrapper label="Loan Amount">
         <Field
           disabled={!loan.isAllowChange('principal_amount')}
           validate={composeValidators(required, maxValue(balance, `Your balance is not enough`))}
@@ -128,7 +128,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
         </Flex>
         <div className={styles.errorMessage}>{warnings.amount}</div>
       </InputWrapper>
-      <InputWrapper label="Loan duration" theme="dark">
+      <InputWrapper label="Loan duration">
         <Field
           disabled={!loan.isAllowChange('duration')}
           name="duration"
@@ -142,7 +142,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
         />
         {!loan.isAllowChange('duration') && <TextNotAllow />}
       </InputWrapper>
-      <InputWrapper label="Loan interest" theme="dark">
+      <InputWrapper label="Loan interest">
         <Field
           disabled={!loan.isAllowChange('interest_rate')}
           validate={required}
@@ -154,7 +154,7 @@ const MakeOfferForm = (props: MakeOfferFormProps) => {
         {!loan.isAllowChange('interest_rate') && <TextNotAllow />}
         <div className={styles.errorMessage}>{warnings.rate}</div>
       </InputWrapper>
-      <InputWrapper label="Offer available in" theme="dark">
+      <InputWrapper label="Offer available in">
         <Field
           validate={required}
           name="available_in"

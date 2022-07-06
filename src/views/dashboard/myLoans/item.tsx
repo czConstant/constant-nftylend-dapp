@@ -11,7 +11,7 @@ import { requestReload } from "src/store/nftyLend";
 import { APP_URL } from "src/common/constants/url";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
 import { closeModal, openModal } from 'src/store/modal';
-import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
+import DialogConfirmAmount from 'src/views/apps/dialogConfirmAmount';
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
@@ -88,7 +88,7 @@ const Item = (props: ItemProps) => {
         theme: "dark",
         title: 'Confirm Payment',
         render: () => (
-          <ModalConfirmAmount
+          <DialogConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
             onConfirm={() => processPayLoan(payAmount)}
             asset={loan.asset}

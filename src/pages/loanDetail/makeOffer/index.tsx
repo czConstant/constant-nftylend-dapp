@@ -10,7 +10,7 @@ import { useAppDispatch } from "src/store/hooks";
 import { requestReload } from "src/store/nftyLend";
 import { TABS } from "src/pages/myAsset";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
-import ModalConfirmAmount from 'src/views/apps/confirmAmountModal';
+import DialogConfirmAmount from 'src/views/apps/dialogConfirmAmount';
 
 import MakeOfferForm from './form';
 import { LoanNft } from 'src/modules/nftLend/models/loan';
@@ -42,7 +42,7 @@ const LoanDetailMakeOffer = (props: LoanDetailMakeOfferProps) => {
         theme: "dark",
         title: 'Confirm Payment',
         render: () => (
-          <ModalConfirmAmount
+          <DialogConfirmAmount
             onClose={() => dispatch(closeModal({ id: 'confirmAmountModal' }))}
             onConfirm={() => processMakeOffer(values)}
             asset={loan.asset}
