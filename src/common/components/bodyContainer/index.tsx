@@ -14,7 +14,7 @@ const BodyContainer = (props: BodyContainerProps) => {
   const { className, children } = props;
 
   return (
-    <Box className={cx(className, styles.bodyContainer)} backgroundColor='black'>
+    <Box className={cx(className, styles.bodyContainer)} bgColor='black'>
       <div>{children}</div>
     </Box>
   );
