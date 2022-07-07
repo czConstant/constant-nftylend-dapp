@@ -62,7 +62,7 @@ const ButtonUserNoti = () => {
   }
 
   const renderEmpty = () => (
-    <EmptyList labelText={unreadOnly ? 'No unread notifications' : 'No notifications'} imageSize={20} />
+    <EmptyList positive labelText={unreadOnly ? 'No unread notifications' : 'No notifications'} imageSize={20} />
   )
 
   return (

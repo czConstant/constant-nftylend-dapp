@@ -3,7 +3,7 @@
   background-color: black;
   > div {
     max-width: 1366px;
-    margin: 0 auto;
+    margin:  auto;
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
   }
 }

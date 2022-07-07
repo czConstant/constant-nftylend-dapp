@@ -1,7 +1,10 @@
 .wrapper {
-  position: relative;
+  position: fixed;
+  top: 0;
+  width: 100%;
   background-color: #1f1f1f;
   min-height: var(--header-height);
+  z-index: 2;
 }
 
 .connectButton {
