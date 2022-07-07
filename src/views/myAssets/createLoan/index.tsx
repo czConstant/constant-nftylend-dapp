@@ -13,6 +13,7 @@ import { useTransaction} from 'src/modules/nftLend/hooks/useTransaction';
 import { Currency } from 'src/modules/nftLend/models/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import { isAssetOwner } from 'src/modules/nftLend/utils';
+import { LoanNft } from 'src/modules/nftLend/models/loan';
 
 interface CreateLoanProps {
   asset?: AssetNft;
@@ -26,16 +27,17 @@ const CreateLoan = (props: CreateLoanProps) => {
   const { createLoan } = useTransaction();
 
   const [receiveToken, setReceiveToken] = useState<Currency>();
+  const [loanInfo, setLoanInfo] = useState<LoanNft>();
   const [listToken, setListToken] = useState([]);
-  const [tokenBalance, setTokenBalance] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (!isConnected) return;
     Promise.all([
       getNftListCurrency(currentWallet.chain),
+      getAssetInfo(asset?.contract_address, asset?.token_id)
     ]).then((res) => {
-      setTokenBalance(res);
+      setLoanInfo(LoanNft.parseFromApiDetail(res[1].result))
       const list = res[0].result.map((e: any) => {
         return {
           ...e,
@@ -113,7 +115,7 @@ const CreateLoan = (props: CreateLoanProps) => {
     <Form onSubmit={onSubmit} initialValues={initValues}>
       {({ values, handleSubmit }) => (
         <CreateLoanForm
-          asset={asset}
+          asset={loanInfo?.asset}
           isManual={!asset}
           listToken={listToken}
           onSubmit={handleSubmit}

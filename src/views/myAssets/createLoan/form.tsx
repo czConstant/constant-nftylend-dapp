@@ -54,8 +54,9 @@ const CreateLoanForm = (props: CreateLoanFormProps) => {
 
   useEffect(() => {
     if (!receiveToken || !asset) return
-    const max = new BigNumber(asset?.stats?.avg_price || asset?.stats?.floor_price)
-      .multipliedBy(asset?.stats?.currency?.price)
+    const basePrice = Number(asset?.stats?.avg_price) || Number(asset?.stats?.avg_price)
+    const max = new BigNumber(basePrice)
+      .multipliedBy(Number(asset?.stats?.currency?.price))
       .multipliedBy(1.5)
       .dividedBy(receiveToken?.price)
       .toNumber()
