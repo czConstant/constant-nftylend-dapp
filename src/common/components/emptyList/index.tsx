@@ -1,7 +1,7 @@
 import React from 'react';
 
-import noRecordWhite from './img_list_empty_white.svg';
-import noRecordGray from './img_list_empty_gray.svg';
+import IconSadGray from './img_sad_gray.svg';
+import IconSmileGray from './img_smile_gray.svg';
 
 import { Center, Flex, Image, Text } from '@chakra-ui/react';
 
@@ -13,14 +13,15 @@ interface EmptyListProps {
   type?: string;
   imageSize?: number;
   dark?: boolean;
+  positive?: boolean;
 };
 
 const EmptyList = (props: EmptyListProps) => {
-  const { className, labelText = 'No result found', imageSize = 40, dark = false } = props;
+  const { className, labelText = 'No result found', imageSize = 80, positive = false } = props;
 
   return (
-    <Center flexDirection='column' className={className} p={8}>
-      <Image w={imageSize} src={noRecordGray} />
+    <Center flexDirection='column' className={className} p={8} gap={4}>
+      <Image w={imageSize} src={positive ? IconSmileGray : IconSadGray} />
       <Text fontSize='lg' color='text.secondary' fontWeight='semibold'>{labelText}</Text>
     </Center>
   );
