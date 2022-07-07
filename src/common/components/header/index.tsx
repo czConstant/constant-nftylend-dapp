@@ -1,8 +1,9 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import cx from "classnames";
 import { isMobile } from "react-device-detect";
-import { Flex, Text, Link as LinkText, Icon } from '@chakra-ui/react';
+import { motion } from 'framer-motion'
+import { Flex, Text, Link as LinkText, Icon, Box } from '@chakra-ui/react';
 
 import AppIcon from "src/common/components/appIcon";
 import { APP_URL } from "src/common/constants/url";
@@ -51,8 +52,13 @@ const Header = () => {
   if (isMobile) return <HeaderMobile />;
 
   const isHome = location.pathname === '/'
+  const showTestnetBanner = APP_CLUSTER !== 'mainnet'
+  const showVerifyBanner = APP_CLUSTER !== 'testnet' && is_verified
+  const showIncentiveBanner = APP_CLUSTER !== 'testnet' && isHome
+  const headerHeight = 60 + (showTestnetBanner ? 40 : 0) + (showVerifyBanner ? 40 : 0) + (showIncentiveBanner ? 40 : 0)
 
-  return (
+  return (<>
+    <Box h={headerHeight} />
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <div className={styles.left}>
@@ -115,7 +121,7 @@ const Header = () => {
           {isConnected ? <ButtonWalletDropdown /> : <ButtonConnectWallet className={styles.connectButton} fontSize='sm' color='text.secondary' />}
         </Flex>
       </div>
-      {APP_CLUSTER !== 'mainnet' && (
+      {showTestnetBanner && (
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(255, 192, 122, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.warning.400'>
             You are on the NFT Pawn test network. For the mainnet version, visit&nbsp;
@@ -123,16 +129,14 @@ const Header = () => {
           </Text>
         </Flex>
       )}
-      {APP_CLUSTER !== 'testnet' && isConnected && <>
-        {!email && (
-          <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
-            <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
-              Please update email <LinkText fontWeight='bold' onClick={onUpdateEmail}>here <Icon as={RiShareBoxLine} /></LinkText> to receive notifications.
-            </Text>
-          </Flex>
-        )}
+      {showVerifyBanner && <>
+        <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
+          <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
+            Please update email <LinkText fontWeight='bold' onClick={onUpdateEmail}>here <Icon as={RiShareBoxLine} /></LinkText> to receive notifications.
+          </Text>
+        </Flex>
       </>}
-      {APP_CLUSTER !== 'testnet' && isHome && (
+      {showIncentiveBanner && (
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(56, 115, 250, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.info.400'>
             Our incentive program is live. Check out full details
@@ -141,7 +145,7 @@ const Header = () => {
         </Flex>
       )}
     </div>
-  );
+  </>);
 };
 
 export default memo(Header);

@@ -35,6 +35,7 @@ import icClose from "../images/ic_close.svg";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getUserPwpBalance } from "src/modules/nftLend/api";
+import { Flex } from '@chakra-ui/react';
 
 const minDateCurrent = (value: any) => {
   if (moment(value).isSameOrBefore(moment.now())) {
@@ -194,218 +195,220 @@ const VotingMakeProposal = () => {
   };
 
   return (
-    <BodyContainer className={cx(isMobile && styles.mbWrapper, styles.wrapper)}>
-      <BreadCrumb items={defaultBreadCrumbs.current} />
-      <Form onSubmit={onSubmit} initialValues={initValues}>
-        {({ values, handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <Row className={styles.formWrapper}>
-              <Col>
-                <InputWrapper label="Title" theme="dark">
-                  <Field
-                    name="name"
-                    placeholder=""
-                    children={FieldText}
-                    validate={required}
-                  />
-                </InputWrapper>
-                {type === ProposalTypes.Proposal && (
-                  <InputWrapper label="Project Name" theme="dark">
+    <BodyContainer >
+      <Flex direction='column' pt={[10, 20]} px={[4, 0]}>
+        <BreadCrumb items={defaultBreadCrumbs.current} />
+        <Form onSubmit={onSubmit} initialValues={initValues}>
+          {({ values, handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Row className={styles.formWrapper}>
+                <Col>
+                  <InputWrapper label="Title" theme="dark">
                     <Field
-                      name="project_name"
+                      name="name"
                       placeholder=""
                       children={FieldText}
                       validate={required}
                     />
                   </InputWrapper>
-                )}
+                  {type === ProposalTypes.Proposal && (
+                    <InputWrapper label="Project Name" theme="dark">
+                      <Field
+                        name="project_name"
+                        placeholder=""
+                        children={FieldText}
+                        validate={required}
+                      />
+                    </InputWrapper>
+                  )}
 
-                <InputWrapper label="Content" theme="dark">
-                  <Field
-                    name="body"
-                    placeholder=""
-                    children={FieldText}
-                    rows={10}
-                    inputType="textarea"
-                  />
-                </InputWrapper>
-                {type === ProposalTypes.Proposal && (
-                  <InputWrapper label="Contact" theme="dark">
-                    <Field name="contact" placeholder="" children={FieldText} />
+                  <InputWrapper label="Content" theme="dark">
+                    <Field
+                      name="body"
+                      placeholder=""
+                      children={FieldText}
+                      rows={10}
+                      inputType="textarea"
+                    />
                   </InputWrapper>
-                )}
+                  {type === ProposalTypes.Proposal && (
+                    <InputWrapper label="Contact" theme="dark">
+                      <Field name="contact" placeholder="" children={FieldText} />
+                    </InputWrapper>
+                  )}
 
-                {type !== ProposalTypes.Proposal && (
+                  {type !== ProposalTypes.Proposal && (
+                    <div className={styles.choiceWrapper}>
+                      <div className={styles.choiceTitle}>
+                        <h5>Choices</h5>
+                      </div>
+                      <div className={styles.choiceFormWrap}>
+                        {choices.map((v, i) => (
+                          <InputWrapper
+                            key={i}
+                            label={`Choice ${v.id}`}
+                            theme="dark"
+                          >
+                            <Field
+                              name={`choice_${v.id}`}
+                              placeholder="Input choice text"
+                              children={FieldText}
+                              validate={required}
+                            />
+                            {i > 1 && (
+                              <Button
+                                onClick={() => onRemoveChoose(v)}
+                                className={styles.btnRemoveChoose}
+                              >
+                                <img src={icClose} />
+                              </Button>
+                            )}
+                          </InputWrapper>
+                        ))}
+                        <Button
+                          onClick={onAddChoice}
+                          className={styles.btnChoice}
+                        >
+                          Add Choice
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </Col>
+                <Col md={4}>
                   <div className={styles.choiceWrapper}>
                     <div className={styles.choiceTitle}>
-                      <h5>Choices</h5>
+                      {/* <h5>Actions</h5> */}
                     </div>
                     <div className={styles.choiceFormWrap}>
-                      {choices.map((v, i) => (
-                        <InputWrapper
-                          key={i}
-                          label={`Choice ${v.id}`}
-                          theme="dark"
-                        >
-                          <Field
-                            name={`choice_${v.id}`}
-                            placeholder="Input choice text"
-                            children={FieldText}
-                            validate={required}
-                          />
-                          {i > 1 && (
+                      {type !== ProposalTypes.Proposal && (
+                        <React.Fragment>
+                          <InputWrapper label="Start Date" theme="dark">
+                            <Field
+                              name="start"
+                              placeholder="YYYY/MM/DD HH:mm"
+                              children={FieldDateTimePicker}
+                              validate={
+                                type !== ProposalTypes.Proposal
+                                  ? composeValidators(
+                                      required,
+                                      minDateCurrent,
+                                      validateStartDate
+                                    )
+                                  : undefined
+                              }
+                              showTimeInput={true}
+                              minDate={moment.now()}
+                            />
+                          </InputWrapper>
+                          <InputWrapper label="End Date" theme="dark">
+                            <Field
+                              name="end"
+                              placeholder="YYYY/MM/DD HH:mm"
+                              children={FieldDateTimePicker}
+                              validate={
+                                type !== ProposalTypes.Proposal
+                                  ? composeValidators(
+                                      required,
+                                      minDateCurrent,
+                                      validateEndDate
+                                    )
+                                  : undefined
+                              }
+                              showTimeInput={true}
+                              minDate={moment.now()}
+                            />
+                          </InputWrapper>
+                        </React.Fragment>
+                      )}
+
+                      {proposalTypes.length > 1 && (
+                        <div className={styles.proposalTypesWrap}>
+                          {proposalTypes.map((v) => (
                             <Button
-                              onClick={() => onRemoveChoose(v)}
-                              className={styles.btnRemoveChoose}
+                              onClick={() => setType(v.key)}
+                              disabled={!v.active}
+                              key={v.key}
                             >
-                              <img src={icClose} />
+                              <span
+                                className={type === v.key ? styles.active : ""}
+                              />
+                              {v.name}
                             </Button>
+                          ))}
+                        </div>
+                      )}
+
+                      {isConnected ? (
+                        <Button
+                          className={cx(
+                            styles.btnMakeProposal,
+                            styles.btnSubmitAProposal
                           )}
-                        </InputWrapper>
-                      ))}
-                      <Button
-                        onClick={onAddChoice}
-                        className={styles.btnChoice}
-                      >
-                        Add Choice
-                      </Button>
+                          type="submit"
+                          disabled={
+                            loading ||
+                            parseFloat(balance) <
+                              parseFloat(currency?.proposal_pwp_required)
+                          }
+                        >
+                          {loading ? <Loading dark /> : "Submit"}
+                        </Button>
+                      ) : (
+                        <ButtonConnectWallet
+                          className={cx(
+                            styles.btnMakeProposal,
+                            styles.btnSubmitAProposal,
+                            styles.btnConnect
+                          )}
+                        />
+                      )}
+                      {parseFloat(balance) <
+                        parseFloat(currency?.proposal_pwp_required) && (
+                        <div className={styles.wrapBalance}>
+                          {isConnected && (
+                            <div>
+                              My Balance:{" "}
+                              <span>
+                                {formatCurrency(balance)}{" "}
+                                {currency?.symbol}
+                              </span>
+                            </div>
+                          )}
+                          <div className={styles.requiredInfo}>
+                            You must have at least{" "}
+                            {formatCurrency(
+                              currency?.proposal_pwp_required
+                            )}{" "}
+                            {currency?.symbol} in your reward history to submit a
+                            proposal. There are just a few methods to get your PWP
+                            reward:
+                            <ol>
+                              <li>
+                                Participate in our AMA and Airdrop activities.
+                              </li>
+                              <li>
+                                Using NFT to place a loan order is one of these
+                                whitelisted NFT collections.{" "}
+                                <a
+                                  href="http://docs.nftpawn.financial/overview/assetment-list-nft-collections-supported"
+                                  target="_blank"
+                                >
+                                  Read more
+                                </a>
+                              </li>
+                            </ol>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
-                )}
-              </Col>
-              <Col md={4}>
-                <div className={styles.choiceWrapper}>
-                  <div className={styles.choiceTitle}>
-                    {/* <h5>Actions</h5> */}
-                  </div>
-                  <div className={styles.choiceFormWrap}>
-                    {type !== ProposalTypes.Proposal && (
-                      <React.Fragment>
-                        <InputWrapper label="Start Date" theme="dark">
-                          <Field
-                            name="start"
-                            placeholder="YYYY/MM/DD HH:mm"
-                            children={FieldDateTimePicker}
-                            validate={
-                              type !== ProposalTypes.Proposal
-                                ? composeValidators(
-                                    required,
-                                    minDateCurrent,
-                                    validateStartDate
-                                  )
-                                : undefined
-                            }
-                            showTimeInput={true}
-                            minDate={moment.now()}
-                          />
-                        </InputWrapper>
-                        <InputWrapper label="End Date" theme="dark">
-                          <Field
-                            name="end"
-                            placeholder="YYYY/MM/DD HH:mm"
-                            children={FieldDateTimePicker}
-                            validate={
-                              type !== ProposalTypes.Proposal
-                                ? composeValidators(
-                                    required,
-                                    minDateCurrent,
-                                    validateEndDate
-                                  )
-                                : undefined
-                            }
-                            showTimeInput={true}
-                            minDate={moment.now()}
-                          />
-                        </InputWrapper>
-                      </React.Fragment>
-                    )}
-
-                    {proposalTypes.length > 1 && (
-                      <div className={styles.proposalTypesWrap}>
-                        {proposalTypes.map((v) => (
-                          <Button
-                            onClick={() => setType(v.key)}
-                            disabled={!v.active}
-                            key={v.key}
-                          >
-                            <span
-                              className={type === v.key ? styles.active : ""}
-                            />
-                            {v.name}
-                          </Button>
-                        ))}
-                      </div>
-                    )}
-
-                    {isConnected ? (
-                      <Button
-                        className={cx(
-                          styles.btnMakeProposal,
-                          styles.btnSubmitAProposal
-                        )}
-                        type="submit"
-                        disabled={
-                          loading ||
-                          parseFloat(balance) <
-                            parseFloat(currency?.proposal_pwp_required)
-                        }
-                      >
-                        {loading ? <Loading dark /> : "Submit"}
-                      </Button>
-                    ) : (
-                      <ButtonConnectWallet
-                        className={cx(
-                          styles.btnMakeProposal,
-                          styles.btnSubmitAProposal,
-                          styles.btnConnect
-                        )}
-                      />
-                    )}
-                    {parseFloat(balance) <
-                      parseFloat(currency?.proposal_pwp_required) && (
-                      <div className={styles.wrapBalance}>
-                        {isConnected && (
-                          <div>
-                            My Balance:{" "}
-                            <span>
-                              {formatCurrency(balance)}{" "}
-                              {currency?.symbol}
-                            </span>
-                          </div>
-                        )}
-                        <div className={styles.requiredInfo}>
-                          You must have at least{" "}
-                          {formatCurrency(
-                            currency?.proposal_pwp_required
-                          )}{" "}
-                          {currency?.symbol} in your reward history to submit a
-                          proposal. There are just a few methods to get your PWP
-                          reward:
-                          <ol>
-                            <li>
-                              Participate in our AMA and Airdrop activities.
-                            </li>
-                            <li>
-                              Using NFT to place a loan order is one of these
-                              whitelisted NFT collections.{" "}
-                              <a
-                                href="http://docs.nftpawn.financial/overview/assetment-list-nft-collections-supported"
-                                target="_blank"
-                              >
-                                Read more
-                              </a>
-                            </li>
-                          </ol>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </form>
-        )}
-      </Form>
+                </Col>
+              </Row>
+            </form>
+          )}
+        </Form>
+      </Flex>
     </BodyContainer>
   );
 };

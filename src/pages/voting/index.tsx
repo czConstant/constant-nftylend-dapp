@@ -6,6 +6,8 @@ import BreadCrumb, { BreadCrumbItem } from "src/common/components/breadCrumb";
 import { APP_URL } from "src/common/constants/url";
 import cx from 'classnames';
 import { isMobile } from "react-device-detect";
+import BodyContainer from 'src/common/components/bodyContainer';
+import { Flex } from '@chakra-ui/react';
 
 const Voting = () => {
   const defaultBreadCrumbs = useRef<BreadCrumbItem[]>([
@@ -18,13 +20,17 @@ const Voting = () => {
     },
   ]);
   return (
-    <div className={cx(isMobile && styles.votingMobileContainer, styles.votingContainer)}>
+    <>
       <VotingHeader />
-      <div className={styles.body}>
-        <BreadCrumb items={defaultBreadCrumbs.current} />
-        <VotingList />
-      </div>
-    </div>
+      <BodyContainer className={cx(isMobile && styles.votingMobileContainer, styles.votingContainer)}>
+        <Flex direction='column' px={4} py={8}>
+          <BreadCrumb items={defaultBreadCrumbs.current} />
+          <VotingList />
+        </Flex>
+      </BodyContainer>
+    </>
+    // <div className={cx(isMobile && styles.votingMobileContainer, styles.votingContainer)}>
+    // </div>
   );
 };
 

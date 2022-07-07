@@ -79,10 +79,8 @@ const VotingList = () => {
 
   return (
     <div className={styles.listContainer}>
-      <Heading as="h1" mb={2}>
-        Proposals
-      </Heading>
-      <div className={cx(styles.choiceWrapper, styles.listRows)}>
+      <Heading as="h1" mb={4}>Proposals</Heading>
+      <div className={cx(styles.choiceWrapper)}>
         <div className={cx(styles.choiceHeader, styles.listRowsHeader)}>
           {refTypes.map((filter) => (
             <Button
