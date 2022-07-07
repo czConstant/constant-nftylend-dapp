@@ -90,7 +90,7 @@ const MyPwp = () => {
           </Box>
         </GridItem>
       </Grid>
-      <TableContainer borderRadius={16} color='text.primary' >
+      <TableContainer borderRadius={16} color='text.primary'>
         <Table variant='striped' borderRadius={16}>
           <Thead>
             <Tr>
