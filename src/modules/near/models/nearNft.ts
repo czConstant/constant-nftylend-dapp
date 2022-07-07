@@ -3,7 +3,7 @@ import api from 'src/common/services/apiClient';
 import { LoanDataAsset } from 'src/modules/nftLend/models/api';
 import { CollectionNft } from 'src/modules/nftLend/models/collection';
 import { AssetNft, AssetNftDetail } from 'src/modules/nftLend/models/nft';
-import { convertIpfsToHttp, isUrl } from 'src/modules/nftLend/utils';
+import { convertIpfsToHttp } from 'src/modules/nftLend/utils';
 import { getLinkNearExplorer } from '../utils';
 
 export class NearNft extends AssetNft {
