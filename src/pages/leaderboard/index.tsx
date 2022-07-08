@@ -1,11 +1,13 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import moment from 'moment-timezone';
 
 import BodyContainer from 'src/common/components/bodyContainer';
 import ButtonCreateLoan from 'src/common/components/buttonCreateLoan';
 import Countdown from 'src/views/leaderboard/countdown';
-import Rules from 'src/views/leaderboard/rules';
+import ProgramDetail from 'src/views/leaderboard/programDetail';
 import TopBorrower from 'src/views/leaderboard/topBorrower';
+
+import ImgReward from './reward.png'
 
 const Leaderboard = () => {
   return (
@@ -17,9 +19,9 @@ const Leaderboard = () => {
         </Box>
         <Box><Countdown /></Box>
       </Flex>
-      <Flex mb={8}>
-        <Flex flex={1} direction='column'>
-          <Box h={80} />
+      <Flex mb={16}>
+        <Flex flex={1} alignItems='center' direction='column' gap={8}>
+          <Image src={ImgReward} />
           <Box>
             <ButtonCreateLoan />
           </Box>
@@ -28,7 +30,9 @@ const Leaderboard = () => {
           <TopBorrower />
         </Box>
       </Flex>
-      <Rules />
+      <Box mb={8}>
+        <ProgramDetail />
+      </Box>
     </BodyContainer>
   )
 };

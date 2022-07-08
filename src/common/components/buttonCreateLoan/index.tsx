@@ -54,7 +54,7 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
           style={{ height: "30px", width: "30px" }}
         />
       )}
-      <span>{title || "Create Loan"}</span>
+      <span>{title || "Create A Loan"}</span>
     </Button>
   );
 };
