@@ -53,7 +53,8 @@ const Header = () => {
 
   const isHome = location.pathname === '/'
   const showTestnetBanner = APP_CLUSTER !== 'mainnet'
-  const showVerifyBanner = APP_CLUSTER !== 'testnet' && is_verified
+  const showAddEmailBanner = APP_CLUSTER !== 'testnet' && !email
+  const showVerifyBanner = APP_CLUSTER !== 'testnet' && email && !is_verified
   const showIncentiveBanner = APP_CLUSTER !== 'testnet' && isHome
   const headerHeight = 60 + (showTestnetBanner ? 40 : 0) + (showVerifyBanner ? 40 : 0) + (showIncentiveBanner ? 40 : 0)
 
@@ -135,10 +136,17 @@ const Header = () => {
           </Text>
         </Flex>
       )}
-      {showVerifyBanner && <>
+      {showAddEmailBanner && <>
         <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
           <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
             Please update email <LinkText fontWeight='bold' onClick={onUpdateEmail}>here <Icon as={RiShareBoxLine} /></LinkText> to receive notifications.
+          </Text>
+        </Flex>
+      </>}
+      {showVerifyBanner && <>
+        <Flex height={10} alignItems='center' justifyContent='center' bgColor='rgba(224, 85, 102, 0.2)'>
+          <Text fontWeight='medium' fontSize='sm' color='brand.danger.400'>
+          Please check your mailbox to complete verification from NFT Pawn.
           </Text>
         </Flex>
       </>}
