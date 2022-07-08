@@ -106,6 +106,10 @@ const Table: ComponentStyleConfig = {
   variants: {
     striped: {
       bgColor: 'background.default',
+      borderRadius: 16,
+      table: {
+        borderRadius: 16,
+      },
       thead: {
         th: {
           color: 'text.primary',

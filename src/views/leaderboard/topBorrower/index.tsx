@@ -6,12 +6,14 @@ const data = [
   { wallet: 'trihuynh.near', matching: 80, matched: 50, total: 130 },
   { wallet: 'hieuq.near', matching: 90, matched: 35, total: 125 },
   { wallet: 'duynguyen.near', matching: 40, matched: 60, total: 100 },
+  { wallet: '', matching: 40, matched: 60, total: 100 },
+  { wallet: 'locmc.near', matching: 40, matched: 60, total: 100 },
 ]
 
 const TopBorrower = () => {
   return (
-    <TableContainer borderRadius={16} color='text.primary'>
-      <Table variant='striped' borderRadius={16}>
+    <TableContainer color='text.primary' borderRadius={16}>
+      <Table variant='striped'>
         <Thead>
           <Tr>
             <Th>Ranking</Th>
@@ -23,14 +25,14 @@ const TopBorrower = () => {
         </Thead>
         <Tbody>
           {data.map((e, i) => {
-            const isLast = i === data.length - 1;
+            const isEmpty = !e.wallet
             return (
               <Tr key={e.wallet}>
-                <Td borderBottomLeftRadius={isLast ? 16 : 0}>{i+1}</Td>
-                <Td>{e.wallet}</Td>
-                <Td textAlign='right'>{formatCurrency(e.matching)}</Td>
-                <Td textAlign='right'>{formatCurrency(e.matched)}</Td>
-                <Td textAlign='right' borderBottomRightRadius={isLast ? 16 : 0}>{formatCurrency(e.total)}</Td>
+                <Td>{isEmpty ? '...' : i+1}</Td>
+                <Td>{isEmpty ? '...' : e.wallet}</Td>
+                <Td textAlign='right'>{isEmpty ? '...' : formatCurrency(e.matching)}</Td>
+                <Td textAlign='right'>{isEmpty ? '...' : formatCurrency(e.matched)}</Td>
+                <Td textAlign='right'>{isEmpty ? '...' : formatCurrency(e.total)}</Td>
               </Tr>
             )
           })}
