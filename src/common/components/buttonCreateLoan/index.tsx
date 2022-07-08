@@ -29,22 +29,23 @@ const ButtonCreateLoan: React.FC<ButtonCreateLoanProps> = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onOpenModal = () => {
-    const close = () => dispatch(closeModal({ id: "createLoanModal" }));
-    dispatch(
-      openModal({
-        id: "createLoanModal",
-        className: styles.dialog,
-        render: () => <DialogGuideStart onClose={close} navigate={navigate} onGoToAsset={onCallBack} />,
-        theme: "dark",
-      })
-    );
+  const onClick = () => {
+    navigate(`${APP_URL.DASHBOARD}/nfts`)
+    // const close = () => dispatch(closeModal({ id: "createLoanModal" }));
+    // dispatch(
+    //   openModal({
+    //     id: "createLoanModal",
+    //     className: styles.dialog,
+    //     render: () => <DialogGuideStart onClose={close} navigate={navigate} onGoToAsset={onCallBack} />,
+    //     theme: "dark",
+    //   })
+    // );
   };
 
   if (location.pathname.includes(APP_URL.DASHBOARD)) return null;
 
   return (
-    <Button h='50px' borderRadius={30} onClick={onOpenModal} className={cx(styles.container, className)}>
+    <Button h='50px' borderRadius={30} onClick={onClick} className={cx(styles.container, className)}>
       {!hiddenIcon && (
         <Player
           autoplay
