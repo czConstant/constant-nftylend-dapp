@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import BodyContainer from 'src/common/components/bodyContainer';
 import ButtonCreateLoan from 'src/common/components/buttonCreateLoan';
 import Countdown from 'src/views/leaderboard/countdown';
-import Rules from 'src/views/leaderboard/rules';
+import ProgramDetail from 'src/views/leaderboard/programDetail';
 import TopBorrower from 'src/views/leaderboard/topBorrower';
 
 const Leaderboard = () => {
@@ -28,7 +28,9 @@ const Leaderboard = () => {
           <TopBorrower />
         </Box>
       </Flex>
-      <Rules />
+      <Box mb={8}>
+        <ProgramDetail />
+      </Box>
     </BodyContainer>
   )
 };
