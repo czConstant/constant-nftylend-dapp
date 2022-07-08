@@ -31,9 +31,9 @@ const AffiliateHistory = () => {
   }, [page])
 
   return (
-    <Flex direction='column' gap={12}>
+    <Flex direction='column'>
       <TableContainer borderRadius={16} color='text.primary' >
-        <Table variant='striped' borderRadius={16}>
+        <Table variant='striped'>
           <Thead>
             <Tr>
               <Th>Wallet</Th>
@@ -47,7 +47,6 @@ const AffiliateHistory = () => {
           </Thead>
           <Tbody>
             {transactions.map((e, i) => {
-              const isLast = i === transactions.length - 1;
               const txType = PAWN_BALANCE_TX_TYPE[e.type]
               const type = txType?.name || e.type
               const duration = e.loan?.offer_duration || e.loan?.duration;
@@ -55,23 +54,23 @@ const AffiliateHistory = () => {
 
               return (
                 <Tr key={e.id}>
-                  <Td borderBottomLeftRadius={isLast ? 16 : 0}>{shortCryptoAddress(e.ref_user?.address)}</Td>
+                  <Td>{shortCryptoAddress(e.ref_user?.address)}</Td>
                   <Td>{type}</Td>
                   <Td>{formatDateTime(e.created_at)}</Td>
                   <Td>{formatCurrency(principal)} {e.currency?.symbol}</Td>
                   <Td>{formatCurrency(e.loan?.interest_rate * 100)}%</Td>
                   <Td>{formatDuration(duration)}</Td>
-                  <Td borderBottomRightRadius={isLast ? 16 : 0}>{formatCurrency(e.amount)} {e.currency?.symbol}</Td>
+                  <Td>{formatCurrency(e.amount)} {e.currency?.symbol}</Td>
                 </Tr>
               )
             })}
           </Tbody>
         </Table>
         {transactions.length === 0 && <Center><EmptyList labelText="There is no transaction yet" /></Center>}
-        <Flex p={4} w='100%' justifyContent='flex-end'>
-          <Pagination total={total} page={page} pageSize={pageSize} onChangePage={(p: number) => setPage(p)} />
-        </Flex>
       </TableContainer>
+      <Flex p={4} w='100%' justifyContent='flex-end'>
+        <Pagination total={total} page={page} pageSize={pageSize} onChangePage={(p: number) => setPage(p)} />
+      </Flex>
     </Flex>
   );
 };

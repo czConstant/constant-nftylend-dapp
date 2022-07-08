@@ -15,6 +15,7 @@ import MakeProposal from "src/pages/voting/makeProposal";
 import VotingDetail from "src/pages/voting/detail";
 import ApplyAffiliate from 'src/pages/applyAffiliate';
 import VerifyEmail from 'src/pages/verifyEmail';
+import Leaderboard from 'src/pages/leaderboard';
 
 export interface RouteProps {
   path: string;
@@ -81,6 +82,10 @@ const routes: Array<RouteProps> = [
   {
     path: APP_URL.VERIFY_EMAIL,
     component: VerifyEmail,
+  },
+  {
+    path: APP_URL.LEADERBOARD,
+    component: Leaderboard,
   },
 ];
 

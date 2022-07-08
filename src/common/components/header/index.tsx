@@ -107,6 +107,12 @@ const Header = () => {
             >
               Pawn Protocol
             </Link>
+            <Link
+              to={APP_URL.LEADERBOARD}
+              className={cx(location.pathname === APP_URL.LEADERBOARD && styles.active)}
+            >
+              Leaderboard
+            </Link>
           </div>
         </div>
         <Flex alignItems='center' gap={2}>

@@ -68,8 +68,8 @@ const MyPwp = () => {
   const canClaim = amount > 0 && pwpBalance?.currency?.claim_enabled
 
   return (
-    <Flex direction='column' gap={12}>
-      <Grid w='100%' templateColumns='repeat(4, 1fr)' gap={4}>
+    <Flex direction='column'>
+      <Grid w='100%' templateColumns='repeat(4, 1fr)' gap={4} mb={8}>
         <GridItem>
           <Box backgroundColor='background.card' borderRadius={16} p={4}>
             <Text fontSize='sm' color='text.secondary'>Total Reward</Text>
@@ -90,8 +90,8 @@ const MyPwp = () => {
           </Box>
         </GridItem>
       </Grid>
-      <TableContainer borderRadius={16} color='text.primary' >
-        <Table variant='striped' borderRadius={16}>
+      <TableContainer color='text.primary' borderRadius={16} >
+        <Table variant='striped'>
           <Thead>
             <Tr>
               <Th>Date</Th>
@@ -102,7 +102,6 @@ const MyPwp = () => {
           </Thead>
           <Tbody>
             {displayTransactions.map((e, i) => {
-              const isLast = i === displayTransactions.length - 1;
               let type = PAWN_BALANCE_TX_TYPE[e.type]?.name
               let status = e.status
               if (e.type === PAWN_BALANCE_TX_TYPE.incentive.id) {
@@ -112,19 +111,19 @@ const MyPwp = () => {
               }
               return (
                 <Tr key={e.id}>
-                  <Td borderBottomLeftRadius={isLast ? 16 : 0}>{formatDateTime(e.created_at)}</Td>
+                  <Td>{formatDateTime(e.created_at)}</Td>
                   <Td>{e.amount} {e.currency?.symbol}</Td>
                   <Td>{type}</Td>
-                  <Td borderBottomRightRadius={isLast ? 16 : 0}>{status}</Td>
+                  <Td>{status}</Td>
                 </Tr>
               )
             })}
           </Tbody>
         </Table>
+      </TableContainer>
         <Flex p={4} w='100%' justifyContent='flex-end'>
           <Pagination total={total} page={page} pageSize={pageSize} onChangePage={(p: number) => setPage(p)} />
         </Flex>
-      </TableContainer>
     </Flex>
   );
 };
