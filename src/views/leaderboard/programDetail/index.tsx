@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Heading, Icon, List, ListItem, OrderedList, Text } from '@chakra-ui/react'
+import { Box, Flex, Heading, Icon, List, ListItem, OrderedList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
 import { FiCheckCircle } from 'react-icons/fi'
 
 const forBorrowers = [
@@ -11,8 +11,16 @@ const forLenders = [
   'Safe and fast with secure transactions powered by NFT Pawn SmartContract.',
   'Easy to negotiate terms.',
 ]
+const rewards = [
+  { label: '1', desc: '1 Gen 0 Battle Boars Collection ~ 30 NEAR'},
+  { label: '2', desc: '1 Cartel NFT (rarity score 200) ~ 24 NEAR'},
+  { label: '3', desc: '1 Cartel NFT (rarity score 150) ~ 16 NEAR'},
+  { label: '4', desc: '15,000 PWP'},
+  { label: '5', desc: '15,000 PWP'},
+  { label: 'Total', desc: '30,000 PWP + 1 Battle Boar NFT + 2 Cartel NFT (~70 NEAR)' },
+]
 
-const Rules = () => {
+const ProgramDetail = () => {
   return (
     <Box>
       <Heading as='h2' fontSize='2xl' mb={2}>Program Detail</Heading>
@@ -46,16 +54,41 @@ const Rules = () => {
         </Box>
       </Flex>
       <Box bgColor='background.darker' px={4} py={8} borderRadius={16} borderColor='background.border' borderWidth={2}>
-        <Text mb={4} color='brand.success.600' fontWeight='bold'>Rules</Text>
-        <OrderedList fontSize='sm' spacing={2}>
-          <ListItem>Our system calculates your points on a monthly basis. Matched / Matching = 1 point.</ListItem>
-          <ListItem>Rewards are reviewed and updated by the NFTPawn Team on a monthly basis.</ListItem>
-          <ListItem>All NFT holders of the whitelisted NFT Collections can participate.</ListItem>
-          <ListItem>For any questions or concerns, please contact NFT Pawn via our social media channels. The NFTPawn team's decision will be final. All rights reserved.</ListItem>
-        </OrderedList>
+        <Flex gap={8}>
+          <Box flex={1}>
+            <Text mb={4} color='brand.success.600' fontWeight='bold'>Rules</Text>
+            <OrderedList fontSize='sm' spacing={2}>
+              <ListItem>Our system calculates your points on a monthly basis. Matched / Matching = 1 point.</ListItem>
+              <ListItem>Rewards are reviewed and updated by the NFTPawn Team on a monthly basis.</ListItem>
+              <ListItem>All NFT holders of the whitelisted NFT Collections can participate.</ListItem>
+              <ListItem>For any questions or concerns, please contact NFT Pawn via our social media channels. The NFTPawn team's decision will be final. All rights reserved.</ListItem>
+            </OrderedList>
+          </Box>
+          <Box flex={1}>
+            <Text mb={4} color='brand.primary.300' fontWeight='bold'>Rewards</Text>
+            <TableContainer color='text.primary' borderRadius={16}>
+              <Table size='xs' fontSize='sm' variant='unstyled'>
+                <Thead>
+                  <Tr>
+                    <Th>Rank</Th>
+                    <Th>Reward</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {rewards.map(e => (
+                    <Tr key={e.label} borderColor='brand.primary.400'>
+                      <Td>{e.label}</Td>
+                      <Td>{e.desc}</Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
+          </Box>
+        </Flex>
       </Box>
     </Box>
   )
 }
 
-export default Rules
+export default ProgramDetail
