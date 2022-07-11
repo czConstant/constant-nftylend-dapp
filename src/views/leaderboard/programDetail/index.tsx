@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Icon, List, ListItem, OrderedList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
+import { Box, Flex, Heading, Icon, List, ListItem, OrderedList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, UnorderedList } from '@chakra-ui/react'
 import { FiCheckCircle } from 'react-icons/fi'
 
 const forBorrowers = [
@@ -66,24 +66,11 @@ const ProgramDetail = () => {
           </Box>
           <Box flex={1}>
             <Text mb={4} color='brand.primary.300' fontWeight='bold'>Rewards</Text>
-            <TableContainer color='text.primary' borderRadius={16}>
-              <Table size='xs' fontSize='sm' variant='unstyled'>
-                <Thead>
-                  <Tr>
-                    <Th>Rank</Th>
-                    <Th>Reward</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {rewards.map(e => (
-                    <Tr key={e.label} borderColor='brand.primary.400'>
-                      <Td>{e.label}</Td>
-                      <Td>{e.desc}</Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
+            <UnorderedList fontSize='sm' spacing={2}>
+              {rewards.map(e => (
+                <ListItem key={e.label}>Rank {e.label}: {e.desc}</ListItem>
+              ))}
+            </UnorderedList>
           </Box>
         </Flex>
       </Box>
