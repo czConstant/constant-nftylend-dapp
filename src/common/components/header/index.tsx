@@ -59,7 +59,7 @@ const Header = () => {
   const headerHeight = 60 + (showTestnetBanner ? 40 : 0) + (showVerifyBanner ? 40 : 0) + (showIncentiveBanner ? 40 : 0)
 
   return (<>
-    <Box h={headerHeight} />
+    <Box h={`${headerHeight}px`} />
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <div className={styles.left}>
