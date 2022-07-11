@@ -56,7 +56,7 @@ const Header = () => {
   const showAddEmailBanner = APP_CLUSTER !== 'testnet' && !email
   const showVerifyBanner = APP_CLUSTER !== 'testnet' && email && !is_verified
   const showIncentiveBanner = APP_CLUSTER !== 'testnet' && isHome
-  const headerHeight = 60 + (showTestnetBanner ? 40 : 0) + (showVerifyBanner ? 40 : 0) + (showIncentiveBanner ? 40 : 0)
+  const headerHeight = 60 + (showTestnetBanner ? 40 : 0) + ((showVerifyBanner || showAddEmailBanner) ? 40 : 0) + (showIncentiveBanner ? 40 : 0)
 
   return (<>
     <Box h={`${headerHeight}px`} />
