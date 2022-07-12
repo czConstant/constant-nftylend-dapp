@@ -38,7 +38,7 @@ const CardNftMedia = (props: CardNftMediaProps) => {
   } = props;
 
   const [srcLoading, setSrcLoading] = useState(true)
-  const [srcError, setSrcError] = useState(false)
+  const [srcRetry, setSrcRetry] = useState(3)
   const refVideo = useRef();
 
   const isVideo = () => {
@@ -86,17 +86,17 @@ const CardNftMedia = (props: CardNftMediaProps) => {
             src={detail?.image}
             type={detail?.mime_type || `video/${extension}`}
             onLoad={() => setSrcLoading(false)}
-            onError={() => setSrcError(true)}
+            onError={() => srcRetry > 0 && setSrcRetry(srcRetry-1)}
           />
         </video>
       );
     } else {
       media = (
-        <img
-          src={getImageThumb({ width, height, url: detail?.image, showOriginal })}
+        srcRetry && <img
+          src={`${getImageThumb({ width, height, url: detail?.image, showOriginal })}?retry=${srcRetry}`}
           alt={name}
           onLoad={() => setSrcLoading(false)}
-          onError={() => setSrcError(true)}
+          onError={() => srcRetry > 0 && setSrcRetry(srcRetry-1)}
         />
       )
     }
@@ -111,7 +111,7 @@ const CardNftMedia = (props: CardNftMediaProps) => {
         : (<>
             {srcLoading && (
               <Center position='absolute' w='100%' h='100%'>
-              {srcError ? <Icon color='text.secondary' fontSize='4xl' as={FiAlertTriangle} /> : <Loading />}
+              {srcRetry === 0 ? <Icon color='text.secondary' fontSize='4xl' as={FiAlertTriangle} /> : <Loading />}
               </Center>
             )}
           {renderMedia()}
