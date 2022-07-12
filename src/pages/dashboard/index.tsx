@@ -16,6 +16,7 @@ import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
 import styles from "./styles.module.scss";
 import { useAppSelector } from 'src/store/hooks';
 import { selectUserSettings } from 'src/store/nftyLend';
+import { useEffect } from 'react';
 
 const menus = [
   { title: 'Overview', path: '', element: <Overview />, icon: MdDashboard },
@@ -27,10 +28,14 @@ const menus = [
 
 const Dashboard = () => {
   const location = useLocation()
-  const { isConnected } = useCurrentWallet()
+  const { isConnected, connectNearWallet } = useCurrentWallet()
   const userSettings = useAppSelector(selectUserSettings)
 
-  if (!isConnected) return <Navigate to={APP_URL.HOME} />
+  useEffect(() => {
+    if (!isConnected) setTimeout(() => connectNearWallet(), 1000)
+  }, [isConnected])
+
+  // if (!isConnected) return <Navigate to={APP_URL.HOME} />
 
   return (
     <BodyContainer>
