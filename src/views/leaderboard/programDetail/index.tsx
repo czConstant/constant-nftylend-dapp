@@ -1,5 +1,6 @@
 import { Box, Flex, Heading, Icon, List, ListItem, OrderedList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, UnorderedList } from '@chakra-ui/react'
-import { FiCheckCircle } from 'react-icons/fi'
+import { BsKey } from 'react-icons/bs'
+import { FiCheckCircle, FiGift, FiKey } from 'react-icons/fi'
 
 const forBorrowers = [
   'Easy to use NFT (whitelisted) as collateral to access funds instantly.',
@@ -11,13 +12,18 @@ const forLenders = [
   'Safe and fast with secure transactions powered by NFT Pawn SmartContract.',
   'Easy to negotiate terms.',
 ]
+const rules = [
+  'Our system calculates your points on a monthly basis. Matched / Matching = 1 point.',
+  'Rewards are reviewed and updated by the NFTPawn Team on a monthly basis.',
+  'All NFT holders of the whitelisted NFT Collections can participate.',
+  'For any questions or concerns, please contact NFT Pawn via our social media channels. The NFTPawn team\'s decision will be final. All rights reserved.',
+]
 const rewards = [
   { label: '1', desc: '1 Gen 0 Battle Boars Collection ~ 30 NEAR'},
   { label: '2', desc: '1 Cartel NFT (rarity score 200) ~ 24 NEAR'},
   { label: '3', desc: '1 Cartel NFT (rarity score 150) ~ 16 NEAR'},
   { label: '4', desc: '15,000 PWP'},
   { label: '5', desc: '15,000 PWP'},
-  { label: 'Total', desc: '30,000 PWP + 1 Battle Boar NFT + 2 Cartel NFT (~70 NEAR)' },
 ]
 
 const ProgramDetail = () => {
@@ -27,12 +33,12 @@ const ProgramDetail = () => {
       <Text color='text.secondary'>NFT Pawn Leadership Ranking is a program to provide incentives for customers to enjoy NFT P2P Matching with goals in mind.</Text>
       <Flex my={8} gap={8} fontSize='sm'>
         <Box flex={1} bgColor='background.darker' p={4} borderRadius={16} borderColor='background.border' borderWidth={2}>
-          <Text mb={4} color='brand.warning.400' fontSize='xl' fontWeight='bold'>For Borrowers</Text>
+          <Text mb={4} color='brand.primary.300' fontSize='xl' fontWeight='bold'>For Borrowers</Text>
           <List spacing={2}>
             {forBorrowers.map(e => (
               <ListItem>
                 <Flex gap={2}>
-                  <Icon mt={1} color='brand.success.600' as={FiCheckCircle} />
+                  <Icon mt={1} color='brand.primary.300' as={FiCheckCircle} />
                   <Text>{e}</Text>
                 </Flex>
               </ListItem>
@@ -45,7 +51,7 @@ const ProgramDetail = () => {
             {forLenders.map(e => (
               <ListItem>
                 <Flex gap={2}>
-                  <Icon mt={1} color='brand.success.600' as={FiCheckCircle} />
+                  <Icon mt={1} color='brand.info.400' as={FiCheckCircle} />
                   <Text>{e}</Text>
                 </Flex>
               </ListItem>
@@ -53,24 +59,33 @@ const ProgramDetail = () => {
           </List>
         </Box>
       </Flex>
-      <Box bgColor='background.darker' px={4} py={8} borderRadius={16} borderColor='background.border' borderWidth={2}>
+      <Box fontSize='sm' bgColor='background.darker' px={4} py={8} borderRadius={16} borderColor='background.border' borderWidth={2}>
         <Flex gap={8}>
           <Box flex={1}>
-            <Text mb={4} color='brand.success.600' fontWeight='bold'>Rules</Text>
-            <OrderedList fontSize='sm' spacing={2}>
-              <ListItem>Our system calculates your points on a monthly basis. Matched / Matching = 1 point.</ListItem>
-              <ListItem>Rewards are reviewed and updated by the NFTPawn Team on a monthly basis.</ListItem>
-              <ListItem>All NFT holders of the whitelisted NFT Collections can participate.</ListItem>
-              <ListItem>For any questions or concerns, please contact NFT Pawn via our social media channels. The NFTPawn team's decision will be final. All rights reserved.</ListItem>
-            </OrderedList>
+            <Text mb={4} color='brand.warning.400' fontSize='xl' fontWeight='bold'>Rules</Text>
+            <List spacing={2}>
+              {rules.map(e => (
+                <ListItem>
+                  <Flex gap={2}>
+                    <Icon mt={1} color='brand.warning.400' as={FiKey} />
+                    <Text>{e}</Text>
+                  </Flex>
+                </ListItem>
+              ))}
+            </List>
           </Box>
           <Box flex={1}>
-            <Text mb={4} color='brand.primary.300' fontWeight='bold'>Rewards</Text>
-            <UnorderedList fontSize='sm' spacing={2}>
+            <Text mb={4} color='brand.success.600' fontSize='xl' fontWeight='bold'>Rewards</Text>
+            <List spacing={2}>
               {rewards.map(e => (
-                <ListItem key={e.label}>Rank {e.label}: {e.desc}</ListItem>
+                <ListItem>
+                  <Flex gap={2}>
+                    <Icon mt={1} color='brand.success.600' as={FiGift} />
+                    <Text>Rank {e.label}: {e.desc}</Text>
+                  </Flex>
+                </ListItem>
               ))}
-            </UnorderedList>
+            </List>
           </Box>
         </Flex>
       </Box>
