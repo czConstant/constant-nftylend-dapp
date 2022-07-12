@@ -14,8 +14,8 @@ const Leaderboard = () => {
     <BodyContainer>
       <Flex alignItems='center' justifyContent='space-between' m={8}>
         <Box>
-          <Heading as='h1'>Leadership Ranking</Heading>
-          <Text fontWeight='medium' fontSize='xl' color='brand.warning.400'>{moment().format('MMM-YYYY')}</Text>
+          <Text fontWeight='bold' fontSize='4xl' color='brand.warning.400'>{moment().format('MMM-YYYY')}</Text>
+          <Heading as='h1' fontSize='2xl' fontWeight='medium'>Leadership Ranking</Heading>
         </Box>
         <Box><Countdown /></Box>
       </Flex>
