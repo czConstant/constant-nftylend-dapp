@@ -16,6 +16,7 @@ import { nearSignText } from 'src/modules/near/utils';
 const defaultProvider = {
   currentWallet: { address: '', chain: Chain.None },
   isConnected: false,
+  isFromParas: false,
   connectSolanaWallet: () => null,
   connectEvmWallet: () => null,
   connectNearWallet: () => null,
@@ -135,6 +136,7 @@ const MyWalletProvider = ({ children }) => {
     disconnectWallet,
     switchChain,
     syncUserSettings,
+    isFromParas: cookie.referral_code === 'paras'
   }
 
   return <MyWalletContext.Provider value={values}>{children}</MyWalletContext.Provider>

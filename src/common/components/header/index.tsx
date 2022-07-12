@@ -31,7 +31,7 @@ import ButtonUserNoti from 'src/views/apps/ButtonUserNoti';
 const Header = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
-  const { isConnected } = useCurrentWallet()
+  const { isConnected, isFromParas } = useCurrentWallet()
   const { email, is_verified } = useAppSelector(selectUserSettings)
 
   const onUpdateEmail = async () => {
@@ -56,10 +56,10 @@ const Header = () => {
   const showAddEmailBanner = APP_CLUSTER !== 'testnet' && !email
   const showVerifyBanner = APP_CLUSTER !== 'testnet' && email && !is_verified
   const showIncentiveBanner = APP_CLUSTER !== 'testnet' && isHome
-  const headerHeight = 60 + (showTestnetBanner ? 40 : 0) + (showVerifyBanner ? 40 : 0) + (showIncentiveBanner ? 40 : 0)
+  const headerHeight = 60 + (showTestnetBanner ? 40 : 0) + ((showVerifyBanner || showAddEmailBanner) ? 40 : 0) + (showIncentiveBanner ? 40 : 0)
 
   return (<>
-    <Box h={headerHeight} />
+    <Box h={`${headerHeight}px`} />
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <div className={styles.left}>
@@ -80,12 +80,14 @@ const Header = () => {
             >
               Listing Loans
             </Link>
-            <Link
-              to={APP_URL.VOTING}
-              className={cx(location.pathname === APP_URL.VOTING && styles.active)}
-            >
-              Proposal
-            </Link>
+            {!isFromParas && (
+              <Link
+                to={APP_URL.VOTING}
+                className={cx(location.pathname === APP_URL.VOTING && styles.active)}
+              >
+                Proposal
+              </Link>
+            )}
             {/* <Link
               to={APP_URL.VOTING}
               className={cx(location.pathname === APP_URL.LIST_LOAN && styles.active)}
@@ -101,18 +103,22 @@ const Header = () => {
             >
               News
             </a> */}
-            <Link
-              to={APP_URL.PAWN_PROTOCOL}
-              className={cx(location.pathname === APP_URL.PAWN_PROTOCOL && styles.active)}
-            >
-              Pawn Protocol
-            </Link>
-            <Link
-              to={APP_URL.LEADERBOARD}
-              className={cx(location.pathname === APP_URL.LEADERBOARD && styles.active)}
-            >
-              Leaderboard
-            </Link>
+            {!isFromParas && (
+              <Link
+                to={APP_URL.PAWN_PROTOCOL}
+                className={cx(location.pathname === APP_URL.PAWN_PROTOCOL && styles.active)}
+              >
+                Pawn Protocol
+              </Link>
+            )}
+            {!isFromParas && (
+              <Link
+                to={APP_URL.LEADERBOARD}
+                className={cx(location.pathname === APP_URL.LEADERBOARD && styles.active)}
+              >
+                Leaderboard
+              </Link>
+            )}
           </div>
         </div>
         <Flex alignItems='center' gap={2}>

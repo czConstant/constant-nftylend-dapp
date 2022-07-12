@@ -38,7 +38,7 @@ export default function App() {
 
     const query = queryString.parse(location.search)
     if (query.r && !cookie.referral_code) {
-      setCookkie('referral_code', query.r, { expires: moment().add(60, 'd').toDate() })
+      setCookkie('referral_code', query.r, { expires: moment().add(30, 'd').toDate() })
     }
   }, []);
 

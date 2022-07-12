@@ -31,7 +31,7 @@ export const TABS = {
 
 const MyAsset = () => {
   const { getNativeBalance, getBalance } = useToken();
-  const { isConnected, currentWallet} = useCurrentWallet();
+  const { isConnected, currentWallet } = useCurrentWallet();
   const location = useLocation();
 
   const tabActive = queryString.parse(location.search)?.tab || TABS.owned;
@@ -41,8 +41,8 @@ const MyAsset = () => {
   const [selectedTab, setSelectedTab] = useState(tabActive);
 
   useEffect(() => {
-    if (isConnected) fetchBalance();
-  }, [currentWallet]);
+    if (isConnected) fetchBalance()
+  }, [currentWallet])
 
   const fetchBalance = async () => {
     const nativeBalance = await getNativeBalance();
