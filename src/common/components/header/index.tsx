@@ -31,7 +31,7 @@ import ButtonUserNoti from 'src/views/apps/ButtonUserNoti';
 const Header = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
-  const { isConnected } = useCurrentWallet()
+  const { isConnected, isFromParas } = useCurrentWallet()
   const { email, is_verified } = useAppSelector(selectUserSettings)
 
   const onUpdateEmail = async () => {
@@ -80,12 +80,14 @@ const Header = () => {
             >
               Listing Loans
             </Link>
-            <Link
-              to={APP_URL.VOTING}
-              className={cx(location.pathname === APP_URL.VOTING && styles.active)}
-            >
-              Proposal
-            </Link>
+            {!isFromParas && (
+              <Link
+                to={APP_URL.VOTING}
+                className={cx(location.pathname === APP_URL.VOTING && styles.active)}
+              >
+                Proposal
+              </Link>
+            )}
             {/* <Link
               to={APP_URL.VOTING}
               className={cx(location.pathname === APP_URL.LIST_LOAN && styles.active)}
@@ -101,12 +103,14 @@ const Header = () => {
             >
               News
             </a> */}
-            <Link
-              to={APP_URL.PAWN_PROTOCOL}
-              className={cx(location.pathname === APP_URL.PAWN_PROTOCOL && styles.active)}
-            >
-              Pawn Protocol
-            </Link>
+            {!isFromParas && (
+              <Link
+                to={APP_URL.PAWN_PROTOCOL}
+                className={cx(location.pathname === APP_URL.PAWN_PROTOCOL && styles.active)}
+              >
+                Pawn Protocol
+              </Link>
+            )}
           </div>
         </div>
         <Flex alignItems='center' gap={2}>
