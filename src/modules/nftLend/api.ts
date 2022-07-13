@@ -258,7 +258,7 @@ export const seenNotification = async (address: string, network: string, seenId:
 }
 
 export const getNews = async (): Promise<ListResponse> => {
-  return api.get('http://localhost:8888/news/wp-json/wp/v2/posts', {
+  return api.get('https://pawnnft.finance/news/wp-json/wp/v2/posts', {
     params: {
       page: 1,
       limit: 3
