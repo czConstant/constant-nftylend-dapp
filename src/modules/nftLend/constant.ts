@@ -152,6 +152,10 @@ export const INCENTIVE_TX_TYPE = {
     id: 'lender_loan_matched',
     name: 'Matched Loan',
   },
+  borrower_loan_listed_daily: {
+    id: 'borrower_loan_listed_daily',
+    name: 'Daily Incentive',
+  },
   claim: {
     id: 'claim',
     name: 'Claim Reward',
