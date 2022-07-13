@@ -100,8 +100,8 @@ const Header = () => {
                 Proposal
               </Link>
               <a
+                target="_blank"
                 href={APP_URL.NFT_PAWN_BLOG}
-                target='_blank'
                 className={cx(
                   location.pathname === APP_URL.VOTING && styles.active
                 )}
