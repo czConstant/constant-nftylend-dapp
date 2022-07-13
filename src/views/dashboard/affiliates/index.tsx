@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { MdContentCopy } from 'react-icons/md';
 import InfoTooltip from 'src/common/components/infoTooltip';
+import { MCT_ROOT } from 'src/common/constants/config';
 
 import { toastError, toastSuccess } from 'src/common/services/toaster';
 import { formatCurrency } from 'src/common/utils/format';
@@ -37,7 +38,6 @@ const Affiliates = () => {
   const onClaim = async () => {
     if (!nearBalance) return;
     try {
-      (true)
       const amount = new BigNumber(nearBalance.balance).minus(nearBalance.locked_balance)
       const timestamp = moment().unix()
       const signature = await nearSignText(currentWallet.address, String(timestamp))
@@ -57,7 +57,7 @@ const Affiliates = () => {
     }
   }
 
-  const affiliateUrl = `https://nftpawn.financial?r=${username}`
+  const affiliateUrl =  `${MCT_ROOT}?r=${username}`
   const amount = new BigNumber(nearBalance?.balance || 0).minus(nearBalance?.locked_balance || 0).toNumber()
   const canClaim = amount > 0 && nearBalance?.currency?.claim_enabled
 
