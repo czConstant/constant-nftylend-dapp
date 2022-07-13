@@ -256,3 +256,12 @@ export const getNotifications = async (params: GetNotificationsParams): Promise<
 export const seenNotification = async (address: string, network: string, seenId: number): Promise<ListResponse> => {
   return api.post(API_URL.NFT_LEND.NOTIFICATION_SEEN, { address, network, seen_noti_id: seenId })
 }
+
+export const getNews = async (): Promise<ListResponse> => {
+  return api.get('http://localhost:8888/news/wp-json/wp/v2/posts', {
+    params: {
+      page: 1,
+      limit: 3
+    }
+  });
+}
