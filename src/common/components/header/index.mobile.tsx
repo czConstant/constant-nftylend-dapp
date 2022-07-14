@@ -61,11 +61,11 @@ const HeaderMobile = ({}) => {
               Proposal
             </Link>
           </li>
-          {/* <li>
+          <li>
             <Link onTouchEnd={onToggle} to={APP_URL.NFT_PAWN_BLOG}>
               News
             </Link>
-          </li> */}
+          </li>
           {isConnected && (
             <li>
               <Link onTouchEnd={onToggle} to={APP_URL.DASHBOARD}>

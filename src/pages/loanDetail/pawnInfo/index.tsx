@@ -32,6 +32,7 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
   }, [loan])
 
   if (!loan.asset) return null;
+  const havePriceStats = !!Number(loan.asset?.stats?.avg_price) && !!Number(loan.asset?.stats?.floor_price)
 
   return (
     <Flex direction='column' gap={2}>
@@ -52,12 +53,14 @@ const LoanDetailPawnInfo: React.FC<LoanDetailPawnInfoProps> = ({ loan }) => {
       {loan.isOngoing()
         ? <LoanDetailInEscrow loan={loan} />
         : loan.isListing() ? <LoanDetailPriceInfo loan={loan} /> : null}
-      <SectionCollapse
-        id="priceStats"
-        label="Price Info"
-        selected
-        content={<LoanDetailPriceStatistic loan={loan} />}
-      />
+      {havePriceStats && (
+        <SectionCollapse
+          id="priceStats"
+          label="Price Info"
+          selected
+          content={<LoanDetailPriceStatistic loan={loan} />}
+        />
+      )}
       {borrowerStats?.total_loans > 0 && (
         <SectionCollapse
           id="borrowerStats"
