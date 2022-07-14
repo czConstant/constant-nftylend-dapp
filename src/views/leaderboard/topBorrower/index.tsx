@@ -1,9 +1,12 @@
 import { Box, Flex, Icon, Image, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
-import { GiPodiumWinner, GiPodiumSecond, GiPodiumThird } from 'react-icons/gi';
+import { useEffect, useState } from 'react';
 import InfoTooltip from 'src/common/components/infoTooltip';
+import { Chain } from 'src/common/constants/network';
 import { formatCurrency } from 'src/common/utils/format';
 import { isSameAddress } from 'src/common/utils/helper';
+import { getLeaderboard } from 'src/modules/nftLend/api';
 import { useCurrentWallet } from 'src/modules/nftLend/hooks/useCurrentWallet';
+import { BorrowerData } from 'src/modules/nftLend/models/api';
 
 import IcRank1 from './ic_rank_1.png'
 import IcRank2 from './ic_rank_2.png'
@@ -22,7 +25,28 @@ const data = [
 ]
 
 const TopBorrower = () => {
-  const { currentWallet } = useCurrentWallet()
+  const { currentWallet, isConnected } = useCurrentWallet()
+
+  const [borrowers, setBorrowers] = useState<BorrowerData[]>([])
+  const [total, setTotal] = useState({ matching: 0, matched: 0 })
+
+  useEffect(() => {
+    getLeaderboard(Chain.Near).then(res => {
+      let list: BorrowerData[] = []
+      let matching = 0
+      let matched = 0
+      res.result.forEach((e: BorrowerData, i: number) => {
+        matching += e.matching_point
+        matched += e.matched_point
+        if (i <= 4) list.push(e)
+        if (isSameAddress(e.user.address, currentWallet.address)) {
+          if (i > 4) list.push(e)
+        }
+      })
+      setTotal({ matching, matched})
+      setBorrowers(list)
+    })
+  }, [isConnected])
 
   return (
     <TableContainer color='text.primary' borderRadius={16}>
@@ -37,32 +61,40 @@ const TopBorrower = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {data.map((e, i) => {
-            const isEmpty = !e.wallet
-            const isMe = isSameAddress(e.wallet, currentWallet.address)
-            return (
-              <Tr key={e.wallet} borderColor='brand.primary.400' borderWidth={isMe ? 2 : 0} zIndex={isMe ? 1 : 0}>
+          {borrowers.map((e, i) => {
+            const isMe = isSameAddress(e.user?.address, currentWallet.address)
+            return (<>
+              <Tr key={e.user_id} borderColor='brand.primary.400' borderWidth={isMe ? 2 : 0} zIndex={isMe ? 1 : 0}>
                 <Td textAlign='center' justifyContent='center'>
                   {i === 0 && <Image mx='auto' alignItems='center' w={8} src={IcRank1} />}
                   {i === 1 && <Image mx='auto' w={7} src={IcRank2} />}
                   {i === 2 && <Image mx='auto' w={7} src={IcRank3} />}
                   {i === 3 && <Image mx='auto' w={7} src={IcRank4} />}
                   {i === 4 && <Image mx='auto' w={7} src={IcRank5} />}
-                  {isEmpty ? '...' : i > 4 && (e.rank || i+1)}
+                  {i > 4 && i+1}
                 </Td>
-                <Td>{isEmpty ? '...' : e.wallet}</Td>
-                <Td textAlign='right'>{isEmpty ? '...' : formatCurrency(e.matching)}</Td>
-                <Td textAlign='right'>{isEmpty ? '...' : formatCurrency(e.matched)}</Td>
-                <Td textAlign='right'>{isEmpty ? '...' : formatCurrency(e.total)}</Td>
+                <Td>{e.user?.address}</Td>
+                <Td textAlign='right'>{formatCurrency(e.matching_point)}</Td>
+                <Td textAlign='right'>{formatCurrency(e.matched_point)}</Td>
+                <Td textAlign='right'>{formatCurrency(e.total_point)}</Td>
               </Tr>
-            )
+              {(i === borrowers.length-1 || i === 4) && (
+                <Tr key='empty'>
+                  <Td textAlign='center' justifyContent='center'>...</Td>
+                  <Td>...</Td>
+                  <Td textAlign='right'>...</Td>
+                  <Td textAlign='right'>...</Td>
+                  <Td textAlign='right'>...</Td>
+                </Tr>
+              )}
+            </>)
           })}
           <Tr fontWeight='bold'>
             <Td />
             <Td>Total</Td>
-            <Td textAlign='right'>212</Td>
-            <Td textAlign='right'>325</Td>
-            <Td textAlign='right'>537</Td>
+            <Td textAlign='right'>{formatCurrency(total.matching)}</Td>
+            <Td textAlign='right'>{formatCurrency(total.matched)}</Td>
+            <Td textAlign='right'>{formatCurrency(total.matching + total.matched)}</Td>
           </Tr>
         </Tbody>
       </Table>

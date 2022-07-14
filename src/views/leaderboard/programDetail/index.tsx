@@ -1,5 +1,4 @@
-import { Box, Flex, Heading, Icon, List, ListItem, OrderedList, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, UnorderedList } from '@chakra-ui/react'
-import { BsKey } from 'react-icons/bs'
+import { Box, Flex, Heading, Icon, List, ListItem, Text } from '@chakra-ui/react'
 import { FiCheckCircle, FiGift, FiKey } from 'react-icons/fi'
 
 const forBorrowers = [
@@ -13,7 +12,7 @@ const forLenders = [
   'Easy to negotiate terms.',
 ]
 const rules = [
-  'Our system calculates your points on a monthly basis. Matched / Matching = 1 point.',
+  'Our system calculates your points on a monthly basis. Matching = 1 point to Borrower, Delist -1 point to Borrower, Matched: 1 point to Borrower, 2 points to Lender.',
   'Rewards are reviewed and updated by the NFTPawn Team on a monthly basis.',
   'All NFT holders of the whitelisted NFT Collections can participate.',
   'For any questions or concerns, please contact NFT Pawn via our social media channels. The NFTPawn team\'s decision will be final. All rights reserved.',
