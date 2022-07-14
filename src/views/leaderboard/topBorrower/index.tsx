@@ -80,7 +80,7 @@ const TopBorrower = () => {
               </Tr>
               {(i === borrowers.length-1 || i === 4) && (
                 <Tr key='empty'>
-                  <Td>...</Td>
+                  <Td textAlign='center' justifyContent='center'>...</Td>
                   <Td>...</Td>
                   <Td textAlign='right'>...</Td>
                   <Td textAlign='right'>...</Td>
