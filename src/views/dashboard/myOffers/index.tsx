@@ -16,10 +16,11 @@ import Loading from 'src/common/components/loading';
 import Pagination from 'src/common/components/pagination';
 import Item from './item';
 import listLoanStyles from '../myLoans/styles.module.scss';
+import InfoTooltip from 'src/common/components/infoTooltip';
 
 const columns = [
   { name: 'Asset Name', flex: 1.5 },
-  { name: 'Amount', flex: 1 },
+  { name: 'Amount', desc: 'This field display Loan Principal + Profit (if any) ', flex: 1 },
   { name: 'Duration / Interest', flex: 1.5 },
   { name: 'Status', flex: 1 },
   { name: 'Created At', flex: 1 },
@@ -90,7 +91,10 @@ const MyOffers = () => {
               fontSize='sm'
               textTransform='uppercase'
             >
-              {e.name}
+              <Flex alignItems='center' gap={2}>
+                <Text>{e.name}</Text>
+                {e.desc && <InfoTooltip label={e.desc} />}
+              </Flex>
             </GridItem>
           ))}
         </Grid>

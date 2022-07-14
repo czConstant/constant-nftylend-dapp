@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
-import { Button, Flex, Grid, GridItem, Link, Text } from '@chakra-ui/react';
+import { Button, Flex, Grid, GridItem, Image, Link, Text } from '@chakra-ui/react';
 
 import { useAppDispatch } from "src/store/hooks";
 import { hideLoadingOverlay, showLoadingOverlay } from "src/store/loadingOverlay";
@@ -11,7 +11,7 @@ import { APP_URL } from "src/common/constants/url";
 import { LOAN_DURATION } from "src/modules/nftLend/constant";
 import { useTransaction } from 'src/modules/nftLend/hooks/useTransaction';
 import { OfferToLoan } from 'src/modules/nftLend/models/offer';
-import { isEvmChain } from 'src/modules/nftLend/utils';
+import { calculateTotalPay, isEvmChain } from 'src/modules/nftLend/utils';
 import { formatCurrency, formatDateTime } from 'src/common/utils/format';
 import InfoTooltip from 'src/common/components/infoTooltip';
 import BadgeOfferStatus from '../badgeOfferStatus';
@@ -132,6 +132,7 @@ const Item = (props: ItemProps) => {
   const principal = offer.principal_amount;
   const interest = offer.interest_rate;
   const duration = offer.duration;
+  const paid_amount = offer.isDone() ? calculateTotalPay(principal, interest, duration, offer.loan?.currency?.decimals, offer.started_at) : 0
 
   return (
     <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
@@ -139,7 +140,11 @@ const Item = (props: ItemProps) => {
         <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan?.asset?.name}</Link>
       </GridItem>
       <GridItem py={4}>
-        {formatCurrency(principal)} {loan?.currency?.symbol}
+        <Flex alignItems='center' gap={1}>
+          <Image h='14px' borderRadius='20px' src={offer.loan?.currency?.icon_url} />
+          <Text>{formatCurrency(principal)}</Text>
+          {offer.isDone() && <Text fontWeight='bold' color='brand.success.600'>+{formatCurrency(new BigNumber(paid_amount).minus(principal))}</Text>}
+        </Flex>
       </GridItem>
       <GridItem py={4}>
         {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
