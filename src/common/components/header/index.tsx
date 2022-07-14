@@ -100,13 +100,20 @@ const Header = () => {
                 Proposal
               </Link>
               <Link
-                to={APP_URL.NFT_PAWN_BLOG}
+                to={APP_URL.LEADERBOARD}
+                className={cx(location.pathname === APP_URL.LEADERBOARD && styles.active)}
+              >
+                Leaderboard
+              </Link>
+              <a
+                target="_blank"
+                href={APP_URL.NFT_PAWN_BLOG}
                 className={cx(
                   location.pathname === APP_URL.VOTING && styles.active
                 )}
               >
                 News
-              </Link>
+              </a>
               <Link
                 to={APP_URL.PAWN_PROTOCOL}
                 className={cx(

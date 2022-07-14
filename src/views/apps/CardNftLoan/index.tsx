@@ -119,8 +119,8 @@ const CardNftLoan = (props: CardNftLoanProps) => {
                 <Text variant='label' fontSize='9px'>Principal + Max Profit</Text>
                 <Flex alignItems='center' gap={1} lineHeight='18px'>
                   <Image h='14px' borderRadius='20px' src={loan?.currency?.icon_url} />
-                  <Text fontSize='md' fontWeight='medium'>{formatCurrency(loan.principal_amount)}</Text>
-                  <Text fontSize='md' fontWeight='medium' color='brand.success.600'>+{formatCurrency(maxInterestAmount, 4)}</Text>
+                  <Text fontSize='sm' fontWeight='medium'>{formatCurrency(loan.principal_amount)}</Text>
+                  <Text fontSize='sm' fontWeight='medium' color='brand.success.600'>+{formatCurrency(maxInterestAmount, 4)}</Text>
                   <Text fontSize='xs'>({formatCurrency(loan.interest_rate * 100)}% APR)</Text>
                 </Flex>
               </Flex>

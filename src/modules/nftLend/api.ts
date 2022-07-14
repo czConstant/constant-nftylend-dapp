@@ -265,3 +265,7 @@ export const getNews = async (): Promise<ListResponse> => {
     }
   });
 }
+
+export const getLeaderboard = async (network: string): Promise<ListResponse> => {
+  return api.get(API_URL.NFT_LEND.LEADERBOARD, { params: { network }})
+}

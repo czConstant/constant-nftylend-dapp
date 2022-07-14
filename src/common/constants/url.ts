@@ -76,5 +76,7 @@ export const API_URL = {
 
     NOTIFICATION_LIST: `${MCT_ROOT}${MCT_API_BASE}/notifications/list`,
     NOTIFICATION_SEEN: `${MCT_ROOT}${MCT_API_BASE}/notifications/seen`,
+
+    LEADERBOARD: `${MCT_ROOT}${MCT_API_BASE}/loans/leaderboard`,
   },
 }
