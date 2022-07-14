@@ -142,8 +142,8 @@ const Item = (props: ItemProps) => {
       <GridItem py={4}>
         <Flex alignItems='center' gap={1}>
           <Image h='14px' borderRadius='20px' src={offer.loan?.currency?.icon_url} />
-          <Text>{formatCurrency(offer.isDone() ? paid_amount : principal)}</Text>
-          {offer.isDone() && <Text fontWeight='bold' color='brand.success.600'>(+{formatCurrency(new BigNumber(paid_amount).minus(principal))})</Text>}
+          <Text>{formatCurrency(principal)}</Text>
+          {offer.isDone() && <Text fontWeight='bold' color='brand.success.600'>+{formatCurrency(new BigNumber(paid_amount).minus(principal))}</Text>}
         </Flex>
       </GridItem>
       <GridItem py={4}>
