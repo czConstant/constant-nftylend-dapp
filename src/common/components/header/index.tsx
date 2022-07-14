@@ -91,37 +91,39 @@ const Header = () => {
               >
                 Listing Loans
               </Link>
-              <Link
-                to={APP_URL.VOTING}
-                className={cx(
-                  location.pathname === APP_URL.VOTING && styles.active
-                )}
-              >
-                Proposal
-              </Link>
-              <Link
-                to={APP_URL.LEADERBOARD}
-                className={cx(location.pathname === APP_URL.LEADERBOARD && styles.active)}
-              >
-                Leaderboard
-              </Link>
-              <a
-                target="_blank"
-                href={APP_URL.NFT_PAWN_BLOG}
-                className={cx(
-                  location.pathname === APP_URL.VOTING && styles.active
-                )}
-              >
-                News
-              </a>
-              <Link
-                to={APP_URL.PAWN_PROTOCOL}
-                className={cx(
-                  location.pathname === APP_URL.PAWN_PROTOCOL && styles.active
-                )}
-              >
-                Pawn Protocol
-              </Link>
+              {!isFromParas && (<>
+                <Link
+                  to={APP_URL.VOTING}
+                  className={cx(
+                    location.pathname === APP_URL.VOTING && styles.active
+                  )}
+                >
+                  Proposal
+                </Link>
+                <Link
+                  to={APP_URL.LEADERBOARD}
+                  className={cx(location.pathname === APP_URL.LEADERBOARD && styles.active)}
+                >
+                  Leaderboard
+                </Link>
+                <a
+                  target="_blank"
+                  href={APP_URL.NFT_PAWN_BLOG}
+                  className={cx(
+                    location.pathname === APP_URL.VOTING && styles.active
+                  )}
+                >
+                  News
+                </a>
+                <Link
+                  to={APP_URL.PAWN_PROTOCOL}
+                  className={cx(
+                    location.pathname === APP_URL.PAWN_PROTOCOL && styles.active
+                  )}
+                >
+                  Pawn Protocol
+                </Link>
+              </>)}
             </div>
           </div>
           <Flex alignItems="center" gap={2}>
