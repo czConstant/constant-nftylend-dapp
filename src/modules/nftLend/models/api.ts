@@ -185,3 +185,11 @@ export interface NotificationData {
   created_at: string
   updated_at: string
 }
+
+export interface BorrowerData {
+  user_id: number
+  user: UserData
+  matching_point: number
+  matched_point: number
+  total_point: number
+}
