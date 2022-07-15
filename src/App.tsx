@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-// import { Scrollbars } from 'react-custom-scrollbars-2';
 import { ChakraProvider } from '@chakra-ui/react'
 import { useCookies } from 'react-cookie'
 import queryString from "query-string";
 import moment from 'moment-timezone';
 
 import ModalManager from 'src/common/components/modal';
-// import ModalManager from 'src/common/components/modalCustom';
 import MyLoadingOverlay from 'src/common/components/myLoadingOverlay';
 import { initRecaptchaV3 } from 'src/common/services/recaptchaV3';
 import { useDetectConnectedWallet } from 'src/modules/nftLend/hooks/useDetectWallet';

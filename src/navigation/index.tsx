@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Layout from 'src/common/components/layout';
-import PageNotFound from 'src/pages/notFound';
+import PageNotFound from 'src/apps/pawn/pages/notFound';
 
 import routes from './routes';
 import marketplaceRoutes from 'src/apps/marketplace/routes';
