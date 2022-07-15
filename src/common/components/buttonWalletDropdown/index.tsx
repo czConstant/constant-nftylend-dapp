@@ -14,7 +14,7 @@ import tokenIcons from 'src/common/utils/tokenIcons';
 import { closeModal, openModal } from 'src/store/modal';
 import DialogConnectWallet from 'src/common/components/dialogConnectWallet';
 import walletIcons from 'src/common/utils/walletIcons';
-import DialogSettingNotification from 'src/common/components/dialogSettingNotification';
+import DialogSettingNotification from 'src/apps/pawn/views/app/dialogSettingNotification';
 
 import IconMyAsset from './images/ic_my_assets.svg'
 import IconChange from './images/ic_change_wallet.svg'

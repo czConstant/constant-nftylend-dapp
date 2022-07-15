@@ -92,4 +92,8 @@ export class OfferToLoan {
   isExpired(): boolean {
     return this.status === 'new' && moment().isAfter(moment(this.valid_at));
   }
+
+  isDone(): boolean {
+    return this.status === 'done';
+  }
 }

@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import cx from "classnames";
 import { isMobile } from "react-device-detect";
-import { motion } from "framer-motion";
+import { RiShareBoxLine } from "react-icons/ri";
 import { Flex, Text, Link as LinkText, Icon, Box } from "@chakra-ui/react";
 
 import AppIcon from "src/common/components/appIcon";
@@ -20,13 +20,12 @@ import { APP_CLUSTER } from "src/common/constants/config";
 // } from "@solana/wallet-adapter-react-ui";
 
 // import "@solana/wallet-adapter-react-ui/styles.css";
-import ButtonSearchLoans from "src/views/apps/ButtonSearchLoans";
+import ButtonSearchLoans from "src/apps/pawn/views/app/ButtonSearchLoans";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import { selectUserSettings } from "src/store/nftyLend";
 import { closeModal, openModal } from "src/store/modal";
-import DialogSettingNotification from "../dialogSettingNotification";
-import { RiShareBoxLine } from "react-icons/ri";
-import ButtonUserNoti from "src/views/apps/ButtonUserNoti";
+import DialogSettingNotification from "src/apps/pawn/views/app/dialogSettingNotification";
+import ButtonUserNoti from "src/apps/pawn/views/app/ButtonUserNoti";
 
 const Header = () => {
   const location = useLocation();
