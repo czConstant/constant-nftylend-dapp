@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import moment from "moment-timezone";
 import BigNumber from "bignumber.js";
 import { useNavigate } from "react-router-dom";
-import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Badge, Button, Flex, Grid, GridItem, Icon, Link } from '@chakra-ui/react';
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Badge, Button, Flex, Grid, GridItem, Icon, Image, Link, Text } from '@chakra-ui/react';
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 
 import { useAppDispatch } from "src/store/hooks";
@@ -172,6 +172,7 @@ const Item = (props: ItemProps) => {
     const interest = loan.approved_offer ? loan.approved_offer.interest_rate : loan.interest_rate;
     const duration = loan.approved_offer ? loan.approved_offer.duration : loan.duration;
     const loanDuration = LOAN_DURATION.find(e => e.id === duration);
+    const paid_amount = loan.isDone() ? calculateTotalPay(principal, interest, duration, loan?.currency?.decimals, loan.approved_offer?.started_at) : 0
 
     return (
       <Grid alignItems='center' fontSize='sm' w='100%' textAlign='left' templateColumns={templateColumns}>
@@ -180,7 +181,10 @@ const Item = (props: ItemProps) => {
           <Link fontWeight='semibold' textDecoration='underline' onClick={onViewLoan}>{loan.asset?.name}</Link>
         </GridItem>
         <GridItem py={4}>
-          {formatCurrency(principal)} {loan.currency?.symbol}
+          <Flex alignItems='center' gap={1}>
+            <Image h='14px' borderRadius='20px' src={loan?.currency?.icon_url} />
+            <Text>{formatCurrency(loan.isDone() ? paid_amount : principal)}</Text>
+          </Flex>
         </GridItem>
         <GridItem py={4}>
           {loanDuration ? loanDuration.label : `${Math.ceil(new BigNumber(duration).dividedBy(86400).toNumber())} days`}
