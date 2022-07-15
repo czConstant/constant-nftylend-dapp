@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { Box, Divider, Flex, Icon, Text, Tooltip } from '@chakra-ui/react';
 
-import SocialLinks from 'src/views/apps/socialLinks';
+import SocialLinks from 'src/apps/pawn/views/app/socialLinks';
 import { APP_URL } from "src/common/constants/url";
 
 import AppIcon from "../appIcon";

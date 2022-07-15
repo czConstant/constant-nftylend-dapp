@@ -1,20 +1,19 @@
 import { APP_URL } from "src/common/constants/url";
 
-import About from 'src/pages/about';
-import Home from 'src/pages/home';
-import Discover from 'src/pages/discover';
-import LoanDetail from 'src/pages/loanDetail';
-import ListingLoans from 'src/pages/listingLoans';
-import MyAsset from 'src/pages/myAsset';
-import SubmitWhitelist from 'src/pages/submitWhitelist';
-import TermsOfService from "src/pages/termsOfService";
-import FAQs from 'src/pages/faqs';
-import Dashboard from 'src/pages/dashboard';
-import Voting from "src/pages/voting";
-import MakeProposal from "src/pages/voting/makeProposal";
-import VotingDetail from "src/pages/voting/detail";
-import ApplyAffiliate from 'src/pages/applyAffiliate';
-import VerifyEmail from 'src/pages/verifyEmail';
+import About from 'src/apps/pawn/pages/about';
+import Home from 'src/apps/pawn/pages/home';
+import Discover from 'src/apps/pawn/pages/discover';
+import LoanDetail from 'src/apps/pawn/pages/loanDetail';
+import ListingLoans from 'src/apps/pawn/pages/listingLoans';
+import SubmitWhitelist from 'src/apps/pawn/pages/submitWhitelist';
+import TermsOfService from "src/apps/pawn/pages/termsOfService";
+import FAQs from 'src/apps/pawn/pages/faqs';
+import Dashboard from 'src/apps/pawn/pages/dashboard';
+import Voting from "src/apps/pawn/pages/voting";
+import MakeProposal from "src/apps/pawn/pages/voting/makeProposal";
+import VotingDetail from "src/apps/pawn/pages/voting/detail";
+import ApplyAffiliate from 'src/apps/pawn/pages/applyAffiliate';
+import VerifyEmail from 'src/apps/pawn/pages/verifyEmail';
 
 export interface RouteProps {
   path: string;
@@ -42,10 +41,6 @@ const routes: Array<RouteProps> = [
     path: APP_URL.DETAIL_LOAN,
     component: LoanDetail,
   },
-  // {
-  //   path: APP_URL.MY_NFT,
-  //   component: MyAsset,
-  // },
   {
     path: APP_URL.SUBMIT_WHITELIST,
     component: SubmitWhitelist,
