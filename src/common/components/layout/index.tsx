@@ -6,7 +6,7 @@ import { MdExpandLess } from 'react-icons/md';
 import Header from 'src/common/components/header';
 import Footer from 'src/common/components/footer';
 import styles from './styles.module.scss';
-import SocialLinks from 'src/views/apps/socialLinks';
+import SocialLinks from 'src/apps/pawn/views/app/socialLinks';
 
 interface LayoutProps {
   children: React.ReactNode;

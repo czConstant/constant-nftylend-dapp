@@ -7,7 +7,7 @@ import { Button } from '@chakra-ui/react';
 
 import { closeModal, openModal } from "src/store/modal";
 import { APP_URL } from "src/common/constants/url";
-import DialogGuideStart from 'src/views/apps/DialogGuideStart';
+import DialogGuideStart from 'src/apps/pawn/views/app/DialogGuideStart';
 
 import lfCards from "./assets/lt_cards.json";
 import styles from "./styles.module.scss";

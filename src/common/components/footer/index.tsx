@@ -5,7 +5,7 @@ import cx from "classnames";
 import { Box, Divider, Flex, Icon, Text, Tooltip } from '@chakra-ui/react';
 import { MdInfoOutline } from 'react-icons/md';
 
-import SocialLinks from 'src/views/apps/socialLinks';
+import SocialLinks from 'src/apps/pawn/views/app/socialLinks';
 import { APP_URL } from "src/common/constants/url";
 
 import AppIcon from "../appIcon";
