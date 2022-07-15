@@ -3,6 +3,7 @@ import Layout from 'src/common/components/layout';
 import PageNotFound from 'src/pages/notFound';
 
 import routes from './routes';
+import marketplaceRoutes from 'src/apps/marketplace/routes';
 
 const renderRoute = (Component: any) => {
   return (
@@ -15,7 +16,7 @@ const renderRoute = (Component: any) => {
 const AppRouter = () => (
   <Routes>
     <Route path='*' element={renderRoute(PageNotFound)} />
-    {routes.map(route => {
+    {routes.concat(marketplaceRoutes).map(route => {
       const { path, component } = route;
       return <Route key={path} path={path} element={renderRoute(component)} />
     })}

@@ -1,0 +1,120 @@
+.getStartedConatainer {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  overflow: hidden;
+  :global .oranament-container {
+    left: -300px;
+    top: -300px;
+  }
+  .getStartedContent {
+    > div {
+      flex: 1;
+      &:first-child {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 0px;
+        gap: 24px;
+      }
+    }
+    h2 {
+      font-weight: 700;
+      font-size: 64px;
+      line-height: 80px;
+      /* or 125% */
+
+      /* White */
+
+      color: #ffffff;
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+    }
+    p {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 32px;
+      /* or 200% */
+
+      /* Gray/500 */
+
+      color: #adb9c7;
+      flex: none;
+      order: 1;
+      flex-grow: 0;
+    }
+    .getStartedItems {
+      display: flex;
+      position: relative;
+      min-height: 70vh;
+      padding-top: 1rem;
+      .cardContainer {
+        position: absolute;
+        top: 0;
+        background: #272d37;
+        border-radius: 24px;
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        &:last-child {
+          left: 380px;
+          transform: scale(0.8);
+        }
+        :global .card-header {
+          border-bottom: none;
+        }
+        img {
+          border-radius: 24px;
+          max-width: 100%;
+          align-self: center;
+        }
+        :global .card-title {
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 32px;
+          /* identical to box height, or 132% */
+
+          text-transform: capitalize;
+
+          /* White */
+
+          color: #ffffff;
+          flex: 1;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          height: 1.2em;
+          white-space: nowrap;
+        }
+        .titleWrap {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+        }
+        .badgeNetwork {
+          width: 59px;
+          height: 29px;
+          background: #1e50ff;
+          border-radius: 8px;
+          font-weight: 800;
+          font-size: 14px;
+          line-height: 29px;
+          /* identical to box height, or 171% */
+
+          text-align: center;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}

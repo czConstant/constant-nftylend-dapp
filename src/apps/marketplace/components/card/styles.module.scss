@@ -1,0 +1,13 @@
+.container {
+  background: #272d37;
+  border-radius: 24px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  > img {
+    border-radius: 24px;
+    max-width: 360px;
+    align-self: center;
+  }
+}
