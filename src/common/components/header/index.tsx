@@ -90,6 +90,12 @@ const Header = () => {
               >
                 Listing Loans
               </Link>
+              <Link
+                to={APP_URL.LEADERBOARD}
+                className={cx(location.pathname === APP_URL.LEADERBOARD && styles.active)}
+              >
+                Leaderboard
+              </Link>
               {!isFromParas && (<>
                 <Link
                   to={APP_URL.VOTING}
@@ -98,12 +104,6 @@ const Header = () => {
                   )}
                 >
                   Proposal
-                </Link>
-                <Link
-                  to={APP_URL.LEADERBOARD}
-                  className={cx(location.pathname === APP_URL.LEADERBOARD && styles.active)}
-                >
-                  Leaderboard
                 </Link>
                 <a
                   target="_blank"
