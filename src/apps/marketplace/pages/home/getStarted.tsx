@@ -17,7 +17,7 @@ const mockItems: ItemNFTModel[] = [
       network: "ETH",
     },
     bid_price: "4.89",
-    duration: moment().add(3, "days").unix(),
+    duration: "2022-09-13T02:41:43Z",
     description:
       "Panda NFT is the primier marketplace for NFT, which are digital items you can truly own. Digital items have existed for a long time, but never like this.",
   },
@@ -30,7 +30,7 @@ const mockItems: ItemNFTModel[] = [
       network: "ETH",
     },
     bid_price: "4.89",
-    duration: moment().add(3, "days").unix(),
+    duration: "2022-09-13T02:41:43Z",
     description:
       "Panda NFT is the primier marketplace for NFT, which are digital items you can truly own. Digital items have existed for a long time, but never like this.",
   },
