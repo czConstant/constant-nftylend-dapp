@@ -14,6 +14,7 @@ import MakeProposal from "src/apps/pawn/pages/voting/makeProposal";
 import VotingDetail from "src/apps/pawn/pages/voting/detail";
 import ApplyAffiliate from 'src/apps/pawn/pages/applyAffiliate';
 import VerifyEmail from 'src/apps/pawn/pages/verifyEmail';
+import PageBorrower from 'src/apps/pawn/pages/borrower';
 
 export interface RouteProps {
   path: string;
@@ -77,6 +78,10 @@ const routes: Array<RouteProps> = [
     path: APP_URL.VERIFY_EMAIL,
     component: VerifyEmail,
   },
+  {
+    path: APP_URL.BORROWER,
+    component: PageBorrower,
+  }
 ];
 
 export default routes;
