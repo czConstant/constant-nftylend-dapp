@@ -1,3 +1,4 @@
+import { Button } from "@chakra-ui/react";
 import React, { memo } from "react";
 import { Card } from "react-bootstrap";
 import CountdownTimmer from "../../components/countdown";
@@ -32,6 +33,7 @@ const GetStartedItem: React.FC<GetStartedItemProps> = (props) => {
           </div>
         </div>
       </Card.Body>
+      <Button>Bid</Button>
     </Card>
   );
 };

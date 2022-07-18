@@ -13,6 +13,7 @@
     top: -300px;
   }
   .getStartedContent {
+    min-height: 70vh;
     > div {
       flex: 1;
       &:first-child {
@@ -50,12 +51,17 @@
       order: 1;
       flex-grow: 0;
     }
+    .getStartedInfo {
+      button {
+        width: 25%;
+      }
+    }
     .getStartedItems {
       display: flex;
       position: relative;
-      min-height: 70vh;
-      padding-top: 1rem;
       .cardContainer {
+        margin-top: calc(70vh - 2rem - calc(70vh - 6rem));
+        overflow: hidden;
         position: absolute;
         top: 0;
         background: #272d37;
@@ -66,8 +72,8 @@
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
         &:last-child {
-          left: 380px;
-          transform: scale(0.8);
+          left: 340px;
+          transform: scale(0.65);
         }
         :global .card-header {
           border-bottom: none;
@@ -145,6 +151,98 @@
             }
           }
         }
+
+        button {
+          width: 80%;
+          align-self: center;
+          position: absolute;
+          bottom: 0;
+          transform: translateY(60px);
+        }
+        &:hover {
+          button {
+            transform: translateY(-20px);
+          }
+        }
+      }
+    }
+  }
+}
+
+.createASellContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 5rem 2rem;
+  .hasLink {
+    box-shadow: inset 0 0 0 1px rgba(#ffffff, 0.5);
+    cursor: pointer;
+  }
+  .createASellContent {
+    max-width: 80%;
+  }
+  h3 {
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 64px;
+    /* or 133% */
+
+    text-align: center;
+    text-transform: capitalize;
+
+    /* White */
+
+    color: #ffffff;
+
+    margin-bottom: 50px;
+  }
+  :global .card {
+    background-color: #272d37;
+    border-radius: 16px;
+    padding: 20px 30px;
+    .card-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .card-img-wrap {
+        width: 80px;
+        height: 80px;
+        background-color: #1e50ff;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        .card-img {
+          width: 34px;
+          height: 34px;
+        }
+      }
+      .card-title {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 32px;
+        /* identical to box height, or 133% */
+
+        text-transform: capitalize;
+
+        /* White */
+
+        color: #ffffff;
+      }
+      .card-text {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 24px;
+        /* or 171% */
+
+        text-align: center;
+
+        /* Gray/500 */
+
+        color: #adb9c7;
       }
     }
   }

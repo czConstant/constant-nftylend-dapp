@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import web3 from 'web3';
 import { getParsedNftAccountsByOwner } from '@nfteyez/sol-rayz';
+import { Web3ReactProvider, useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
 
 import {  Chain } from 'src/common/constants/network';
 import { getEvmBalance } from 'src/modules/evm/utils';

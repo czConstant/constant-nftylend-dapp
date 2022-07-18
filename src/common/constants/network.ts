@@ -1,4 +1,5 @@
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import WalletConnect from "@walletconnect/web3-provider";
 import { APP_CLUSTER } from './config';
 
 export enum Chain {
@@ -9,6 +10,7 @@ export enum Chain {
   Avalanche = 'AVAX',
   BSC = 'BSC',
   Boba = 'BOBA',
+  ETH = 'ETH'
 };
 
 export const ChainPolygonID = APP_CLUSTER === 'mainnet' ? '' : 80001;
@@ -72,9 +74,16 @@ export const BobaNetworkConfig = {
   blockExplorerUrls: APP_CLUSTER === 'mainnet' ? ['https://blockexplorer.boba.network/'] : ['https://blockexplorer.rinkeby.boba.network/'],
 }
 
+export const ETHNetworkConfig = {
+  walletconnect: {
+    package: WalletConnect, // required
+  }
+}
+
 export const ChainConfigs = {
   [Chain.Polygon]: PolygonChainConfig,
   [Chain.Avalanche]: AvalancheChainConfig,
   [Chain.BSC]: BscChainConfig,
   [Chain.Boba]: BobaNetworkConfig,
+  [Chain.ETH]: ETHNetworkConfig,
 }

@@ -13,6 +13,7 @@
     "@coinbase/wallet-sdk": "^3.0.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@ethersproject/providers": "^5.6.8",
     "@lottiefiles/react-lottie-player": "^3.4.2",
     "@near-wallet-selector/core": "^3.1.0",
     "@near-wallet-selector/near-wallet": "^3.1.0",
@@ -30,6 +31,8 @@
     "@solana/wallet-adapter-solflare": "^0.6.6",
     "@solana/wallet-adapter-sollet": "^0.11.1",
     "@solana/web3.js": "^1.35.1",
+    "@walletconnect/web3-provider": "^1.7.8",
+    "@web3-react/core": "^6.1.9",
     "apexcharts": "^3.35.3",
     "axios": "^0.26.0",
     "bignumber.js": "^9.0.2",
@@ -38,7 +41,7 @@
     "classnames": "^2.3.1",
     "cleave.js": "^1.6.0",
     "crypto-js": "^4.1.1",
-    "ethers": "^5.6.1",
+    "ethers": "^5.6.9",
     "final-form": "^4.20.6",
     "framer-motion": "^6",
     "lodash": "^4.17.21",
@@ -66,7 +69,7 @@
     "react-toastify": "^8.2.0",
     "redux": "^4.1.2",
     "web3": "^1.7.1",
-    "web3modal": "^1.9.5"
+    "web3modal": "^1.9.8"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.9",

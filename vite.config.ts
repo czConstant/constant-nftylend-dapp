@@ -57,6 +57,9 @@ export default ({ mode}) => {
             if (id.includes('node_modules')) return `vendor_${version}`;
           }
         }
+      },
+      commonjsOptions: {
+        transformMixedEsModules: true
       }
     },
   })

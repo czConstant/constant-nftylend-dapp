@@ -42,8 +42,8 @@ const GetStarted = () => {
   return (
     <div className={styles.getStartedConatainer}>
       <Oranament />
-      <Stack className={styles.getStartedContent} spacing={8} direction="row">
-        <Box>
+      <Stack className={styles.getStartedContent} spacing={20} direction="row">
+        <Box className={styles.getStartedInfo}>
           <div>
             <h2>Discover a New Era of Crypto Currency</h2>
             <p>

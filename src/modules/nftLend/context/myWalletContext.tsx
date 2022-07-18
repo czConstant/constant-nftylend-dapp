@@ -1,6 +1,9 @@
 import moment from 'moment-timezone';
 import { createContext, useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
+import { useWeb3React } from "@web3-react/core";
+import { ethers } from "ethers";
+import Web3Modal from "web3modal";
 
 import { AvalancheChainConfig, BobaNetworkConfig, BscChainConfig, Chain, ChainConfigs, PolygonChainConfig } from 'src/common/constants/network';
 import { CryptoWallet, getEvmProvider } from 'src/common/constants/wallet';
@@ -23,11 +26,18 @@ const defaultProvider = {
   disconnectWallet: () => null,
   switchChain: () => null,
   syncUserSettings: () => null,
+  connectETHWallet: () => null,
 }
 
 const MyWalletContext = createContext(defaultProvider)
 
+const web3Modal = new Web3Modal({
+  cacheProvider: true, // optional
+  providerOptions: ChainConfigs[Chain.ETH] // required
+});
+
 const MyWalletProvider = ({ children }) => {
+  const { activate } = useWeb3React();
   const dispatch = useAppDispatch();
   const currentWallet = useAppSelector(selectCurrentWallet);
   const [cookie, setCookkie, removeCookie] = useCookies(['referral_code'])
@@ -125,6 +135,26 @@ const MyWalletProvider = ({ children }) => {
     }
   };
 
+  const connectETHWallet = async () => {
+    try {
+      console.log('connectETHWallet');
+      
+      const provider = await web3Modal.connect();
+      const library = new ethers.providers.Web3Provider(provider);
+      const accounts = await library.listAccounts();
+      const network = await library.getNetwork();
+
+      dispatch(updateWallet({
+        address: accounts[0],
+        chain: 'ETH',
+        name: network.name,
+      }));
+      
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+
   const values = {
     currentWallet,
     isConnected: currentWallet.address && currentWallet.chain,
@@ -135,6 +165,7 @@ const MyWalletProvider = ({ children }) => {
     disconnectWallet,
     switchChain,
     syncUserSettings,
+    connectETHWallet,
   }
 
   return <MyWalletContext.Provider value={values}>{children}</MyWalletContext.Provider>
