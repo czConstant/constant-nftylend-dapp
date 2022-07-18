@@ -30,7 +30,7 @@ const BorrowerStats = (props: BorrowerStatsProps) => {
   if (!rate) color ='text.secondary'
     
   return (
-    <Grid w='100%' templateColumns='repeat(4, 1fr)' gap={4}>
+    <Grid w='100%' templateColumns='1.5fr repeat(3, 1fr)' gap={4}>
       <GridItem>
         <Box backgroundColor='background.card' borderRadius={16} p={4}>
           <Flex gap={2} alignItems='center'>

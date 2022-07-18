@@ -22,6 +22,7 @@ export const APP_URL = {
   APPLY_AFFILIATE: `${BASE_PATH}/apply-affiliate`,
   VERIFY_EMAIL: `${BASE_PATH}/verify-email`,
   BORROWER: `${BASE_PATH}/borrower`,
+  LENDER: `${BASE_PATH}/lender`,
 }
 
 export const API_URL = { 

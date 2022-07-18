@@ -11,6 +11,7 @@ import { LOAN_TRANSACTION_ACTIVITY } from "src/modules/nftLend/constant";
 import styles from "./styles.module.scss";
 import { AssetLoanHistory } from 'src/modules/nftLend/models/activity';
 import { AssetNft } from 'src/modules/nftLend/models/nft';
+import { APP_URL } from 'src/common/constants/url';
 
 const TableHeader = () => (
   <div className={cx(styles.tbHeader)}>
@@ -82,21 +83,13 @@ const TableBody = ({ results = [] }) => {
               )} days`}
           </div>
           <div style={{ flex: 1 }}>
-            <a
-              className={styles.scanLink}
-              target="_blank"
-              href={result.getLinkExplorerAddr(result.borrower)}
-            >
+            <a className={styles.scanLink} href={`${APP_URL.BORROWER}?address=${result.borrower}`}>
               {shortCryptoAddress(result.borrower)}
             </a>
           </div>
           <div style={{ flex: 1 }}>
             {result.lender && (
-              <a
-                className={styles.scanLink}
-                target="_blank"
-                href={result.getLinkExplorerAddr(result.lender)}
-                >
+              <a className={styles.scanLink} href={`${APP_URL.LENDER}?address=${result.lender}`}>
                 {shortCryptoAddress(result.lender)}
               </a>
             )}

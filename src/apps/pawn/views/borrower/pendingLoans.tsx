@@ -34,7 +34,7 @@ const PendingLoans = (props: PendingLoansProps) => {
       <Heading fontSize='2xl' as='h2' mb={8}>Pending Loans</Heading>
       <Flex gap={4} overflow='scroll'>
         {loans.map((loan) => loan.asset && (
-          <Box w={300}>
+          <Box key={loan.id} w={300}>
             <CardNftLoan key={loan.id} asset={loan.asset} loan={loan} />
           </Box>
         ))}
