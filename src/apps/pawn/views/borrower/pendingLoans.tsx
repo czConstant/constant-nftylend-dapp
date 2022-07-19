@@ -29,6 +29,8 @@ const PendingLoans = (props: PendingLoansProps) => {
     }
   };
 
+  if (!loading && loans.length === 0) return null
+
   return (
     <Box>
       <Heading fontSize='2xl' as='h2' mb={8}>Pending Loans</Heading>

@@ -15,6 +15,7 @@ import VotingDetail from "src/apps/pawn/pages/voting/detail";
 import ApplyAffiliate from 'src/apps/pawn/pages/applyAffiliate';
 import VerifyEmail from 'src/apps/pawn/pages/verifyEmail';
 import PageBorrower from 'src/apps/pawn/pages/borrower';
+import PageLender from 'src/apps/pawn/pages/lender';
 
 export interface RouteProps {
   path: string;
@@ -81,7 +82,11 @@ const routes: Array<RouteProps> = [
   {
     path: APP_URL.BORROWER,
     component: PageBorrower,
-  }
+  },
+  {
+    path: APP_URL.LENDER,
+    component: PageLender,
+  },
 ];
 
 export default routes;

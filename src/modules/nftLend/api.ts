@@ -84,7 +84,7 @@ export const getLoansByOwner = (
   return api.get(`${API_URL.NFT_LEND.GET_LOANS}`, { params });
 };
 
-interface OffersParams {
+interface OffersParams extends ListParams {
   borrower?: string;
   lender?: string;
   network?: string;
