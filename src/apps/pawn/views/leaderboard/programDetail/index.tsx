@@ -17,15 +17,15 @@ const rules = [
   'All NFT holders of the whitelisted NFT Collections can participate.',
   'For any questions or concerns, please contact NFT Pawn via our social media channels. The NFTPawn team\'s decision will be final. All rights reserved.',
 ]
-const rewards = [
-  { label: '1', desc: '1 Gen 0 Battle Boars Collection ~ 30 NEAR'},
-  { label: '2', desc: '1 Cartel NFT (rarity score 200) ~ 24 NEAR'},
-  { label: '3', desc: '1 Cartel NFT (rarity score 150) ~ 16 NEAR'},
-  { label: '4', desc: '15,000 PWP'},
-  { label: '5', desc: '15,000 PWP'},
-]
 
-const ProgramDetail = () => {
+interface ProgramDetailProps {
+  detail: any
+}
+
+const ProgramDetail = (props: ProgramDetailProps) => {
+  const { detail } = props
+  const rewards = detail?.rewards ? JSON.parse(detail.rewards) : []
+
   return (
     <Box>
       <Heading as='h2' fontSize='2xl' mb={2}>Program Detail</Heading>
@@ -80,7 +80,7 @@ const ProgramDetail = () => {
                 <ListItem>
                   <Flex gap={2}>
                     <Icon mt={1} color='brand.success.600' as={FiGift} />
-                    <Text>Rank {e.label}: {e.desc}</Text>
+                    <Text>{e}</Text>
                   </Flex>
                 </ListItem>
               ))}

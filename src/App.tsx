@@ -9,7 +9,7 @@ import moment from 'moment-timezone';
 import ModalManager from 'src/common/components/modal';
 import MyLoadingOverlay from 'src/common/components/myLoadingOverlay';
 import { initRecaptchaV3 } from 'src/common/services/recaptchaV3';
-import { useDetectConnectedWallet } from 'src/modules/nftLend/hooks/useDetectWallet';
+// import { useDetectConnectedWallet } from 'src/modules/nftLend/hooks/useDetectWallet';
 import { MyWalletProvider } from 'src/modules/nftLend/context/myWalletContext';
 import { getSystemConfigs } from 'src/modules/nftLend/api';
 
@@ -25,7 +25,7 @@ export default function App() {
   const dispatch = useAppDispatch();
   const [cookie, setCookkie, removeCookie] = useCookies(['referral_code'])
 
-  useDetectConnectedWallet();
+  // useDetectConnectedWallet();
 
   useEffect(() => {
     initRecaptchaV3()

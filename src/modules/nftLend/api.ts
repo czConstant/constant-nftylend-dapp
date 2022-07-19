@@ -266,6 +266,6 @@ export const getNews = async (): Promise<ListResponse> => {
   });
 }
 
-export const getLeaderboard = async (network: string): Promise<ListResponse> => {
-  return api.get(API_URL.NFT_LEND.LEADERBOARD, { params: { network }})
+export const getLeaderboard = async (date: string, network: string): Promise<ListResponse> => {
+  return api.get(API_URL.NFT_LEND.LEADERBOARD, { params: { rpt_date: date, network }})
 }

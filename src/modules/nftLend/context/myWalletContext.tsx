@@ -11,6 +11,7 @@ import { connectUserFromRefer } from 'src/modules/nftLend/api';
 import { getUserSettings } from '../api';
 import { isEvmChain } from '../utils';
 import { nearSignText } from 'src/modules/near/utils';
+import localStore from 'src/common/services/localStore';
 
 // ** Defaults
 const defaultProvider = {
@@ -34,6 +35,10 @@ const MyWalletProvider = ({ children }) => {
   const [cookie, setCookkie, removeCookie] = useCookies(['referral_code'])
 
   useEffect(() => {
+    checkPreviousConnectedWallet()
+  }, [])
+
+  useEffect(() => {
     if (!currentWallet.address) return
     syncUserSettings().then(res => {
       if (!res.result.is_connected && currentWallet.chain === Chain.Near) {
@@ -44,6 +49,17 @@ const MyWalletProvider = ({ children }) => {
       }
     })
   }, [currentWallet])
+
+  const checkPreviousConnectedWallet = async () => {
+    const walletChain = localStore.get(localStore.KEY_WALLET_CHAIN);
+    if (!localStore.get(localStore.KEY_WALLET_ADDRESS) || !localStore.get(localStore.KEY_WALLET_CHAIN)) return;
+    if (!isEvmChain(walletChain)) return;
+    /* Check EVM wallet */
+    const walletName = localStore.get(localStore.KEY_WALLET_NAME);
+    connectEvmWallet(walletChain, walletName)
+    const provider = getEvmProvider(walletName);
+    window.evmProvider = provider;
+  }
 
   const syncUserSettings = async () => {
     try {
