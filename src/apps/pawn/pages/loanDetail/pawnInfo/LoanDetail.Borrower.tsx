@@ -15,7 +15,7 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ data }) => {
   
   const rate = new BigNumber(data?.total_done_loans).dividedBy(data?.total_loans).multipliedBy(100).toNumber();
   let color = 'brand.danger.600'
-  if (rate > 50) color = 'brand.warning.600'
+  if (rate > 50) color = 'brand.warning.400'
   if (rate > 75) color = '#ddc014'
   if (rate > 95) color = 'brand.success.600'
   if (!rate) color ='text.secondary'

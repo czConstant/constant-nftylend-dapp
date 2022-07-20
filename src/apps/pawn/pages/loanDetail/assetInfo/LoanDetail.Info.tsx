@@ -3,6 +3,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { shortCryptoAddress } from "src/common/utils/format";
 import { AssetNft } from 'src/modules/nftLend/models/nft';
 import { getLinkETHScanAddress, getLinkETHScanTokenId } from "src/modules/solana/utils";
+import { APP_URL } from 'src/common/constants/url';
 
 interface LoanDetailAssetInfoProps {
   asset: AssetNft;
@@ -18,7 +19,7 @@ const LoanDetailInfo: React.FC<LoanDetailAssetInfoProps> = ({ asset, borrower })
       },
       {
         label: "Owner",
-        value: `<a target="_blank" href="${asset.getLinkExplorer(borrower)}">${shortCryptoAddress(borrower)}</a>`,
+        value: `<a href="${APP_URL.BORROWER}?address=${borrower}">${shortCryptoAddress(borrower)}</a>`,
       },
     ];
     if (asset.origin_contract_address) {

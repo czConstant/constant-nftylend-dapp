@@ -84,7 +84,7 @@ export const getLoansByOwner = (
   return api.get(`${API_URL.NFT_LEND.GET_LOANS}`, { params });
 };
 
-interface OffersParams {
+interface OffersParams extends ListParams {
   borrower?: string;
   lender?: string;
   network?: string;
@@ -143,6 +143,10 @@ export const submitWhitelistCollection = async (body: SubmitCollection): Promise
 
 export const getBorrowerStats = (address: string, network: string): Promise<ResponseResult> => {
   return api.get(API_URL.NFT_LEND.BORROWER_STATS, { params: { address, network }});
+};
+
+export const getLenderStats = (address: string, network: string): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.LENDER_STATS, { params: { address, network }});
 };
 
 export const getUserPwpBalance = (address: string, network: string): Promise<ResponseResult> => {

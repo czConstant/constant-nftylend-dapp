@@ -22,6 +22,8 @@ export const APP_URL = {
   APPLY_AFFILIATE: `${BASE_PATH}/apply-affiliate`,
   VERIFY_EMAIL: `${BASE_PATH}/verify-email`,
   LEADERBOARD: `${BASE_PATH}/leaderboard`,
+  BORROWER: `${BASE_PATH}/borrower`,
+  LENDER: `${BASE_PATH}/lender`,
 }
 
 export const API_URL = { 
@@ -46,7 +48,9 @@ export const API_URL = {
     CREATE_OFFER: `${MCT_ROOT}${MCT_API_BASE}/loans/offers/create`,
     UPDATE_BLOCK_EVM: `${MCT_ROOT}${MCT_API_BASE}/blockchain/{network}/scan-block`,
     SYNC_NEAR: `${MCT_ROOT}${MCT_API_BASE}/loans/near/sync`,
+
     BORROWER_STATS: `${MCT_ROOT}${MCT_API_BASE}/loans/borrower-stats`,
+    LENDER_STATS: `${MCT_ROOT}${MCT_API_BASE}/loans/lender-stats`,
     
     USER_SETTINGS: `${MCT_ROOT}${MCT_API_BASE}/users/settings`,
     USER_STATS: `${MCT_ROOT}${MCT_API_BASE}/users/stats`,

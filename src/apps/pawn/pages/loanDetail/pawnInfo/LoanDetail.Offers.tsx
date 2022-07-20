@@ -19,6 +19,7 @@ import { LOAN_DURATION } from 'src/modules/nftLend/constant';
 import styles from "../styles.module.scss";
 import CountdownText from 'src/common/components/countdownText';
 import BadgeOfferStatus from 'src/apps/pawn/views/dashboard/badgeOfferStatus';
+import { APP_URL } from 'src/common/constants/url';
 
 const templateColumns = 'repeat(3, 1fr) 2fr repeat(2, 1fr)'
 
@@ -58,11 +59,7 @@ const OfferRow = (props: OfferRowProps) => {
       </GridItem>
       <GridItem>{offer.interest_rate * 100}%</GridItem>
       <GridItem>
-        <Link
-          textDecoration='underline'
-          target="_blank"
-          href={offer.getLinkExplorerAddr(offer.lender)}
-        >
+        <Link textDecoration='underline' href={`${APP_URL.LENDER}?address=${offer.lender}`}>
           {shortCryptoAddress(offer?.lender, 30)}
         </Link>
       </GridItem>
