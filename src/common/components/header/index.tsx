@@ -154,8 +154,8 @@ const Header = () => {
             <Text fontWeight="medium" fontSize="sm" color="brand.warning.400">
               You are on the NFT Pawn test network. For the mainnet version,
               visit&nbsp;
-              <LinkText fontWeight="semibold" href="https://nftpawn.financial">
-                https://nftpawn.financial <Icon as={RiShareBoxLine} />
+              <LinkText fontWeight="semibold" href="https://pawnnft.finance">
+                https://pawnnft.finance <Icon as={RiShareBoxLine} />
               </LinkText>
             </Text>
           </Flex>

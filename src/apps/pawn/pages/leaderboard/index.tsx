@@ -60,7 +60,7 @@ const Leaderboard = () => {
         </Box>
         {moment().isSame(date, 'M') && <Box><Countdown /></Box>}
       </Flex>
-      <Flex mb={16}>
+      <Flex mb={16} gap={8}>
         <Flex maxW='600px' alignItems='center' direction='column' gap={8}>
           <Image src={detail?.image_url} />
           <Box>
