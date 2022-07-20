@@ -40,7 +40,7 @@ const LendHistory = (props: LendHistoryProps) => {
     try {
       setLoading(true);
       const res = await getOffersByFilter({
-        owner: address,
+        lender: address,
         network: Chain.Near,
         status: `${OFFER_STATUS.done.id},${OFFER_STATUS.liquidated.id}`,
         page,

@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react'
 import BigNumber from 'bignumber.js'
 
-import { getBorrowerStats } from 'src/modules/nftLend/api'
+import { getLenderStats } from 'src/modules/nftLend/api'
 import { Chain } from 'src/common/constants/network'
 import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
 import { formatCurrency } from 'src/common/utils/format'
 import InfoTooltip from 'src/common/components/infoTooltip'
 
-interface BorrowerStatsProps {
+interface LenderStatsProps {
   address: string
 }
 
-const BorrowerStats = (props: BorrowerStatsProps) => {
+const LenderStats = (props: LenderStatsProps) => {
   const { address } = props
 
   const [stats, setStats] = useState<any>()
 
   useEffect(() => {
-    getBorrowerStats(address, Chain.Near).then(res => {
+    getLenderStats(address, Chain.Near).then(res => {
       setStats(res.result)
     })
   }, [address])
@@ -42,10 +42,10 @@ const BorrowerStats = (props: BorrowerStatsProps) => {
       <GridItem>
         <Box backgroundColor='background.card' borderRadius={16} p={4}>
           <Flex gap={2} alignItems='center'>
-            <Text color='text.secondary' fontSize='sm'>Repayment rate</Text>
-            <InfoTooltip label={`The percentage of times a lender has been paid back on the total loans at the end of their terms.`} />
+            <Text color='text.secondary' fontSize='sm'>Average Rate</Text>
+            {/* <InfoTooltip label={`The percentage of times a lender has been paid back on the total loans at the end of their terms.`} /> */}
           </Flex>
-          <Text fontWeight='semibold' fontSize='3xl' color={color}>{rate ? `${formatCurrency(rate)}%` : 'Not Available'}</Text>
+          <Text fontWeight='semibold' fontSize='3xl'>{formatCurrency(stats?.avg_rate * 100)}%</Text>
         </Box>
       </GridItem>
       <GridItem>
@@ -63,11 +63,11 @@ const BorrowerStats = (props: BorrowerStatsProps) => {
             <Text color='text.secondary' fontSize='sm'>Total volume</Text>
             <InfoTooltip label={`Loan Volume refers to the total loan volume originated by an InGridItemidual Hire that has been funded and closed.`} />
           </Flex>
-          <Text fontWeight='semibold' fontSize='3xl'>${formatCurrency(stats?.volume)}</Text>
+          <Text fontWeight='semibold' fontSize='3xl'>${formatCurrency(stats?.total_volume)}</Text>
         </Box>
       </GridItem>
     </Grid>
   )
 }
 
-export default BorrowerStats
+export default LenderStats

@@ -145,6 +145,10 @@ export const getBorrowerStats = (address: string, network: string): Promise<Resp
   return api.get(API_URL.NFT_LEND.BORROWER_STATS, { params: { address, network }});
 };
 
+export const getLenderStats = (address: string, network: string): Promise<ResponseResult> => {
+  return api.get(API_URL.NFT_LEND.LENDER_STATS, { params: { address, network }});
+};
+
 export const getUserPwpBalance = (address: string, network: string): Promise<ResponseResult> => {
   return api.get(API_URL.NFT_LEND.PWP_BALANCES, { params: { address, network } });
 };

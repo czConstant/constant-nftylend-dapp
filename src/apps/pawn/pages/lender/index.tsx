@@ -3,9 +3,9 @@ import queryString from 'query-string'
 import { Flex } from '@chakra-ui/react'
 
 import BodyContainer from 'src/common/components/bodyContainer'
-import BorrowerStats from 'src/apps/pawn/views/borrower/stats'
 import LendHistory from 'src/apps/pawn/views/lender/lendHistory'
 import PendingLends from 'src/apps/pawn/views/lender/pendingLends'
+import LenderStats from 'src/apps/pawn/views/lender/stats'
 
 const PageLender = () => {
   const location = useLocation()
@@ -15,7 +15,7 @@ const PageLender = () => {
   return (
     <BodyContainer>
       <Flex direction='column' gap={12} py={8}>
-        <BorrowerStats address={address} />
+        <LenderStats address={address} />
         <PendingLends address={address} />
         <LendHistory address={address} />
       </Flex>
