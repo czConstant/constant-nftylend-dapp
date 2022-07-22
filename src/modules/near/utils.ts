@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import * as nearAPI from "near-api-js";
 import { AccountView, CodeResult } from "near-api-js/lib/providers/provider";
 
-import { APP_CLUSTER } from "src/common/constants/config";
+import { APP_CLUSTER, MCT_API_BASE, MCT_ROOT } from "src/common/constants/config";
 import api from "src/common/services/apiClient";
 import { NearNft } from "src/modules/near/models/nearNft";
 
@@ -82,7 +82,7 @@ export async function getBalanceNearToken(
 
 export async function getNearNftsByOwner(owner: string): Promise<Array<any>> {
   let accounts = (await api.get(
-    `${getNearConfig().helperUrl}/account/${owner}/likelyNFTs`
+    `${MCT_ROOT}${MCT_API_BASE}/kitwallet/account/${owner}/likelyNFTs`
   )) as Array<string>;
   let list = [];
   for (let id of accounts) {
