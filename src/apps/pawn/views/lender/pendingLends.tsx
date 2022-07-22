@@ -4,7 +4,7 @@ import { Box, Flex, Heading } from '@chakra-ui/react'
 import { getOffersByFilter } from 'src/modules/nftLend/api'
 import CardNftLoan from '../app/CardNftLoan'
 import { OfferToLoan } from 'src/modules/nftLend/models/offer'
-import EmptyList from 'src/common/components/emptyList'
+import { Chain } from 'src/common/constants/network'
 
 interface PendingLendsProps {
   address: string
@@ -23,7 +23,7 @@ const PendingLends = (props: PendingLendsProps) => {
   const fetchOffers = async () => {
     setLoading(true);
     try {
-      const res = await getOffersByFilter({ lender: address, page: 0, limit: 500, status: 'new' })
+      const res = await getOffersByFilter({ lender: address, network: Chain.Near, page: 0, limit: 500, status: 'new' })
       setOffers(res.result.map(OfferToLoan.parseFromApi))
     } finally {
       setLoading(false);
