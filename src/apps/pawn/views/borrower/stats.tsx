@@ -61,9 +61,9 @@ const BorrowerStats = (props: BorrowerStatsProps) => {
         <Box backgroundColor='background.card' borderRadius={16} p={4}>
           <Flex gap={2} alignItems='center'>
             <Text color='text.secondary' fontSize='sm'>Total volume</Text>
-            <InfoTooltip label={`Loan Volume refers to the total loan volume originated by an InGridItemidual Hire that has been funded and closed.`} />
+            <InfoTooltip label={`Loan volume refers to the total loan volume originated by a lender that has been funded and closed.`} />
           </Flex>
-          <Text fontWeight='semibold' fontSize='3xl'>${formatCurrency(stats?.volume)}</Text>
+          <Text fontWeight='semibold' fontSize='3xl'>${formatCurrency(stats?.total_volume)}</Text>
         </Box>
       </GridItem>
     </Grid>

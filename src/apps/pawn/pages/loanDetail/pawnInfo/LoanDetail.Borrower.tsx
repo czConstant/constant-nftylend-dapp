@@ -44,7 +44,7 @@ const LoanDetailBorrower: React.FC<LoanDetailBorrowerProps> = ({ data }) => {
             <BoxAttrValue
               label='Total volume'
               value={`$${formatCurrency(data?.total_volume)}`}
-              desc={`Loan Volume refers to the total loan volume originated by an InGridItemidual Hire that has been funded and closed.`}
+              desc={`Loan volume refers to the total loan volume originated by a lender that has been funded and closed.`}
             />
           </GridItem>
         </Grid>
