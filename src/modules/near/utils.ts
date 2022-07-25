@@ -106,6 +106,11 @@ export async function getNearNftsByOwner(owner: string): Promise<Array<any>> {
   return list;
 }
 
+export async function getNearNftsByOwnerFromParas(owner: string): Promise<Array<any>> {
+  let res = await api.get(`https://api-v2-mainnet.paras.id/token?__limit=1000&owner_id=${owner}`);
+  return res.data.results.map(NearNft.parseFromParas);
+} 
+
 export const getNearProvider = () => {
   const { nodeUrl } = window.nearSelector.network;
   const provider = new nearAPI.providers.JsonRpcProvider({ url: nodeUrl });

@@ -29,6 +29,24 @@ export class NearNft extends AssetNft {
     return nft;
   }
 
+  static parseFromParas(item: any): NearNft {
+    let nft = new NearNft()
+    nft.id = item.id
+    nft.contract_address = item.contract_id
+    nft.token_id = item.token_id
+    nft.original_data = item
+    nft.metadata = item.metadata
+    nft.name = item.metadata.title
+    nft.owner = item.owner_id
+    nft.detail_uri = convertIpfsToHttp(item.metadata.reference)
+    nft.detail = {
+      name: item.metadata.title,
+      description: item.metadata.description,
+      image: convertIpfsToHttp(item.metadata.media),
+    } as AssetNftDetail;
+    return nft;
+  }
+
   static parseFromLoanAsset(item: LoanDataAsset): NearNft {
     const nft = new NearNft();
     nft.id = item.id;

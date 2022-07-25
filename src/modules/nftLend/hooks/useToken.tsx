@@ -10,12 +10,13 @@ import { getEvmBalance } from 'src/modules/evm/utils';
 import { getBalanceSolToken } from 'src/modules/solana/utils';
 import { SolanaNft } from 'src/modules/solana/models/solanaNft';
 import { getEvmNftsByOwner } from 'src/modules/evm/api';
-import { getBalanceNearToken, getNearBalance, getNearNftsByOwner, nearViewFunction } from 'src/modules/near/utils';
+import { getBalanceNearToken, getNearBalance, getNearNftsByOwner, getNearNftsByOwnerFromParas, nearViewFunction } from 'src/modules/near/utils';
 
 import { isEvmChain, isNativeToken } from '../utils';
 import { AssetNft } from '../models/nft';
 import { useCurrentWallet } from './useCurrentWallet';
 import { Currency } from '../models/api';
+import { APP_CLUSTER } from 'src/common/constants/config';
 
 function useToken() {
   const { connection } = useConnection();
@@ -31,6 +32,7 @@ function useToken() {
       });
     } else if (currentWallet.chain === Chain.Near) {
       assets = await getNearNftsByOwner(currentWallet.address);
+      if (APP_CLUSTER === 'mainnet' && assets.length === 0) assets = await getNearNftsByOwnerFromParas(currentWallet.address);
     } else {
       assets = await getEvmNftsByOwner(currentWallet.address, currentWallet.chain);
     }
